@@ -1,14 +1,15 @@
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { BASE, del, get, json, login, post } from './helpers';
+import { seedPaper } from './papers-seed';
 
 /**
  * Live stack, like papers-discussion.spec: every call is a real request and every assertion is on the
- * response. The library is private, so most of this file is about who can and cannot reach what.
+ * response. The library is private, so most of this file is about who can and cannot reach what. The public
+ * papers are the seed files the stack serves (#213), and a reader's own are made through the manual form.
  */
 const run = Math.random().toString(36).slice(2, 8);
-const paperIds: string[] = [];
-/** A well-formed public id that no paper has. */
-const UNKNOWN_ID = '01a191ed-2e04-7235-ae86-8483c518560e';
+/** A well-formed slug that no paper has. */
+const UNKNOWN_ID = `no-such-paper-${run}`;
 
 const patch = (path: string, body: unknown, cookie?: string) =>
   fetch(`${BASE}${path}`, {
@@ -20,21 +21,19 @@ const patch = (path: string, body: unknown, cookie?: string) =>
     body: JSON.stringify(body),
   });
 
-async function seed(title: string, extra: object = {}): Promise<string> {
-  const res = await post('/papers/_test', {
-    title: `${title} ${run}`,
-    authors: [{ name: 'Ada Lovelace' }],
-    publicationDate: '2020',
-    ...extra,
-  });
-  expect(res.status).toBe(201);
-  const id = (await json<{ paper: { id: string } }>(res)).paper.id;
-  paperIds.push(id);
-  return id;
-}
-
 const add = (cookie: string, paperId: string, status?: string) =>
   post('/paper-library', { paperId, status }, { Cookie: cookie });
+
+/** A paper only this reader has, made through the same form the browser uses. */
+async function makePrivate(cookie: string, title: string, extra: object = {}) {
+  const res = await post(
+    '/paper-library/manual',
+    { title: `${title} ${run}`, authors: [{ name: 'Ada Lovelace' }], publicationDate: '2020', ...extra },
+    { Cookie: cookie },
+  );
+  expect(res.status).toBe(201);
+  return (await json<{ paperId: string }>(res)).paperId;
+}
 
 const library = async (cookie: string, query = '') => {
   const res = await get(`/paper-library${query}`, { Cookie: cookie });
@@ -44,24 +43,15 @@ const library = async (cookie: string, query = '') => {
   );
 };
 
-let first: string;
-let second: string;
-let third: string;
-
-beforeAll(async () => {
-  first = await seed('Attention Is All You Need', {
-    researchArea: `nlp-${run}`,
-    type: 'conference-paper',
-  });
-  second = await seed('Deep Residual Learning', {
-    researchArea: `vision-${run}`,
-    publicationDate: '2015',
-  });
-  third = await seed('Zebra Finches Sing', { type: 'journal-article' });
-});
-afterAll(async () => {
-  for (const id of paperIds) await del(`/papers/_test/${id}`);
-});
+/** Three seed papers that differ in area, type and title, so the filters have something to tell apart. */
+const [firstPaper, secondPaper, thirdPaper] = [
+  seedPaper('foundationdb-unbundled-transactional-kv-store'),
+  seedPaper('metastable-failures-in-distributed-systems'),
+  seedPaper('snap-microkernel-approach-to-host-networking'),
+];
+const first = firstPaper.slug;
+const second = secondPaper.slug;
+const third = thirdPaper.slug;
 
 describe('who can use the library', () => {
   it.each([
@@ -90,6 +80,7 @@ describe('adding a paper', () => {
     expect(res.status).toBe(201);
     expect(await json(res)).toMatchObject({
       paperId: first,
+      private: false,
       status: 'to-read',
       rating: null,
       tags: [],
@@ -115,6 +106,12 @@ describe('adding a paper', () => {
     expect((await add(ana.cookie, third)).status).toBe(201);
   });
 
+  it('answers with the slug of the paper, which is what its page and the library use', async () => {
+    const ana = await login(`lib-slug-${run}`);
+    const entry = await json<any>(await add(ana.cookie, first));
+    expect(entry).toMatchObject({ paperId: first, private: false });
+  });
+
   it('lets a paper be added already read, dated today', async () => {
     const ana = await login(`lib-read-${run}`);
     const entry = await json<any>(await add(ana.cookie, first, 'read'));
@@ -128,9 +125,28 @@ describe('adding a paper', () => {
   });
 
   it.each([
+    ['a slug no paper has', 'abc'],
+    ['the integer id a paper had before public ids', '3105'],
+    ['a UUID nobody has', '01a191ed-2e04-7235-ae86-8483c518560e'],
+    ['the slug in capital letters', first.toUpperCase()],
+  ])('answers 404 for %s', async (_name, paperId) => {
+    const ana = await login(`lib-404add-${run}`);
+    expect((await add(ana.cookie, paperId)).status).toBe(404);
+  });
+
+  it('does not put the private paper of another reader in the library by its id', async () => {
+    const ana = await login(`lib-theft-a-${run}`);
+    const bia = await login(`lib-theft-b-${run}`);
+    const hers = await makePrivate(bia.cookie, 'Hers');
+
+    expect((await add(ana.cookie, hers)).status).toBe(404);
+    expect((await library(ana.cookie)).total).toBe(0);
+  });
+
+  it.each([
     ['no paper id', {}],
-    ['a text id', { paperId: 'abc' }],
-    ['the integer id a paper had before public ids', { paperId: 3105 }],
+    ['a number as the id', { paperId: 3105 }],
+    ['an id over 100 characters', { paperId: 'a'.repeat(101) }],
     ['an unknown status', { paperId: UNKNOWN_ID, status: 'abandoned' }],
     ['an unknown field', { paperId: UNKNOWN_ID, userId: 2 }],
   ])('answers 400 for %s', async (_name, body) => {
@@ -385,9 +401,11 @@ describe('listing and filtering', () => {
     expect(page.total).toBe(2);
     expect(page.items.map((i) => i.id)).toEqual([second, first]);
     expect(page.items[0]).toMatchObject({
-      title: `Deep Residual Learning ${run}`,
-      authors: ['Ada Lovelace'],
-      library: { paperId: second, status: 'to-read', tags: [] },
+      id: second,
+      title: secondPaper.title,
+      authors: secondPaper.authors.map((a) => a.name),
+      researchArea: secondPaper.researchArea,
+      library: { paperId: second, private: false, status: 'to-read', tags: [] },
     });
   });
 
@@ -423,19 +441,20 @@ describe('listing and filtering', () => {
       (await library(ana.cookie, '?tag=SURVEY')).items.map((i) => i.id).sort(),
     ).toEqual([first, second].sort());
     expect(
-      (await library(ana.cookie, `?tag=survey&area=nlp-${run}`)).items.map(
+      (await library(ana.cookie, `?tag=survey&area=${encodeURIComponent(firstPaper.researchArea!)}`)).items.map(
         (i) => i.id,
       ),
     ).toEqual([first]);
-    expect((await library(ana.cookie, `?q=zebra&tag=survey`)).total).toBe(0);
+    expect((await library(ana.cookie, `?q=snap&tag=survey`)).total).toBe(0);
   });
 
   it('searches the titles and authors of the library only', async () => {
     const ana = await login(`lib-search-${run}`);
     await add(ana.cookie, first);
 
-    expect((await library(ana.cookie, `?q=attention`)).total).toBe(1);
-    expect((await library(ana.cookie, `?q=residual`)).total).toBe(0);
+    expect((await library(ana.cookie, `?q=foundationdb`)).total).toBe(1);
+    expect((await library(ana.cookie, `?q=zhou`)).total).toBe(1);
+    expect((await library(ana.cookie, `?q=metastable`)).total).toBe(0);
   });
 
   it('sorts by title, by finishing day and by rating', async () => {
@@ -527,12 +546,80 @@ describe('removing a paper', () => {
     ).toBe(404);
   });
 
-  it('goes away with the paper', async () => {
+  it('takes the private paper with its entry, and the paper is gone for good', async () => {
     const ana = await login(`lib-cascade-${run}`);
-    const gone = await seed('Short lived');
-    await add(ana.cookie, gone);
-    await del(`/papers/_test/${gone}`);
+    const mine = await makePrivate(ana.cookie, 'Short lived');
+    expect((await get(`/paper-library/${mine}/paper`, { Cookie: ana.cookie })).status).toBe(200);
+
+    expect((await del(`/paper-library/${mine}`, { Cookie: ana.cookie })).status).toBe(204);
 
     expect((await library(ana.cookie)).total).toBe(0);
+    expect((await get(`/paper-library/${mine}/paper`, { Cookie: ana.cookie })).status).toBe(404);
+  });
+});
+
+describe('a library with public and private papers', () => {
+  it('lists both kinds together, marking which is which, and filters them the same way', async () => {
+    const ana = await login(`lib-mix-${run}`);
+    await add(ana.cookie, first, 'reading');
+    const mine = await makePrivate(ana.cookie, 'Zebra Finches Sing', {
+      researchArea: 'Ornithology',
+      keywords: ['birds'],
+      type: 'journal-article',
+    });
+
+    const all = await library(ana.cookie);
+    expect(all.total).toBe(2);
+    expect(all.items.map((i) => [i.id, i.library.private])).toEqual([
+      [mine, true],
+      [first, false],
+    ]);
+    expect((await library(ana.cookie, '?q=zebra')).items.map((i) => i.id)).toEqual([mine]);
+    expect((await library(ana.cookie, '?area=Ornithology')).items.map((i) => i.id)).toEqual([mine]);
+    expect((await library(ana.cookie, '?keyword=birds')).items.map((i) => i.id)).toEqual([mine]);
+    expect((await library(ana.cookie, '?status=reading')).items.map((i) => i.id)).toEqual([first]);
+    expect((await library(ana.cookie, '?sort=title')).items.map((i) => i.id)).toEqual([first, mine]);
+    expect(await json(await get('/paper-library/facets', { Cookie: ana.cookie }))).toMatchObject({
+      total: 2,
+      statuses: [
+        { value: 'to-read', count: 1 },
+        { value: 'reading', count: 1 },
+        { value: 'read', count: 0 },
+      ],
+    });
+  });
+
+  it('opens the record of either kind from the library, and a private one only for its owner', async () => {
+    const ana = await login(`lib-open-a-${run}`);
+    const bia = await login(`lib-open-b-${run}`);
+    await add(ana.cookie, first);
+    const mine = await makePrivate(ana.cookie, 'Mine alone', { abstract: 'Only for me.' });
+
+    const publicRecord = await json<any>(await get(`/paper-library/${first}/paper`, { Cookie: ana.cookie }));
+    expect(publicRecord).toMatchObject({ id: first, title: firstPaper.title, language: 'en' });
+    expect(publicRecord.sections).toHaveLength(6);
+
+    const privateRecord = await json<any>(await get(`/paper-library/${mine}/paper`, { Cookie: ana.cookie }));
+    expect(privateRecord).toMatchObject({ id: mine, abstract: 'Only for me.' });
+    expect(privateRecord).not.toHaveProperty('sections');
+
+    expect((await get(`/paper-library/${mine}/paper`, { Cookie: bia.cookie })).status).toBe(404);
+    expect((await get(`/papers/${mine}`)).status).toBe(404);
+  });
+
+  it('opens the record of a public paper in Portuguese, with its Portuguese sections', async () => {
+    const ana = await login(`lib-open-pt-${run}`);
+    await add(ana.cookie, first);
+
+    const record = await json<any>(await get(`/paper-library/${first}/paper?lang=pt-BR`, { Cookie: ana.cookie }));
+    expect(record.language).toBe('pt-BR');
+    expect(record.sections.map((s: any) => s.title)).toEqual([
+      'Visão geral',
+      'Contribuição',
+      'Metodologia',
+      'Resultados',
+      'Análise crítica',
+      'Pesquisas futuras',
+    ]);
   });
 });

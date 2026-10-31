@@ -8,17 +8,12 @@ import { PaperLibraryPage } from './pages/PaperLibraryPage.js';
 // test only ever sees its own papers, and every test signs in as a reader of its own.
 const token = `pv${Math.random().toString(36).slice(2, 8)}`;
 
-let api;
-const catalogIds = [];
-
-test.beforeAll(async ({ playwright }) => {
-  api = await playwright.request.newContext({ baseURL: BASE_URL });
-});
-
-test.afterAll(async () => {
-  await Promise.all(catalogIds.splice(0).map((id) => api.delete(`/api/papers/_test/${id}`)));
-  await api.dispose();
-});
+// The catalog is the seed files (backend/src/seed/data/papers).
+const CATALOG = {
+  slug: 'tidb-raft-based-htap-database',
+  title: 'TiDB: A Raft-based HTAP Database',
+  doi: '10.14778/3415478.3415535',
+};
 
 async function signIn(page, name) {
   const res = await page.request.post(`${BASE_URL}/api/auth/_test/login`, { data: { displayName: `${name} ${token}` } });
@@ -47,15 +42,6 @@ function pdf(label = 'a') {
   body += `xref\n0 4\n0000000000 65535 f \n${offsets.map((o) => `${String(o).padStart(10, '0')} 00000 n \n`).join('')}`;
   body += `trailer\n<< /Size 4 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
   return Buffer.from(body, 'latin1');
-}
-
-/** A paper in the public catalog, through the dev-only seed route. */
-async function seedCatalog(data) {
-  const res = await api.post('/api/papers/_test', { data });
-  expect(res.ok(), `POST /api/papers/_test (needs ENABLE_DEV_AUTH=1): ${await res.text()}`).toBeTruthy();
-  const { paper } = await res.json();
-  catalogIds.push(paper.id);
-  return paper.id;
 }
 
 /** Adds a private paper through the page and returns its public id, read from the address it opens at. */
@@ -255,37 +241,41 @@ test.describe('Papers that are not in the catalog', () => {
 
   test.describe('a DOI that is already in the catalog', () => {
     test('adds the catalog paper with the PDF instead of making a copy', async ({ page }) => {
-      const doi = `10.5561/${token}`;
-      const catalogTitle = `Catalog paper ${token}`;
-      const catalogId = await seedCatalog({ title: catalogTitle, doi, authors: [{ name: 'Ada Lovelace' }], publicationDate: '2021' });
+      const { doi, title: catalogTitle, slug: catalogId } = CATALOG;
       await signIn(page, 'Matcher');
-      const library = new PaperLibraryPage(page);
-      await library.goto();
-      await library.choose({ name: 'whatever.pdf', buffer: pdf('match') });
-      await library.titleInput.fill('A title typed from the PDF');
-      await library.doiInput.fill(`https://doi.org/${doi.toUpperCase()}`);
+      try {
+        const library = new PaperLibraryPage(page);
+        await library.goto();
+        await library.choose({ name: 'whatever.pdf', buffer: pdf('match') });
+        await library.titleInput.fill('A title typed from the PDF');
+        await library.doiInput.fill(`https://doi.org/${doi.toUpperCase()}`);
 
-      const res = await library.submit();
+        const res = await library.submit();
 
-      expect(res.status()).toBe(201);
-      expect(await res.json()).toMatchObject({ paperId: catalogId, matched: true, private: false });
-      await expect(library.dropDone).toContainText('already in the catalog');
-      await expect(library.card(catalogTitle)).toHaveCount(1);
-      await expect(library.card('A title typed from the PDF')).toHaveCount(0);
-      await expect(library.privateBadges).toHaveCount(0);
+        expect(res.status()).toBe(201);
+        expect(await res.json()).toMatchObject({ paperId: catalogId, matched: true, private: false });
+        await expect(library.dropDone).toContainText('already in the catalog');
+        await expect(library.card(catalogTitle)).toHaveCount(1);
+        await expect(library.card('A title typed from the PDF')).toHaveCount(0);
+        await expect(library.privateBadges).toHaveCount(0);
 
-      await library.openLink.click();
-      const entry = new PaperLibraryEntryPage(page);
-      await expect(entry.title).toHaveText(catalogTitle);
-      await expect(entry.publicLink).toBeVisible();
-      await expect(entry.privateBadge).toHaveCount(0);
-      await expect(page.locator('.attachment .file-name')).toHaveText('whatever.pdf');
+        await library.openLink.click();
+        const entry = new PaperLibraryEntryPage(page);
+        await expect(entry.title).toHaveText(catalogTitle);
+        await expect(entry.publicLink).toBeVisible();
+        await expect(entry.privateBadge).toHaveCount(0);
+        await expect(page.locator('.attachment .file-name')).toHaveText('whatever.pdf');
 
-      // No second record: the catalog still has the one paper for that DOI, and nothing under the typed title.
-      const byDoi = await page.request.get(`${BASE_URL}/api/papers?doi=${encodeURIComponent(doi)}`);
-      expect((await byDoi.json()).total).toBe(1);
-      const byTitle = await page.request.get(`${BASE_URL}/api/papers?q=${encodeURIComponent('A title typed from the PDF')}`);
-      expect((await byTitle.json()).total).toBe(0);
+        // No second record: the catalog still has the one paper for that DOI, and nothing under the typed title.
+        const byDoi = await page.request.get(`${BASE_URL}/api/papers?doi=${encodeURIComponent(doi)}`);
+        expect((await byDoi.json()).total).toBe(1);
+        const byTitle = await page.request.get(`${BASE_URL}/api/papers?q=${encodeURIComponent('A title typed from the PDF')}`);
+        expect((await byTitle.json()).total).toBe(0);
+      } finally {
+        // The PDF and the entry sit on a paper of the seed, so the reader takes them away.
+        await page.request.delete(`${BASE_URL}/api/papers/${catalogId}/attachment`);
+        await page.request.delete(`${BASE_URL}/api/paper-library/${catalogId}`);
+      }
     });
   });
 });

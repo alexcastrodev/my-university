@@ -1,0 +1,456 @@
+[
+  {
+    "slug": "foundationdb-unbundled-transactional-kv-store",
+    "title": "FoundationDB: A Distributed Unbundled Transactional Key Value Store",
+    "authors": [
+      {
+        "name": "Jingyu Zhou"
+      },
+      {
+        "name": "Meng Xu"
+      },
+      {
+        "name": "Alexander Shraer"
+      },
+      {
+        "name": "Bala Namasivayam"
+      },
+      {
+        "name": "Alex Miller"
+      },
+      {
+        "name": "Evan Tschannen"
+      },
+      {
+        "name": "Steve Atherton"
+      },
+      {
+        "name": "Andrew J. Beamon"
+      },
+      {
+        "name": "Rusty Sears"
+      },
+      {
+        "name": "John Leach"
+      },
+      {
+        "name": "Dave Rosenthal"
+      },
+      {
+        "name": "Xin Dong"
+      },
+      {
+        "name": "Will Wilson"
+      },
+      {
+        "name": "Ben Collins"
+      },
+      {
+        "name": "David Scherer"
+      },
+      {
+        "name": "Alec Grieser"
+      },
+      {
+        "name": "Young Liu"
+      },
+      {
+        "name": "Alvin Moore"
+      },
+      {
+        "name": "Bhaskar Muppana"
+      },
+      {
+        "name": "Xiaoge Su"
+      },
+      {
+        "name": "Vishesh Yadav"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2021 International Conference on Management of Data",
+    "publicationDate": "2021-06-09",
+    "doi": "10.1145/3448016.3457559",
+    "url": "https://dl.acm.org/doi/10.1145/3448016.3457559",
+    "researchArea": "Databases",
+    "keywords": [
+      "unbundled database",
+      "oltp",
+      "strict serializability",
+      "multiversion concurrency control",
+      "optimistic concurrency control",
+      "simulation testing"
+    ]
+  },
+  {
+    "slug": "metastable-failures-in-distributed-systems",
+    "title": "Metastable Failures in Distributed Systems",
+    "authors": [
+      {
+        "name": "Nathan Bronson"
+      },
+      {
+        "name": "Abutalib Aghayev"
+      },
+      {
+        "name": "Aleksey Charapko"
+      },
+      {
+        "name": "Timothy Zhu"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Workshop on Hot Topics in Operating Systems",
+    "publicationDate": "2021-06",
+    "doi": "10.1145/3458336.3465286",
+    "url": "https://dl.acm.org/doi/10.1145/3458336.3465286",
+    "researchArea": "Distributed Systems",
+    "keywords": [
+      "metastable failures",
+      "resilience",
+      "overload",
+      "retries",
+      "caching",
+      "outages"
+    ]
+  },
+  {
+    "slug": "tidb-raft-based-htap-database",
+    "title": "TiDB: A Raft-based HTAP Database",
+    "authors": [
+      {
+        "name": "Dongxu Huang"
+      },
+      {
+        "name": "Qi Liu"
+      },
+      {
+        "name": "Qiu Cui"
+      },
+      {
+        "name": "Zhuhe Fang"
+      },
+      {
+        "name": "Xiaoyu Ma"
+      },
+      {
+        "name": "Fei Xu"
+      },
+      {
+        "name": "Li Shen"
+      },
+      {
+        "name": "Liu Tang"
+      },
+      {
+        "name": "Yuxing Zhou"
+      },
+      {
+        "name": "Menglong Huang"
+      },
+      {
+        "name": "Wan Wei"
+      },
+      {
+        "name": "Cong Liu"
+      },
+      {
+        "name": "Jian Zhang"
+      },
+      {
+        "name": "Jianjun Li"
+      },
+      {
+        "name": "Xuelian Wu"
+      },
+      {
+        "name": "Lingyu Song"
+      },
+      {
+        "name": "Ruoxi Sun"
+      },
+      {
+        "name": "Shuaipeng Yu"
+      },
+      {
+        "name": "Lei Zhao"
+      },
+      {
+        "name": "Nicholas Cameron"
+      },
+      {
+        "name": "Liquan Pei"
+      },
+      {
+        "name": "Xin Tang"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Proceedings of the VLDB Endowment",
+    "publicationDate": "2020-08",
+    "doi": "10.14778/3415478.3415535",
+    "url": "https://dl.acm.org/doi/10.14778/3415478.3415535",
+    "researchArea": "Databases",
+    "keywords": [
+      "htap",
+      "raft",
+      "consensus",
+      "distributed transactions",
+      "columnar storage",
+      "newsql"
+    ]
+  },
+  {
+    "slug": "snap-microkernel-approach-to-host-networking",
+    "title": "Snap: a Microkernel Approach to Host Networking",
+    "authors": [
+      {
+        "name": "Michael Marty"
+      },
+      {
+        "name": "Marc de Kruijf"
+      },
+      {
+        "name": "Jacob Adriaens"
+      },
+      {
+        "name": "Christopher Alfeld"
+      },
+      {
+        "name": "Sean Bauer"
+      },
+      {
+        "name": "Carlo Contavalli"
+      },
+      {
+        "name": "Michael Dalton"
+      },
+      {
+        "name": "Nandita Dukkipati"
+      },
+      {
+        "name": "William C. Evans"
+      },
+      {
+        "name": "Steve Gribble"
+      },
+      {
+        "name": "Nicholas Kidd"
+      },
+      {
+        "name": "Roman Kononov"
+      },
+      {
+        "name": "Gautam Kumar"
+      },
+      {
+        "name": "Carl Mauer"
+      },
+      {
+        "name": "Emily Musick"
+      },
+      {
+        "name": "Lena Olson"
+      },
+      {
+        "name": "Erik Rubow"
+      },
+      {
+        "name": "Michael Ryan"
+      },
+      {
+        "name": "Kevin Springborn"
+      },
+      {
+        "name": "Paul Turner"
+      },
+      {
+        "name": "Valas Valancius"
+      },
+      {
+        "name": "Xi Wang"
+      },
+      {
+        "name": "Amin Vahdat"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 27th ACM Symposium on Operating Systems Principles",
+    "publicationDate": "2019-10-27",
+    "doi": "10.1145/3341301.3359657",
+    "url": "https://dl.acm.org/doi/10.1145/3341301.3359657",
+    "researchArea": "Operating Systems",
+    "keywords": [
+      "network stack",
+      "datacenter",
+      "microkernel",
+      "rdma"
+    ]
+  },
+  {
+    "slug": "ghost-user-space-delegation-of-linux-scheduling",
+    "title": "ghOSt: Fast & Flexible User-Space Delegation of Linux Scheduling",
+    "authors": [
+      {
+        "name": "Jack Tigar Humphries"
+      },
+      {
+        "name": "Neel Natu"
+      },
+      {
+        "name": "Ashwin Chaugule"
+      },
+      {
+        "name": "Ofir Weisse"
+      },
+      {
+        "name": "Barret Rhoden"
+      },
+      {
+        "name": "Josh Don"
+      },
+      {
+        "name": "Luigi Rizzo"
+      },
+      {
+        "name": "Oleg Rombakh"
+      },
+      {
+        "name": "Paul Turner"
+      },
+      {
+        "name": "Christos Kozyrakis"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 28th Symposium on Operating Systems Principles",
+    "publicationDate": "2021-10-26",
+    "doi": "10.1145/3477132.3483542",
+    "url": "https://dl.acm.org/doi/10.1145/3477132.3483542",
+    "researchArea": "Operating Systems",
+    "keywords": [
+      "scheduling",
+      "linux kernel",
+      "userspace delegation",
+      "tail latency",
+      "datacenter"
+    ],
+    "abstract": "We present ghOSt, our infrastructure for delegating kernel scheduling decisions to userspace code. ghOSt is designed to support the rapidly evolving needs of our data center workloads and platforms. Improving scheduling decisions can drastically improve the throughput, tail latency, scalability, and security of important workloads. However, kernel schedulers are difficult to implement, test, and deploy efficiently across a large fleet. Recent research suggests bespoke scheduling policies, within custom data plane operating systems, can provide compelling performance results in a data center setting. However, these gains have proved difficult to realize as it is impractical to deploy a custom OS image(s) at an application granularity, particularly in a multi-tenant environment, limiting the practical applications of these new techniques. ghOSt provides general-purpose delegation of scheduling policies to userspace processes in a Linux environment. ghOSt provides state encapsulation, communication, and action mechanisms that allow complex expression of scheduling policies within a userspace agent, while assisting in synchronization. Programmers use any language to develop and optimize policies, which are modified without a host reboot. ghOSt supports a wide range of scheduling models, from per-CPU to centralized, run-to-completion to preemptive, and incurs low overheads for scheduling actions. We demonstrate ghOSt's performance on both academic and real-world workloads, including Google Snap and Google Search. We show that by using ghOSt instead of the kernel scheduler, we can quickly achieve comparable throughput and latency while enabling policy optimization, non-disruptive upgrades, and fault isolation for our data center workloads. We open-source our implementation to enable future research and development based on ghOSt."
+  },
+  {
+    "slug": "demikernel-datapath-os-for-microsecond-datacenter-systems",
+    "title": "The Demikernel Datapath OS Architecture for Microsecond-scale Datacenter Systems",
+    "authors": [
+      {
+        "name": "Irene Zhang"
+      },
+      {
+        "name": "Amanda Raybuck"
+      },
+      {
+        "name": "Pratyush Patel"
+      },
+      {
+        "name": "Kirk Olynyk"
+      },
+      {
+        "name": "Jacob Nelson"
+      },
+      {
+        "name": "Omar S. Navarro Leija"
+      },
+      {
+        "name": "Ashlie Martinez"
+      },
+      {
+        "name": "Jing Liu"
+      },
+      {
+        "name": "Anna Kornfeld Simpson"
+      },
+      {
+        "name": "Sujay Jayakar"
+      },
+      {
+        "name": "Pedro Henrique Penna"
+      },
+      {
+        "name": "Max Demoulin"
+      },
+      {
+        "name": "Piali Choudhury"
+      },
+      {
+        "name": "Anirudh Badam"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 28th Symposium on Operating Systems Principles",
+    "publicationDate": "2021-10-26",
+    "doi": "10.1145/3477132.3483569",
+    "url": "https://dl.acm.org/doi/10.1145/3477132.3483569",
+    "researchArea": "Operating Systems",
+    "keywords": [
+      "operating system",
+      "kernel bypass",
+      "datacenters",
+      "libos"
+    ]
+  },
+  {
+    "slug": "pagedattention-memory-management-for-llm-serving",
+    "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+    "authors": [
+      {
+        "name": "Woosuk Kwon",
+        "orcid": "0009-0008-8870-4892"
+      },
+      {
+        "name": "Zhuohan Li",
+        "orcid": "0009-0004-1534-9106"
+      },
+      {
+        "name": "Siyuan Zhuang",
+        "orcid": "0009-0007-3787-0316"
+      },
+      {
+        "name": "Ying Sheng",
+        "orcid": "0000-0002-1883-2126"
+      },
+      {
+        "name": "Lianmin Zheng",
+        "orcid": "0000-0002-6611-4612"
+      },
+      {
+        "name": "Cody Hao Yu",
+        "orcid": "0000-0002-9298-6254"
+      },
+      {
+        "name": "Joseph Gonzalez",
+        "orcid": "0000-0003-2921-956X"
+      },
+      {
+        "name": "Hao Zhang",
+        "orcid": "0009-0003-8392-3977"
+      },
+      {
+        "name": "Ion Stoica",
+        "orcid": "0000-0002-5373-0088"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613165",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613165",
+    "researchArea": "Machine Learning Systems",
+    "keywords": [
+      "llm serving",
+      "kv cache",
+      "virtual memory",
+      "paging",
+      "gpu memory"
+    ],
+    "abstract": "High throughput serving of large language models (LLMs) requires batching sufficiently many requests at a time. However, existing systems struggle because the key-value cache (KV cache) memory for each request is huge and grows and shrinks dynamically. When managed inefficiently, this memory can be significantly wasted by fragmentation and redundant duplication, limiting the batch size. To address this problem, we propose PagedAttention, an attention algorithm inspired by the classical virtual memory and paging techniques in operating systems. On top of it, we build vLLM, an LLM serving system that achieves (1) near-zero waste in KV cache memory and (2) flexible sharing of KV cache within and across requests to further reduce memory usage. Our evaluations show that vLLM improves the throughput of popular LLMs by 2-4x with the same level of latency compared to the state-of-the-art systems, such as FasterTransformer and Orca. The improvement is more pronounced with longer sequences, larger models, and more complex decoding algorithms. vLLM's source code is publicly available at https://github.com/vllm-project/vllm."
+  }
+]

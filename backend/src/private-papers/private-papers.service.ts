@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DataSource, IsNull } from 'typeorm';
+import { DataSource } from 'typeorm';
 import {
   AttachmentView,
   PaperAttachmentsService,
@@ -12,6 +12,8 @@ import {
 } from '../papers/paper-library.service';
 import { normalizeDoi, paperFingerprint } from '../papers/paper.normalize';
 import { maxPrivatePapers } from '../papers/paper-private-limit';
+import { PaperRef } from '../papers/paper-ref';
+import { PapersCatalogService } from '../papers/papers-catalog.service';
 
 const MAX_TITLE_LENGTH = 300;
 
@@ -56,6 +58,8 @@ export class PrivatePapersService {
     @Inject(PaperAttachmentsService)
     private readonly attachments: PaperAttachmentsService,
     @Inject(PaperLibraryService) private readonly library: PaperLibraryService,
+    @Inject(PapersCatalogService)
+    private readonly catalog: PapersCatalogService,
   ) {}
 
   async create(
@@ -69,22 +73,18 @@ export class PrivatePapersService {
     }
     const papers = this.dataSource.getRepository(Paper);
 
-    const match = doi
-      ? await papers.findOne({
-          where: { doi, ownerId: IsNull() },
-          select: { id: true, publicId: true },
-        })
-      : null;
-    if (match) {
+    const slug = doi ? this.catalog.slugOfDoi(doi) : null;
+    if (slug) {
+      const ref: PaperRef = { kind: 'public', slug };
       const { attachment } = await this.attachments.upload(
         userId,
-        match.id,
+        ref,
         input.bytes,
         input.filename,
       );
-      const { entry, created } = await this.library.addById(userId, match.id);
+      const { entry, created } = await this.library.addRef(userId, ref);
       return {
-        paperId: match.publicId,
+        paperId: slug,
         private: false,
         matched: true,
         created,
@@ -102,7 +102,7 @@ export class PrivatePapersService {
         `You can keep up to ${max} papers of your own. Delete one to add another.`,
       );
     }
-    const { id } = await papers.save(
+    const { id, publicId } = await papers.save(
       papers.create({
         title,
         doi,
@@ -110,11 +110,12 @@ export class PrivatePapersService {
         ownerId: userId,
       }),
     );
+    const ref: PaperRef = { kind: 'private', id, publicId };
     let attachment: AttachmentView;
     try {
       ({ attachment } = await this.attachments.upload(
         userId,
-        id,
+        ref,
         input.bytes,
         input.filename,
       ));
@@ -123,7 +124,7 @@ export class PrivatePapersService {
       await papers.delete({ id, ownerId: userId });
       throw err;
     }
-    const { entry, created } = await this.library.addById(userId, id);
+    const { entry, created } = await this.library.addRef(userId, ref);
     return {
       paperId: entry.paperId,
       private: true,

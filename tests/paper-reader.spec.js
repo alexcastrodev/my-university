@@ -3,30 +3,16 @@ import { BASE_URL } from './BaseTest.js';
 import { PaperAttachmentPage } from './pages/PaperAttachmentPage.js';
 import { PaperReaderPage } from './pages/PaperReaderPage.js';
 
-// The reader opens the reader's own PDF of a paper (#185). Papers are seeded through the dev-only route and every
-// test signs in as a reader of its own, so a test only ever sees the PDF it uploaded.
+// The reader opens the reader's own PDF of a paper (#185). The paper is one of the seed files
+// (backend/src/seed/data/papers). Every test signs in as a reader of its own, so a test only ever sees the PDF it
+// uploaded, and takes its PDF and entry away when it is done.
 const token = `pr${Math.random().toString(36).slice(2, 8)}`;
+const PAPER = { id: 'metastable-failures-in-distributed-systems', title: 'Metastable Failures in Distributed Systems' };
 
-let api;
-const catalogIds = [];
-
-test.beforeAll(async ({ playwright }) => {
-  api = await playwright.request.newContext({ baseURL: BASE_URL });
+test.afterEach(async ({ page }) => {
+  await page.request.delete(`${BASE_URL}/api/papers/${PAPER.id}/attachment`);
+  await page.request.delete(`${BASE_URL}/api/paper-library/${PAPER.id}`);
 });
-
-test.afterAll(async () => {
-  await Promise.all(catalogIds.splice(0).map((id) => api.delete(`/api/papers/_test/${id}`)));
-  await api.dispose();
-});
-
-/** A paper in the public catalog, through the dev-only seed route. */
-async function seedCatalog(title) {
-  const res = await api.post('/api/papers/_test', { data: { title: `${title} ${token}`, authors: [{ name: 'Ada Lovelace' }] } });
-  expect(res.ok(), `POST /api/papers/_test (needs ENABLE_DEV_AUTH=1): ${await res.text()}`).toBeTruthy();
-  const id = (await res.json()).paper.id;
-  catalogIds.push(id);
-  return id;
-}
 
 async function signIn(page, name) {
   const res = await page.request.post(`${BASE_URL}/api/auth/_test/login`, { data: { displayName: `${name} ${token}` } });
@@ -75,10 +61,10 @@ const FIVE = ['Reader test page one', 'Page two has a tardigrade', 'Page three i
 /** Forty pages, to see that a long document is not drawn all at once. */
 const LONG = Array.from({ length: 40 }, (_, i) => `Long document page ${i + 1}`);
 
-/** Signs in, puts a catalog paper in the library with this PDF, and returns the paper's id. */
+/** Signs in, puts the paper in the library with this PDF, and returns the paper's id. */
 async function readerWith(page, name, lines) {
   await signIn(page, name);
-  const id = await seedCatalog(name);
+  const id = PAPER.id;
   await addToLibrary(page, id);
   if (lines) await uploadPdf(page, id, textPdf(lines));
   return id;
@@ -132,7 +118,7 @@ test.describe('PDF reader', () => {
 
       const reader = new PaperReaderPage(page);
       await expect(page).toHaveURL(new RegExp(`/library/${id}/read$`));
-      await expect(reader.title).toHaveText(`Opens ${token}`);
+      await expect(reader.title).toHaveText(PAPER.title);
       await expect(reader.pageTotal).toHaveText('of 5');
       await expect(reader.pageInput).toHaveValue('1');
       await reader.waitDrawn(1);

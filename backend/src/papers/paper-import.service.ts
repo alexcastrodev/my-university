@@ -5,20 +5,21 @@ import {
   Inject,
   Injectable,
 } from '@nestjs/common';
-import { DataSource, IsNull } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { CrossrefClient, ProviderRecord } from './crossref.client';
 import { PaperInputDto } from './paper.dto';
 import { Paper } from './paper.entity';
 import { normalizeDoi } from './paper.normalize';
-import { PaperLibraryEntry } from './paper-library.entity';
 import { LibraryEntryView, PaperLibraryService } from './paper-library.service';
 import { maxPrivatePapers } from './paper-private-limit';
+import { PaperRef, publicIdOf } from './paper-ref';
+import { PapersCatalogService } from './papers-catalog.service';
 import { PapersService } from './papers.service';
 import { Throttle } from './throttle';
 
 /** The paper a DOI already is for this reader. */
 export interface ImportMatch {
-  /** The public id: of the catalog paper, or of the reader's own. */
+  /** The public id: the slug of the catalog paper, or the UUIDv7 of the reader's own. */
   paperId: string;
   title: string;
   /** True for one of the reader's own papers; false for a catalog paper, which adding uses instead of copying. */
@@ -64,6 +65,8 @@ export class PaperImportService {
   constructor(
     @Inject(PapersService) private readonly papers: PapersService,
     @Inject(PaperLibraryService) private readonly library: PaperLibraryService,
+    @Inject(PapersCatalogService)
+    private readonly catalog: PapersCatalogService,
     @Inject(CrossrefClient) private readonly crossref: CrossrefClient,
     @Inject(DataSource) private readonly dataSource: DataSource,
   ) {}
@@ -76,13 +79,10 @@ export class PaperImportService {
       source: { name: 'crossref', retrievedAt: record.retrievedAt },
       candidate: record.input,
       match: known && {
-        paperId: known.publicId,
+        paperId: publicIdOf(known.ref),
         title: known.title,
-        private: known.ownerId !== null,
-        inLibrary:
-          (await this.dataSource.getRepository(PaperLibraryEntry).count({
-            where: { userId, paperId: known.id },
-          })) > 0,
+        private: known.ref.kind === 'private',
+        inLibrary: await this.library.has(userId, known.ref),
       },
     };
   }
@@ -91,7 +91,7 @@ export class PaperImportService {
   async import(userId: number, rawDoi: string): Promise<AddResult> {
     const record = await this.fetch(userId, rawDoi);
     const known = await this.known(userId, record.input.doi!);
-    if (known) return this.place(userId, known);
+    if (known) return this.place(userId, known.ref);
     return this.addNew(userId, record.input, {
       source: 'crossref',
       externalId: record.externalId,
@@ -105,38 +105,33 @@ export class PaperImportService {
     if (input.doi?.trim() && !doi) {
       throw new BadRequestException('Invalid DOI');
     }
-    const catalog = doi ? await this.catalogPaper(doi) : null;
-    if (catalog) return this.place(userId, catalog);
+    const slug = doi ? this.catalog.slugOfDoi(doi) : null;
+    if (slug) return this.place(userId, { kind: 'public', slug });
     return this.addNew(userId, input, { source: 'manual' }, true);
   }
 
   /** The paper this DOI is for the reader: the catalog's first (it is shared, so never copied), else their own. */
-  private async known(userId: number, doi: string) {
-    return (
-      (await this.catalogPaper(doi)) ??
-      (await this.dataSource.getRepository(Paper).findOne({
-        where: { doi, ownerId: userId },
-        select: { id: true, publicId: true, title: true, ownerId: true },
-      }))
-    );
-  }
-
-  private catalogPaper(doi: string) {
-    return this.dataSource.getRepository(Paper).findOne({
-      where: { doi, ownerId: IsNull() },
-      select: { id: true, publicId: true, title: true, ownerId: true },
-    });
-  }
-
-  private async place(
+  private async known(
     userId: number,
-    paper: Pick<Paper, 'id' | 'publicId' | 'ownerId'>,
-  ): Promise<AddResult> {
-    const { entry, created } = await this.library.addById(userId, paper.id);
+    doi: string,
+  ): Promise<{ ref: PaperRef; title: string } | null> {
+    const slug = this.catalog.slugOfDoi(doi);
+    if (slug) {
+      return { ref: { kind: 'public', slug }, title: this.catalog.titleOf(slug) };
+    }
+    const own = await this.dataSource.getRepository(Paper).findOne({
+      where: { doi, ownerId: userId },
+      select: { id: true, publicId: true, title: true },
+    });
+    return own && { ref: { kind: 'private', id: own.id, publicId: own.publicId }, title: own.title };
+  }
+
+  private async place(userId: number, ref: PaperRef): Promise<AddResult> {
+    const { entry, created } = await this.library.addRef(userId, ref);
     return {
-      paperId: paper.publicId,
-      private: paper.ownerId !== null,
-      matched: paper.ownerId === null,
+      paperId: publicIdOf(ref),
+      private: ref.kind === 'private',
+      matched: ref.kind === 'public',
       created,
       library: entry,
     };
@@ -171,9 +166,9 @@ export class PaperImportService {
       });
     }
     return this.place(userId, {
+      kind: 'private',
       id: paper.id,
       publicId: paper.publicId,
-      ownerId: userId,
     });
   }
 

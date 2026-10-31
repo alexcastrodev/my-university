@@ -105,52 +105,22 @@
           <h2 id="analysis-heading" class="block-title" i18n="@@papers.analysis.title">Research Analysis</h2>
           <p class="analysis-note" i18n="@@papers.analysis.note">Written by Kurz, not by the authors of the paper. The abstract above is the authors' own.</p>
 
-          @if (analysisFailed()) {
-            <p class="muted" role="alert" i18n="@@papers.analysis.error">The analysis could not be loaded.</p>
-          } @else if (analysis(); as a) {
-            <dl class="analysis-credit">
-              @if (a.author; as person) {
-                <div>
-                  <dt i18n="@@papers.analysis.author">Analysis by</dt>
-                  <dd>
-                    @if (person.profilePath) { <a [routerLink]="person.profilePath">{{ person.name }}</a> } @else { {{ person.name }} }
-                  </dd>
-                </div>
-              }
-              @if (a.publishedBy; as person) {
-                <div>
-                  <dt i18n="@@papers.analysis.reviewer">Reviewed by</dt>
-                  <dd>
-                    @if (person.profilePath) { <a [routerLink]="person.profilePath">{{ person.name }}</a> } @else { {{ person.name }} }
-                  </dd>
-                </div>
-              }
-              <div>
-                <dt i18n="@@papers.analysis.published">Published</dt>
-                <dd><time [attr.datetime]="a.publishedAt">{{ publishedOn(a) }}</time></dd>
-              </div>
-              <div>
-                <dt i18n="@@papers.analysis.revision">Revision</dt>
-                <dd>{{ a.revision }}</dd>
-              </div>
-            </dl>
+          <dl class="analysis-credit">
+            <div>
+              <dt i18n="@@papers.analysis.revised">Last revised</dt>
+              <dd><time [attr.datetime]="p.updatedAt">{{ revised() }}</time></dd>
+            </div>
+            <div>
+              <dt i18n="@@papers.analysis.version">Version</dt>
+              <dd>{{ p.version }}</dd>
+            </div>
+          </dl>
 
-            @for (key of sectionKeys; track key) {
-              @if (section(a, key); as s) {
-                <section class="analysis-section" [attr.data-section]="key">
-                  <h3 class="analysis-section-title">{{ analysisSectionTitle(key) }}</h3>
-                  @if (s.state === 'present') {
-                    @for (paragraph of paragraphsOf(s.text); track $index) {
-                      <p class="analysis-text">{{ paragraph }}</p>
-                    }
-                  } @else {
-                    <p class="analysis-state">{{ analysisStateLabel(s.state) }}</p>
-                  }
-                </section>
-              }
-            }
-          } @else {
-            <p class="muted" i18n="@@papers.analysis.none">There is no Research Analysis for this paper yet.</p>
+          @for (s of sections(); track s.title) {
+            <section class="analysis-section">
+              <h3 class="analysis-section-title">{{ s.title }}</h3>
+              <div class="section-body" [innerHTML]="s.html"></div>
+            </section>
           }
         </section>
       </article>

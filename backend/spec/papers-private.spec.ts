@@ -15,7 +15,14 @@ const UUID_V7 =
   /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 
 let app: AttachmentsApp;
-const catalogIds: number[] = [];
+/** The public papers of this run are files (#213), so they exist before the app boots. */
+// Their own token, not the run's: the tests below search the catalog for the run and expect nothing.
+const catalogToken = Math.random().toString(36).slice(2, 8);
+const CATALOG = Array.from({ length: 8 }, (_, i) => ({
+  slug: `priv-${catalogToken}-${i + 1}`,
+  title: `Catalog paper ${i + 1} ${catalogToken}`,
+  doi: `10.5556/priv${catalogToken}.${i + 1}`,
+}));
 let seq = 0;
 
 async function signIn(name: string): Promise<string> {
@@ -28,18 +35,10 @@ async function signIn(name: string): Promise<string> {
   return (res.headers.getSetCookie()[0] ?? '').split(';')[0];
 }
 
-/** A paper in the public catalog, with a DOI of its own. */
-async function catalogPaper(
-  label: string,
-): Promise<{ publicId: string; doi: string }> {
-  const n = ++seq;
-  const doi = `10.5556/priv${run}.${n}`;
-  const rows: { id: number; publicId: string }[] = await app.dataSource.query(
-    `INSERT INTO paper (title, doi, fingerprint) VALUES ($1, $2, $3) RETURNING id, "publicId"`,
-    [`Catalog paper ${label} ${run}`, doi, `fp-priv-${run}-${n}`],
-  );
-  catalogIds.push(rows[0].id);
-  return { publicId: rows[0].publicId, doi };
+/** A public paper no other test has used, with a DOI of its own. */
+function catalogPaper(_label: string): { publicId: string; doi: string } {
+  const { slug, doi } = CATALOG[seq++];
+  return { publicId: slug, doi };
 }
 
 interface Dropped {
@@ -92,19 +91,13 @@ const privateCountOf = async (name: string): Promise<number> => {
 };
 
 beforeAll(async () => {
-  app = await startAttachmentsApp({
-    maxBytes: MAX,
-    quotaBytes: QUOTA,
-    privatePapers: CAP,
-  });
+  app = await startAttachmentsApp(
+    { maxBytes: MAX, quotaBytes: QUOTA, privatePapers: CAP },
+    CATALOG.map((c) => ({ ...c, authors: ['Ada Lovelace'], type: 'journal-article' })),
+  );
 });
 
 afterAll(async () => {
-  if (catalogIds.length) {
-    await app.dataSource.query(`DELETE FROM paper WHERE id = ANY($1)`, [
-      catalogIds,
-    ]);
-  }
   await app.dataSource.query(`DELETE FROM "user" WHERE "displayName" LIKE $1`, [
     `% ${run}`,
   ]);
@@ -276,44 +269,28 @@ describe('nobody else sees a private paper', () => {
     expect(asBob.status).toBe(404);
   });
 
-  it('is never merged into by an import of the same DOI, which makes its own public paper', async () => {
+  it('stays separate from a catalog paper that has the same DOI, which a later drop uses instead', async () => {
     const ana = await signIn('import-owner');
     const bob = await signIn('importer');
-    const doi = `10.5560/imp${run}`;
-    const mine = await dropOk(ana, { title: `Imported later ${run}`, doi });
-
-    const created = await fetch(`${app.url}/papers/_test`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Cookie: bob },
-      body: JSON.stringify({
-        title: `Imported later ${run}`,
-        doi,
-        authors: [{ name: 'Ada Lovelace' }],
-      }),
-    });
-    expect(created.status).toBe(201);
-    const body = (await created.json()) as {
-      paper: { id: string };
-      created: boolean;
-    };
-    catalogIds.push(
-      (
-        (await app.dataSource.query(
-          `SELECT id FROM paper WHERE "publicId" = $1`,
-          [body.paper.id],
-        )) as { id: number }[]
-      )[0].id,
+    const catalog = catalogPaper('later');
+    // Ana's own paper from before the files had this DOI: a drop now would match the catalog, so it is planted.
+    const [me]: { id: number }[] = await app.dataSource.query(`SELECT id FROM "user" WHERE "displayName" = $1`, [
+      `import-owner ${run}`,
+    ]);
+    const [mine]: { id: number; publicId: string }[] = await app.dataSource.query(
+      `INSERT INTO paper (title, doi, fingerprint, "ownerId") VALUES ($1, $2, $3, $4) RETURNING id, "publicId"`,
+      [`Imported later ${run}`, catalog.doi, `fp-later-${run}`, me.id],
     );
+    await app.dataSource.query(`INSERT INTO paper_library_entry ("userId", "paperId") VALUES ($1, $2)`, [me.id, mine.id]);
 
-    expect(body.created).toBe(true);
-    expect(body.paper.id).not.toBe(mine.paperId);
-    // And now a drop with that DOI matches the public paper, not a private one.
-    const again = await dropOk(await signIn('import-after'), {
-      title: `Again ${run}`,
-      doi,
-    });
-    expect(again).toMatchObject({ matched: true, private: false });
-    expect(again.paperId).toBe(body.paper.id);
+    const again = await dropOk(bob, { title: `Again ${run}`, doi: catalog.doi });
+
+    expect(again).toMatchObject({ matched: true, private: false, paperId: catalog.publicId });
+    const record = await get(`/paper-library/${mine.publicId}/paper`, ana);
+    expect(record.status).toBe(200);
+    expect(await record.json()).toMatchObject({ id: mine.publicId, doi: catalog.doi });
+    const list = (await (await get('/paper-library', ana)).json()) as { items: { id: string; library: { private: boolean } }[] };
+    expect(list.items.map((i) => [i.id, i.library.private])).toEqual([[mine.publicId, true]]);
   });
 });
 
@@ -341,7 +318,7 @@ describe('a DOI that is already in the catalog', () => {
       `SELECT COUNT(*) AS n FROM paper WHERE doi = $1 OR title = $2`,
       [catalog.doi, 'Whatever the file was called'],
     );
-    expect(Number(papers[0].n)).toBe(1);
+    expect(Number(papers[0].n)).toBe(0);
     expect(await privateCountOf('matcher')).toBe(0);
 
     // It stays a public paper: anyone can still read it, and the PDF is the reader's own.

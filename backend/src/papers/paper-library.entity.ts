@@ -15,10 +15,13 @@ export type LibraryStatus = (typeof LIBRARY_STATUSES)[number];
 
 /**
  * A paper in one reader's private library. The paper itself stays shared: this row only says "this
- * user keeps it, reads it, rated it". One row per user and paper; removing it leaves the paper alone.
+ * user keeps it, reads it, rated it". It points at a public paper by its slug (`paperSlug`, the papers are
+ * files) or at one of the reader's own private papers by its row (`paperId`), never both. One row per user
+ * and paper; removing it leaves a public paper alone.
  */
 @Entity('paper_library_entry')
 @Index('UQ_paper_library_user_paper', ['userId', 'paperId'], { unique: true })
+@Index('UQ_paper_library_user_slug', ['userId', 'paperSlug'], { unique: true })
 export class PaperLibraryEntry {
   @PrimaryGeneratedColumn()
   id: number;
@@ -29,11 +32,14 @@ export class PaperLibraryEntry {
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   user: User;
 
-  @Column()
-  paperId: number;
+  @Column({ type: 'integer', nullable: true })
+  paperId: number | null;
 
-  @ManyToOne(() => Paper, { onDelete: 'CASCADE' })
-  paper: Paper;
+  @ManyToOne(() => Paper, { onDelete: 'CASCADE', nullable: true })
+  paper: Paper | null;
+
+  @Column({ type: 'varchar', length: 120, nullable: true })
+  paperSlug: string | null;
 
   @Column({ type: 'varchar', default: 'to-read' })
   status: LibraryStatus;

@@ -5,39 +5,16 @@ import { PaperLibraryEntryPage } from './pages/PaperLibraryEntryPage.js';
 import { PaperLibraryPage } from './pages/PaperLibraryPage.js';
 import { SidebarPage } from './pages/SidebarPage.js';
 
-// Papers are seeded through the dev-only route and read through the pages. Every title carries a per-worker
-// token, so a test only ever sees its own papers, and every test signs in as a reader of its own.
+// The public paper is one of the seed files (backend/src/seed/data/papers); the other two are papers only the
+// reader has, made through the API. Every title carries a per-worker token, and every test signs in as a reader
+// of its own.
 const token = `pl${Math.random().toString(36).slice(2, 8)}`;
 const title = (n) => `Library paper ${token} ${n}`;
 
-let api;
-const ids = [];
-/** The integer a seeded paper had before public ids (the dev-only seed route shows it), for the old-link test. */
-const legacyIds = new Map();
-let alpha;
-let beta;
-let gamma;
-
-test.beforeAll(async ({ playwright }) => {
-  api = await playwright.request.newContext({ baseURL: BASE_URL });
-  alpha = await seed({ title: title('alpha'), authors: [{ name: 'Ada Lovelace' }], publicationDate: '2021', type: 'journal-article' });
-  beta = await seed({ title: title('beta'), authors: [{ name: 'Grace Hopper' }], publicationDate: '2020', type: 'preprint' });
-  gamma = await seed({ title: title('gamma'), authors: [{ name: 'Alan Turing' }], publicationDate: '2019' });
-});
-
-test.afterAll(async () => {
-  await Promise.all(ids.splice(0).map((id) => api.delete(`/api/papers/_test/${id}`)));
-  await api.dispose();
-});
-
-async function seed(data) {
-  const res = await api.post('/api/papers/_test', { data });
-  expect(res.ok(), `POST /api/papers/_test (needs ENABLE_DEV_AUTH=1): ${await res.text()}`).toBeTruthy();
-  const { paper, legacyId } = await res.json();
-  ids.push(paper.id);
-  legacyIds.set(paper.id, legacyId);
-  return paper.id;
-}
+const alpha = 'foundationdb-unbundled-transactional-kv-store';
+const ALPHA = 'FoundationDB: A Distributed Unbundled Transactional Key Value Store';
+const BETA = { title: title('beta'), authors: [{ name: 'Grace Hopper' }], publicationDate: '2020', type: 'preprint' };
+const GAMMA = { title: title('gamma'), authors: [{ name: 'Alan Turing' }], publicationDate: '2019' };
 
 /** Signs in as a reader no other test uses; the session cookie lands in the page's own context. */
 async function signIn(page, name) {
@@ -51,13 +28,28 @@ async function expectNoHorizontalScroll(page) {
   expect(overflow).toBeLessThanOrEqual(1);
 }
 
-/** Puts a paper in the signed-in reader's library (and sets what they keep about it) through the API. */
-async function addToLibrary(page, id, change) {
-  const added = await page.request.post(`${BASE_URL}/api/paper-library`, { data: { paperId: id } });
-  expect(added.ok(), `POST /api/paper-library: ${await added.text()}`).toBeTruthy();
+/** Sets what the signed-in reader keeps about a paper (status, rating, tags...) through the API. */
+async function keep(page, id, change) {
   if (!change) return;
   const updated = await page.request.patch(`${BASE_URL}/api/paper-library/${id}`, { data: change });
   expect(updated.ok(), `PATCH /api/paper-library/${id}: ${await updated.text()}`).toBeTruthy();
+}
+
+/** Puts a public paper in the signed-in reader's library (and sets what they keep about it) through the API. */
+async function addToLibrary(page, id, change) {
+  const added = await page.request.post(`${BASE_URL}/api/paper-library`, { data: { paperId: id } });
+  expect(added.ok(), `POST /api/paper-library: ${await added.text()}`).toBeTruthy();
+  await keep(page, id, change);
+}
+
+/** Makes a paper only this reader has, in their library. A reader that has it already gets the same one back. */
+async function addPrivate(page, data, change) {
+  const added = await page.request.post(`${BASE_URL}/api/paper-library/manual`, { data });
+  const body = await added.json();
+  expect(added.ok() || body.code === 'already_exists', `POST /api/paper-library/manual: ${JSON.stringify(body)}`).toBeTruthy();
+  const id = body.paperId;
+  await keep(page, id, change);
+  return id;
 }
 
 test.describe('Paper library', () => {
@@ -148,7 +140,7 @@ test.describe('Paper library', () => {
       await paper.libraryOpen.click();
       const entry = new PaperLibraryEntryPage(page);
       await expect(page).toHaveURL(new RegExp(`/library/${alpha}$`));
-      await expect(entry.title).toHaveText(title('alpha'));
+      await expect(entry.title).toHaveText(ALPHA);
       await expect(entry.discussion).toHaveCount(0);
 
       await entry.publicLink.click();
@@ -171,7 +163,7 @@ test.describe('Paper library', () => {
 
       // The paper itself is untouched.
       await paper.goto(alpha);
-      await expect(paper.title).toHaveText(title('alpha'));
+      await expect(paper.title).toHaveText(ALPHA);
     });
 
     test('says so when the paper cannot be added, and offers the button again', async ({ page }) => {
@@ -193,8 +185,8 @@ test.describe('Paper library', () => {
       const entry = new PaperLibraryEntryPage(page);
       await entry.goto(alpha);
 
-      await expect(entry.title).toHaveText(title('alpha'));
-      await expect(entry.authors).toContainText('Ada Lovelace');
+      await expect(entry.title).toHaveText(ALPHA);
+      await expect(entry.authors).toContainText('Jingyu Zhou');
       await expect(entry.status).toHaveValue('reading');
       await expect(entry.rating).toHaveValue('3');
       await expect(entry.tag('survey')).toHaveCount(1);
@@ -204,7 +196,7 @@ test.describe('Paper library', () => {
 
     test('explains where the paper stands, as the public page does', async ({ page }) => {
       await signIn(page, 'Careful');
-      await addToLibrary(page, beta);
+      const beta = await addPrivate(page, BETA);
       const entry = new PaperLibraryEntryPage(page);
       await entry.goto(beta);
 
@@ -235,9 +227,9 @@ test.describe('Paper library', () => {
 
       const library = new PaperLibraryPage(page);
       await library.goto();
-      await expect(library.card(title('alpha'))).toContainText('Rating: 4/5');
-      await expect(library.card(title('alpha'))).toContainText('Finished');
-      await expect(library.card(title('alpha'))).toContainText('2024');
+      await expect(library.card(ALPHA)).toContainText('Rating: 4/5');
+      await expect(library.card(ALPHA)).toContainText('Finished');
+      await expect(library.card(ALPHA)).toContainText('2024');
     });
 
     test('tags the paper, keeps the tags and removes one', async ({ page }) => {
@@ -267,7 +259,7 @@ test.describe('Paper library', () => {
       await entry.goto(alpha);
       await expect(entry.status).toHaveValue('to-read');
 
-      await page.route(/\/api\/paper-library\/[0-9a-f-]{36}$/, (route) => (route.request().method() === 'PATCH' ? route.abort() : route.continue()), { times: 1 });
+      await page.route(/\/api\/paper-library\/[a-z0-9-]+$/, (route) => (route.request().method() === 'PATCH' ? route.abort() : route.continue()), { times: 1 });
       await entry.status.selectOption({ label: 'Reading' });
       await expect(entry.saveError).toContainText('Your change could not be saved.');
       await expect(entry.status).toHaveValue('to-read');
@@ -315,17 +307,14 @@ test.describe('Paper library', () => {
 
       await expect(entry.errorMessage).toBeVisible();
       await entry.retryButton.click();
-      await expect(entry.title).toHaveText(title('alpha'));
+      await expect(entry.title).toHaveText(ALPHA);
     });
 
-    test('moves an old link with the integer id to the public address', async ({ page }) => {
+    test('says so for an old link with the integer id', async ({ page }) => {
       await signIn(page, 'Old link');
-      await addToLibrary(page, alpha);
       const entry = new PaperLibraryEntryPage(page);
-      await entry.goto(legacyIds.get(alpha));
-
-      await expect(page).toHaveURL(new RegExp(`/library/${alpha}$`));
-      await expect(entry.title).toHaveText(title('alpha'));
+      await entry.goto('12345');
+      await expect(entry.missing).toBeVisible();
     });
 
     test('fits the screen', async ({ page }) => {
@@ -339,11 +328,13 @@ test.describe('Paper library', () => {
   });
 
   test.describe('the library page', () => {
+    let beta;
+
     test.beforeEach(async ({ page }) => {
       await signIn(page, 'Library');
       await addToLibrary(page, alpha, { status: 'read', rating: 5, tags: ['survey', 'nlp'] });
-      await addToLibrary(page, beta, { status: 'reading', tags: ['survey'] });
-      await addToLibrary(page, gamma);
+      beta = await addPrivate(page, BETA, { status: 'reading', tags: ['survey'] });
+      await addPrivate(page, GAMMA);
     });
 
     test('lists the papers, newest added first, with counts per status', async ({ page }) => {
@@ -352,7 +343,7 @@ test.describe('Paper library', () => {
 
       await expect(library.heading).toBeVisible();
       await expect(library.cards).toHaveCount(3);
-      await expect(library.cardTitles).toHaveText([title('gamma'), title('beta'), title('alpha')]);
+      await expect(library.cardTitles).toHaveText([title('gamma'), title('beta'), ALPHA]);
       await expect(library.tab('All')).toContainText('3');
       await expect(library.tab('To read')).toContainText('1');
       await expect(library.tab('Reading')).toContainText('1');
@@ -385,9 +376,9 @@ test.describe('Paper library', () => {
       await library.clearFilters.click();
       await expect(library.cards).toHaveCount(3);
 
-      await library.card(title('alpha')).getByRole('link', { name: 'nlp' }).click();
+      await library.card(ALPHA).getByRole('link', { name: 'nlp' }).click();
       await expect(page).toHaveURL(/tag=nlp/);
-      await expect(library.cardTitles).toHaveText([title('alpha')]);
+      await expect(library.cardTitles).toHaveText([ALPHA]);
     });
 
     test('searches the library and says when nothing matches', async ({ page }) => {
@@ -409,11 +400,11 @@ test.describe('Paper library', () => {
 
       await library.sortSelect.selectOption('title');
       await expect(page).toHaveURL(/sort=title/);
-      await expect(library.cardTitles).toHaveText([title('alpha'), title('beta'), title('gamma')]);
+      await expect(library.cardTitles).toHaveText([ALPHA, title('beta'), title('gamma')]);
 
       await library.sortSelect.selectOption('rating');
       await expect(page).toHaveURL(/sort=rating/);
-      await expect(library.cardTitles.first()).toHaveText(title('alpha'));
+      await expect(library.cardTitles.first()).toHaveText(ALPHA);
     });
 
     test('keeps saying where each paper stands: a preprint stays a preprint in the library', async ({ page }) => {
@@ -421,7 +412,7 @@ test.describe('Paper library', () => {
       await library.goto();
 
       await expect(library.cardStage(title('beta'))).toHaveText('Preprint: not reviewed yet');
-      await expect(library.cardStage(title('alpha'))).toHaveText('Published');
+      await expect(library.cardStage(ALPHA)).toHaveText('Published');
       await expect(library.cardStage(title('gamma'))).toHaveText('Status unknown');
     });
 

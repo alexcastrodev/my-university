@@ -1,15 +1,17 @@
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { BASE, del, get, json, login, post } from './helpers';
+import { SEED_PAPERS } from './papers-seed';
 import { makePdf } from './pdf-fixtures';
 
 /**
  * Live stack, like discussions.spec: a paper's discussion is the one concept pages use (same endpoints,
- * same authorization, same notifications), keyed `paper:<public id>`. Papers are seeded through the dev-only route.
+ * same authorization, same notifications), keyed `paper:<slug>`. The papers are the seed files the stack serves, so
+ * a board keeps what earlier runs wrote and the assertions are about what this run adds.
  */
 const run = Math.random().toString(36).slice(2, 8);
-let paperId: string;
-/** A well-formed public id that no paper has. */
-const UNKNOWN_ID = '01a191ed-2e04-7235-ae86-8483c518560e';
+const { slug: paperId, title: paperTitle } = SEED_PAPERS[0];
+/** A well-formed slug that no paper has. */
+const UNKNOWN_ID = `no-such-paper-${run}`;
 
 const topic = (slug: string = paperId) => ({
   module: 'papers',
@@ -30,23 +32,14 @@ const startPost = (cookie: string, body = 'What does figure 2 show?') =>
     { Cookie: cookie },
   );
 
-beforeAll(async () => {
-  const res = await post('/papers/_test', {
-    title: `Discussion paper ${run}`,
-    authors: [{ name: 'Ada Lovelace' }],
-  });
-  expect(res.status).toBe(201);
-  paperId = (await json<{ paper: { id: string } }>(res)).paper.id;
-});
-afterAll(async () => {
-  await del(`/papers/_test/${paperId}`);
-});
-
 describe('discussion on a paper page', () => {
-  it('starts empty and public: anyone can read it without a session', async () => {
+  it('is public: anyone can read it without a session', async () => {
     const res = await general();
     expect(res.status).toBe(200);
-    expect(await json(res)).toMatchObject({ commentCount: 0, threads: [] });
+    expect(await json(res)).toMatchObject({
+      commentCount: expect.any(Number),
+      threads: expect.any(Array),
+    });
   });
 
   it('lets a signed-in reader post, and shows the post to everyone', async () => {
@@ -70,7 +63,7 @@ describe('discussion on a paper page', () => {
     expect(res.status).toBe(401);
   });
 
-  it('has one spelling per paper: the public id in lowercase, anything else is refused', async () => {
+  it('has one spelling per paper: the slug in lowercase, anything else is refused', async () => {
     const ana = await login(`paper-pad-${run}`);
     const shouting = await post(
       '/discussions/general',
@@ -127,9 +120,9 @@ describe('discussion on a paper page', () => {
   });
 
   it.each([
-    ['a slug that is not an id', 'not-an-id'],
+    ['a slug no paper has', 'not-a-paper'],
+    ['digits only, as the integer a paper had before public ids', '3105'],
     ['an id beyond the integer range', '99999999999'],
-    ['the integer a paper had before public ids', '3105'],
   ])('answers 404 for %s', async (_name, slug) => {
     expect((await general(slug)).status).toBe(404);
   });
@@ -142,7 +135,7 @@ describe('discussion on a paper page', () => {
         ...topic(),
         anchorKey: 'abcdef0123456789',
         blockIndex: 1,
-        quote: 'Discussion paper',
+        quote: paperTitle,
         body: 'a paragraph question',
       },
       { Cookie: ana.cookie },
@@ -180,7 +173,7 @@ describe('discussion on a paper page', () => {
       read: false,
       markerId,
       general: true,
-      conceptTitle: `Discussion paper ${run}`,
+      conceptTitle: paperTitle,
       route: ['/papers', paperId],
     });
   });

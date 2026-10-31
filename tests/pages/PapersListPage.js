@@ -27,6 +27,11 @@ export class PapersListPage {
     await this.page.goto(`/papers${query}`);
   }
 
+  /** The same list in Portuguese. */
+  async gotoPortuguese(query = '') {
+    await this.page.goto(`/pt-BR/papers${query}`);
+  }
+
   async search(text) {
     await this.searchInput.fill(text);
     await this.searchButton.click();

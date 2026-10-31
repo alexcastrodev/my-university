@@ -8,14 +8,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { User } from '../src/auth/user.entity';
 import { Paper } from '../src/papers/paper.entity';
-import {
-  PaperAnalysis,
-  PaperAnalysisEvent,
-} from '../src/papers/paper-analysis.entity';
+import { PaperLibraryEntry } from '../src/papers/paper-library.entity';
 import { PaperAuthor } from '../src/papers/paper-author.entity';
 import { PaperKeyword } from '../src/papers/paper-keyword.entity';
 import { PaperSource } from '../src/papers/paper-source.entity';
 import { PapersModule } from '../src/papers/papers.module';
+import { FixturePaper, usePapers } from './papers-fixtures';
 
 export interface CatalogApp {
   url: string;
@@ -25,9 +23,11 @@ export interface CatalogApp {
 
 /**
  * The real PapersModule (controller, services, validation) on a free port against DATABASE_URL, with
- * the same `api` prefix as production. Only the pieces the catalog needs are loaded: no sessions, no search.
+ * the same `api` prefix as production, reading the given papers as its files (#213). Only the pieces the
+ * catalog needs are loaded: no sessions, no search.
  */
-export async function startCatalogApp(): Promise<CatalogApp> {
+export async function startCatalogApp(papers?: FixturePaper[]): Promise<CatalogApp> {
+  const dropFiles = usePapers(papers);
   @Module({
     imports: [
       TypeOrmModule.forRoot({
@@ -40,8 +40,7 @@ export async function startCatalogApp(): Promise<CatalogApp> {
           PaperAuthor,
           PaperKeyword,
           PaperSource,
-          PaperAnalysis,
-          PaperAnalysisEvent,
+          PaperLibraryEntry,
           User,
         ],
         synchronize: false,
@@ -51,16 +50,27 @@ export async function startCatalogApp(): Promise<CatalogApp> {
   })
   class CatalogModule {}
 
-  const app = await NestFactory.create<NestFastifyApplication>(
-    CatalogModule,
-    new FastifyAdapter(),
-    { logger: false },
-  );
-  app.setGlobalPrefix('api');
-  await app.listen(0, '127.0.0.1');
+  let app: NestFastifyApplication;
+  try {
+    app = await NestFactory.create<NestFastifyApplication>(
+      CatalogModule,
+      new FastifyAdapter(),
+      // Not aborting the process: a mistake in the files is a rejection a spec can assert on.
+      { logger: false, abortOnError: false },
+    );
+    app.setGlobalPrefix('api');
+    await app.listen(0, '127.0.0.1');
+  } catch (error) {
+    // A mistake in the files stops the boot; the folder and the variable must not outlive it.
+    dropFiles();
+    throw error;
+  }
   return {
     url: `${await app.getUrl()}/api`,
     dataSource: app.get(DataSource),
-    close: () => app.close(),
+    close: async () => {
+      await app.close();
+      dropFiles();
+    },
   };
 }

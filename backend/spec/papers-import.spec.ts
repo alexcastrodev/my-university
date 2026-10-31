@@ -9,6 +9,13 @@ let counter = 0;
 /** A DOI nobody used before: lowercase, like the stored form. */
 const newDoi = () => `10.5555/${run}.n${counter++}`;
 
+/** The public papers of this run: files, not rows (#213), so they exist before the app boots. */
+const CATALOG = [1, 2, 3, 4].map((n) => ({
+  slug: `catalog-${run}-${n}`,
+  doi: `10.5555/${run}.cat${n}`,
+  title: `Catalog paper ${n} ${run}`,
+}));
+
 let app: ImportApp;
 
 const send = (method: string, path: string, data?: unknown, cookie?: string) =>
@@ -84,19 +91,11 @@ const ownPapersWithDoi = async (doi: string): Promise<number> =>
 /** The paper as its reader sees it, through the library (a private paper has no public address). */
 const paperOf = (cookie: string, paperId: string) =>
   send('GET', `/paper-library/${paperId}/paper`, undefined, cookie);
-/** A paper in the public catalog, put there the way the dev seed does. Cleaned up with the run's DOIs. */
-async function catalogPaper(doi: string, title = `Catalog paper ${run}`) {
-  const res = await send('POST', '/papers/_test', {
-    title,
-    doi,
-    authors: [{ name: 'Ada Lovelace' }],
-  });
-  expect(res.status).toBe(201);
-  return (await json<{ paper: { id: string } }>(res)).paper.id;
-}
 
 beforeAll(async () => {
-  app = await startImportApp();
+  app = await startImportApp(
+    CATALOG.map((c) => ({ ...c, authors: ['Ada Lovelace'], type: 'journal-article' })),
+  );
 });
 afterAll(async () => {
   await app.dataSource.query(`DELETE FROM paper WHERE doi LIKE $1 OR title LIKE $2`, [
@@ -273,15 +272,14 @@ describe('preview', () => {
   it('says when the DOI is a catalog paper or one the reader already has, changing nothing', async () => {
     const cookie = await signIn('p8');
     const other = await signIn('p8b');
-    const inCatalog = newDoi();
-    const catalogId = await catalogPaper(inCatalog, `In the catalog ${run}`);
+    const { doi: inCatalog, slug: catalogId, title: catalogTitle } = CATALOG[0];
     const mine = newDoi();
     know(inCatalog);
     know(mine, { title: [`Mine ${run}`] });
 
     // A catalog paper is used as it is, so the reader sees it and not what the provider says.
     expect(await json(await preview(cookie, inCatalog))).toMatchObject({
-      match: { paperId: catalogId, title: `In the catalog ${run}`, private: false, inLibrary: false },
+      match: { paperId: catalogId, title: catalogTitle, private: false, inLibrary: false },
     });
     expect((await importDoi(cookie, inCatalog)).status).toBe(201);
     expect((await json(await preview(cookie, inCatalog))).match).toMatchObject({ inLibrary: true });
@@ -418,8 +416,7 @@ describe('import', () => {
 
   it('puts a catalog paper in the library instead of copying it, and leaves the catalog alone', async () => {
     const cookie = await signIn('i3');
-    const doi = newDoi();
-    const catalogId = await catalogPaper(doi, `Original title ${run}`);
+    const { doi, slug: catalogId, title: catalogTitle } = CATALOG[1];
     know(doi, { title: ['Provider title'] });
 
     const res = await importDoi(cookie, doi);
@@ -435,8 +432,7 @@ describe('import', () => {
     expect(await ownPapersWithDoi(doi)).toBe(0);
     expect(await papersWithDoi(doi)).toBe(1);
     const stored = await json(await fetch(`${app.url}/papers/${catalogId}`));
-    expect(stored).toMatchObject({ title: `Original title ${run}` });
-    expect(await sources(catalogId)).toHaveLength(1);
+    expect(stored).toMatchObject({ title: catalogTitle });
   });
 
   it('gives each reader their own paper when two add the same DOI, and neither can open the other', async () => {
@@ -498,9 +494,8 @@ describe('import', () => {
   it('refuses a paper over the limit of papers a reader may keep (409), but still takes a catalog paper', async () => {
     const cookie = await signIn('i9');
     const [one, two, three] = [newDoi(), newDoi(), newDoi()];
-    const inCatalog = newDoi();
+    const inCatalog = CATALOG[2].doi;
     [one, two, three, inCatalog].forEach((d) => know(d));
-    await catalogPaper(inCatalog);
     process.env.PAPER_PRIVATE_MAX_PER_USER = '2';
     try {
       expect((await importDoi(cookie, one)).status).toBe(201);
@@ -582,14 +577,13 @@ describe('creating by hand', () => {
 
   it('uses the catalog paper when the DOI is in the catalog, and ignores what was typed', async () => {
     const cookie = await signIn('m1b');
-    const doi = newDoi();
-    const catalogId = await catalogPaper(doi, `Catalog title ${run}`);
+    const { doi, slug: catalogId, title: catalogTitle } = CATALOG[3];
     const res = await create(cookie, { title: `Typed instead ${run}`, doi, abstract: 'typed' });
     expect(res.status).toBe(201);
     expect(await json(res)).toMatchObject({ paperId: catalogId, matched: true, private: false });
     expect(await ownPapersWithDoi(doi)).toBe(0);
     expect(await json(await fetch(`${app.url}/papers/${catalogId}`))).toMatchObject({
-      title: `Catalog title ${run}`,
+      title: catalogTitle,
       abstract: null,
     });
   });

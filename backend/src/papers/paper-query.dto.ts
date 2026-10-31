@@ -76,6 +76,13 @@ export class PaperFilterDto {
   @Matches(/^\d{4}$/, { message: 'year must be four digits' })
   year?: string;
 
+  /** The language of the titles (`en` or `pt-BR`); anything else is English. */
+  @IsOptional()
+  @Transform(trim)
+  @IsString()
+  @MaxLength(10)
+  lang?: string;
+
   @IsOptional()
   @Type(() => Number)
   @IsInt()

@@ -15,9 +15,11 @@ const MAX = 200_000;
 const QUOTA = 300_000;
 
 let app: AttachmentsApp;
-const paperIds: number[] = [];
-/** The internal key behind a public id, for the SQL these tests run on the side. */
-const internalOf = new Map<string, number>();
+/** The public papers of this run are files (#213), so there are enough of them before the app boots. */
+const PAPERS = Array.from({ length: 80 }, (_, i) => ({
+  slug: `att-${run}-${i + 1}`,
+  title: `Attachment paper ${i + 1} ${run}`,
+}));
 
 const sha256 = (bytes: Buffer) =>
   createHash('sha256').update(bytes).digest('hex');
@@ -33,19 +35,10 @@ async function signIn(name: string): Promise<string> {
 }
 
 let seq = 0;
-async function newPaper(label: string): Promise<string> {
-  const n = ++seq;
-  const rows: { id: number; publicId: string }[] = await app.dataSource.query(
-    `INSERT INTO paper (title, doi, fingerprint) VALUES ($1, $2, $3) RETURNING id, "publicId"`,
-    [
-      `Attachment paper ${label} ${run}`,
-      `10.5555/att${run}.${n}`,
-      `fp-${run}-${n}`,
-    ],
-  );
-  paperIds.push(rows[0].id);
-  internalOf.set(rows[0].publicId, rows[0].id);
-  return rows[0].publicId;
+/** The slug of a public paper no other test has used, so each test starts with nobody's PDF on it. */
+function newPaper(_label: string): string {
+  if (seq >= PAPERS.length) throw new Error('more papers needed than the fixtures have');
+  return PAPERS[seq++].slug;
 }
 
 const upload = (
@@ -80,8 +73,8 @@ async function keyOf(paperId: string, version: number): Promise<string | null> {
   const rows: { objectKey: string | null }[] = await app.dataSource.query(
     `SELECT v."objectKey" FROM paper_attachment_version v
        JOIN paper_attachment a ON a.id = v."attachmentId"
-      WHERE a."paperId" = $1 AND v.version = $2`,
-    [internalOf.get(paperId), version],
+      WHERE a."paperSlug" = $1 AND v.version = $2`,
+    [paperId, version],
   );
   return rows[0]?.objectKey ?? null;
 }
@@ -97,15 +90,13 @@ async function gone(key: string): Promise<boolean> {
 }
 
 beforeAll(async () => {
-  app = await startAttachmentsApp({ maxBytes: MAX, quotaBytes: QUOTA });
+  app = await startAttachmentsApp({ maxBytes: MAX, quotaBytes: QUOTA }, PAPERS);
 });
 
 afterAll(async () => {
-  if (paperIds.length) {
-    await app.dataSource.query(`DELETE FROM paper WHERE id = ANY($1)`, [
-      paperIds,
-    ]);
-  }
+  await app.dataSource.query(`DELETE FROM paper_attachment WHERE "paperSlug" LIKE $1`, [
+    `att-${run}-%`,
+  ]);
   await app.maintain();
   await app.dataSource.query(`DELETE FROM "user" WHERE "displayName" LIKE $1`, [
     `% ${run}`,
@@ -289,8 +280,8 @@ describe('uploading a PDF', () => {
     const unknown = '01a191ed-2e04-7235-ae86-8483c518560e';
     expect((await upload(ana, unknown, makePdf())).status).toBe(404);
     expect((await view(unknown, ana)).status).toBe(404);
-    // The integer a paper used to have in its URL, and anything else that is not a public id.
-    for (const notAnId of ['2147483000', '99999999999', 'abc']) {
+    // The integer a paper used to have in its URL, a slug in capital letters, and a slug no paper has.
+    for (const notAnId of ['2147483000', '99999999999', 'abc', PAPERS[0].slug.toUpperCase()]) {
       expect((await upload(ana, notAnId, makePdf())).status).toBe(404);
       expect((await view(notAnId, ana)).status).toBe(404);
     }
@@ -625,13 +616,24 @@ describe('replacing and deleting', () => {
     ).toBe(204);
   });
 
-  it('removes the objects when the paper or the reader is deleted, whoever deletes them', async () => {
+  it('removes the objects when the private paper or the reader is deleted, whoever deletes them', async () => {
     const ana = await signIn('cascade');
-    const paperGone = await newPaper('cascade-paper');
-    await upload(ana, paperGone, makePdf({ padding: 5 }));
-    const keyA = (await keyOf(paperGone, 1))!;
-    await app.dataSource.query(`DELETE FROM paper WHERE "publicId" = $1`, [paperGone]);
-    expect(await gone(keyA)).toBe(true);
+    const made = await fetch(
+      `${app.url}/paper-library/private?title=${encodeURIComponent(`Cascade ${run}`)}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/pdf', Cookie: ana }, body: makePdf({ padding: 5 }) as BodyInit },
+    );
+    expect(made.status).toBe(201);
+    const { paperId } = (await made.json()) as { paperId: string };
+    const rows: { objectKey: string }[] = await app.dataSource.query(
+      `SELECT v."objectKey" FROM paper_attachment_version v
+         JOIN paper_attachment a ON a.id = v."attachmentId"
+         JOIN paper p ON p.id = a."paperId"
+        WHERE p."publicId" = $1`,
+      [paperId],
+    );
+    expect(rows).toHaveLength(1);
+    await app.dataSource.query(`DELETE FROM paper WHERE "publicId" = $1`, [paperId]);
+    expect(await gone(rows[0].objectKey)).toBe(true);
 
     const bia = await signIn('cascade-user');
     const paperKept = await newPaper('cascade-user');
@@ -675,8 +677,8 @@ describe('a file that is not approved is never served', () => {
       [`${ana} ${run}`],
     );
     const att: { id: number }[] = await app.dataSource.query(
-      `INSERT INTO paper_attachment ("paperId", "ownerId") VALUES ($1, $2) RETURNING id`,
-      [internalOf.get(paper), me[0].id],
+      `INSERT INTO paper_attachment ("paperSlug", "ownerId") VALUES ($1, $2) RETURNING id`,
+      [paper, me[0].id],
     );
     const key = withBytes ? `papers/planted-${run}-${paper}` : null;
     if (key) await app.storage.put(key, makePdf(), 'application/pdf');
@@ -747,9 +749,33 @@ describe('the database refuses states that would expose or orphan a file', () =>
     const me = await app.dataSource.query(`SELECT id FROM "user" LIMIT 1`);
     await expect(
       app.dataSource.query(
-        `INSERT INTO paper_attachment ("paperId", "ownerId", visibility) VALUES ($1, $2, 'public')`,
-        [internalOf.get(paper), me[0].id],
+        `INSERT INTO paper_attachment ("paperSlug", "ownerId", visibility) VALUES ($1, $2, 'public')`,
+        [paper, me[0].id],
       ),
     ).rejects.toThrow();
+  });
+
+  it('does not allow a PDF that points at no paper, or at a public and a private one at once', async () => {
+    const paper = newPaper('pointing');
+    const ana = await signIn('pointing');
+    const made = await fetch(`${app.url}/paper-library/manual`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: ana },
+      body: JSON.stringify({ title: `Pointing ${run}`, authors: [{ name: 'Ada Lovelace' }], publicationDate: '2020' }),
+    });
+    expect(made.status).toBe(201);
+    const { paperId } = (await made.json()) as { paperId: string };
+    const [mine] = await app.dataSource.query(`SELECT id FROM paper WHERE "publicId" = $1`, [paperId]);
+    const [me] = await app.dataSource.query(`SELECT id FROM "user" WHERE "displayName" = $1`, [`pointing ${run}`]);
+
+    await expect(
+      app.dataSource.query(`INSERT INTO paper_attachment ("ownerId") VALUES ($1)`, [me.id]),
+    ).rejects.toThrow(/CHK_paper_attachment_one_paper/);
+    await expect(
+      app.dataSource.query(
+        `INSERT INTO paper_attachment ("paperSlug", "paperId", "ownerId") VALUES ($1, $2, $3)`,
+        [paper, mine.id, me.id],
+      ),
+    ).rejects.toThrow(/CHK_paper_attachment_one_paper/);
   });
 });

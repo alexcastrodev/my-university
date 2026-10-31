@@ -17,6 +17,7 @@ import { PaperKeyword } from '../src/papers/paper-keyword.entity';
 import { PaperLibraryEntry } from '../src/papers/paper-library.entity';
 import { PaperSource } from '../src/papers/paper-source.entity';
 import { PapersModule } from '../src/papers/papers.module';
+import { FixturePaper, usePapers } from './papers-fixtures';
 
 /** What the stub Crossref answers for one DOI. */
 export interface StubReply {
@@ -44,7 +45,8 @@ export interface ImportApp {
  * port against DATABASE_URL, talking to a stub Crossref on another free port through CROSSREF_BASE_URL.
  * Nothing in a test reaches the real Crossref.
  */
-export async function startImportApp(): Promise<ImportApp> {
+export async function startImportApp(papers?: FixturePaper[]): Promise<ImportApp> {
+  const dropFiles = usePapers(papers);
   const crossref = new Map<string, StubReply>();
   const requests: ImportApp['requests'] = [];
   const stub: Server = createServer((req, res) => {
@@ -108,6 +110,7 @@ export async function startImportApp(): Promise<ImportApp> {
     close: async () => {
       await app.close();
       await new Promise<void>((resolve) => stub.close(() => resolve()));
+      dropFiles();
       for (const [key, value] of Object.entries({
         CROSSREF_BASE_URL: saved.base,
         CROSSREF_MAILTO: saved.mailto,
