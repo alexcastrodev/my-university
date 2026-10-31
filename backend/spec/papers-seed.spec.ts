@@ -83,13 +83,14 @@ describe('the seed is a usable catalog', () => {
     },
   );
 
-  it.each(SEED_PAPERS.map((p) => [p.slug, p.doi!, p.authors[0].name]))(
-    'finds %s by its DOI and by its first author',
-    async (slug, doi, author) => {
-      expect((await list(`&doi=${encodeURIComponent(doi)}`)).items.map((i) => i.id)).toEqual([slug]);
-      expect((await list(`&author=${encodeURIComponent(author)}`)).items.map((i) => i.id)).toContain(slug);
-    },
-  );
+  // A paper that has no DOI (a USENIX one) is found by its link and its authors only.
+  it.each(SEED_PAPERS.filter((p) => p.doi).map((p) => [p.slug, p.doi!]))('finds %s by its DOI', async (slug, doi) => {
+    expect((await list(`&doi=${encodeURIComponent(doi)}`)).items.map((i) => i.id)).toEqual([slug]);
+  });
+
+  it.each(SEED_PAPERS.map((p) => [p.slug, p.authors[0].name]))('finds %s by its first author', async (slug, author) => {
+    expect((await list(`&author=${encodeURIComponent(author)}`)).items.map((i) => i.id)).toContain(slug);
+  });
 });
 
 describe.each(SEED_PAPERS.map((p) => [p.slug, p] as const))('the seed paper %s', (slug, meta) => {

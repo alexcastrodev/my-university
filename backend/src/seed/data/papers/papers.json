@@ -393,5 +393,136 @@
     "publicationDate": "2023-10-23",
     "doi": "10.1145/3600006.3613165",
     "url": "https://dl.acm.org/doi/10.1145/3600006.3613165"
+  },
+  {
+    "slug": "scallop-sdn-inspired-sfu-for-video-conferencing",
+    "title": "Scalable Video Conferencing Using SDN Principles",
+    "authors": [
+      {
+        "name": "Oliver Michel"
+      },
+      {
+        "name": "Satadal Sengupta"
+      },
+      {
+        "name": "Hyojoon Kim"
+      },
+      {
+        "name": "Ravi Netravali"
+      },
+      {
+        "name": "Jennifer Rexford"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGCOMM 2025 Conference",
+    "publicationDate": "2025-08-27",
+    "doi": "10.1145/3718958.3750489",
+    "url": "https://dl.acm.org/doi/10.1145/3718958.3750489"
+  },
+  {
+    "slug": "measuring-zoom-meet-teams-network-utilization",
+    "title": "Measuring the Performance and Network Utilization of Popular Video Conferencing Applications",
+    "authors": [
+      {
+        "name": "Kyle MacMillan"
+      },
+      {
+        "name": "Tarun Mangla"
+      },
+      {
+        "name": "James Saxon"
+      },
+      {
+        "name": "Nick Feamster"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 21st ACM Internet Measurement Conference",
+    "publicationDate": "2021-11-02",
+    "doi": "10.1145/3487552.3487842",
+    "url": "https://dl.acm.org/doi/10.1145/3487552.3487842"
+  },
+  {
+    "slug": "zoom-passive-measurement-in-production-networks",
+    "title": "Enabling Passive Measurement of Zoom Performance in Production Networks",
+    "authors": [
+      {
+        "name": "Oliver Michel"
+      },
+      {
+        "name": "Satadal Sengupta"
+      },
+      {
+        "name": "Hyojoon Kim"
+      },
+      {
+        "name": "Ravi Netravali"
+      },
+      {
+        "name": "Jennifer Rexford"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 22nd ACM Internet Measurement Conference",
+    "publicationDate": "2022-10-25",
+    "doi": "10.1145/3517745.3561414",
+    "url": "https://dl.acm.org/doi/10.1145/3517745.3561414"
+  },
+  {
+    "slug": "salsify-low-latency-video-codec-and-transport",
+    "title": "Salsify: Low-Latency Network Video through Tighter Integration between a Video Codec and a Transport Protocol",
+    "authors": [
+      {
+        "name": "Sadjad Fouladi"
+      },
+      {
+        "name": "John Emmons"
+      },
+      {
+        "name": "Emre Orbay"
+      },
+      {
+        "name": "Catherine Wu"
+      },
+      {
+        "name": "Riad S. Wahby"
+      },
+      {
+        "name": "Keith Winstein"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "15th USENIX Symposium on Networked Systems Design and Implementation (NSDI 18)",
+    "publicationDate": "2018-04",
+    "url": "https://www.usenix.org/conference/nsdi18/presentation/fouladi"
+  },
+  {
+    "slug": "tambur-streaming-codes-for-videoconferencing",
+    "title": "Tambur: Efficient loss recovery for videoconferencing via streaming codes",
+    "authors": [
+      {
+        "name": "Michael Rudow"
+      },
+      {
+        "name": "Francis Y. Yan"
+      },
+      {
+        "name": "Abhishek Kumar"
+      },
+      {
+        "name": "Ganesh Ananthanarayanan"
+      },
+      {
+        "name": "Martin Ellis"
+      },
+      {
+        "name": "K.V. Rashmi"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Networked Systems Design and Implementation (NSDI 23)",
+    "publicationDate": "2023-04",
+    "url": "https://www.usenix.org/conference/nsdi23/presentation/rudow"
   }
 ]
