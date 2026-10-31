@@ -1046,6 +1046,23 @@
     "papers.detail.abstract": "Resumo",
     "papers.detail.noAbstract": "Este paper não tem resumo disponível.",
     "papers.detail.keywords": "Palavras-chave",
-    "papers.detail.noKeywords": "Nenhuma palavra-chave informada."
+    "papers.detail.noKeywords": "Nenhuma palavra-chave informada.",
+    "papers.analysis.title": "Análise de pesquisa",
+    "papers.analysis.note": "Escrita pelo Kurz, não pelos autores do paper. O resumo acima é dos próprios autores.",
+    "papers.analysis.none": "Este paper ainda não tem análise de pesquisa.",
+    "papers.analysis.error": "Não foi possível carregar a análise.",
+    "papers.analysis.author": "Análise por",
+    "papers.analysis.reviewer": "Revisada por",
+    "papers.analysis.published": "Publicada",
+    "papers.analysis.revision": "Revisão",
+    "papers.analysis.section.overview": "Visão geral",
+    "papers.analysis.section.contribution": "Contribuição",
+    "papers.analysis.section.methodology": "Metodologia",
+    "papers.analysis.section.findings": "Resultados",
+    "papers.analysis.section.criticalAnalysis": "Análise crítica",
+    "papers.analysis.section.furtherResearch": "Pesquisas futuras",
+    "papers.analysis.state.notApplicable": "Não se aplica a este paper.",
+    "papers.analysis.state.notReported": "O paper não informa isso.",
+    "papers.analysis.state.unableToDetermine": "Não foi possível determinar a partir do paper."
   }
 }

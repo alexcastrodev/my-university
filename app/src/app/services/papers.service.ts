@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Paper, PaperFacets, PaperPage, PaperQuery } from '../models/paper.model';
+import { Observable, map } from 'rxjs';
+import { Paper, PaperAnalysis, PaperFacets, PaperPage, PaperQuery } from '../models/paper.model';
 
 @Injectable({ providedIn: 'root' })
 export class PapersService {
@@ -22,5 +22,10 @@ export class PapersService {
 
   get(id: number): Observable<Paper> {
     return this.http.get<Paper>(`${this.base}/${id}`);
+  }
+
+  /** The published analysis of a paper, or null when it has none. */
+  analysis(id: number): Observable<PaperAnalysis | null> {
+    return this.http.get<{ analysis: PaperAnalysis | null }>(`${this.base}/${id}/analysis`).pipe(map((r) => r.analysis));
   }
 }
