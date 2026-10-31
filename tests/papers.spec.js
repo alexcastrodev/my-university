@@ -88,6 +88,25 @@ test.describe('Papers catalog', () => {
       await expect(card.getByRole('link', { name: keyword('a') })).toBeVisible();
     });
 
+    test('reads like a reference row: place and DOI on top, initials for the authors, links to the sources', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.goto(`?q=${token}`);
+      await expect(papers.cards).toHaveCount(3);
+
+      await expect(papers.cardRef(title('full'))).toHaveText(`[1] / DOI 10.5555/${token}.full`);
+      await expect(papers.cardRef(title('preprint'))).toHaveText('[2]');
+      await expect(papers.cardAvatars(title('full'))).toHaveText(['AP', 'GP']);
+      await expect(papers.cardAvatars(title('preprint'))).toHaveText(['AT']);
+      await expect(papers.cardAvatars(title('bare'))).toHaveCount(0);
+
+      await expect(papers.cardSource(title('full'), 'DOI')).toHaveAttribute('href', `https://doi.org/10.5555/${token}.full`);
+      await expect(papers.cardSource(title('full'), 'Page')).toHaveAttribute('href', 'https://example.org/full');
+      await expect(papers.cardSource(title('bare'), 'DOI')).toBeVisible();
+      await expect(papers.cardSource(title('bare'), 'Page')).toHaveCount(0);
+      await expect(papers.cardSource(title('preprint'), 'DOI')).toHaveCount(0);
+      await expectNoHorizontalScroll(page);
+    });
+
     test('shows a paper with nothing but a title and a DOI without breaking', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto(`?q=${title('bare')}`);
@@ -133,6 +152,34 @@ test.describe('Papers catalog', () => {
       await expect(page).toHaveURL(/type=preprint/);
       await expect(papers.cards).toHaveCount(1);
       await expect(papers.card(title('preprint'))).toBeVisible();
+    });
+
+    test('says where each paper stands, so a preprint is not mistaken for a reviewed article', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.goto(`?q=${token}`);
+      await expect(papers.cards).toHaveCount(3);
+
+      await expect(papers.cardStage(title('full'))).toHaveText('Published');
+      await expect(papers.cardStage(title('preprint'))).toHaveText('Preprint: not reviewed yet');
+      await expect(papers.cardStage(title('bare'))).toHaveText('Status unknown');
+    });
+
+    test('filters by publication stage', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.goto(`?q=${token}`);
+
+      await papers.stageSelect.selectOption({ label: 'Published' });
+      await expect(page).toHaveURL(/stage=published/);
+      await expect(papers.cards).toHaveCount(1);
+      await expect(papers.card(title('full'))).toBeVisible();
+
+      await papers.stageSelect.selectOption({ label: 'Preprint: not reviewed yet' });
+      await expect(page).toHaveURL(/stage=preprint/);
+      await expect(papers.cards).toHaveCount(1);
+      await expect(papers.card(title('preprint'))).toBeVisible();
+
+      await papers.stageSelect.selectOption({ label: 'All' });
+      await expect(papers.cards).toHaveCount(3);
     });
 
     test('filters by research area', async ({ page }) => {
@@ -218,7 +265,7 @@ test.describe('Papers catalog', () => {
       await expect(paper.author(ada)).toBeVisible();
       await expect(paper.author(grace)).toBeVisible();
       await expect(paper.fact('Type')).toContainText('Journal article');
-      await expect(paper.fact('Published')).toContainText('May 2024');
+      await expect(paper.fact('Date')).toContainText('May 2024');
       await expect(paper.fact('Venue')).toContainText('Journal of Playwright');
       await expect(paper.fact('Research area')).toContainText(`Area ${token}`);
       await expect(paper.fact('DOI').getByRole('link')).toHaveAttribute('href', `https://doi.org/10.5555/${token}.full`);
@@ -233,6 +280,23 @@ test.describe('Papers catalog', () => {
       await paper.goto(full);
       await expect(paper.title).toHaveText(title('full'));
       await expect(paper.discussion).toBeVisible();
+    });
+
+    test('explains where the paper stands, next to the title', async ({ page }) => {
+      const paper = new PaperDetailPage(page);
+
+      await paper.goto(preprint);
+      await expect(paper.stageTitle).toContainText('Preprint: not reviewed yet');
+      await expect(paper.stageText).toContainText('treat it as work in progress');
+
+      await paper.goto(full);
+      await expect(paper.stageTitle).toContainText('Published');
+      await expect(paper.stageTitle).toContainText('Journal of Playwright');
+      await expect(paper.stageText).toContainText('one study is never the final word');
+
+      await paper.goto(bare);
+      await expect(paper.stageTitle).toContainText('Status unknown');
+      await expect(paper.stageText).toContainText('We do not know whether other experts reviewed this');
     });
 
     test('explains what is missing instead of leaving blanks', async ({ page }) => {

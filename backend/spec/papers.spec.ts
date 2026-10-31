@@ -111,6 +111,7 @@ describe('POST /papers: a new paper', () => {
         'keywords',
         'publicationDate',
         'researchArea',
+        'stage',
         'title',
         'type',
         'updatedAt',

@@ -1037,7 +1037,7 @@
     "papers.detail.orcid": "ORCID",
     "papers.detail.noAuthors": "Autores não informados.",
     "papers.detail.type": "Tipo",
-    "papers.detail.published": "Publicado",
+    "papers.detail.published": "Data",
     "papers.detail.dateUnknown": "Data não informada",
     "papers.detail.venue": "Veículo",
     "papers.detail.area": "Área de pesquisa",
@@ -1200,6 +1200,21 @@
     "papers.library.entry.privateNote": "Só você vê este paper. Ele não tem página pública.",
     "papers.library.entry.confirmDelete": "Excluir este paper, o PDF e o que você registrou sobre ele? Isso não pode ser desfeito.",
     "papers.library.entry.confirmDeleteYes": "Excluir",
-    "papers.library.entry.delete": "Excluir paper"
+    "papers.library.entry.delete": "Excluir paper",
+    "bottomNav.papers": "Papers",
+    "bottomNav.library": "Biblioteca",
+    "papers.filter.stage": "Situação da publicação",
+    "papers.stage.preprint": "Preprint: ainda não revisado",
+    "papers.stage.preprint.note": "Os autores compartilharam isto antes de outros especialistas conferirem. Os resultados podem mudar ou se mostrar errados: trate como trabalho em andamento, não como algo estabelecido.",
+    "papers.stage.published": "Publicado",
+    "papers.stage.published.note": "Saiu em uma revista, congresso ou livro, que normalmente avaliam o trabalho antes de aceitar. Mesmo assim, um único estudo nunca é a palavra final.",
+    "papers.stage.thesis": "Tese ou dissertação",
+    "papers.stage.thesis.note": "Escrita para obter um título universitário e avaliada por uma banca. Não é o mesmo que um artigo avaliado por uma revista.",
+    "papers.stage.report": "Relatório",
+    "papers.stage.report.note": "Publicado por uma instituição ou empresa. Especialistas independentes não necessariamente o revisaram.",
+    "papers.stage.unknown": "Situação desconhecida",
+    "papers.stage.unknown.note": "Não sabemos se outros especialistas revisaram isto. Veja onde foi publicado antes de confiar.",
+    "papers.row.doi": "DOI",
+    "papers.row.page": "Página"
   }
 }

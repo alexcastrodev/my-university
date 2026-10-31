@@ -197,7 +197,7 @@ test.describe('Add a paper', () => {
       await expect(detail.title).toHaveText(title);
       await expect(detail.author('Grace Hopper')).toBeVisible();
       await expect(detail.fact('Type')).toContainText('Preprint');
-      await expect(detail.fact('Published')).toContainText('May 2020');
+      await expect(detail.fact('Date')).toContainText('May 2020');
       await expect(detail.keyword('typing')).toBeVisible();
     });
 

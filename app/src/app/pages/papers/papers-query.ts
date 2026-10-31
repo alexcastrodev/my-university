@@ -1,4 +1,4 @@
-import { PAPER_TYPES, PaperQuery, PaperSort } from '../../models/paper.model';
+import { PAPER_TYPES, PUBLICATION_STAGES, PaperQuery, PaperSort } from '../../models/paper.model';
 
 const SORTS: PaperSort[] = ['recent', 'title'];
 const MAX_TEXT = 200;
@@ -9,6 +9,7 @@ type Params = { get(name: string): string | null };
 export function parsePaperQuery(params: Params): PaperQuery {
   const text = (name: string) => params.get(name)?.trim().slice(0, MAX_TEXT) || undefined;
   const type = params.get('type');
+  const stage = params.get('stage');
   const sort = params.get('sort');
   const page = Number(params.get('page'));
   return {
@@ -17,6 +18,7 @@ export function parsePaperQuery(params: Params): PaperQuery {
     keyword: text('keyword'),
     area: text('area'),
     type: PAPER_TYPES.find((t) => t === type),
+    stage: PUBLICATION_STAGES.find((s) => s === stage),
     sort: SORTS.find((s) => s === sort),
     page: Number.isInteger(page) && page > 1 ? page : undefined,
   };

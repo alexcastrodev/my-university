@@ -78,6 +78,10 @@ export class PaperLibraryPage {
     return this.cards.filter({ hasText: title });
   }
 
+  cardStage(title) {
+    return this.card(title).locator('.stage-pill');
+  }
+
   async open(title) {
     await this.card(title).getByRole('link', { name: title }).click();
   }
