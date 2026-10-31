@@ -220,6 +220,28 @@ entry, attachment, tags and status work exactly as for any other; what changes i
   catches up within the maintenance interval). A failed drop (a PDF that is refused) leaves no paper behind.
 - **Publishing a private paper to the catalog** is a follow-up: it needs a decision about rights.
 
+## Where a paper stands (publication stage, #201)
+
+**Product rule: every surface that shows a paper says where it stands.** A reader who has never read a paper
+does not know that a preprint was shared before other experts checked it, and must not take "a study said so"
+for the truth. The API returns `stage` next to `type` (in the list, in the full record and in the write
+results), and every screen that shows a paper (catalog, library, the public page, the library page of a paper)
+shows it. A new surface (annotations, shared notes, reading groups) carries it too.
+
+| `type` | `stage` | What the reader is told |
+| --- | --- | --- |
+| `preprint` | `preprint` | Not reviewed yet: results may change or be wrong, so it is work in progress. |
+| `journal-article`, `conference-paper`, `book-chapter`, `book` | `published` | Appeared in a venue that normally reviews before accepting; one study is never the final word. |
+| `thesis` | `thesis` | Examined by a university committee, which is not a journal review. |
+| `report` | `report` | Published by an institution or a company; independent review is not implied. |
+| `other` | `unknown` | We do not know whether anyone reviewed it. |
+
+- It follows from the type alone (`paper-stage.ts`), so there is one place to change it and no column to fall out
+  of date. It says what kind of venue the paper appeared in, never that a review of this particular paper took
+  place, and nothing is styled as a "verified" badge. Preprints and unknown papers are flagged in amber.
+- `GET /api/papers?stage=published` filters by it (a stage is the set of types that make it up).
+- Not done yet: linking a preprint to its published version (Crossref `relation`) and retraction notices.
+
 ## What is not here
 
 - There is no editor screen for the analysis yet: curators and reviewers use the API. The endpoints return

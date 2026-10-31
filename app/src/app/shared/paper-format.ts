@@ -1,4 +1,4 @@
-import { AnalysisSectionKey, AnalysisSectionState, LibraryStatus, PaperType } from '../models/paper.model';
+import { AnalysisSectionKey, AnalysisSectionState, LibraryStatus, PaperType, PublicationStage } from '../models/paper.model';
 
 /** The name of a publication type, in the reader's language. */
 export function paperTypeLabel(type: PaperType): string {
@@ -19,6 +19,38 @@ export function paperTypeLabel(type: PaperType): string {
       return $localize`:@@papers.type.report:Report`;
     default:
       return $localize`:@@papers.type.other:Other`;
+  }
+}
+
+/** Where a paper stands, in a few words. Never worded as a seal of approval. */
+export function stageLabel(stage: PublicationStage): string {
+  switch (stage) {
+    case 'preprint':
+      return $localize`:@@papers.stage.preprint:Preprint: not reviewed yet`;
+    case 'published':
+      return $localize`:@@papers.stage.published:Published`;
+    case 'thesis':
+      return $localize`:@@papers.stage.thesis:Thesis`;
+    case 'report':
+      return $localize`:@@papers.stage.report:Report`;
+    default:
+      return $localize`:@@papers.stage.unknown:Status unknown`;
+  }
+}
+
+/** What the stage means for someone who has never read a paper: one sentence, no jargon. */
+export function stageNote(stage: PublicationStage): string {
+  switch (stage) {
+    case 'preprint':
+      return $localize`:@@papers.stage.preprint.note:The authors shared this before other experts checked it. Its results may change or turn out to be wrong, so treat it as work in progress, not as settled.`;
+    case 'published':
+      return $localize`:@@papers.stage.published.note:It appeared in a journal, conference or book, which normally review work before accepting it. Even so, one study is never the final word.`;
+    case 'thesis':
+      return $localize`:@@papers.stage.thesis.note:Written to earn a university degree and examined by a committee. It is not the same as a paper reviewed by a journal.`;
+    case 'report':
+      return $localize`:@@papers.stage.report.note:Published by an institution or a company. Independent experts did not necessarily review it.`;
+    default:
+      return $localize`:@@papers.stage.unknown.note:We do not know whether other experts reviewed this. Check where it was published before relying on it.`;
   }
 }
 

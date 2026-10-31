@@ -33,6 +33,12 @@ describe('BottomNav', () => {
     );
   }
 
+  function tabLink(fixture: { nativeElement: HTMLElement }, label: string): HTMLAnchorElement | undefined {
+    return Array.from<HTMLAnchorElement>(fixture.nativeElement.querySelectorAll('a.tab')).find((a) =>
+      a.textContent?.includes(label),
+    );
+  }
+
   it('links Home to the dashboard when logged in', async () => {
     const { fixture } = await setup('/computer-science');
 
@@ -55,17 +61,43 @@ describe('BottomNav', () => {
     expect(homeTab(fixture)?.getAttribute('href')).toBe('/');
   });
 
-  it('renders the four tabs', async () => {
+  it('renders the tabs, with Papers and Library for a signed-in reader', async () => {
     const { fixture } = await setup('/dashboard');
 
     const tabs = fixture.nativeElement.querySelectorAll('.tab');
-    expect(tabs.length).toBe(4);
+    expect(tabs.length).toBe(6);
     const text = fixture.nativeElement.textContent;
     expect(text).toContain('Home');
     expect(text).not.toContain('Daily');
     expect(text).toContain('Track');
     expect(text).toContain('Discussions');
+    expect(text).toContain('Papers');
+    expect(text).toContain('Library');
     expect(text).toContain('Settings');
+  });
+
+  it('leaves Library out for a visitor, who still gets Papers', async () => {
+    const { fixture } = await setup('/', null);
+
+    expect(fixture.nativeElement.querySelectorAll('.tab').length).toBe(5);
+    expect(tabLink(fixture, 'Papers')?.getAttribute('href')).toBe('/papers');
+    expect(tabLink(fixture, 'Library')).toBeUndefined();
+  });
+
+  it('adds Library right after the reader signs in', async () => {
+    const { fixture, currentUser } = await setup('/', null);
+
+    currentUser.set({ id: 1, displayName: 'Ada' } as User);
+    fixture.detectChanges();
+
+    expect(tabLink(fixture, 'Library')?.getAttribute('href')).toBe('/library');
+  });
+
+  it('links Papers to the catalog and Library to the reader\'s shelf', async () => {
+    const { fixture } = await setup('/dashboard');
+
+    expect(tabLink(fixture, 'Papers')?.getAttribute('href')).toBe('/papers');
+    expect(tabLink(fixture, 'Library')?.getAttribute('href')).toBe('/library');
   });
 
   it('links Discussions to the discussions feed', async () => {

@@ -18,6 +18,7 @@ import {
 } from '../../shared/paper-format';
 import { isLegacyPaperId, isPaperId } from '../../shared/paper-id';
 import { PaperLibraryButton } from './paper-library-button';
+import { PaperStage } from './paper-stage';
 
 /** `analysis` is null when the paper has none, and `'failed'` when only that request failed: the paper still shows. */
 type Loaded = { paper: Paper; analysis: PaperAnalysis | null | 'failed' } | { missing: true } | { failed: true };
@@ -25,7 +26,7 @@ type Loaded = { paper: Paper; analysis: PaperAnalysis | null | 'failed' } | { mi
 @Component({
   selector: 'app-paper-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Breadcrumbs, ConceptDiscussion, PaperLibraryButton],
+  imports: [RouterLink, Breadcrumbs, ConceptDiscussion, PaperLibraryButton, PaperStage],
   templateUrl: './paper-detail.html',
   styleUrl: './paper-detail.css',
 })

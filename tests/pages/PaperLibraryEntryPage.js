@@ -7,6 +7,10 @@ export class PaperLibraryEntryPage {
     this.authors = page.locator('.paper-authors');
     this.abstract = page.locator('.abstract');
     this.publicLink = page.getByRole('link', { name: 'View the public page and its discussion' });
+    // Where the paper stands, in plain words, next to the title.
+    this.stage = page.locator('.stage-note');
+    this.stageTitle = this.stage.locator('.stage-title');
+    this.stageText = this.stage.locator('.stage-text');
     this.discussion = page.locator('#discussion');
     this.missing = page.getByText('This paper is not in your library.');
     this.signedOut = page.getByText('Sign in to see your library.');

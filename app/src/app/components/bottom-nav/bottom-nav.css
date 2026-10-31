@@ -7,7 +7,8 @@
 @media (max-width: 768px) {
   .bottom-nav {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
     position: fixed;
     left: 0;
     right: 0;
@@ -35,10 +36,18 @@
     cursor: pointer;
     text-decoration: none;
     color: var(--mu-faint);
-    font-size: 0.68rem;
+    /* Six tabs share 360px; "Discussions" is the longest label and has to fit its tab. */
+    font-size: 0.6rem;
     font-weight: 600;
-    letter-spacing: 0.01em;
     padding: 0;
+    min-width: 0;
+  }
+
+  .tab span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .tab svg {
@@ -57,5 +66,12 @@
 
   .tab-soon:disabled {
     color: var(--mu-faint);
+  }
+}
+
+/* The narrowest phones (320px wide): the same labels in a smaller type. */
+@media (max-width: 340px) {
+  .tab {
+    font-size: 0.52rem;
   }
 }
