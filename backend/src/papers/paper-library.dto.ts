@@ -6,6 +6,7 @@ import {
   IsInt,
   IsOptional,
   IsString,
+  IsUUID,
   Matches,
   Max,
   MaxLength,
@@ -82,4 +83,9 @@ export class LibraryQueryDto extends PaperFilterDto {
   @Transform(trim)
   @IsIn(LIBRARY_SORTS)
   sort?: LibrarySort;
+
+  /** The id of one of the reader's collections (#188): only the papers in it. Someone else's is a 404. */
+  @IsOptional()
+  @IsUUID()
+  collection?: string;
 }

@@ -32,6 +32,14 @@
         }
       </nav>
 
+      <details class="manage">
+        <summary class="manage-summary">
+          <ng-container i18n="@@papers.collections.heading">Collections</ng-container>
+          <span class="tab-count">{{ collections().length }}</span>
+        </summary>
+        <app-paper-collections [collections]="collections()" (changed)="collectionsChanged()" />
+      </details>
+
       <div class="toolbar">
         <div class="filters">
           @if (facets(); as f) {
@@ -46,6 +54,17 @@
                 </select>
               </div>
             }
+          }
+          @if (collections().length) {
+            <div class="filter">
+              <label class="filter-label" for="filter-collection" i18n="@@papers.collections.filter">Collection</label>
+              <select id="filter-collection" class="filter-select" (change)="onCollection($any($event.target).value)">
+                <option value="" [selected]="!query().collection" i18n="@@papers.filter.all">All</option>
+                @for (c of collections(); track c.id) {
+                  <option [value]="c.id" [selected]="query().collection === c.id">{{ c.name }} ({{ c.count }})</option>
+                }
+              </select>
+            </div>
           }
           <div class="filter">
             <label class="filter-label" for="filter-sort" i18n="@@papers.filter.sort">Sort by</label>
@@ -81,6 +100,12 @@
             <span class="chip chip-active">
               <span><span i18n="@@papers.library.page.tag">Tag</span>: <strong>{{ query().tag }}</strong></span>
               <button type="button" class="chip-remove" (click)="clear('tag')" i18n-aria-label="@@papers.active.remove" aria-label="Remove filter">×</button>
+            </span>
+          }
+          @if (query().collection) {
+            <span class="chip chip-active">
+              <span><span i18n="@@papers.collections.filter">Collection</span>: <strong>{{ collectionName() }}</strong></span>
+              <button type="button" class="chip-remove" (click)="clear('collection')" i18n-aria-label="@@papers.active.remove" aria-label="Remove filter">×</button>
             </span>
           }
           <button type="button" class="link-button" (click)="clearAll()" i18n="@@papers.clearFilters">Clear filters</button>
@@ -126,6 +151,9 @@
                   <span><span i18n="@@papers.library.addedOn">Added on</span> {{ date(paper.library.addedAt.slice(0, 10)) }}</span>
                   @for (tag of paper.library.tags; track tag) {
                     <a class="chip" [routerLink]="[]" [queryParams]="libraryQueryParams({ tag })">{{ tag }}</a>
+                  }
+                  @for (c of paper.library.collections; track c.id) {
+                    <a class="chip chip-collection" [routerLink]="[]" [queryParams]="libraryQueryParams({ collection: c.id })" i18n-title="@@papers.collections.filter" title="Collection">{{ c.name }}</a>
                   }
                 </app-paper-row>
               </li>

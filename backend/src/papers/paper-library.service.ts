@@ -19,6 +19,7 @@ import {
   PaperLibraryEntry,
 } from './paper-library.entity';
 import { byTitle, matchesFilter } from './paper-filter';
+import { CollectionRef, PaperCollectionsService } from './paper-collections.service';
 import { PAPER_PAGE_DEFAULT_LIMIT } from './paper-query.dto';
 import { isPaperSlug, PaperRef, refColumn } from './paper-ref';
 import {
@@ -41,6 +42,8 @@ export interface LibraryEntryView {
   tags: string[];
   addedAt: string;
   completedAt: string | null;
+  /** The reader's collections this paper sits in (#188), by name. */
+  collections: CollectionRef[];
 }
 
 export interface LibraryItem extends PaperSummary {
@@ -62,7 +65,7 @@ export interface LibraryFacets {
 
 const TAG_FACET_LIMIT = 100;
 
-const view = (e: PaperLibraryEntry): LibraryEntryView => ({
+const view = (e: PaperLibraryEntry, collections: CollectionRef[]): LibraryEntryView => ({
   paperId: e.paperSlug ?? e.paper!.publicId,
   private: e.paperSlug === null,
   status: e.status,
@@ -70,6 +73,7 @@ const view = (e: PaperLibraryEntry): LibraryEntryView => ({
   tags: e.tags,
   addedAt: e.addedAt.toISOString(),
   completedAt: e.completedAt,
+  collections,
 });
 
 /** An entry with the paper it is for. */
@@ -123,6 +127,8 @@ export class PaperLibraryService {
     @Inject(DataSource) private readonly dataSource: DataSource,
     @Inject(PapersCatalogService)
     private readonly catalog: PapersCatalogService,
+    @Inject(PaperCollectionsService)
+    private readonly collections: PaperCollectionsService,
   ) {}
 
   /** Puts a public paper in the library. Adding what is already there changes nothing (`created: false`). */
@@ -167,7 +173,7 @@ export class PaperLibraryService {
   }
 
   async get(userId: number, ref: PaperRef): Promise<LibraryEntryView> {
-    return view(await this.entryOf(userId, ref));
+    return this.viewOf(await this.entryOf(userId, ref));
   }
 
   async update(
@@ -195,7 +201,7 @@ export class PaperLibraryService {
     if (dto.rating !== undefined) entry.rating = dto.rating;
     if (dto.tags !== undefined) entry.tags = cleanTags(dto.tags);
 
-    return view(
+    return this.viewOf(
       await this.dataSource.getRepository(PaperLibraryEntry).save(entry),
     );
   }
@@ -221,18 +227,24 @@ export class PaperLibraryService {
     const page = query.page ?? 1;
     const limit = query.limit ?? PAPER_PAGE_DEFAULT_LIMIT;
     const tag = query.tag?.toLowerCase();
+    const inCollection = query.collection
+      ? await this.collections.entryIds(userId, query.collection)
+      : null;
     const found = (await this.held(userId, normalizeLanguage(query.lang)))
       .filter(
         ({ entry, paper }) =>
           matchesFilter(searchableOf(paper), query) &&
           (!query.status || entry.status === query.status) &&
-          (!tag || entry.tags.includes(tag)),
+          (!tag || entry.tags.includes(tag)) &&
+          (!inCollection || inCollection.has(entry.id)),
       )
       .sort(sorter(query.sort));
+    const shown = found.slice((page - 1) * limit, page * limit);
+    const named = await this.collections.of(shown.map((h) => h.entry.id));
     return {
-      items: found.slice((page - 1) * limit, page * limit).map(({ entry, paper }) => ({
+      items: shown.map(({ entry, paper }) => ({
         ...paper.summary,
-        library: view(entry),
+        library: view(entry, named.get(entry.id) ?? []),
       })),
       total: found.length,
       page,
@@ -279,6 +291,10 @@ export class PaperLibraryService {
         : ownBy.get(entry.paper!.publicId);
       return paper ? [{ entry, paper }] : [];
     });
+  }
+
+  private async viewOf(entry: PaperLibraryEntry): Promise<LibraryEntryView> {
+    return view(entry, (await this.collections.of([entry.id])).get(entry.id) ?? []);
   }
 
   private async entryOf(

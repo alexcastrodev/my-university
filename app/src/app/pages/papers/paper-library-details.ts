@@ -1,14 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { EMPTY, Subject, catchError, concatMap, finalize, tap } from 'rxjs';
-import { LIBRARY_STATUSES, LibraryChange, LibraryEntry } from '../../models/paper.model';
+import { RouterLink } from '@angular/router';
+import { EMPTY, Observable, Subject, catchError, concatMap, finalize, tap } from 'rxjs';
+import { Collection, LIBRARY_STATUSES, LibraryChange, LibraryEntry } from '../../models/paper.model';
 import { PaperLibraryService } from '../../services/paper-library.service';
 import { libraryStatusLabel } from '../../shared/paper-format';
 
-/** What a reader keeps about one paper in the library: status, rating, finishing day and tags. Private. */
+/** What a reader keeps about one paper in the library: status, rating, finishing day, tags and collections. Private. */
 @Component({
   selector: 'app-paper-library-details',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink],
   templateUrl: './paper-library-details.html',
   styleUrl: './paper-library-details.css',
 })
@@ -25,6 +27,10 @@ export class PaperLibraryDetails implements OnInit {
   protected entry = signal<LibraryEntry | null>(null);
   protected saveFailed = signal(false);
   protected tagText = signal('');
+  /** All the reader's collections, to tick the ones this paper sits in (#188). */
+  protected collections = signal<Collection[]>([]);
+  protected collectionFailed = signal(false);
+  protected memberOf = computed(() => new Set(this.entry()?.collections.map((c) => c.id)));
 
   /** Requests in flight. Only the tag buttons wait on it: the fields stay usable so focus is not lost. */
   private pending = signal(0);
@@ -57,6 +63,29 @@ export class PaperLibraryDetails implements OnInit {
 
   ngOnInit(): void {
     this.entry.set(this.initial());
+    // Without the list the rest of the details still work: there is just nothing to tick.
+    this.library.collections().subscribe({ next: (list) => this.collections.set(list), error: () => undefined });
+  }
+
+  /** Puts the paper in the collection or takes it out; the box goes back to what is stored when that fails. */
+  protected toggle(collection: Collection, box: HTMLInputElement): void {
+    const entry = this.entry();
+    if (!entry) return;
+    const joining = box.checked;
+    this.collectionFailed.set(false);
+    const call: Observable<unknown> = joining
+      ? this.library.addToCollection(collection.id, entry.paperId)
+      : this.library.takeFromCollection(collection.id, entry.paperId);
+    call.subscribe({
+      next: () =>
+        this.entry.update((e) =>
+          e && { ...e, collections: joining ? [...e.collections, { id: collection.id, name: collection.name }] : e.collections.filter((c) => c.id !== collection.id) },
+        ),
+      error: () => {
+        box.checked = !joining;
+        this.collectionFailed.set(true);
+      },
+    });
   }
 
   protected setStatus(value: string): void {
