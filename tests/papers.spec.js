@@ -5,7 +5,7 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 7;
+const SEED = 12;
 const FDB = {
   slug: 'foundationdb-unbundled-transactional-kv-store',
   title: 'FoundationDB: A Distributed Unbundled Transactional Key Value Store',
@@ -24,6 +24,17 @@ const PAGED = {
   title: 'Efficient Memory Management for Large Language Model Serving with PagedAttention',
   titlePt: 'Gerenciamento eficiente de memória para servir modelos de linguagem grandes com PagedAttention',
   doi: '10.1145/3600006.3613165',
+};
+const SCALLOP = {
+  slug: 'scallop-sdn-inspired-sfu-for-video-conferencing',
+  title: 'Scalable Video Conferencing Using SDN Principles',
+  titlePt: 'Videoconferência escalável com princípios de SDN',
+  doi: '10.1145/3718958.3750489',
+};
+// A USENIX paper: open access, with no DOI, only the page of the conference.
+const SALSIFY = {
+  slug: 'salsify-low-latency-video-codec-and-transport',
+  title: 'Salsify: Low-Latency Network Video through Tighter Integration between a Video Codec and a Transport Protocol',
 };
 const SECTIONS = ['Overview', 'Contribution', 'Methodology', 'Findings', 'Critical Analysis', 'Further Research'];
 const SECTIONS_PT = ['Visão geral', 'Contribuição', 'Metodologia', 'Resultados', 'Análise crítica', 'Pesquisas futuras'];
@@ -58,12 +69,22 @@ test.describe('Papers catalog', () => {
       await papers.goto();
       await expect(papers.cards).toHaveCount(SEED);
 
-      expect((await papers.titles())[0]).toBe(PAGED.title);
-      await expect(papers.cardRef(PAGED.title)).toHaveText(`[1] / DOI ${PAGED.doi}`);
-      await expect(papers.cardAvatars(PAGED.title).first()).toHaveText('WK');
-      await expect(papers.cardSource(PAGED.title, 'DOI')).toHaveAttribute('href', `https://doi.org/${PAGED.doi}`);
-      await expect(papers.cardSource(PAGED.title, 'Page')).toHaveAttribute('href', `https://dl.acm.org/doi/${PAGED.doi}`);
+      expect((await papers.titles())[0]).toBe(SCALLOP.title);
+      await expect(papers.cardRef(SCALLOP.title)).toHaveText(`[1] / DOI ${SCALLOP.doi}`);
+      await expect(papers.cardAvatars(SCALLOP.title).first()).toHaveText('OM');
+      await expect(papers.cardSource(SCALLOP.title, 'DOI')).toHaveAttribute('href', `https://doi.org/${SCALLOP.doi}`);
+      await expect(papers.cardSource(SCALLOP.title, 'Page')).toHaveAttribute('href', `https://dl.acm.org/doi/${SCALLOP.doi}`);
       await expect(papers.card(FDB.title)).toContainText('more');
+      await expectNoHorizontalScroll(page);
+    });
+
+    test('shows a paper that has no DOI with its place in the result and a link to its page only', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.goto();
+
+      await expect(papers.cardRef(SALSIFY.title)).toHaveText(/^\[\d+\]$/);
+      await expect(papers.cardSource(SALSIFY.title, 'DOI')).toHaveCount(0);
+      await expect(papers.cardSource(SALSIFY.title, 'Page')).toHaveAttribute('href', 'https://www.usenix.org/conference/nsdi18/presentation/fouladi');
       await expectNoHorizontalScroll(page);
     });
 
@@ -136,6 +157,21 @@ test.describe('Papers catalog', () => {
       await expect(papers.card('Snap')).toBeVisible();
       await expect(papers.card('ghOSt')).toBeVisible();
       await expect(papers.card('Demikernel')).toBeVisible();
+    });
+
+    test('groups the five video-conferencing papers under Computer Networks, in either language', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.goto();
+      await papers.areaSelect.selectOption({ label: 'Computer Networks (5)' });
+      await expect(papers.cards).toHaveCount(5);
+      await expect(papers.card(SCALLOP.title)).toBeVisible();
+      await expect(papers.card(SALSIFY.title)).toBeVisible();
+
+      await papers.gotoPortuguese('?area=Computer+Networks');
+      await expect(papers.cards).toHaveCount(5);
+      await expect(papers.areaSelectPortuguese.locator('option', { hasText: 'Redes de computadores' })).toHaveCount(1);
+      await expect(papers.cardArea(SCALLOP.titlePt)).toHaveText('Redes de computadores');
+      await expect(papers.cardOriginalTitle(SCALLOP.titlePt)).toHaveText(`Título original: ${SCALLOP.title}`);
     });
 
     test('filters by a keyword chip and lets the reader remove the filter', async ({ page }) => {
