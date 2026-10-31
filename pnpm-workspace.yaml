@@ -22,7 +22,7 @@ overrides:
   # @angular/build 22.2 pins vite 8.3.0 exactly; the fixes are in 8.3.3, same minor.
   'vite@>=8.3.0 <8.3.3': '^8.3.3'
   'dompurify@<3.4.17': '^3.4.17'
-  'follow-redirects@>=1.16.0 <1.16.1': '^1.16.1'
+  'follow-redirects@>=1.16.0 <1.16.2': '^1.16.2'
   'body-parser@<1.20.9': '^1.20.9'
   'body-parser@>=2.0.0 <2.4.0': '^2.4.0'
   'fast-uri@>=3.0.0 <3.1.9': '^3.1.9'
@@ -30,6 +30,11 @@ overrides:
 # Advisories accepted after review, with no patched release reachable yet:
 # - GHSA-vfj7-8cjw-p6xm (braces): no fixed version published; only reached by
 #   karma's file watcher in local `ng test`, never shipped to production.
+# - GHSA-g3hv-75wg-m249 (minimatch, DoS through glob amplification): the only fixed
+#   line is 11.x, whose CommonJS export is no longer callable, and karma 6 calls
+#   `mm(path, pattern)` (lib/file-list.js), so an override would break `ng test`. Every
+#   path is karma's toolchain, only reached in local `ng test`, never shipped to production.
 auditConfig:
   ignoreGhsas:
     - GHSA-vfj7-8cjw-p6xm
+    - GHSA-g3hv-75wg-m249
