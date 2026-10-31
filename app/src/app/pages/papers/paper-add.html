@@ -1,15 +1,15 @@
 <div class="page">
   <div class="page-hero">
     <h1 class="page-title" i18n="@@papers.add.title">Add a paper</h1>
-    <p class="page-sub" i18n="@@papers.add.subtitle">Look a paper up by its DOI, check what was found, then add it to the catalog. Or enter the details yourself.</p>
+    <p class="page-sub" i18n="@@papers.add.subtitle">Look a paper up by its DOI, check what was found, then add it to your library. Or enter the details yourself.</p>
   </div>
 
   <div class="page-body">
-    <a routerLink="/papers" class="back-link">← <ng-container i18n="@@papers.add.back">Back to papers</ng-container></a>
+    <a routerLink="/library" class="back-link">← <ng-container i18n="@@papers.add.back">Back to my library</ng-container></a>
 
     @if (!signedIn()) {
       <div class="state">
-        <p i18n="@@papers.add.signIn.text">Sign in to add a paper to the catalog.</p>
+        <p i18n="@@papers.add.signIn.text">Sign in to add a paper to your library.</p>
         <a routerLink="/login" class="action signin" i18n="@@papers.add.signIn.link">Sign in</a>
       </div>
     } @else {
@@ -75,15 +75,19 @@
 
             @if (f.match; as m) {
               <div class="notice notice-match" role="status">
-                <p i18n="@@papers.add.match.text">This paper is already in the catalog.</p>
-                @if (f.conflicts.length) {
-                  <p class="muted" i18n="@@papers.add.match.conflicts">Crossref differs on some details. The catalog keeps its own.</p>
+                @if (m.inLibrary) {
+                  <p i18n="@@papers.add.match.inLibrary">This paper is already in your library.</p>
+                  <a [routerLink]="['/library', m.paperId]" class="action" i18n="@@papers.add.match.open">Open it</a>
+                } @else {
+                  <p i18n="@@papers.add.match.catalog">This paper is in the catalog. Adding it puts that paper in your library.</p>
+                  <button type="button" class="action" [disabled]="adding()" (click)="onAdd()">
+                    @if (adding()) { <ng-container i18n="@@papers.add.adding">Adding…</ng-container> } @else { <ng-container i18n="@@papers.add.add">Add to my library</ng-container> }
+                  </button>
                 }
-                <a [routerLink]="['/papers', m.id]" class="action" i18n="@@papers.add.match.open">Open it</a>
               </div>
             } @else {
               <button type="button" class="action" [disabled]="adding()" (click)="onAdd()">
-                @if (adding()) { <ng-container i18n="@@papers.add.adding">Adding…</ng-container> } @else { <ng-container i18n="@@papers.add.add">Add to the catalog</ng-container> }
+                @if (adding()) { <ng-container i18n="@@papers.add.adding">Adding…</ng-container> } @else { <ng-container i18n="@@papers.add.add">Add to my library</ng-container> }
               </button>
             }
           </article>
@@ -92,7 +96,7 @@
 
       <section class="panel" aria-labelledby="manual-heading">
         <h2 id="manual-heading" class="panel-title" i18n="@@papers.add.manual.heading">Enter the details by hand</h2>
-        <p class="muted" i18n="@@papers.add.manual.hint">For a paper with no DOI, one Crossref does not know, or when the lookup is down.</p>
+        <p class="muted" i18n="@@papers.add.manual.hint">For a paper with no DOI, one Crossref does not know, or when the lookup is down. Only you can see it.</p>
         <button type="button" class="link-button" [attr.aria-expanded]="manualOpen()" aria-controls="manual-form" (click)="toggleManual()">
           @if (manualOpen()) { <ng-container i18n="@@papers.add.manual.hide">Hide the form</ng-container> } @else { <ng-container i18n="@@papers.add.manual.show">Show the form</ng-container> }
         </button>
@@ -157,8 +161,8 @@
 
             @if (existingId(); as id) {
               <div class="notice notice-match" role="alert">
-                <p i18n="@@papers.add.match.text">This paper is already in the catalog.</p>
-                <a [routerLink]="['/papers', id]" class="action" i18n="@@papers.add.match.open">Open it</a>
+                <p i18n="@@papers.add.match.inLibrary">This paper is already in your library.</p>
+                <a [routerLink]="['/library', id]" class="action" i18n="@@papers.add.match.open">Open it</a>
               </div>
             }
             @if (saveError(); as error) {

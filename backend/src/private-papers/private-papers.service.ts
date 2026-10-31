@@ -11,17 +11,9 @@ import {
   PaperLibraryService,
 } from '../papers/paper-library.service';
 import { normalizeDoi, paperFingerprint } from '../papers/paper.normalize';
+import { maxPrivatePapers } from '../papers/paper-private-limit';
 
 const MAX_TITLE_LENGTH = 300;
-const DEFAULT_MAX_PRIVATE_PAPERS = 100;
-
-/** Read when the service is built, so a limit changes with a restart and a test can set it first. */
-function maxPrivatePapers(env: NodeJS.ProcessEnv = process.env): number {
-  const parsed = Number(env.PAPER_PRIVATE_MAX_PER_USER);
-  return Number.isSafeInteger(parsed) && parsed > 0
-    ? parsed
-    : DEFAULT_MAX_PRIVATE_PAPERS;
-}
 
 export interface PrivatePaperResult {
   /** The public id of the paper that now holds the PDF: the catalog paper when the DOI matched, else the new private one. */
@@ -59,8 +51,6 @@ function cleanTitle(raw: string): string {
  */
 @Injectable()
 export class PrivatePapersService {
-  private readonly maxPapers = maxPrivatePapers();
-
   constructor(
     @Inject(DataSource) private readonly dataSource: DataSource,
     @Inject(PaperAttachmentsService)
@@ -104,11 +94,12 @@ export class PrivatePapersService {
     }
 
     // ponytail: count then insert, so two parallel drops can overshoot the cap by one; a lock when it matters.
-    if ((await papers.count({ where: { ownerId: userId } })) >= this.maxPapers) {
+    const max = maxPrivatePapers();
+    if ((await papers.count({ where: { ownerId: userId } })) >= max) {
       throw fail(
         409,
         'private_papers_limit',
-        `You can keep up to ${this.maxPapers} papers of your own. Delete one to add another.`,
+        `You can keep up to ${max} papers of your own. Delete one to add another.`,
       );
     }
     const { id } = await papers.save(

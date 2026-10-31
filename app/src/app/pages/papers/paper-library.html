@@ -5,7 +5,10 @@
         <h1 class="page-title" i18n="@@papers.library.page.title">My library</h1>
         <p class="page-sub" i18n="@@papers.library.page.subtitle">Your private reading list. Only you can see it.</p>
       </div>
-      <a class="head-action" routerLink="/papers" i18n="@@papers.library.page.browse">Browse all papers</a>
+      <div class="head-actions">
+        <a class="head-action" routerLink="/library/add" i18n="@@papers.add.link">Add a paper</a>
+        <a class="head-action" routerLink="/papers" i18n="@@papers.library.page.browse">Browse all papers</a>
+      </div>
     </header>
 
     @if (signedOut()) {
@@ -101,8 +104,9 @@
               <p i18n="@@papers.library.page.emptyFiltered">No papers in your library match.</p>
               <button type="button" class="link-button" (click)="clearAll()" i18n="@@papers.clearFilters">Clear filters</button>
             } @else {
-              <p i18n="@@papers.library.page.empty">Your library is empty. Open a paper and add it to start.</p>
-              <a class="search-button signin" routerLink="/papers" i18n="@@papers.library.page.browse">Browse all papers</a>
+              <p i18n="@@papers.library.page.empty">Your library is empty. Add a paper by its DOI, or open one from the list.</p>
+              <a class="search-button signin" routerLink="/library/add" i18n="@@papers.add.link">Add a paper</a>
+              <a class="link-button" routerLink="/papers" i18n="@@papers.library.page.browse">Browse all papers</a>
             }
           </div>
         } @else {

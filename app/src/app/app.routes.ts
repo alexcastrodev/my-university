@@ -124,6 +124,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/papers/paper-library').then((m) => m.PaperLibraryPage),
   },
   {
+    path: 'library/add',
+    loadComponent: () => import('./pages/papers/paper-add').then((m) => m.PaperAddPage),
+  },
+  {
     path: 'library/:paperId',
     loadComponent: () => import('./pages/papers/paper-library-entry').then((m) => m.PaperLibraryEntryPage),
   },
@@ -131,10 +135,7 @@ export const routes: Routes = [
     path: 'library/:paperId/read',
     loadComponent: () => import('./pages/papers/paper-reader').then((m) => m.PaperReaderPage),
   },
-  {
-    path: 'papers/new',
-    loadComponent: () => import('./pages/papers/paper-add').then((m) => m.PaperAddPage),
-  },
+  { path: 'papers/new', redirectTo: '/library/add', pathMatch: 'full' },
   {
     path: 'papers/:id',
     loadComponent: () => import('./pages/papers/paper-detail').then((m) => m.PaperDetailPage),

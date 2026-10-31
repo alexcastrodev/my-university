@@ -129,41 +129,48 @@ The text is shown as text, never as markup.
 The server keeps a rendered page per URL for five minutes (`app/src/server.ts`), so a newly published or
 withdrawn analysis can take up to that long to show on `/papers/:id`.
 
-## Adding a paper (DOI import and by hand)
+## Adding a paper (DOI import and by hand, #212)
 
-A signed-in reader can bring a paper into the catalog in two ways. Both need a session; the catalog itself stays
-readable by anyone.
+Adding a paper is only for the reader's own library. Nothing a reader does writes to the public catalog: the
+public list is authored by the project (#213), and what a reader adds is a private paper only they can reach
+(see "Private papers" below). Every route needs a session.
 
 | Route | What it does |
 | --- | --- |
-| `POST /api/papers/import/preview` `{ doi }` | Looks the DOI up at Crossref and says what importing would do. Changes nothing. |
-| `POST /api/papers/import` `{ doi }` | Imports it (201) or matches the paper already there (200). |
-| `POST /api/papers` | Adds a paper typed in by hand (201), or 409 `already_exists` with its `paperId`. |
+| `POST /api/paper-library/import/preview` `{ doi }` | Looks the DOI up at Crossref and says what adding it would do. Changes nothing. |
+| `POST /api/paper-library/import` `{ doi }` | Adds it to the library: 201 when it joined, 200 when it was already there. |
+| `POST /api/paper-library/manual` | Adds a paper typed in by hand (201), or 409 `already_exists` with the `paperId` the reader already has. |
+
+The answer of `import` and `manual` is `{ paperId, private, matched, created, library }`, the same as a PDF drop
+without the attachment. `preview` answers `{ doi, source, candidate, match }`, where `match` is
+`{ paperId, title, private, inLibrary }` or null.
 
 - **Provider: Crossref** (`crossref.client.ts`), free and without a key. `CROSSREF_MAILTO` (optional, server side
   only) puts requests in Crossref's polite pool and goes in the user agent; `CROSSREF_BASE_URL` points tests at a
   stub. Nothing of the reader is ever sent to Crossref. OpenAlex or another source can be added as enrichment if
   Crossref turns out to be thin, but nothing needs it yet.
 - **The metadata comes from the server, never from the request.** `import` fetches the DOI itself, so a client
-  cannot import text it made up under a Crossref label. A lookup is kept five minutes, so the preview and the
+  cannot add text it made up under a Crossref label. A lookup is kept five minutes, so the preview and the
   import that follows it cost one request and show the same record.
 - **Mapping**: JATS markup in titles and abstracts becomes plain text with blank-line paragraphs; names become
   authors (ORCID kept when well formed, at most 500 authors); `issued` becomes a `YYYY`, `YYYY-MM` or `YYYY-MM-DD`
   date; Crossref's `type` maps to the paper types (`proceedings-article` to `conference-paper`, `posted-content`
   to `preprint`...); journal subjects become keywords. The publisher's full-text `link` entries are ignored on
-  purpose: importing metadata never fetches or points at a publisher PDF.
-- **Matching, not duplicating**: an import goes through `PapersService.upsert` (same DOI, or same fingerprint with
-  a DOI-less record), mode `fill`. It only completes what is empty; where Crossref disagrees the stored value stays,
-  the disagreement is returned as a conflict and saved in `paper_source` with the DOI as `externalId` and the
-  retrieval time. A preview shows the match and the conflicts by running the same merge inside a transaction it
-  rolls back.
-- **By hand never merges**: a hand-made record that matches an existing paper is refused with 409 instead of
-  filling its empty fields, so a reader cannot alter a paper that already exists. A paper can still be created by
-  hand when Crossref is down or does not know the DOI.
+  purpose: adding metadata never fetches or points at a publisher PDF.
+- **Nothing merges.** A DOI that is a catalog paper puts that paper in the library (`matched: true`, nothing is
+  copied and the catalog is not touched). Otherwise a new private paper is created, with Crossref and the DOI
+  as its provenance in `paper_source`. Two readers adding the same DOI each get their own paper, and the
+  disagreement between Crossref and a stored record cannot arise, because there is no stored record to fill.
+  `PapersService.addPrivate` looks only at the reader's own papers (same DOI, or same fingerprint when the DOI
+  is missing on either side) and takes a per-reader advisory lock, since no unique index covers private papers:
+  two adds at once cannot both miss the other.
+- **By hand** refuses a paper the reader already has with 409 `already_exists` instead of repeating it, and
+  works when Crossref is down or does not know the DOI. A hand-typed DOI that is in the catalog uses the
+  catalog paper and ignores what was typed.
 - **Failures** are answered with a stable `code`: `invalid_doi` (400, before any request to Crossref),
   `not_found` (404), `rate_limited` (429, the provider's `Retry-After` in `retryAfter`), `provider_unavailable`
-  and `provider_invalid` (502), and `too_many_requests` (429, ours: 20 lookups and 20 creations per reader per
-  ten minutes, per process).
+  and `provider_invalid` (502), `private_papers_limit` (409, see the limit below), and `too_many_requests` (429,
+  ours: 20 lookups and 20 creations per reader per ten minutes, per process).
 
 ## A reader's library (`/api/paper-library`)
 
@@ -201,9 +208,11 @@ entry, attachment, tags and status work exactly as for any other; what changes i
   version).
 - **A DOI that is already in the catalog** adds that paper to the library with the PDF attached, and creates
   nothing (`matched: true`, `private: false`). Only public papers match, so a reader's private paper is never
-  found through someone else's DOI, and an import never merges into one (`findDuplicate` looks at public papers).
-- **A DOI that is not** is kept on the private paper (normalized), so a later catalog import of the same DOI is
+  found through someone else's DOI (`findDuplicate` takes the owner and looks at that owner's papers only).
+- **A DOI that is not** is kept on the private paper (normalized), so a later catalog paper with the same DOI is
   not blocked: the DOI and fingerprint uniqueness are partial indexes over public papers.
+- **The other two ways in** are the DOI and the form (see "Adding a paper" above); all three make the same kind
+  of private paper and share the limit and the library entry.
 - **Excluded from everything public.** The catalog list, its filters and facets, the public paper
   (`GET /api/papers/:id`), the old integer links (`publicIdOfLegacy`), the discussion and its notifications, and
   the Research Analysis all look at `ownerId IS NULL`, so a private paper is a 404 there, the same as an id that
@@ -213,8 +222,8 @@ entry, attachment, tags and status work exactly as for any other; what changes i
 - **Read through the library.** `GET /api/paper-library/:paperId/paper` returns the paper for an entry in the
   reader's library (a public or their own private one), so the library page never needs the public route.
 - **Limits.** The PDF rules and quota of #183, and `PAPER_PRIVATE_MAX_PER_USER` private papers per reader
-  (default 100, 409 `private_papers_limit`). The count is not locked, so two drops at the same instant can pass
-  the cap by one.
+  (default 100, 409 `private_papers_limit`) for all three ways in (the cap is read on each add, so a test can set
+  it). The count is not locked, so two adds at the same instant can pass the cap by one.
 - **Deleting.** `DELETE /api/paper-library/:paperId` on a private paper deletes the paper itself: the library
   entry and the attachment go by cascade, and the trigger of #183 queues the stored PDF for deletion (storage
   catches up within the maintenance interval). A failed drop (a PDF that is refused) leaves no paper behind.

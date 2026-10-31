@@ -14,6 +14,7 @@ import { User } from '../src/auth/user.entity';
 import { Paper } from '../src/papers/paper.entity';
 import { PaperAuthor } from '../src/papers/paper-author.entity';
 import { PaperKeyword } from '../src/papers/paper-keyword.entity';
+import { PaperLibraryEntry } from '../src/papers/paper-library.entity';
 import { PaperSource } from '../src/papers/paper-source.entity';
 import { PapersModule } from '../src/papers/papers.module';
 
@@ -80,7 +81,7 @@ export async function startImportApp(): Promise<ImportApp> {
         url:
           process.env.DATABASE_URL ??
           'postgres://postgres@127.0.0.1:5432/ocp_java',
-        entities: [User, Paper, PaperAuthor, PaperKeyword, PaperSource],
+        entities: [User, Paper, PaperAuthor, PaperKeyword, PaperLibraryEntry, PaperSource],
         synchronize: false,
       }),
       AuthModule,

@@ -79,17 +79,17 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    // Depends on who is signed in, which the server never knows: nothing to render ahead.
+    path: 'library/add',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'library/:paperId',
     renderMode: RenderMode.Client,
   },
   {
     // The PDF is the reader's own and is drawn by the browser: the server renders only the shell.
     path: 'library/:paperId/read',
-    renderMode: RenderMode.Client,
-  },
-  {
-    // Depends on who is signed in, which the server never knows: nothing to render ahead.
-    path: 'papers/new',
     renderMode: RenderMode.Client,
   },
   {

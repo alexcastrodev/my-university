@@ -3,12 +3,12 @@ import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, signal
 import { Router, RouterLink } from '@angular/router';
 import { ImportPreview, PAPER_TYPES, PaperInput, PaperType } from '../../models/paper.model';
 import { AuthService } from '../../services/auth.service';
-import { PapersService } from '../../services/papers.service';
+import { PaperLibraryService } from '../../services/paper-library.service';
 import { SeoService } from '../../services/seo.service';
 import { formatPaperDate, paperTypeLabel } from '../../shared/paper-format';
 
 type LookupFailure =
-  | { kind: 'invalid' | 'not_found' | 'unavailable' | 'signed_out' | 'failed' }
+  | { kind: 'invalid' | 'not_found' | 'unavailable' | 'signed_out' | 'limit' | 'failed' }
   | { kind: 'rate_limited'; retryAfter: number | null };
 
 interface ManualForm {
@@ -51,6 +51,8 @@ function failureOf(err: HttpErrorResponse): LookupFailure {
     case 'provider_unavailable':
     case 'provider_invalid':
       return { kind: 'unavailable' };
+    case 'private_papers_limit':
+      return { kind: 'limit' };
     default:
       return err.status === 400 ? { kind: 'invalid' } : { kind: 'failed' };
   }
@@ -64,7 +66,7 @@ function failureOf(err: HttpErrorResponse): LookupFailure {
   styleUrl: './paper-add.css',
 })
 export class PaperAddPage {
-  private papers = inject(PapersService);
+  private library = inject(PaperLibraryService);
   private auth = inject(AuthService);
   private router = inject(Router);
   private locale = inject(LOCALE_ID);
@@ -102,6 +104,8 @@ export class PaperAddPage {
           : $localize`:@@papers.add.error.rateLimited:Too many lookups. Try again in a few minutes.`;
       case 'signed_out':
         return $localize`:@@papers.add.error.signedOut:Your session ended. Sign in again to add papers.`;
+      case 'limit':
+        return $localize`:@@papers.add.error.limit:You have reached the limit of papers of your own. Remove one from your library to add another.`;
       case 'failed':
         return $localize`:@@papers.add.error.failed:The lookup failed. Try again.`;
       default:
@@ -112,8 +116,8 @@ export class PaperAddPage {
   constructor() {
     inject(SeoService).set({
       title: $localize`:@@papers.add.title:Add a paper`,
-      description: $localize`:@@papers.add.subtitle:Look a paper up by its DOI, check what was found, then add it to the catalog. Or enter the details yourself.`,
-      path: '/papers/new',
+      description: $localize`:@@papers.add.subtitle:Look a paper up by its DOI, check what was found, then add it to your library. Or enter the details yourself.`,
+      path: '/library/add',
       noindex: true,
     });
   }
@@ -125,7 +129,7 @@ export class PaperAddPage {
     this.looking.set(true);
     this.found.set(null);
     this.failure.set(null);
-    this.papers.previewImport(doi).subscribe({
+    this.library.previewDoi(doi).subscribe({
       next: (preview) => {
         this.looking.set(false);
         this.found.set(preview);
@@ -142,10 +146,10 @@ export class PaperAddPage {
 
   protected onAdd(): void {
     const found = this.found();
-    if (!found || found.match || this.adding()) return;
+    if (!found || found.match?.inLibrary || this.adding()) return;
     this.adding.set(true);
-    this.papers.importDoi(found.doi).subscribe({
-      next: (result) => void this.router.navigate(['/papers', result.paper.id]),
+    this.library.addByDoi(found.doi).subscribe({
+      next: (result) => void this.router.navigate(['/library', result.paperId]),
       error: (err: HttpErrorResponse) => {
         this.adding.set(false);
         this.found.set(null);
@@ -168,12 +172,14 @@ export class PaperAddPage {
     this.saving.set(true);
     this.saveError.set(null);
     this.existingId.set(null);
-    this.papers.create(this.input(this.form())).subscribe({
-      next: (result) => void this.router.navigate(['/papers', result.paper.id]),
+    this.library.addByHand(this.input(this.form())).subscribe({
+      next: (result) => void this.router.navigate(['/library', result.paperId]),
       error: (err: HttpErrorResponse) => {
         this.saving.set(false);
         if (err.error?.code === 'already_exists') {
           this.existingId.set(String(err.error.paperId));
+        } else if (err.error?.code === 'private_papers_limit') {
+          this.saveError.set($localize`:@@papers.add.error.limit:You have reached the limit of papers of your own. Remove one from your library to add another.`);
         } else if (err.status === 401) {
           this.saveError.set($localize`:@@papers.add.error.signedOut:Your session ended. Sign in again to add papers.`);
         } else if (err.status === 429) {

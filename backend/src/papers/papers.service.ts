@@ -79,6 +79,9 @@ const SCALARS = [
   'type',
 ] as const;
 
+/** The first key of the advisory lock readers take while adding a paper; the second is the reader's id. */
+const ADD_LOCK = 212;
+
 const text = (value?: string): string | null => value?.trim() || null;
 
 /** "Lovelace, Ada" and "Ada Lovelace" give the same key: family name plus the given name's initial. */
@@ -121,6 +124,32 @@ export class PapersService {
   }
 
   /**
+   * A paper a reader brings in by DOI or by hand (#212). It is theirs alone: nothing here touches the catalog or
+   * another reader's papers. `created` is false when they already have it (the same DOI, or the same fingerprint
+   * when the DOI is missing on either side), and nothing is changed then.
+   */
+  addPrivate(
+    userId: number,
+    input: PaperInputDto,
+    source: SourceInfo,
+  ): Promise<{ id: number; publicId: string; created: boolean }> {
+    const clean = this.clean(input);
+    const fingerprint = paperFingerprint(
+      clean.title,
+      clean.publicationDate,
+      clean.authors?.[0]?.name,
+    );
+    return this.dataSource.transaction(async (m) => {
+      // No unique index covers private papers, so adds by one reader take turns: two at once cannot both miss the other.
+      await m.query('SELECT pg_advisory_xact_lock($1, $2)', [ADD_LOCK, userId]);
+      const own = await this.findDuplicate(m, clean.doi, fingerprint, userId);
+      if (own) return { id: own.id, publicId: own.publicId, created: false };
+      const paper = await this.insert(m, clean, fingerprint, userId, source, input);
+      return { id: paper.id, publicId: paper.publicId, created: true };
+    });
+  }
+
+  /**
    * What `upsert` would do, without keeping any of it: the paper it would merge into (as it would look after
    * the merge) and the disagreements, or `match: null` when it would create a new paper.
    */
@@ -135,7 +164,7 @@ export class PapersService {
     );
     try {
       await this.dataSource.transaction(async (m) => {
-        const existing = await this.findDuplicate(m, clean.doi, fingerprint);
+        const existing = await this.findDuplicate(m, clean.doi, fingerprint, null);
         if (!existing) throw new Previewed(null, []);
         const merged = await this.mergeInto(
           m,
@@ -283,10 +312,23 @@ export class PapersService {
       clean.publicationDate,
       clean.authors?.[0]?.name,
     );
-    const existing = await this.findDuplicate(m, clean.doi, fingerprint);
+    const existing = await this.findDuplicate(m, clean.doi, fingerprint, null);
     if (existing) {
       return this.mergeInto(m, existing, clean, 'fill', source, raw);
     }
+    const paper = await this.insert(m, clean, fingerprint, null, source, raw);
+    return { paper: await this.view(m, paper), created: true, conflicts: [] };
+  }
+
+  /** A new paper with its authors, keywords and provenance; `ownerId` null is a catalog paper. */
+  private async insert(
+    m: EntityManager,
+    clean: Clean,
+    fingerprint: string,
+    ownerId: number | null,
+    source: SourceInfo,
+    raw: PaperInputDto,
+  ): Promise<Paper> {
     if (!clean.doi && !clean.publicationDate && !clean.authors?.length) {
       throw new BadRequestException(
         'A paper without a DOI needs a publication date or at least one author to be told apart from others',
@@ -303,12 +345,13 @@ export class PapersService {
         url: clean.url,
         researchArea: clean.researchArea,
         type: clean.type ?? 'other',
+        ownerId,
       }),
     );
     await this.replaceAuthors(m, paper.id, clean.authors ?? []);
     await this.addKeywords(m, paper.id, clean.keywords ?? []);
     await this.recordSource(m, paper.id, source, raw, []);
-    return { paper: await this.view(m, paper), created: true, conflicts: [] };
+    return paper;
   }
 
   /**
@@ -320,9 +363,10 @@ export class PapersService {
     m: EntityManager,
     doi: string | null,
     fingerprint: string,
+    ownerId: number | null,
   ) {
-    // Public papers only: an import never merges into a reader's private paper (#203).
-    const owner = { ownerId: IsNull() };
+    // One owner's papers only: a catalog paper (null) never merges into a reader's own, nor one reader's into another's.
+    const owner = { ownerId: ownerId ?? IsNull() };
     return doi
       ? m.findOne(Paper, { where: { doi, ...owner } }).then(
           (byDoi) =>

@@ -3,6 +3,7 @@ export class PaperAddPage {
     this.page = page;
 
     this.heading = page.getByRole('heading', { level: 1, name: 'Add a paper' });
+    this.backLink = page.getByRole('link', { name: /Back to my library/ });
     this.signInPrompt = page.locator('.state');
     this.signInLink = this.signInPrompt.getByRole('link', { name: 'Sign in' });
 
@@ -11,7 +12,7 @@ export class PaperAddPage {
     this.problem = page.locator('.problem');
     this.found = page.locator('.found');
     this.foundTitle = page.locator('.found-title');
-    this.addButton = page.getByRole('button', { name: 'Add to the catalog' });
+    this.addButton = page.getByRole('button', { name: 'Add to my library' });
     this.matchNotice = page.locator('.notice-match');
     this.openLink = this.matchNotice.getByRole('link', { name: 'Open it' });
 
@@ -30,7 +31,7 @@ export class PaperAddPage {
   }
 
   async goto() {
-    await this.page.goto('/papers/new');
+    await this.page.goto('/library/add');
   }
 
   async lookup(doi) {
