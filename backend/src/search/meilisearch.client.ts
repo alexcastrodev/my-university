@@ -5,9 +5,8 @@ import { createHash } from 'crypto';
 const HOST = process.env.MEILI_HOST ?? 'http://127.0.0.1:7700';
 const API_KEY = process.env.MEILI_MASTER_KEY;
 const INDEX = 'content';
-/** Holds one document: the fingerprint of what `INDEX` was last built from. */
+/** One document per index: the fingerprint of what that index was last built from (id = the index's name). */
 const META_INDEX = 'content_meta';
-const META_DOC_ID = 'content';
 
 /** Words of body text Meilisearch keeps around the best match for a result's snippet. */
 const SNIPPET_WORDS = 24;
@@ -175,13 +174,14 @@ export class MeilisearchClient {
     method: string,
     path: string,
     body?: unknown,
+    timeoutMs?: number,
   ): Promise<void> {
     const { taskUid } = await this.request<{ taskUid: number }>(
       method,
       path,
       body,
     );
-    await this.waitForTask(taskUid);
+    await this.waitForTask(taskUid, timeoutMs);
   }
 
   /** Creates the index, tolerating "already exists" (the create task itself fails with `index_already_exists`). */
@@ -198,35 +198,48 @@ export class MeilisearchClient {
     }
   }
 
+  /** Rebuilds the site-wide content index (see `rebuild`). */
+  rebuildIndex(documents: SearchDocument[]): Promise<void> {
+    return this.rebuild({ index: INDEX, settings: INDEX_SETTINGS, documents });
+  }
+
   /**
-   * Rebuilds the whole index from `documents`. Adding documents to the live index only ever
-   * adds or updates, so a concept that was removed or renamed would stay searchable forever;
+   * Rebuilds a whole index from `documents`. Adding documents to the live index only ever
+   * adds or updates, so a page that was removed or renamed would stay searchable forever;
    * instead everything goes into a fresh index that is then atomically swapped in, so search
    * keeps answering from the old index until the new one is complete.
+   *
+   * `taskTimeoutMs` is for an index whose upload also computes embeddings, which can take minutes.
    */
-  async rebuildIndex(documents: SearchDocument[]): Promise<void> {
+  async rebuild({
+    index,
+    settings,
+    documents,
+    taskTimeoutMs,
+  }: {
+    index: string;
+    settings: object;
+    documents: object[];
+    taskTimeoutMs?: number;
+  }): Promise<void> {
     const fingerprint = createHash('sha256')
-      .update(JSON.stringify({ settings: INDEX_SETTINGS, documents }))
+      .update(JSON.stringify({ settings, documents }))
       .digest('hex');
-    if (await this.isCurrent(fingerprint, documents.length)) {
+    if (await this.isCurrent(index, fingerprint, documents.length)) {
       this.log.log(
-        `Search index already matches the content (${documents.length} documents), skipping rebuild`,
+        `Search index ${index} already matches the content (${documents.length} documents), skipping rebuild`,
       );
       return;
     }
 
-    const staging = `${INDEX}_staging_${Date.now()}`;
-    await this.ensureIndex(INDEX);
+    const staging = `${index}_staging_${Date.now()}`;
+    await this.ensureIndex(index);
     await this.ensureIndex(staging);
     try {
-      await this.enqueue(
-        'PATCH',
-        `/indexes/${staging}/settings`,
-        INDEX_SETTINGS,
-      );
-      await this.enqueue('PUT', `/indexes/${staging}/documents`, documents);
+      await this.enqueue('PATCH', `/indexes/${staging}/settings`, settings, taskTimeoutMs);
+      await this.enqueue('PUT', `/indexes/${staging}/documents`, documents, taskTimeoutMs);
       await this.enqueue('POST', '/swap-indexes', [
-        { indexes: [INDEX, staging] },
+        { indexes: [index, staging] },
       ]);
     } finally {
       // After a successful swap this holds the previous generation; after a failure, the partial build.
@@ -236,34 +249,69 @@ export class MeilisearchClient {
     }
     await this.ensureIndex(META_INDEX);
     await this.enqueue('PUT', `/indexes/${META_INDEX}/documents`, [
-      { id: META_DOC_ID, fingerprint },
+      { id: index, fingerprint },
     ]);
-    this.log.log(`Indexed ${documents.length} documents into Meilisearch`);
+    this.log.log(`Indexed ${documents.length} documents into Meilisearch index ${index}`);
   }
 
   /**
    * Every API replica rebuilds on boot, and most deploys don't touch content, so a rebuild is
    * skipped when the live index was built from exactly these documents and settings. The
    * document count is checked too, as a guard against an index emptied or replaced outside the app.
+   * The fingerprint of each index is the `content_meta` document whose id is the index's name.
    */
   private async isCurrent(
+    index: string,
     fingerprint: string,
     documentCount: number,
   ): Promise<boolean> {
     try {
       const meta = await this.request<{ fingerprint?: string }>(
         'GET',
-        `/indexes/${META_INDEX}/documents/${META_DOC_ID}`,
+        `/indexes/${META_INDEX}/documents/${index}`,
       );
       if (meta.fingerprint !== fingerprint) return false;
       const stats = await this.request<{ numberOfDocuments: number }>(
         'GET',
-        `/indexes/${INDEX}/stats`,
+        `/indexes/${index}/stats`,
       );
       return stats.numberOfDocuments === documentCount;
     } catch {
       return false; // no meta index/document yet (first run), or Meilisearch hiccup: just rebuild
     }
+  }
+
+  /**
+   * The ids of the documents that match, best first, and nothing else: for a caller that holds the
+   * records itself and only needs Meilisearch to say which ones match and in what order.
+   */
+  async matchingIds(req: {
+    index: string;
+    query: string;
+    filter: string[];
+    limit: number;
+    /** Keyword and semantic search together, through this embedder of the index. */
+    hybrid?: { embedder: string; semanticRatio: number };
+    /** Hits that score below this (0 to 1) are left out. */
+    rankingScoreThreshold?: number;
+    matchingStrategy?: 'last' | 'all' | 'frequency';
+  }): Promise<string[]> {
+    const data = await this.request<{ hits: { id: string }[] }>(
+      'POST',
+      `/indexes/${req.index}/search`,
+      {
+        q: req.query,
+        filter: req.filter,
+        limit: req.limit,
+        attributesToRetrieve: ['id'],
+        ...(req.matchingStrategy && { matchingStrategy: req.matchingStrategy }),
+        ...(req.hybrid && { hybrid: req.hybrid }),
+        ...(req.rankingScoreThreshold !== undefined && {
+          rankingScoreThreshold: req.rankingScoreThreshold,
+        }),
+      },
+    );
+    return data.hits.map((hit) => hit.id);
   }
 
   /**

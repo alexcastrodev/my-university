@@ -14,7 +14,9 @@ import { CrossrefClient } from './crossref.client';
 import { PaperImportController } from './paper-import.controller';
 import { PaperImportService } from './paper-import.service';
 import { PaperIds } from './paper-public-id';
+import { MeilisearchClient } from '../search/meilisearch.client';
 import { PapersCatalogService } from './papers-catalog.service';
+import { PapersSearch } from './papers-search';
 import { PapersController } from './papers.controller';
 import { PapersService } from './papers.service';
 
@@ -35,6 +37,8 @@ import { PapersService } from './papers.service';
   providers: [
     PapersService,
     PapersCatalogService,
+    PapersSearch,
+    MeilisearchClient,
     PaperImportService,
     CrossrefClient,
     PaperLibraryService,

@@ -3,6 +3,7 @@ import { normalizeLanguage } from '../shared/language';
 import { PaperListQueryDto } from './paper-query.dto';
 import { PaperIds } from './paper-public-id';
 import { PapersCatalogService } from './papers-catalog.service';
+import { PapersSearch } from './papers-search';
 
 // esbuild (vitest) does not emit decorator metadata, so each pipe is told its DTO by hand. Unlike the
 // global pipe, the query one rejects unknown fields: a typo in a filter name is a 400, not an unfiltered list.
@@ -23,11 +24,13 @@ export class PapersController {
     @Inject(PapersCatalogService)
     private readonly catalog: PapersCatalogService,
     @Inject(PaperIds) private readonly ids: PaperIds,
+    @Inject(PapersSearch) private readonly search: PapersSearch,
   ) {}
 
   @Get()
-  list(@Query(listQuery) query: PaperListQueryDto) {
-    return this.catalog.list(query);
+  async list(@Query(listQuery) query: PaperListQueryDto) {
+    const ranked = query.q ? await this.search.rank(query.q, normalizeLanguage(query.lang)) : null;
+    return this.catalog.list(query, ranked);
   }
 
   /** The research areas and publication types present in the catalog, for the filter selects. */

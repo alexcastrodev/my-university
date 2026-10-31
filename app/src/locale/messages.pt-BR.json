@@ -1003,6 +1003,7 @@
     "papers.filter.area": "Área de pesquisa",
     "papers.filter.all": "Todos",
     "papers.filter.sort": "Ordenar por",
+    "papers.sort.relevance": "Relevância",
     "papers.sort.recent": "Mais recentes",
     "papers.sort.title": "Título (A a Z)",
     "papers.active.keyword": "Palavra-chave",
