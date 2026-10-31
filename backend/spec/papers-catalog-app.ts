@@ -5,7 +5,12 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '../src/auth/user.entity';
 import { Paper } from '../src/papers/paper.entity';
+import {
+  PaperAnalysis,
+  PaperAnalysisEvent,
+} from '../src/papers/paper-analysis.entity';
 import { PaperAuthor } from '../src/papers/paper-author.entity';
 import { PaperKeyword } from '../src/papers/paper-keyword.entity';
 import { PaperSource } from '../src/papers/paper-source.entity';
@@ -28,7 +33,15 @@ export async function startCatalogApp(): Promise<CatalogApp> {
         url:
           process.env.DATABASE_URL ??
           'postgres://postgres@127.0.0.1:5432/ocp_java',
-        entities: [Paper, PaperAuthor, PaperKeyword, PaperSource],
+        entities: [
+          Paper,
+          PaperAuthor,
+          PaperKeyword,
+          PaperSource,
+          PaperAnalysis,
+          PaperAnalysisEvent,
+          User,
+        ],
         synchronize: false,
       }),
       PapersModule,

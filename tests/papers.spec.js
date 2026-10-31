@@ -330,3 +330,153 @@ test.describe('Papers catalog pagination', () => {
     await expect(page).not.toHaveURL(/page=/);
   });
 });
+
+test.describe('Research Analysis', () => {
+  const curatorName = `Curator ${token}`;
+  const reviewerName = `Reviewer ${token}`;
+  let curator;
+  let reviewer;
+
+  /** A signed-in API client with staff roles, granted the way the dev-only route allows. */
+  async function staff(playwright, displayName, roles) {
+    const client = await playwright.request.newContext({ baseURL: BASE_URL });
+    const login = await client.post('/api/auth/_test/login', { data: { displayName } });
+    expect(login.ok(), 'POST /api/auth/_test/login (needs ENABLE_DEV_AUTH=1)').toBeTruthy();
+    const granted = await client.post('/api/auth/_test/roles', { data: { roles } });
+    expect(granted.ok(), 'POST /api/auth/_test/roles (needs ENABLE_DEV_AUTH=1)').toBeTruthy();
+    return client;
+  }
+
+  test.beforeAll(async ({ playwright }) => {
+    curator = await staff(playwright, curatorName, ['paper-curator']);
+    reviewer = await staff(playwright, reviewerName, ['paper-reviewer']);
+  });
+  test.afterAll(async () => {
+    await curator.dispose();
+    await reviewer.dispose();
+  });
+
+  const sections = (tag) => ({
+    overview: { state: 'present', text: `Overview ${tag}\n\nSecond paragraph ${tag}` },
+    contribution: { state: 'present', text: `Contribution ${tag}` },
+    methodology: { state: 'present', text: `Methodology ${tag}` },
+    findings: { state: 'not_reported' },
+    criticalAnalysis: { state: 'present', text: `Critical ${tag}` },
+    furtherResearch: { state: 'not_applicable' },
+  });
+
+  async function newPaper(name) {
+    return seed({ title: `Analysed ${token} ${name}`, abstract: 'The abstract written by the authors.', doi: `10.5555/${token}.a.${name}` });
+  }
+  async function saveDraft(id, body) {
+    const res = await curator.put(`/api/papers/${id}/analysis/draft`, { data: { sections: body } });
+    expect(res.ok(), await res.text()).toBeTruthy();
+  }
+  async function publish(id) {
+    const res = await reviewer.post(`/api/papers/${id}/analysis/publish`, { data: {} });
+    expect(res.ok(), await res.text()).toBeTruthy();
+  }
+
+  test('says there is no analysis yet, and that an analysis would not be the authors', async ({ page }) => {
+    const paper = new PaperDetailPage(page);
+    await paper.goto(await newPaper('none'));
+    await expect(paper.analysis).toBeVisible();
+    await expect(paper.noAnalysis).toBeVisible();
+    await expect(paper.analysisNote).toContainText('not by the authors of the paper');
+  });
+
+  test('never shows a draft, only what was published', async ({ page }) => {
+    const id = await newPaper('draft');
+    await saveDraft(id, sections('secret draft'));
+    const paper = new PaperDetailPage(page);
+    await paper.goto(id);
+    await expect(paper.noAnalysis).toBeVisible();
+    await expect(page.getByText('secret draft')).toHaveCount(0);
+  });
+
+  test('shows a published analysis in the six sections, with who wrote and reviewed it', async ({ page }) => {
+    const id = await newPaper('published');
+    await saveDraft(id, sections('v1'));
+    await publish(id);
+
+    const paper = new PaperDetailPage(page);
+    await paper.goto(id);
+    await expect(paper.analysisTitles).toHaveText(['Overview', 'Contribution', 'Methodology', 'Findings', 'Critical Analysis', 'Further Research']);
+    await expect(paper.analysisCredit).toContainText(curatorName);
+    await expect(paper.analysisCredit).toContainText(reviewerName);
+    await expect(paper.analysisCredit).toContainText('Revision');
+    await expect(paper.analysisSection('Overview').locator('.analysis-text')).toHaveText(['Overview v1', 'Second paragraph v1']);
+    await expect(paper.analysisSection('Methodology')).toContainText('Methodology v1');
+    await expect(paper.noAnalysis).toHaveCount(0);
+  });
+
+  test('explains a section that has no text instead of leaving it blank', async ({ page }) => {
+    const id = await newPaper('states');
+    await saveDraft(id, { ...sections('v1'), methodology: { state: 'unable_to_determine' } });
+    await publish(id);
+
+    const paper = new PaperDetailPage(page);
+    await paper.goto(id);
+    await expect(paper.analysisSection('Findings')).toContainText('The paper does not report this.');
+    await expect(paper.analysisSection('Further Research')).toContainText('Not applicable to this paper.');
+    await expect(paper.analysisSection('Methodology')).toContainText('Could not be determined from the paper.');
+  });
+
+  test('keeps the abstract of the authors apart from the analysis', async ({ page }) => {
+    const id = await newPaper('apart');
+    await saveDraft(id, sections('v1'));
+    await publish(id);
+
+    const paper = new PaperDetailPage(page);
+    await paper.goto(id);
+    await expect(paper.abstract).toHaveText('The abstract written by the authors.');
+    await expect(paper.analysis.locator('.abstract')).toHaveCount(0);
+    await expect(paper.analysisNote).toContainText('abstract above is the authors');
+  });
+
+  test('shows a new revision only after it is published, and nothing once it is withdrawn', async ({ page }) => {
+    const id = await newPaper('revisions');
+    await saveDraft(id, sections('v1'));
+    await publish(id);
+    await saveDraft(id, sections('v2'));
+
+    const paper = new PaperDetailPage(page);
+    await paper.goto(id);
+    await expect(paper.analysisSection('Overview')).toContainText('Overview v1');
+
+    await publish(id);
+    // The server renders a paper page once per URL for a few minutes, so a changed analysis asks with a new URL.
+    await paper.goto(id, '?after=publish');
+    await expect(paper.analysisSection('Overview')).toContainText('Overview v2');
+    await expect(paper.analysisCredit).toContainText('2');
+
+    const withdrawn = await reviewer.post(`/api/papers/${id}/analysis/withdraw`, { data: {} });
+    expect(withdrawn.ok()).toBeTruthy();
+    await paper.goto(id, '?after=withdraw');
+    await expect(paper.noAnalysis).toBeVisible();
+  });
+
+  test('shows the text of a section as text, never as markup', async ({ page }) => {
+    const id = await newPaper('markup');
+    const hostile = '<img src=x onerror="window.__pwned=1"> <b>bold</b>';
+    await saveDraft(id, { ...sections('v1'), overview: { state: 'present', text: hostile } });
+    await publish(id);
+
+    const paper = new PaperDetailPage(page);
+    await paper.goto(id);
+    await expect(paper.analysisSection('Overview')).toContainText(hostile);
+    await expect(paper.analysis.locator('img, b')).toHaveCount(0);
+    expect(await page.evaluate(() => window.__pwned)).toBeUndefined();
+  });
+
+  test('fits the screen', async ({ page }) => {
+    const id = await newPaper('fit');
+    await saveDraft(id, { ...sections('v1'), overview: { state: 'present', text: `A${'very'.repeat(60)}longunbrokenword` } });
+    await publish(id);
+
+    const paper = new PaperDetailPage(page);
+    await paper.goto(id);
+    await expect(paper.analysisTitles).toHaveCount(6);
+    await expectNoHorizontalScroll(page);
+  });
+});
