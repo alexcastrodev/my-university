@@ -18,6 +18,7 @@ interface Summary {
   venue: string | null;
   publicationDate: string | null;
   doi: string | null;
+  url: string | null;
   researchArea: string | null;
   type: string;
   stage: string;
@@ -111,6 +112,7 @@ describe('GET /papers', () => {
       venue: 'Journal of Specs',
       publicationDate: '2024-05',
       doi: doi('full'),
+      url: 'https://example.org/full',
       researchArea: area('x'),
       type: 'journal-article',
       stage: 'published',

@@ -5,17 +5,15 @@ import { Subject, catchError, map, of, switchMap, tap } from 'rxjs';
 import { LIBRARY_STATUSES, LibraryFacets, LibraryPage, LibraryQuery, LibraryStatus } from '../../models/paper.model';
 import { PaperLibraryService } from '../../services/paper-library.service';
 import { SeoService } from '../../services/seo.service';
-import { formatPaperDate, libraryStatusLabel, paperTypeLabel } from '../../shared/paper-format';
-import { PaperStage } from './paper-stage';
+import { formatPaperDate, libraryStatusLabel } from '../../shared/paper-format';
+import { PaperRow } from './paper-row';
 import { LIBRARY_SORTS, libraryQueryParams, parseLibraryQuery } from './paper-library-query';
-
-const AUTHORS_SHOWN = 4;
 
 /** The reader's own papers: filter by reading status, tag and text, sort by date or rating. Client-rendered, private. */
 @Component({
   selector: 'app-paper-library',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, PaperStage],
+  imports: [RouterLink, PaperRow],
   templateUrl: './paper-library.html',
   styleUrls: ['./papers-list.css', './paper-library.css'],
 })
@@ -27,10 +25,8 @@ export class PaperLibraryPage implements OnInit {
   private locale = inject(LOCALE_ID);
   private destroyRef = inject(DestroyRef);
 
-  protected readonly paperTypeLabel = paperTypeLabel;
   protected readonly statusLabel = libraryStatusLabel;
   protected readonly libraryQueryParams = libraryQueryParams;
-  protected readonly authorsShown = AUTHORS_SHOWN;
   protected readonly statuses = LIBRARY_STATUSES;
   protected readonly sorts = LIBRARY_SORTS;
 

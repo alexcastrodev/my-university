@@ -11,7 +11,7 @@ import { PaperKeyword } from './paper-keyword.entity';
 import { normalizeDoi } from './paper.normalize';
 import { PublicationStage, stageOf, typesOfStage } from './paper-stage';
 
-/** What a catalog row shows; the full record (abstract, URL, ORCIDs) is one request away. */
+/** What a catalog row shows; the full record (whole abstract, ORCIDs) is one request away. */
 export interface PaperSummary {
   id: number;
   title: string;
@@ -20,6 +20,8 @@ export interface PaperSummary {
   venue: string | null;
   publicationDate: string | null;
   doi: string | null;
+  /** The paper's own page at the publisher or the archive, for the link on a list row. */
+  url: string | null;
   researchArea: string | null;
   type: PaperType;
   /** What the type says about review, in plain terms (see paper-stage.ts). */
@@ -137,6 +139,7 @@ export class PapersCatalogService {
       venue: p.venue,
       publicationDate: p.publicationDate,
       doi: p.doi,
+      url: p.url,
       researchArea: p.researchArea,
       type: p.type,
       stage: stageOf(p.type),

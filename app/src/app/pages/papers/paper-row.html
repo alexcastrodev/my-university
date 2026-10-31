@@ -1,0 +1,51 @@
+<article class="row">
+  <div class="row-top">
+    <span class="row-ref">[{{ position() }}]@if (paper().doi) { / DOI {{ paper().doi }}}</span>
+    @if (date(); as d) {
+      <span class="row-date">{{ d }}</span>
+    }
+  </div>
+
+  <h2 class="paper-title"><a [routerLink]="link()">{{ paper().title }}</a></h2>
+
+  @if (paper().authors.length) {
+    <div class="row-people">
+      <p class="paper-authors">
+        {{ names() }}
+        @if (moreAuthors() > 0) {
+          <span class="muted">+{{ moreAuthors() }} <ng-container i18n="@@papers.card.moreAuthors">more</ng-container></span>
+        }
+      </p>
+      <span class="avatars" aria-hidden="true">
+        @for (avatar of avatars(); track $index) {
+          <span class="avatar" [style.--h]="avatar.hue">{{ avatar.initials }}</span>
+        }
+      </span>
+    </div>
+  }
+
+  @if (paper().excerpt || doiUrl() || pageUrl()) {
+    <p class="paper-excerpt">
+      {{ paper().excerpt }}
+      @if (doiUrl() || pageUrl()) {
+        <span class="row-links">[@if (doiUrl(); as doi) {<a [href]="doi" target="_blank" rel="noopener noreferrer" i18n="@@papers.row.doi">DOI</a>}@if (doiUrl() && pageUrl()) {, }@if (pageUrl(); as page) {<a [href]="page" target="_blank" rel="noopener noreferrer" i18n="@@papers.row.page">Page</a>}]</span>
+      }
+    </p>
+  }
+
+  <div class="row-labels">
+    <app-paper-stage [stage]="paper().stage" />
+    <span class="badge">{{ paperTypeLabel(paper().type) }}</span>
+    @if (paper().venue) {
+      <span class="row-venue">{{ paper().venue }}</span>
+    }
+    @if (paper().researchArea; as area) {
+      @if (areaParams(); as params) {
+        <a class="chip chip-area" [routerLink]="[]" [queryParams]="params">{{ area }}</a>
+      } @else {
+        <span class="chip chip-area">{{ area }}</span>
+      }
+    }
+    <ng-content />
+  </div>
+</article>

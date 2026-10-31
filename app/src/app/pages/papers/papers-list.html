@@ -1,69 +1,72 @@
 <div class="page">
-  <div class="page-hero">
-    <h1 class="page-title" i18n="@@papers.title">Papers</h1>
-    <p class="page-sub" i18n="@@papers.subtitle">The research behind the concepts. Search by title, author, DOI or keyword.</p>
-    <a routerLink="/papers/new" class="hero-action" i18n="@@papers.add.link">Add a paper</a>
-  </div>
-
   <div class="page-body">
-    <form class="search" role="search" (submit)="onSearch($event)">
-      <label class="visually-hidden" for="paper-search" i18n="@@papers.search.label">Search papers</label>
-      <input
-        id="paper-search"
-        class="search-input"
-        type="search"
-        name="q"
-        maxlength="200"
-        autocomplete="off"
-        i18n-placeholder="@@papers.search.placeholder"
-        placeholder="Title, author, DOI or keyword"
-        [value]="searchText()"
-        (input)="searchText.set($any($event.target).value)"
-      />
-      <button type="submit" class="search-button" i18n="@@papers.search.submit">Search</button>
-    </form>
+    <header class="list-head">
+      <div>
+        <h1 class="page-title" i18n="@@papers.title">Papers</h1>
+        <p class="page-sub" i18n="@@papers.subtitle">The research behind the concepts. Search by title, author, DOI or keyword.</p>
+      </div>
+      <a routerLink="/papers/new" class="head-action" i18n="@@papers.add.link">Add a paper</a>
+    </header>
 
-    <div class="filters">
-      @if (facets(); as f) {
-        @if (types().length) {
+    <div class="toolbar">
+      <div class="filters">
+        @if (facets(); as f) {
+          @if (types().length) {
+            <div class="filter">
+              <label class="filter-label" for="filter-type" i18n="@@papers.filter.type">Type</label>
+              <select id="filter-type" class="filter-select" (change)="onType($any($event.target).value)">
+                <option value="" [selected]="!query().type" i18n="@@papers.filter.all">All</option>
+                @for (type of types(); track type) {
+                  <option [value]="type" [selected]="query().type === type">{{ paperTypeLabel(type) }}</option>
+                }
+              </select>
+            </div>
+          }
           <div class="filter">
-            <label class="filter-label" for="filter-type" i18n="@@papers.filter.type">Type</label>
-            <select id="filter-type" class="filter-select" (change)="onType($any($event.target).value)">
-              <option value="" [selected]="!query().type" i18n="@@papers.filter.all">All</option>
-              @for (type of types(); track type) {
-                <option [value]="type" [selected]="query().type === type">{{ paperTypeLabel(type) }}</option>
+            <label class="filter-label" for="filter-stage" i18n="@@papers.filter.stage">Publication stage</label>
+            <select id="filter-stage" class="filter-select" (change)="onStage($any($event.target).value)">
+              <option value="" [selected]="!query().stage" i18n="@@papers.filter.all">All</option>
+              @for (stage of stages; track stage) {
+                <option [value]="stage" [selected]="query().stage === stage">{{ stageLabel(stage) }}</option>
               }
             </select>
           </div>
+          @if (f.areas.length) {
+            <div class="filter">
+              <label class="filter-label" for="filter-area" i18n="@@papers.filter.area">Research area</label>
+              <select id="filter-area" class="filter-select" (change)="onArea($any($event.target).value)">
+                <option value="" [selected]="!query().area" i18n="@@papers.filter.all">All</option>
+                @for (area of f.areas; track area.value) {
+                  <option [value]="area.value" [selected]="query().area === area.value">{{ area.value }} ({{ area.count }})</option>
+                }
+              </select>
+            </div>
+          }
         }
         <div class="filter">
-          <label class="filter-label" for="filter-stage" i18n="@@papers.filter.stage">Publication stage</label>
-          <select id="filter-stage" class="filter-select" (change)="onStage($any($event.target).value)">
-            <option value="" [selected]="!query().stage" i18n="@@papers.filter.all">All</option>
-            @for (stage of stages; track stage) {
-              <option [value]="stage" [selected]="query().stage === stage">{{ stageLabel(stage) }}</option>
-            }
+          <label class="filter-label" for="filter-sort" i18n="@@papers.filter.sort">Sort by</label>
+          <select id="filter-sort" class="filter-select" (change)="onSort($any($event.target).value)">
+            <option value="recent" [selected]="query().sort !== 'title'" i18n="@@papers.sort.recent">Most recent</option>
+            <option value="title" [selected]="query().sort === 'title'" i18n="@@papers.sort.title">Title (A to Z)</option>
           </select>
         </div>
-        @if (f.areas.length) {
-          <div class="filter">
-            <label class="filter-label" for="filter-area" i18n="@@papers.filter.area">Research area</label>
-            <select id="filter-area" class="filter-select" (change)="onArea($any($event.target).value)">
-              <option value="" [selected]="!query().area" i18n="@@papers.filter.all">All</option>
-              @for (area of f.areas; track area.value) {
-                <option [value]="area.value" [selected]="query().area === area.value">{{ area.value }} ({{ area.count }})</option>
-              }
-            </select>
-          </div>
-        }
-      }
-      <div class="filter">
-        <label class="filter-label" for="filter-sort" i18n="@@papers.filter.sort">Sort by</label>
-        <select id="filter-sort" class="filter-select" (change)="onSort($any($event.target).value)">
-          <option value="recent" [selected]="query().sort !== 'title'" i18n="@@papers.sort.recent">Most recent</option>
-          <option value="title" [selected]="query().sort === 'title'" i18n="@@papers.sort.title">Title (A to Z)</option>
-        </select>
       </div>
+      <form class="search" role="search" (submit)="onSearch($event)">
+        <label class="visually-hidden" for="paper-search" i18n="@@papers.search.label">Search papers</label>
+        <input
+          id="paper-search"
+          class="search-input"
+          type="search"
+          name="q"
+          maxlength="200"
+          autocomplete="off"
+          i18n-placeholder="@@papers.search.placeholder"
+          placeholder="Title, author, DOI or keyword"
+          [value]="searchText()"
+          (input)="searchText.set($any($event.target).value)"
+        />
+        <button type="submit" class="search-button" i18n="@@papers.search.submit">Search</button>
+      </form>
     </div>
 
     @if (query().keyword || query().author || filtered()) {
@@ -111,32 +114,16 @@
         <ul class="papers">
           @for (paper of p.items; track paper.id) {
             <li class="paper-card">
-              <h2 class="paper-title"><a [routerLink]="['/papers', paper.id]">{{ paper.title }}</a></h2>
-              @if (paper.authors.length) {
-                <p class="paper-authors">
-                  {{ paper.authors.slice(0, authorsShown).join('; ') }}
-                  @if (paper.authors.length > authorsShown) {
-                    <span class="muted">+{{ paper.authors.length - authorsShown }} <ng-container i18n="@@papers.card.moreAuthors">more</ng-container></span>
-                  }
-                </p>
-              }
-              <p class="paper-meta">
-                <app-paper-stage [stage]="paper.stage" />
-                <span class="badge">{{ paperTypeLabel(paper.type) }}</span>
-                @if (paper.publicationDate) { <span>{{ date(paper.publicationDate) }}</span> }
-                @if (paper.venue) { <span>{{ paper.venue }}</span> }
-                @if (paper.researchArea) {
-                  <a class="chip" [routerLink]="[]" [queryParams]="paperQueryParams({ area: paper.researchArea })">{{ paper.researchArea }}</a>
+              <app-paper-row
+                [paper]="paper"
+                [position]="(currentPage() - 1) * p.limit + $index + 1"
+                [link]="['/papers', paper.id]"
+                [areaParams]="paper.researchArea ? paperQueryParams({ area: paper.researchArea }) : null"
+              >
+                @for (keyword of paper.keywords; track keyword) {
+                  <a class="chip" [routerLink]="[]" [queryParams]="paperQueryParams({ keyword })">{{ keyword }}</a>
                 }
-              </p>
-              @if (paper.excerpt) { <p class="paper-excerpt">{{ paper.excerpt }}</p> }
-              @if (paper.keywords.length) {
-                <p class="paper-keywords">
-                  @for (keyword of paper.keywords; track keyword) {
-                    <a class="chip" [routerLink]="[]" [queryParams]="paperQueryParams({ keyword })">{{ keyword }}</a>
-                  }
-                </p>
-              }
+              </app-paper-row>
             </li>
           }
         </ul>

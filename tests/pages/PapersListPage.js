@@ -41,6 +41,21 @@ export class PapersListPage {
     return this.card(title).locator('.stage-pill');
   }
 
+  /** The reference tag on top of a row: its place in the result and its DOI ("[1] / DOI 10.1000/x"). */
+  cardRef(title) {
+    return this.card(title).locator('.row-ref');
+  }
+
+  /** The initials of the first authors, drawn instead of photos. */
+  cardAvatars(title) {
+    return this.card(title).locator('.avatar');
+  }
+
+  /** The source links after the excerpt ("DOI", "Page"). */
+  cardSource(title, name) {
+    return this.card(title).locator('.row-links').getByRole('link', { name, exact: true });
+  }
+
   titles() {
     return this.cards.locator('.paper-title').allTextContents();
   }
