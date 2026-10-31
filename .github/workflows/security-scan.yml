@@ -1,8 +1,8 @@
 name: Security scan
 
 # Static checks that run on every PR (and weekly, to catch rules and advisories published later):
-# secrets in the diff and history, CodeQL on the TypeScript code, and config guards for hardening
-# that is easy to undo. Dependency advisories already in the lockfiles are covered by security-audit.yml;
+# secrets in the diff and history, CodeQL on the TypeScript code, the three container images (OS packages and
+# anything else baked in), and config guards for hardening that is easy to undo. Dependency advisories already in the lockfiles are covered by security-audit.yml;
 # the dependency-review job below blocks a PR that adds or bumps a dependency to a vulnerable version.
 on:
   pull_request:
@@ -125,3 +125,70 @@ jobs:
           if grep -n "ENABLE_DEV_AUTH" Dockerfile deploy.sh .github/workflows/deploy.yml; then
             echo "ENABLE_DEV_AUTH must never be set for production images or deploys"; exit 1
           fi
+
+      # The PDF reader runs untrusted files in the visitor's browser, so its engine is a deliberate choice (#189).
+      - name: PDF engine is pinned and runs with its dangerous features off
+        run: |
+          set -euo pipefail
+          # An exact version: a range would let an install pick up an unreviewed release of the parser.
+          version=$(node -p "require('./app/package.json').dependencies['pdfjs-dist']")
+          echo "pdfjs-dist $version"
+          echo "$version" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$' || { echo "pdfjs-dist must be pinned to an exact version"; exit 1; }
+          grep -q "enableXfa: false" app/src/app/pages/papers/pdf-engine.ts || { echo "pdf-engine.ts must keep XFA off"; exit 1; }
+          if grep -nE "enableScripting: *true|isEvalSupported: *true" app/src/app/pages/papers/pdf-engine.ts; then
+            echo "PDF scripting and eval must stay off"; exit 1
+          fi
+
+      - name: A PDF is only served from the route that checks the owner, with its sandbox headers
+        run: |
+          set -euo pipefail
+          f=backend/src/paper-attachments/paper-attachments.controller.ts
+          for h in "X-Content-Type-Options" "Content-Security-Policy" "Cache-Control" "Content-Disposition"; do
+            grep -q "'$h'" "$f" || { echo "the file route lost $h"; exit 1; }
+          done
+          grep -q "default-src 'none'; sandbox" "$f" || { echo "the file route must keep its sandbox CSP"; exit 1; }
+          grep -q "attachment; filename" "$f" || { echo "a PDF must be served as an attachment"; exit 1; }
+          # The only SQL that returns an approved object key is the owner-scoped one.
+          [ "$(grep -rn "v.state = 'approved'" backend/src/paper-attachments/paper-attachments.service.ts | wc -l)" -ge 1 ] || { echo "approved-only check is gone"; exit 1; }
+
+      - name: Uploads keep their size and rate limits in nginx
+        run: |
+          set -euo pipefail
+          for zone in upload_rl library_rl upload_total upload_conn; do
+            grep -q "zone=$zone\|zone $zone" nginx.conf || grep -q "$zone" nginx.conf || { echo "nginx lost $zone"; exit 1; }
+          done
+          # Both upload routes carry the body limit and the rate limit.
+          python3 - <<'PY'
+          import re, sys
+          conf = open('nginx.conf').read()
+          blocks = [m.group(0) for m in re.finditer(r"    location [^\n]*\{\n(?:(?!\n    \}).)*\n    \}", conf, re.S) if 'client_max_body_size' in m.group(0)]
+          if len(blocks) < 2:
+              sys.exit('expected the two upload locations')
+          for b in blocks:
+              for need in ('limit_req zone=upload_rl', 'limit_conn upload_total', 'limit_conn upload_conn'):
+                  if need not in b:
+                      sys.exit('an upload location lost: ' + need)
+          PY
+
+  images:
+    name: Container images (Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Fails on a HIGH or CRITICAL finding that has a fix. Unfixed ones are not actionable by us, and the weekly
+      # run picks up a fix as soon as the base image has it. The scanner is pinned by tag, like gitleaks above.
+      - name: Build the images
+        run: |
+          for target in api ssr web; do
+            docker build --target "$target" -t "scan-$target" .
+          done
+
+      - name: Scan the images
+        run: |
+          for target in api ssr web; do
+            echo "== $target"
+            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.58.1 image \
+              --quiet --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 "scan-$target"
+          done

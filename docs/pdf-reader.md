@@ -23,7 +23,7 @@ How the reader of a paper's own PDF works (#185), what it does not do yet, and w
 
 - No script in the PDF runs: this version of pdf.js has no eval path, scripting is off, XFA forms are off, and the annotation layer (links, form fields) is not created at all.
 - The CSP stays as it is (`script-src 'self'`, no `unsafe-eval`, no WebAssembly compilation). With it, the JPEG 2000 and JBIG2 decoders fall back to their plain JavaScript versions, which are slower but work. `worker-src 'self' blob:` already covered the worker.
-- Hardening that goes beyond this (serving the file from another origin, #189) is not part of this reader.
+- Hardening that goes beyond this (serving the file from another origin) is not part of this reader. `docs/papers-security.md` says why it was left out, what limits the damage instead, and when it has to be done.
 
 ## What it does not do yet
 

@@ -241,6 +241,12 @@ shows it. A new surface (annotations, shared notes, reading groups) carries it t
 - `GET /api/papers?stage=published` filters by it (a stage is the set of types that make it up).
 - Not done yet: linking a preprint to its published version (Crossref `relation`) and retraction notices.
 
+## Security
+
+`../../../docs/papers-security.md` is the cross-cutting view: what is private to whom, the threat model, the
+supported versions and the update rule, the audit trail and retention. The per-reader audit trail is in
+`../paper-audit/README.md`.
+
 ## What is not here
 
 - No editor and no HTTP write for the public papers: a paper is added by a change to the files.
