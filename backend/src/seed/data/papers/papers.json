@@ -524,5 +524,509 @@
     "venue": "20th USENIX Symposium on Networked Systems Design and Implementation (NSDI 23)",
     "publicationDate": "2023-04",
     "url": "https://www.usenix.org/conference/nsdi23/presentation/rudow"
+  },
+  {
+    "slug": "raft-understandable-consensus-algorithm",
+    "title": "In Search of an Understandable Consensus Algorithm",
+    "authors": [
+      {
+        "name": "Diego Ongaro"
+      },
+      {
+        "name": "John Ousterhout"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2014 USENIX Annual Technical Conference (USENIX ATC 14)",
+    "publicationDate": "2014-06",
+    "url": "https://www.usenix.org/conference/atc14/technical-sessions/presentation/ongaro"
+  },
+  {
+    "slug": "spanner-globally-distributed-database",
+    "title": "Spanner: Google's Globally-Distributed Database",
+    "authors": [
+      {
+        "name": "James C. Corbett"
+      },
+      {
+        "name": "Jeffrey Dean"
+      },
+      {
+        "name": "Michael Epstein"
+      },
+      {
+        "name": "Andrew Fikes"
+      },
+      {
+        "name": "Christopher Frost"
+      },
+      {
+        "name": "JJ Furman"
+      },
+      {
+        "name": "Sanjay Ghemawat"
+      },
+      {
+        "name": "Andrey Gubarev"
+      },
+      {
+        "name": "Christopher Heiser"
+      },
+      {
+        "name": "Peter Hochschild"
+      },
+      {
+        "name": "Wilson Hsieh"
+      },
+      {
+        "name": "Sebastian Kanthak"
+      },
+      {
+        "name": "Eugene Kogan"
+      },
+      {
+        "name": "Hongyi Li"
+      },
+      {
+        "name": "Alexander Lloyd"
+      },
+      {
+        "name": "Sergey Melnik"
+      },
+      {
+        "name": "David Mwaura"
+      },
+      {
+        "name": "David Nagle"
+      },
+      {
+        "name": "Sean Quinlan"
+      },
+      {
+        "name": "Rajesh Rao"
+      },
+      {
+        "name": "Lindsay Rolig"
+      },
+      {
+        "name": "Yasushi Saito"
+      },
+      {
+        "name": "Michal Szymaniak"
+      },
+      {
+        "name": "Christopher Taylor"
+      },
+      {
+        "name": "Ruth Wang"
+      },
+      {
+        "name": "Dale Woodford"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "10th USENIX Symposium on Operating Systems Design and Implementation (OSDI 12)",
+    "publicationDate": "2012-10",
+    "url": "https://www.usenix.org/conference/osdi12/technical-sessions/presentation/corbett"
+  },
+  {
+    "slug": "dataflow-model-unbounded-out-of-order-data",
+    "title": "The Dataflow Model: A Practical Approach to Balancing Correctness, Latency, and Cost in Massive-Scale, Unbounded, Out-of-Order Data Processing",
+    "authors": [
+      {
+        "name": "Tyler Akidau"
+      },
+      {
+        "name": "Robert Bradshaw"
+      },
+      {
+        "name": "Craig Chambers"
+      },
+      {
+        "name": "Slava Chernyak"
+      },
+      {
+        "name": "Rafael J. Fernández-Moctezuma"
+      },
+      {
+        "name": "Reuven Lax"
+      },
+      {
+        "name": "Sam McVeety"
+      },
+      {
+        "name": "Daniel Mills"
+      },
+      {
+        "name": "Frances Perry"
+      },
+      {
+        "name": "Eric Schmidt"
+      },
+      {
+        "name": "Sam Whittle"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Proceedings of the VLDB Endowment",
+    "publicationDate": "2015-08",
+    "doi": "10.14778/2824032.2824076",
+    "url": "https://doi.org/10.14778/2824032.2824076"
+  },
+  {
+    "slug": "critique-of-ansi-sql-isolation-levels",
+    "title": "A Critique of ANSI SQL Isolation Levels",
+    "authors": [
+      {
+        "name": "Hal Berenson"
+      },
+      {
+        "name": "Phil Bernstein"
+      },
+      {
+        "name": "Jim Gray"
+      },
+      {
+        "name": "Jim Melton"
+      },
+      {
+        "name": "Elizabeth O'Neil"
+      },
+      {
+        "name": "Patrick O'Neil"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 1995 ACM SIGMOD International Conference on Management of Data",
+    "publicationDate": "1995",
+    "doi": "10.1145/223784.223785",
+    "url": "https://dl.acm.org/doi/10.1145/223784.223785"
+  },
+  {
+    "slug": "system-r-access-path-selection",
+    "title": "Access Path Selection in a Relational Database Management System",
+    "authors": [
+      {
+        "name": "P. Griffiths Selinger"
+      },
+      {
+        "name": "M. M. Astrahan"
+      },
+      {
+        "name": "D. D. Chamberlin"
+      },
+      {
+        "name": "R. A. Lorie"
+      },
+      {
+        "name": "T. G. Price"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 1979 ACM SIGMOD International Conference on Management of Data",
+    "publicationDate": "1979",
+    "doi": "10.1145/582095.582099",
+    "url": "https://dl.acm.org/doi/10.1145/582095.582099"
+  },
+  {
+    "slug": "duckdb-embeddable-analytical-database",
+    "title": "DuckDB: an Embeddable Analytical Database",
+    "authors": [
+      {
+        "name": "Mark Raasveldt"
+      },
+      {
+        "name": "Hannes Mühleisen"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2019 International Conference on Management of Data",
+    "publicationDate": "2019-06-25",
+    "doi": "10.1145/3299869.3320212",
+    "url": "https://dl.acm.org/doi/10.1145/3299869.3320212"
+  },
+  {
+    "slug": "immix-mark-region-garbage-collector",
+    "title": "Immix: A Mark-Region Garbage Collector with Space Efficiency, Fast Collection, and Mutator Performance",
+    "authors": [
+      {
+        "name": "Stephen M. Blackburn"
+      },
+      {
+        "name": "Kathryn S. McKinley"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th ACM SIGPLAN Conference on Programming Language Design and Implementation",
+    "publicationDate": "2008-06-07",
+    "doi": "10.1145/1375581.1375586",
+    "url": "https://dl.acm.org/doi/10.1145/1375581.1375586"
+  },
+  {
+    "slug": "rustbelt-securing-foundations-of-rust",
+    "title": "RustBelt: Securing the Foundations of the Rust Programming Language",
+    "authors": [
+      {
+        "name": "Ralf Jung"
+      },
+      {
+        "name": "Jacques-Henri Jourdan"
+      },
+      {
+        "name": "Robbert Krebbers"
+      },
+      {
+        "name": "Derek Dreyer"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Proceedings of the ACM on Programming Languages",
+    "publicationDate": "2017-12-27",
+    "doi": "10.1145/3158154",
+    "url": "https://dl.acm.org/doi/10.1145/3158154"
+  },
+  {
+    "slug": "csmith-finding-bugs-in-c-compilers",
+    "title": "Finding and Understanding Bugs in C Compilers",
+    "authors": [
+      {
+        "name": "Xuejun Yang"
+      },
+      {
+        "name": "Yang Chen"
+      },
+      {
+        "name": "Eric Eide"
+      },
+      {
+        "name": "John Regehr"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 32nd ACM SIGPLAN Conference on Programming Language Design and Implementation",
+    "publicationDate": "2011-06-04",
+    "doi": "10.1145/1993498.1993532",
+    "url": "https://dl.acm.org/doi/10.1145/1993498.1993532"
+  },
+  {
+    "slug": "modern-code-review-expectations-outcomes-challenges",
+    "title": "Expectations, Outcomes, and Challenges of Modern Code Review",
+    "authors": [
+      {
+        "name": "Alberto Bacchelli"
+      },
+      {
+        "name": "Christian Bird"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2013 35th International Conference on Software Engineering (ICSE)",
+    "publicationDate": "2013-05",
+    "doi": "10.1109/icse.2013.6606617",
+    "url": "https://doi.org/10.1109/icse.2013.6606617"
+  },
+  {
+    "slug": "coverage-not-correlated-with-test-suite-effectiveness",
+    "title": "Coverage Is Not Strongly Correlated with Test Suite Effectiveness",
+    "authors": [
+      {
+        "name": "Laura Inozemtseva"
+      },
+      {
+        "name": "Reid Holmes"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 36th International Conference on Software Engineering",
+    "publicationDate": "2014-05-31",
+    "doi": "10.1145/2568225.2568271",
+    "url": "https://dl.acm.org/doi/10.1145/2568225.2568271"
+  },
+  {
+    "slug": "spectre-attacks-exploiting-speculative-execution",
+    "title": "Spectre Attacks: Exploiting Speculative Execution",
+    "authors": [
+      {
+        "name": "Paul Kocher"
+      },
+      {
+        "name": "Jann Horn"
+      },
+      {
+        "name": "Anders Fogh"
+      },
+      {
+        "name": "Daniel Genkin"
+      },
+      {
+        "name": "Daniel Gruss"
+      },
+      {
+        "name": "Werner Haas"
+      },
+      {
+        "name": "Mike Hamburg"
+      },
+      {
+        "name": "Moritz Lipp"
+      },
+      {
+        "name": "Stefan Mangard"
+      },
+      {
+        "name": "Thomas Prescher"
+      },
+      {
+        "name": "Michael Schwarz"
+      },
+      {
+        "name": "Yuval Yarom"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2019 IEEE Symposium on Security and Privacy (SP)",
+    "publicationDate": "2019-05",
+    "doi": "10.1109/sp.2019.00002",
+    "url": "https://doi.org/10.1109/SP.2019.00002"
+  },
+  {
+    "slug": "lets-encrypt-automated-certificate-authority",
+    "title": "Let's Encrypt: An Automated Certificate Authority to Encrypt the Entire Web",
+    "authors": [
+      {
+        "name": "Josh Aas"
+      },
+      {
+        "name": "Richard Barnes"
+      },
+      {
+        "name": "Benton Case"
+      },
+      {
+        "name": "Zakir Durumeric"
+      },
+      {
+        "name": "Peter Eckersley"
+      },
+      {
+        "name": "Alan Flores-López"
+      },
+      {
+        "name": "J. Alex Halderman"
+      },
+      {
+        "name": "Jacob Hoffman-Andrews"
+      },
+      {
+        "name": "James Kasten"
+      },
+      {
+        "name": "Eric Rescorla"
+      },
+      {
+        "name": "Seth Schoen"
+      },
+      {
+        "name": "Brad Warren"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2019 ACM SIGSAC Conference on Computer and Communications Security",
+    "publicationDate": "2019-11-06",
+    "doi": "10.1145/3319535.3363192",
+    "url": "https://dl.acm.org/doi/10.1145/3319535.3363192"
+  },
+  {
+    "slug": "why-johnny-cant-encrypt-usability-evaluation-of-pgp",
+    "title": "Why Johnny Can't Encrypt: A Usability Evaluation of PGP 5.0",
+    "authors": [
+      {
+        "name": "Alma Whitten"
+      },
+      {
+        "name": "J. D. Tygar"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 8th USENIX Security Symposium",
+    "publicationDate": "1999-08",
+    "url": "https://www.usenix.org/conference/8th-usenix-security-symposium/why-johnny-cant-encrypt-usability-evaluation-pgp-50"
+  },
+  {
+    "slug": "primes-is-in-p",
+    "title": "PRIMES is in P",
+    "authors": [
+      {
+        "name": "Manindra Agrawal"
+      },
+      {
+        "name": "Neeraj Kayal"
+      },
+      {
+        "name": "Nitin Saxena"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Annals of Mathematics",
+    "publicationDate": "2004-09",
+    "doi": "10.4007/annals.2004.160.781",
+    "url": "https://doi.org/10.4007/annals.2004.160.781"
+  },
+  {
+    "slug": "shor-quantum-factoring-and-discrete-logarithms",
+    "title": "Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer",
+    "authors": [
+      {
+        "name": "Peter W. Shor"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "SIAM Journal on Computing",
+    "publicationDate": "1997-10",
+    "doi": "10.1137/s0097539795293172",
+    "url": "https://doi.org/10.1137/S0097539795293172"
+  },
+  {
+    "slug": "roofline-visual-performance-model-multicore",
+    "title": "Roofline: An Insightful Visual Performance Model for Multicore Architectures",
+    "authors": [
+      {
+        "name": "Samuel Williams"
+      },
+      {
+        "name": "Andrew Waterman"
+      },
+      {
+        "name": "David Patterson"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Communications of the ACM",
+    "publicationDate": "2009-04",
+    "doi": "10.1145/1498765.1498785",
+    "url": "https://dl.acm.org/doi/10.1145/1498765.1498785"
+  },
+  {
+    "slug": "gaussian-splatting-real-time-radiance-field-rendering",
+    "title": "3D Gaussian Splatting for Real-Time Radiance Field Rendering",
+    "authors": [
+      {
+        "name": "Bernhard Kerbl"
+      },
+      {
+        "name": "Georgios Kopanas"
+      },
+      {
+        "name": "Thomas Leimkühler"
+      },
+      {
+        "name": "George Drettakis"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Graphics",
+    "publicationDate": "2023-07-26",
+    "doi": "10.1145/3592433",
+    "url": "https://dl.acm.org/doi/10.1145/3592433"
   }
 ]
