@@ -5,7 +5,10 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 12;
+const SEED = 30;
+// The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
+const PAGE = 20;
+const JOURNAL_ARTICLES = 7;
 const FDB = {
   slug: 'foundationdb-unbundled-transactional-kv-store',
   title: 'FoundationDB: A Distributed Unbundled Transactional Key Value Store',
@@ -53,7 +56,7 @@ test.describe('Papers catalog', () => {
       await papers.goto();
 
       await expect(papers.heading).toBeVisible();
-      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cards).toHaveCount(PAGE);
       await expect(papers.resultsCount).toContainText(String(SEED));
 
       const card = papers.card(METASTABLE.title);
@@ -67,7 +70,7 @@ test.describe('Papers catalog', () => {
     test('lists the newest paper first, as a reference row with its DOI, initials and links to the sources', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cards).toHaveCount(PAGE);
 
       expect((await papers.titles())[0]).toBe(SCALLOP.title);
       await expect(papers.cardRef(SCALLOP.title)).toHaveText(`[1] / DOI ${SCALLOP.doi}`);
@@ -121,24 +124,24 @@ test.describe('Papers catalog', () => {
     test('filters by publication type', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cards).toHaveCount(PAGE);
 
       await papers.typeSelect.selectOption({ label: 'Journal article' });
       await expect(page).toHaveURL(/type=journal-article/);
-      await expect(papers.cards).toHaveCount(1);
+      await expect(papers.cards).toHaveCount(JOURNAL_ARTICLES);
       await expect(papers.card(TIDB.title)).toBeVisible();
     });
 
     test('says where each paper stands, and filters by it', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cards).toHaveCount(PAGE);
       await expect(papers.cardStage(TIDB.title)).toHaveText('Published');
       await expect(papers.cardStage(METASTABLE.title)).toHaveText('Published');
 
       await papers.stageSelect.selectOption({ label: 'Published' });
       await expect(page).toHaveURL(/stage=published/);
-      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cards).toHaveCount(PAGE);
 
       // The seed holds no preprint: the filter finds none.
       await papers.stageSelect.selectOption({ label: 'Preprint: not reviewed yet' });
@@ -146,7 +149,7 @@ test.describe('Papers catalog', () => {
       await expect(papers.noMatches).toBeVisible();
 
       await papers.stageSelect.selectOption({ label: 'All' });
-      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cards).toHaveCount(PAGE);
     });
 
     test('filters by research area', async ({ page }) => {
@@ -186,7 +189,7 @@ test.describe('Papers catalog', () => {
       await papers.activeFilters.getByRole('button', { name: 'Remove filter' }).click();
       await expect(page).not.toHaveURL(/keyword=/);
       await expect(papers.activeFilters).toHaveCount(0);
-      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cards).toHaveCount(PAGE);
     });
 
     test('sorts by title', async ({ page }) => {
@@ -194,7 +197,13 @@ test.describe('Papers catalog', () => {
       await papers.goto('?area=Databases');
       await papers.sortSelect.selectOption({ label: 'Title (A to Z)' });
       await expect(page).toHaveURL(/sort=title/);
-      await expect.poll(() => papers.titles()).toEqual([FDB.title, TIDB.title]);
+      await expect.poll(() => papers.titles()).toEqual([
+        'A Critique of ANSI SQL Isolation Levels',
+        'Access Path Selection in a Relational Database Management System',
+        'DuckDB: an Embeddable Analytical Database',
+        FDB.title,
+        TIDB.title,
+      ]);
     });
 
     test('says nothing matched, and clears the filters', async ({ page }) => {
@@ -205,13 +214,13 @@ test.describe('Papers catalog', () => {
       await papers.clearFilters.click();
       await expect(page).not.toHaveURL(/q=/);
       await expect(papers.noMatches).toBeHidden();
-      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cards).toHaveCount(PAGE);
     });
 
     test('ignores a malformed filter in the URL instead of failing', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto('?type=zine&page=abc&sort=random');
-      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cards).toHaveCount(PAGE);
     });
 
     test('shows an error with a retry when the catalog cannot be loaded', async ({ page }) => {
@@ -231,7 +240,7 @@ test.describe('Papers catalog', () => {
     test('lists the same papers in Portuguese', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.gotoPortuguese();
-      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cards).toHaveCount(PAGE);
       await expect(papers.card(METASTABLE.titlePt)).toContainText('junho de 2021');
     });
 
@@ -285,7 +294,7 @@ test.describe('Papers catalog', () => {
     test('fits the screen', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cards).toHaveCount(PAGE);
       await expectNoHorizontalScroll(page);
     });
   });
