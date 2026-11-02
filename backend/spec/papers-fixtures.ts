@@ -16,6 +16,7 @@ export interface FixturePaper {
   publicationDate?: string;
   doi?: string;
   url?: string;
+  paperUrl?: string;
   /** The area, the keywords and the abstract live in the markdown, like the analysis: here in `en.md`. */
   researchArea?: string;
   keywords?: string[];
@@ -101,6 +102,7 @@ export function usePapers(papers: FixturePaper[] = DEFAULT_PAPERS): () => void {
     publicationDate: p.publicationDate,
     doi: p.doi,
     url: p.url,
+    paperUrl: p.paperUrl,
   }));
   writeFileSync(join(dir, 'papers.json'), JSON.stringify(index));
   for (const p of papers) {

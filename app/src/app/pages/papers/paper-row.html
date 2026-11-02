@@ -27,11 +27,14 @@
     </div>
   }
 
-  @if (paper().excerpt || doiUrl() || pageUrl()) {
+  @if (paper().excerpt || doiUrl() || pageUrl() || pdfUrl()) {
     <p class="paper-excerpt">
       {{ paper().excerpt }}
       @if (doiUrl() || pageUrl()) {
         <span class="row-links">[@if (doiUrl(); as doi) {<a [href]="doi" target="_blank" rel="noopener noreferrer" i18n="@@papers.row.doi">DOI</a>}@if (doiUrl() && pageUrl()) {, }@if (pageUrl(); as page) {<a [href]="page" target="_blank" rel="noopener noreferrer" i18n="@@papers.row.page">Page</a>}]</span>
+      }
+      @if (pdfUrl(); as pdf) {
+        <a class="row-pdf" [href]="pdf" target="_blank" rel="noopener noreferrer" i18n-title="@@papers.row.pdf" title="PDF" i18n-aria-label="@@papers.row.pdfAria" aria-label="Open the PDF"><svg class="pdf-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 13.5h7M8.5 17h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span aria-hidden="true">PDF</span></a>
       }
     </p>
   }

@@ -21,6 +21,7 @@ export interface SeedPaper extends Partial<SeedTexts> {
   publicationDate?: string;
   doi?: string;
   url?: string;
+  paperUrl?: string;
   /** The same texts as its Portuguese file has them. */
   pt: SeedTexts;
 }

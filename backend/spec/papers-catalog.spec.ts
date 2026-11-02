@@ -17,6 +17,7 @@ interface Summary {
   publicationDate: string | null;
   doi: string | null;
   url: string | null;
+  paperUrl: string | null;
   researchArea: string | null;
   type: string;
   stage: string;
@@ -41,6 +42,7 @@ const PAPERS: FixturePaper[] = [
     publicationDate: '2024-05',
     doi: '10.5555/spec.survey',
     url: 'https://example.org/survey',
+    paperUrl: 'https://example.org/survey.pdf',
     researchArea: 'Machine Learning',
     keywords: ['Zeta', 'alpha', ' alpha '],
     abstract: 'We study the catalog.',
@@ -124,6 +126,7 @@ describe('GET /papers', () => {
       publicationDate: '2024-05',
       doi: '10.5555/spec.survey',
       url: 'https://example.org/survey',
+      paperUrl: 'https://example.org/survey.pdf',
       researchArea: 'Machine Learning',
       type: 'journal-article',
       stage: 'published',
@@ -145,6 +148,7 @@ describe('GET /papers', () => {
         publicationDate: null,
         doi: null,
         url: null,
+        paperUrl: null,
         researchArea: null,
         type: 'other',
         stage: 'unknown',
@@ -428,7 +432,7 @@ describe('GET /papers/:slug', () => {
     expect(Object.keys(body).sort()).toEqual(
       [
         'abstract', 'abstractTranslated', 'authors', 'availableLanguages', 'doi', 'id', 'keywords', 'language',
-        'originalTitle', 'publicationDate', 'researchArea', 'sections', 'stage', 'summary', 'title', 'type',
+        'originalTitle', 'paperUrl', 'publicationDate', 'researchArea', 'sections', 'stage', 'summary', 'title', 'type',
         'updatedAt', 'url', 'venue', 'version',
       ].sort(),
     );
@@ -440,6 +444,7 @@ describe('GET /papers/:slug', () => {
       venue: 'Journal of Specs',
       publicationDate: '2024-05',
       url: 'https://example.org/survey',
+      paperUrl: 'https://example.org/survey.pdf',
       researchArea: 'Machine Learning',
       type: 'journal-article',
       stage: 'published',
@@ -565,6 +570,7 @@ describe('a mistake in the files', () => {
     ['a type that does not exist', { slug: 'bad-type', title: 'T', type: 'zine' }, /bad-type.*type/],
     ['a DOI with a resolver prefix', { slug: 'bad-doi', title: 'T', doi: 'https://doi.org/10.5555/x' }, /bad-doi.*doi/],
     ['a link that is not http', { slug: 'bad-url', title: 'T', url: 'javascript:alert(1)' }, /bad-url.*url/],
+    ['a PDF link that is not http', { slug: 'bad-pdf', title: 'T', paperUrl: 'javascript:alert(1)' }, /bad-pdf.*paperUrl/],
   ])('stops the boot for %s, naming the paper', async (_name, broken, message) => {
     await expect(startCatalogApp([ok, broken])).rejects.toThrow(message);
   });

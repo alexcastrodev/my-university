@@ -62,6 +62,7 @@ export class PaperDetailPage {
     return doi ? `https://doi.org/${doi}` : null;
   });
   protected sourceUrl = computed(() => safeWebUrl(this.paper()?.url ?? null));
+  protected pdfUrl = computed(() => safeWebUrl(this.paper()?.paperUrl ?? null));
   protected paragraphs = computed(() => paragraphsOf(this.paper()?.abstract ?? null));
   /** The analysis is markdown, one `##` section at a time, rendered the way the concepts are. */
   protected sections = computed(() =>
