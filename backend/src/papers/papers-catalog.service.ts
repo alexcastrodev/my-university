@@ -29,6 +29,8 @@ export interface PaperSummary {
   doi: string | null;
   /** The paper's own page at the publisher or the archive, for the link on a list row. */
   url: string | null;
+  /** The full text as a PDF, when there is a public link to it; null otherwise (and for a private paper). */
+  paperUrl: string | null;
   researchArea: string | null;
   type: PaperType;
   /** What the type says about review, in plain terms (see paper-stage.ts). */
@@ -106,6 +108,8 @@ export interface PublicPaperView extends PaperView {
   abstractTranslated: boolean;
   /** The title the authors published, when `title` is our translation of it. */
   originalTitle: string | null;
+  /** The full text as a PDF, when there is a public link to it. */
+  paperUrl: string | null;
   version: string | null;
   /** The day the analysis was last revised (`YYYY-MM-DD`). */
   updatedAt: string | null;
@@ -124,6 +128,8 @@ interface PaperMeta {
   publicationDate?: string;
   doi?: string;
   url?: string;
+  /** A public link to the full text as a PDF. */
+  paperUrl?: string;
 }
 
 /**
@@ -187,6 +193,7 @@ function loadIndex(dir: string): PaperMeta[] {
       dois.add(meta.doi);
     }
     if (meta.url !== undefined && !/^https?:\/\//.test(meta.url)) fail('url is http or https');
+    if (meta.paperUrl !== undefined && !/^https?:\/\//.test(meta.paperUrl)) fail('paperUrl is http or https');
     if (!existsSync(join(dir, 'content', meta.slug, `${DEFAULT_LANGUAGE}.md`))) {
       fail(`content/${meta.slug}/en.md is missing`);
     }
@@ -300,6 +307,7 @@ export class PapersCatalogService {
       venue: meta.venue ?? null,
       publicationDate: meta.publicationDate ?? null,
       url: meta.url ?? null,
+      paperUrl: meta.paperUrl ?? null,
       researchArea: texts.researchArea,
       type: meta.type,
       stage: stageOf(meta.type),
@@ -392,6 +400,7 @@ export class PapersCatalogService {
         publicationDate: p.publicationDate,
         doi: p.doi,
         url: p.url,
+        paperUrl: null,
         researchArea: p.researchArea,
         type: p.type,
         stage: stageOf(p.type),
@@ -445,6 +454,7 @@ export class PapersCatalogService {
         publicationDate: meta.publicationDate ?? null,
         doi: meta.doi ?? null,
         url: meta.url ?? null,
+        paperUrl: meta.paperUrl ?? null,
         researchArea: texts.researchArea,
         type: meta.type,
         stage: stageOf(meta.type),

@@ -32,6 +32,8 @@ export interface PaperSummary {
   publicationDate: string | null;
   doi: string | null;
   url: string | null;
+  /** The full text as a PDF, when there is a public link to it; null for a private paper. */
+  paperUrl?: string | null;
   researchArea: string | null;
   type: PaperType;
   stage: PublicationStage;
@@ -88,6 +90,8 @@ export interface PaperSection {
  * paper's file, in the reader's language (English when it has no translation).
  */
 export interface PublicPaper extends Paper {
+  /** The full text as a PDF, when there is a public link to it. */
+  paperUrl: string | null;
   language: Language;
   availableLanguages: Language[];
   summary: string;

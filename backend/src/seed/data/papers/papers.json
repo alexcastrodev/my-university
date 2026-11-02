@@ -1028,5 +1028,34 @@
     "publicationDate": "2023-07-26",
     "doi": "10.1145/3592433",
     "url": "https://dl.acm.org/doi/10.1145/3592433"
+  },
+  {
+    "slug": "paxos-part-time-parliament",
+    "title": "The Part-Time Parliament",
+    "authors": [
+      {
+        "name": "Leslie Lamport"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Computer Systems",
+    "publicationDate": "1998-05",
+    "doi": "10.1145/279227.279229",
+    "url": "https://dl.acm.org/doi/10.1145/279227.279229",
+    "paperUrl": "https://dl.acm.org/doi/epdf/10.1145/279227.279229"
+  },
+  {
+    "slug": "paxos-made-simple",
+    "title": "Paxos Made Simple",
+    "authors": [
+      {
+        "name": "Leslie Lamport"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM SIGACT News",
+    "publicationDate": "2001-12",
+    "url": "https://www.microsoft.com/en-us/research/publication/paxos-made-simple/",
+    "paperUrl": "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/12/paxos-simple-Copy.pdf"
   }
 ]

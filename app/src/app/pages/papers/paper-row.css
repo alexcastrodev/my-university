@@ -160,3 +160,19 @@ a.chip-area:hover {
     font-size: 0.66rem;
   }
 }
+
+.row-pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.35rem;
+  color: var(--mu-accent-strong);
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.row-pdf .pdf-icon {
+  flex: none;
+}

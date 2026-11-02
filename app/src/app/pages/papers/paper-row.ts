@@ -65,4 +65,5 @@ export class PaperRow {
     return doi ? `https://doi.org/${doi}` : null;
   });
   protected pageUrl = computed(() => safeWebUrl(this.paper().url));
+  protected pdfUrl = computed(() => safeWebUrl(this.paper().paperUrl ?? null));
 }

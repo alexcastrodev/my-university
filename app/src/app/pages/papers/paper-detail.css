@@ -336,3 +336,15 @@
     padding: 0.9rem 1rem 0.35rem;
   }
 }
+
+.pdf-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.pdf-link .pdf-icon {
+  flex: none;
+  color: var(--mu-accent-strong);
+}
