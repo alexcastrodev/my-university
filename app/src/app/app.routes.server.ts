@@ -10,8 +10,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
   },
   {
+    // Not prerendered: the build renders on a local server, so a prerendered page would bake
+    // `http://localhost:<port>` into its canonical, og:url, hreflang and JSON-LD.
     path: 'computer-science',
-    renderMode: RenderMode.Prerender,
+    renderMode: RenderMode.Server,
   },
   {
     path: 'computer-science/:module/:discipline',
