@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { ALGORITHMS_CONCEPT_TOPIC_ORDER, AlgorithmsConceptCategory, AlgorithmsConceptSummary } from '../../models/algorithms-concept.model';
 import { AlgorithmsConceptsService } from '../../services/algorithms-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { groupByTopic } from '../../shared/concept-topics';
@@ -75,6 +76,7 @@ export class AlgorithmsConceptsListPage implements OnInit {
       title: 'Algorithms',
       description: 'Classic algorithms and data structures explained in depth, from Sedgewick and Cormen — objective, use cases, deep dive, and trade-offs.',
       path: '/algorithms/algorithms-concepts',
+      alternates: localizedAlternates('/algorithms/algorithms-concepts'),
     });
 
     this.algorithmsConceptsService.listConcepts().subscribe({

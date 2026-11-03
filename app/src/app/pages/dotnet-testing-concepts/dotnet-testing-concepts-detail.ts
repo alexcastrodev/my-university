@@ -7,6 +7,7 @@ import { DotNetTestingConceptView } from '../../components/dotnet-testing-concep
 import { DOTNET_TESTING_CONCEPT_TOPIC_ORDER, DotNetTestingConcept, DotNetTestingConceptSummary } from '../../models/dotnet-testing-concept.model';
 import { DotNetTestingConceptsService } from '../../services/dotnet-testing-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 import { orderByTopic } from '../../shared/concept-topics';
@@ -81,6 +82,7 @@ export class DotNetTestingConceptsDetailPage implements OnInit {
           title: `${concept.title} | .NET Testing Concepts`,
           description: concept.summary,
           path: `/dotnet-testing-concepts/${concept.slug}`,
+          alternates: localizedAlternates(`/dotnet-testing-concepts/${concept.slug}`, concept.availableLanguages),
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,

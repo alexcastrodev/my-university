@@ -7,6 +7,7 @@ import { DatabaseConceptView } from '../../components/database-concept-view/data
 import { DATABASE_CONCEPT_TOPIC_ORDER, DatabaseConcept, DatabaseConceptSummary } from '../../models/database-concept.model';
 import { DatabaseConceptsService } from '../../services/database-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 import { orderByTopic } from '../../shared/concept-topics';
@@ -81,6 +82,7 @@ export class DatabaseConceptsDetailPage implements OnInit {
           title: `${concept.title} — Database Concepts`,
           description: concept.summary,
           path: `/databases/database-concepts/${concept.slug}`,
+          alternates: localizedAlternates(`/databases/database-concepts/${concept.slug}`, concept.availableLanguages),
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,

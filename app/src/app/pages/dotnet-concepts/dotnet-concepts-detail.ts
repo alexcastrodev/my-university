@@ -7,6 +7,7 @@ import { DotNetConceptView } from '../../components/dotnet-concept-view/dotnet-c
 import { DOTNET_CONCEPT_TOPIC_ORDER, DotNetConcept, DotNetConceptSummary } from '../../models/dotnet-concept.model';
 import { DotNetConceptsService } from '../../services/dotnet-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 import { orderByTopic } from '../../shared/concept-topics';
@@ -81,6 +82,7 @@ export class DotNetConceptsDetailPage implements OnInit {
           title: `${concept.title} | .NET Concepts`,
           description: concept.summary,
           path: `/dotnet-concepts/${concept.slug}`,
+          alternates: localizedAlternates(`/dotnet-concepts/${concept.slug}`, concept.availableLanguages),
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,

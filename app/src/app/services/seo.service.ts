@@ -1,4 +1,4 @@
-import { Injectable, REQUEST, RESPONSE_INIT, inject } from '@angular/core';
+import { Injectable, LOCALE_ID, REQUEST, RESPONSE_INIT, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 import { Language } from '../models/language.model';
@@ -41,6 +41,7 @@ export class SeoService {
   private document = inject(DOCUMENT);
   private request = inject(REQUEST, { optional: true });
   private responseInit = inject(RESPONSE_INIT, { optional: true });
+  private locale = inject(LOCALE_ID);
 
   /** Marks the current SSR response as a 404 so crawlers don't index a soft-404 as a real page. */
   setNotFound(): void {
@@ -52,7 +53,11 @@ export class SeoService {
 
   set(tags: SeoTags): void {
     const image = this.absoluteUrl(tags.image ?? this.ogImagePath(tags.title));
-    const url = this.absoluteUrl(tags.path);
+    // A translated page is its own canonical. Pointing it at the English URL would tell search engines it is
+    // a copy of that page, and they would ignore its hreflang. Without a real translation (no entry for this
+    // locale in `alternates`) the page shows the English text and the English URL stays canonical.
+    const own = tags.alternates?.find((alt) => alt.lang === this.locale);
+    const url = this.absoluteUrl(own?.path ?? tags.path);
 
     this.title.setTitle(tags.title);
 

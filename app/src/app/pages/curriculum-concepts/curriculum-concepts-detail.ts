@@ -7,6 +7,7 @@ import { CurriculumConceptDetail, CurriculumConceptSummary } from '../../models/
 import { CurriculumConceptsService } from '../../services/curriculum-concepts.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 import { CURRICULUM } from '../computer-science/curriculum.data';
@@ -122,6 +123,7 @@ export class CurriculumConceptsDetailPage implements OnInit {
           title: `${concept.title} — ${this.disciplineTitle()}`,
           description: concept.summary,
           path: `${this.basePath()}/${concept.slug}`,
+          alternates: localizedAlternates(`${this.basePath()}/${concept.slug}`, concept.availableLanguages),
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,

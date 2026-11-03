@@ -7,6 +7,7 @@ import { QuarkusConceptView } from '../../components/quarkus-concept-view/quarku
 import { QUARKUS_CONCEPT_TOPIC_ORDER, QuarkusConcept, QuarkusConceptSummary } from '../../models/quarkus-concept.model';
 import { QuarkusConceptsService } from '../../services/quarkus-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 import { orderByTopic } from '../../shared/concept-topics';
@@ -81,6 +82,7 @@ export class QuarkusConceptsDetailPage implements OnInit {
           title: `${concept.title} — Quarkus Concepts`,
           description: concept.summary,
           path: `/quarkus-concepts/${concept.slug}`,
+          alternates: localizedAlternates(`/quarkus-concepts/${concept.slug}`, concept.availableLanguages),
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,
