@@ -1,5 +1,5 @@
 ---
-version: 1.1
+version: 1.2
 updatedAt: 2026-11-03
 title: "Solid Queue, Solid Cache e Solid Cable: os Padrões Sem Redis do Rails 8"
 summary: O Rails 8 usa por padrão adaptadores de job, cache e pubsub apoiados em banco de dados em vez de Redis; a 37signals cortou o custo de cache do Basecamp em 80% e sua latência P95 pela metade fazendo isso, mas polling não é push, e o teto honesto de cada adaptador é documentado, não presumido.
@@ -182,7 +182,7 @@ aposta dependente de carga de trabalho: uma aplicação levemente cacheada
 para começar não vai ver o mesmo retorno, e segundo o README do Solid
 Cache, latência por leitura ainda importa nesse caso; nada aqui dispensa
 o raciocínio de latência de cache store coberto em [Russian Doll
-Caching](russian-doll-caching.md), que é dono da pergunta de estratégia
+Caching](russian-doll-caching), que é dono da pergunta de estratégia
 sobre *o que* cachear e *como* chaveá-lo, não do motor de armazenamento
 por baixo.
 

@@ -1,5 +1,5 @@
 ---
-version: 1.1
+version: 1.2
 updatedAt: 2026-11-03
 title: "Limitação de Taxa e Proteção Contra Abuso com rack-attack"
 summary: Os padrões do rack-attack parecem prontos no momento em que inicializam, mas um cache store por processo em um deploy Puma multiworker subconta requisições silenciosamente e torna um limite de throttle sem sentido. Este conceito cobre a DSL, o requisito de cache store compartilhado que de fato faz o throttling funcionar, a explosão de borda do algoritmo de janela fixa, e por que bloquear por IP é um risco de falso positivo atrás de NAT compartilhado.
@@ -178,7 +178,7 @@ pico de tráfego de throttle durante um ataque real não degrade também o
 cache de aplicação não relacionado.
 
 O `Solid Cache` do Rails 8 (coberto em [Solid Queue, Cache e
-Cable](solid-queue-cache-and-cable.md)) tecnicamente satisfaz a mesma
+Cable](solid-queue-cache-and-cable)) tecnicamente satisfaz a mesma
 interface; é apoiado em `ActiveSupport::Cache::Store`; então ele vai
 *funcionar*. Mas é apoiado em uma tabela de banco de dados
 (`solid_cache_entries`), não memória, e um contador de throttle faz uma
