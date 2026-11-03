@@ -17,6 +17,7 @@ export interface MinuteEpisodeSummary {
   id: number;
   question: string;
   publishedAt: string;
+  updatedAt: string | null;
   labUrl?: string;
   language: Language;
   availableLanguages: Language[];
@@ -24,7 +25,6 @@ export interface MinuteEpisodeSummary {
 
 export interface MinuteEpisodeDetail extends MinuteEpisodeSummary {
   version: string | null;
-  updatedAt: string | null;
   sections: ConceptSection[];
   references: ConceptReference[];
 }
@@ -82,7 +82,7 @@ export abstract class MinuteEpisodesServiceBase {
     meta: EpisodeMeta,
     lang: Language,
   ): MinuteEpisodeSummary {
-    const { language, availableLanguages, question } = readConceptContent(
+    const { language, availableLanguages, question, updatedAt } = readConceptContent(
       this.dataDir,
       meta.slug,
       lang,
@@ -94,6 +94,7 @@ export abstract class MinuteEpisodesServiceBase {
       id: meta.id,
       question: question ?? meta.question,
       publishedAt: meta.publishedAt,
+      updatedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),
       language,
       availableLanguages,

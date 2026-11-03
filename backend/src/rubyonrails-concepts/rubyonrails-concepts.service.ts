@@ -20,6 +20,7 @@ export interface RubyOnRailsConceptSummary {
   topic: string;
   summary: string;
   publishedAt: string;
+  updatedAt: string | null;
   labUrl?: string;
   language: Language;
   availableLanguages: Language[];
@@ -27,7 +28,6 @@ export interface RubyOnRailsConceptSummary {
 
 export interface RubyOnRailsConceptDetail extends RubyOnRailsConceptSummary {
   version: string | null;
-  updatedAt: string | null;
   sections: ConceptSection[];
   references: ConceptReference[];
   related: ConceptLinkRef[];
@@ -80,7 +80,7 @@ export class RubyOnRailsConceptsService {
     meta: ConceptMeta,
     lang: Language,
   ): RubyOnRailsConceptSummary {
-    const { language, availableLanguages, title, summary } = readConceptContent(
+    const { language, availableLanguages, title, summary, updatedAt } = readConceptContent(
       DATA_DIR,
       meta.slug,
       lang,
@@ -94,6 +94,7 @@ export class RubyOnRailsConceptsService {
       topic: meta.topic,
       summary: summary ?? meta.summary,
       publishedAt: meta.publishedAt,
+      updatedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),
       language,
       availableLanguages,

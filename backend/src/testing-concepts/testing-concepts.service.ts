@@ -24,6 +24,7 @@ export interface TestingConceptSummary {
   title: string;
   summary: string;
   publishedAt: string;
+  updatedAt: string | null;
   labUrl?: string;
   language: Language;
   availableLanguages: Language[];
@@ -31,7 +32,6 @@ export interface TestingConceptSummary {
 
 export interface TestingConceptDetail extends TestingConceptSummary {
   version: string | null;
-  updatedAt: string | null;
   sections: ConceptSection[];
   /** Markdown of the `## Lab` section, kept out of `sections` so it only shows in the Lab tab. */
   lab?: string;
@@ -90,7 +90,7 @@ export class TestingConceptsService {
     meta: ConceptMeta,
     lang: Language,
   ): TestingConceptSummary {
-    const { language, availableLanguages, title, summary } = readConceptContent(
+    const { language, availableLanguages, title, summary, updatedAt } = readConceptContent(
       DATA_DIR,
       meta.slug,
       lang,
@@ -105,6 +105,7 @@ export class TestingConceptsService {
       title: title ?? meta.title,
       summary: summary ?? meta.summary,
       publishedAt: meta.publishedAt,
+      updatedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),
       language,
       availableLanguages,

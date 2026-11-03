@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AlgorithmsConceptsModule } from '../algorithms-concepts/algorithms-concepts.module';
+import { CourseNestModule } from '../course/course.module';
 import { CurriculumModule } from '../curriculum/curriculum.module';
 import { DatabaseConceptsModule } from '../database-concepts/database-concepts.module';
 import { ExamModule } from '../exam/exam.module';
@@ -33,6 +34,7 @@ import { SitemapService } from './sitemap.service';
     JavaMinuteModule,
     CSharpMinuteModule,
     ExamModule,
+    CourseNestModule,
     RubyConceptsModule,
     RubyOnRailsConceptsModule,
     DotNetConceptsModule,

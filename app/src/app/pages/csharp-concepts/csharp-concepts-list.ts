@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { CSHARP_CONCEPT_TOPIC_ORDER, CSharpConceptCategory, CSharpConceptSummary } from '../../models/csharp-concept.model';
 import { CSharpConceptsService } from '../../services/csharp-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { groupByTopic } from '../../shared/concept-topics';
@@ -70,6 +71,7 @@ export class CSharpConceptsListPage implements OnInit {
       title: 'C# Concepts',
       description: 'C# language and base class library concepts explained in depth: objective, use cases, deep dive, and trade-offs.',
       path: '/csharp-concepts',
+      alternates: localizedAlternates('/csharp-concepts'),
     });
 
     this.cSharpConceptsService.listConcepts().subscribe({

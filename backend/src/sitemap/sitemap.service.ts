@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AlgorithmsConceptsService } from '../algorithms-concepts/algorithms-concepts.service';
+import { CourseService } from '../course/course.service';
 import { CurriculumService } from '../curriculum/curriculum.service';
 import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { ExamService } from '../exam/exam.service';
@@ -24,10 +25,16 @@ import { Language } from '../shared/language';
 export interface SitemapUrl {
   path: string;
   lastmod: string | null;
-  changefreq?: 'daily' | 'weekly' | 'monthly';
-  priority?: string;
-  /** Other language versions of this same page, for hreflang. */
+  /** Every language version of this page, itself included (a sitemap needs the full set on each URL). The English one is also the x-default. */
   alternates?: { lang: Language; path: string }[];
+}
+
+/** What a section needs from one of its pages: the slug, when it last changed, and which translations exist. */
+interface SectionItem {
+  slug: string;
+  publishedAt: string | null;
+  updatedAt?: string | null;
+  availableLanguages: Language[];
 }
 
 const SITE_ORIGIN = 'https://university.kurz.fyi';
@@ -45,6 +52,7 @@ export class SitemapService {
     private readonly javaMinute: JavaMinuteService,
     private readonly cSharpMinute: CSharpMinuteService,
     private readonly exam: ExamService,
+    private readonly courses: CourseService,
     private readonly rubyConcepts: RubyConceptsService,
     private readonly rubyOnRailsConcepts: RubyOnRailsConceptsService,
     private readonly dotNetConcepts: DotNetConceptsService,
@@ -58,180 +66,105 @@ export class SitemapService {
 
   async buildUrls(): Promise<SitemapUrl[]> {
     const urls: SitemapUrl[] = [
-      { path: '/', lastmod: null, changefreq: 'weekly', priority: '1.0' },
+      { path: '/', lastmod: null },
+      { path: '/tracks', lastmod: null },
     ];
 
+    // Every section is a list page plus one page per item, each with a pt-BR twin where the translation exists.
     // The public papers are authored files with a translation each (#213); a reader's private papers are not listed.
-    urls.push(
-      ...this.localizedSectionUrls(
+    const sections: [string, SectionItem[]][] = [
+      [
         '/papers',
-        '/pt-BR/papers',
         this.papers.slugs().map(({ slug, updatedAt, languages }) => ({
           slug,
           publishedAt: updatedAt,
           availableLanguages: languages,
         })),
-      ),
-    );
-    urls.push(
-      ...this.localizedSectionUrls('/java/java-concepts', '/pt-BR/java/java-concepts', this.javaConcepts.findAll()),
-    );
-    urls.push(
-      ...this.localizedSectionUrls('/java/jvm-concepts', '/pt-BR/java/jvm-concepts', this.jvmConcepts.findAll()),
-    );
-    urls.push(
-      ...this.listSection(
-        '/databases/database-concepts',
-        this.databaseConcepts.findAll(),
-      ),
-    );
-    urls.push(
-      ...this.localizedSectionUrls('/spring-concepts', '/pt-BR/spring-concepts', this.springConcepts.findAll()),
-    );
-    urls.push(
-      ...this.listSection(
+      ],
+      ['/java/java-concepts', this.javaConcepts.findAll()],
+      ['/java/jvm-concepts', this.jvmConcepts.findAll()],
+      ['/databases/database-concepts', this.databaseConcepts.findAll()],
+      ['/spring-concepts', this.springConcepts.findAll()],
+      [
         '/system-design/system-design-concepts',
         this.systemDesignConcepts.findAll(),
-      ),
-    );
-    urls.push(
-      ...this.listSection('/java/testing', this.testingConcepts.findAll()),
-    );
-    urls.push(
-      ...this.listSection(
-        '/algorithms/algorithms-concepts',
-        this.algorithmsConcepts.findAll(),
-      ),
-    );
-    urls.push(
-      ...this.localizedSectionUrls('/java/java-minute', '/pt-BR/java/java-minute', this.javaMinute.findAll()),
-    );
-    urls.push(
-      ...this.listSection('/ruby-concepts', this.rubyConcepts.findAll()),
-    );
-    urls.push(
-      ...this.listSection(
-        '/rubyonrails-concepts',
-        this.rubyOnRailsConcepts.findAll(),
-      ),
-    );
-    urls.push(
-      ...this.listSection('/dotnet-concepts', this.dotNetConcepts.findAll()),
-      ...this.listSection('/csharp-concepts', this.cSharpConcepts.findAll()),
-      ...this.listSection('/dotnet-testing-concepts', this.dotNetTestingConcepts.findAll()),
-      ...this.localizedSectionUrls('/csharp-minute', '/pt-BR/csharp-minute', this.cSharpMinute.findAll()),
-    );
-    urls.push(
-      ...this.listSection('/quarkus-concepts', this.quarkusConcepts.findAll()),
-    );
-    urls.push(
-      ...this.listSection(
-        '/kubernetes-concepts',
-        this.kubernetesConcepts.findAll(),
-      ),
-    );
-    urls.push({
-      path: '/computer-science',
-      lastmod: null,
-      changefreq: 'weekly',
-      priority: '0.8',
-    });
-    for (const { module: mod, discipline } of this.curriculum.listDisciplines()) {
-      const basePath = `/computer-science/${mod}/${discipline}`;
-      urls.push({
-        path: basePath,
-        lastmod: null,
-        changefreq: 'weekly',
-        priority: '0.7',
-      });
-      for (const concept of this.curriculum.findAll(mod, discipline)) {
-        urls.push({
-          path: `${basePath}/${concept.slug}`,
-          lastmod: concept.publishedAt,
-          changefreq: 'monthly',
-          priority: '0.6',
-        });
+      ],
+      ['/java/testing', this.testingConcepts.findAll()],
+      ['/algorithms/algorithms-concepts', this.algorithmsConcepts.findAll()],
+      ['/java/java-minute', this.javaMinute.findAll()],
+      ['/ruby-concepts', this.rubyConcepts.findAll()],
+      ['/rubyonrails-concepts', this.rubyOnRailsConcepts.findAll()],
+      ['/dotnet-concepts', this.dotNetConcepts.findAll()],
+      ['/csharp-concepts', this.cSharpConcepts.findAll()],
+      ['/dotnet-testing-concepts', this.dotNetTestingConcepts.findAll()],
+      ['/csharp-minute', this.cSharpMinute.findAll()],
+      ['/quarkus-concepts', this.quarkusConcepts.findAll()],
+      ['/kubernetes-concepts', this.kubernetesConcepts.findAll()],
+    ];
+    for (const {
+      module: mod,
+      discipline,
+    } of this.curriculum.listDisciplines()) {
+      sections.push([
+        `/computer-science/${mod}/${discipline}`,
+        this.curriculum.findAll(mod, discipline),
+      ]);
+    }
+    for (const [base, items] of sections) {
+      urls.push(...this.localizedSectionUrls(base, items));
+    }
+
+    urls.push({ path: '/computer-science', lastmod: null });
+
+    urls.push({ path: '/java/exams', lastmod: null });
+    for (const exam of await this.exam.listExams()) {
+      urls.push({ path: `/java/exam/${exam.id}`, lastmod: null });
+    }
+    // The lessons are server-rendered, indexable pages, but the course page links to them from the browser only.
+    for (const course of await this.courses.findAll()) {
+      for (const mod of course.modules) {
+        for (const lesson of mod.lessons) {
+          urls.push({
+            path: `/java/exam/${course.id}/lesson/${lesson.id}`,
+            lastmod: null,
+          });
+        }
       }
     }
 
-    const exams = await this.exam.listExams();
-    urls.push({
-      path: '/java/exams',
-      lastmod: null,
-      changefreq: 'weekly',
-      priority: '0.8',
-    });
-    for (const exam of exams) {
-      urls.push({
-        path: `/java/exam/${exam.id}`,
-        lastmod: null,
-        changefreq: 'monthly',
-        priority: '0.6',
-      });
-    }
-
     return urls;
   }
 
-  private listSection(
-    basePath: string,
-    items: { slug: string; publishedAt: string }[],
-  ): SitemapUrl[] {
-    const urls: SitemapUrl[] = [
-      { path: basePath, lastmod: null, changefreq: 'weekly', priority: '0.8' },
-    ];
-    for (const item of items) {
-      urls.push({
-        path: `${basePath}/${item.slug}`,
-        lastmod: item.publishedAt,
-        changefreq: 'monthly',
-        priority: '0.6',
-      });
-    }
-    return urls;
-  }
-
-  /** For a section with real pt-BR translations: emits both locale-prefixed URLs and reciprocal hreflang alternates, only for items that actually have a pt-BR version. */
+  /**
+   * The list page and every item of a section, in English and in pt-BR. An item gets a pt-BR URL only
+   * if its pt-BR file exists (the app never serves the English fallback as its own page), and both
+   * versions list each other, themselves included.
+   */
   private localizedSectionUrls(
     enBase: string,
-    ptBrBase: string,
-    items: { slug: string; publishedAt: string | null; availableLanguages: Language[] }[],
+    items: SectionItem[],
   ): SitemapUrl[] {
+    const ptBrBase = `/pt-BR${enBase}`;
+    const pair = (en: string, ptBr: string) => [
+      { lang: 'en' as const, path: en },
+      { lang: 'pt-BR' as const, path: ptBr },
+    ];
+
     const urls: SitemapUrl[] = [
-      {
-        path: enBase,
-        lastmod: null,
-        changefreq: 'weekly',
-        priority: '0.8',
-        alternates: [{ lang: 'pt-BR', path: ptBrBase }],
-      },
-      {
-        path: ptBrBase,
-        lastmod: null,
-        changefreq: 'weekly',
-        priority: '0.8',
-        alternates: [{ lang: 'en', path: enBase }],
-      },
+      { path: enBase, lastmod: null, alternates: pair(enBase, ptBrBase) },
+      { path: ptBrBase, lastmod: null, alternates: pair(enBase, ptBrBase) },
     ];
 
     for (const item of items) {
-      const hasPtBr = item.availableLanguages.includes('pt-BR');
-      urls.push({
-        path: `${enBase}/${item.slug}`,
-        lastmod: item.publishedAt,
-        changefreq: 'monthly',
-        priority: '0.6',
-        ...(hasPtBr && { alternates: [{ lang: 'pt-BR', path: `${ptBrBase}/${item.slug}` }] }),
-      });
-      if (hasPtBr) {
-        urls.push({
-          path: `${ptBrBase}/${item.slug}`,
-          lastmod: item.publishedAt,
-          changefreq: 'monthly',
-          priority: '0.6',
-          alternates: [{ lang: 'en', path: `${enBase}/${item.slug}` }],
-        });
+      const lastmod = item.updatedAt ?? item.publishedAt;
+      const en = `${enBase}/${item.slug}`;
+      if (!item.availableLanguages.includes('pt-BR')) {
+        urls.push({ path: en, lastmod });
+        continue;
       }
+      const ptBr = `${ptBrBase}/${item.slug}`;
+      urls.push({ path: en, lastmod, alternates: pair(en, ptBr) });
+      urls.push({ path: ptBr, lastmod, alternates: pair(en, ptBr) });
     }
 
     return urls;
@@ -258,27 +191,30 @@ export class SitemapService {
     const urls = await this.buildUrls();
     const entries = urls
       .map((url) => {
-        const loc = `${SITE_ORIGIN}${url.path}`;
         const lastmod = url.lastmod
           ? `\n    <lastmod>${this.toDate(url.lastmod)}</lastmod>`
           : '';
-        const changefreq = url.changefreq
-          ? `\n    <changefreq>${url.changefreq}</changefreq>`
-          : '';
-        const priority = url.priority
-          ? `\n    <priority>${url.priority}</priority>`
-          : '';
-        const alternates = (url.alternates ?? [])
+        const alternates = this.withXDefault(url.alternates)
           .map(
             (alt) =>
               `\n    <xhtml:link rel="alternate" hreflang="${alt.lang}" href="${this.escape(`${SITE_ORIGIN}${alt.path}`)}" />`,
           )
           .join('');
-        return `  <url>\n    <loc>${this.escape(loc)}</loc>${lastmod}${changefreq}${priority}${alternates}\n  </url>`;
+        return `  <url>\n    <loc>${this.escape(`${SITE_ORIGIN}${url.path}`)}</loc>${lastmod}${alternates}\n  </url>`;
       })
       .join('\n');
 
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries}\n</urlset>\n`;
+  }
+
+  /** The unprefixed (English) URL is also the x-default, like the `<link rel="alternate">` the pages write. */
+  private withXDefault(
+    alternates: SitemapUrl['alternates'] = [],
+  ): { lang: string; path: string }[] {
+    const en = alternates.find((alt) => alt.lang === 'en');
+    return en
+      ? [...alternates, { lang: 'x-default', path: en.path }]
+      : alternates;
   }
 
   private toDate(isoLike: string): string {

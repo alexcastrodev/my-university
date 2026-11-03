@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { DOTNET_TESTING_CONCEPT_TOPIC_ORDER, DotNetTestingConceptSummary } from '../../models/dotnet-testing-concept.model';
 import { DotNetTestingConceptsService } from '../../services/dotnet-testing-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { groupByTopic } from '../../shared/concept-topics';
@@ -53,6 +54,7 @@ export class DotNetTestingConceptsListPage implements OnInit {
       title: '.NET Testing Concepts',
       description: 'Testing .NET code with MSTest explained in depth: objective, use cases, deep dive, and trade-offs.',
       path: '/dotnet-testing-concepts',
+      alternates: localizedAlternates('/dotnet-testing-concepts'),
     });
 
     this.dotNetTestingConceptsService.listConcepts().subscribe({

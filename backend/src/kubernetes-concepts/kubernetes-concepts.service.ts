@@ -33,6 +33,7 @@ export interface KubernetesConceptSummary {
   topic: string;
   summary: string;
   publishedAt: string;
+  updatedAt: string | null;
   labUrl?: string;
   language: Language;
   availableLanguages: Language[];
@@ -40,7 +41,6 @@ export interface KubernetesConceptSummary {
 
 export interface KubernetesConceptDetail extends KubernetesConceptSummary {
   version: string | null;
-  updatedAt: string | null;
   sections: ConceptSection[];
   /** Markdown of the `## Lab` section, kept out of `sections` so it only shows in the Lab tab. */
   lab?: string;
@@ -101,7 +101,7 @@ export class KubernetesConceptsService {
     meta: ConceptMeta,
     lang: Language,
   ): KubernetesConceptSummary {
-    const { language, availableLanguages, title, summary } = readConceptContent(
+    const { language, availableLanguages, title, summary, updatedAt } = readConceptContent(
       DATA_DIR,
       meta.slug,
       lang,
@@ -116,6 +116,7 @@ export class KubernetesConceptsService {
       topic: meta.topic,
       summary: summary ?? meta.summary,
       publishedAt: meta.publishedAt,
+      updatedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),
       language,
       availableLanguages,

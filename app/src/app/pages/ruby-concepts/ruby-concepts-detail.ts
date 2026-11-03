@@ -7,6 +7,7 @@ import { RubyConceptView } from '../../components/ruby-concept-view/ruby-concept
 import { RUBY_CONCEPT_TOPIC_ORDER, RubyConcept, RubyConceptSummary } from '../../models/ruby-concept.model';
 import { RubyConceptsService } from '../../services/ruby-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 import { orderByTopic } from '../../shared/concept-topics';
@@ -81,6 +82,7 @@ export class RubyConceptsDetailPage implements OnInit {
           title: `${concept.title} — Ruby Concepts`,
           description: concept.summary,
           path: `/ruby-concepts/${concept.slug}`,
+          alternates: localizedAlternates(`/ruby-concepts/${concept.slug}`, concept.availableLanguages),
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,

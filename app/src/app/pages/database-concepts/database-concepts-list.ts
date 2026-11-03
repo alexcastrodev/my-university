@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { DATABASE_CONCEPT_TOPIC_ORDER, DatabaseConceptCategory, DatabaseConceptSummary } from '../../models/database-concept.model';
 import { DatabaseConceptsService } from '../../services/database-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { groupByTopic } from '../../shared/concept-topics';
@@ -78,6 +79,7 @@ export class DatabaseConceptsListPage implements OnInit {
       title: 'Database Concepts',
       description: 'PostgreSQL, SQL, MongoDB, and DynamoDB concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
       path: '/databases/database-concepts',
+      alternates: localizedAlternates('/databases/database-concepts'),
     });
 
     this.databaseConceptsService.listConcepts().subscribe({

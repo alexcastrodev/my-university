@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { QUARKUS_CONCEPT_TOPIC_ORDER, QuarkusConceptCategory, QuarkusConceptSummary } from '../../models/quarkus-concept.model';
 import { QuarkusConceptsService } from '../../services/quarkus-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { groupByTopic } from '../../shared/concept-topics';
@@ -75,6 +76,7 @@ export class QuarkusConceptsListPage implements OnInit {
       title: 'Quarkus Concepts',
       description: 'Hibernate ORM and Jakarta Persistence in Quarkus — configuration, caching, multitenancy, and modern data access explained in depth.',
       path: '/quarkus-concepts',
+      alternates: localizedAlternates('/quarkus-concepts'),
     });
 
     this.quarkusConceptsService.listConcepts().subscribe({

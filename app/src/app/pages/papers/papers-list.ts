@@ -5,6 +5,7 @@ import { Subject, catchError, map, of, switchMap, tap } from 'rxjs';
 import { PAPER_TYPES, PUBLICATION_STAGES, PaperFacets, PaperPage, PaperQuery, PaperSort, PaperType } from '../../models/paper.model';
 import { PapersService } from '../../services/papers.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { paperTypeLabel, stageLabel } from '../../shared/paper-format';
 import { PaperRow } from './paper-row';
 import { paperQueryParams, parsePaperQuery } from './papers-query';
@@ -90,6 +91,7 @@ export class PapersListPage implements OnInit {
       title: 'Papers',
       description: 'Research papers behind the concepts: search the catalog by title, author, DOI, keyword, research area and publication type.',
       path: '/papers',
+      alternates: localizedAlternates('/papers'),
     });
     // The selects are a convenience: without them the search box and the links still filter.
     this.papers.facets().subscribe({ next: (facets) => this.facets.set(facets), error: () => undefined });

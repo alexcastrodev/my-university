@@ -7,6 +7,7 @@ import { CSharpConceptView } from '../../components/csharp-concept-view/csharp-c
 import { CSHARP_CONCEPT_TOPIC_ORDER, CSharpConcept, CSharpConceptSummary } from '../../models/csharp-concept.model';
 import { CSharpConceptsService } from '../../services/csharp-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 import { orderByTopic } from '../../shared/concept-topics';
@@ -81,6 +82,7 @@ export class CSharpConceptsDetailPage implements OnInit {
           title: `${concept.title} | C# Concepts`,
           description: concept.summary,
           path: `/csharp-concepts/${concept.slug}`,
+          alternates: localizedAlternates(`/csharp-concepts/${concept.slug}`, concept.availableLanguages),
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,

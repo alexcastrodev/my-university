@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { RUBY_CONCEPT_TOPIC_ORDER, RubyConceptSummary } from '../../models/ruby-concept.model';
 import { RubyConceptsService } from '../../services/ruby-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { groupByTopic } from '../../shared/concept-topics';
@@ -53,6 +54,7 @@ export class RubyConceptsListPage implements OnInit {
       title: 'Ruby Concepts',
       description: 'Core Ruby language concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
       path: '/ruby-concepts',
+      alternates: localizedAlternates('/ruby-concepts'),
     });
 
     this.rubyConceptsService.listConcepts().subscribe({
