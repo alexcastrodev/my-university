@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-09
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
@@ -17,7 +17,7 @@ Project Leyden attacks the two reasons a Java program is slow in its first secon
 
 ### Startup and warm-up are different costs
 
-A cold JVM pays twice. First it loads and links every class the program touches, which for a framework application means thousands of classes. Then it runs that code in the interpreter while HotSpot counts invocations and records *profiles* (which branch is taken, which receiver types appear at a call site) so that C1 and C2 know what to optimize. Peak speed only arrives after both. A runtime that wants to optimize aggressively *because* it observes the real program is structurally slow at the start, which is the price of the design described in [JIT Tiered Compilation](/jvm-concepts/jit-tiered-compilation). Leyden moves observation from the production run to a training run.
+A cold JVM pays twice. First it loads and links every class the program touches, which for a framework application means thousands of classes. Then it runs that code in the interpreter while HotSpot counts invocations and records *profiles* (which branch is taken, which receiver types appear at a call site) so that C1 and C2 know what to optimize. Peak speed only arrives after both. A runtime that wants to optimize aggressively *because* it observes the real program is structurally slow at the start, which is the price of the design described in [JIT Tiered Compilation](/java/jvm-concepts/jit-tiered-compilation). Leyden moves observation from the production run to a training run.
 
 ### What the AOT cache holds, one JEP at a time
 
@@ -74,7 +74,7 @@ The first caches stored heap objects in a layout tied to specific collectors, so
 
 ### Where Leyden stops
 
-Leyden keeps the JVM, so the gain is a fraction of what a native executable gives and the memory footprint does not shrink. JEP 483 reports about 42% faster startup for a small Stream demo and for Spring PetClinic, with a cache of 11 MB and 130 MB respectively. When the requirement is a process that is live in milliseconds with a small footprint, compare with [GraalVM Native Image Compilation](/java-concepts/graalvm-native-image-compilation). When the requirement is "the same application, noticeably quicker to start", the AOT cache is the cheaper first step. Shrinking what you ship is a separate lever: see [jlink and jdeps: Custom Runtime Images](/java-concepts/jlink-custom-runtime-images).
+Leyden keeps the JVM, so the gain is a fraction of what a native executable gives and the memory footprint does not shrink. JEP 483 reports about 42% faster startup for a small Stream demo and for Spring PetClinic, with a cache of 11 MB and 130 MB respectively. When the requirement is a process that is live in milliseconds with a small footprint, compare with [GraalVM Native Image Compilation](/java/java-concepts/graalvm-native-image-compilation). When the requirement is "the same application, noticeably quicker to start", the AOT cache is the cheaper first step. Shrinking what you ship is a separate lever: see [jlink and jdeps: Custom Runtime Images](/java/java-concepts/jlink-custom-runtime-images).
 
 ## Trade-offs
 

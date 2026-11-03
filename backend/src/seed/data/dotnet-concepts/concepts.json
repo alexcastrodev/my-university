@@ -1507,12 +1507,12 @@
       {
         "label": "Relational vs. Document Data Models",
         "slug": "relational-vs-document-data-models",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       },
       {
         "label": "Sharding Strategies, Rebalancing, and Secondary Indexes",
         "slug": "sharding-strategies-rebalancing-and-secondary-indexes",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "references": [
@@ -2698,7 +2698,7 @@
       {
         "label": "Full-Text Search and Vector Embedding Indexes",
         "slug": "full-text-and-vector-search-indexes",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       },
       {
         "label": "Strings: Comparison, Culture and Ordering",
@@ -5581,7 +5581,7 @@
       {
         "label": "Caching Strategies and CDNs",
         "slug": "caching-strategies-and-cdns",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       },
       {
         "label": "Redis Application Patterns: Caching, Session Storage, and Rate Limiting",
@@ -5662,12 +5662,12 @@
       {
         "label": "Distributed Tracing and Observability",
         "slug": "distributed-tracing-and-observability",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       },
       {
         "label": "Designing a Metrics Monitoring and Alerting System",
         "slug": "metrics-monitoring-and-alerting-system",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "references": [
@@ -5961,7 +5961,7 @@
       {
         "label": "Rate Limiting",
         "slug": "rate-limiting",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       },
       {
         "label": "Rate Limiting and Abuse Protection with rack-attack",
@@ -7131,12 +7131,12 @@
       {
         "label": "Transactions, ACID, and Isolation Levels",
         "slug": "transactions-acid-and-isolation-levels",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       },
       {
         "label": "Distributed Transactions and Two-Phase Commit",
         "slug": "distributed-transactions-and-two-phase-commit",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       },
       {
         "label": "Troubleshooting with pg_stat_activity, pg_stat_statements, and Locks",

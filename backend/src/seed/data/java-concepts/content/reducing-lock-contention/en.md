@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-13
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
@@ -9,8 +9,8 @@ reason a server stops scaling: every thread that needs the lock queues up
 behind whichever thread holds it, so adding more threads (or cores) just grows
 the queue instead of growing throughput. This concept assumes correctness is
 already solved — the companion concepts on
-[AQS](abstract-queued-synchronizer-and-custom-locks.md) and
-[deadlock avoidance](deadlock-lock-ordering-and-avoidance.md) cover what's
+[AQS](abstract-queued-synchronizer-and-custom-locks) and
+[deadlock avoidance](deadlock-lock-ordering-and-avoidance) cover what's
 underneath a lock and how to avoid corrupting or wedging it — and asks the next
 question: once a correct lock has become a contention bottleneck, what are the
 concrete levers to pull, roughly in order of how surgical (vs. invasive) each
@@ -211,7 +211,7 @@ acquire some or all of the stripe locks instead of just one.
 `ConcurrentHashMap` is the canonical real-world example of pushing this idea
 further still — its current bin-level CAS-plus-`synchronized` design is
 covered in depth by the sibling concept on
-[concurrent collections](concurrent-collections-and-compound-actions.md); the
+[concurrent collections](concurrent-collections-and-compound-actions); the
 point to take from it here is just that lock striping generalizes to
 per-bucket locking, and modern `ConcurrentHashMap` generalizes that once more
 into per-bin CAS with synchronization only on an actual collision.
@@ -262,7 +262,7 @@ tool.
 Two more options exist for when the *access pattern* itself doesn't need
 exclusive locking at all, rather than needing a narrower or split lock. Both
 have their usage mechanics covered by the sibling
-[concurrency utilities](concurrency-utilities-executors-and-synchronizers.md)
+[concurrency utilities](concurrency-utilities-executors-and-synchronizers)
 concept — the point here is *why* to reach for one instead of narrowing or
 splitting further:
 
@@ -294,7 +294,7 @@ splitting further:
   into several, or striping into many, only pays off if no code path ever
   needs to hold more than one of them at a time in an order that isn't
   consistent everywhere — see the sibling concept on
-  [deadlock avoidance](deadlock-lock-ordering-and-avoidance.md) for the
+  [deadlock avoidance](deadlock-lock-ordering-and-avoidance) for the
   ordering discipline this requires once there's more than one lock.
 - **Striping trades memory and whole-structure operations for
   concurrency.** A single lock costs one object; N stripes cost N. Operations

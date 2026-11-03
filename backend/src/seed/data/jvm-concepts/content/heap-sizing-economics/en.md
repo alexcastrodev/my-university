@@ -1,10 +1,10 @@
 ---
-version: 1.0
-updatedAt: 2026-09-04
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
-Learn to size `-Xmx` as an economic decision grounded in what cloud and consumer hardware actually bundle per CPU core, measure real allocation rate and GC CPU cost instead of guessing, and avoid the extrapolation traps that make a naive cross-language or cross-benchmark memory comparison meaningless. This concept assumes the cost model from [Moving Garbage Collectors and the RAM/CPU Trade-off](/jvm-concepts/gc-ram-cpu-tradeoff) — that heap headroom is a direct lever on GC's CPU cost — and focuses on what that means in practice.
+Learn to size `-Xmx` as an economic decision grounded in what cloud and consumer hardware actually bundle per CPU core, measure real allocation rate and GC CPU cost instead of guessing, and avoid the extrapolation traps that make a naive cross-language or cross-benchmark memory comparison meaningless. This concept assumes the cost model from [Moving Garbage Collectors and the RAM/CPU Trade-off](/java/jvm-concepts/gc-ram-cpu-tradeoff) — that heap headroom is a direct lever on GC's CPU cost — and focuses on what that means in practice.
 
 ## Use Cases
 

@@ -1,10 +1,10 @@
 ---
-version: 1.0
-updatedAt: 2026-08-21
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
-[Stream API Fundamentals](/java-concepts/stream-api-fundamentals) covers the basic pipeline shape and mentions `Collectors` and `parallelStream()` in passing. This concept goes deeper on exactly those two points: the multi-level and combining collectors beyond `toList()`/`groupingBy()`, how to write a `Collector` from scratch, and what actually happens — mechanically and in terms of risk — when a stream runs in parallel instead of sequentially.
+[Stream API Fundamentals](/java/java-concepts/stream-api-fundamentals) covers the basic pipeline shape and mentions `Collectors` and `parallelStream()` in passing. This concept goes deeper on exactly those two points: the multi-level and combining collectors beyond `toList()`/`groupingBy()`, how to write a `Collector` from scratch, and what actually happens — mechanically and in terms of risk — when a stream runs in parallel instead of sequentially.
 
 ## Use Cases
 
@@ -158,7 +158,7 @@ Declaring `CONCURRENT` is a promise, not an implementation: the Stream API trust
 
 ### How a parallel stream actually splits work
 
-`parallelStream()` doesn't hand-roll thread management: it obtains a `Spliterator` from the source, which recursively splits the data into chunks (`trySplit()`), and submits those chunks as tasks to the common `ForkJoinPool` — the same divide-and-conquer engine covered in [Fork/Join Framework](/java-concepts/fork-join-framework). A source that splits cheaply and evenly (an `ArrayList`, an array) parallelizes well; one that can only be split by walking it node-by-node (a `LinkedList`) or that has no genuine random-access structure (an I/O-backed stream) gains little or nothing, because the `Spliterator` can't divide it efficiently.
+`parallelStream()` doesn't hand-roll thread management: it obtains a `Spliterator` from the source, which recursively splits the data into chunks (`trySplit()`), and submits those chunks as tasks to the common `ForkJoinPool` — the same divide-and-conquer engine covered in [Fork/Join Framework](/java/java-concepts/fork-join-framework). A source that splits cheaply and evenly (an `ArrayList`, an array) parallelizes well; one that can only be split by walking it node-by-node (a `LinkedList`) or that has no genuine random-access structure (an I/O-backed stream) gains little or nothing, because the `Spliterator` can't divide it efficiently.
 
 ```java
 List<Integer> big = IntStream.rangeClosed(1, 10_000_000).boxed().toList();

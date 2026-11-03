@@ -1,12 +1,12 @@
 ---
-version: 1.0
-updatedAt: 2026-08-21
+version: 1.1
+updatedAt: 2026-11-03
 title: Collectors de Stream e Streams Paralelas
 summary: Um mergulho profundo nos Collectors de múltiplos níveis (groupingBy, partitioningBy, toMap, teeing, Collector.of customizado) e na mecânica e nas armadilhas das streams paralelas.
 ---
 ## Objective
 
-[Stream API Fundamentals](/java-concepts/stream-api-fundamentals) cobre o formato básico do pipeline e menciona `Collectors` e `parallelStream()` de passagem. Este conceito aprofunda exatamente esses dois pontos: os collectors de múltiplos níveis e combinadores além de `toList()`/`groupingBy()`, como escrever um `Collector` do zero, e o que de fato acontece — mecanicamente e em termos de risco — quando uma stream roda em paralelo em vez de sequencialmente.
+[Stream API Fundamentals](/pt-BR/java/java-concepts/stream-api-fundamentals) cobre o formato básico do pipeline e menciona `Collectors` e `parallelStream()` de passagem. Este conceito aprofunda exatamente esses dois pontos: os collectors de múltiplos níveis e combinadores além de `toList()`/`groupingBy()`, como escrever um `Collector` do zero, e o que de fato acontece — mecanicamente e em termos de risco — quando uma stream roda em paralelo em vez de sequencialmente.
 
 ## Use Cases
 
@@ -160,7 +160,7 @@ Declarar `CONCURRENT` é uma promessa, não uma implementação: a Stream API co
 
 ### Como uma stream paralela de fato divide o trabalho
 
-`parallelStream()` não implementa gerenciamento de threads na mão: ela obtém um `Spliterator` da fonte, que divide recursivamente os dados em pedaços (`trySplit()`), e submete esses pedaços como tarefas ao `ForkJoinPool` comum — o mesmo motor de dividir-para-conquistar coberto em [Fork/Join Framework](/java-concepts/fork-join-framework). Uma fonte que se divide de forma barata e uniforme (um `ArrayList`, um array) paraleliza bem; uma que só pode ser dividida percorrendo-a nó a nó (uma `LinkedList`) ou que não tem uma estrutura genuína de acesso aleatório (uma stream apoiada em I/O) ganha pouco ou nada, porque o `Spliterator` não consegue dividi-la eficientemente.
+`parallelStream()` não implementa gerenciamento de threads na mão: ela obtém um `Spliterator` da fonte, que divide recursivamente os dados em pedaços (`trySplit()`), e submete esses pedaços como tarefas ao `ForkJoinPool` comum — o mesmo motor de dividir-para-conquistar coberto em [Fork/Join Framework](/pt-BR/java/java-concepts/fork-join-framework). Uma fonte que se divide de forma barata e uniforme (um `ArrayList`, um array) paraleliza bem; uma que só pode ser dividida percorrendo-a nó a nó (uma `LinkedList`) ou que não tem uma estrutura genuína de acesso aleatório (uma stream apoiada em I/O) ganha pouco ou nada, porque o `Spliterator` não consegue dividi-la eficientemente.
 
 ```java
 List<Integer> big = IntStream.rangeClosed(1, 10_000_000).boxed().toList();

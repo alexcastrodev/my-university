@@ -1,12 +1,12 @@
 ---
-version: 1.0
-updatedAt: 2026-08-21
+version: 1.1
+updatedAt: 2026-11-03
 title: "Classloading: O Modelo de Delegação e Class Loaders Customizados"
 summary: Como a JVM carrega, faz o linking e inicializa classes através de uma hierarquia de delegação parent-first, e o que acontece quando você escreve um class loader customizado ou carrega a mesma classe duas vezes.
 ---
 ## Objective
 
-Entender como a JVM transforma um arquivo `.class` em um tipo vivo e utilizável: **loading** (carregamento) encontra os bytes e cria um objeto `Class`, **linking** (linkedição) verifica e prepara a classe, e **initialization** (inicialização) executa seus inicializadores estáticos — três fases distintas, disparadas em momentos diferentes e muitas vezes surpreendentes. O carregamento de classes também é delegado através de uma **hierarquia** de instâncias de `ClassLoader` que, por padrão, sempre perguntam primeiro ao seu pai — uma regra que existe especificamente para que código de aplicação não consiga substituir silenciosamente classes core do JDK. Esse é o mecanismo por baixo do module system coberto em [Java Platform Module System](/java-concepts/java-platform-module-system); o JPMS muda *quais* pacotes um loader tem permissão de enxergar, não o pipeline de loading/linking/initialization em si.
+Entender como a JVM transforma um arquivo `.class` em um tipo vivo e utilizável: **loading** (carregamento) encontra os bytes e cria um objeto `Class`, **linking** (linkedição) verifica e prepara a classe, e **initialization** (inicialização) executa seus inicializadores estáticos — três fases distintas, disparadas em momentos diferentes e muitas vezes surpreendentes. O carregamento de classes também é delegado através de uma **hierarquia** de instâncias de `ClassLoader` que, por padrão, sempre perguntam primeiro ao seu pai — uma regra que existe especificamente para que código de aplicação não consiga substituir silenciosamente classes core do JDK. Esse é o mecanismo por baixo do module system coberto em [Java Platform Module System](/pt-BR/java/java-concepts/java-platform-module-system); o JPMS muda *quais* pacotes um loader tem permissão de enxergar, não o pipeline de loading/linking/initialization em si.
 
 ## Use Cases
 

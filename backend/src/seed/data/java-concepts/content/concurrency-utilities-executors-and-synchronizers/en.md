@@ -1,11 +1,11 @@
 ---
-version: 1.0
-updatedAt: 2026-08-13
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
 `Thread`, `Runnable`, and `synchronized` (covered in depth by the companion concept
-on the [legacy vs. virtual thread model](../thread-model-legacy-vs-virtual-threads.md))
+on the [legacy vs. virtual thread model](thread-model-legacy-vs-virtual-threads))
 are the *primitives* Java has always had for concurrency. JDK 5 added a layer on top
 of them — the **concurrency utilities**, spread across `java.util.concurrent`,
 `java.util.concurrent.atomic`, and `java.util.concurrent.locks` — that gives programs

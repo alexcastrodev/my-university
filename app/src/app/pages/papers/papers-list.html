@@ -123,7 +123,7 @@
                 [areaParams]="paper.researchArea ? paperQueryParams({ area: paper.researchArea }) : null"
               >
                 @for (keyword of paper.keywords; track keyword) {
-                  <a class="chip" [routerLink]="[]" [queryParams]="paperQueryParams({ keyword })">{{ keyword }}</a>
+                  <a class="chip" [routerLink]="[]" [queryParams]="paperQueryParams({ keyword })" rel="nofollow">{{ keyword }}</a>
                 }
               </app-paper-row>
             </li>

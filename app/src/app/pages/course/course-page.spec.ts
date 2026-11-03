@@ -198,5 +198,12 @@ describe('CoursePage and unknown ids', () => {
     http.expectOne('/api/courses/java-21').flush(makeCourse({}));
     expect(seo.setNotFound).not.toHaveBeenCalled();
     expect(seo.set).toHaveBeenCalled();
+    expect(seo.set).not.toHaveBeenCalledWith(jasmine.objectContaining({ noindex: true }));
+  });
+
+  it('keeps a skill check out of the index: its questions are drawn in the browser, so it has no text to rank', () => {
+    render('java-21', PRACTICE_LESSON_ID);
+    http.expectOne('/api/courses/java-21').flush(makeCourse({ type: 'skill-check' }));
+    expect(seo.set).toHaveBeenCalledWith(jasmine.objectContaining({ noindex: true }));
   });
 });

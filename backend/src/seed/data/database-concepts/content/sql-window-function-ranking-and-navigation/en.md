@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-06
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
@@ -98,7 +98,7 @@ than the genuinely next hire. The book's fix is a computed offset
 (`lead(sal, cnt-rn+1)`), and that offset argument is the least portable
 thing in the whole chapter; it's covered in detail, with the exact
 PostgreSQL cast error and MySQL's literal-only restriction, in
-[SQL: Differences Between Adjacent Rows](/database-concepts/sql-differences-between-adjacent-rows).
+[SQL: Differences Between Adjacent Rows](/databases/database-concepts/sql-differences-between-adjacent-rows).
 
 ### LAG and LEAD as a shift operator
 

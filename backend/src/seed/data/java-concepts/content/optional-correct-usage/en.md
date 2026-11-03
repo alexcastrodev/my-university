@@ -1,10 +1,10 @@
 ---
-version: 1.0
-updatedAt: 2026-08-18
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
-`Optional<T>` is a container object that either holds a single non-null value or holds nothing. Its entire reason to exist is to make "this might not produce a value" part of a method's *signature* instead of a fact buried in the Javadoc (or nowhere at all) that a caller has to remember to null-check. `Optional<User> findByEmail(String email)` tells every caller, at compile time, that an empty result is a normal outcome; `User findByEmail(String email)` returning `null` tells them nothing, and the `NullPointerException` shows up three frames away from where the `null` was born. What `Optional` is *not* is a general-purpose nullable box: the JDK's own Javadoc states it is "primarily intended for use as a method return type," and the JDK team has been explicit that fields, method parameters, and collection elements were never the target. The rest of this concept is about why those rules exist rather than just asserting them, plus the handful of methods that people reliably get wrong. You have already seen `Optional` in passing as the return type of `findFirst()` in [Stream API Fundamentals](/java-concepts/stream-api-fundamentals) — that concept treats it as "what one terminal operation happens to return"; here it is the subject.
+`Optional<T>` is a container object that either holds a single non-null value or holds nothing. Its entire reason to exist is to make "this might not produce a value" part of a method's *signature* instead of a fact buried in the Javadoc (or nowhere at all) that a caller has to remember to null-check. `Optional<User> findByEmail(String email)` tells every caller, at compile time, that an empty result is a normal outcome; `User findByEmail(String email)` returning `null` tells them nothing, and the `NullPointerException` shows up three frames away from where the `null` was born. What `Optional` is *not* is a general-purpose nullable box: the JDK's own Javadoc states it is "primarily intended for use as a method return type," and the JDK team has been explicit that fields, method parameters, and collection elements were never the target. The rest of this concept is about why those rules exist rather than just asserting them, plus the handful of methods that people reliably get wrong. You have already seen `Optional` in passing as the return type of `findFirst()` in [Stream API Fundamentals](/java/java-concepts/stream-api-fundamentals) — that concept treats it as "what one terminal operation happens to return"; here it is the subject.
 
 ## Use Cases
 

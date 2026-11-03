@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-06
+version: 1.1
+updatedAt: 2026-11-03
 title: PageRank via Iteração de Potência
 summary: A escalada honesta do que uma checagem de verificação apenas sugeria: em 18 páginas, iteração de potência para de ser conveniência e se torna o único método prático, exatamente como o algoritmo real de Brin & Page opera em escala de web.
 ---
@@ -14,7 +14,7 @@ summary: A escalada honesta do que uma checagem de verificação apenas sugeria:
 
 ## Contexto e Motivação
 
-[Matrizes de Markov e Distribuições Estacionárias](../../../../mathematics-for-computing/content/markov-matrices-and-stationary-distributions/pt-BR.md) já resolveu PageRank exatamente, à mão, em um grafo de web de brinquedo de 4 páginas: construiu a matriz de link coluna-estocástica, resolveu Mπ = π diretamente por redução de linha, obteve π = (1/3, 1/6, 1/3, 1/6), e depois rodou um pequeno laço de iteração de potência como uma **checagem de verificação**, confirmando que aplicar M repetidamente a um vetor inicial convergia para a mesma resposta já encontrada algebricamente. Aquela iteração de potência era um bônus ali: uma segunda forma, independente, de confirmar que um sistema linear de quatro incógnitas tinha sido resolvido corretamente, nada mais.
+[Matrizes de Markov e Distribuições Estacionárias](/pt-BR/computer-science/foundations/mathematics-for-computing/markov-matrices-and-stationary-distributions) já resolveu PageRank exatamente, à mão, em um grafo de web de brinquedo de 4 páginas: construiu a matriz de link coluna-estocástica, resolveu Mπ = π diretamente por redução de linha, obteve π = (1/3, 1/6, 1/3, 1/6), e depois rodou um pequeno laço de iteração de potência como uma **checagem de verificação**, confirmando que aplicar M repetidamente a um vetor inicial convergia para a mesma resposta já encontrada algebricamente. Aquela iteração de potência era um bônus ali: uma segunda forma, independente, de confirmar que um sistema linear de quatro incógnitas tinha sido resolvido corretamente, nada mais.
 
 Este laboratório é a escalada honesta para a qual a checagem de verificação daquele conceito estava gesticulando mas não precisava fazer. Resolver Mπ = π exatamente, por redução de linha, exige montar e resolver um sistema com tantas incógnitas quanto há páginas, tratável à mão para 4 páginas, sem esperança à mão para até mesmo algumas dezenas, e nunca a forma como o algoritmo real funcionou em qualquer ponto desde que foi introduzido. [O artigo original de Brin & Page](http://infolab.stanford.edu/pub/papers/google.pdf) descreve calcular PageRank através da web real, centenas de milhões de páginas na época, dezenas de bilhões hoje, sem que ninguém jamais monte ou resolva uma equação de autovetor diretamente. Iteração de potência não é uma aproximação conveniente substituindo o método algébrico "real"; para um grafo em qualquer escala real, iteração de potência *é* o algoritmo real. Este laboratório a constrói como o método primário, autônomo, em um grafo de 18 páginas, pequeno o suficiente para imprimir e inspecionar por completo, mas grande o suficiente que resolver um sistema linear de 18 incógnitas à mão não é mais algo razoável de tentar, o que é precisamente o ponto.
 

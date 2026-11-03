@@ -37,7 +37,7 @@
               @if (p.authors.length) {
                 @for (author of p.authors; track $index) {
                   <span class="author">
-                    <a [routerLink]="['/papers']" [queryParams]="{ author: author.name }">{{ author.name }}</a>
+                    <a [routerLink]="['/papers']" [queryParams]="{ author: author.name }" rel="nofollow">{{ author.name }}</a>
                     @if (author.orcid) {
                       <a class="orcid" [href]="orcidUrl(author.orcid)" target="_blank" rel="noopener noreferrer" i18n-title="@@papers.detail.orcid" title="ORCID">ORCID</a>
                     }
@@ -53,7 +53,7 @@
             <dl class="facts">
               <div class="fact">
                 <dt i18n="@@papers.detail.type">Type</dt>
-                <dd><a [routerLink]="['/papers']" [queryParams]="{ type: p.type }">{{ paperTypeLabel(p.type) }}</a></dd>
+                <dd><a [routerLink]="['/papers']" [queryParams]="{ type: p.type }" rel="nofollow">{{ paperTypeLabel(p.type) }}</a></dd>
               </div>
               <div class="fact">
                 <dt i18n="@@papers.detail.published">Date</dt>
@@ -70,7 +70,7 @@
               @if (p.researchArea) {
                 <div class="fact">
                   <dt i18n="@@papers.detail.area">Research area</dt>
-                  <dd><a [routerLink]="['/papers']" [queryParams]="{ area: p.researchArea }">{{ p.researchArea }}</a></dd>
+                  <dd><a [routerLink]="['/papers']" [queryParams]="{ area: p.researchArea }" rel="nofollow">{{ p.researchArea }}</a></dd>
                 </div>
               }
               @if (doiUrl(); as doi) {
@@ -101,7 +101,7 @@
             @if (p.keywords.length) {
               <p class="keywords">
                 @for (keyword of p.keywords; track keyword) {
-                  <a class="chip" [routerLink]="['/papers']" [queryParams]="{ keyword }">{{ keyword }}</a>
+                  <a class="chip" [routerLink]="['/papers']" [queryParams]="{ keyword }" rel="nofollow">{{ keyword }}</a>
                 }
               </p>
             } @else {

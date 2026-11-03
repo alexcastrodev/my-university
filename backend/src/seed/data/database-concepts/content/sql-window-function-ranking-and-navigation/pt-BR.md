@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-06
+version: 1.1
+updatedAt: 2026-11-03
 title: "SQL: Ranking e Navegação entre Linhas com Window Functions"
 summary: Use LEAD e LAG para ler ou deslocar o valor de uma linha vizinha, e RANK, DENSE_RANK e ROW_NUMBER para atribuir posições ordinais com três regras diferentes de tratamento de empates.
 ---
@@ -103,7 +103,7 @@ mesmo dia, e não com a contratação de fato seguinte. A correção do livro é
 offset calculado (`lead(sal, cnt-rn+1)`), e esse argumento de offset é a
 coisa menos portável do capítulo inteiro; ele é tratado em detalhe, com o erro
 exato de cast do PostgreSQL e a restrição do MySQL a literais, em
-[SQL: Diferenças entre Linhas Adjacentes](/database-concepts/sql-differences-between-adjacent-rows).
+[SQL: Diferenças entre Linhas Adjacentes](/pt-BR/databases/database-concepts/sql-differences-between-adjacent-rows).
 
 ### LAG e LEAD como operador de deslocamento
 

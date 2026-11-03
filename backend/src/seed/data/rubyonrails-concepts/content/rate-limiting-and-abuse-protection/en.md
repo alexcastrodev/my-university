@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-21
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
@@ -43,7 +43,7 @@ from one that actually holds under real traffic and real attackers.
 Rails app it's included and enabled automatically once the gem is in the
 Gemfile, sitting in the middleware stack (see `bin/rails middleware`,
 covered for the full stack in
-[Reducing Per-Request Framework Overhead](reducing-per-request-framework-overhead.md))
+[Reducing Per-Request Framework Overhead](reducing-per-request-framework-overhead))
 ahead of `ActionDispatch::Executor` and everything downstream, including
 routing, controller `before_action` chains, and any Pundit/CanCanCan
 `authorize` call:
@@ -60,7 +60,7 @@ gem "rack-attack", "~> 6.8"
 ```
 
 That ordering is the point: a request rack-attack blocks or throttles never
-reaches [authorization](authorization-mass-assignment-and-encryption.md) at
+reaches [authorization](authorization-mass-assignment-and-encryption) at
 all — it never instantiates a Pundit policy, never touches `current_user`,
 never runs a single line of your controller. Abuse protection at this layer
 is deliberately dumber and earlier than authorization: it doesn't know who
@@ -163,7 +163,7 @@ throttle traffic during an actual attack doesn't also degrade unrelated
 application caching.
 
 Rails 8's `Solid Cache` (covered in
-[Solid Queue, Cache, and Cable](solid-queue-cache-and-cable.md)) technically
+[Solid Queue, Cache, and Cable](solid-queue-cache-and-cable)) technically
 satisfies the same interface — it's `ActiveSupport::Cache::Store`-backed — so
 it will *work*. But it's backed by a database table
 (`solid_cache_entries`), not memory, and a throttle counter does an

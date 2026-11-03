@@ -182,6 +182,8 @@ export class CoursePage implements OnInit {
       description: `${lesson.title} — a lesson from the ${course.title} course on My University.`,
       path: `/java/exam/${course.id}/lesson/${lesson.id}`,
       type: 'article',
+      // A skill check is a quiz built in the browser: the server renders only its title and the playlist.
+      noindex: lesson.type === 'skill-check',
       breadcrumbs: this.breadcrumbItems(),
     });
   }

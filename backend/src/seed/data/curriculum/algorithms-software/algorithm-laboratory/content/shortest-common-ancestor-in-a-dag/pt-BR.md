@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-06
+version: 1.1
+updatedAt: 2026-11-03
 title: Ancestral Comum Mais Curto em um DAG
 summary: Duas execuções de BFS independentes, uma de cada vértice de consulta, combinadas minimizando a soma das duas distâncias, o problema WordNet de Princeton onde "existe um ancestral comum" e "é o ancestral comum mais curto" são perguntas genuinamente diferentes.
 ---
@@ -14,7 +14,7 @@ summary: Duas execuções de BFS independentes, uma de cada vértice de consulta
 
 ## Contexto e Motivação
 
-Busca em largura, exploração nível a nível via uma fila, e a garantia de distância-da-origem que vem com ela, já foi coberta por completo no material companheiro de BFS de [Busca em Profundidade](../../../algorithms/content/graph-traversal-dfs/pt-BR.md). Este laboratório não reensina BFS. Ele constrói uma aplicação específica, real, dela diretamente em cima da estrutura DAG: o problema de ancestral comum mais curto estilo WordNet de Princeton, onde "ancestral" significa um nó alcançável seguindo arestas *para trás* de ambos os vértices de consulta (em um DAG de hipônimos, "mamífero" é um ancestral alcançável-para-trás tanto de "gato" quanto de "cachorro", já que ambos apontam em direção a ele através de uma cadeia é-um), e "mais curto" significa aquele que minimiza o comprimento de caminho *combinado* de ambas as consultas, não meramente o primeiro ancestral encontrado por qualquer busca sozinha.
+Busca em largura, exploração nível a nível via uma fila, e a garantia de distância-da-origem que vem com ela, já foi coberta por completo no material companheiro de BFS de [Busca em Profundidade](/pt-BR/computer-science/algorithms-software/algorithms/graph-traversal-dfs). Este laboratório não reensina BFS. Ele constrói uma aplicação específica, real, dela diretamente em cima da estrutura DAG: o problema de ancestral comum mais curto estilo WordNet de Princeton, onde "ancestral" significa um nó alcançável seguindo arestas *para trás* de ambos os vértices de consulta (em um DAG de hipônimos, "mamífero" é um ancestral alcançável-para-trás tanto de "gato" quanto de "cachorro", já que ambos apontam em direção a ele através de uma cadeia é-um), e "mais curto" significa aquele que minimiza o comprimento de caminho *combinado* de ambas as consultas, não meramente o primeiro ancestral encontrado por qualquer busca sozinha.
 
 ## Teoria Central
 

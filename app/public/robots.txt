@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
 
+# The paper library filters show the same list as /papers (its canonical): one extra URL per author, keyword, area and type.
+Disallow: /*papers?*author=
+Disallow: /*papers?*keyword=
+Disallow: /*papers?*area=
+Disallow: /*papers?*type=
+
+# Starts the GitHub sign-in: a redirect, not a page. Not all of /api/auth/: the app calls /api/auth/me while it renders.
+Disallow: /api/auth/github
+
 Sitemap: https://university.kurz.fyi/sitemap.xml

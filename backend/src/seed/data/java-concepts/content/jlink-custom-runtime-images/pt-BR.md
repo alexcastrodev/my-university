@@ -1,12 +1,12 @@
 ---
-version: 1.0
-updatedAt: 2026-08-19
+version: 1.1
+updatedAt: 2026-11-03
 title: "jlink e jdeps: Imagens de Runtime Customizadas"
 summary: O jlink liga módulos do JDK e da aplicação em uma imagem de runtime autocontida contendo só o que é alcançável, com o jdeps descobrindo primeiro a lista real de módulos — distribuindo um runtime Java enxuto em vez de um JDK completo.
 ---
 ## Objective
 
-`jlink` é o *linker* do JDK: ele pega um conjunto de módulos — módulos do JDK mais os seus próprios — e escreve uma imagem de runtime Java autocontida e executável que contém só esses módulos e nada mais. `jdeps` é seu analisador complementar: ele lê código compilado e reporta quais módulos esse código realmente precisa, em uma forma que o `jlink` aceita diretamente. Juntos eles respondem a uma questão de deployment, não de linguagem: em vez de distribuir uma aplicação e exigir um JDK ou JRE completo na máquina alvo, você distribui um diretório que contém um Java enxuto mais sua aplicação, e ele roda em uma máquina sem Java instalado nenhum. Este é o ganho prático do [Java Platform Module System](/java-concepts/java-platform-module-system) — o `jlink` só funciona porque o próprio JDK foi dividido em módulos com dependências declaradas, então um grafo de dependências pode ser resolvido e as partes inalcançáveis deixadas de fora.
+`jlink` é o *linker* do JDK: ele pega um conjunto de módulos — módulos do JDK mais os seus próprios — e escreve uma imagem de runtime Java autocontida e executável que contém só esses módulos e nada mais. `jdeps` é seu analisador complementar: ele lê código compilado e reporta quais módulos esse código realmente precisa, em uma forma que o `jlink` aceita diretamente. Juntos eles respondem a uma questão de deployment, não de linguagem: em vez de distribuir uma aplicação e exigir um JDK ou JRE completo na máquina alvo, você distribui um diretório que contém um Java enxuto mais sua aplicação, e ele roda em uma máquina sem Java instalado nenhum. Este é o ganho prático do [Java Platform Module System](/pt-BR/java/java-concepts/java-platform-module-system) — o `jlink` só funciona porque o próprio JDK foi dividido em módulos com dependências declaradas, então um grafo de dependências pode ser resolvido e as partes inalcançáveis deixadas de fora.
 
 ## Use Cases
 
@@ -20,7 +20,7 @@ summary: O jlink liga módulos do JDK e da aplicação em uma imagem de runtime 
 
 ### Uma aplicação modular mínima
 
-`jlink` precisa de módulos, então o ponto de partida é um `module-info.java` e um JAR modular. Essa é a única parte que se apoia no JPMS em si — veja o [conceito do sistema de módulos](/java-concepts/java-platform-module-system) para o que as diretivas significam.
+`jlink` precisa de módulos, então o ponto de partida é um `module-info.java` e um JAR modular. Essa é a única parte que se apoia no JPMS em si — veja o [conceito do sistema de módulos](/pt-BR/java/java-concepts/java-platform-module-system) para o que as diretivas significam.
 
 ```java
 // src/demo/module-info.java

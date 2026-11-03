@@ -1,12 +1,12 @@
 ---
-version: 1.0
-updatedAt: 2026-08-05
+version: 1.1
+updatedAt: 2026-11-03
 title: Fundamentos da Stream API
 summary: Por que uma stream é um conduto preguiçoso e de uso único em vez de uma estrutura de dados, como o formato do pipeline (fonte → operações intermediárias → operação terminal) faz com que filter-then-findFirst pare antecipadamente em vez de varrer tudo, como Collectors e as especializações de stream primitivas funcionam por baixo dos panos, e quando streams paralelas realmente ajudam.
 ---
 ## Objective
 
-Uma stream (`java.util.stream`) é um conduto para dados, não uma estrutura de dados — ela nunca armazena elementos por si mesma, apenas os move de uma fonte (uma collection, um array, um canal de I/O) através de um pipeline de operações. Uma stream é de uso único: assim que uma operação *terminal* a consome, aquele objeto stream está esgotado, e obter uma nova significa voltar à fonte. A maioria das operações de uma stream são lambdas ou method references implementando as interfaces funcionais de `java.util.function` (`Predicate`, `Function`, `Consumer`, ...) — veja [Lambda Expressions](/java-concepts/lambda-expressions) para entender como elas são construídas e capturadas; este conceito assume esse mecanismo já conhecido e foca no que as streams fazem com ele: construir um pipeline avaliado preguiçosamente que filtra, transforma e reduz dados em um estilo mais próximo de uma consulta de banco de dados do que de um loop.
+Uma stream (`java.util.stream`) é um conduto para dados, não uma estrutura de dados — ela nunca armazena elementos por si mesma, apenas os move de uma fonte (uma collection, um array, um canal de I/O) através de um pipeline de operações. Uma stream é de uso único: assim que uma operação *terminal* a consome, aquele objeto stream está esgotado, e obter uma nova significa voltar à fonte. A maioria das operações de uma stream são lambdas ou method references implementando as interfaces funcionais de `java.util.function` (`Predicate`, `Function`, `Consumer`, ...) — veja [Lambda Expressions](/pt-BR/java/java-concepts/lambda-expressions) para entender como elas são construídas e capturadas; este conceito assume esse mecanismo já conhecido e foca no que as streams fazem com ele: construir um pipeline avaliado preguiçosamente que filtra, transforma e reduz dados em um estilo mais próximo de uma consulta de banco de dados do que de um loop.
 
 ## Use Cases
 
