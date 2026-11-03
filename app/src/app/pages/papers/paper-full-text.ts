@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, PLATFORM_ID, computed, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, PLATFORM_ID, afterNextRender, computed, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { PageRender, PdfDocument, PdfFailure, closePdf, failureOf, openPdf } from './pdf-engine';
@@ -12,10 +12,11 @@ const MIN_SCALE = 0.4;
 const MAX_SCALE = 2.5;
 
 /**
- * The full text of a public paper, read in the page (#185's engine, without the library around it): one click
- * fetches the PDF behind the paper's `paperUrl` through the API (`/api/papers/:slug/full-text`, which checks it) and
- * pdf.js draws the pages that are near the screen, a few at a time, fitted to the width of the column. Nothing
- * happens on the server or before the click. A link that does not give a PDF shows "Preview not available".
+ * The full text of a public paper, read in the page (#185's engine, without the library around it): once the page
+ * has rendered in the browser it fetches the PDF behind the paper's `paperUrl` through the API
+ * (`/api/papers/:slug/full-text`, which checks it) and pdf.js draws the pages that are near the screen, a few at a
+ * time, fitted to the width of the column. The pages run with the page's own scroll, not in a box of their own.
+ * Nothing happens on the server. A link that does not give a PDF shows "Preview not available".
  */
 @Component({
   selector: 'app-paper-full-text',
@@ -30,7 +31,7 @@ export class PaperFullText {
   private browser = isPlatformBrowser(inject(PLATFORM_ID));
   private pagesEl = viewChild<ElementRef<HTMLElement>>('pages');
 
-  protected state = signal<State>('closed');
+  protected state = signal<State>('loading');
   protected pageCount = signal(0);
   protected scale = signal(1);
   protected pageNumbers = computed(() => Array.from({ length: this.pageCount() }, (_, i) => i + 1));
@@ -47,9 +48,11 @@ export class PaperFullText {
   private pumping = false;
   private pumpAgain = false;
   private token = 0;
+  private busy = false;
 
   constructor() {
     inject(DestroyRef).onDestroy(() => this.dispose());
+    afterNextRender(() => void this.open());
     // The pages exist once the state is `ready`; the observers need them.
     effect(() => {
       const pages = this.pagesEl()?.nativeElement;
@@ -62,7 +65,8 @@ export class PaperFullText {
   }
 
   protected async open(): Promise<void> {
-    if (!this.browser || this.state() === 'loading' || this.state() === 'ready') return;
+    if (!this.browser || this.busy || this.state() === 'ready') return;
+    this.busy = true;
     const token = ++this.token;
     this.state.set('loading');
     try {
@@ -80,6 +84,8 @@ export class PaperFullText {
     } catch (err) {
       if (token !== this.token) return;
       this.state.set(err instanceof HttpErrorResponse ? (err.status === 404 ? 'missing' : 'failed') : failureOf(err));
+    } finally {
+      this.busy = false;
     }
   }
 
@@ -102,7 +108,7 @@ export class PaperFullText {
         }
         void this.pump();
       },
-      { root: pages, rootMargin: '100% 0px' },
+      { rootMargin: '100% 0px' },
     );
     pages.querySelectorAll('.page').forEach((el) => this.observer!.observe(el));
     this.resizer = new ResizeObserver(() => {
