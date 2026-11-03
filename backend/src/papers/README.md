@@ -56,6 +56,17 @@ Portuguese file has one keyword for each English one, in the same order (`papers
   and `limit`, filters and sorts in memory (a few hundred papers at most), and titles, excerpts, keywords and
   areas come in `lang`; the facets take `lang` too, so the area select is in the reader's language. `q` goes
   through the search index (below) when there is one.
+- **Full text.** `GET /api/papers/:slug/full-text` serves the PDF at the entry's `paperUrl` so the page can read it
+  in place (the "Full text" block; every paper with a `paperUrl` counts as open to the public for now). The API
+  fetches it (`papers-full-text.service.ts`), because the page's CSP allows no foreign connection and many
+  publishers refuse a browser. The address comes from `papers.json`, never from a request, and is still held to
+  plain https, a host name (no IP literal) whose addresses are all public, at most 3 redirects each checked the
+  same way, 12 seconds, 15 MB, and the same static scan as an upload (`paper-attachments/pdf-scan.ts`). It goes
+  out as an attachment under `Content-Security-Policy: default-src 'none'; sandbox`, `nosniff`, with an `ETag`
+  (a repeat visit is a 304), and is kept in memory for an hour (a failure for 5 minutes, so a broken link is not
+  hammered). **404** when the paper has no `paperUrl`; **502** `{ code: 'preview_unavailable' }` when the link
+  does not give a safe PDF, which the page shows as "Preview not available" with a link to the original. The fix
+  for a broken link is a change to `paperUrl` in `papers.json`, for example to a copy we host ourselves.
 - **Detail** answers the record plus `language`, `availableLanguages`, `summary`, `abstractTranslated`,
   `version`, `updatedAt` and `sections` (`[{ title, content }]`, the markdown of each section).
 - **Tests** point `PAPERS_DATA_DIR` at a folder of fixtures (`spec/papers-fixtures.ts`); with the variable unset

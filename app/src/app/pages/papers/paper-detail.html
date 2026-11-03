@@ -123,6 +123,13 @@
             }
           </section>
 
+          @if (pdfUrl(); as pdf) {
+            <section id="full-text" class="block" aria-labelledby="full-text-heading">
+              <h2 id="full-text-heading" class="block-title" i18n="@@papers.detail.fullText">Full text</h2>
+              <app-paper-full-text [slug]="p.id" [originalUrl]="pdf" />
+            </section>
+          }
+
           <section id="analysis" class="block analysis" aria-labelledby="analysis-heading">
             <h2 id="analysis-heading" class="block-title" i18n="@@papers.analysis.title">Research Analysis</h2>
             <p class="analysis-note" i18n="@@papers.analysis.note">Written by Kurz, not by the authors of the paper. The abstract above is the authors' own.</p>
