@@ -1436,6 +1436,12 @@
     "papers.share.error.groups": "Escolha grupos de que você participa e que tenham este paper na lista.",
     "papers.share.error.groupsLoad": "Não foi possível carregar os seus grupos. Tente de novo.",
     "groups.invite.placeholder": "ana-silva",
-    "papers.originalTitle": "Título original"
+    "papers.originalTitle": "Título original",
+    "landing.seo.title": "My University: um currículo de Ciência da Computação, um tópico de cada vez",
+    "landing.seo.description": "Um currículo de Ciência da Computação feito do zero, mais Java, Ruby, Spring, PostgreSQL, system design e algoritmos, com progresso em XP, um tópico de cada vez.",
+    "tracks.seo.title": "Trilhas",
+    "tracks.seo.description": "Todas as trilhas de estudo num só lugar: Java, Spring, Ruby, .NET, C#, bancos de dados, system design e mais.",
+    "computerScience.seo.title": "Ciência da Computação",
+    "computerScience.seo.description": "Um currículo de Ciência da Computação feito do zero, organizado como um grafo de conhecimento em vez de uma grade de semestres travada: fundamentos, algoritmos, sistemas, IA e pesquisa independente."
   }
 }

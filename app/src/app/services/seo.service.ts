@@ -58,6 +58,7 @@ export class SeoService {
     // locale in `alternates`) the page shows the English text and the English URL stays canonical.
     const own = tags.alternates?.find((alt) => alt.lang === this.locale);
     const url = this.absoluteUrl(own?.path ?? tags.path);
+    const language = own?.lang ?? 'en';
 
     this.title.setTitle(tags.title);
 
@@ -78,8 +79,8 @@ export class SeoService {
 
     this.setCanonical(url);
     this.setAlternateLinks(tags.alternates);
-    this.setJsonLd(this.buildJsonLd(tags, url, image));
-    this.setBreadcrumbJsonLd(tags.breadcrumbs);
+    this.setJsonLd(this.buildJsonLd(tags, url, image, language));
+    this.setBreadcrumbJsonLd(tags.breadcrumbs, language);
   }
 
   /** Writes one <link rel="alternate" hreflang="..."> per language variant, plus x-default pointing at the unprefixed (English) URL. */
@@ -113,7 +114,7 @@ export class SeoService {
     link.setAttribute('href', url);
   }
 
-  private buildJsonLd(tags: SeoTags, url: string, image: string): Record<string, unknown> {
+  private buildJsonLd(tags: SeoTags, url: string, image: string, inLanguage: Language): Record<string, unknown> {
     if (tags.qa) {
       // Question and answer are written by the site itself, so the site is the author.
       // There is no voting feature, so upvoteCount is truthfully 0.
@@ -121,6 +122,7 @@ export class SeoService {
       return {
         '@context': 'https://schema.org',
         '@type': 'QAPage',
+        inLanguage,
         mainEntity: {
           '@type': 'Question',
           name: tags.qa.question,
@@ -146,6 +148,7 @@ export class SeoService {
       return {
         '@context': 'https://schema.org',
         '@type': 'Course',
+        inLanguage,
         name: tags.title,
         description: tags.description,
         url,
@@ -162,6 +165,7 @@ export class SeoService {
       return {
         '@context': 'https://schema.org',
         '@type': 'TechArticle',
+        inLanguage,
         headline: tags.title,
         description: tags.description,
         url,
@@ -177,6 +181,7 @@ export class SeoService {
       return {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
+        inLanguage,
         name: SITE_NAME,
         url: this.origin(),
         description: tags.description,
@@ -186,6 +191,7 @@ export class SeoService {
     return {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
+      inLanguage,
       name: tags.title,
       description: tags.description,
       url,
@@ -197,14 +203,16 @@ export class SeoService {
     this.writeJsonLdScript(JSON_LD_ID, data);
   }
 
-  private setBreadcrumbJsonLd(breadcrumbs: { name: string; path: string }[] | undefined): void {
+  /** In pt-BR the trail points at the pt-BR pages, the same ones the page's own canonical belongs to. */
+  private setBreadcrumbJsonLd(breadcrumbs: { name: string; path: string }[] | undefined, language: Language): void {
     const existing = this.document.getElementById(BREADCRUMB_JSON_LD_ID);
     if (!breadcrumbs || breadcrumbs.length === 0) {
       existing?.remove();
       return;
     }
 
-    const trail = [{ name: 'Home', path: '/' }, ...breadcrumbs];
+    const prefix = language === 'en' ? '' : `/${language}`;
+    const trail = [{ name: 'Home', path: '/' }, ...breadcrumbs].map((crumb) => ({ ...crumb, path: `${prefix}${crumb.path}` }));
     this.writeJsonLdScript(BREADCRUMB_JSON_LD_ID, {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',

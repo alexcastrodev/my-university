@@ -80,7 +80,10 @@ export class CurriculumConceptsListPage implements OnInit {
           this.concepts.set(list);
           this.loading.set(false);
         },
-        error: () => this.loading.set(false),
+        error: (err) => {
+          this.loading.set(false);
+          if (err.status === 404) this.seo.setNotFound();
+        },
       });
     });
   }

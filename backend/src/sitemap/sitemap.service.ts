@@ -65,10 +65,10 @@ export class SitemapService {
   ) {}
 
   async buildUrls(): Promise<SitemapUrl[]> {
-    const urls: SitemapUrl[] = [
-      { path: '/', lastmod: null },
-      { path: '/tracks', lastmod: null },
-    ];
+    // Pages made of interface text only, translated in full.
+    const urls: SitemapUrl[] = ['/', '/tracks', '/computer-science'].flatMap(
+      (path) => this.localizedPage(path),
+    );
 
     // Every section is a list page plus one page per item, each with a pt-BR twin where the translation exists.
     // The public papers are authored files with a translation each (#213); a reader's private papers are not listed.
@@ -114,8 +114,6 @@ export class SitemapService {
       urls.push(...this.localizedSectionUrls(base, items));
     }
 
-    urls.push({ path: '/computer-science', lastmod: null });
-
     urls.push({ path: '/java/exams', lastmod: null });
     for (const exam of await this.exam.listExams()) {
       urls.push({ path: `/java/exam/${exam.id}`, lastmod: null });
@@ -144,16 +142,7 @@ export class SitemapService {
     enBase: string,
     items: SectionItem[],
   ): SitemapUrl[] {
-    const ptBrBase = `/pt-BR${enBase}`;
-    const pair = (en: string, ptBr: string) => [
-      { lang: 'en' as const, path: en },
-      { lang: 'pt-BR' as const, path: ptBr },
-    ];
-
-    const urls: SitemapUrl[] = [
-      { path: enBase, lastmod: null, alternates: pair(enBase, ptBrBase) },
-      { path: ptBrBase, lastmod: null, alternates: pair(enBase, ptBrBase) },
-    ];
+    const urls = this.localizedPage(enBase);
 
     for (const item of items) {
       const lastmod = item.updatedAt ?? item.publishedAt;
@@ -162,12 +151,26 @@ export class SitemapService {
         urls.push({ path: en, lastmod });
         continue;
       }
-      const ptBr = `${ptBrBase}/${item.slug}`;
-      urls.push({ path: en, lastmod, alternates: pair(en, ptBr) });
-      urls.push({ path: ptBr, lastmod, alternates: pair(en, ptBr) });
+      urls.push(...this.localizedPage(en, lastmod));
     }
 
     return urls;
+  }
+
+  /** A page and its pt-BR twin (`/pt-BR` + path, so the home is `/pt-BR/`), each listing both. */
+  private localizedPage(
+    enPath: string,
+    lastmod: string | null = null,
+  ): SitemapUrl[] {
+    const ptBrPath = `/pt-BR${enPath}`;
+    const alternates = [
+      { lang: 'en' as const, path: enPath },
+      { lang: 'pt-BR' as const, path: ptBrPath },
+    ];
+    return [
+      { path: enPath, lastmod, alternates },
+      { path: ptBrPath, lastmod, alternates },
+    ];
   }
 
   /** The XML for the life of the process, built on first request (see `toXml`). */

@@ -117,13 +117,16 @@ describe('sitemap URLs (pure, no API)', () => {
     }
   });
 
-  it('lists the public pages that are not part of a track: /tracks, the exams and every lesson', async () => {
+  it('lists the pages that are not part of a track: home, /tracks and the curriculum in both languages, the exams and every lesson', async () => {
     const paths = (await sitemap.buildUrls()).map((u) => u.path);
     expect(paths).toEqual(
       expect.arrayContaining([
         '/',
         '/tracks',
         '/computer-science',
+        '/pt-BR/',
+        '/pt-BR/tracks',
+        '/pt-BR/computer-science',
         '/java/exams',
         '/java/exam/java-25',
         '/java/exam/java-25/lesson/j25-0-1',
