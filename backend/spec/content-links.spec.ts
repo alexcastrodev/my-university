@@ -112,7 +112,7 @@ describe('concept links (pure, no API)', () => {
   it('points every link written in a concept markdown at a page that exists', async () => {
     const paths = await knownPaths();
     const problems: string[] = [];
-    const link = /(?<!!)\[[^\]\n]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
+    const link = /(?<!!)\[[^\]]{0,300}\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
 
     for (const { abs, rel } of seedFiles.filter((f) => f.rel.endsWith('.md'))) {
       const parts = rel.split('/');
@@ -130,32 +130,28 @@ describe('concept links (pure, no API)', () => {
       }
       if (!page || (lang !== 'en' && lang !== 'pt-BR')) continue;
 
-      let inCode = false;
-      readFileSync(abs, 'utf8')
-        .split('\n')
-        .forEach((line, i) => {
-          if (line.trimStart().startsWith('```')) inCode = !inCode;
-          if (inCode) return;
-          for (const [, target] of line
-            .replaceAll(/`[^`]*`/g, '')
-            .matchAll(link)) {
-            if (/^(https?:|mailto:|tel:|#)/.test(target)) continue;
-            // A reader on the pt-BR page follows a relative link inside /pt-BR, an absolute one stays as written.
-            const from = (lang === 'pt-BR' ? '/pt-BR' : '') + page;
-            const resolved = new URL(
-              target,
-              `https://university.test${from}`,
-            ).pathname.replace(/^\/pt-BR(?=\/)/, '');
-            if (
-              !paths.has(resolved) &&
-              !paths.has(resolved.replace(/\/$/, ''))
-            ) {
-              problems.push(
-                `${rel}:${i + 1}: (${target}) resolves to ${resolved}, which is not a page`,
-              );
-            }
-          }
-        });
+      // Read the whole file: a link's text may wrap onto the next line. Code is blanked out (same
+      // length, newlines kept) so a link-shaped sample inside it is not checked.
+      const blank = (m: string) => m.replaceAll(/[^\n]/g, ' ');
+      const text = readFileSync(abs, 'utf8')
+        .replaceAll(/^```[\s\S]*?^```/gm, blank)
+        .replaceAll(/`[^`\n]*`/g, blank);
+      for (const match of text.matchAll(link)) {
+        const target = match[1];
+        if (/^(https?:|mailto:|tel:|#)/.test(target)) continue;
+        // A reader on the pt-BR page follows a relative link inside /pt-BR, an absolute one stays as written.
+        const from = (lang === 'pt-BR' ? '/pt-BR' : '') + page;
+        const resolved = new URL(
+          target,
+          `https://university.test${from}`,
+        ).pathname.replace(/^\/pt-BR(?=\/)/, '');
+        if (!paths.has(resolved) && !paths.has(resolved.replace(/\/$/, ''))) {
+          const line = text.slice(0, match.index).split('\n').length;
+          problems.push(
+            `${rel}:${line}: (${target}) resolves to ${resolved}, which is not a page`,
+          );
+        }
+      }
     }
     expect(problems).toEqual([]);
   });
