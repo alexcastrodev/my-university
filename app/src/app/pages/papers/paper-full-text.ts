@@ -25,8 +25,6 @@ const MAX_SCALE = 2.5;
 })
 export class PaperFullText {
   readonly slug = input.required<string>();
-  /** The publisher's own PDF, for the reader who prefers it. */
-  readonly originalUrl = input<string | null>(null);
 
   private http = inject(HttpClient);
   private browser = isPlatformBrowser(inject(PLATFORM_ID));

@@ -16,7 +16,6 @@ describe('PaperFullText', () => {
     TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
     fixture = TestBed.createComponent(PaperFullText);
     fixture.componentRef.setInput('slug', 'paxos-made-simple');
-    fixture.componentRef.setInput('originalUrl', 'https://example.org/paxos.pdf');
     fixture.detectChanges();
     http = TestBed.inject(HttpTestingController);
   });
@@ -26,15 +25,6 @@ describe('PaperFullText', () => {
   it('offers the paper and fetches nothing until the reader asks for it', () => {
     http.expectNone(URL);
     expect(button(/Read the paper here/)).toBeTruthy();
-    const link = root().querySelector<HTMLAnchorElement>('a.link');
-    expect(link?.href).toBe('https://example.org/paxos.pdf');
-    expect(link?.rel).toContain('noopener');
-  });
-
-  it('has no link to the original when the paper has no public PDF address', () => {
-    fixture.componentRef.setInput('originalUrl', null);
-    fixture.detectChanges();
-    expect(root().querySelector('a.link')).toBeNull();
   });
 
   it('asks the API for the PDF we hold when the reader clicks, and shows a loading state meanwhile', async () => {

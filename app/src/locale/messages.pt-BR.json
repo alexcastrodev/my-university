@@ -1076,7 +1076,6 @@
     "papers.fullText.note": "O PDF deste paper é aberto ao público. Leia aqui, sem sair da página.",
     "papers.fullText.open": "Ler o paper aqui",
     "papers.fullText.close": "Ocultar o texto completo",
-    "papers.fullText.original": "Abrir o PDF original",
     "papers.fullText.loading": "Carregando o paper…",
     "papers.fullText.error": "Preview não disponível.",
     "papers.detail.abstract": "Resumo",
