@@ -17,6 +17,7 @@
     </div>
     <div #pages class="pages">
       @for (n of pageNumbers(); track n) {
+        <p class="page-label" aria-hidden="true">{{ pageLabel(n) }}</p>
         <div class="page" role="region" [attr.data-page]="n" [attr.aria-label]="pageLabel(n)" [style.width.px]="box(n).w" [style.height.px]="box(n).h">
           <canvas width="0" height="0"></canvas>
           <div class="textLayer"></div>
