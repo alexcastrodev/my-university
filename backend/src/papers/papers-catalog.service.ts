@@ -222,6 +222,11 @@ export class PapersCatalogService {
     return this.bySlug.has(slug);
   }
 
+  /** The address of a public paper's PDF, as written in `papers.json` (the reviewed file, never the request). */
+  paperUrlOf(slug: string): string | null {
+    return this.bySlug.get(slug)?.paperUrl ?? null;
+  }
+
   /** The slug of the public paper with this DOI, if there is one. */
   slugOfDoi(doi: string): string | null {
     return this.metas.find((m) => m.doi === doi)?.slug ?? null;

@@ -1,8 +1,10 @@
-import { Controller, Get, Inject, Param, Query, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Headers, Inject, Param, Query, Res, ValidationPipe } from '@nestjs/common';
+import type { FastifyReply } from 'fastify';
 import { normalizeLanguage } from '../shared/language';
 import { PaperListQueryDto } from './paper-query.dto';
 import { PaperIds } from './paper-public-id';
 import { PapersCatalogService } from './papers-catalog.service';
+import { PapersFullText } from './papers-full-text.service';
 import { PapersSearch } from './papers-search';
 
 // esbuild (vitest) does not emit decorator metadata, so each pipe is told its DTO by hand. Unlike the
@@ -25,6 +27,7 @@ export class PapersController {
     private readonly catalog: PapersCatalogService,
     @Inject(PaperIds) private readonly ids: PaperIds,
     @Inject(PapersSearch) private readonly search: PapersSearch,
+    @Inject(PapersFullText) private readonly fullTexts: PapersFullText,
   ) {}
 
   @Get()
@@ -44,5 +47,36 @@ export class PapersController {
   get(@Param('slug') slug: string, @Query('lang') lang?: string) {
     this.ids.resolve(slug);
     return this.catalog.detail(slug, normalizeLanguage(lang));
+  }
+
+  /**
+   * The PDF at the paper's `paperUrl`, for the page to read in place (see papers-full-text.service.ts). The same for
+   * everyone, so it can be cached. The browser still never renders it on this origin: it is an attachment under a
+   * sandbox policy, and only pdf.js reads its bytes. 404 when the paper has no PDF address, 502 when that
+   * address does not give a PDF.
+   */
+  @Get(':slug/full-text')
+  async fullText(
+    @Param('slug') slug: string,
+    @Headers('if-none-match') ifNoneMatch: string | undefined,
+    @Res() reply: FastifyReply,
+  ) {
+    this.ids.resolve(slug);
+    const file = await this.fullTexts.get(slug);
+    const etag = `"${file.sha256}"`;
+    reply
+      .header('ETag', etag)
+      .header('Cache-Control', 'public, max-age=3600')
+      .header('X-Content-Type-Options', 'nosniff')
+      .header('Content-Security-Policy', "default-src 'none'; sandbox");
+    if (ifNoneMatch === etag) {
+      await reply.status(304).send();
+      return;
+    }
+    await reply
+      .header('Content-Type', 'application/pdf')
+      .header('Content-Length', file.body.length)
+      .header('Content-Disposition', 'attachment; filename="paper.pdf"')
+      .send(file.body);
   }
 }
