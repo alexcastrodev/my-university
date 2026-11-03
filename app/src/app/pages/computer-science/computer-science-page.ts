@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { COMPLEMENTARY_AREAS, ComplementaryArea } from './complementary-studies.data';
 import {
   ComplementaryAreaProgress,
@@ -55,10 +56,10 @@ export class ComputerSciencePage implements OnInit {
 
   ngOnInit() {
     this.seo.set({
-      title: 'Computer Science',
-      description:
-        'A from-scratch Computer Science curriculum, organized as a knowledge graph instead of a locked semester grid — foundations, algorithms, systems, AI, and independent research.',
+      title: $localize`:@@computerScience.seo.title:Computer Science`,
+      description: $localize`:@@computerScience.seo.description:A from-scratch Computer Science curriculum, organized as a knowledge graph instead of a locked semester grid: foundations, algorithms, systems, AI, and independent research.`,
       path: PATH,
+      alternates: localizedAlternates(PATH),
     });
   }
 

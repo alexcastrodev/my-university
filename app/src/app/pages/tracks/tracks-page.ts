@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { RouterLink } from '@angular/router';
 import { TrackIcon } from '../../components/track-icon/track-icon';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { COMPLEMENTARY_AREAS } from '../computer-science/complementary-studies.data';
 import {
   ComplementaryAreaProgress,
@@ -90,9 +91,10 @@ export class TracksPage implements OnInit {
 
   ngOnInit() {
     this.seo.set({
-      title: 'Tracks',
-      description: 'Every study track in one place: Java, Spring, Ruby, .NET, C#, databases, system design and more.',
+      title: $localize`:@@tracks.seo.title:Tracks`,
+      description: $localize`:@@tracks.seo.description:Every study track in one place: Java, Spring, Ruby, .NET, C#, databases, system design and more.`,
       path: '/tracks',
+      alternates: localizedAlternates('/tracks'),
     });
     this.studies.listProgress().subscribe({
       next: (list) => { this.progress.set(list); this.loading.set(false); },

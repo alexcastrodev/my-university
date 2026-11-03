@@ -132,6 +132,8 @@ export class CoursePage implements OnInit {
     if (lesson) {
       this.expandModuleForLesson(lessonId);
       this.openLesson(lesson);
+    } else {
+      this.seo.setNotFound();
     }
   }
 
@@ -254,7 +256,10 @@ export class CoursePage implements OnInit {
         this.loading.set(false);
         this.activateLessonFromUrl(lessonId);
       },
-      error: () => { this.loading.set(false); },
+      error: (err) => {
+        this.loading.set(false);
+        if (err.status === 404) this.seo.setNotFound();
+      },
     });
   }
 }

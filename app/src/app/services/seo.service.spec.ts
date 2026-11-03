@@ -65,3 +65,47 @@ describe('SeoService canonical', () => {
     expect(canonical()).toMatch(/\/java\/java-concepts\/x$/);
   });
 });
+
+describe('SeoService structured data', () => {
+  const ld = (id: string) => JSON.parse(TestBed.inject(DOCUMENT).getElementById(id)!.textContent!);
+  const both = [
+    { lang: 'en' as const, path: '/java/java-concepts/x' },
+    { lang: 'pt-BR' as const, path: '/pt-BR/java/java-concepts/x' },
+  ];
+  const tags = {
+    title: 'T',
+    description: 'D',
+    path: '/java/java-concepts/x',
+    type: 'article' as const,
+    breadcrumbs: [{ name: 'Java Concepts', path: '/java/java-concepts' }],
+  };
+
+  const as = (locale: string) =>
+    TestBed.configureTestingModule({
+      providers: [provideZonelessChangeDetection(), { provide: LOCALE_ID, useValue: locale }],
+    });
+
+  it('says a translated pt-BR page is in pt-BR and sends its breadcrumbs to pt-BR pages', () => {
+    as('pt-BR');
+    TestBed.inject(SeoService).set({ ...tags, alternates: both });
+    expect(ld('seo-json-ld').inLanguage).toBe('pt-BR');
+    expect(ld('seo-json-ld').url).toMatch(/\/pt-BR\/java\/java-concepts\/x$/);
+    const items = ld('seo-json-ld-breadcrumbs').itemListElement.map((i: { item: string }) => i.item);
+    expect(items[0]).toMatch(/\/pt-BR\/$/);
+    expect(items[1]).toMatch(/\/pt-BR\/java\/java-concepts$/);
+  });
+
+  it('keeps English URLs and language on a pt-BR page without a translation', () => {
+    as('pt-BR');
+    TestBed.inject(SeoService).set({ ...tags, alternates: [both[0]] });
+    expect(ld('seo-json-ld').inLanguage).toBe('en');
+    const items = ld('seo-json-ld-breadcrumbs').itemListElement.map((i: { item: string }) => i.item);
+    expect(items.some((item: string) => item.includes('/pt-BR/'))).toBe(false);
+  });
+
+  it('is English on the English build', () => {
+    as('en-US');
+    TestBed.inject(SeoService).set({ ...tags, alternates: both });
+    expect(ld('seo-json-ld').inLanguage).toBe('en');
+  });
+});
