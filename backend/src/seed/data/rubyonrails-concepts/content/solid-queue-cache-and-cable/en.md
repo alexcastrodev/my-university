@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-21
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
@@ -103,7 +103,7 @@ production:
 Concurrency controls (`limits_concurrency`) throttle how many jobs with a
 given key run at once — this is a Solid Queue feature, distinct from the
 idempotency and fan-out/fan-in *design patterns* covered in
-[Background Jobs: Idempotency and Fan-Out](background-jobs-idempotency-and-fan-out.md):
+[Background Jobs: Idempotency and Fan-Out](background-jobs-idempotency-and-fan-out):
 
 ```ruby
 class DeliverAnnouncementToContactJob < ApplicationJob
@@ -163,7 +163,7 @@ beat a faster cache that's hit less often. This is a workload-dependent bet:
 an app that's lightly cached to begin with won't see the same payoff, and per
 Solid Cache's README, per-read latency still matters for that case — nothing
 here waives the cache-store-latency reasoning covered in
-[Russian Doll Caching](russian-doll-caching.md), which owns the strategy
+[Russian Doll Caching](russian-doll-caching), which owns the strategy
 question of *what* to cache and *how* to key it, not the storage engine
 underneath.
 
@@ -272,7 +272,7 @@ bottleneck — which for most CRUD-shaped Rails apps, it never does.
   worker's `threads:` at or below the queue database's pool size minus 2;
   getting this wrong doesn't fail loudly, it shows up as intermittent
   `ActiveRecord::ConnectionTimeoutError` under load — see
-  [Connection Pooling and PgBouncer](connection-pooling-and-pgbouncer.md)
+  [Connection Pooling and PgBouncer](connection-pooling-and-pgbouncer)
   for the pool-sizing math this interacts with.
 - **"Fewer moving parts" doesn't mean "one database."** The recommended
   setup for all three adapters is a *separate* logical database each (queue,

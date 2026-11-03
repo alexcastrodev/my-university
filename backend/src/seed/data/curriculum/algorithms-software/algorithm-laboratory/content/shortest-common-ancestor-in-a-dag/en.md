@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-06
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Learning Objectives
 
@@ -12,7 +12,7 @@ updatedAt: 2026-09-06
 
 ## Context & Motivation
 
-Breadth-first search — level-by-level exploration via a queue, and the distance-from-source guarantee that comes with it — was already covered in full in [Depth-First Search](../../../algorithms/content/graph-traversal-dfs/en.md)'s companion BFS material. This lab does not re-teach BFS. It builds a specific, real application of it directly on top of the DAG structure: Princeton's WordNet-style shortest common ancestor problem, where "ancestor" means a node reachable by following edges *backward* from both query vertices (in a hypernym DAG, "mammal" is a backward-reachable ancestor of both "cat" and "dog," since both point toward it through an is-a chain), and "shortest" means the one minimizing the *combined* path length from both queries, not merely the first ancestor found by either search alone.
+Breadth-first search — level-by-level exploration via a queue, and the distance-from-source guarantee that comes with it — was already covered in full in [Depth-First Search](/computer-science/algorithms-software/algorithms/graph-traversal-dfs)'s companion BFS material. This lab does not re-teach BFS. It builds a specific, real application of it directly on top of the DAG structure: Princeton's WordNet-style shortest common ancestor problem, where "ancestor" means a node reachable by following edges *backward* from both query vertices (in a hypernym DAG, "mammal" is a backward-reachable ancestor of both "cat" and "dog," since both point toward it through an is-a chain), and "shortest" means the one minimizing the *combined* path length from both queries, not merely the first ancestor found by either search alone.
 
 ## Core Theory
 

@@ -19,7 +19,7 @@ related:
 
 ## Overview
 
-The [previous concept](/concepts/batch-processing-in-distributed-systems) covered the infrastructure a batch job runs on: a distributed filesystem standing in for local disk, a resource manager and scheduler standing in for the kernel, task executors that isolate and retry individual tasks. This concept is about the program that actually runs on top of that infrastructure — **MapReduce**, the data-processing pattern that gave the "big data" era its shape and, indirectly, its vocabulary.
+The [previous concept](/system-design/system-design-concepts/batch-processing-in-distributed-systems) covered the infrastructure a batch job runs on: a distributed filesystem standing in for local disk, a resource manager and scheduler standing in for the kernel, task executors that isolate and retry individual tasks. This concept is about the program that actually runs on top of that infrastructure — **MapReduce**, the data-processing pattern that gave the "big data" era its shape and, indirectly, its vocabulary.
 
 MapReduce's core claim is that an enormous number of data-processing tasks reduce to the same four-step shape, and that shape is exactly the one you'd build by hand with Unix pipes for a much smaller dataset. Kleppmann's *Designing Data-Intensive Applications* introduces MapReduce right after walking through a web-server log-analysis pipeline built from `awk`, `sort`, and `uniq -c` — and the point of putting them back to back is that MapReduce isn't a different algorithm from that pipeline, it's the same algorithm running on a cluster instead of one machine.
 

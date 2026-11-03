@@ -1,12 +1,12 @@
 ---
-version: 1.0
-updatedAt: 2026-09-04
+version: 1.1
+updatedAt: 2026-11-03
 summary: Por que trocar RAM por CPU costuma ser a decisão economicamente correta dado o preço de RAM por núcleo em hardware de nuvem e de consumo, como medir a taxa real de alocação e o custo de CPU do GC em vez de chutar, por que benchmarks ingênuos de memória entre linguagens enganam, e o que o dimensionamento adaptativo de heap propõe automatizar em seguida.
 title: Dimensionando o Heap da JVM: a Economia de RAM e CPU na Prática
 ---
 ## Objective
 
-Aprender a dimensionar o `-Xmx` como uma decisão econômica baseada no que hardware de nuvem e de consumo de fato disponibilizam por núcleo de CPU, medir a taxa de alocação e o custo de CPU do GC de verdade em vez de chutar, e evitar as armadilhas de extrapolação que tornam uma comparação de memória ingênua entre linguagens ou entre benchmarks sem sentido. Este conceito assume o modelo de custo de [Moving Garbage Collectors and the RAM/CPU Trade-off](/jvm-concepts/gc-ram-cpu-tradeoff) — que headroom de heap é uma alavanca direta sobre o custo de CPU do GC — e foca no que isso significa na prática.
+Aprender a dimensionar o `-Xmx` como uma decisão econômica baseada no que hardware de nuvem e de consumo de fato disponibilizam por núcleo de CPU, medir a taxa de alocação e o custo de CPU do GC de verdade em vez de chutar, e evitar as armadilhas de extrapolação que tornam uma comparação de memória ingênua entre linguagens ou entre benchmarks sem sentido. Este conceito assume o modelo de custo de [Moving Garbage Collectors and the RAM/CPU Trade-off](/pt-BR/java/jvm-concepts/gc-ram-cpu-tradeoff) — que headroom de heap é uma alavanca direta sobre o custo de CPU do GC — e foca no que isso significa na prática.
 
 ## Use Cases
 

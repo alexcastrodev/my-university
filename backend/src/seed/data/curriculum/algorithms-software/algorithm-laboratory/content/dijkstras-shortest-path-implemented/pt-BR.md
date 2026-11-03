@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-06
+version: 1.1
+updatedAt: 2026-11-03
 title: Caminho Mais Curto de Dijkstra Implementado
 summary: A teoria já provada de Dijkstra construída de verdade, um heap binário real via heapq com deleção preguiçosa no lugar de decrease-key, rastreada linha a linha contra números calculados independentemente à mão.
 ---
@@ -14,11 +14,11 @@ summary: A teoria já provada de Dijkstra construída de verdade, um heap binár
 
 ## Contexto e Motivação
 
-O algoritmo de Dijkstra, a estratégia gulosa de sempre finalizar o vértice ainda-não-resolvido com a menor distância tentativa, e por que um heap binário é exatamente a ferramenta certa para responder "qual vértice é esse" em O(log V), já foi demonstrado correto e analisado por completo em [O Algoritmo de Dijkstra](../../../algorithms/content/dijkstras-algorithm/pt-BR.md). Este laboratório não re-deriva nada daquela teoria. Ele pega o algoritmo como já entendido e o constrói: um grafo real representado em código, uma fila de prioridade real, e um rastro real checado linha por linha contra números calculados independentemente à mão. A lacuna que este laboratório fecha é a que todo curso de algoritmos deixa aberta depois de uma prova de quadro-branco, pseudocódigo compila para nada, e a forma específica como um grafo é representado, um heap é consultado, e uma "distância até agora" é atualizada envolvem todas pequenas decisões que uma prova nunca precisa tomar.
+O algoritmo de Dijkstra, a estratégia gulosa de sempre finalizar o vértice ainda-não-resolvido com a menor distância tentativa, e por que um heap binário é exatamente a ferramenta certa para responder "qual vértice é esse" em O(log V), já foi demonstrado correto e analisado por completo em [O Algoritmo de Dijkstra](/pt-BR/computer-science/algorithms-software/algorithms/dijkstras-algorithm). Este laboratório não re-deriva nada daquela teoria. Ele pega o algoritmo como já entendido e o constrói: um grafo real representado em código, uma fila de prioridade real, e um rastro real checado linha por linha contra números calculados independentemente à mão. A lacuna que este laboratório fecha é a que todo curso de algoritmos deixa aberta depois de uma prova de quadro-branco, pseudocódigo compila para nada, e a forma específica como um grafo é representado, um heap é consultado, e uma "distância até agora" é atualizada envolvem todas pequenas decisões que uma prova nunca precisa tomar.
 
 ## Teoria Central
 
-Os dois fatos nos quais este laboratório se apoia sem redemonstrar: (1) a ordem de extração gulosa só é correta porque todo peso de aresta é não negativo, e (2) um heap binário transforma "encontre o vértice ainda-não-finalizado com a menor distância tentativa" de uma varredura O(V) em um `heappop` O(log V), o que é o que dá ao algoritmo inteiro seu tempo de execução O((V + E) log V). O módulo `heapq` do Python é usado aqui como o heap, é um heap binário genuíno, de qualidade de produção (a mesma estrutura apoiada em array, sift-up/sift-down já coberta em [Inserção e Extração em Heap](../../../../data-structures-ii/content/heap-insert-and-extract/pt-BR.md)), não um substituto de brinquedo, então nada sobre a análise de tempo de execução muda por usá-lo em vez de uma classe de heap escrita à mão.
+Os dois fatos nos quais este laboratório se apoia sem redemonstrar: (1) a ordem de extração gulosa só é correta porque todo peso de aresta é não negativo, e (2) um heap binário transforma "encontre o vértice ainda-não-finalizado com a menor distância tentativa" de uma varredura O(V) em um `heappop` O(log V), o que é o que dá ao algoritmo inteiro seu tempo de execução O((V + E) log V). O módulo `heapq` do Python é usado aqui como o heap, é um heap binário genuíno, de qualidade de produção (a mesma estrutura apoiada em array, sift-up/sift-down já coberta em [Inserção e Extração em Heap](/pt-BR/computer-science/algorithms-software/data-structures-ii/heap-insert-and-extract)), não um substituto de brinquedo, então nada sobre a análise de tempo de execução muda por usá-lo em vez de uma classe de heap escrita à mão.
 
 Uma decisão de representação importa o suficiente para enunciar explicitamente antes do código: esta implementação usa **deleção preguiçosa** em vez de uma operação decrease-key. Quando um caminho mais curto para um vértice já enfileirado é encontrado, um par `(distance, vertex)` inteiramente novo é empurrado em vez de atualizar a entrada antiga no lugar, `heapq` não tem decrease-key embutido, e implementar um corretamente exige rastrear o índice de array de cada vértice, contabilidade extra que não compra nada assintoticamente. O custo é que entradas obsoletas, substituídas, se acumulam no heap; a correção é uma única checagem `if u in finalized: continue` quando uma entrada é retirada, descartando extrações obsoletas em O(1). Isso não muda o limite O((V + E) log V): cada vértice dispara no máximo um empurrão por relaxamento de aresta, então o heap nunca mantém mais que O(E) entradas no total.
 
@@ -86,7 +86,7 @@ def reconstruct_path(parent, target):
 
 ### Rastro contra uma resposta calculada à mão
 
-Rodando `dijkstra(adj, 'A')`: pela mesma sequência de relaxamento já rastreada em [O Algoritmo de Dijkstra](../../../algorithms/content/dijkstras-algorithm/pt-BR.md), extraia A (0), relaxe para B (4) e C (1); extraia C (1), relaxe B para baixo para 3, D para 6; extraia B (3), relaxe D para baixo para 4, E para 10; extraia D (4), relaxe E para baixo para 7; extraia E (7), a implementação acima precisa produzir exatamente:
+Rodando `dijkstra(adj, 'A')`: pela mesma sequência de relaxamento já rastreada em [O Algoritmo de Dijkstra](/pt-BR/computer-science/algorithms-software/algorithms/dijkstras-algorithm), extraia A (0), relaxe para B (4) e C (1); extraia C (1), relaxe B para baixo para 3, D para 6; extraia B (3), relaxe D para baixo para 4, E para 10; extraia D (4), relaxe E para baixo para 7; extraia E (7), a implementação acima precisa produzir exatamente:
 
 ```python
 dist, parent = dijkstra(adj, 'A')

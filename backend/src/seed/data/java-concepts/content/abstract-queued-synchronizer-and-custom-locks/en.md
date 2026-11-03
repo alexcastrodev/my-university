@@ -1,10 +1,10 @@
 ---
-version: 1.0
-updatedAt: 2026-08-13
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
-The companion concept on [concurrency utilities](concurrency-utilities-executors-and-synchronizers.md)
+The companion concept on [concurrency utilities](concurrency-utilities-executors-and-synchronizers)
 covers `ReentrantLock`, `Semaphore`, and `CountDownLatch` from the outside — call
 `lock()`, call `acquire()`, call `await()`. This concept is about what's underneath
 all three: `java.util.concurrent.locks.AbstractQueuedSynchronizer` (AQS), a single

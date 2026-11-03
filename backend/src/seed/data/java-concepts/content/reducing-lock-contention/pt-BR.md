@@ -1,12 +1,12 @@
 ---
-version: 1.0
-updatedAt: 2026-08-13
+version: 1.1
+updatedAt: 2026-11-03
 title: "Reduzindo Contenção de Locks: Escopo, Granularidade e Striping"
 summary: "Técnicas concretas para diminuir o impacto de um lock contencioso — reduzir seu escopo, dividi-lo ou fazer striping, evitar campos quentes, e quando trocá-lo por um read-write lock ou um atomic."
 ---
 ## Objective
 
-Uma classe protegida por um único lock pode estar perfeitamente correta e ainda assim ser o motivo pelo qual um servidor para de escalar: toda thread que precisa do lock fica na fila atrás de quem quer que o esteja segurando, então adicionar mais threads (ou cores) só aumenta a fila em vez de aumentar a vazão. Este conceito assume que a correção já está resolvida — os conceitos irmãos sobre [AQS](abstract-queued-synchronizer-and-custom-locks.md) e [prevenção de deadlock](deadlock-lock-ordering-and-avoidance.md) cobrem o que existe por baixo de um lock e como evitar corrompê-lo ou travá-lo — e faz a próxima pergunta: uma vez que um lock correto virou um gargalo de contenção, quais são as alavancas concretas disponíveis, mais ou menos em ordem de quão cirúrgica (vs. invasiva) cada uma é.
+Uma classe protegida por um único lock pode estar perfeitamente correta e ainda assim ser o motivo pelo qual um servidor para de escalar: toda thread que precisa do lock fica na fila atrás de quem quer que o esteja segurando, então adicionar mais threads (ou cores) só aumenta a fila em vez de aumentar a vazão. Este conceito assume que a correção já está resolvida — os conceitos irmãos sobre [AQS](abstract-queued-synchronizer-and-custom-locks) e [prevenção de deadlock](deadlock-lock-ordering-and-avoidance) cobrem o que existe por baixo de um lock e como evitar corrompê-lo ou travá-lo — e faz a próxima pergunta: uma vez que um lock correto virou um gargalo de contenção, quais são as alavancas concretas disponíveis, mais ou menos em ordem de quão cirúrgica (vs. invasiva) cada uma é.
 
 ## Use Cases
 
@@ -147,7 +147,7 @@ public class StripedCounterMap {
 }
 ```
 
-Com um hash razoavelmente uniforme, 16 stripes cortam a contenção em qualquer lock isolado para aproximadamente 1/16 do que um único lock veria. O número de stripes pode crescer conforme a contagem de processadores cresce — o que, visto pela Lei de Amdahl, é exatamente por que striping escala mais do que uma divisão única em dois: `F` continua diminuindo conforme o número de stripes cresce, enquanto dividir em dois locks só o reduz uma vez. O custo é que operações que precisam de *todos* os stripes de uma vez (redimensionar a estrutura inteira, ou um `size()` exato) ficam mais caras, já que precisam adquirir alguns ou todos os locks de stripe em vez de apenas um. `ConcurrentHashMap` é o exemplo canônico do mundo real de levar essa ideia ainda mais longe — seu design atual de CAS a nível de bin combinado com `synchronized` é coberto em profundidade pelo conceito irmão sobre [coleções concorrentes](concurrent-collections-and-compound-actions.md); o ponto a levar daqui é só que lock striping generaliza para locking por bucket, e o `ConcurrentHashMap` moderno generaliza isso mais uma vez para CAS por bin com sincronização só numa colisão real.
+Com um hash razoavelmente uniforme, 16 stripes cortam a contenção em qualquer lock isolado para aproximadamente 1/16 do que um único lock veria. O número de stripes pode crescer conforme a contagem de processadores cresce — o que, visto pela Lei de Amdahl, é exatamente por que striping escala mais do que uma divisão única em dois: `F` continua diminuindo conforme o número de stripes cresce, enquanto dividir em dois locks só o reduz uma vez. O custo é que operações que precisam de *todos* os stripes de uma vez (redimensionar a estrutura inteira, ou um `size()` exato) ficam mais caras, já que precisam adquirir alguns ou todos os locks de stripe em vez de apenas um. `ConcurrentHashMap` é o exemplo canônico do mundo real de levar essa ideia ainda mais longe — seu design atual de CAS a nível de bin combinado com `synchronized` é coberto em profundidade pelo conceito irmão sobre [coleções concorrentes](concurrent-collections-and-compound-actions); o ponto a levar daqui é só que lock striping generaliza para locking por bucket, e o `ConcurrentHashMap` moderno generaliza isso mais uma vez para CAS por bin com sincronização só numa colisão real.
 
 ### 4. Evitando campos quentes
 
@@ -174,7 +174,7 @@ Para um contador que é escrito muito mais do que é lido — contagem de requis
 
 ### 5. Alternativas ao locking exclusivo, em resumo
 
-Existem mais duas opções para quando o *padrão de acesso* em si não precisa de locking exclusivo, em vez de precisar de um lock mais estreito ou dividido. Ambas têm sua mecânica de uso coberta pelo conceito irmão de [utilitários de concorrência](concurrency-utilities-executors-and-synchronizers.md) — o ponto aqui é *por que* recorrer a uma delas em vez de continuar reduzindo o escopo ou dividindo:
+Existem mais duas opções para quando o *padrão de acesso* em si não precisa de locking exclusivo, em vez de precisar de um lock mais estreito ou dividido. Ambas têm sua mecânica de uso coberta pelo conceito irmão de [utilitários de concorrência](concurrency-utilities-executors-and-synchronizers) — o ponto aqui é *por que* recorrer a uma delas em vez de continuar reduzindo o escopo ou dividindo:
 
 - **`ReadWriteLock`** (`ReentrantReadWriteLock`) se encaixa em dados que são lidos muito mais do que são escritos: qualquer número de leitores pode segurar o lock de leitura simultaneamente, e só um escritor precisa de acesso exclusivo. Dividir ou fazer striping não ajuda uma estrutura com leitura intensa da mesma forma que deixar os leitores pararem de bloquear uns aos outros ajuda.
 - **Variáveis atômicas** substituem um lock completamente no caso mais simples: uma única variável sem invariante ligando-a a nenhum outro campo. Assim que uma classe passa a ter mais de um campo quente, ou campos que precisam mudar juntos atomicamente, atomics simples deixam de ser suficientes e a escolha volta a ser escopo/granularidade/striping, ou um lock explícito.
@@ -188,7 +188,7 @@ Existem mais duas opções para quando o *padrão de acesso* em si não precisa 
   synchronized (this) { balance -= amount; }
   synchronized (this) { lastUpdated = Instant.now(); }
   ```
-- **Mais locks significa mais lugares onde um deadlock pode se formar.** Dividir um lock em vários, ou fazer striping em muitos, só compensa se nenhum caminho de código jamais precisar segurar mais de um deles ao mesmo tempo numa ordem que não seja consistente em todo lugar — veja o conceito irmão sobre [prevenção de deadlock](deadlock-lock-ordering-and-avoidance.md) para a disciplina de ordenação exigida assim que há mais de um lock.
+- **Mais locks significa mais lugares onde um deadlock pode se formar.** Dividir um lock em vários, ou fazer striping em muitos, só compensa se nenhum caminho de código jamais precisar segurar mais de um deles ao mesmo tempo numa ordem que não seja consistente em todo lugar — veja o conceito irmão sobre [prevenção de deadlock](deadlock-lock-ordering-and-avoidance) para a disciplina de ordenação exigida assim que há mais de um lock.
 - **Striping troca memória e operações sobre a estrutura inteira por concorrência.** Um único lock custa um objeto; N stripes custam N. Operações que precisam da estrutura *inteira* — um resize completo, um `size()` exato entre todos os stripes — ficam mais caras porque precisam tocar todo stripe, às vezes todos de uma vez, em vez do único lock que precisariam antes.
 - **Uma correção de campo quente que troca exatidão por vazão não é de graça — ela muda o que os chamadores podem assumir.** `LongAdder.sum()` não é um snapshot atômico, então código que precisa de uma contagem exata e pontual (por exemplo, para decidir se um recurso atingiu um limite rígido) pode observar um total obsoleto ou em trânsito, e precisa tolerar isso, ou recorrer a um campo que continue exato ao custo de contenção.
 - **Nada disso vale a pena fazer sem uma medição mostrando que a contenção de lock é de fato o gargalo.** Dividir ou fazer striping em locks pouco contenciosos rende pouca melhoria e ainda adiciona risco de deadlock e complexidade de código à toa; faça profiling ou um thread dump antes para confirmar que o lock em questão é o que está realmente quente.

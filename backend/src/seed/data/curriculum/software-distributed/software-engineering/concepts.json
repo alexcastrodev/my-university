@@ -69,7 +69,7 @@
       {
         "label": "Scalability and Maintainability: Load Parameters and the Operability-Simplicity-Evolvability Triad",
         "slug": "scalability-and-maintainability-principles",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "summary": "A functional requirement states what a system must do (a specific behavior, given a specific input), while a non-functional requirement constrains how well or under what conditions it must do it (latency, availability, security, maintainability), and the two fail differently in practice: a missed functional requirement produces a visible, reportable bug, while a missed non-functional requirement often produces a system that passes every functional test and still cannot survive its first real week in production.",
@@ -250,7 +250,7 @@
       {
         "label": "Back-of-the-Envelope Capacity Estimation",
         "slug": "back-of-envelope-capacity-estimation",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "summary": "Software Engineering Management, SWEBOK's knowledge area for the activities that plan and control a project rather than the code inside it, treats estimation and risk as two sides of the same problem: an estimate is a probability distribution, not a single number, and a risk register turns unknowns identified during estimation into tracked items with a likelihood, an impact, and an owner, which this concept demonstrates against a small, concrete project plan rather than leaving both ideas at the level of vocabulary.",
@@ -290,7 +290,7 @@
       {
         "label": "Service Mesh and the Sidecar Pattern",
         "slug": "service-mesh-and-sidecar-pattern",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "summary": "A non-functional requirement (a target latency, an availability number, an expected request volume) is what actually forces an architecture decision, not taste or fashion, and this concept treats the moment a team commits to client-server versus layered versus something more distributed as a decision that should be written down as an Architecture Decision Record naming the requirement that drove it, deliberately not re-deriving architecture styles this curriculum already covers elsewhere, at two different depths, in two different sibling disciplines.",
@@ -415,7 +415,7 @@
       {
         "label": "Progressive Delivery: Canary, Blue-Green, and Feature Flags",
         "slug": "progressive-delivery-canary-blue-green-and-feature-flags",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "summary": "Blue-green deployment, per Fowler, keeps two complete production environments and cuts traffic from one to the other in a single switch, buying an instant, clean rollback at the cost of running double the infrastructure during the switch, while canary release routes only a small slice of real traffic to the new version first and grows that slice as confidence builds, buying earlier detection of a bad release at the cost of running two versions side by side for longer, and this concept lays out honestly which real failure each strategy actually catches and which it does not.",
@@ -450,12 +450,12 @@
       {
         "label": "Distributed Tracing and Observability",
         "slug": "distributed-tracing-and-observability",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       },
       {
         "label": "Designing a Metrics Monitoring and Alerting System",
         "slug": "metrics-monitoring-and-alerting-system",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "summary": "Cindy Sridharan's practitioner writing popularized the now-standard framing of observability as three complementary data types, logs (discrete, timestamped events), metrics (aggregated numeric measurements over time), and traces (the causal path of one request across every service it touched), and this concept works through why a production incident that only one of the three can actually explain is common, then grounds the framing in two real, already-published applied examples at two different scales, a single Spring Boot service's health endpoint and a distributed system's tracing infrastructure.",
@@ -525,7 +525,7 @@
       {
         "label": "SLIs, SLOs, and Error Budgets",
         "slug": "slos-slis-and-error-budgets",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "summary": "This capstone traces one written requirement through the entire lifecycle this discipline has covered end to end: elicited and specified, turned into a non-functional target that forces an architecture decision, built and tested at the unit level (handed off explicitly to the sibling discipline that owns that step), carried through a CI/CD pipeline into a canary deployment, watched in production by exactly the observability signal that would catch its specific failure mode, and finally closed with a deliberate, logged technical debt entry for a shortcut taken under real deadline pressure, the same amarra-tudo pattern every capstone on this platform uses, applied here to the surrounding process rather than to the code.",

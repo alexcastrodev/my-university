@@ -47,7 +47,7 @@
     }
     @if (paper().researchArea; as area) {
       @if (areaParams(); as params) {
-        <a class="chip chip-area" [routerLink]="[]" [queryParams]="params">{{ area }}</a>
+        <a class="chip chip-area" [routerLink]="[]" [queryParams]="params" rel="nofollow">{{ area }}</a>
       } @else {
         <span class="chip chip-area">{{ area }}</span>
       }

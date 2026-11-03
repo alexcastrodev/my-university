@@ -1,10 +1,10 @@
 ---
-version: 1.0
-updatedAt: 2026-08-19
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
-`jlink` is the JDK's *linker*: it takes a set of modules — JDK modules plus your own — and writes out a self-contained, runnable Java runtime image that holds only those modules and nothing else. `jdeps` is its companion analyzer: it reads compiled code and reports which modules that code actually needs, in a form `jlink` accepts directly. Together they answer a deployment question rather than a language one: instead of shipping an application and requiring a full JDK or JRE on the target machine, you ship one directory that contains a stripped-down Java plus your application, and it runs on a machine with no Java installed at all. This is the practical payoff of the [Java Platform Module System](/java-concepts/java-platform-module-system) — `jlink` only works because the JDK itself was split into modules with declared dependencies, so a dependency graph can be resolved and the unreachable parts left out.
+`jlink` is the JDK's *linker*: it takes a set of modules — JDK modules plus your own — and writes out a self-contained, runnable Java runtime image that holds only those modules and nothing else. `jdeps` is its companion analyzer: it reads compiled code and reports which modules that code actually needs, in a form `jlink` accepts directly. Together they answer a deployment question rather than a language one: instead of shipping an application and requiring a full JDK or JRE on the target machine, you ship one directory that contains a stripped-down Java plus your application, and it runs on a machine with no Java installed at all. This is the practical payoff of the [Java Platform Module System](/java/java-concepts/java-platform-module-system) — `jlink` only works because the JDK itself was split into modules with declared dependencies, so a dependency graph can be resolved and the unreachable parts left out.
 
 ## Use Cases
 
@@ -18,7 +18,7 @@ updatedAt: 2026-08-19
 
 ### A minimal modular application
 
-`jlink` needs modules, so the starting point is a `module-info.java` and a modular JAR. This is the only part that leans on JPMS itself — see the [module system concept](/java-concepts/java-platform-module-system) for what the directives mean.
+`jlink` needs modules, so the starting point is a `module-info.java` and a modular JAR. This is the only part that leans on JPMS itself — see the [module system concept](/java/java-concepts/java-platform-module-system) for what the directives mean.
 
 ```java
 // src/demo/module-info.java

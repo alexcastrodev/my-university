@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-18
+version: 1.1
+updatedAt: 2026-11-03
 title: O Java Platform Module System (JPMS)
 summary: O que module-info.java realmente declara — requires, requires transitive, exports, opens, uses/provides — e por que um pacote não exportado é invisível para outros módulos mesmo quando todo tipo dentro dele é público. Cobre o módulo sem nome (onde a maior parte do código de aplicação ainda roda, sem nenhuma dessas garantias), módulos automáticos como ponte de migração, jlink para imagens de runtime mínimas, e os trade-offs honestos: pacotes divididos proibidos, a tensão entre opens e encapsulamento forte, e o quão lenta tem sido a adoção no mundo real.
 ---
@@ -143,7 +143,7 @@ A classe provedora não precisa ser exportada — o module system faz a conexão
 
 ### Encapsulamento forte e o ataque ao singleton
 
-Essa é a aplicação que o conceito [Singletons and Noninstantiable Utility Classes](/java-concepts/singleton-and-noninstantiable-classes) menciona de passagem. O ataque reflexivo de "clonar o singleton" —
+Essa é a aplicação que o conceito [Singletons and Noninstantiable Utility Classes](/pt-BR/java/java-concepts/singleton-and-noninstantiable-classes) menciona de passagem. O ataque reflexivo de "clonar o singleton" —
 
 ```java
 Constructor<Elvis> ctor = Elvis.class.getDeclaredConstructor();

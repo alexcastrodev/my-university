@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-21
+version: 1.1
+updatedAt: 2026-11-03
 title: "Limitação de Taxa e Proteção Contra Abuso com rack-attack"
 summary: Os padrões do rack-attack parecem prontos no momento em que inicializam, mas um cache store por processo em um deploy Puma multiworker subconta requisições silenciosamente e torna um limite de throttle sem sentido. Este conceito cobre a DSL, o requisito de cache store compartilhado que de fato faz o throttling funcionar, a explosão de borda do algoritmo de janela fixa, e por que bloquear por IP é um risco de falso positivo atrás de NAT compartilhado.
 ---
@@ -48,7 +48,7 @@ tráfego real e atacantes reais.
 Rails; para uma aplicação Rails ele é incluído e habilitado
 automaticamente uma vez que a gem está no Gemfile, ficando na pilha de
 middleware (veja `bin/rails middleware`, coberto para a pilha completa em
-[Reduzindo o Overhead de Framework por Requisição](reducing-per-request-framework-overhead.md))
+[Reduzindo o Overhead de Framework por Requisição](reducing-per-request-framework-overhead))
 antes de `ActionDispatch::Executor` e tudo a jusante, incluindo
 roteamento, cadeias `before_action` de controller, e qualquer chamada
 `authorize` do Pundit/CanCanCan:
@@ -65,7 +65,7 @@ gem "rack-attack", "~> 6.8"
 ```
 
 Essa ordenação é o ponto principal: uma requisição que o rack-attack
-bloqueia ou limita nunca chega à [autorização](authorization-mass-assignment-and-encryption.md)
+bloqueia ou limita nunca chega à [autorização](authorization-mass-assignment-and-encryption)
 de forma nenhuma; nunca instancia uma política Pundit, nunca toca em
 `current_user`, nunca roda uma única linha do seu controller. Proteção
 contra abuso nessa camada é deliberadamente mais burra e mais cedo do que

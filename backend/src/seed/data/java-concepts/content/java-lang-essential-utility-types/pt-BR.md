@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-05
+version: 1.1
+updatedAt: 2026-11-03
 title: "Essenciais do java.lang: Comparable, AutoCloseable, StackWalker, ProcessBuilder"
 summary: O contrato de ordenação natural de Comparable<T> e sua recomendação de consistência com equals, as regras de idempotência de AutoCloseable vs. Closeable, o StackWalker como o substituto moderno e preguiçoso para inspeção de stack trace, e ProcessBuilder/Process/ProcessHandle para lançar e gerenciar processos do sistema operacional.
 ---
@@ -65,7 +65,7 @@ class Version implements Comparable<Version> {
 `Comparable` fica embutido no tipo — uma classe ganha exatamente uma ordenação
 desse jeito. `Comparator<T>` vive fora do tipo e pode definir qualquer número
 de ordenações para a mesma classe sem tocá-la; veja
-[Comparators e Algoritmos de Coleção](/java-concepts/comparators-and-collection-algorithms)
+[Comparators e Algoritmos de Coleção](/pt-BR/java/java-concepts/comparators-and-collection-algorithms)
 para `Comparator.comparing()`, `thenComparing()` e os algoritmos de
 `Collections` construídos sobre os dois.
 

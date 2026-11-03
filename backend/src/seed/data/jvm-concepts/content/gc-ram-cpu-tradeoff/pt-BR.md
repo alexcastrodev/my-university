@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-04
+version: 1.1
+updatedAt: 2026-11-03
 summary: Por que os coletores geracionais e de compactação da JVM nunca liberam um objeto como malloc/free ou a contagem de referências fazem, e como esse design transforma o custo de CPU do GC em uma função direta da folga de heap que você controla com -Xmx.
 title: Coletores de Lixo que Movem Objetos e o Trade-off entre RAM e CPU
 ---
@@ -90,8 +90,8 @@ Um padrão concreto torna a fórmula tangível: adicione threads ou núcleos a u
     malloc/free ou contagem de referências   footprint ≈ 200 MB      CPU: paga malloc+free por objeto, fixo
     GC de compactação geracional              footprint ≈ 200 MB + H  CPU: cai conforme H cresce — um botão, não um fato
   ```
-  Se essa troca costuma ser a economicamente correta dado o preço real de hardware é uma pergunta separada — veja [Sizing the JVM Heap: RAM/CPU Economics in Practice](/jvm-concepts/heap-sizing-economics).
-- **Passar um ponteiro de objeto cru pela fronteira de FFI é mais difícil com um coletor de compactação**, já que um ciclo de GC pode realocar o objeto no meio da chamada — uma razão real pela qual linguagens de baixo nível e embarcadas historicamente se apoiaram em gerenciamento manual de memória, mesmo custando mais CPU. É também por isso que a [Foreign Function and Memory API](/java-concepts/foreign-function-and-memory-api) precisa fixar (pin) ou copiar a memória que entrega para código nativo, em vez de passar uma referência Java crua para o outro lado.
+  Se essa troca costuma ser a economicamente correta dado o preço real de hardware é uma pergunta separada — veja [Sizing the JVM Heap: RAM/CPU Economics in Practice](/pt-BR/java/jvm-concepts/heap-sizing-economics).
+- **Passar um ponteiro de objeto cru pela fronteira de FFI é mais difícil com um coletor de compactação**, já que um ciclo de GC pode realocar o objeto no meio da chamada — uma razão real pela qual linguagens de baixo nível e embarcadas historicamente se apoiaram em gerenciamento manual de memória, mesmo custando mais CPU. É também por isso que a [Foreign Function and Memory API](/pt-BR/java/java-concepts/foreign-function-and-memory-api) precisa fixar (pin) ou copiar a memória que entrega para código nativo, em vez de passar uma referência Java crua para o outro lado.
 - **Um coletor de compactação/geracional de nível de produção é um investimento de engenharia de escala de uma década**, motivo pelo qual só as runtimes com mais recursos têm um (a JDK, o CLR do .NET, o V8). Uma linguagem com um time menor e sem um desses tem uma alavanca real, porém menor, disponível: alocar mais agressivamente na stack para baixar a taxa de alocação logo de cara — que é o que o Go faz. Isso só encolhe o numerador da fórmula, porém; não muda o formato de custo subjacente do jeito que o denominador de headroom de um coletor de compactação muda.
 - **As futuras value classes do Java (Project Valhalla) costumam ser vistas como uma otimização de alocação em stack para reduzir pressão de GC — não são.** A motivação principal delas é o *layout* no heap: achatar os campos de um objeto dentro de seu container em vez de guardar um ponteiro para uma instância alocada separadamente, o que remove uma indireção de ponteiro e um header por objeto, independentemente de onde o objeto acabe vivendo.
 - **Todo esse cálculo assume que a stack continua sendo uma fatia pequena de memória perto do heap** — verdade para uma contagem normal de threads, mas virtual threads podem existir às centenas de milhares, cada uma com sua própria stack. Se isso muda de forma relevante a troca RAM/CPU está fora do escopo deste conceito, mas vale não assumir que memória de stack é sempre desprezível.

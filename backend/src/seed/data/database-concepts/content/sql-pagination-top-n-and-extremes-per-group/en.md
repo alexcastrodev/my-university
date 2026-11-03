@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-05
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
@@ -12,7 +12,7 @@ lowest value *per group* rather than once across the whole table. All four are
 window-function problems at heart — you impose an order, number or rank the
 rows under that order, and then filter on the number. This concept assumes the
 basic row-capping syntax (`LIMIT`, `TOP`, `FETCH FIRST`) from
-[SQL: Limiting and Random Sampling](/database-concepts/sql-limiting-and-random-sampling)
+[SQL: Limiting and Random Sampling](/databases/database-concepts/sql-limiting-and-random-sampling)
 and builds the harder patterns on top of it.
 
 ## Use Cases

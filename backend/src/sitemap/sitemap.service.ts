@@ -119,9 +119,12 @@ export class SitemapService {
       urls.push({ path: `/java/exam/${exam.id}`, lastmod: null });
     }
     // The lessons are server-rendered, indexable pages, but the course page links to them from the browser only.
+    // A skill check is left out: its questions are drawn in the browser, so the page has no text of its own.
     for (const course of await this.courses.findAll()) {
       for (const mod of course.modules) {
-        for (const lesson of mod.lessons) {
+        for (const lesson of mod.lessons.filter(
+          (l) => l.type !== 'skill-check',
+        )) {
           urls.push({
             path: `/java/exam/${course.id}/lesson/${lesson.id}`,
             lastmod: null,

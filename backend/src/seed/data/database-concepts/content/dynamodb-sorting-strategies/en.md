@@ -1,10 +1,10 @@
 ---
-version: 1.0
-updatedAt: 2026-08-20
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
-Learn how DynamoDB actually orders the items it returns, and how to design a sort key so that order is the one your access pattern needs. The chapter states the two rules up front: "you must use a composite primary key. Second, all ordering must be done with the sort key of a particular item collection." Underneath that rule is a mechanical fact worth internalizing: within a partition, "items within an item collection are stored as a B-tree which allow for O(log n) time complexity on search. This B-tree is arranged in lexicographical order according to the sort key, and it's what you'll be using for sorting." Every strategy in this concept — timestamp formats, `ScanIndexForward`, zero-padding, hierarchical sort keys — is a way of shaping what gets written into that sort key so the B-tree's natural order matches the order your application wants to read back. The sibling concept, [DynamoDB Filtering Strategies: Sparse Indexes and Composite Sort Keys](/database-concepts/dynamodb-filtering-strategies-sparse-indexes-composite-sort-keys), covers the same composite-sort-key *mechanics* (concatenating attributes into one key) for a different *goal* (filtering on two attributes in one `Query`); this concept reuses that same tool but points it at ordering.
+Learn how DynamoDB actually orders the items it returns, and how to design a sort key so that order is the one your access pattern needs. The chapter states the two rules up front: "you must use a composite primary key. Second, all ordering must be done with the sort key of a particular item collection." Underneath that rule is a mechanical fact worth internalizing: within a partition, "items within an item collection are stored as a B-tree which allow for O(log n) time complexity on search. This B-tree is arranged in lexicographical order according to the sort key, and it's what you'll be using for sorting." Every strategy in this concept — timestamp formats, `ScanIndexForward`, zero-padding, hierarchical sort keys — is a way of shaping what gets written into that sort key so the B-tree's natural order matches the order your application wants to read back. The sibling concept, [DynamoDB Filtering Strategies: Sparse Indexes and Composite Sort Keys](/databases/database-concepts/dynamodb-filtering-strategies-sparse-indexes-composite-sort-keys), covers the same composite-sort-key *mechanics* (concatenating attributes into one key) for a different *goal* (filtering on two attributes in one `Query`); this concept reuses that same tool but points it at ordering.
 
 ## Use Cases
 
@@ -25,7 +25,7 @@ That same byte-order rule is what makes the `#` prefix trick from the filtering 
 
 ### Timestamps: sortable, human-readable, or both
 
-"Your choice needs to be sortable. In this case, either epoch timestamps or ISO-8601 will do. What you absolutely cannot do is use something that's not sortable, such as a display-friendly format like 'May 26, 1988'." Beyond sortability, the book prefers ISO-8601 for a debugging reason, with a caveat: "I prefer to use ISO-8601 timestamps because they're human-readable if you're debugging items in the DynamoDB console. That said, it can be tough to decipher items in the DynamoDB console if you have a single-table design" — a nod to [single-table design](/database-concepts/dynamodb-single-table-design)'s cost of readability.
+"Your choice needs to be sortable. In this case, either epoch timestamps or ISO-8601 will do. What you absolutely cannot do is use something that's not sortable, such as a display-friendly format like 'May 26, 1988'." Beyond sortability, the book prefers ISO-8601 for a debugging reason, with a caveat: "I prefer to use ISO-8601 timestamps because they're human-readable if you're debugging items in the DynamoDB console. That said, it can be tough to decipher items in the DynamoDB console if you have a single-table design" — a nod to [single-table design](/databases/database-concepts/dynamodb-single-table-design)'s cost of readability.
 
 ### Unique, sortable IDs: KSUIDs
 

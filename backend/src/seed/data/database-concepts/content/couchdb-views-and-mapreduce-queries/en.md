@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-20
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
@@ -141,7 +141,7 @@ A view's mapper alone gives you a filtered, re-keyed, ordered list. Adding a red
 
 ## Trade-offs
 
-- **You must know your queries before you write your data model — there is no query-time escape hatch.** Every access path needs a view designed and saved in advance; there is no equivalent of typing an ad-hoc `WHERE name = ?` against a field nobody indexed. This is the same up-front-planning trade DynamoDB access-pattern modeling makes (see [DynamoDB Data Modeling Approach](/database-concepts/dynamodb-data-modeling-approach)) — both systems refuse to let you defer the "what will I query by?" decision to read time, in exchange for read paths that stay fast (a pre-built B-tree lookup, not a scan) as data grows.
+- **You must know your queries before you write your data model — there is no query-time escape hatch.** Every access path needs a view designed and saved in advance; there is no equivalent of typing an ad-hoc `WHERE name = ?` against a field nobody indexed. This is the same up-front-planning trade DynamoDB access-pattern modeling makes (see [DynamoDB Data Modeling Approach](/databases/database-concepts/dynamodb-data-modeling-approach)) — both systems refuse to let you defer the "what will I query by?" decision to read time, in exchange for read paths that stay fast (a pre-built B-tree lookup, not a scan) as data grows.
 - **A forgotten access pattern is a new view and an index rebuild, not a fast follow-up query.** Realizing after the fact that you also need artists by genre means writing and deploying a new map function, then waiting for CouchDB to build that index over every existing document — closer to a migration than to `CREATE INDEX`.
 - **Fan-out mappers trade write-time simplicity for query flexibility.** Emitting one row per album, or one row per tag several levels deep, means a single document update touches many index rows on rebuild. That's the price of being able to query nested data independently of its parent document at all.
 - **Reduce functions have a real ceiling.** The requirement that a reducer collapse to a small fixed-size result rules out some intuitively reasonable aggregates (e.g., "give me the list of every unique tag" as a reduce output) — those need a different view shape (group by key, no reduce) rather than a clever reducer.

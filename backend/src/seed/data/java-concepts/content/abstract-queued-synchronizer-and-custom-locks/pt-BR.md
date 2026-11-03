@@ -1,12 +1,12 @@
 ---
-version: 1.0
-updatedAt: 2026-08-13
+version: 1.1
+updatedAt: 2026-11-03
 title: AbstractQueuedSynchronizer — o que existe por baixo de Lock e Semaphore
 summary: A maquinaria interna compartilhada — um campo de estado, uma fila de threads e alguns hooks sobrescrevíveis — sobre a qual ReentrantLock, Semaphore e CountDownLatch são construídos.
 ---
 ## Objective
 
-O conceito complementar sobre [utilitários de concorrência](concurrency-utilities-executors-and-synchronizers.md)
+O conceito complementar sobre [utilitários de concorrência](concurrency-utilities-executors-and-synchronizers)
 cobre `ReentrantLock`, `Semaphore` e `CountDownLatch` de fora — chamar
 `lock()`, chamar `acquire()`, chamar `await()`. Este conceito é sobre o que existe por baixo
 dos três: `java.util.concurrent.locks.AbstractQueuedSynchronizer` (AQS), uma única

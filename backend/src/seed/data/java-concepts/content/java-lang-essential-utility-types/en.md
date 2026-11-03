@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-05
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
@@ -63,7 +63,7 @@ class Version implements Comparable<Version> {
 `Comparable` is baked into the type — a class gets exactly one ordering
 this way. `Comparator<T>` lives outside the type and can define any number
 of orderings for the same class without touching it; see
-[Comparators and Collection Algorithms](/java-concepts/comparators-and-collection-algorithms)
+[Comparators and Collection Algorithms](/java/java-concepts/comparators-and-collection-algorithms)
 for `Comparator.comparing()`, `thenComparing()`, and the `Collections`
 algorithms built on top of both.
 

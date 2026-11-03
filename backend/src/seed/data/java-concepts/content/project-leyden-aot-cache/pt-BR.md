@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-09
+version: 1.1
+updatedAt: 2026-11-03
 title: "Project Leyden: AOT Cache, Warm-up e Startup"
 summary: Como o AOT cache do Project Leyden guarda classes, perfis de métodos, objetos e (em breve) código compilado de uma execução de treino para encurtar startup e warm-up sem abandonar a JVM dinâmica, e o que cada JEP entrega de fato hoje.
 ---
@@ -19,7 +19,7 @@ O Project Leyden ataca os dois motivos pelos quais um programa Java é lento nos
 
 ### Startup e warm-up são custos diferentes
 
-Uma JVM fria paga duas vezes. Primeiro ela carrega e liga toda classe que o programa toca, o que, numa aplicação com framework, significa milhares de classes. Depois executa esse código no interpretador enquanto o HotSpot conta invocações e registra *perfis* (qual desvio é tomado, quais tipos de receptor aparecem em um ponto de chamada) para que C1 e C2 saibam o que otimizar. O desempenho de pico só chega depois dos dois. Um runtime que quer otimizar de forma agressiva *porque* observa o programa real é estruturalmente lento no começo, e esse é o preço do desenho descrito em [JIT Tiered Compilation](/jvm-concepts/jit-tiered-compilation). O Leyden move a observação da execução de produção para uma execução de treino.
+Uma JVM fria paga duas vezes. Primeiro ela carrega e liga toda classe que o programa toca, o que, numa aplicação com framework, significa milhares de classes. Depois executa esse código no interpretador enquanto o HotSpot conta invocações e registra *perfis* (qual desvio é tomado, quais tipos de receptor aparecem em um ponto de chamada) para que C1 e C2 saibam o que otimizar. O desempenho de pico só chega depois dos dois. Um runtime que quer otimizar de forma agressiva *porque* observa o programa real é estruturalmente lento no começo, e esse é o preço do desenho descrito em [JIT Tiered Compilation](/pt-BR/java/jvm-concepts/jit-tiered-compilation). O Leyden move a observação da execução de produção para uma execução de treino.
 
 ### O que o AOT cache guarda, uma JEP por vez
 
@@ -76,7 +76,7 @@ Os primeiros caches guardavam objetos do heap num layout preso a coletores espec
 
 ### Onde o Leyden para
 
-O Leyden mantém a JVM, então o ganho é uma fração do que um executável nativo dá e o consumo de memória não encolhe. A JEP 483 reporta cerca de 42% de startup mais rápido tanto para uma demo pequena com Stream quanto para o Spring PetClinic, com caches de 11 MB e 130 MB respectivamente. Quando o requisito é um processo no ar em milissegundos e com pegada pequena, compare com [GraalVM Native Image Compilation](/java-concepts/graalvm-native-image-compilation). Quando o requisito é "a mesma aplicação, perceptivelmente mais rápida para subir", o AOT cache é o primeiro passo mais barato. Reduzir o que você distribui é outra alavanca: veja [jlink e jdeps: Imagens de Runtime Customizadas](/java-concepts/jlink-custom-runtime-images).
+O Leyden mantém a JVM, então o ganho é uma fração do que um executável nativo dá e o consumo de memória não encolhe. A JEP 483 reporta cerca de 42% de startup mais rápido tanto para uma demo pequena com Stream quanto para o Spring PetClinic, com caches de 11 MB e 130 MB respectivamente. Quando o requisito é um processo no ar em milissegundos e com pegada pequena, compare com [GraalVM Native Image Compilation](/pt-BR/java/java-concepts/graalvm-native-image-compilation). Quando o requisito é "a mesma aplicação, perceptivelmente mais rápida para subir", o AOT cache é o primeiro passo mais barato. Reduzir o que você distribui é outra alavanca: veja [jlink e jdeps: Imagens de Runtime Customizadas](/pt-BR/java/java-concepts/jlink-custom-runtime-images).
 
 ## Trade-offs
 

@@ -115,14 +115,14 @@ Neither topology is strictly better: Memcached's "dumb nodes, smart client" mode
 
 ## Beyond Caching: Pub/Sub, Queues, and Streams
 
-Redis's additional data structures turn it into more than a cache in practice: sorted sets make a cheap leaderboard or priority queue, `INCR` with a TTL is the standard building block for a fixed-window rate limiter (see [Rate Limiting](/system-design-concepts/rate-limiting)), and `SET key value NX` is a common (if imperfect — see Trade-offs) distributed lock primitive.
+Redis's additional data structures turn it into more than a cache in practice: sorted sets make a cheap leaderboard or priority queue, `INCR` with a TTL is the standard building block for a fixed-window rate limiter (see [Rate Limiting](/system-design/system-design-concepts/rate-limiting)), and `SET key value NX` is a common (if imperfect — see Trade-offs) distributed lock primitive.
 
 Redis also ships two messaging primitives that are easy to reach for as a lightweight alternative to a dedicated broker, with a real gap underneath the similarity:
 
 - **Pub/Sub** is fire-and-forget: a message published while no one is subscribed is simply gone, with no buffering and no replay.
 - **Streams** (Redis 5.0+) add an append-only log with consumer groups, acknowledgment, and replay from a given position — architecturally much closer to Kafka than Pub/Sub is.
 
-Neither replaces a purpose-built broker under real durability or throughput requirements — see [Message Brokers: Queues vs. Log-Based Streaming](/system-design-concepts/message-brokers-queues-vs-logs) for what a dedicated system buys you that Redis Streams, running inside the same single-threaded instance as your cache traffic, does not.
+Neither replaces a purpose-built broker under real durability or throughput requirements — see [Message Brokers: Queues vs. Log-Based Streaming](/system-design/system-design-concepts/message-brokers-queues-vs-logs) for what a dedicated system buys you that Redis Streams, running inside the same single-threaded instance as your cache traffic, does not.
 
 ## Trade-offs
 

@@ -19,7 +19,7 @@
       {
         "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
         "slug": "distributed-systems-partial-failures",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "summary": "A single machine that crashes, crashes entirely and stops; a distributed system can have some machines running fine while others have failed, and the survivors usually cannot tell the difference between “that machine is dead” and “that machine (or the network to it) is just slow” — this concept names partial failure, the absence of shared memory, and the absence of a shared clock as the three properties that make distributed systems a genuinely different, harder problem than concurrent programming on one machine, not just concurrent programming with extra latency.",
@@ -236,7 +236,7 @@
       {
         "label": "CAP Theorem",
         "slug": "cap-theorem",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       },
       {
         "label": "Proof by Contradiction",
@@ -300,7 +300,7 @@
       {
         "label": "Consistent Hashing",
         "slug": "consistent-hashing",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "summary": "Primary-backup replication designates one replica as the primary that orders every write and forwards it to backups — simple and cheap, but the whole system stalls (or needs a separate, equally hard failure-detection-and-promotion mechanism) the moment the primary is unreachable; quorum-based replication instead requires only a majority (or, in an R+W>N register scheme, an overlapping read/write quorum) of some replica set to participate in each operation, tolerating individual node failures without a single designated leader stalling everything, at the real cost of needing an actual majority-agreement protocol — exactly what Paxos and Raft, next, provide — rather than one primary's say-so; when that replica set is chosen dynamically at scale, it is typically the same N nodes a consistent-hashing ring already assigns to a given key.",
@@ -335,7 +335,7 @@
       {
         "label": "Consensus and Coordination Services",
         "slug": "consensus-and-coordination-services",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "summary": "Fischer, Lynch & Paterson give consensus its formal shape before proving anything hard about it: every non-faulty process proposes a value, and a correct protocol must guarantee Agreement (no two non-faulty processes decide differently), Validity (the decided value was actually proposed by someone, ruling out a trivial always-decide-0 protocol), and Termination (every non-faulty process eventually decides) — real coordination services like ZooKeeper and etcd exist precisely because applications need exactly this guarantee (agreement on a leader, a lock holder, or a configuration value) as a reusable building block rather than re-solving it themselves.",
@@ -481,7 +481,7 @@
       {
         "label": "Byzantine Faults and System Models",
         "slug": "byzantine-faults-and-system-models",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "summary": "Every protocol this discipline covered — FLP, Paxos, Raft — assumes the crash-fault (fail-stop) model: a faulty process simply stops, and never sends a corrupted, contradictory, or actively misleading message; the Byzantine fault model is strictly harder and assumes exactly the opposite, that a faulty process may behave arbitrarily, including lying differently to different peers, which is precisely why Raft's simple majority-vote and quorum-overlap arguments do not carry over unmodified and real Byzantine-tolerant protocols need a larger quorum and a different safety argument — named honestly here as a real, distinct problem this discipline does not re-derive, since the applied protocol-level treatment (the Byzantine Generals Problem, PBFT) already exists in `system-design-concepts`.",
@@ -511,7 +511,7 @@
       {
         "label": "Consensus and Coordination Services",
         "slug": "consensus-and-coordination-services",
-        "feature": "system-design-concepts"
+        "feature": "system-design"
       }
     ],
     "summary": "This capstone traces one concrete client write end to end through a 3-node Raft cluster — an RPC arrives at the current leader, the leader appends it to its log as uncommitted, AppendEntries replicates it to both followers, the leader advances its commit index the instant a majority (itself plus one follower) has stored it, the entry is applied to the replicated state machine, and only then does the client receive its reply — naming the exact concept responsible for each step, tracing what changes when a follower is slow, when the leader crashes mid-replication, and closing with an honest account of where this discipline's rigor ends and the applied, production-scale coordination services (ZooKeeper, etcd) built on exactly this mechanism begin.",

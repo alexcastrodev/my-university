@@ -1,10 +1,10 @@
 ---
-version: 1.0
-updatedAt: 2026-08-21
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
-Understand how the JVM turns a `.class` file into a live, usable type: **loading** finds the bytes and creates a `Class` object, **linking** verifies and prepares it, and **initialization** runs its static initializers — three distinct phases, triggered at different, often-surprising moments. Class loading is also delegated through a **hierarchy** of `ClassLoader` instances that, by default, always ask their parent first — a rule that exists specifically so application code cannot silently replace core JDK classes. This is the mechanism underneath the module system covered in [Java Platform Module System](/java-concepts/java-platform-module-system); JPMS changes *which* packages a loader is allowed to see, not the loading/linking/initialization pipeline itself.
+Understand how the JVM turns a `.class` file into a live, usable type: **loading** finds the bytes and creates a `Class` object, **linking** verifies and prepares it, and **initialization** runs its static initializers — three distinct phases, triggered at different, often-surprising moments. Class loading is also delegated through a **hierarchy** of `ClassLoader` instances that, by default, always ask their parent first — a rule that exists specifically so application code cannot silently replace core JDK classes. This is the mechanism underneath the module system covered in [Java Platform Module System](/java/java-concepts/java-platform-module-system); JPMS changes *which* packages a loader is allowed to see, not the loading/linking/initialization pipeline itself.
 
 ## Use Cases
 
