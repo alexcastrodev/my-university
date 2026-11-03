@@ -58,6 +58,26 @@ async function knownPaths(): Promise<Set<string>> {
   return new Set((await sitemap.buildUrls()).map((u) => u.path));
 }
 
+describe('curriculum registry (pure, no API)', () => {
+  // A discipline with content but no entry in the app's curriculum.data.ts renders its raw folder slug as
+  // the page title and breadcrumb ("Task Parallelism vs. Data Parallelism - parallel-computing").
+  it('registers every curriculum folder with concepts in the app curriculum registry', () => {
+    const registry = readFileSync(
+      join(__dirname, '../../app/src/app/pages/computer-science/curriculum.data.ts'),
+      'utf8',
+    );
+    const registered = new Set(
+      [...registry.matchAll(/slug:\s*'([^']+)'/g)].map((m) => m[1]),
+    );
+    const missing = seedFiles
+      .map((f) => f.rel.split('/'))
+      .filter((p) => p.length === 4 && p[0] === 'curriculum' && p[3] === 'concepts.json')
+      .map((p) => `${p[1]}/${p[2]}`)
+      .filter((dir) => !registered.has(dir.split('/')[1]));
+    expect(missing).toEqual([]);
+  });
+});
+
 describe('concept links (pure, no API)', () => {
   it('points every related/prerequisite entry of every concepts.json at a page that exists', async () => {
     const paths = await knownPaths();

@@ -178,6 +178,18 @@ export const CURRICULUM: CurriculumModule[] = [
           $localize`:@@curriculum.algorithms-software.linear-programming-optimization.topic.6:max-flow min-cut`,
         ],
       },
+      {
+        slug: 'formal-languages-automata',
+        title: $localize`:@@curriculum.algorithms-software.formal-languages-automata.title:Formal Languages & Automata`,
+        hours: 12,
+        topics: [
+          $localize`:@@curriculum.algorithms-software.formal-languages-automata.topic.1:finite automata`,
+          $localize`:@@curriculum.algorithms-software.formal-languages-automata.topic.2:regular expressions`,
+          $localize`:@@curriculum.algorithms-software.formal-languages-automata.topic.3:non-regularity proofs`,
+          $localize`:@@curriculum.algorithms-software.formal-languages-automata.topic.4:context-free grammars`,
+          $localize`:@@curriculum.algorithms-software.formal-languages-automata.topic.5:pushdown automata`,
+        ],
+      },
     ],
   },
   {
@@ -309,6 +321,18 @@ export const CURRICULUM: CurriculumModule[] = [
           $localize`:@@curriculum.systems.distributed-systems-i.topic.4:consistency`,
           $localize`:@@curriculum.systems.distributed-systems-i.topic.5:consensus`,
           $localize`:@@curriculum.systems.distributed-systems-i.topic.6:fault tolerance`,
+        ],
+      },
+      {
+        slug: 'parallel-computing',
+        title: $localize`:@@curriculum.systems.parallel-computing.title:Parallel Computing`,
+        hours: 14,
+        topics: [
+          $localize`:@@curriculum.systems.parallel-computing.topic.1:parallel architectures`,
+          $localize`:@@curriculum.systems.parallel-computing.topic.2:decomposition`,
+          $localize`:@@curriculum.systems.parallel-computing.topic.3:speedup and scalability`,
+          $localize`:@@curriculum.systems.parallel-computing.topic.4:OpenMP`,
+          $localize`:@@curriculum.systems.parallel-computing.topic.5:MPI`,
         ],
       },
     ],
@@ -583,6 +607,43 @@ export const CURRICULUM: CurriculumModule[] = [
               $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.4:planning`,
               $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.5:robot learning`,
               $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.6:autonomous systems`,
+            ],
+          },
+        ],
+      },
+      {
+        slug: 'computer-graphics',
+        title: $localize`:@@curriculum.specialization.computer-graphics.title:Computer Graphics`,
+        disciplines: [
+          {
+            slug: 'computer-graphics',
+            title: $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.title:Computer graphics depth`,
+            hours: 11,
+            topics: [
+              $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.topic.1:rendering pipeline`,
+              $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.topic.2:geometric transformations`,
+              $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.topic.3:rasterization`,
+              $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.topic.4:shading and illumination`,
+              $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.topic.5:ray tracing`,
+            ],
+          },
+        ],
+      },
+      {
+        slug: 'image-processing',
+        title: $localize`:@@curriculum.specialization.image-processing.title:Image Processing`,
+        disciplines: [
+          {
+            slug: 'image-processing',
+            title: $localize`:@@curriculum.specialization.image-processing.image-processing.title:Image processing depth`,
+            hours: 13,
+            topics: [
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.1:image representation`,
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.2:spatial filtering`,
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.3:edge detection`,
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.4:segmentation`,
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.5:frequency domain`,
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.6:compression`,
             ],
           },
         ],
