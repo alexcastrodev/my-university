@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-20
+version: 1.1
+updatedAt: 2026-11-03
 title: "Capstone: Projetando um Sistema de IA para uma Tarefa Real"
 summary: "Dados três pedidos realistas (um assistente de suporte sobre uma base de conhecimento privada e mutável, uma busca visual de produtos sem conjunto de treino rotulado e um controlador de armazém que precisa aprender por tentativa e erro), escolha e justifique um projeto desta trilha para cada um, e diga o que cada alternativa rejeitada teria custado."
 ---
@@ -67,7 +67,7 @@ Os ramos não são exclusivos: a maioria dos sistemas reais combina vários, e o
 
 **Pedido:** Um time de robótica quer que um braço aprenda a pegar itens irregulares de uma caixa. O sucesso é fácil de detectar (um item foi levantado), mas ninguém consegue escrever os torques de junta certos, e tentativas no mundo real são lentas e arriscam danos.
 
-**Projeto:** Aprendizado por reforço em simulação com um método de gradiente de política, o PPO em particular. O espaço de ações é contínuo (torques de junta ou velocidade do efetuador), o que descarta a maximização por passo de que o DQN precisa. Uma recompensa modelada combina sucesso na preensão com pequenas penalidades por colisões e força excessiva. Milhares de ambientes simulados rodam em paralelo, o que combina com o apetite on-policy do PPO por amostras novas e com as suas atualizações recortadas e estáveis. Os parâmetros do simulador (atrito, massa, iluminação, ruído de câmera) são aleatorizados no treino para que a política não se ajuste demais a uma simulação imperfeita, técnica estudada na Trilha F desta especialização. A percepção pode reaproveitar um backbone de visão pré-treinado (um ViT ou uma CNN), ajustado ou congelado, para transformar imagens da câmera em features para a política.
+**Projeto:** Aprendizado por reforço em simulação com um método de gradiente de política, o PPO em particular. O espaço de ações é contínuo (torques de junta ou velocidade do efetuador), o que descarta a maximização por passo de que o DQN precisa. Uma recompensa modelada combina sucesso na preensão com pequenas penalidades por colisões e força excessiva. Milhares de ambientes simulados rodam em paralelo, o que combina com o apetite on-policy do PPO por amostras novas e com as suas atualizações recortadas e estáveis. Os parâmetros do simulador (atrito, massa, iluminação, ruído de câmera) são aleatorizados no treino para que a política não se ajuste demais a uma simulação imperfeita, técnica conhecida como randomização de domínio. A percepção pode reaproveitar um backbone de visão pré-treinado (um ViT ou uma CNN), ajustado ou congelado, para transformar imagens da câmera em features para a política.
 
 **Alternativas rejeitadas:** O DQN exigiria discretizar um espaço de ações contínuo de alta dimensão, e a sua vantagem de reuso de amostras importa menos quando a simulação torna as amostras baratas. Treinar só no robô real é lento e arriscado demais. A imitação pura de demonstrações humanas é um ótimo complemento para a inicialização, mas sozinha não consegue superar quem demonstrou nem se recuperar de estados que as demonstrações nunca visitaram.
 

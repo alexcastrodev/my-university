@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-20
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Learning Objectives
 
@@ -65,7 +65,7 @@ The branches are not exclusive: most real systems combine several, and the point
 
 **Request:** A robotics team wants an arm to learn to grasp irregular items from a bin. Success is easy to detect (an item is lifted), but nobody can write down the right joint torques, and real-world trials are slow and risk damage.
 
-**Design:** Reinforcement learning in simulation with a policy-gradient method, PPO in particular. The action space is continuous (joint torques or end-effector velocity), which rules out the per-step maximization DQN needs. A shaped reward combines grasp success with small penalties for collisions and excessive force. Thousands of simulated environments run in parallel, which suits PPO's on-policy appetite for fresh samples and its stable clipped updates. Simulator parameters (friction, mass, lighting, camera noise) are randomized during training so the policy does not overfit to one imperfect simulation, a technique studied in Track F of this specialization. Perception can reuse a pretrained vision backbone (a ViT or CNN), fine-tuned or frozen, to turn camera images into features for the policy.
+**Design:** Reinforcement learning in simulation with a policy-gradient method, PPO in particular. The action space is continuous (joint torques or end-effector velocity), which rules out the per-step maximization DQN needs. A shaped reward combines grasp success with small penalties for collisions and excessive force. Thousands of simulated environments run in parallel, which suits PPO's on-policy appetite for fresh samples and its stable clipped updates. Simulator parameters (friction, mass, lighting, camera noise) are randomized during training so the policy does not overfit to one imperfect simulation, a technique known as domain randomization. Perception can reuse a pretrained vision backbone (a ViT or CNN), fine-tuned or frozen, to turn camera images into features for the policy.
 
 **Rejected alternatives:** DQN would require discretizing a high-dimensional continuous action space, and its sample reuse advantage matters less when simulation makes samples cheap. Training only on the real robot is too slow and risky. Pure imitation from human demonstrations is a strong complement for initialization, but on its own it cannot exceed the demonstrator or recover from states the demonstrations never visited.
 
