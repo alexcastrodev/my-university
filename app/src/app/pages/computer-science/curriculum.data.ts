@@ -76,6 +76,19 @@ export const CURRICULUM: CurriculumModule[] = [
         topics: [$localize`:@@curriculum.foundations.mathematics-for-computing.topic.1:linear algebra`],
       },
       {
+        slug: 'calculus',
+        title: $localize`:@@curriculum.foundations.calculus.title:Calculus`,
+        hours: 80,
+        topics: [
+          $localize`:@@curriculum.foundations.calculus.topic.1:limits`,
+          $localize`:@@curriculum.foundations.calculus.topic.2:derivatives`,
+          $localize`:@@curriculum.foundations.calculus.topic.3:integrals`,
+          $localize`:@@curriculum.foundations.calculus.topic.4:sequences and series`,
+          $localize`:@@curriculum.foundations.calculus.topic.5:multivariable calculus`,
+          $localize`:@@curriculum.foundations.calculus.topic.6:differential equations`,
+        ],
+      },
+      {
         slug: 'questions-scientific-thinking',
         title: $localize`:@@curriculum.foundations.questions-scientific-thinking.title:Questions & Scientific Thinking`,
         hours: 60,
