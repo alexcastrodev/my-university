@@ -3,6 +3,7 @@ tmp/
 .pnpm-store
 scripts/*
 !scripts/check-concepts.mjs
+!scripts/check-curriculum-skeletons.mjs
 tasks.md
 backlog.md
 .env

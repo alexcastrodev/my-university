@@ -2,9 +2,9 @@
  * Static registry of the Computer Science curriculum tree, mirroring the folder slugs
  * under `backend/src/seed/data/curriculum/`. There is no semester/timeline here — a
  * module is just a parent grouping; `specialization` is the one module whose children
- * are further modules (tracks) instead of disciplines directly. All content is currently
- * empty (`concepts.json: []` on the backend) — this registry only exists to make the
- * structure browsable before any discipline has content.
+ * are further modules (tracks) instead of disciplines directly. Each entry holds the title,
+ * hours and topics the Computer Science page shows; the lessons themselves live in the
+ * discipline's `concepts.json` on the backend.
  */
 export interface CurriculumDiscipline {
   slug: string;

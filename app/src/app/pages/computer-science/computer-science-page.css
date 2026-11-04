@@ -97,7 +97,7 @@
 
 .cs-row {
   display: grid;
-  grid-template-columns: 220px 1fr 220px;
+  grid-template-columns: 220px 1fr;
   gap: 1.75rem;
   padding: 1.75rem;
   border-top: 1px solid var(--mu-line);
@@ -129,8 +129,7 @@
   color: var(--mu-faint);
 }
 
-.cs-stage,
-.cs-knowledge {
+.cs-stage {
   padding-right: 1.75rem;
   border-right: 1px solid var(--mu-line);
 }
@@ -204,32 +203,6 @@
 .knowledge-group-title a:hover .knowledge-group-arrow {
   color: var(--mu-accent);
   transform: translateX(2px);
-}
-
-.cs-lab {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.cs-lab-heading {
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--mu-faint);
-  margin-top: 0.5rem;
-}
-
-.cs-lab-heading:first-child {
-  margin-top: 0;
-}
-
-.cs-lab-placeholder {
-  font-size: 0.78rem;
-  color: var(--mu-faint);
-  font-style: italic;
-  margin-bottom: 0.4rem;
 }
 
 /* Shared module sections (specialization, research) */
@@ -507,16 +480,11 @@
     gap: 1rem;
   }
 
-  .cs-stage,
-  .cs-knowledge {
+  .cs-stage {
     padding-right: 0;
     border-right: none;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--mu-line);
-  }
-
-  .cs-lab {
-    padding-top: 0.1rem;
   }
 
   .track-grid,

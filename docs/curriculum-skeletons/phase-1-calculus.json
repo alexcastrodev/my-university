@@ -1,0 +1,427 @@
+{
+  "phase": "1",
+  "module": "foundations",
+  "discipline": "calculus",
+  "kind": "new",
+  "registry": {
+    "title": {
+      "en": "Calculus",
+      "pt-BR": "Cálculo"
+    },
+    "hours": 80,
+    "topics": [
+      {
+        "en": "limits",
+        "pt-BR": "limites"
+      },
+      {
+        "en": "derivatives",
+        "pt-BR": "derivadas"
+      },
+      {
+        "en": "integrals",
+        "pt-BR": "integrais"
+      },
+      {
+        "en": "sequences and series",
+        "pt-BR": "sequências e séries"
+      },
+      {
+        "en": "multivariable calculus",
+        "pt-BR": "cálculo de várias variáveis"
+      },
+      {
+        "en": "differential equations",
+        "pt-BR": "equações diferenciais"
+      }
+    ]
+  },
+  "achievements": true,
+  "concepts": [
+    {
+      "slug": "functions-and-the-elementary-families",
+      "id": 1,
+      "title": "Functions and the Elementary Families",
+      "topic": "Functions & Limits",
+      "requires": [],
+      "related": [],
+      "summary": "Functions as mappings with a domain and a range, then the families the rest of the discipline uses constantly: affine, quadratic, polynomial, exponential, logarithmic, and trigonometric, with composition and inverses. This lesson absorbs the precalculus the discipline assumes."
+    },
+    {
+      "slug": "limits-intuition-and-the-formal-definition",
+      "id": 2,
+      "title": "Limits: Intuition and the Formal Definition",
+      "topic": "Functions & Limits",
+      "requires": [
+        "functions-and-the-elementary-families"
+      ],
+      "related": [],
+      "summary": "What it means for f(x) to approach a value, first through tables and graphs and then through the epsilon-delta definition, with one-sided limits and the cases where a limit does not exist."
+    },
+    {
+      "slug": "limit-laws-and-indeterminate-forms",
+      "id": 3,
+      "title": "Limit Laws and Indeterminate Forms",
+      "topic": "Functions & Limits",
+      "requires": [
+        "limits-intuition-and-the-formal-definition"
+      ],
+      "related": [],
+      "summary": "The algebraic laws that let limits be computed instead of guessed, the squeeze theorem, and how factoring and rationalizing resolve the indeterminate forms 0/0 and infinity over infinity."
+    },
+    {
+      "slug": "limits-at-infinity-and-asymptotic-growth",
+      "id": 4,
+      "title": "Limits at Infinity and Asymptotic Growth",
+      "topic": "Functions & Limits",
+      "requires": [
+        "limit-laws-and-indeterminate-forms"
+      ],
+      "related": [
+        {
+          "label": "Big-O and Asymptotic Complexity",
+          "slug": "big-o-and-asymptotic-complexity",
+          "feature": "curriculum/foundations/programming-computational-thinking"
+        }
+      ],
+      "summary": "Limits as x grows without bound, horizontal and vertical asymptotes, and the dominance hierarchy of logarithms, polynomials, and exponentials, which is the calculus underneath the formal statement of Big-O."
+    },
+    {
+      "slug": "continuity-and-the-intermediate-value-theorem",
+      "id": 5,
+      "title": "Continuity and the Intermediate Value Theorem",
+      "topic": "Functions & Limits",
+      "requires": [
+        "limits-at-infinity-and-asymptotic-growth"
+      ],
+      "related": [
+        {
+          "label": "Guess-and-Check and Bisection Search",
+          "slug": "guess-and-check-and-bisection-search",
+          "feature": "curriculum/foundations/programming-computational-thinking"
+        }
+      ],
+      "summary": "Continuity at a point and on an interval, the kinds of discontinuity, and the Intermediate Value Theorem, the existence guarantee behind bisection search."
+    },
+    {
+      "slug": "the-derivative-as-a-rate-of-change",
+      "id": 6,
+      "title": "The Derivative as a Rate of Change",
+      "topic": "Derivatives",
+      "requires": [
+        "continuity-and-the-intermediate-value-theorem"
+      ],
+      "related": [],
+      "summary": "The derivative as the limit of a difference quotient: instantaneous rate of change, slope of the tangent line, best local linear approximation, and the functions where it fails to exist."
+    },
+    {
+      "slug": "differentiation-rules-and-the-chain-rule",
+      "id": 7,
+      "title": "Differentiation Rules and the Chain Rule",
+      "topic": "Derivatives",
+      "requires": [
+        "the-derivative-as-a-rate-of-change"
+      ],
+      "related": [],
+      "summary": "The power, product, quotient, and chain rules, derived from the limit definition, with the chain rule read as a composition of local linear approximations."
+    },
+    {
+      "slug": "derivatives-of-exponentials-logarithms-and-trigonometric-functions",
+      "id": 8,
+      "title": "Derivatives of Exponentials, Logarithms, and Trigonometric Functions",
+      "topic": "Derivatives",
+      "requires": [
+        "differentiation-rules-and-the-chain-rule"
+      ],
+      "related": [],
+      "summary": "Why e is the base whose exponential is its own derivative, the derivatives of logarithms and trigonometric functions, and implicit and logarithmic differentiation for expressions the basic rules do not reach."
+    },
+    {
+      "slug": "the-mean-value-theorem-and-monotonicity",
+      "id": 9,
+      "title": "The Mean Value Theorem and Monotonicity",
+      "topic": "Derivatives",
+      "requires": [
+        "derivatives-of-exponentials-logarithms-and-trigonometric-functions"
+      ],
+      "related": [],
+      "summary": "Rolle's theorem and the Mean Value Theorem, and what they justify: a positive derivative means increasing, and a zero derivative on an interval means constant."
+    },
+    {
+      "slug": "extrema-concavity-and-optimization",
+      "id": 10,
+      "title": "Extrema, Concavity, and Optimization",
+      "topic": "Derivatives",
+      "requires": [
+        "the-mean-value-theorem-and-monotonicity"
+      ],
+      "related": [],
+      "summary": "Critical points, the first and second derivative tests, concavity and inflection points, and how to turn a word problem into an optimization on a closed interval."
+    },
+    {
+      "slug": "lhopitals-rule",
+      "id": 11,
+      "title": "L'Hôpital's Rule",
+      "topic": "Derivatives",
+      "requires": [
+        "extrema-concavity-and-optimization"
+      ],
+      "related": [],
+      "summary": "L'Hôpital's Rule for 0/0 and infinity over infinity, when its hypotheses fail, and how to rewrite the other indeterminate forms so it applies, including comparing growth rates."
+    },
+    {
+      "slug": "antiderivatives-and-initial-value-problems",
+      "id": 12,
+      "title": "Antiderivatives and Initial-Value Problems",
+      "topic": "Integrals",
+      "requires": [
+        "lhopitals-rule"
+      ],
+      "related": [],
+      "summary": "Reversing differentiation: the family of antiderivatives, the constant of integration, and how an initial condition picks a single solution."
+    },
+    {
+      "slug": "the-definite-integral-and-riemann-sums",
+      "id": 13,
+      "title": "The Definite Integral and Riemann Sums",
+      "topic": "Integrals",
+      "requires": [
+        "antiderivatives-and-initial-value-problems"
+      ],
+      "related": [],
+      "summary": "Area as the limit of Riemann sums, the left, right, and midpoint rules, the formal definition of the definite integral, and its basic properties."
+    },
+    {
+      "slug": "the-fundamental-theorem-of-calculus",
+      "id": 14,
+      "title": "The Fundamental Theorem of Calculus",
+      "topic": "Integrals",
+      "requires": [
+        "the-definite-integral-and-riemann-sums"
+      ],
+      "related": [],
+      "summary": "The two parts of the Fundamental Theorem of Calculus, which tie accumulation to rates of change and reduce a definite integral to evaluating an antiderivative."
+    },
+    {
+      "slug": "integration-by-substitution-and-by-parts",
+      "id": 15,
+      "title": "Integration by Substitution and by Parts",
+      "topic": "Integrals",
+      "requires": [
+        "the-fundamental-theorem-of-calculus"
+      ],
+      "related": [],
+      "summary": "Substitution as the chain rule run backwards and integration by parts as the product rule run backwards, with how to choose the substitution and the parts."
+    },
+    {
+      "slug": "applications-area-volume-and-average-value",
+      "id": 16,
+      "title": "Applications: Area, Volume, and Average Value",
+      "topic": "Integrals",
+      "requires": [
+        "integration-by-substitution-and-by-parts"
+      ],
+      "related": [],
+      "summary": "Setting up integrals for the area between curves, volumes by slicing and by revolution, and the average value of a function over an interval."
+    },
+    {
+      "slug": "improper-integrals",
+      "id": 17,
+      "title": "Improper Integrals",
+      "topic": "Integrals",
+      "requires": [
+        "applications-area-volume-and-average-value"
+      ],
+      "related": [
+        {
+          "label": "Continuous Random Variables and PDFs",
+          "slug": "continuous-random-variables-and-pdfs",
+          "feature": "curriculum/foundations/probability-statistics"
+        }
+      ],
+      "summary": "Integrals over unbounded intervals or of unbounded functions as limits, convergence and divergence, the p-test, and why a probability density has to integrate to 1 over the whole line."
+    },
+    {
+      "slug": "sequences-and-convergence",
+      "id": 18,
+      "title": "Sequences and Convergence",
+      "topic": "Sequences & Series",
+      "requires": [
+        "improper-integrals"
+      ],
+      "related": [],
+      "summary": "Sequences as functions on the natural numbers, the formal definition of convergence, and the monotone convergence theorem for bounded sequences."
+    },
+    {
+      "slug": "arithmetic-and-geometric-progressions",
+      "id": 19,
+      "title": "Arithmetic and Geometric Progressions",
+      "topic": "Sequences & Series",
+      "requires": [
+        "sequences-and-convergence"
+      ],
+      "related": [],
+      "summary": "Arithmetic and geometric progressions, closed forms for their terms and finite sums, and where they appear in computing: loop counts, the amortized cost of a doubling array, and compound growth."
+    },
+    {
+      "slug": "infinite-series-and-partial-sums",
+      "id": 20,
+      "title": "Infinite Series and Partial Sums",
+      "topic": "Sequences & Series",
+      "requires": [
+        "arithmetic-and-geometric-progressions"
+      ],
+      "related": [],
+      "summary": "An infinite series as the limit of its partial sums, the geometric series, telescoping sums, the divergence test, and why the harmonic series diverges."
+    },
+    {
+      "slug": "convergence-tests",
+      "id": 21,
+      "title": "Convergence Tests",
+      "topic": "Sequences & Series",
+      "requires": [
+        "infinite-series-and-partial-sums"
+      ],
+      "related": [],
+      "summary": "The comparison, integral, ratio, root, and alternating series tests, absolute versus conditional convergence, and how to choose a test for a given series."
+    },
+    {
+      "slug": "power-series-and-the-radius-of-convergence",
+      "id": 22,
+      "title": "Power Series and the Radius of Convergence",
+      "topic": "Sequences & Series",
+      "requires": [
+        "convergence-tests"
+      ],
+      "related": [],
+      "summary": "Power series as functions, the radius and interval of convergence, and term-by-term differentiation and integration."
+    },
+    {
+      "slug": "taylor-and-maclaurin-series-with-error-bounds",
+      "id": 23,
+      "title": "Taylor and Maclaurin Series with Error Bounds",
+      "topic": "Sequences & Series",
+      "requires": [
+        "power-series-and-the-radius-of-convergence"
+      ],
+      "related": [],
+      "summary": "Taylor and Maclaurin series, the remainder and its error bound, and how many terms a target accuracy requires, which is the base of numerical approximation."
+    },
+    {
+      "slug": "functions-of-several-variables-and-level-curves",
+      "id": 24,
+      "title": "Functions of Several Variables and Level Curves",
+      "topic": "Multivariable",
+      "requires": [
+        "taylor-and-maclaurin-series-with-error-bounds"
+      ],
+      "related": [],
+      "summary": "Functions of two or more variables, their domains, graphs, and level curves, and limits and continuity when a point can be approached along many paths."
+    },
+    {
+      "slug": "partial-derivatives-and-the-multivariable-chain-rule",
+      "id": 25,
+      "title": "Partial Derivatives and the Multivariable Chain Rule",
+      "topic": "Multivariable",
+      "requires": [
+        "functions-of-several-variables-and-level-curves"
+      ],
+      "related": [],
+      "summary": "Partial derivatives, the tangent plane as the linear approximation, and the multivariable chain rule for compositions through intermediate variables."
+    },
+    {
+      "slug": "directional-derivatives-and-the-direction-of-steepest-ascent",
+      "id": 26,
+      "title": "Directional Derivatives and the Direction of Steepest Ascent",
+      "topic": "Multivariable",
+      "requires": [
+        "partial-derivatives-and-the-multivariable-chain-rule"
+      ],
+      "related": [
+        {
+          "label": "Gradients: Extending Derivatives to Several Variables",
+          "slug": "gradients-extending-derivatives-to-several-variables",
+          "feature": "curriculum/foundations/mathematics-for-computing"
+        }
+      ],
+      "summary": "Deepens the existing gradients lesson without repeating it: the directional derivative, why the gradient points in the direction of steepest ascent, and why it is perpendicular to level curves."
+    },
+    {
+      "slug": "critical-points-and-the-second-derivative-test",
+      "id": 27,
+      "title": "Critical Points and the Second-Derivative Test",
+      "topic": "Multivariable",
+      "requires": [
+        "directional-derivatives-and-the-direction-of-steepest-ascent"
+      ],
+      "related": [],
+      "summary": "Critical points of functions of two variables, the second-derivative test through the Hessian, saddle points, and absolute extrema on a closed region."
+    },
+    {
+      "slug": "polar-coordinates",
+      "id": 28,
+      "title": "Polar Coordinates",
+      "topic": "Multivariable",
+      "requires": [
+        "critical-points-and-the-second-derivative-test"
+      ],
+      "related": [],
+      "summary": "Polar coordinates, conversion to and from Cartesian form, curves such as circles, cardioids, and roses, and area in polar form."
+    },
+    {
+      "slug": "double-integrals-cartesian-and-polar",
+      "id": 29,
+      "title": "Double Integrals, Cartesian and Polar",
+      "topic": "Multivariable",
+      "requires": [
+        "polar-coordinates"
+      ],
+      "related": [],
+      "summary": "Double integrals over rectangles and general regions, iterated integrals and Fubini's theorem, changing the order of integration, and the switch to polar coordinates that evaluates the Gaussian integral."
+    },
+    {
+      "slug": "triple-integrals",
+      "id": 30,
+      "title": "Triple Integrals",
+      "topic": "Multivariable",
+      "requires": [
+        "double-integrals-cartesian-and-polar"
+      ],
+      "related": [],
+      "summary": "Triple integrals in Cartesian, cylindrical, and spherical coordinates, with volume and mass as the applications and the Jacobian determinant as the scaling factor of a change of variables."
+    },
+    {
+      "slug": "differential-equations-and-initial-value-problems",
+      "id": 31,
+      "title": "Differential Equations and Initial-Value Problems",
+      "topic": "Differential Equations",
+      "requires": [
+        "triple-integrals"
+      ],
+      "related": [],
+      "summary": "What a differential equation is, order and solutions, initial-value problems, slope fields, and exponential growth and decay as the first model."
+    },
+    {
+      "slug": "separable-differential-equations",
+      "id": 32,
+      "title": "Separable Differential Equations",
+      "topic": "Differential Equations",
+      "requires": [
+        "differential-equations-and-initial-value-problems"
+      ],
+      "related": [],
+      "summary": "Separation of variables, the logistic equation, Newton's law of cooling, and checking a solution by substituting it back."
+    },
+    {
+      "slug": "choosing-a-calculus-tool-a-decision-guide",
+      "id": 33,
+      "title": "Choosing a Calculus Tool: A Decision Guide",
+      "topic": "Capstone",
+      "requires": [
+        "separable-differential-equations"
+      ],
+      "related": [],
+      "summary": "A decision guide for the whole discipline: given a problem, choose between limits, derivatives, integrals, series, and multivariable tools, and recognize the trap each one sets."
+    }
+  ]
+}

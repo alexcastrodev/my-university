@@ -1,0 +1,446 @@
+{
+  "phase": "7",
+  "module": "software-distributed",
+  "discipline": "distributed-systems-iii",
+  "kind": "new",
+  "registry": {
+    "title": {
+      "en": "Distributed Systems III",
+      "pt-BR": "Sistemas Distribuídos III"
+    },
+    "hours": 80,
+    "topics": [
+      {
+        "en": "consensus variants",
+        "pt-BR": "variantes de consenso"
+      },
+      {
+        "en": "group membership",
+        "pt-BR": "gerenciamento de grupo"
+      },
+      {
+        "en": "causal consistency",
+        "pt-BR": "consistência causal"
+      },
+      {
+        "en": "database replication",
+        "pt-BR": "replicação de banco de dados"
+      },
+      {
+        "en": "peer-to-peer systems",
+        "pt-BR": "sistemas peer-to-peer"
+      },
+      {
+        "en": "shared logs",
+        "pt-BR": "shared logs"
+      },
+      {
+        "en": "network ordering",
+        "pt-BR": "ordenação na rede"
+      }
+    ]
+  },
+  "achievements": true,
+  "concepts": [
+    {
+      "slug": "leader-based-consensus-in-the-synchronous-model",
+      "id": 1,
+      "title": "Leader-Based Consensus in the Synchronous Model",
+      "topic": "Consensus and Its Variants",
+      "requires": [],
+      "related": [
+        {
+          "label": "The Consensus Problem: Agreement, Validity, and Termination",
+          "slug": "the-consensus-problem-agreement-validity-and-termination",
+          "feature": "curriculum/systems/distributed-systems-i"
+        },
+        {
+          "label": "The FLP Impossibility Result",
+          "slug": "the-flp-impossibility-result",
+          "feature": "curriculum/systems/distributed-systems-i"
+        }
+      ],
+      "summary": "Consensus when message delays are bounded: leader election by rounds, what a crash costs, the f+1 rounds lower bound, and why this simple world is the baseline asynchronous protocols are measured against."
+    },
+    {
+      "slug": "total-order-broadcast-built-on-consensus",
+      "id": 2,
+      "title": "Total-Order Broadcast Built on Consensus",
+      "topic": "Consensus and Its Variants",
+      "requires": [
+        "leader-based-consensus-in-the-synchronous-model"
+      ],
+      "related": [
+        {
+          "label": "The Replicated State Machine Approach",
+          "slug": "the-replicated-state-machine-approach",
+          "feature": "curriculum/systems/distributed-systems-i"
+        }
+      ],
+      "summary": "Total-order broadcast as the abstraction replicated systems actually need, how it reduces to a sequence of consensus instances, and why the two problems are equivalent."
+    },
+    {
+      "slug": "multi-paxos-from-one-decision-to-a-replicated-log",
+      "id": 3,
+      "title": "Multi-Paxos: From One Decision to a Replicated Log",
+      "topic": "Consensus and Its Variants",
+      "requires": [
+        "total-order-broadcast-built-on-consensus"
+      ],
+      "related": [
+        {
+          "label": "Paxos: The Original Consensus Protocol",
+          "slug": "paxos-the-original-consensus-protocol",
+          "feature": "curriculum/systems/distributed-systems-i"
+        },
+        {
+          "label": "Raft: Log Replication and Commitment",
+          "slug": "raft-log-replication-and-commitment",
+          "feature": "curriculum/systems/distributed-systems-i"
+        }
+      ],
+      "summary": "From single-decree Paxos to a replicated log: a stable leader, skipping phase 1 for later slots, filling gaps, and what the existing Paxos lesson left out on liveness."
+    },
+    {
+      "slug": "fast-paxos-and-flexible-quorums",
+      "id": 4,
+      "title": "Fast Paxos and Flexible Quorums",
+      "topic": "Consensus and Its Variants",
+      "requires": [
+        "multi-paxos-from-one-decision-to-a-replicated-log"
+      ],
+      "related": [
+        {
+          "label": "Primary-Backup vs. Quorum-Based Replication",
+          "slug": "primary-backup-vs-quorum-based-replication",
+          "feature": "curriculum/systems/distributed-systems-i"
+        }
+      ],
+      "summary": "Fast Paxos and its fast path that skips the leader, with the larger quorums it pays for, then Flexible Paxos, which shows that only phase 1 and phase 2 quorums must intersect."
+    },
+    {
+      "slug": "reconfiguration-changing-membership-in-paxos-and-raft",
+      "id": 5,
+      "title": "Reconfiguration: Changing Membership in Paxos and Raft",
+      "topic": "Consensus and Its Variants",
+      "requires": [
+        "fast-paxos-and-flexible-quorums"
+      ],
+      "related": [
+        {
+          "label": "Raft Safety: The Election Restriction and Log Completeness",
+          "slug": "raft-safety-the-election-restriction-and-log-completeness",
+          "feature": "curriculum/systems/distributed-systems-i"
+        }
+      ],
+      "summary": "Changing the set of replicas without losing safety: configuration entries in the log, Raft's joint consensus and single-server changes, and the disjoint-majorities failure they prevent."
+    },
+    {
+      "slug": "failure-detectors",
+      "id": 6,
+      "title": "Failure Detectors",
+      "topic": "Membership",
+      "requires": [
+        "reconfiguration-changing-membership-in-paxos-and-raft"
+      ],
+      "related": [
+        {
+          "label": "Why Distributed Systems Are Hard: Partial Failure and No Shared State",
+          "slug": "why-distributed-systems-are-hard-partial-failure-and-no-shared-state",
+          "feature": "curriculum/systems/distributed-systems-i"
+        }
+      ],
+      "summary": "Unreliable failure detectors as defined by Chandra and Toueg, their completeness and accuracy classes, the weakest detector for consensus, and heartbeat-based and phi-accrual detectors in practice."
+    },
+    {
+      "slug": "group-membership-and-view-synchrony",
+      "id": 7,
+      "title": "Group Membership and View Synchrony",
+      "topic": "Membership",
+      "requires": [
+        "failure-detectors"
+      ],
+      "related": [],
+      "summary": "Group membership as a sequence of agreed views, view-synchronous communication, and how the virtual synchrony model relates to consensus-based replication."
+    },
+    {
+      "slug": "causal-consistency",
+      "id": 8,
+      "title": "Causal Consistency",
+      "topic": "Consistency and Database Replication",
+      "requires": [
+        "group-membership-and-view-synchrony"
+      ],
+      "related": [
+        {
+          "label": "Lamport Logical Clocks and the Happens-Before Relation",
+          "slug": "lamport-logical-clocks-and-the-happens-before-relation",
+          "feature": "curriculum/systems/distributed-systems-i"
+        },
+        {
+          "label": "Vector Clocks and Detecting Concurrent Writes",
+          "slug": "vector-clocks-and-detecting-concurrent-writes",
+          "feature": "curriculum/software-distributed/distributed-systems-ii"
+        }
+      ],
+      "summary": "Causal consistency as one of the strongest models that stay available under partition, potential causality from happens-before, and tracking dependencies with vector clocks and explicit metadata."
+    },
+    {
+      "slug": "transactional-causal-consistency",
+      "id": 9,
+      "title": "Transactional Causal Consistency",
+      "topic": "Consistency and Database Replication",
+      "requires": [
+        "causal-consistency"
+      ],
+      "related": [
+        {
+          "label": "Sequential Consistency and Why It Is Weaker",
+          "slug": "sequential-consistency-and-why-it-is-weaker",
+          "feature": "curriculum/systems/distributed-systems-i"
+        }
+      ],
+      "summary": "Extending causal consistency to read-only and write transactions, causal snapshots, and what geo-replicated systems built on this model give up."
+    },
+    {
+      "slug": "replicating-a-database-eager-vs-lazy-primary-copy-vs-update-everywhere-and-certification",
+      "id": 10,
+      "title": "Replicating a Database: Eager vs Lazy, Primary-Copy vs Update-Everywhere, and Certification",
+      "topic": "Consistency and Database Replication",
+      "requires": [
+        "transactional-causal-consistency"
+      ],
+      "related": [
+        {
+          "label": "Single-Leader Replication",
+          "slug": "single-leader-replication",
+          "feature": "system-design"
+        },
+        {
+          "label": "Multi-Leader and Leaderless Replication",
+          "slug": "multi-leader-and-leaderless-replication",
+          "feature": "system-design"
+        },
+        {
+          "label": "Two-Phase Commit and the Blocking Problem",
+          "slug": "two-phase-commit-and-the-blocking-problem",
+          "feature": "curriculum/software-distributed/distributed-systems-ii"
+        }
+      ],
+      "summary": "The classic design space of database replication, eager versus lazy and primary-copy versus update-everywhere, and certification-based replication built on total-order broadcast."
+    },
+    {
+      "slug": "gossip-and-epidemic-dissemination",
+      "id": 11,
+      "title": "Gossip and Epidemic Dissemination",
+      "topic": "Peer-to-Peer and Dissemination",
+      "requires": [
+        "replicating-a-database-eager-vs-lazy-primary-copy-vs-update-everywhere-and-certification"
+      ],
+      "related": [
+        {
+          "label": "Anti-Entropy: Read Repair and Merkle Tree Synchronization",
+          "slug": "anti-entropy-read-repair-and-merkle-tree-synchronization",
+          "feature": "curriculum/software-distributed/distributed-systems-ii"
+        },
+        {
+          "label": "Cassandra Distributed Architecture: Gossip, Snitches, Tokens, and Virtual Nodes",
+          "slug": "cassandra-distributed-architecture-gossip-tokens-vnodes",
+          "feature": "database-concepts"
+        }
+      ],
+      "summary": "Epidemic algorithms from the Xerox PARC work: push, pull, and push-pull gossip, how quickly a rumor spreads, and how anti-entropy and rumor mongering differ."
+    },
+    {
+      "slug": "unstructured-p2p-flooding-super-peers-and-bittorrent",
+      "id": 12,
+      "title": "Unstructured P2P: Flooding, Super-Peers, and BitTorrent",
+      "topic": "Peer-to-Peer and Dissemination",
+      "requires": [
+        "gossip-and-epidemic-dissemination"
+      ],
+      "related": [
+        {
+          "label": "The Client-Server and P2P Application Architectures",
+          "slug": "the-client-server-and-p2p-architectures",
+          "feature": "curriculum/systems/computer-networks"
+        }
+      ],
+      "summary": "Unstructured overlays: flooding and its cost, super-peers as a compromise, and how BitTorrent's tit-for-tat and rarest-first change the problem from search to dissemination."
+    },
+    {
+      "slug": "chord-a-ring-dht-with-logarithmic-lookup",
+      "id": 13,
+      "title": "Chord: A Ring DHT with Logarithmic Lookup",
+      "topic": "Peer-to-Peer and Dissemination",
+      "requires": [
+        "unstructured-p2p-flooding-super-peers-and-bittorrent"
+      ],
+      "related": [
+        {
+          "label": "Consistent Hashing for Data Partitioning",
+          "slug": "consistent-hashing-for-data-partitioning",
+          "feature": "curriculum/specialization/track-a-systems"
+        }
+      ],
+      "summary": "Chord's identifier ring, successors and finger tables, why a lookup takes a logarithmic number of hops, and how stabilization handles nodes joining and failing."
+    },
+    {
+      "slug": "kademlia-and-pastry",
+      "id": 14,
+      "title": "Kademlia and Pastry",
+      "topic": "Peer-to-Peer and Dissemination",
+      "requires": [
+        "chord-a-ring-dht-with-logarithmic-lookup"
+      ],
+      "related": [],
+      "summary": "Two DHTs that route by shared identifier digits or XOR distance: Kademlia's k-buckets and Pastry's routing table, and why parallel lookups and locality matter in practice."
+    },
+    {
+      "slug": "publish-subscribe-over-a-dht",
+      "id": 15,
+      "title": "Publish-Subscribe over a DHT",
+      "topic": "Peer-to-Peer and Dissemination",
+      "requires": [
+        "kademlia-and-pastry"
+      ],
+      "related": [
+        {
+          "label": "Message Brokers: Queues vs. Log-Based Streaming",
+          "slug": "message-brokers-queues-vs-logs",
+          "feature": "system-design"
+        }
+      ],
+      "summary": "Building publish-subscribe on a structured overlay: topic-based dissemination trees as in Scribe, and how the design compares with a centralized broker."
+    },
+    {
+      "slug": "the-shared-log-abstraction-corfu-tango-and-vcorfu",
+      "id": 16,
+      "title": "The Shared Log Abstraction: CORFU, Tango, and vCorfu",
+      "topic": "Shared Logs and Ordering",
+      "requires": [
+        "publish-subscribe-over-a-dht"
+      ],
+      "related": [
+        {
+          "label": "Chain Replication for High-Throughput Storage",
+          "slug": "chain-replication-for-high-throughput-storage",
+          "feature": "curriculum/specialization/track-a-systems"
+        },
+        {
+          "label": "Message Brokers: Queues vs. Log-Based Streaming",
+          "slug": "message-brokers-queues-vs-logs",
+          "feature": "system-design"
+        }
+      ],
+      "summary": "The shared log as a primitive: CORFU's sequencer and client-driven replication over flash, Tango's replicated data structures on top of it, and vCorfu's materialized streams."
+    },
+    {
+      "slug": "scaling-shared-logs-fuzzylog-and-scalog",
+      "id": 17,
+      "title": "Scaling Shared Logs: Partial Order (FuzzyLog) and Replicate First, Order Later (Scalog)",
+      "topic": "Shared Logs and Ordering",
+      "requires": [
+        "the-shared-log-abstraction-corfu-tango-and-vcorfu"
+      ],
+      "related": [
+        {
+          "label": "PACELC: The Latency-Consistency Trade-off Beyond CAP",
+          "slug": "pacelc-the-latency-consistency-trade-off-beyond-cap",
+          "feature": "curriculum/software-distributed/distributed-systems-ii"
+        }
+      ],
+      "summary": "Two ways past a single sequencer: FuzzyLog relaxes the total order into a partial order across colors, and Scalog replicates records first and orders them afterwards."
+    },
+    {
+      "slug": "stateful-serverless-on-shared-logs-boki-and-flexlog",
+      "id": 18,
+      "title": "Stateful Serverless on Shared Logs: Boki and FlexLog",
+      "topic": "Shared Logs and Ordering",
+      "requires": [
+        "scaling-shared-logs-fuzzylog-and-scalog"
+      ],
+      "related": [
+        {
+          "label": "Serverless Computing and the Function-as-a-Service Model",
+          "slug": "serverless-computing-and-the-function-as-a-service-model",
+          "feature": "curriculum/specialization/track-a-systems"
+        }
+      ],
+      "summary": "Using a shared log as the state substrate of serverless functions: Boki's log-based abstractions for workflows and transactions, and FlexLog's take on the same problem."
+    },
+    {
+      "slug": "low-latency-shared-logs-lazylog-and-speclog",
+      "id": 19,
+      "title": "Low-Latency Shared Logs: LazyLog and SpecLog",
+      "topic": "Shared Logs and Ordering",
+      "requires": [
+        "stateful-serverless-on-shared-logs-boki-and-flexlog"
+      ],
+      "related": [
+        {
+          "label": "Linearizability: A Rigorous Definition",
+          "slug": "linearizability-a-rigorous-definition",
+          "feature": "curriculum/systems/distributed-systems-i"
+        }
+      ],
+      "summary": "Reducing the ordering latency of shared logs: LazyLog binds a record's position lazily, at read time, and SpecLog lets consumers act on a speculative order."
+    },
+    {
+      "slug": "deterministic-transactions-calvin",
+      "id": 20,
+      "title": "Deterministic Transactions: Calvin",
+      "topic": "Shared Logs and Ordering",
+      "requires": [
+        "low-latency-shared-logs-lazylog-and-speclog"
+      ],
+      "related": [
+        {
+          "label": "Spanner: TrueTime and External Consistency",
+          "slug": "spanner-truetime-and-external-consistency",
+          "feature": "curriculum/specialization/track-a-systems"
+        }
+      ],
+      "summary": "Calvin's inversion of the usual order: agree on a global sequence of transactions first, then execute them deterministically at every replica, which removes two-phase commit from the path."
+    },
+    {
+      "slug": "network-ordered-consensus-nopaxos-eris-and-hydra",
+      "id": 21,
+      "title": "Network-Ordered Consensus: NoPaxos, Eris, and Hydra",
+      "topic": "Shared Logs and Ordering",
+      "requires": [
+        "deterministic-transactions-calvin"
+      ],
+      "related": [],
+      "summary": "Moving ordering into the network: NoPaxos's ordered unreliable multicast, Eris's in-network concurrency control for transactions, and Hydra's approach to network ordering without a serialization point."
+    },
+    {
+      "slug": "causal-metadata-for-geo-replication-saturn",
+      "id": 22,
+      "title": "Causal Metadata for Geo-Replication: Saturn",
+      "topic": "Shared Logs and Ordering",
+      "requires": [
+        "network-ordered-consensus-nopaxos-eris-and-hydra"
+      ],
+      "related": [],
+      "summary": "Saturn's separation of data from causal metadata: a tree of serializers that propagates a small label, and the trade-off between visibility latency and throughput."
+    },
+    {
+      "slug": "capstone-choosing-a-replication-and-ordering-design-for-a-workload",
+      "id": 23,
+      "title": "Capstone: Choosing a Replication and Ordering Design for a Workload",
+      "topic": "Capstone",
+      "requires": [
+        "causal-metadata-for-geo-replication-saturn"
+      ],
+      "related": [
+        {
+          "label": "Capstone: Designing a Cloud Storage System for a Workload",
+          "slug": "capstone-designing-a-cloud-storage-system-for-a-workload",
+          "feature": "curriculum/specialization/track-a-systems"
+        }
+      ],
+      "summary": "Given a concrete workload, choose among consensus, chain, certification, causal, shared-log, deterministic, and network-ordered designs, and defend the choice against its failure modes and costs."
+    }
+  ]
+}
