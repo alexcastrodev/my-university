@@ -1,0 +1,995 @@
+[
+  {
+    "slug": "sources-of-error-truncation-rounding-propagation",
+    "id": 1,
+    "title": "Sources of Error: Truncation, Rounding, Propagation",
+    "topic": "Errors",
+    "requires": [],
+    "related": [
+      {
+        "label": "IEEE 754 Floating-Point",
+        "slug": "ieee-754-floating-point",
+        "feature": "curriculum/computer/digital-logic-computer-organization"
+      },
+      {
+        "label": "Floating-Point and Approximation",
+        "slug": "floating-point-and-approximation",
+        "feature": "curriculum/foundations/programming-computational-thinking"
+      },
+      {
+        "label": "Taylor and Maclaurin Series with Error Bounds",
+        "slug": "taylor-and-maclaurin-series-with-error-bounds",
+        "feature": "curriculum/foundations/calculus"
+      }
+    ],
+    "summary": "Where numerical error comes from: truncating an infinite process, rounding to finite precision, and how both propagate through a computation, with absolute and relative error and loss of significance.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Goldberg (1991): What Every Computer Scientist Should Know About Floating-Point Arithmetic",
+        "url": "https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html",
+        "type": "paper"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 1.1 Floating-point numbers",
+        "url": "https://fncbook.com/floating-point",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 5.5 Convergence of finite differences",
+        "url": "https://fncbook.com/fd-converge",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.335J (2019): Week 1",
+        "url": "https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/week-1/",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy documentation: numpy.finfo",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.finfo.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy documentation: numpy.sum",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.sum.html",
+        "type": "doc"
+      },
+      {
+        "label": "Python documentation: math",
+        "url": "https://docs.python.org/3/library/math.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "conditioning-and-numerical-stability",
+    "id": 2,
+    "title": "Conditioning and Numerical Stability",
+    "topic": "Errors",
+    "requires": [
+      "sources-of-error-truncation-rounding-propagation"
+    ],
+    "related": [],
+    "summary": "The conditioning of a problem versus the stability of an algorithm, forward and backward error, and why a well-conditioned problem can still be ruined by an unstable formula.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 1.2 Problems and conditioning",
+        "url": "https://fncbook.com/conditioning",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 1.4 Stability",
+        "url": "https://fncbook.com/stability",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.335J (2019): Week 2",
+        "url": "https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/week-2/",
+        "type": "doc"
+      },
+      {
+        "label": "Goldberg (1991): What Every Computer Scientist Should Know About Floating-Point Arithmetic",
+        "url": "https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html",
+        "type": "paper"
+      },
+      {
+        "label": "NumPy documentation: numpy.roots",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.roots.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.integrate.quad",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.quad.html",
+        "type": "doc"
+      },
+      {
+        "label": "Python documentation: math",
+        "url": "https://docs.python.org/3/library/math.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "bisection-and-convergence-rate",
+    "id": 3,
+    "title": "Bisection and Convergence Rate",
+    "topic": "Root Finding",
+    "requires": [
+      "conditioning-and-numerical-stability"
+    ],
+    "related": [
+      {
+        "label": "Guess-and-Check and Bisection Search",
+        "slug": "guess-and-check-and-bisection-search",
+        "feature": "curriculum/foundations/programming-computational-thinking"
+      },
+      {
+        "label": "Continuity and the Intermediate Value Theorem",
+        "slug": "continuity-and-the-intermediate-value-theorem",
+        "feature": "curriculum/foundations/calculus"
+      }
+    ],
+    "summary": "Bisection as a numerical method: the bracketing guarantee from the Intermediate Value Theorem, linear convergence, the exact iteration count for a tolerance, and stopping criteria.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "SciPy documentation: scipy.optimize.bisect",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.bisect.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.optimize.brentq",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html",
+        "type": "doc"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 4.1 The rootfinding problem",
+        "url": "https://fncbook.com/rootproblem",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.330 (2012): Lecture Notes: Nonlinear Equations",
+        "url": "https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2012/resources/mit18_330s12_chapter4/",
+        "type": "doc"
+      },
+      {
+        "label": "Goldberg (1991): What Every Computer Scientist Should Know About Floating-Point Arithmetic",
+        "url": "https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "fixed-point-iteration",
+    "id": 4,
+    "title": "Fixed-Point Iteration",
+    "topic": "Root Finding",
+    "requires": [
+      "bisection-and-convergence-rate"
+    ],
+    "related": [
+      {
+        "label": "The Mean Value Theorem and Monotonicity",
+        "slug": "the-mean-value-theorem-and-monotonicity",
+        "feature": "curriculum/foundations/calculus"
+      },
+      {
+        "label": "Value Iteration and Policy Iteration",
+        "slug": "value-iteration-and-policy-iteration",
+        "feature": "curriculum/ai-theory/artificial-intelligence"
+      }
+    ],
+    "summary": "Fixed-point iteration, the contraction condition on the derivative that decides convergence, and how rewriting the same equation changes the outcome.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 4.2 Fixed-point iteration",
+        "url": "https://fncbook.com/fixed-point",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 4.1 The rootfinding problem",
+        "url": "https://fncbook.com/rootproblem",
+        "type": "book"
+      },
+      {
+        "label": "SciPy documentation: scipy.optimize.fixed_point",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.fixed_point.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.optimize.brentq",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "newtons-method",
+    "id": 5,
+    "title": "Newton's Method",
+    "topic": "Root Finding",
+    "requires": [
+      "fixed-point-iteration"
+    ],
+    "related": [
+      {
+        "label": "Taylor and Maclaurin Series with Error Bounds",
+        "slug": "taylor-and-maclaurin-series-with-error-bounds",
+        "feature": "curriculum/foundations/calculus"
+      },
+      {
+        "label": "Sequences and Convergence",
+        "slug": "sequences-and-convergence",
+        "feature": "curriculum/foundations/calculus"
+      },
+      {
+        "label": "Conditioning and Numerical Stability",
+        "slug": "conditioning-and-numerical-stability"
+      }
+    ],
+    "summary": "Newton's method derived from the tangent line, quadratic convergence near a simple root, and how it fails: poor starting points, vanishing derivatives, and multiple roots.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 4.3 Newton's method",
+        "url": "https://fncbook.com/newton",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 4.2 Fixed-point iteration",
+        "url": "https://fncbook.com/fixed-point",
+        "type": "book"
+      },
+      {
+        "label": "Demanet (2012): MIT 18.330 Introduction to Numerical Analysis, Chapter 4: Nonlinear equations",
+        "url": "https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2012/resources/mit18_330s12_chapter4/",
+        "type": "doc"
+      },
+      {
+        "label": "Johnson (2015): MIT 18.335J Introduction to Numerical Methods, Square Roots via Newton's Method",
+        "url": "https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/resources/mit18_335js19_lec1/",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.optimize.newton",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.newton.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.optimize.brentq",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "secant-method-and-order-of-convergence",
+    "id": 6,
+    "title": "Secant Method and Order of Convergence",
+    "topic": "Root Finding",
+    "requires": [
+      "newtons-method"
+    ],
+    "related": [
+      {
+        "label": "Newton's Method",
+        "slug": "newtons-method"
+      },
+      {
+        "label": "Bisection and Convergence Rate",
+        "slug": "bisection-and-convergence-rate"
+      }
+    ],
+    "summary": "The secant method as Newton without a derivative, the formal definition of order of convergence, and how the secant method's order is derived.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 4.4 Interpolation-based methods",
+        "url": "https://fncbook.com/secant",
+        "type": "book"
+      },
+      {
+        "label": "Demanet (2012): MIT 18.330 Introduction to Numerical Analysis, Chapter 4: Nonlinear equations",
+        "url": "https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2012/resources/mit18_330s12_chapter4/",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.optimize.newton",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.newton.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.optimize.brentq",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.optimize.bisect",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.bisect.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.integrate.solve_ivp",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "lu-decomposition-and-partial-pivoting",
+    "id": 7,
+    "title": "LU Decomposition and Partial Pivoting",
+    "topic": "Linear Systems",
+    "requires": [
+      "secant-method-and-order-of-convergence"
+    ],
+    "related": [
+      {
+        "label": "Gaussian Elimination and Row Echelon Form",
+        "slug": "gaussian-elimination",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      },
+      {
+        "label": "The Simplex Method: Tableau and Pivoting",
+        "slug": "the-simplex-method-tableau-and-pivoting",
+        "feature": "curriculum/algorithms-software/linear-programming-optimization"
+      },
+      {
+        "label": "Conditioning and Numerical Stability",
+        "slug": "conditioning-and-numerical-stability"
+      }
+    ],
+    "summary": "LU decomposition as Gaussian elimination with its multipliers recorded, why partial pivoting is required for stability, PA = LU, and reusing the factors across right-hand sides. This pivoting is not the simplex pivot, and the lesson says so.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 2.4 LU factorization",
+        "url": "https://fncbook.com/lu",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 2.5 Efficiency of matrix computations",
+        "url": "https://fncbook.com/efficiency",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 2.6 Row pivoting",
+        "url": "https://fncbook.com/pivoting",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 2.9 Exploiting matrix structure",
+        "url": "https://fncbook.com/structure",
+        "type": "book"
+      },
+      {
+        "label": "Goldberg (1991): What Every Computer Scientist Should Know About Floating-Point Arithmetic",
+        "url": "https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html",
+        "type": "paper"
+      },
+      {
+        "label": "SciPy documentation: scipy.linalg.lu",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.lu.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.linalg.lu_factor",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.lu_factor.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy documentation: numpy.linalg.solve",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "iterative-methods-jacobi-and-gauss-seidel",
+    "id": 8,
+    "title": "Iterative Methods: Jacobi and Gauss-Seidel",
+    "topic": "Linear Systems",
+    "requires": [
+      "lu-decomposition-and-partial-pivoting"
+    ],
+    "related": [
+      {
+        "label": "Lab: PageRank via Power Iteration",
+        "slug": "pagerank-via-power-iteration",
+        "feature": "curriculum/algorithms-software/algorithm-laboratory"
+      },
+      {
+        "label": "Fixed-Point Iteration",
+        "slug": "fixed-point-iteration"
+      },
+      {
+        "label": "Conditioning and Numerical Stability",
+        "slug": "conditioning-and-numerical-stability"
+      }
+    ],
+    "summary": "Jacobi and Gauss-Seidel iterations for large sparse systems, the diagonal dominance and spectral radius conditions for convergence, and when iteration beats factorization.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Barrett et al. (1994): Templates for the Solution of Linear Systems, Stationary Iterative Methods",
+        "url": "https://netlib.org/linalg/html_templates/node11.html",
+        "type": "book"
+      },
+      {
+        "label": "Barrett et al. (1994): Templates for the Solution of Linear Systems, Convergence of the Jacobi method",
+        "url": "https://netlib.org/linalg/html_templates/node13.html",
+        "type": "book"
+      },
+      {
+        "label": "Barrett et al. (1994): Templates for the Solution of Linear Systems, The Gauss-Seidel Method",
+        "url": "https://netlib.org/linalg/html_templates/node14.html",
+        "type": "book"
+      },
+      {
+        "label": "Saad (2003): Iterative Methods for Sparse Linear Systems, 2nd ed.",
+        "url": "https://www-users.cse.umn.edu/~saad/IterMethBook_2ndEd.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 8.1 Sparsity and structure",
+        "url": "https://fncbook.com/structure-1",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 8.6 MINRES and conjugate gradients",
+        "url": "https://fncbook.com/minrescg",
+        "type": "book"
+      },
+      {
+        "label": "SciPy documentation: scipy.sparse.linalg.splu",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.splu.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.sparse.linalg.cg",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.cg.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-matrix-condition-number",
+    "id": 9,
+    "title": "The Matrix Condition Number",
+    "topic": "Linear Systems",
+    "requires": [
+      "iterative-methods-jacobi-and-gauss-seidel"
+    ],
+    "related": [
+      {
+        "label": "Conditioning and Numerical Stability",
+        "slug": "conditioning-and-numerical-stability"
+      },
+      {
+        "label": "LU Decomposition and Partial Pivoting",
+        "slug": "lu-decomposition-and-partial-pivoting"
+      }
+    ],
+    "summary": "The condition number of a matrix, how it bounds the amplification of relative error in Ax = b, and the Hilbert matrix as the classic ill-conditioned case.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 2.8 Conditioning of linear systems",
+        "url": "https://fncbook.com/condition-number/",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.335J (2019): Week 2",
+        "url": "https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/week-2/",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy documentation: numpy.linalg.cond",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.cond.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.linalg.hilbert",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.hilbert.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.linalg.solve",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.solve.html",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Hilbert matrix",
+        "url": "https://en.wikipedia.org/wiki/Hilbert_matrix",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "polynomial-interpolation-lagrange-and-newton",
+    "id": 10,
+    "title": "Polynomial Interpolation: Lagrange and Newton",
+    "topic": "Interpolation and Fitting",
+    "requires": [
+      "the-matrix-condition-number"
+    ],
+    "related": [
+      {
+        "label": "Taylor and Maclaurin Series with Error Bounds",
+        "slug": "taylor-and-maclaurin-series-with-error-bounds",
+        "feature": "curriculum/foundations/calculus"
+      }
+    ],
+    "summary": "The Lagrange and Newton forms of the same interpolating polynomial, divided differences, the interpolation error formula, and Runge's phenomenon.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 9.1 Polynomial interpolation",
+        "url": "https://fncbook.com/polynomial/",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 9.2 The barycentric formula",
+        "url": "https://fncbook.com/barycentric/",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 9.3 Stability of polynomial interpolation",
+        "url": "https://fncbook.com/stability-1/",
+        "type": "book"
+      },
+      {
+        "label": "Demanet (2012): MIT OpenCourseWare 18.330, Chapter 3: Interpolation",
+        "url": "https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2012/resources/mit18_330s12_chapter3/",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: BarycentricInterpolator",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.BarycentricInterpolator.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: KroghInterpolator",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.KroghInterpolator.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.interpolate.lagrange",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.lagrange.html",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Polynomial interpolation",
+        "url": "https://en.wikipedia.org/wiki/Polynomial_interpolation",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "splines",
+    "id": 11,
+    "title": "Splines",
+    "topic": "Interpolation and Fitting",
+    "requires": [
+      "polynomial-interpolation-lagrange-and-newton"
+    ],
+    "related": [
+      {
+        "label": "LU Decomposition and Partial Pivoting",
+        "slug": "lu-decomposition-and-partial-pivoting"
+      },
+      {
+        "label": "Iterative Methods: Jacobi and Gauss-Seidel",
+        "slug": "iterative-methods-jacobi-and-gauss-seidel"
+      }
+    ],
+    "summary": "Piecewise interpolation with linear and cubic splines, the continuity conditions, natural and clamped boundaries, and why splines avoid Runge's oscillation.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 5.2 Piecewise linear interpolation",
+        "url": "https://fncbook.com/pwlin/",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 5.3 Cubic splines",
+        "url": "https://fncbook.com/splines/",
+        "type": "book"
+      },
+      {
+        "label": "Demanet (2012): MIT OpenCourseWare 18.330, Chapter 3: Interpolation",
+        "url": "https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2012/resources/mit18_330s12_chapter3/",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: CubicSpline",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: PchipInterpolator",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.PchipInterpolator.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: interp1d",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.interp1d.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: make_interp_spline",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.make_interp_spline.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: make_smoothing_spline",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.make_smoothing_spline.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "least-squares-curve-fitting",
+    "id": 12,
+    "title": "Least-Squares Curve Fitting",
+    "topic": "Interpolation and Fitting",
+    "requires": [
+      "splines"
+    ],
+    "related": [
+      {
+        "label": "Least Squares via Linear Algebra",
+        "slug": "least-squares-via-linear-algebra",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      },
+      {
+        "label": "Linear Regression as Least Squares",
+        "slug": "linear-regression-as-least-squares",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "The Matrix Condition Number",
+        "slug": "the-matrix-condition-number"
+      },
+      {
+        "label": "Polynomial Interpolation: Lagrange and Newton",
+        "slug": "polynomial-interpolation-lagrange-and-newton"
+      }
+    ],
+    "summary": "Fitting curves by least squares from the numerical side: normal equations versus QR, conditioning, and the choice of basis, building on the linear algebra lesson instead of repeating it.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 3.2 The normal equations",
+        "url": "https://fncbook.com/normaleqns/",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 3.3 The QR factorization",
+        "url": "https://fncbook.com/qr/",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation, 3.4 Computing QR factorizations",
+        "url": "https://fncbook.com/house/",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.335J (2019): Week 4",
+        "url": "https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/week-4/",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy documentation: numpy.linalg.lstsq",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy documentation: numpy.linalg.qr",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.qr.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy documentation: numpy.polyfit",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.polyfit.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy documentation: Polynomial.fit",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.polynomial.polynomial.Polynomial.fit.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy documentation: Chebyshev.fit",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.polynomial.chebyshev.Chebyshev.fit.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.optimize.curve_fit",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "trapezoid-and-simpson-rules",
+    "id": 13,
+    "title": "Trapezoid and Simpson Rules",
+    "topic": "Numerical Integration",
+    "requires": [
+      "least-squares-curve-fitting"
+    ],
+    "related": [
+      {
+        "label": "The Definite Integral and Riemann Sums",
+        "slug": "the-definite-integral-and-riemann-sums",
+        "feature": "curriculum/foundations/calculus"
+      },
+      {
+        "label": "Polynomial Interpolation: Lagrange and Newton",
+        "slug": "polynomial-interpolation-lagrange-and-newton"
+      },
+      {
+        "label": "Sources of Error: Truncation, Rounding, Propagation",
+        "slug": "sources-of-error-truncation-rounding-propagation"
+      },
+      {
+        "label": "Evaluation Metrics: Precision, Recall, and ROC",
+        "slug": "evaluation-metrics-precision-recall-and-roc",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "The composite trapezoid and Simpson rules derived from interpolation, with their error terms worked on integrals that have known exact values.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll & Braun: Fundamentals of Numerical Computation, 5.6 Numerical integration",
+        "url": "https://fncbook.com/integration",
+        "type": "book"
+      },
+      {
+        "label": "Demanet (2012): MIT OCW 18.330, Chapter 2, Integrals as sums and derivatives as differences",
+        "url": "https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2012/aab35b69b416758992779e2ad508b286_MIT18_330S12_Chapter2.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy: scipy.integrate.trapezoid",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.trapezoid.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy: scipy.integrate.simpson",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.simpson.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy: numpy.trapezoid",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.trapezoid.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "error-orders-and-adaptive-quadrature",
+    "id": 14,
+    "title": "Error Orders and Adaptive Quadrature",
+    "topic": "Numerical Integration",
+    "requires": [
+      "trapezoid-and-simpson-rules"
+    ],
+    "related": [
+      {
+        "label": "Trapezoid and Simpson Rules",
+        "slug": "trapezoid-and-simpson-rules"
+      }
+    ],
+    "summary": "The order of a quadrature rule, Richardson extrapolation, and adaptive quadrature that refines only where the error estimate demands it.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll & Braun: Fundamentals of Numerical Computation, 5.7 Adaptive integration",
+        "url": "https://fncbook.com/adaptive",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll & Braun: Fundamentals of Numerical Computation, 5.6 Numerical integration",
+        "url": "https://fncbook.com/integration",
+        "type": "book"
+      },
+      {
+        "label": "SciPy: scipy.integrate.quad",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.quad.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy: scipy.integrate.romb",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.romb.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "eulers-method-and-local-vs-global-error",
+    "id": 15,
+    "title": "Euler's Method and Local vs Global Error",
+    "topic": "Ordinary Differential Equations",
+    "requires": [
+      "error-orders-and-adaptive-quadrature"
+    ],
+    "related": [
+      {
+        "label": "Differential Equations and Initial-Value Problems",
+        "slug": "differential-equations-and-initial-value-problems",
+        "feature": "curriculum/foundations/calculus"
+      },
+      {
+        "label": "Conditioning and Numerical Stability",
+        "slug": "conditioning-and-numerical-stability"
+      }
+    ],
+    "summary": "Euler's method for initial-value problems, local truncation error versus global error, the effect of step size, and a first look at stability.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll & Braun: Fundamentals of Numerical Computation, 6.2 Euler's method",
+        "url": "https://fncbook.com/euler",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll & Braun: Fundamentals of Numerical Computation, 11.3 Absolute stability",
+        "url": "https://fncbook.com/absstab-diffusion",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll & Braun: Fundamentals of Numerical Computation, 11.4 Stiffness",
+        "url": "https://fncbook.com/stiffness",
+        "type": "book"
+      },
+      {
+        "label": "Demanet (2012): MIT OCW 18.330, Chapter 5, Methods for ordinary differential equations",
+        "url": "https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2012/a9d2bd9be098f0ada172af40379a17cc_MIT18_330S12_Chapter5.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy: scipy.integrate.solve_ivp",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "runge-kutta-methods",
+    "id": 16,
+    "title": "Runge-Kutta Methods",
+    "topic": "Ordinary Differential Equations",
+    "requires": [
+      "eulers-method-and-local-vs-global-error"
+    ],
+    "related": [
+      {
+        "label": "Euler's Method and Local vs Global Error",
+        "slug": "eulers-method-and-local-vs-global-error"
+      },
+      {
+        "label": "Trapezoid and Simpson Rules",
+        "slug": "trapezoid-and-simpson-rules"
+      },
+      {
+        "label": "Taylor and Maclaurin Series with Error Bounds",
+        "slug": "taylor-and-maclaurin-series-with-error-bounds",
+        "feature": "curriculum/foundations/calculus"
+      }
+    ],
+    "summary": "Second-order and classical fourth-order Runge-Kutta methods, how they gain order without derivatives of the right-hand side, and adaptive step size.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll & Braun: Fundamentals of Numerical Computation, 6.4 Runge-Kutta methods",
+        "url": "https://fncbook.com/rk",
+        "type": "book"
+      },
+      {
+        "label": "Driscoll & Braun: Fundamentals of Numerical Computation, 6.5 Adaptive Runge-Kutta",
+        "url": "https://fncbook.com/adaptive-rk",
+        "type": "book"
+      },
+      {
+        "label": "Demanet (2012): MIT OCW 18.330, Chapter 5, Methods for ordinary differential equations",
+        "url": "https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2012/a9d2bd9be098f0ada172af40379a17cc_MIT18_330S12_Chapter5.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy: scipy.integrate.solve_ivp",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy: scipy.integrate.RK45",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.RK45.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy: scipy.integrate.RK23",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.RK23.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy: scipy.integrate.Radau",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.Radau.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "choosing-a-numerical-method-a-decision-guide",
+    "id": 17,
+    "title": "Choosing a Numerical Method: A Decision Guide",
+    "topic": "Capstone",
+    "requires": [
+      "runge-kutta-methods"
+    ],
+    "related": [
+      {
+        "label": "The Matrix Condition Number",
+        "slug": "the-matrix-condition-number"
+      },
+      {
+        "label": "Newton's Method",
+        "slug": "newtons-method"
+      },
+      {
+        "label": "LU Decomposition and Partial Pivoting",
+        "slug": "lu-decomposition-and-partial-pivoting"
+      },
+      {
+        "label": "Least-Squares Curve Fitting",
+        "slug": "least-squares-curve-fitting"
+      },
+      {
+        "label": "Error Orders and Adaptive Quadrature",
+        "slug": "error-orders-and-adaptive-quadrature"
+      },
+      {
+        "label": "Runge-Kutta Methods",
+        "slug": "runge-kutta-methods"
+      }
+    ],
+    "summary": "A decision guide for the whole discipline: given a problem's size, smoothness, and conditioning, choose a method and diagnose why it failed.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Driscoll and Braun: Fundamentals of Numerical Computation",
+        "url": "https://fncbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "Goldberg (1991): What Every Computer Scientist Should Know About Floating-Point Arithmetic",
+        "url": "https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html",
+        "type": "paper"
+      },
+      {
+        "label": "SciPy documentation: scipy.optimize.brentq",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.integrate.quad",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.quad.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.integrate.solve_ivp",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy documentation: numpy.linalg.lstsq",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html",
+        "type": "doc"
+      }
+    ]
+  }
+]

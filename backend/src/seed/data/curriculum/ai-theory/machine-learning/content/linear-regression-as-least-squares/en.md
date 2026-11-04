@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-06
+version: 1.1
+updatedAt: 2026-11-04
 ---
 ## Learning Objectives
 
@@ -52,19 +52,19 @@ X = [[1, 1], [1, 2], [1, 3], [1, 4]]   (first column is the intercept term)
 y = [3, 5, 7, 8]
 
 XᵀX = [[4, 10], [10, 30]]
-Xᵀy = [23, 71]
+Xᵀy = [23, 66]
 
 Solving XᵀXθ = Xᵀy:
-θ₀ ≈ 0.5,  θ₁ ≈ 2.0
+θ₀ = 1.5,  θ₁ = 1.7
 
-Fitted line: ŷ = 0.5 + 2.0x
+Fitted line: ŷ = 1.5 + 1.7x
 ```
 
-Checking: at `x=1`, `ŷ = 2.5` (actual 3); at `x=4`, `ŷ = 8.5` (actual 8) — a reasonable fit, with small residual errors exactly as expected from data with no perfect linear relationship.
+Checking: at `x=1`, `ŷ = 3.2` (actual 3); at `x=4`, `ŷ = 8.3` (actual 8), a reasonable fit, with small residual errors exactly as expected from data with no perfect linear relationship.
 
 ### Example 2: Predicting on unseen input
 
-Using the fitted line `ŷ = 0.5 + 2.0x` from Example 1, the model can now predict for `x = 5`, a value that was never in the training data: `ŷ = 0.5 + 2.0(5) = 10.5`. This is the entire point of the machine-learning framing added on top of the pre-existing linear algebra result — using the fitted parameters to generalize to new, unseen inputs, not merely to describe the training points themselves.
+Using the fitted line `ŷ = 1.5 + 1.7x` from Example 1, the model can now predict for `x = 5`, a value that was never in the training data: `ŷ = 1.5 + 1.7(5) = 10.0`. This is the entire point of the machine-learning framing added on top of the pre-existing linear algebra result — using the fitted parameters to generalize to new, unseen inputs, not merely to describe the training points themselves.
 
 ## Common Misconceptions & Pitfalls
 
