@@ -82,6 +82,12 @@ export const MANIFEST: TrackManifest[] = [
     source: { kind: 'curriculum', module: 'ai-theory', discipline: 'artificial-intelligence' },
   },
   {
+    trackId: '01a1a693-4bb9-7c14-97ca-abdcd4ede4ba',
+    title: 'Data Mining',
+    status: 'active',
+    source: { kind: 'curriculum', module: 'ai-theory', discipline: 'data-mining' },
+  },
+  {
     trackId: '01a144df-4132-7791-bff0-4c07f871ae94',
     title: 'Deep Learning',
     status: 'active',
