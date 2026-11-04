@@ -1075,5 +1075,412 @@
     "doi": "10.3390/aieng1010005",
     "url": "https://www.mdpi.com/3042-8831/1/1/5",
     "paperUrl": "https://raw.githubusercontent.com/alexcastrodev/my-university-papers/main/software-engineering/agentic-swmm-auditable-stormwater-modelling-with-skills-and-mcp/paper.pdf"
+  },
+  {
+    "slug": "corfu-shared-log-design-for-flash-clusters",
+    "title": "CORFU: A Shared Log Design for Flash Clusters",
+    "authors": [
+      {
+        "name": "Mahesh Balakrishnan"
+      },
+      {
+        "name": "Dahlia Malkhi"
+      },
+      {
+        "name": "Vijayan Prabhakaran"
+      },
+      {
+        "name": "Ted Wobber"
+      },
+      {
+        "name": "Michael Wei"
+      },
+      {
+        "name": "John D. Davis"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "9th USENIX Symposium on Networked Systems Design and Implementation (NSDI 12)",
+    "publicationDate": "2012-04",
+    "url": "https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/balakrishnan",
+    "paperUrl": "https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final30.pdf"
+  },
+  {
+    "slug": "calvin-fast-distributed-transactions-for-partitioned-databases",
+    "title": "Calvin: Fast Distributed Transactions for Partitioned Database Systems",
+    "authors": [
+      {
+        "name": "Alexander Thomson"
+      },
+      {
+        "name": "Thaddeus Diamond"
+      },
+      {
+        "name": "Shu-Chun Weng"
+      },
+      {
+        "name": "Kun Ren"
+      },
+      {
+        "name": "Philip Shao"
+      },
+      {
+        "name": "Daniel J. Abadi"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2012 ACM SIGMOD International Conference on Management of Data",
+    "publicationDate": "2012-05-20",
+    "doi": "10.1145/2213836.2213838",
+    "url": "https://dl.acm.org/doi/10.1145/2213836.2213838",
+    "paperUrl": "https://cs.yale.edu/homes/thomson/publications/calvin-sigmod12.pdf"
+  },
+  {
+    "slug": "tango-distributed-data-structures-over-a-shared-log",
+    "title": "Tango: Distributed Data Structures over a Shared Log",
+    "authors": [
+      {
+        "name": "Mahesh Balakrishnan"
+      },
+      {
+        "name": "Dahlia Malkhi"
+      },
+      {
+        "name": "Ted Wobber"
+      },
+      {
+        "name": "Ming Wu"
+      },
+      {
+        "name": "Vijayan Prabhakaran"
+      },
+      {
+        "name": "Michael Wei"
+      },
+      {
+        "name": "John D. Davis"
+      },
+      {
+        "name": "Sriram Rao"
+      },
+      {
+        "name": "Tao Zou"
+      },
+      {
+        "name": "Aviad Zuck"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Twenty-Fourth ACM Symposium on Operating Systems Principles",
+    "publicationDate": "2013-11-03",
+    "doi": "10.1145/2517349.2522732",
+    "url": "https://dl.acm.org/doi/10.1145/2517349.2522732",
+    "paperUrl": "https://www.cs.cornell.edu/~taozou/sosp13/tangososp.pdf"
+  },
+  {
+    "slug": "nopaxos-replacing-consensus-with-network-ordering",
+    "title": "Just Say NO to Paxos Overhead: Replacing Consensus with Network Ordering",
+    "authors": [
+      {
+        "name": "Jialin Li"
+      },
+      {
+        "name": "Ellis Michael"
+      },
+      {
+        "name": "Naveen Kr. Sharma"
+      },
+      {
+        "name": "Adriana Szekeres"
+      },
+      {
+        "name": "Dan R. K. Ports"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "12th USENIX Symposium on Operating Systems Design and Implementation (OSDI 16)",
+    "publicationDate": "2016-11",
+    "url": "https://www.usenix.org/conference/osdi16/technical-sessions/presentation/li",
+    "paperUrl": "https://www.usenix.org/system/files/conference/osdi16/osdi16-li.pdf"
+  },
+  {
+    "slug": "eris-coordination-free-consistent-transactions",
+    "title": "Eris: Coordination-Free Consistent Transactions Using In-Network Concurrency Control",
+    "authors": [
+      {
+        "name": "Jialin Li"
+      },
+      {
+        "name": "Ellis Michael"
+      },
+      {
+        "name": "Dan R. K. Ports"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 26th Symposium on Operating Systems Principles",
+    "publicationDate": "2017-10-14",
+    "doi": "10.1145/3132747.3132751",
+    "url": "https://dl.acm.org/doi/10.1145/3132747.3132751",
+    "paperUrl": "https://syslab.cs.washington.edu/papers/eris-sosp17.pdf"
+  },
+  {
+    "slug": "saturn-distributed-metadata-service-for-causal-consistency",
+    "title": "Saturn: a Distributed Metadata Service for Causal Consistency",
+    "authors": [
+      {
+        "name": "Manuel Bravo"
+      },
+      {
+        "name": "Luís Rodrigues"
+      },
+      {
+        "name": "Peter Van Roy"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Twelfth European Conference on Computer Systems",
+    "publicationDate": "2017-04-23",
+    "doi": "10.1145/3064176.3064210",
+    "url": "https://dl.acm.org/doi/10.1145/3064176.3064210",
+    "paperUrl": "https://webperso.info.ucl.ac.be/~pvr/p111-Bravo.pdf"
+  },
+  {
+    "slug": "vcorfu-cloud-scale-object-store-on-a-shared-log",
+    "title": "vCorfu: A Cloud-Scale Object Store on a Shared Log",
+    "authors": [
+      {
+        "name": "Michael Wei"
+      },
+      {
+        "name": "Amy Tai"
+      },
+      {
+        "name": "Christopher J. Rossbach"
+      },
+      {
+        "name": "Ittai Abraham"
+      },
+      {
+        "name": "Maithem Munshed"
+      },
+      {
+        "name": "Medhavi Dhawan"
+      },
+      {
+        "name": "Jim Stabile"
+      },
+      {
+        "name": "Udi Wieder"
+      },
+      {
+        "name": "Scott Fritchie"
+      },
+      {
+        "name": "Steven Swanson"
+      },
+      {
+        "name": "Michael J. Freedman"
+      },
+      {
+        "name": "Dahlia Malkhi"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "14th USENIX Symposium on Networked Systems Design and Implementation (NSDI 17)",
+    "publicationDate": "2017-03",
+    "url": "https://www.usenix.org/conference/nsdi17/technical-sessions/presentation/wei-michael",
+    "paperUrl": "https://www.usenix.org/system/files/conference/nsdi17/nsdi17-wei-michael.pdf"
+  },
+  {
+    "slug": "fuzzylog-partially-ordered-shared-log",
+    "title": "The FuzzyLog: A Partially Ordered Shared Log",
+    "authors": [
+      {
+        "name": "Joshua Lockerman"
+      },
+      {
+        "name": "Jose M. Faleiro"
+      },
+      {
+        "name": "Juno Kim"
+      },
+      {
+        "name": "Soham Sankaran"
+      },
+      {
+        "name": "Daniel J. Abadi"
+      },
+      {
+        "name": "James Aspnes"
+      },
+      {
+        "name": "Siddhartha Sen"
+      },
+      {
+        "name": "Mahesh Balakrishnan"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "13th USENIX Symposium on Operating Systems Design and Implementation (OSDI 18)",
+    "publicationDate": "2018-10",
+    "url": "https://www.usenix.org/conference/osdi18/presentation/lockerman",
+    "paperUrl": "https://www.usenix.org/system/files/osdi18-lockerman.pdf"
+  },
+  {
+    "slug": "scalog-seamless-reconfiguration-and-total-order",
+    "title": "Scalog: Seamless Reconfiguration and Total Order in a Scalable Shared Log",
+    "authors": [
+      {
+        "name": "Cong Ding"
+      },
+      {
+        "name": "David Chu"
+      },
+      {
+        "name": "Evan Zhao"
+      },
+      {
+        "name": "Xiang Li"
+      },
+      {
+        "name": "Lorenzo Alvisi"
+      },
+      {
+        "name": "Robbert van Renesse"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "17th USENIX Symposium on Networked Systems Design and Implementation (NSDI 20)",
+    "publicationDate": "2020-02",
+    "url": "https://www.usenix.org/conference/nsdi20/presentation/ding",
+    "paperUrl": "https://www.usenix.org/system/files/nsdi20-paper-ding.pdf"
+  },
+  {
+    "slug": "boki-stateful-serverless-computing-with-shared-logs",
+    "title": "Boki: Stateful Serverless Computing with Shared Logs",
+    "authors": [
+      {
+        "name": "Zhipeng Jia"
+      },
+      {
+        "name": "Emmett Witchel"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 28th Symposium on Operating Systems Principles",
+    "publicationDate": "2021-10-26",
+    "doi": "10.1145/3477132.3483541",
+    "url": "https://dl.acm.org/doi/10.1145/3477132.3483541",
+    "paperUrl": "https://www.cs.utexas.edu/~witchel/pubs/jia21sosp-boki.pdf"
+  },
+  {
+    "slug": "hydra-serialization-free-network-ordering",
+    "title": "Hydra: Serialization-Free Network Ordering for Strongly Consistent Distributed Applications",
+    "authors": [
+      {
+        "name": "Inho Choi"
+      },
+      {
+        "name": "Ellis Michael"
+      },
+      {
+        "name": "Yunfan Li"
+      },
+      {
+        "name": "Dan R. K. Ports"
+      },
+      {
+        "name": "Jialin Li"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Networked Systems Design and Implementation (NSDI 23)",
+    "publicationDate": "2023-04",
+    "url": "https://www.usenix.org/conference/nsdi23/presentation/choi",
+    "paperUrl": "https://www.usenix.org/system/files/nsdi23-choi.pdf"
+  },
+  {
+    "slug": "flexlog-shared-log-for-stateful-serverless-computing",
+    "title": "FlexLog: A Shared Log for Stateful Serverless Computing",
+    "authors": [
+      {
+        "name": "Dimitra Giantsidi"
+      },
+      {
+        "name": "Emmanouil Giortamis"
+      },
+      {
+        "name": "Nathaniel Tornow"
+      },
+      {
+        "name": "Florin Dinu"
+      },
+      {
+        "name": "Pramod Bhatotia"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 32nd International Symposium on High-Performance Parallel and Distributed Computing",
+    "publicationDate": "2023-08-07",
+    "doi": "10.1145/3588195.3592993",
+    "url": "https://dl.acm.org/doi/10.1145/3588195.3592993",
+    "paperUrl": "https://dse.in.tum.de/wp-content/uploads/2023/05/FlexLog_HPDC23.pdf"
+  },
+  {
+    "slug": "lazylog-shared-log-abstraction-for-low-latency-applications",
+    "title": "LazyLog: A New Shared Log Abstraction for Low-Latency Applications",
+    "authors": [
+      {
+        "name": "Xuhao Luo"
+      },
+      {
+        "name": "Shreesha G. Bhat"
+      },
+      {
+        "name": "Jiyu Hu"
+      },
+      {
+        "name": "Ramnatthan Alagappan"
+      },
+      {
+        "name": "Aishwarya Ganesan"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695983",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695983",
+    "paperUrl": "https://dassl-uiuc.github.io/pdfs/papers/lazylog.pdf"
+  },
+  {
+    "slug": "speclog-low-latency-speculative-shared-log-fix-ante-ordering",
+    "title": "Low End-to-End Latency atop a Speculative Shared Log with Fix-Ante Ordering",
+    "authors": [
+      {
+        "name": "Shreesha G. Bhat"
+      },
+      {
+        "name": "Tony Hong"
+      },
+      {
+        "name": "Xuhao Luo"
+      },
+      {
+        "name": "Jiyu Hu"
+      },
+      {
+        "name": "Aishwarya Ganesan"
+      },
+      {
+        "name": "Ramnatthan Alagappan"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "19th USENIX Symposium on Operating Systems Design and Implementation (OSDI 25)",
+    "publicationDate": "2025-07",
+    "url": "https://www.usenix.org/conference/osdi25/presentation/bhat",
+    "paperUrl": "https://www.usenix.org/system/files/osdi25-bhat.pdf"
   }
 ]
