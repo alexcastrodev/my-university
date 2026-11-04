@@ -1,0 +1,1116 @@
+[
+  {
+    "slug": "leader-based-consensus-in-the-synchronous-model",
+    "id": 1,
+    "title": "Leader-Based Consensus in the Synchronous Model",
+    "topic": "Consensus and Its Variants",
+    "requires": [],
+    "related": [
+      {
+        "label": "The Consensus Problem: Agreement, Validity, and Termination",
+        "slug": "the-consensus-problem-agreement-validity-and-termination",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "The FLP Impossibility Result",
+        "slug": "the-flp-impossibility-result",
+        "feature": "curriculum/systems/distributed-systems-i"
+      }
+    ],
+    "summary": "Consensus when message delays are bounded: leader election by rounds, what a crash costs, the f+1 rounds lower bound, and why this simple world is the baseline asynchronous protocols are measured against.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Dwork, Lynch & Stockmeyer (1988): Consensus in the Presence of Partial Synchrony",
+        "url": "https://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Aspnes: Notes on Theory of Distributed Systems",
+        "url": "https://arxiv.org/abs/2001.04235",
+        "type": "book"
+      },
+      {
+        "label": "Chandra & Toueg (1996): Unreliable Failure Detectors for Reliable Distributed Systems",
+        "url": "https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Dolev, Reischuk & Strong (1990): Early Stopping in Byzantine Agreement",
+        "url": "https://cris.huji.ac.il/en/publications/early-stopping-in-byzantine-agreement/",
+        "type": "paper"
+      },
+      {
+        "label": "Wang, Teo & Cao (2005): Lower Bounds for Achieving Synchronous Early Stopping Consensus with Orderly Crash Failures",
+        "url": "https://dspace.mit.edu/handle/1721.1/7425",
+        "type": "paper"
+      },
+      {
+        "label": "Abraham (2019): Synchronous Consensus Lower Bound via Uncommitted Configurations",
+        "url": "https://decentralizedthoughts.github.io/2019-12-15-synchrony-uncommitted-lower-bound",
+        "type": "doc"
+      },
+      {
+        "label": "Lamport (2001): Paxos Made Simple",
+        "url": "https://lamport.azurewebsites.net/pubs/paxos-simple.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "total-order-broadcast-built-on-consensus",
+    "id": 2,
+    "title": "Total-Order Broadcast Built on Consensus",
+    "topic": "Consensus and Its Variants",
+    "requires": [
+      "leader-based-consensus-in-the-synchronous-model"
+    ],
+    "related": [
+      {
+        "label": "The Replicated State Machine Approach",
+        "slug": "the-replicated-state-machine-approach",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "The Consensus Problem: Agreement, Validity, and Termination",
+        "slug": "the-consensus-problem-agreement-validity-and-termination",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "The FLP Impossibility Result",
+        "slug": "the-flp-impossibility-result",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Leader-Based Consensus in the Synchronous Model",
+        "slug": "leader-based-consensus-in-the-synchronous-model"
+      }
+    ],
+    "summary": "Total-order broadcast as the abstraction replicated systems actually need, how it reduces to a sequence of consensus instances, and the conditions under which the two problems are equivalent.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Hadzilacos & Toueg (1994): A Modular Approach to Fault-Tolerant Broadcasts and Related Problems",
+        "url": "https://www.cs.toronto.edu/~vassos/research/publications/HT94/paper.ps.gz",
+        "type": "paper"
+      },
+      {
+        "label": "Chandra & Toueg (1996): Unreliable Failure Detectors for Reliable Distributed Systems",
+        "url": "https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Fischer, Lynch & Paterson (1985): Impossibility of Distributed Consensus with One Faulty Process",
+        "url": "https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "multi-paxos-from-one-decision-to-a-replicated-log",
+    "id": 3,
+    "title": "Multi-Paxos: From One Decision to a Replicated Log",
+    "topic": "Consensus and Its Variants",
+    "requires": [
+      "total-order-broadcast-built-on-consensus"
+    ],
+    "related": [
+      {
+        "label": "Paxos: The Original Consensus Protocol",
+        "slug": "paxos-the-original-consensus-protocol",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Raft: Log Replication and Commitment",
+        "slug": "raft-log-replication-and-commitment",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Raft Safety: The Election Restriction and Log Completeness",
+        "slug": "raft-safety-the-election-restriction-and-log-completeness",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Total-Order Broadcast Built on Consensus",
+        "slug": "total-order-broadcast-built-on-consensus"
+      },
+      {
+        "label": "Leader-Based Consensus in the Synchronous Model",
+        "slug": "leader-based-consensus-in-the-synchronous-model"
+      }
+    ],
+    "summary": "From single-decree Paxos to a replicated log: a stable leader, skipping phase 1 for later slots, filling gaps, and what the existing Paxos lesson left out on liveness.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lamport (2001): Paxos Made Simple",
+        "url": "https://lamport.azurewebsites.net/pubs/paxos-simple.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Chandra, Griesemer & Redstone (2007): Paxos Made Live, An Engineering Perspective",
+        "url": "https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/paper2-1.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "van Renesse & Altinbuken (2015): Paxos Made Moderately Complex",
+        "url": "https://www.cs.cornell.edu/courses/cs7412/2011sp/paxos.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ongaro & Ousterhout (2014): In Search of an Understandable Consensus Algorithm",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "fast-paxos-and-flexible-quorums",
+    "id": 4,
+    "title": "Fast Paxos and Flexible Quorums",
+    "topic": "Consensus and Its Variants",
+    "requires": [
+      "multi-paxos-from-one-decision-to-a-replicated-log"
+    ],
+    "related": [
+      {
+        "label": "Primary-Backup vs. Quorum-Based Replication",
+        "slug": "primary-backup-vs-quorum-based-replication",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Multi-Paxos: From One Decision to a Replicated Log",
+        "slug": "multi-paxos-from-one-decision-to-a-replicated-log"
+      }
+    ],
+    "summary": "Fast Paxos and its fast path that skips the leader, with the larger quorums it pays for, then Flexible Paxos, which shows that only phase 1 and phase 2 quorums must intersect.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lamport (2006): Fast Paxos",
+        "url": "https://ilyasergey.net/CS6213/_static/papers/fast-paxos.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Lamport (2006): Lower Bounds for Asynchronous Consensus",
+        "url": "https://lamport.azurewebsites.net/pubs/lower-bound.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Howard, Malkhi & Spiegelman (2016): Flexible Paxos, Quorum Intersection Revisited",
+        "url": "https://arxiv.org/abs/1608.06696",
+        "type": "paper"
+      },
+      {
+        "label": "Howard, Charapko & Mortier (2021): Fast Flexible Paxos",
+        "url": "https://arxiv.org/abs/2008.02671",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "reconfiguration-changing-membership-in-paxos-and-raft",
+    "id": 5,
+    "title": "Reconfiguration: Changing Membership in Paxos and Raft",
+    "topic": "Consensus and Its Variants",
+    "requires": [
+      "fast-paxos-and-flexible-quorums"
+    ],
+    "related": [
+      {
+        "label": "Raft Safety: The Election Restriction and Log Completeness",
+        "slug": "raft-safety-the-election-restriction-and-log-completeness",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Paxos: The Original Consensus Protocol",
+        "slug": "paxos-the-original-consensus-protocol",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Multi-Paxos: From One Decision to a Replicated Log",
+        "slug": "multi-paxos-from-one-decision-to-a-replicated-log"
+      }
+    ],
+    "summary": "Changing the set of replicas without losing safety: configuration entries in the log, Raft's joint consensus and single-server changes, and the disjoint-majorities failure they prevent.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lamport, Malkhi, and Zhou (2010): Reconfiguring a State Machine",
+        "url": "https://lamport.azurewebsites.net/pubs/reconfiguration-tutorial.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Lamport (2001): Paxos Made Simple",
+        "url": "https://lamport.azurewebsites.net/pubs/paxos-simple.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ongaro and Ousterhout (2014): In Search of an Understandable Consensus Algorithm",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ongaro (2014): Consensus: Bridging Theory and Practice",
+        "url": "https://github.com/ongardie/dissertation",
+        "type": "paper"
+      },
+      {
+        "label": "Ongaro (2015): bug in single-server membership changes",
+        "url": "https://groups.google.com/g/raft-dev/c/t4xj6dJTP6E",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "failure-detectors",
+    "id": 6,
+    "title": "Failure Detectors",
+    "topic": "Membership",
+    "requires": [
+      "reconfiguration-changing-membership-in-paxos-and-raft"
+    ],
+    "related": [
+      {
+        "label": "Why Distributed Systems Are Hard: Partial Failure and No Shared State",
+        "slug": "why-distributed-systems-are-hard-partial-failure-and-no-shared-state",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "The FLP Impossibility Result",
+        "slug": "the-flp-impossibility-result",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Raft: Leader Election",
+        "slug": "raft-leader-election",
+        "feature": "curriculum/systems/distributed-systems-i"
+      }
+    ],
+    "summary": "Unreliable failure detectors as defined by Chandra and Toueg, their completeness and accuracy classes, the weakest detector for consensus, and heartbeat-based and phi-accrual detectors in practice.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Chandra and Toueg (1996): Unreliable Failure Detectors for Reliable Distributed Systems",
+        "url": "https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Chandra, Hadzilacos, and Toueg (1996): The Weakest Failure Detector for Solving Consensus",
+        "url": "https://courses.csail.mit.edu/6.895/fall02/papers/Chandra/jacm96.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Hayashibara, Défago, Yared, and Katayama (2004): The φ Accrual Failure Detector",
+        "url": "https://dspace.jaist.ac.jp/dspace/bitstream/10119/4784/1/IS-RR-2004-010.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Lamport, Malkhi, and Zhou (2010): Reconfiguring a State Machine",
+        "url": "https://lamport.azurewebsites.net/pubs/reconfiguration-tutorial.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Akka documentation: Phi Accrual Failure Detector",
+        "url": "https://doc.akka.io/libraries/akka-core/current/typed/failure-detector.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "group-membership-and-view-synchrony",
+    "id": 7,
+    "title": "Group Membership and View Synchrony",
+    "topic": "Membership",
+    "requires": [
+      "failure-detectors"
+    ],
+    "related": [
+      {
+        "label": "Failure Detectors",
+        "slug": "failure-detectors"
+      },
+      {
+        "label": "Reconfiguration: Changing Membership in Paxos and Raft",
+        "slug": "reconfiguration-changing-membership-in-paxos-and-raft"
+      }
+    ],
+    "summary": "Group membership as a sequence of agreed views, view-synchronous communication, and how the virtual synchrony model relates to consensus-based replication.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Birman and Joseph (1987): Exploiting Virtual Synchrony in Distributed Systems",
+        "url": "https://courses.csail.mit.edu/6.895/fall02/papers/Birman/sosp87-birman.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Chockler, Keidar, and Vitenberg (2001): Group Communication Specifications: A Comprehensive Study",
+        "url": "https://people.csail.mit.edu/idish/ftp/gcs-survey.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Lamport, Malkhi, and Zhou (2010): Reconfiguring a State Machine",
+        "url": "https://lamport.azurewebsites.net/pubs/reconfiguration-tutorial.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Chandra and Toueg (1996): Unreliable Failure Detectors for Reliable Distributed Systems",
+        "url": "https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Birman (2010): A History of the Virtual Synchrony Replication Model",
+        "url": "https://www.cs.purdue.edu/homes/bb/cs542-15Spr/Birman-Cornell-history-Replication.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "causal-consistency",
+    "id": 8,
+    "title": "Causal Consistency",
+    "topic": "Consistency and Database Replication",
+    "requires": [
+      "group-membership-and-view-synchrony"
+    ],
+    "related": [
+      {
+        "label": "Lamport Logical Clocks and the Happens-Before Relation",
+        "slug": "lamport-logical-clocks-and-the-happens-before-relation",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Vector Clocks and Detecting Concurrent Writes",
+        "slug": "vector-clocks-and-detecting-concurrent-writes",
+        "feature": "curriculum/software-distributed/distributed-systems-ii"
+      },
+      {
+        "label": "Sequential Consistency and Why It Is Weaker",
+        "slug": "sequential-consistency-and-why-it-is-weaker",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Eventual Consistency and Its Real Guarantees",
+        "slug": "eventual-consistency-and-its-real-guarantees",
+        "feature": "curriculum/systems/distributed-systems-i"
+      }
+    ],
+    "summary": "Causal consistency as a model between sequential consistency and PRAM, potential causality from happens-before, tracking dependencies with vector clocks and explicit metadata, and what the availability result usually cited for it actually proves.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Ahamad, Neiger, Burns, Kohli, Hutto (1995): Causal Memory: Definitions, Implementation, and Programming",
+        "url": "https://citeseerx.ist.psu.edu/document?doi=c6a76a29e39f6f0954cea15b7d5fd78249ab5da5&repid=rep1&type=pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Lloyd, Freedman, Kaminsky, Andersen (2011): Don't Settle for Eventual: Scalable Causal Consistency for Wide-Area Storage with COPS",
+        "url": "https://www.cs.cmu.edu/~dga/papers/cops-sosp2011.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Mahajan, Alvisi, Dahlin (2011): Consistency, Availability, and Convergence (UTCS TR-11-22)",
+        "url": "https://www.cs.utexas.edu/~dahlin/papers/cac-tr.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "transactional-causal-consistency",
+    "id": 9,
+    "title": "Transactional Causal Consistency",
+    "topic": "Consistency and Database Replication",
+    "requires": [
+      "causal-consistency"
+    ],
+    "related": [
+      {
+        "label": "Sequential Consistency and Why It Is Weaker",
+        "slug": "sequential-consistency-and-why-it-is-weaker",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Causal Consistency",
+        "slug": "causal-consistency"
+      },
+      {
+        "label": "Two-Phase Commit and the Blocking Problem",
+        "slug": "two-phase-commit-and-the-blocking-problem",
+        "feature": "curriculum/software-distributed/distributed-systems-ii"
+      }
+    ],
+    "summary": "Extending causal consistency to read-only and write transactions, causal snapshots, and what geo-replicated systems built on this model give up.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Akkoorath et al. (2016): Cure: Strong Semantics Meets High Availability and Low Latency",
+        "url": "https://webperso.info.ucl.ac.be/~pvr/icdcs2016-cure.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Lloyd, Freedman, Kaminsky, Andersen (2011): Don't Settle for Eventual: Scalable Causal Consistency for Wide-Area Storage with COPS",
+        "url": "https://www.cs.cmu.edu/~dga/papers/cops-sosp2011.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Bravo, Rodrigues, Van Roy (2017): Saturn: a Distributed Metadata Service for Causal Consistency",
+        "url": "https://webperso.info.ucl.ac.be/~pvr/p111-Bravo.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "replicating-a-database-eager-vs-lazy-primary-copy-vs-update-everywhere-and-certification",
+    "id": 10,
+    "title": "Replicating a Database: Eager vs Lazy, Primary-Copy vs Update-Everywhere, and Certification",
+    "topic": "Consistency and Database Replication",
+    "requires": [
+      "transactional-causal-consistency"
+    ],
+    "related": [
+      {
+        "label": "Single-Leader Replication",
+        "slug": "single-leader-replication",
+        "feature": "system-design"
+      },
+      {
+        "label": "Multi-Leader and Leaderless Replication",
+        "slug": "multi-leader-and-leaderless-replication",
+        "feature": "system-design"
+      },
+      {
+        "label": "Two-Phase Commit and the Blocking Problem",
+        "slug": "two-phase-commit-and-the-blocking-problem",
+        "feature": "curriculum/software-distributed/distributed-systems-ii"
+      },
+      {
+        "label": "Transactional Causal Consistency",
+        "slug": "transactional-causal-consistency"
+      },
+      {
+        "label": "Total-Order Broadcast Built on Consensus",
+        "slug": "total-order-broadcast-built-on-consensus"
+      }
+    ],
+    "summary": "The classic design space of database replication, eager versus lazy and primary-copy versus update-everywhere, and certification-based replication built on total-order broadcast.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Gray, Helland, O'Neil, Shasha (1996): The Dangers of Replication and a Solution",
+        "url": "https://pages.cs.wisc.edu/~yxy/cs764-f20/papers/replication.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Wiesmann, Pedone, Schiper, Kemme, Alonso (2000): Understanding Replication in Databases and Distributed Systems",
+        "url": "https://classpages.cselabs.umn.edu/Spring-2018/csci8980/Papers/ProcessReplication/Understanding-Replication-icdcs2000.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Pedone, Guerraoui, Schiper (2003): The Database State Machine Approach",
+        "url": "https://www.cs.cornell.edu/courses/cs734/2000FA/cached%20papers/pgs99.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Kemme, Alonso (2000): Don't Be Lazy, Be Consistent: Postgres-R, A New Way to Implement Database Replication",
+        "url": "https://www.vldb.org/conf/2000/P134.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "MySQL (2026): MySQL 8.4 Reference Manual, Group Replication",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/group-replication-summary.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "gossip-and-epidemic-dissemination",
+    "id": 11,
+    "title": "Gossip and Epidemic Dissemination",
+    "topic": "Peer-to-Peer and Dissemination",
+    "requires": [
+      "replicating-a-database-eager-vs-lazy-primary-copy-vs-update-everywhere-and-certification"
+    ],
+    "related": [
+      {
+        "label": "Anti-Entropy: Read Repair and Merkle Tree Synchronization",
+        "slug": "anti-entropy-read-repair-and-merkle-tree-synchronization",
+        "feature": "curriculum/software-distributed/distributed-systems-ii"
+      },
+      {
+        "label": "Cassandra Distributed Architecture: Gossip, Snitches, Tokens, and Virtual Nodes",
+        "slug": "cassandra-distributed-architecture-gossip-tokens-vnodes",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Epidemic algorithms from the Xerox PARC work: push, pull, and push-pull gossip, how quickly a rumor spreads, and how anti-entropy and rumor mongering differ.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Demers et al. (1989): Epidemic Algorithms for Replicated Database Maintenance (Xerox PARC CSL-89-1)",
+        "url": "https://ftp.mirrorservice.org/sites/www.bitsavers.org/pdf/xerox/parc/techReports/CSL-89-1_Epidemic_Algorithms_for_Replicated_Database_Maintenance.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Demers et al. (1987): Epidemic Algorithms for Replicated Database Maintenance (PODC)",
+        "url": "https://none.cs.umass.edu/~shenoy/courses/fall04/readings/demers.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Jelasity et al. (2007): Gossip-based Peer Sampling (ACM TOCS)",
+        "url": "https://www.distributed-systems.net/my-data/papers/2007.tocs.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "unstructured-p2p-flooding-super-peers-and-bittorrent",
+    "id": 12,
+    "title": "Unstructured P2P: Flooding, Super-Peers, and BitTorrent",
+    "topic": "Peer-to-Peer and Dissemination",
+    "requires": [
+      "gossip-and-epidemic-dissemination"
+    ],
+    "related": [
+      {
+        "label": "The Client-Server and P2P Application Architectures",
+        "slug": "the-client-server-and-p2p-architectures",
+        "feature": "curriculum/systems/computer-networks"
+      }
+    ],
+    "summary": "Unstructured overlays: flooding and its cost, super-peers as a compromise, and how BitTorrent's tit-for-tat and rarest-first change the problem from search to dissemination.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Ritter (2001): Why Gnutella Can't Scale. No, Really.",
+        "url": "http://www.darkridge.com/~jpr5/doc/gnutella.html",
+        "type": "doc"
+      },
+      {
+        "label": "Lv et al. (2002): Search and Replication in Unstructured Peer-to-Peer Networks (ICS)",
+        "url": "https://www.cse.uoi.gr/~pitoura/courses/p2p05/papers/searchp2p.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Yang and Garcia-Molina (2003): Designing a Super-Peer Network (ICDE)",
+        "url": "https://kldp.org/files/superpeer_296.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Cohen (2003): Incentives Build Robustness in BitTorrent",
+        "url": "https://www.bittorrent.org/bittorrentecon.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Piatek et al. (2007): Do Incentives Build Robustness in BitTorrent? (NSDI)",
+        "url": "https://www.cs.princeton.edu/courses/archive/fall14/cos561/papers/BitTyrant07.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "BEP 3: The BitTorrent Protocol Specification",
+        "url": "https://www.bittorrent.org/beps/bep_0003.html",
+        "type": "doc"
+      },
+      {
+        "label": "BEP 5: DHT Protocol",
+        "url": "https://www.bittorrent.org/beps/bep_0005.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "chord-a-ring-dht-with-logarithmic-lookup",
+    "id": 13,
+    "title": "Chord: A Ring DHT with Logarithmic Lookup",
+    "topic": "Peer-to-Peer and Dissemination",
+    "requires": [
+      "unstructured-p2p-flooding-super-peers-and-bittorrent"
+    ],
+    "related": [
+      {
+        "label": "Consistent Hashing for Data Partitioning",
+        "slug": "consistent-hashing-for-data-partitioning",
+        "feature": "curriculum/specialization/track-a-systems"
+      }
+    ],
+    "summary": "Chord's identifier ring, successors and finger tables, why a lookup takes a logarithmic number of hops, how stabilization repairs the ring, and where the original protocol fails under failures.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Stoica et al. (2003): Chord: A Scalable Peer-to-peer Lookup Protocol for Internet Applications (IEEE/ACM ToN)",
+        "url": "https://pdos.csail.mit.edu/papers/ton:chord/paper-ton.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Stoica et al. (2001): Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications (SIGCOMM)",
+        "url": "https://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Zave (2012): Using Lightweight Modeling to Understand Chord (ACM CCR)",
+        "url": "https://www.cs.princeton.edu/courses/archive/fall14/cos561/papers/ChordModel12.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Zave (2015): How to Make Chord Correct (arXiv)",
+        "url": "https://arxiv.org/pdf/1502.06461",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "kademlia-and-pastry",
+    "id": 14,
+    "title": "Kademlia and Pastry",
+    "topic": "Peer-to-Peer and Dissemination",
+    "requires": [
+      "chord-a-ring-dht-with-logarithmic-lookup"
+    ],
+    "related": [
+      {
+        "label": "Chord: A Ring DHT with Logarithmic Lookup",
+        "slug": "chord-a-ring-dht-with-logarithmic-lookup"
+      },
+      {
+        "label": "Consistent Hashing for Data Partitioning",
+        "slug": "consistent-hashing-for-data-partitioning",
+        "feature": "curriculum/specialization/track-a-systems"
+      }
+    ],
+    "summary": "Two DHTs that route by shared identifier digits or XOR distance: Kademlia's k-buckets and Pastry's routing table, and why parallel lookups and locality matter in practice.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Maymounkov and Mazières (2002): Kademlia, a peer-to-peer information system based on the XOR metric",
+        "url": "https://pdos.csail.mit.edu/~petar/papers/maymounkov-kademlia-lncs.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Rowstron and Druschel (2001): Pastry, scalable, decentralized object location and routing for large-scale peer-to-peer systems",
+        "url": "https://people.mpi-sws.org/~druschel/publications/Pastry.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "BEP 5: DHT Protocol",
+        "url": "https://www.bittorrent.org/beps/bep_0005.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "publish-subscribe-over-a-dht",
+    "id": 15,
+    "title": "Publish-Subscribe over a DHT",
+    "topic": "Peer-to-Peer and Dissemination",
+    "requires": [
+      "kademlia-and-pastry"
+    ],
+    "related": [
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs",
+        "feature": "system-design"
+      },
+      {
+        "label": "Kademlia and Pastry",
+        "slug": "kademlia-and-pastry"
+      }
+    ],
+    "summary": "Building publish-subscribe on a structured overlay: topic-based dissemination trees as in Scribe, and how the design compares with a centralized broker.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Castro, Druschel, Kermarrec, and Rowstron (2002): SCRIBE, a large-scale and decentralized application-level multicast infrastructure",
+        "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/jsac.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Rowstron and Druschel (2001): Pastry, scalable, decentralized object location and routing for large-scale peer-to-peer systems",
+        "url": "https://people.mpi-sws.org/~druschel/publications/Pastry.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Apache Kafka: Introduction",
+        "url": "https://kafka.apache.org/42/getting-started/introduction/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Kafka: Design",
+        "url": "https://kafka.apache.org/42/design/design/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-shared-log-abstraction-corfu-tango-and-vcorfu",
+    "id": 16,
+    "title": "The Shared Log Abstraction: CORFU, Tango, and vCorfu",
+    "topic": "Shared Logs and Ordering",
+    "requires": [
+      "publish-subscribe-over-a-dht"
+    ],
+    "related": [
+      {
+        "label": "Chain Replication for High-Throughput Storage",
+        "slug": "chain-replication-for-high-throughput-storage",
+        "feature": "curriculum/specialization/track-a-systems"
+      },
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs",
+        "feature": "system-design"
+      },
+      {
+        "label": "The Replicated State Machine Approach",
+        "slug": "the-replicated-state-machine-approach",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Raft: Log Replication and Commitment",
+        "slug": "raft-log-replication-and-commitment",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Optimistic Concurrency Control and Multi-Version Concurrency Control",
+        "slug": "optimistic-concurrency-control-and-mvcc",
+        "feature": "curriculum/systems/database-systems"
+      }
+    ],
+    "summary": "The shared log as a primitive: CORFU's sequencer and client-driven replication over flash, Tango's replicated data structures on top of it, and vCorfu's materialized streams.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Balakrishnan et al. (2012): CORFU, A Shared Log Design for Flash Clusters",
+        "url": "https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final30.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Balakrishnan et al. (2013): Tango, Distributed Data Structures over a Shared Log",
+        "url": "https://www.cs.cornell.edu/~taozou/sosp13/tangososp.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Wei et al. (2017): vCorfu, A Cloud-Scale Object Store on a Shared Log",
+        "url": "https://www.usenix.org/system/files/conference/nsdi17/nsdi17-wei-michael.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "scaling-shared-logs-fuzzylog-and-scalog",
+    "id": 17,
+    "title": "Scaling Shared Logs: Partial Order (FuzzyLog) and Replicate First, Order Later (Scalog)",
+    "topic": "Shared Logs and Ordering",
+    "requires": [
+      "the-shared-log-abstraction-corfu-tango-and-vcorfu"
+    ],
+    "related": [
+      {
+        "label": "PACELC: The Latency-Consistency Trade-off Beyond CAP",
+        "slug": "pacelc-the-latency-consistency-trade-off-beyond-cap",
+        "feature": "curriculum/software-distributed/distributed-systems-ii"
+      },
+      {
+        "label": "Causal Consistency",
+        "slug": "causal-consistency"
+      },
+      {
+        "label": "The Shared Log Abstraction: CORFU, Tango, and vCorfu",
+        "slug": "the-shared-log-abstraction-corfu-tango-and-vcorfu"
+      }
+    ],
+    "summary": "Two ways past a single sequencer: FuzzyLog relaxes the total order into a partial order across colors, and Scalog replicates records first and orders them afterwards.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lockerman et al. (2018): The FuzzyLog, A Partially Ordered Shared Log",
+        "url": "https://www.usenix.org/system/files/osdi18-lockerman.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ding et al. (2020): Scalog, Seamless Reconfiguration and Total Order in a Scalable Shared Log",
+        "url": "https://www.usenix.org/system/files/nsdi20-paper-ding.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "stateful-serverless-on-shared-logs-boki-and-flexlog",
+    "id": 18,
+    "title": "Stateful Serverless on Shared Logs: Boki and FlexLog",
+    "topic": "Shared Logs and Ordering",
+    "requires": [
+      "scaling-shared-logs-fuzzylog-and-scalog"
+    ],
+    "related": [
+      {
+        "label": "Serverless Computing and the Function-as-a-Service Model",
+        "slug": "serverless-computing-and-the-function-as-a-service-model",
+        "feature": "curriculum/specialization/track-a-systems"
+      },
+      {
+        "label": "The Shared Log Abstraction: CORFU, Tango, and vCorfu",
+        "slug": "the-shared-log-abstraction-corfu-tango-and-vcorfu"
+      },
+      {
+        "label": "Scaling Shared Logs: Partial Order (FuzzyLog) and Replicate First, Order Later (Scalog)",
+        "slug": "scaling-shared-logs-fuzzylog-and-scalog"
+      }
+    ],
+    "summary": "Using a shared log as the state substrate of serverless functions: Boki's log-based abstractions for workflows and transactions, and FlexLog's take on the same problem.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Jia and Witchel (2021): Boki, Stateful Serverless Computing with Shared Logs",
+        "url": "https://www.cs.utexas.edu/~witchel/pubs/jia21sosp-boki.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Giantsidi et al. (2023): FlexLog, A Shared Log for Stateful Serverless Computing",
+        "url": "https://dse.in.tum.de/wp-content/uploads/2023/05/FlexLog_HPDC23.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Hellerstein et al. (2019): Serverless Computing, One Step Forward, Two Steps Back",
+        "url": "https://www.cidrdb.org/cidr2019/papers/p119-hellerstein-cidr19.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "low-latency-shared-logs-lazylog-and-speclog",
+    "id": 19,
+    "title": "Low-Latency Shared Logs: LazyLog and SpecLog",
+    "topic": "Shared Logs and Ordering",
+    "requires": [
+      "stateful-serverless-on-shared-logs-boki-and-flexlog"
+    ],
+    "related": [
+      {
+        "label": "Linearizability: A Rigorous Definition",
+        "slug": "linearizability-a-rigorous-definition",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Scaling Shared Logs: Partial Order (FuzzyLog) and Replicate First, Order Later (Scalog)",
+        "slug": "scaling-shared-logs-fuzzylog-and-scalog"
+      },
+      {
+        "label": "Stateful Serverless on Shared Logs: Boki and FlexLog",
+        "slug": "stateful-serverless-on-shared-logs-boki-and-flexlog"
+      },
+      {
+        "label": "The Shared Log Abstraction: CORFU, Tango, and vCorfu",
+        "slug": "the-shared-log-abstraction-corfu-tango-and-vcorfu"
+      }
+    ],
+    "summary": "Reducing the ordering latency of shared logs: LazyLog acknowledges appends before binding their position, which runs in the background and is enforced before a position can be read, and SpecLog lets consumers compute on a speculative order while external output waits for confirmation.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Luo et al. (2024): LazyLog: A New Shared Log Abstraction for Low-Latency Applications",
+        "url": "https://dassl-uiuc.github.io/pdfs/papers/lazylog.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Bhat et al. (2025): Low End-to-End Latency atop a Speculative Shared Log with Fix-Ante Ordering",
+        "url": "https://dassl-uiuc.github.io/pdfs/papers/speclog.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ding et al. (2020): Scalog: Seamless Reconfiguration and Total Order in a Scalable Shared Log",
+        "url": "https://www.usenix.org/system/files/nsdi20-paper-ding.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "deterministic-transactions-calvin",
+    "id": 20,
+    "title": "Deterministic Transactions: Calvin",
+    "topic": "Shared Logs and Ordering",
+    "requires": [
+      "low-latency-shared-logs-lazylog-and-speclog"
+    ],
+    "related": [
+      {
+        "label": "Spanner: TrueTime and External Consistency",
+        "slug": "spanner-truetime-and-external-consistency",
+        "feature": "curriculum/specialization/track-a-systems"
+      },
+      {
+        "label": "Two-Phase Commit and the Blocking Problem",
+        "slug": "two-phase-commit-and-the-blocking-problem",
+        "feature": "curriculum/software-distributed/distributed-systems-ii"
+      },
+      {
+        "label": "The Replicated State Machine Approach",
+        "slug": "the-replicated-state-machine-approach",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Low-Latency Shared Logs: LazyLog and SpecLog",
+        "slug": "low-latency-shared-logs-lazylog-and-speclog"
+      }
+    ],
+    "summary": "Calvin's inversion of the usual order: agree on a global sequence of transactions first, then execute them deterministically at every replica, which removes two-phase commit from the path.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Thomson et al. (2012): Calvin: Fast Distributed Transactions for Partitioned Database Systems",
+        "url": "https://cs.yale.edu/homes/thomson/publications/calvin-sigmod12.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "network-ordered-consensus-nopaxos-eris-and-hydra",
+    "id": 21,
+    "title": "Network-Ordered Consensus: NOPaxos, Eris, and Hydra",
+    "topic": "Shared Logs and Ordering",
+    "requires": [
+      "deterministic-transactions-calvin"
+    ],
+    "related": [
+      {
+        "label": "The Replicated State Machine Approach",
+        "slug": "the-replicated-state-machine-approach",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Paxos: The Original Consensus Protocol",
+        "slug": "paxos-the-original-consensus-protocol",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Deterministic Transactions: Calvin",
+        "slug": "deterministic-transactions-calvin"
+      }
+    ],
+    "summary": "Moving ordering into the network: NOPaxos's ordered unreliable multicast, Eris's in-network concurrency control for transactions, and Hydra's approach to network ordering without a serialization point.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Li et al. (2016): Just Say NO to Paxos Overhead: Replacing Consensus with Network Ordering",
+        "url": "https://www.usenix.org/system/files/conference/osdi16/osdi16-li.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Li, Michael and Ports (2017): Eris: Coordination-Free Consistent Transactions Using In-Network Concurrency Control",
+        "url": "https://syslab.cs.washington.edu/papers/eris-sosp17.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Choi et al. (2023): Hydra: Serialization-Free Network Ordering for Strongly Consistent Distributed Applications",
+        "url": "https://www.usenix.org/system/files/nsdi23-choi.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "causal-metadata-for-geo-replication-saturn",
+    "id": 22,
+    "title": "Causal Metadata for Geo-Replication: Saturn",
+    "topic": "Shared Logs and Ordering",
+    "requires": [
+      "network-ordered-consensus-nopaxos-eris-and-hydra"
+    ],
+    "related": [
+      {
+        "label": "Causal Consistency",
+        "slug": "causal-consistency"
+      },
+      {
+        "label": "Transactional Causal Consistency",
+        "slug": "transactional-causal-consistency"
+      },
+      {
+        "label": "Vector Clocks and Detecting Concurrent Writes",
+        "slug": "vector-clocks-and-detecting-concurrent-writes",
+        "feature": "curriculum/software-distributed/distributed-systems-ii"
+      }
+    ],
+    "summary": "Saturn's separation of data from causal metadata: a tree of serializers that propagates a small label, and the trade-off between visibility latency and throughput.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Bravo, Rodrigues and Van Roy (2017): Saturn: a Distributed Metadata Service for Causal Consistency",
+        "url": "https://webperso.info.ucl.ac.be/~pvr/p111-Bravo.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-choosing-a-replication-and-ordering-design-for-a-workload",
+    "id": 23,
+    "title": "Capstone: Choosing a Replication and Ordering Design for a Workload",
+    "topic": "Capstone",
+    "requires": [
+      "causal-metadata-for-geo-replication-saturn"
+    ],
+    "related": [
+      {
+        "label": "Capstone: Designing a Cloud Storage System for a Workload",
+        "slug": "capstone-designing-a-cloud-storage-system-for-a-workload",
+        "feature": "curriculum/specialization/track-a-systems"
+      },
+      {
+        "label": "Multi-Paxos: From One Decision to a Replicated Log",
+        "slug": "multi-paxos-from-one-decision-to-a-replicated-log"
+      },
+      {
+        "label": "Causal Consistency",
+        "slug": "causal-consistency"
+      },
+      {
+        "label": "Transactional Causal Consistency",
+        "slug": "transactional-causal-consistency"
+      },
+      {
+        "label": "Deterministic Transactions: Calvin",
+        "slug": "deterministic-transactions-calvin"
+      },
+      {
+        "label": "Failure Detectors",
+        "slug": "failure-detectors"
+      },
+      {
+        "label": "Reconfiguration: Changing Membership in Paxos and Raft",
+        "slug": "reconfiguration-changing-membership-in-paxos-and-raft"
+      }
+    ],
+    "summary": "Given a concrete workload, choose among consensus, certification, causal, shared-log, deterministic, and network-ordered designs, and defend the choice against its failure modes and costs.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Howard, Malkhi and Spiegelman (2016): Flexible Paxos, Quorum Intersection Revisited",
+        "url": "https://arxiv.org/abs/1608.06696",
+        "type": "paper"
+      },
+      {
+        "label": "Thomson et al. (2012): Calvin: Fast Distributed Transactions for Partitioned Database Systems",
+        "url": "https://cs.yale.edu/homes/thomson/publications/calvin-sigmod12.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Li, Michael and Ports (2017): Eris: Coordination-Free Consistent Transactions Using In-Network Concurrency Control",
+        "url": "https://syslab.cs.washington.edu/papers/eris-sosp17.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Akkoorath et al. (2016): Cure: Strong Semantics Meets High Availability and Low Latency",
+        "url": "https://webperso.info.ucl.ac.be/~pvr/icdcs2016-cure.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Lloyd et al. (2011): Don't Settle for Eventual: Scalable Causal Consistency for Wide-Area Storage with COPS",
+        "url": "https://www.cs.cmu.edu/~dga/papers/cops-sosp2011.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ding et al. (2020): Scalog: Seamless Reconfiguration and Total Order in a Scalable Shared Log",
+        "url": "https://www.usenix.org/system/files/nsdi20-paper-ding.pdf",
+        "type": "paper"
+      }
+    ]
+  }
+]

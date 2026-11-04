@@ -368,6 +368,20 @@ export const CURRICULUM: CurriculumModule[] = [
         ],
       },
       {
+        slug: 'distributed-systems-iii',
+        title: $localize`:@@curriculum.software-distributed.distributed-systems-iii.title:Distributed Systems III`,
+        hours: 80,
+        topics: [
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.1:consensus variants`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.2:group membership`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.3:causal consistency`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.4:database replication`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.5:peer-to-peer systems`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.6:shared logs`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.7:network ordering`,
+        ],
+      },
+      {
         slug: 'programming-languages',
         title: $localize`:@@curriculum.software-distributed.programming-languages.title:Programming Languages`,
         hours: 60,
