@@ -178,6 +178,12 @@ export const MANIFEST: TrackManifest[] = [
     source: { kind: 'curriculum', module: 'computer', discipline: 'systems-laboratory' },
   },
   {
+    trackId: '01a1a558-85ba-7e6c-8cfc-fc65bade7bea',
+    title: 'Calculus',
+    status: 'active',
+    source: { kind: 'curriculum', module: 'foundations', discipline: 'calculus' },
+  },
+  {
     trackId: '01a144df-4132-77b8-b561-7a9065452bb1',
     title: 'Data Structures I',
     status: 'active',
