@@ -577,41 +577,6 @@ export const CURRICULUM: CurriculumModule[] = [
         ],
       },
       {
-        slug: 'track-e-human-computing',
-        title: $localize`:@@curriculum.specialization.track-e-human-computing.title:Track E — Human Computing`,
-        disciplines: [
-          {
-            slug: 'human-computing',
-            title: $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.title:Human computing depth`,
-            topics: [
-              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.1:HCI`,
-              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.2:graphics`,
-              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.3:visualization`,
-              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.4:computer vision`,
-              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.5:interaction`,
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'track-f-robotics',
-        title: $localize`:@@curriculum.specialization.track-f-robotics.title:Track F — Robotics`,
-        disciplines: [
-          {
-            slug: 'robotics',
-            title: $localize`:@@curriculum.specialization.track-f-robotics.robotics.title:Robotics depth`,
-            topics: [
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.1:robotics`,
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.2:control`,
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.3:computer vision`,
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.4:planning`,
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.5:robot learning`,
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.6:autonomous systems`,
-            ],
-          },
-        ],
-      },
-      {
         slug: 'computer-graphics',
         title: $localize`:@@curriculum.specialization.computer-graphics.title:Computer Graphics`,
         disciplines: [
