@@ -1,4 +1,6 @@
 // The SitemapService wired the way sitemap-urls.spec.ts and content-links.spec.ts need it: real content
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { AlgorithmsConceptsService } from '../src/algorithms-concepts/algorithms-concepts.service';
 import { CourseService } from '../src/course/course.service';
 import { CSharpConceptsService } from '../src/csharp-concepts/csharp-concepts.service';
@@ -20,6 +22,11 @@ import { SitemapService } from '../src/sitemap/sitemap.service';
 import { SpringConceptsService } from '../src/spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../src/system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../src/testing-concepts/testing-concepts.service';
+
+// A lesson links to the public papers by slug, so the stub lists the real ones next to its two samples.
+const seedPapers = JSON.parse(
+  readFileSync(join(__dirname, '../src/seed/data/papers/papers.json'), 'utf8'),
+) as { slug: string }[];
 
 // The content tracks read their files straight from disk; only the database-backed and the
 // papers catalog services are stubbed, so this needs neither the API nor Postgres.
@@ -69,6 +76,7 @@ export const sitemap = new SitemapService(
         languages: ['en', 'pt-BR'],
       },
       { slug: 'english-only-paper', updatedAt: null, languages: ['en'] },
+      ...seedPapers.map(({ slug }) => ({ slug, updatedAt: null, languages: ['en', 'pt-BR'] })),
     ],
   } as unknown as PapersCatalogService,
   new CurriculumService(),

@@ -244,6 +244,12 @@ export const MANIFEST: TrackManifest[] = [
     source: { kind: 'curriculum', module: 'software-distributed', discipline: 'distributed-systems-ii' },
   },
   {
+    trackId: '01a1a493-3d28-7b0b-8ba8-dfab485677e2',
+    title: 'Distributed Systems III',
+    status: 'active',
+    source: { kind: 'curriculum', module: 'software-distributed', discipline: 'distributed-systems-iii' },
+  },
+  {
     trackId: '01a144df-4132-77d0-a27f-f1714cc81e59',
     title: 'Distributed Systems Lab',
     status: 'active',
