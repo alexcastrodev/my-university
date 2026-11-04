@@ -542,5 +542,659 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "the-iso-iec-25010-quality-model",
+    "id": 18,
+    "title": "The ISO/IEC 25010 Quality Model",
+    "topic": "Software Quality",
+    "requires": [
+      "functional-vs-non-functional-requirements"
+    ],
+    "related": [
+      {
+        "label": "Functional vs. Non-Functional Requirements",
+        "slug": "functional-vs-non-functional-requirements"
+      }
+    ],
+    "summary": "The product quality model of ISO/IEC 25010:2023, its nine characteristics, what the 2023 revision changed from 2011 (including moving the quality-in-use model out), and how a quality characteristic becomes a measurable requirement.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "ISO (2023): ISO/IEC 25010:2023 catalog page",
+        "url": "https://committee.iso.org/standard/78176.html",
+        "type": "doc"
+      },
+      {
+        "label": "ISO/IEC (2023): ISO/IEC 25010:2023 publisher preview (iTeh)",
+        "url": "https://cdn.standards.iteh.ai/samples/78176/13ff8ea97048443f99318920757df124/ISO-IEC-25010-2023.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "ISO 25000: ISO/IEC 25010 characteristics and sub-characteristics",
+        "url": "https://iso25000.com/index.php/en/iso-25000-standards/iso-25010",
+        "type": "doc"
+      },
+      {
+        "label": "arc42 Quality Model: update on ISO 25010, version 2023",
+        "url": "https://quality.arc42.org/articles/iso-25010-update-2023",
+        "type": "doc"
+      },
+      {
+        "label": "IEC Webstore: ISO/IEC 25019:2023 Quality-in-use model",
+        "url": "https://webstore.iec.ch/publication/90105",
+        "type": "doc"
+      },
+      {
+        "label": "arc42 Quality Model: ISO 25019",
+        "url": "https://quality.arc42.org/standards/iso-25019",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "process-maturity-cmm-cmmi-and-what-came-after",
+    "id": 19,
+    "title": "Process Maturity: CMM, CMMI, and What Came After",
+    "topic": "Software Quality",
+    "requires": [
+      "software-process-models-waterfall-and-its-real-history",
+      "the-iso-iec-25010-quality-model"
+    ],
+    "related": [
+      {
+        "label": "Software Process Models: Waterfall and Its Real History",
+        "slug": "software-process-models-waterfall-and-its-real-history"
+      },
+      {
+        "label": "The ISO/IEC 25010 Quality Model",
+        "slug": "the-iso-iec-25010-quality-model"
+      }
+    ],
+    "summary": "A short history of CMM and CMMI: why they appeared, what the five maturity levels said and did not say, who owns CMMI today, and what industry practice added. Framed as book versus today, never as current practice.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "Paulk et al. (1993): Capability Maturity Model for Software, Version 1.1 (CMU/SEI-93-TR-024)",
+        "url": "https://resources.sei.cmu.edu/asset_files/TechnicalReport/1993_005_001_16211.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "CMMI Institute: company history",
+        "url": "https://cmmiinstitute.com/company",
+        "type": "doc"
+      },
+      {
+        "label": "ISACA (2023): CMMI updates take performance improvements to the next level",
+        "url": "https://www.isaca.org/resources/news-and-trends/isaca-now-blog/2023/cmmi-updates-take-performance-improvements-to-the-next-level",
+        "type": "doc"
+      },
+      {
+        "label": "Glazer et al. (2008): CMMI or Agile: Why Not Embrace Both!",
+        "url": "https://www.sei.cmu.edu/library/cmmi-or-agile-why-not-embrace-both/",
+        "type": "paper"
+      },
+      {
+        "label": "Agile Manifesto (2001)",
+        "url": "https://agilemanifesto.org/",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Capability Maturity Model Integration",
+        "url": "https://en.wikipedia.org/wiki/Capability_Maturity_Model_Integration",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "software-quality-metrics",
+    "id": 20,
+    "title": "Software Quality Metrics",
+    "topic": "Software Quality",
+    "requires": [
+      "process-maturity-cmm-cmmi-and-what-came-after"
+    ],
+    "related": [
+      {
+        "label": "Process Maturity: CMM, CMMI, and What Came After",
+        "slug": "process-maturity-cmm-cmmi-and-what-came-after"
+      },
+      {
+        "label": "The ISO/IEC 25010 Quality Model",
+        "slug": "the-iso-iec-25010-quality-model"
+      },
+      {
+        "label": "Continuous Delivery vs. Continuous Deployment",
+        "slug": "continuous-delivery-and-continuous-deployment"
+      }
+    ],
+    "summary": "Defect density, churn, complexity, coverage, and delivery metrics, what each one can and cannot tell you, and how any of them degrades once it becomes a target.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "DORA: software delivery performance metrics",
+        "url": "https://dora.dev/guides/dora-metrics/",
+        "type": "doc"
+      },
+      {
+        "label": "DORA: a history of DORA's software delivery metrics",
+        "url": "https://dora.dev/insights/dora-metrics-history/",
+        "type": "doc"
+      },
+      {
+        "label": "Wallace, Watson, McCabe (1996): NIST SP 500-235, Structured Testing",
+        "url": "https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication500-235.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Nagappan and Ball (2005): Use of Relative Code Churn Measures to Predict System Defect Density",
+        "url": "https://www.microsoft.com/en-us/research/publication/use-of-relative-code-churn-measures-to-predict-system-defect-density/",
+        "type": "paper"
+      },
+      {
+        "label": "Google Testing Blog (2020): Code Coverage Best Practices",
+        "url": "https://testing.googleblog.com/2020/08/code-coverage-best-practices.html",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Goodhart's law",
+        "url": "https://en.wikipedia.org/wiki/Goodhart%27s_law",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "extreme-programming-practices",
+    "id": 21,
+    "title": "Extreme Programming Practices",
+    "topic": "Agile Practices",
+    "requires": [
+      "agile-processes-scrum-in-practice"
+    ],
+    "related": [
+      {
+        "label": "Agile Processes: Scrum in Practice",
+        "slug": "agile-processes-scrum-in-practice"
+      },
+      {
+        "label": "Continuous Integration",
+        "slug": "continuous-integration"
+      },
+      {
+        "label": "The Cost of Defects Found Late",
+        "slug": "the-cost-of-defects-found-late"
+      },
+      {
+        "label": "Test-Driven Development",
+        "slug": "test-driven-development",
+        "feature": "curriculum/algorithms-software/software-construction"
+      },
+      {
+        "label": "Refactoring",
+        "slug": "refactoring",
+        "feature": "curriculum/algorithms-software/software-construction"
+      },
+      {
+        "label": "Code Review",
+        "slug": "code-review",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "XP's concrete practices, such as pair programming, test-first development, continuous integration, refactoring, and small releases, as a set that reinforces itself, with the real evidence on pair programming and an honest account of which practices became common.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "Fowler: Is Design Dead?",
+        "url": "https://martinfowler.com/articles/designDead.html",
+        "type": "doc"
+      },
+      {
+        "label": "Cockburn & Williams (2000): The Costs and Benefits of Pair Programming",
+        "url": "https://web.eecs.umich.edu/~weimerw/2018-481/readings/pairprogramming.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Wikipedia: Extreme programming",
+        "url": "https://en.wikipedia.org/wiki/Extreme_programming",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Extreme programming practices",
+        "url": "https://en.wikipedia.org/wiki/Extreme_programming_practices",
+        "type": "doc"
+      },
+      {
+        "label": "Beck (1999): Embracing Change with Extreme Programming",
+        "url": "https://chsasank.github.io/classic_papers/extreme-programming-embrace-change.html",
+        "type": "paper"
+      },
+      {
+        "label": "C2 wiki: Extreme Programming Core Practices",
+        "url": "https://c2.com/xp/ExtremeProgrammingCorePractices.html",
+        "type": "doc"
+      },
+      {
+        "label": "Hannay et al. (2009): The effectiveness of pair programming, a meta-analysis (abstract)",
+        "url": "https://ebse.webspace.durham.ac.uk/ebse-bibliography/the-effectiveness-of-pair-programming-a-meta-analysis/",
+        "type": "paper"
+      },
+      {
+        "label": "Fowler: Test Driven Development",
+        "url": "https://martinfowler.com/bliki/TestDrivenDevelopment.html",
+        "type": "doc"
+      },
+      {
+        "label": "Poppendieck: Lean Software Development, The Backstory",
+        "url": "https://www.leanessays.com/2015/06/lean-software-development-history.html",
+        "type": "doc"
+      },
+      {
+        "label": "Schwaber & Sutherland: The Scrum Guide",
+        "url": "https://scrumguides.org/scrum-guide.html",
+        "type": "doc"
+      },
+      {
+        "label": "Agile Manifesto: Principles",
+        "url": "https://agilemanifesto.org/principles.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "lean-principles-for-software",
+    "id": 22,
+    "title": "Lean Principles for Software",
+    "topic": "Agile Practices",
+    "requires": [
+      "extreme-programming-practices",
+      "kanban-and-flow-based-process"
+    ],
+    "related": [
+      {
+        "label": "Extreme Programming Practices",
+        "slug": "extreme-programming-practices"
+      },
+      {
+        "label": "Kanban and Flow-Based Process",
+        "slug": "kanban-and-flow-based-process"
+      },
+      {
+        "label": "Continuous Integration",
+        "slug": "continuous-integration"
+      },
+      {
+        "label": "The Cost of Defects Found Late",
+        "slug": "the-cost-of-defects-found-late"
+      }
+    ],
+    "summary": "The Lean principles as applied to software by the Poppendiecks (eliminating waste, deciding as late as responsibly possible, and seeing the whole), with flow, queues, and how they relate to Kanban, XP, and Scrum.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "Poppendieck: Lean Software Development, The Backstory (2015)",
+        "url": "https://www.leanessays.com/2015/06/lean-software-development-history.html",
+        "type": "doc"
+      },
+      {
+        "label": "Poppendieck & Poppendieck (2003): Concurrent Development (book excerpt)",
+        "url": "https://www.leanessays.com/2003/08/concurrent-development.html",
+        "type": "doc"
+      },
+      {
+        "label": "Lean Blog: The term lean production is 25 years old",
+        "url": "http://www.leanblog.org/2013/09/the-term-lean-production-is-25-years-old-my-thoughts-on-the-original-article/",
+        "type": "doc"
+      },
+      {
+        "label": "Poppendieck: When Demand Exceeds Capacity (2022)",
+        "url": "https://www.leanessays.com/2022/06/when-demand-exceeds-capacity.html",
+        "type": "doc"
+      },
+      {
+        "label": "InformIT: Lean Software Development, An Agile Toolkit",
+        "url": "https://www.informit.com/store/lean-software-development-an-agile-toolkit-9780321150783",
+        "type": "book"
+      },
+      {
+        "label": "Wikipedia: Lean software development",
+        "url": "https://en.wikipedia.org/wiki/Lean_software_development",
+        "type": "doc"
+      },
+      {
+        "label": "Schwaber & Sutherland: The Scrum Guide",
+        "url": "https://scrumguides.org/scrum-guide.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "user-stories-epics-and-the-product-backlog",
+    "id": 23,
+    "title": "User Stories, Epics, and the Product Backlog",
+    "topic": "Agile Practices",
+    "requires": [
+      "lean-principles-for-software",
+      "requirements-elicitation-specification-and-validation"
+    ],
+    "related": [
+      {
+        "label": "Lean Principles for Software",
+        "slug": "lean-principles-for-software"
+      },
+      {
+        "label": "Requirements Elicitation, Specification, and Validation",
+        "slug": "requirements-elicitation-specification-and-validation"
+      },
+      {
+        "label": "Agile Processes: Scrum in Practice",
+        "slug": "agile-processes-scrum-in-practice"
+      },
+      {
+        "label": "Software Process Models: Waterfall and Its Real History",
+        "slug": "software-process-models-waterfall-and-its-real-history"
+      }
+    ],
+    "summary": "User stories and their acceptance criteria, splitting epics, and ordering a product backlog, as the agile counterpart of a requirements specification.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "Fowler: User Story",
+        "url": "https://martinfowler.com/bliki/UserStory.html",
+        "type": "doc"
+      },
+      {
+        "label": "Wake (2003): INVEST in Good Stories, and SMART Tasks",
+        "url": "https://xp123.com/invest-in-good-stories-and-smart-tasks/",
+        "type": "doc"
+      },
+      {
+        "label": "Mountain Goat Software: User Stories",
+        "url": "https://www.mountaingoatsoftware.com/agile/user-stories",
+        "type": "doc"
+      },
+      {
+        "label": "Schwaber & Sutherland: The Scrum Guide",
+        "url": "https://scrumguides.org/scrum-guide.html",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Extreme programming practices",
+        "url": "https://en.wikipedia.org/wiki/Extreme_programming_practices",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "agile-metrics-velocity-burndown-burnup",
+    "id": 24,
+    "title": "Agile Metrics: Velocity, Burndown, Burnup",
+    "topic": "Agile Practices",
+    "requires": [
+      "user-stories-epics-and-the-product-backlog"
+    ],
+    "related": [
+      {
+        "label": "User Stories, Epics, and the Product Backlog",
+        "slug": "user-stories-epics-and-the-product-backlog"
+      },
+      {
+        "label": "Estimation and Risk in Software Projects",
+        "slug": "estimation-and-risk-in-software-projects"
+      },
+      {
+        "label": "Kanban and Flow-Based Process",
+        "slug": "kanban-and-flow-based-process"
+      },
+      {
+        "label": "Lean Principles for Software",
+        "slug": "lean-principles-for-software"
+      },
+      {
+        "label": "Software Quality Metrics",
+        "slug": "software-quality-metrics"
+      }
+    ],
+    "summary": "Velocity, burndown, and burnup charts: how to read them, what they forecast, and why velocity is not a productivity measure.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "Schwaber & Sutherland: The Scrum Guide",
+        "url": "https://scrumguides.org/scrum-guide.html",
+        "type": "doc"
+      },
+      {
+        "label": "Agile Manifesto: Principles",
+        "url": "https://agilemanifesto.org/principles.html",
+        "type": "doc"
+      },
+      {
+        "label": "Fowler: Cannot Measure Productivity",
+        "url": "https://martinfowler.com/bliki/CannotMeasureProductivity.html",
+        "type": "doc"
+      },
+      {
+        "label": "Mountain Goat Software: Agile Planning and Forecasting",
+        "url": "https://www.mountaingoatsoftware.com/agile/agile-planning-and-forecasting",
+        "type": "doc"
+      },
+      {
+        "label": "Mountain Goat Software: Story Points",
+        "url": "https://www.mountaingoatsoftware.com/agile/story-points",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Burn down chart",
+        "url": "https://en.wikipedia.org/wiki/Burn_down_chart",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Velocity (software development)",
+        "url": "https://en.wikipedia.org/wiki/Velocity_%28software_development%29",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "why-model-uml-in-practice",
+    "id": 25,
+    "title": "Why Model: UML in Practice",
+    "topic": "Modeling",
+    "requires": [
+      "functional-vs-non-functional-requirements"
+    ],
+    "related": [
+      {
+        "label": "Design Patterns: An Introduction",
+        "slug": "design-patterns-an-introduction",
+        "feature": "curriculum/algorithms-software/software-construction"
+      },
+      {
+        "label": "The Cost of Defects Found Late",
+        "slug": "the-cost-of-defects-found-late"
+      },
+      {
+        "label": "Software Process Models: Waterfall and Its Real History",
+        "slug": "software-process-models-waterfall-and-its-real-history"
+      },
+      {
+        "label": "Functional vs. Non-Functional Requirements",
+        "slug": "functional-vs-non-functional-requirements"
+      }
+    ],
+    "summary": "Why teams model at all, UML as sketch versus blueprint, and which diagrams are still drawn in practice.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "OMG: Unified Modeling Language 2.5.1",
+        "url": "https://www.omg.org/spec/UML/2.5.1/PDF",
+        "type": "doc"
+      },
+      {
+        "label": "Fowler: UML Mode",
+        "url": "https://martinfowler.com/bliki/UmlMode.html",
+        "type": "doc"
+      },
+      {
+        "label": "Fowler: UML As Sketch",
+        "url": "https://martinfowler.com/bliki/UmlAsSketch.html",
+        "type": "doc"
+      },
+      {
+        "label": "Petre (2013): UML in Practice",
+        "url": "https://web.archive.org/web/20201031213923/http://oro.open.ac.uk/35805/8/UML%20in%20practice%208.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Mermaid: Class diagrams",
+        "url": "https://mermaid.js.org/syntax/classDiagram.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "class-and-object-diagrams",
+    "id": 26,
+    "title": "Class and Object Diagrams",
+    "topic": "Modeling",
+    "requires": [
+      "why-model-uml-in-practice"
+    ],
+    "related": [
+      {
+        "label": "Coupling and Cohesion",
+        "slug": "coupling-and-cohesion",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "Classes, attributes, operations, associations, multiplicity, aggregation, composition, and inheritance, with object diagrams as concrete snapshots.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "OMG: Unified Modeling Language 2.5.1",
+        "url": "https://www.omg.org/spec/UML/2.5.1/PDF",
+        "type": "doc"
+      },
+      {
+        "label": "Mermaid: Class diagrams",
+        "url": "https://mermaid.js.org/syntax/classDiagram.html",
+        "type": "doc"
+      },
+      {
+        "label": "Fowler: UML As Sketch",
+        "url": "https://martinfowler.com/bliki/UmlAsSketch.html",
+        "type": "doc"
+      },
+      {
+        "label": "Petre (2013): UML in Practice",
+        "url": "https://web.archive.org/web/20201031213923/http://oro.open.ac.uk/35805/8/UML%20in%20practice%208.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "use-cases-and-use-case-descriptions",
+    "id": 27,
+    "title": "Use Cases and Use-Case Descriptions",
+    "topic": "Modeling",
+    "requires": [
+      "class-and-object-diagrams"
+    ],
+    "related": [
+      {
+        "label": "Functional vs. Non-Functional Requirements",
+        "slug": "functional-vs-non-functional-requirements"
+      },
+      {
+        "label": "Unit, Integration, and System Testing",
+        "slug": "unit-integration-and-system-testing",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "Actors, use-case diagrams, include and extend, and writing a use-case description with main and alternative flows.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "OMG: Unified Modeling Language 2.5.1",
+        "url": "https://www.omg.org/spec/UML/2.5.1/PDF",
+        "type": "doc"
+      },
+      {
+        "label": "Cockburn (1998): Basic Use Case Template",
+        "url": "https://cis.bentley.edu/lwaguespack/CS360_Site/Downloads_files/Use%20Case%20Template%20%28Cockburn%29.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Mermaid: Flowcharts",
+        "url": "https://mermaid.js.org/syntax/flowchart.html",
+        "type": "doc"
+      },
+      {
+        "label": "Petre (2013): UML in Practice",
+        "url": "https://web.archive.org/web/20201031213923/http://oro.open.ac.uk/35805/8/UML%20in%20practice%208.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "sequence-diagrams",
+    "id": 28,
+    "title": "Sequence Diagrams",
+    "topic": "Modeling",
+    "requires": [
+      "use-cases-and-use-case-descriptions"
+    ],
+    "related": [
+      {
+        "label": "Use Cases and Use-Case Descriptions",
+        "slug": "use-cases-and-use-case-descriptions"
+      },
+      {
+        "label": "Class and Object Diagrams",
+        "slug": "class-and-object-diagrams"
+      }
+    ],
+    "summary": "Lifelines, synchronous and asynchronous messages, activation, and combined fragments, for reading and drawing an interaction over time.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "OMG (2017): Unified Modeling Language (UML) 2.5.1",
+        "url": "https://www.omg.org/spec/UML/2.5.1/PDF",
+        "type": "doc"
+      },
+      {
+        "label": "Mermaid: Sequence diagrams",
+        "url": "https://mermaid.js.org/syntax/sequenceDiagram.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "bpmn-for-business-processes",
+    "id": 29,
+    "title": "BPMN for Business Processes",
+    "topic": "Modeling",
+    "requires": [
+      "sequence-diagrams"
+    ],
+    "related": [
+      {
+        "label": "Sequence Diagrams",
+        "slug": "sequence-diagrams"
+      }
+    ],
+    "summary": "BPMN's events, activities, gateways, and swimlanes, and how to model a business process that crosses several roles.",
+    "publishedAt": "2026-11-03",
+    "references": [
+      {
+        "label": "OMG (2013): Business Process Model and Notation (BPMN) 2.0.2",
+        "url": "https://www.omg.org/spec/BPMN/2.0.2/PDF",
+        "type": "doc"
+      },
+      {
+        "label": "Mermaid: Flowcharts",
+        "url": "https://mermaid.js.org/syntax/flowchart.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
