@@ -486,6 +486,19 @@ export const CURRICULUM: CurriculumModule[] = [
         ],
       },
       {
+        slug: 'data-mining',
+        title: $localize`:@@curriculum.ai-theory.data-mining.title:Data Mining`,
+        hours: 60,
+        topics: [
+          $localize`:@@curriculum.ai-theory.data-mining.topic.1:KDD process`,
+          $localize`:@@curriculum.ai-theory.data-mining.topic.2:data warehouses and OLAP`,
+          $localize`:@@curriculum.ai-theory.data-mining.topic.3:frequent patterns`,
+          $localize`:@@curriculum.ai-theory.data-mining.topic.4:clustering`,
+          $localize`:@@curriculum.ai-theory.data-mining.topic.5:outlier detection`,
+          $localize`:@@curriculum.ai-theory.data-mining.topic.6:text mining`,
+        ],
+      },
+      {
         slug: 'deep-learning',
         title: $localize`:@@curriculum.ai-theory.deep-learning.title:Deep Learning`,
         hours: 60,

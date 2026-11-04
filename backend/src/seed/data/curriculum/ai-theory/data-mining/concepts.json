@@ -1,0 +1,1019 @@
+[
+  {
+    "slug": "the-kdd-process-and-the-data-mining-task-taxonomy",
+    "id": 1,
+    "title": "The KDD Process and the Data Mining Task Taxonomy",
+    "topic": "Process and Data",
+    "requires": [],
+    "related": [
+      {
+        "label": "The Supervised, Unsupervised, and Reinforcement Taxonomy",
+        "slug": "the-supervised-unsupervised-and-reinforcement-taxonomy",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Training, Test, and Validation Splits",
+        "slug": "training-test-and-validation-splits",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "The KDD process from raw data to validated knowledge, and the task taxonomy of classification, regression, clustering, association, and anomaly detection, with where this curriculum covers each one.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Fayyad, Piatetsky-Shapiro, and Smyth (1996), From Data Mining to Knowledge Discovery in Databases",
+        "url": "https://ojs.aaai.org/aimagazine/index.php/aimagazine/article/view/1230",
+        "type": "paper"
+      },
+      {
+        "label": "Wikipedia, Cross-industry standard process for data mining",
+        "url": "https://en.wikipedia.org/wiki/Cross-industry_standard_process_for_data_mining",
+        "type": "doc"
+      },
+      {
+        "label": "Google Cloud, MLOps: Continuous delivery and automation pipelines in machine learning",
+        "url": "https://docs.cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy, numpy.percentile",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.percentile.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, Cross-validation",
+        "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "data-preprocessing-missing-values-scaling-discretization",
+    "id": 2,
+    "title": "Data Preprocessing: Missing Values, Scaling, Discretization",
+    "topic": "Process and Data",
+    "requires": [
+      "the-kdd-process-and-the-data-mining-task-taxonomy"
+    ],
+    "related": [
+      {
+        "label": "Training, Test, and Validation Splits",
+        "slug": "training-test-and-validation-splits",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "The KDD Process and the Data Mining Task Taxonomy",
+        "slug": "the-kdd-process-and-the-data-mining-task-taxonomy"
+      }
+    ],
+    "summary": "Cleaning data before mining: missing-value mechanisms and imputation, min-max and z-score scaling, discretization, and the leakage caused by fitting a preprocessing step on the whole dataset.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Seaman et al. (2013), What Is Meant by \"Missing at Random\"?",
+        "url": "https://arxiv.org/pdf/1306.2812",
+        "type": "paper"
+      },
+      {
+        "label": "Rubin, Inference and Missing Data (ETS record, 1975)",
+        "url": "https://www.ets.org/research/policy_research_reports/publications/report/1975/hrri.html",
+        "type": "paper"
+      },
+      {
+        "label": "Molenberghs et al. (2008), Every missingness not at random model has a missingness at random counterpart with equal fit",
+        "url": "https://researchonline.lshtm.ac.uk/id/eprint/7959",
+        "type": "paper"
+      },
+      {
+        "label": "Van Buuren, Flexible Imputation of Missing Data, section 1.2",
+        "url": "https://stefvanbuuren.name/fimd/sec-MCAR.html",
+        "type": "book"
+      },
+      {
+        "label": "Van Buuren, section 3.2",
+        "url": "https://stefvanbuuren.name/fimd/sec-linearnormal.html",
+        "type": "book"
+      },
+      {
+        "label": "Van Buuren, section 3.8",
+        "url": "https://stefvanbuuren.name/fimd/sec-nonignorable.html",
+        "type": "book"
+      },
+      {
+        "label": "scikit-learn, Common pitfalls and recommended practices",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, Preprocessing data",
+        "url": "https://scikit-learn.org/stable/modules/preprocessing.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, KBinsDiscretizer",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.KBinsDiscretizer.html",
+        "type": "doc"
+      },
+      {
+        "label": "pandas, pandas.cut",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.cut.html",
+        "type": "doc"
+      },
+      {
+        "label": "pandas, pandas.qcut",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.qcut.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "data-warehouses-data-marts-and-olap",
+    "id": 3,
+    "title": "Data Warehouses, Data Marts, and OLAP",
+    "topic": "Process and Data",
+    "requires": [
+      "data-preprocessing-missing-values-scaling-discretization"
+    ],
+    "related": [
+      {
+        "label": "Column-Oriented Storage for Analytical Workloads",
+        "slug": "column-oriented-storage-for-analytics",
+        "feature": "system-design"
+      },
+      {
+        "label": "Operational vs. Analytical Systems: OLTP, OLAP, and Data Warehousing",
+        "slug": "operational-vs-analytical-systems",
+        "feature": "system-design"
+      },
+      {
+        "label": "Data Preprocessing: Missing Values, Scaling, Discretization",
+        "slug": "data-preprocessing-missing-values-scaling-discretization"
+      },
+      {
+        "label": "The KDD Process and the Data Mining Task Taxonomy",
+        "slug": "the-kdd-process-and-the-data-mining-task-taxonomy"
+      }
+    ],
+    "summary": "Warehouses versus operational databases, star and snowflake schemas, data marts, and the OLAP operations roll-up, drill-down, slice, dice, and pivot, with a book-versus-today note on columnar cloud warehouses.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Chaudhuri and Dayal (1997), An Overview of Data Warehousing and OLAP Technology",
+        "url": "https://www.cs.ubc.ca/~rap/teaching/504/2006/readings/chaudhuri-olap.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Gray et al. (1997), Data Cube",
+        "url": "https://arxiv.org/pdf/cs/0701155",
+        "type": "paper"
+      },
+      {
+        "label": "Ross (2004), Differences of Opinion",
+        "url": "https://www.kimballgroup.com/2004/03/differences-of-opinion/",
+        "type": "doc"
+      },
+      {
+        "label": "Kimball Group, Four-Step Dimensional Design Process",
+        "url": "https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/four-4-step-design-process/",
+        "type": "doc"
+      },
+      {
+        "label": "Kimball Group, Grain",
+        "url": "https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/grain/",
+        "type": "doc"
+      },
+      {
+        "label": "Kimball Group, Additive, Semi-Additive, and Non-Additive Facts",
+        "url": "https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/additive-semi-additive-non-additive-fact/",
+        "type": "doc"
+      },
+      {
+        "label": "Kimball Group, Snowflaked Dimensions",
+        "url": "https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/snowflake-dimension/",
+        "type": "doc"
+      },
+      {
+        "label": "Kimball Group, Conformed Dimensions",
+        "url": "https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/conformed-dimension/",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia, Bill Inmon",
+        "url": "https://en.wikipedia.org/wiki/Bill_Inmon",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia, OLAP cube",
+        "url": "https://en.wikipedia.org/wiki/OLAP_cube",
+        "type": "doc"
+      },
+      {
+        "label": "Dageville et al. (2016), The Snowflake Elastic Data Warehouse",
+        "url": "https://www.cs.purdue.edu/homes/csjgwang/CloudNativeDB/SnowflakeSIGMOD16.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Melnik et al. (2020), Dremel: A Decade of Interactive SQL Analysis at Web Scale",
+        "url": "https://www.vldb.org/pvldb/vol13/p3461-melnik.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Armbrust et al. (2021), Lakehouse",
+        "url": "https://www.cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "DuckDB 2.0, GROUPING SETS",
+        "url": "https://duckdb.org/docs/2.0/sql/query_syntax/grouping_sets",
+        "type": "doc"
+      },
+      {
+        "label": "DuckDB 2.0, PIVOT statement",
+        "url": "https://duckdb.org/docs/2.0/sql/statements/pivot",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "similarity-and-distance-measures",
+    "id": 4,
+    "title": "Similarity and Distance Measures",
+    "topic": "Similarity",
+    "requires": [
+      "data-warehouses-data-marts-and-olap"
+    ],
+    "related": [
+      {
+        "label": "The Dot Product and Vector Norms",
+        "slug": "the-dot-product-and-vector-norms",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      },
+      {
+        "label": "K-Means Clustering",
+        "slug": "k-means-clustering",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Data Preprocessing: Missing Values, Scaling, Discretization",
+        "slug": "data-preprocessing-missing-values-scaling-discretization"
+      }
+    ],
+    "summary": "Distance and similarity for numeric, binary, and text data: Euclidean, Manhattan, Minkowski, Jaccard, Hamming, and cosine, and why the choice and the scaling change the result.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Leskovec, Rajaraman, and Ullman, Mining of Massive Datasets, chapter 3 (archived copy)",
+        "url": "https://web.archive.org/web/2023/http://infolab.stanford.edu/~ullman/mmds/ch3n.pdf",
+        "type": "book"
+      },
+      {
+        "label": "SciPy, scipy.spatial.distance.cosine",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cosine.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy, scipy.spatial.distance.jaccard",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jaccard.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy, scipy.spatial.distance.hamming",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.hamming.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy, scipy.spatial.distance.minkowski",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.minkowski.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, cosine_distances",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_distances.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, BallTree",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.BallTree.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, NearestNeighbors",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, StandardScaler",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "k-nearest-neighbors",
+    "id": 5,
+    "title": "k-Nearest Neighbors",
+    "topic": "Similarity",
+    "requires": [
+      "similarity-and-distance-measures"
+    ],
+    "related": [
+      {
+        "label": "Cross-Validation",
+        "slug": "cross-validation",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "The Bias-Variance Tradeoff",
+        "slug": "the-bias-variance-tradeoff",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "The Supervised, Unsupervised, and Reinforcement Taxonomy",
+        "slug": "the-supervised-unsupervised-and-reinforcement-taxonomy",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "K-Means Clustering",
+        "slug": "k-means-clustering",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Data Preprocessing: Missing Values, Scaling, Discretization",
+        "slug": "data-preprocessing-missing-values-scaling-discretization"
+      }
+    ],
+    "summary": "k-NN as lazy learning: classification and regression by neighbors, choosing k, the curse of dimensionality, and the index structures that make queries practical.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Cover and Hart (1967), Nearest Neighbor Pattern Classification",
+        "url": "https://isl.stanford.edu/~cover/papers/transIT/0021cove.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Beyer et al. (1999), When Is \"Nearest Neighbor\" Meaningful?",
+        "url": "https://members.loria.fr/MOBerger/Enseignement/Master2/Exposes/beyer.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "scikit-learn, Nearest Neighbors user guide",
+        "url": "https://scikit-learn.org/stable/modules/neighbors.html",
+        "type": "doc"
+      },
+      {
+        "label": "Malkov and Yashunin, Hierarchical Navigable Small World graphs",
+        "url": "https://arxiv.org/abs/1603.09320",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "frequent-itemsets-and-the-apriori-algorithm",
+    "id": 6,
+    "title": "Frequent Itemsets and the Apriori Algorithm",
+    "topic": "Frequent Patterns",
+    "requires": [
+      "k-nearest-neighbors"
+    ],
+    "related": [
+      {
+        "label": "The Supervised, Unsupervised, and Reinforcement Taxonomy",
+        "slug": "the-supervised-unsupervised-and-reinforcement-taxonomy",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "k-Nearest Neighbors",
+        "slug": "k-nearest-neighbors"
+      }
+    ],
+    "summary": "Itemsets and support, the anti-monotone property that prunes the search, and Apriori's level-wise candidate generation worked on a small transaction set.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Han, Pei and Yin (2000), Mining Frequent Patterns without Candidate Generation",
+        "url": "https://hanj.cs.illinois.edu/pdf/sigmod00.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Zaki and Meira, Data Mining and Machine Learning, chapter 8",
+        "url": "https://dataminingbook.info/book_html/chap8/book.html",
+        "type": "book"
+      },
+      {
+        "label": "Mining of Massive Datasets, frequent itemsets",
+        "url": "http://www.mmds.org/mmds/v2.1/ch06-assocrules.pdf",
+        "type": "book"
+      },
+      {
+        "label": "mlxtend, apriori",
+        "url": "https://rasbt.github.io/mlxtend/user_guide/frequent_patterns/apriori/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "fp-growth",
+    "id": 7,
+    "title": "FP-Growth",
+    "topic": "Frequent Patterns",
+    "requires": [
+      "frequent-itemsets-and-the-apriori-algorithm"
+    ],
+    "related": [
+      {
+        "label": "Frequent Itemsets and the Apriori Algorithm",
+        "slug": "frequent-itemsets-and-the-apriori-algorithm"
+      }
+    ],
+    "summary": "Mining frequent itemsets without candidate generation: building the FP-tree, mining conditional pattern bases, and when this beats Apriori.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Han, Pei and Yin (2000), Mining Frequent Patterns without Candidate Generation",
+        "url": "https://hanj.cs.illinois.edu/pdf/sigmod00.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Zaki and Meira, Data Mining and Machine Learning, chapter 8",
+        "url": "https://dataminingbook.info/book_html/chap8/book.html",
+        "type": "book"
+      },
+      {
+        "label": "mlxtend, fpgrowth",
+        "url": "https://rasbt.github.io/mlxtend/user_guide/frequent_patterns/fpgrowth/",
+        "type": "doc"
+      },
+      {
+        "label": "mlxtend, apriori",
+        "url": "https://rasbt.github.io/mlxtend/user_guide/frequent_patterns/apriori/",
+        "type": "doc"
+      },
+      {
+        "label": "Frequent Itemset Mining Dataset Repository",
+        "url": "https://fimi.uantwerpen.be/data/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "association-rules-support-confidence-lift",
+    "id": 8,
+    "title": "Association Rules: Support, Confidence, Lift",
+    "topic": "Frequent Patterns",
+    "requires": [
+      "fp-growth"
+    ],
+    "related": [
+      {
+        "label": "FP-Growth",
+        "slug": "fp-growth"
+      },
+      {
+        "label": "Frequent Itemsets and the Apriori Algorithm",
+        "slug": "frequent-itemsets-and-the-apriori-algorithm"
+      }
+    ],
+    "summary": "From frequent itemsets to rules: support, confidence, and lift, and why high confidence alone can mislead.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Zaki and Meira, Data Mining and Machine Learning, chapter 8",
+        "url": "https://dataminingbook.info/book_html/chap8/book.html",
+        "type": "book"
+      },
+      {
+        "label": "Zaki and Meira, Data Mining and Machine Learning, chapter 12",
+        "url": "https://dataminingbook.info/book_html/chap12/book.html",
+        "type": "book"
+      },
+      {
+        "label": "Mining of Massive Datasets, frequent itemsets",
+        "url": "http://www.mmds.org/mmds/v2.1/ch06-assocrules.pdf",
+        "type": "book"
+      },
+      {
+        "label": "mlxtend, association_rules",
+        "url": "https://rasbt.github.io/mlxtend/user_guide/frequent_patterns/association_rules/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "hierarchical-clustering",
+    "id": 9,
+    "title": "Hierarchical Clustering",
+    "topic": "Clustering",
+    "requires": [
+      "association-rules-support-confidence-lift"
+    ],
+    "related": [
+      {
+        "label": "K-Means Clustering",
+        "slug": "k-means-clustering",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Similarity and Distance Measures",
+        "slug": "similarity-and-distance-measures"
+      }
+    ],
+    "summary": "Agglomerative and divisive clustering, single, complete, average, and Ward linkage, reading a dendrogram, and how this differs from k-means.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Müllner (2011): Modern hierarchical, agglomerative clustering algorithms",
+        "url": "https://arxiv.org/abs/1109.2378",
+        "type": "paper"
+      },
+      {
+        "label": "Murtagh and Legendre (2011, published 2014): Ward's Hierarchical Clustering Method: Clustering Criterion and Agglomerative Algorithm",
+        "url": "https://arxiv.org/abs/1111.6285",
+        "type": "paper"
+      },
+      {
+        "label": "SciPy: scipy.cluster.hierarchy.linkage",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html",
+        "type": "doc"
+      },
+      {
+        "label": "R: hclust",
+        "url": "https://stat.ethz.ch/R-manual/R-devel/library/stats/html/hclust.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn: AgglomerativeClustering",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn: BisectingKMeans",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.cluster.BisectingKMeans.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "density-based-clustering-with-dbscan",
+    "id": 10,
+    "title": "Density-Based Clustering with DBSCAN",
+    "topic": "Clustering",
+    "requires": [
+      "hierarchical-clustering"
+    ],
+    "related": [
+      {
+        "label": "Hierarchical Clustering",
+        "slug": "hierarchical-clustering"
+      },
+      {
+        "label": "K-Means Clustering",
+        "slug": "k-means-clustering",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Gaussian Mixture Models and the EM Algorithm",
+        "slug": "gaussian-mixture-models-and-the-em-algorithm",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "DBSCAN's core, border, and noise points, density reachability, choosing eps and minPts, and clusters of arbitrary shape.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Ester et al. (1996): A Density-Based Algorithm for Discovering Clusters",
+        "url": "https://cdn.aaai.org/KDD/1996/KDD96-037.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Gan and Tao (2015): DBSCAN Revisited",
+        "url": "https://www.cse.cuhk.edu.hk/~taoyf/paper/sigmod15-dbscan.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Schubert: list of ACM papers with authorized access",
+        "url": "https://www.vitavonni.de/research/acm.html",
+        "type": "paper"
+      },
+      {
+        "label": "scikit-learn: DBSCAN",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn: HDBSCAN",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.cluster.HDBSCAN.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "cluster-validation",
+    "id": 11,
+    "title": "Cluster Validation",
+    "topic": "Clustering",
+    "requires": [
+      "density-based-clustering-with-dbscan"
+    ],
+    "related": [
+      {
+        "label": "Density-Based Clustering with DBSCAN",
+        "slug": "density-based-clustering-with-dbscan"
+      },
+      {
+        "label": "Hierarchical Clustering",
+        "slug": "hierarchical-clustering"
+      },
+      {
+        "label": "K-Means Clustering",
+        "slug": "k-means-clustering",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "Internal and external validation with silhouette, Davies-Bouldin, and the adjusted Rand index, choosing the number of clusters, and when these metrics mislead.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "scikit-learn: clustering performance evaluation",
+        "url": "https://scikit-learn.org/stable/modules/clustering.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn: silhouette_score",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html",
+        "type": "doc"
+      },
+      {
+        "label": "Vinh, Epps, and Bailey (2010): Information Theoretic Measures for Clusterings Comparison",
+        "url": "https://jmlr.csail.mit.edu/papers/volume11/vinh10a/vinh10a.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Wikipedia: Silhouette (clustering)",
+        "url": "https://en.wikipedia.org/wiki/Silhouette_%28clustering%29",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "outlier-detection-quartiles-distance-based-density-based",
+    "id": 12,
+    "title": "Outlier Detection: Quartiles, Distance-Based, Density-Based",
+    "topic": "Outliers",
+    "requires": [
+      "cluster-validation"
+    ],
+    "related": [
+      {
+        "label": "Cluster Validation",
+        "slug": "cluster-validation"
+      },
+      {
+        "label": "Density-Based Clustering with DBSCAN",
+        "slug": "density-based-clustering-with-dbscan"
+      }
+    ],
+    "summary": "Outliers by the interquartile range, by distance, and by local density with LOF, and how to decide whether an outlier is an error or the finding.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Breunig, Kriegel, Ng, and Sander (2000): LOF",
+        "url": "https://sigmodrecord.org/?p=6712",
+        "type": "paper"
+      },
+      {
+        "label": "scikit-learn: LocalOutlierFactor",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy: quantile",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.quantile.html",
+        "type": "doc"
+      },
+      {
+        "label": "R: quantile",
+        "url": "https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html",
+        "type": "doc"
+      },
+      {
+        "label": "R: boxplot.stats",
+        "url": "https://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/boxplot.stats.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "text-mining-bag-of-words-and-tf-idf",
+    "id": 13,
+    "title": "Text Mining: Bag of Words and TF-IDF",
+    "topic": "Text Mining",
+    "requires": [
+      "outlier-detection-quartiles-distance-based-density-based"
+    ],
+    "related": [
+      {
+        "label": "Similarity and Distance Measures",
+        "slug": "similarity-and-distance-measures"
+      },
+      {
+        "label": "Training, Test, and Validation Splits",
+        "slug": "training-test-and-validation-splits",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "Turning text into vectors: tokenization, stop words, stemming, bag of words, TF-IDF weighting, and cosine similarity between documents.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "IIR 6.2.1, Inverse document frequency (archived copy)",
+        "url": "https://web.archive.org/web/20250124112038/https://nlp.stanford.edu/IR-book/html/htmledition/inverse-document-frequency-1.html",
+        "type": "book"
+      },
+      {
+        "label": "IIR 6.2.2, Tf-idf weighting (archived copy)",
+        "url": "https://web.archive.org/web/20250312161632/https://nlp.stanford.edu/IR-book/html/htmledition/tf-idf-weighting-1.html",
+        "type": "book"
+      },
+      {
+        "label": "IIR 6.3.1, Dot products (archived copy)",
+        "url": "https://web.archive.org/web/20250306122857/https://nlp.stanford.edu/IR-book/html/htmledition/dot-products-1.html",
+        "type": "book"
+      },
+      {
+        "label": "IIR 2.2.4, Stemming and lemmatization (archived copy)",
+        "url": "https://web.archive.org/web/20241229085036/https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html",
+        "type": "book"
+      },
+      {
+        "label": "Mining of Massive Datasets, chapter 1 (archived copy)",
+        "url": "https://web.archive.org/web/20240314014513/http://infolab.stanford.edu/~ullman/mmds/ch1n.pdf",
+        "type": "book"
+      },
+      {
+        "label": "scikit-learn, Feature extraction",
+        "url": "https://scikit-learn.org/stable/modules/feature_extraction.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, TfidfTransformer",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfTransformer.html",
+        "type": "doc"
+      },
+      {
+        "label": "NLTK, nltk.stem.porter",
+        "url": "https://www.nltk.org/api/nltk.stem.porter.html",
+        "type": "doc"
+      },
+      {
+        "label": "The Porter Stemming Algorithm",
+        "url": "https://tartarus.org/martin/PorterStemmer/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "a-text-clustering-pipeline-end-to-end",
+    "id": 14,
+    "title": "A Text Clustering Pipeline End to End",
+    "topic": "Text Mining",
+    "requires": [
+      "text-mining-bag-of-words-and-tf-idf"
+    ],
+    "related": [
+      {
+        "label": "Principal Component Analysis",
+        "slug": "principal-component-analysis",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "K-Means Clustering",
+        "slug": "k-means-clustering",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Cluster Validation",
+        "slug": "cluster-validation"
+      },
+      {
+        "label": "Training, Test, and Validation Splits",
+        "slug": "training-test-and-validation-splits",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "A worked pipeline from raw documents through TF-IDF, dimensionality reduction, clustering, and evaluation, ending with reading the top terms of each cluster.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "scikit-learn, TruncatedSVD",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, PCA",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, Clustering text documents using k-means",
+        "url": "https://scikit-learn.org/stable/auto_examples/text/plot_document_clustering.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, Pipeline",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn, adjusted_rand_score",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html",
+        "type": "doc"
+      },
+      {
+        "label": "IIR 18.3, Low-rank approximations (archived copy)",
+        "url": "https://web.archive.org/web/20250320044806/https://nlp.stanford.edu/IR-book/html/htmledition/low-rank-approximations-1.html",
+        "type": "book"
+      },
+      {
+        "label": "NumPy, Compatibility policy for random",
+        "url": "https://numpy.org/doc/stable/reference/random/compatibility.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mining-at-scale-from-mapreduce-to-spark",
+    "id": 15,
+    "title": "Mining at Scale: From MapReduce to Spark",
+    "topic": "Mining at Scale",
+    "requires": [
+      "a-text-clustering-pipeline-end-to-end"
+    ],
+    "related": [
+      {
+        "label": "The MapReduce Programming Model",
+        "slug": "the-mapreduce-programming-model",
+        "feature": "curriculum/specialization/track-a-systems"
+      },
+      {
+        "label": "MapReduce Fault Tolerance, Locality, and Stragglers",
+        "slug": "mapreduce-fault-tolerance-locality-and-stragglers",
+        "feature": "curriculum/specialization/track-a-systems"
+      },
+      {
+        "label": "Frequent Itemsets and the Apriori Algorithm",
+        "slug": "frequent-itemsets-and-the-apriori-algorithm"
+      },
+      {
+        "label": "FP-Growth",
+        "slug": "fp-growth"
+      },
+      {
+        "label": "K-Means Clustering",
+        "slug": "k-means-clustering",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "What changes when patterns and clusters no longer fit in memory: MapReduce rounds, Spark's in-memory model, and parallel frequent-pattern mining and k-means. Mahout appears only as a book-versus-today note.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Mining of Massive Datasets, chapter 6 (archived copy)",
+        "url": "https://web.archive.org/web/20241120025442/http://infolab.stanford.edu/~ullman/mmds/ch6.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Li et al. (2008): PFP, Parallel FP-Growth for Query Recommendation",
+        "url": "https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/34668.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Bahmani et al. (2012): Scalable K-Means++",
+        "url": "https://theory.stanford.edu/~sergei/papers/vldb12-kmpar.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Zaharia et al. (2012): Resilient Distributed Datasets",
+        "url": "https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final138.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Spark, Frequent Pattern Mining",
+        "url": "https://spark.apache.org/docs/latest/ml-frequent-pattern-mining.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spark, Clustering",
+        "url": "https://spark.apache.org/docs/latest/ml-clustering.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spark source, mllib FPGrowth.scala at v4.3.0",
+        "url": "https://github.com/apache/spark/blob/v4.3.0/mllib/src/main/scala/org/apache/spark/mllib/fpm/FPGrowth.scala",
+        "type": "doc"
+      },
+      {
+        "label": "Spark source, mllib KMeans.scala at v4.3.0",
+        "url": "https://github.com/apache/spark/blob/v4.3.0/mllib/src/main/scala/org/apache/spark/mllib/clustering/KMeans.scala",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Mahout",
+        "url": "https://mahout.apache.org/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Mahout blog",
+        "url": "https://mahout.apache.org/blog",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Attic",
+        "url": "https://attic.apache.org/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "choosing-a-mining-technique-a-decision-guide",
+    "id": 16,
+    "title": "Choosing a Mining Technique: A Decision Guide",
+    "topic": "Capstone",
+    "requires": [
+      "mining-at-scale-from-mapreduce-to-spark"
+    ],
+    "related": [
+      {
+        "label": "Choosing and Validating a Model: A Decision Guide",
+        "slug": "choosing-and-validating-a-model-a-decision-guide",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "K-Means Clustering",
+        "slug": "k-means-clustering",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Association Rules: Support, Confidence, Lift",
+        "slug": "association-rules-support-confidence-lift"
+      },
+      {
+        "label": "Cluster Validation",
+        "slug": "cluster-validation"
+      },
+      {
+        "label": "Density-Based Clustering with DBSCAN",
+        "slug": "density-based-clustering-with-dbscan"
+      },
+      {
+        "label": "Hierarchical Clustering",
+        "slug": "hierarchical-clustering"
+      },
+      {
+        "label": "Outlier Detection: Quartiles, Distance-Based, Density-Based",
+        "slug": "outlier-detection-quartiles-distance-based-density-based"
+      },
+      {
+        "label": "A Text Clustering Pipeline End to End",
+        "slug": "a-text-clustering-pipeline-end-to-end"
+      },
+      {
+        "label": "Mining at Scale: From MapReduce to Spark",
+        "slug": "mining-at-scale-from-mapreduce-to-spark"
+      }
+    ],
+    "summary": "A decision guide for the whole discipline: given the data and the question, choose a mining task and a technique, and name what would invalidate the result.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Fayyad, Piatetsky-Shapiro, and Smyth (1996), From Data Mining to Knowledge Discovery in Databases",
+        "url": "https://ojs.aaai.org/aimagazine/index.php/aimagazine/article/view/1230",
+        "type": "paper"
+      },
+      {
+        "label": "Zaki and Meira, Data Mining and Machine Learning, chapter 12",
+        "url": "https://dataminingbook.info/book_html/chap12/book.html",
+        "type": "book"
+      },
+      {
+        "label": "Zaki and Meira, Data Mining and Machine Learning, chapter 17",
+        "url": "https://dataminingbook.info/book_html/chap17/book.html",
+        "type": "book"
+      },
+      {
+        "label": "scikit-learn: comparing clustering algorithms on toy datasets",
+        "url": "https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html",
+        "type": "doc"
+      },
+      {
+        "label": "scikit-learn: clustering user guide",
+        "url": "https://scikit-learn.org/stable/modules/clustering.html",
+        "type": "doc"
+      },
+      {
+        "label": "mlxtend, association_rules",
+        "url": "https://rasbt.github.io/mlxtend/user_guide/frequent_patterns/association_rules/",
+        "type": "doc"
+      }
+    ]
+  }
+]
