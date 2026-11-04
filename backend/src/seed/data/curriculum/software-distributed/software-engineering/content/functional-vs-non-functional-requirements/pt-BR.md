@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-08
+version: 1.1
+updatedAt: 2026-11-03
 title: "Requisitos Funcionais vs. Não Funcionais"
 summary: "Um requisito funcional enuncia um comportamento específico dado uma entrada específica, e é verificado exercitando-o e checando a saída; um requisito não funcional em vez disso restringe um atributo de qualidade (desempenho, confiabilidade, segurança, manutenibilidade) por entre muitas ocorrências ou sob condições realistas, verificado como uma distribuição medida; os dois falham de forma diferente em produção."
 ---
@@ -44,7 +44,7 @@ Um requisito funcional faltante produz um defeito visível no momento em que alg
 
 ### Uma categoria não funcional comum: as características de qualidade da ISO 25010, nomeadas honestamente
 
-Requisitos não funcionais reais se agrupam em categorias bem conhecidas: desempenho (latência, throughput), confiabilidade (disponibilidade, tolerância a falhas), segurança, usabilidade, manutenibilidade e portabilidade, entre outras. Este conceito não alega que estas categorias são exaustivas ou perfeitamente separáveis (um requisito de segurança e um requisito de confiabilidade frequentemente interagem diretamente, como `from-requirements-to-architecture-decisions` mostrará), só que nomear a categoria na qual um dado requisito cai é um passo genuinamente útil em direção a escrevê-lo precisamente o bastante para verificar.
+Requisitos não funcionais reais se agrupam em categorias bem conhecidas: desempenho (latência, throughput), confiabilidade (disponibilidade, tolerância a falhas), segurança, usabilidade, manutenibilidade e portabilidade, entre outras. Esses são os nomes da edição de 2011; `the-iso-iec-25010-quality-model` mostra o que a edição de 2023 renomeou. Este conceito não alega que estas categorias são exaustivas ou perfeitamente separáveis (um requisito de segurança e um requisito de confiabilidade frequentemente interagem diretamente, como `from-requirements-to-architecture-decisions` mostrará), só que nomear a categoria na qual um dado requisito cai é um passo genuinamente útil em direção a escrevê-lo precisamente o bastante para verificar.
 
 ## Exemplos Resolvidos
 

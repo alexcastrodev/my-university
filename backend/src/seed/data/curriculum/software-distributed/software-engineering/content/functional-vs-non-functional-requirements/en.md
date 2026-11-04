@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-08
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Learning Objectives
 
@@ -42,7 +42,7 @@ A missing functional requirement produces a visible defect the moment someone ex
 
 ### A common non-functional category: ISO 25010's quality characteristics, named honestly
 
-Real non-functional requirements cluster into well-known categories: performance (latency, throughput), reliability (availability, fault tolerance), security, usability, maintainability, and portability, among others. This concept does not claim these categories are exhaustive or perfectly separable (a security requirement and a reliability requirement often interact directly, as `from-requirements-to-architecture-decisions` will show), only that naming the category a given requirement falls into is a genuinely useful step toward writing it precisely enough to verify.
+Real non-functional requirements cluster into well-known categories: performance (latency, throughput), reliability (availability, fault tolerance), security, usability, maintainability, and portability, among others. These are the names of the 2011 edition; `the-iso-iec-25010-quality-model` shows what the 2023 edition renamed. This concept does not claim these categories are exhaustive or perfectly separable (a security requirement and a reliability requirement often interact directly, as `from-requirements-to-architecture-decisions` will show), only that naming the category a given requirement falls into is a genuinely useful step toward writing it precisely enough to verify.
 
 ## Worked Examples
 
