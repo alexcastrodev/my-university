@@ -136,6 +136,12 @@ export const MANIFEST: TrackManifest[] = [
     source: { kind: 'curriculum', module: 'algorithms-software', discipline: 'linear-programming-optimization' },
   },
   {
+    trackId: '01a1a596-fb50-74ad-bc64-14870e4b5073',
+    title: 'Numerical Methods',
+    status: 'active',
+    source: { kind: 'curriculum', module: 'algorithms-software', discipline: 'numerical-methods' },
+  },
+  {
     trackId: '01a144df-4132-77a5-a07c-ace72925e7f1',
     title: 'Programming Paradigms',
     status: 'active',

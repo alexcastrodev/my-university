@@ -192,6 +192,19 @@ export const CURRICULUM: CurriculumModule[] = [
         ],
       },
       {
+        slug: 'numerical-methods',
+        title: $localize`:@@curriculum.algorithms-software.numerical-methods.title:Numerical Methods`,
+        hours: 60,
+        topics: [
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.1:numerical error`,
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.2:root finding`,
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.3:linear systems`,
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.4:interpolation`,
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.5:numerical integration`,
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.6:differential equation solvers`,
+        ],
+      },
+      {
         slug: 'formal-languages-automata',
         title: $localize`:@@curriculum.algorithms-software.formal-languages-automata.title:Formal Languages & Automata`,
         hours: 12,
