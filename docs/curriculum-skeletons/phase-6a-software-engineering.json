@@ -1,0 +1,155 @@
+{
+  "phase": "6a",
+  "module": "software-distributed",
+  "discipline": "software-engineering",
+  "kind": "extend",
+  "concepts": [
+    {
+      "slug": "the-iso-iec-25010-quality-model",
+      "id": 18,
+      "title": "The ISO/IEC 25010 Quality Model",
+      "topic": "Software Quality",
+      "requires": [
+        "functional-vs-non-functional-requirements"
+      ],
+      "related": [],
+      "summary": "The product quality and quality-in-use models of ISO/IEC 25010, including what its latest revision changed, and how a quality characteristic becomes a measurable requirement."
+    },
+    {
+      "slug": "process-maturity-cmm-cmmi-and-what-replaced-them",
+      "id": 19,
+      "title": "Process Maturity: CMM, CMMI, and What Replaced Them",
+      "topic": "Software Quality",
+      "requires": [
+        "software-process-models-waterfall-and-its-real-history",
+        "the-iso-iec-25010-quality-model"
+      ],
+      "related": [],
+      "summary": "A short history of CMM and CMMI maturity levels, why they appeared, and what industry practice moved to. Framed as book versus today, never as current practice."
+    },
+    {
+      "slug": "software-quality-metrics",
+      "id": 20,
+      "title": "Software Quality Metrics",
+      "topic": "Software Quality",
+      "requires": [
+        "process-maturity-cmm-cmmi-and-what-replaced-them"
+      ],
+      "related": [],
+      "summary": "Defect density, churn, complexity, coverage, and delivery metrics, what each one can and cannot tell you, and how any of them degrades once it becomes a target."
+    },
+    {
+      "slug": "extreme-programming-practices",
+      "id": 21,
+      "title": "Extreme Programming Practices",
+      "topic": "Agile Practices",
+      "requires": [
+        "agile-processes-scrum-in-practice"
+      ],
+      "related": [],
+      "summary": "XP's concrete practices, pair programming, test-first development, continuous integration, refactoring, and small releases, as a set that reinforces itself, and which ones survived into common practice."
+    },
+    {
+      "slug": "lean-principles-for-software",
+      "id": 22,
+      "title": "Lean Principles for Software",
+      "topic": "Agile Practices",
+      "requires": [
+        "extreme-programming-practices",
+        "kanban-and-flow-based-process"
+      ],
+      "related": [],
+      "summary": "The Lean principles as applied to software by the Poppendiecks: eliminating waste, deferring commitment, and optimizing the whole, and how they relate to Kanban."
+    },
+    {
+      "slug": "user-stories-epics-and-the-product-backlog",
+      "id": 23,
+      "title": "User Stories, Epics, and the Product Backlog",
+      "topic": "Agile Practices",
+      "requires": [
+        "lean-principles-for-software",
+        "requirements-elicitation-specification-and-validation"
+      ],
+      "related": [],
+      "summary": "User stories and their acceptance criteria, splitting epics, and ordering a product backlog, as the agile counterpart of a requirements specification."
+    },
+    {
+      "slug": "agile-metrics-velocity-burndown-burnup",
+      "id": 24,
+      "title": "Agile Metrics: Velocity, Burndown, Burnup",
+      "topic": "Agile Practices",
+      "requires": [
+        "user-stories-epics-and-the-product-backlog"
+      ],
+      "related": [],
+      "summary": "Velocity, burndown, and burnup charts: how to read them, what they forecast, and why velocity is not a productivity measure."
+    },
+    {
+      "slug": "why-model-uml-in-practice",
+      "id": 25,
+      "title": "Why Model: UML in Practice",
+      "topic": "Modeling",
+      "requires": [
+        "functional-vs-non-functional-requirements"
+      ],
+      "related": [
+        {
+          "label": "Design Patterns: An Introduction",
+          "slug": "design-patterns-an-introduction",
+          "feature": "curriculum/algorithms-software/software-construction"
+        }
+      ],
+      "summary": "Why teams model at all, UML as sketch versus blueprint, and which diagrams are still drawn in practice."
+    },
+    {
+      "slug": "class-and-object-diagrams",
+      "id": 26,
+      "title": "Class and Object Diagrams",
+      "topic": "Modeling",
+      "requires": [
+        "why-model-uml-in-practice"
+      ],
+      "related": [
+        {
+          "label": "Coupling and Cohesion",
+          "slug": "coupling-and-cohesion",
+          "feature": "curriculum/algorithms-software/software-construction"
+        }
+      ],
+      "summary": "Classes, attributes, operations, associations, multiplicity, aggregation, composition, and inheritance, with object diagrams as concrete snapshots."
+    },
+    {
+      "slug": "use-cases-and-use-case-descriptions",
+      "id": 27,
+      "title": "Use Cases and Use-Case Descriptions",
+      "topic": "Modeling",
+      "requires": [
+        "class-and-object-diagrams"
+      ],
+      "related": [],
+      "summary": "Actors, use-case diagrams, include and extend, and writing a use-case description with main and alternative flows."
+    },
+    {
+      "slug": "sequence-diagrams",
+      "id": 28,
+      "title": "Sequence Diagrams",
+      "topic": "Modeling",
+      "requires": [
+        "use-cases-and-use-case-descriptions"
+      ],
+      "related": [],
+      "summary": "Lifelines, synchronous and asynchronous messages, activation, and combined fragments, for reading and drawing an interaction over time."
+    },
+    {
+      "slug": "bpmn-for-business-processes",
+      "id": 29,
+      "title": "BPMN for Business Processes",
+      "topic": "Modeling",
+      "requires": [
+        "sequence-diagrams"
+      ],
+      "related": [],
+      "summary": "BPMN's events, activities, gateways, and swimlanes, and how to model a business process that crosses several roles."
+    }
+  ]
+}

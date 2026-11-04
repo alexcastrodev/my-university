@@ -1,0 +1,269 @@
+{
+  "phase": "5",
+  "module": "ai-theory",
+  "discipline": "data-mining",
+  "kind": "new",
+  "registry": {
+    "title": {
+      "en": "Data Mining",
+      "pt-BR": "Mineração de Dados"
+    },
+    "hours": 60,
+    "topics": [
+      {
+        "en": "KDD process",
+        "pt-BR": "processo KDD"
+      },
+      {
+        "en": "data warehouses and OLAP",
+        "pt-BR": "data warehouses e OLAP"
+      },
+      {
+        "en": "frequent patterns",
+        "pt-BR": "padrões frequentes"
+      },
+      {
+        "en": "clustering",
+        "pt-BR": "agrupamento"
+      },
+      {
+        "en": "outlier detection",
+        "pt-BR": "detecção de outliers"
+      },
+      {
+        "en": "text mining",
+        "pt-BR": "mineração de texto"
+      }
+    ]
+  },
+  "achievements": true,
+  "concepts": [
+    {
+      "slug": "the-kdd-process-and-the-data-mining-task-taxonomy",
+      "id": 1,
+      "title": "The KDD Process and the Data Mining Task Taxonomy",
+      "topic": "Process and Data",
+      "requires": [],
+      "related": [
+        {
+          "label": "The Supervised, Unsupervised, and Reinforcement Taxonomy",
+          "slug": "the-supervised-unsupervised-and-reinforcement-taxonomy",
+          "feature": "curriculum/ai-theory/machine-learning"
+        }
+      ],
+      "summary": "The KDD process from raw data to validated knowledge, and the task taxonomy of classification, regression, clustering, association, and anomaly detection, with where this curriculum covers each one."
+    },
+    {
+      "slug": "data-preprocessing-missing-values-scaling-discretization",
+      "id": 2,
+      "title": "Data Preprocessing: Missing Values, Scaling, Discretization",
+      "topic": "Process and Data",
+      "requires": [
+        "the-kdd-process-and-the-data-mining-task-taxonomy"
+      ],
+      "related": [
+        {
+          "label": "Training, Test, and Validation Splits",
+          "slug": "training-test-and-validation-splits",
+          "feature": "curriculum/ai-theory/machine-learning"
+        }
+      ],
+      "summary": "Cleaning data before mining: missing-value mechanisms and imputation, min-max and z-score scaling, discretization, and the leakage caused by fitting a preprocessing step on the whole dataset."
+    },
+    {
+      "slug": "data-warehouses-data-marts-and-olap",
+      "id": 3,
+      "title": "Data Warehouses, Data Marts, and OLAP",
+      "topic": "Process and Data",
+      "requires": [
+        "data-preprocessing-missing-values-scaling-discretization"
+      ],
+      "related": [
+        {
+          "label": "Column-Oriented Storage for Analytical Workloads",
+          "slug": "column-oriented-storage-for-analytics",
+          "feature": "system-design"
+        }
+      ],
+      "summary": "Warehouses versus operational databases, star and snowflake schemas, data marts, and the OLAP operations roll-up, drill-down, slice, dice, and pivot, with a book-versus-today note on columnar cloud warehouses."
+    },
+    {
+      "slug": "similarity-and-distance-measures",
+      "id": 4,
+      "title": "Similarity and Distance Measures",
+      "topic": "Similarity",
+      "requires": [
+        "data-warehouses-data-marts-and-olap"
+      ],
+      "related": [],
+      "summary": "Distance and similarity for numeric, binary, and text data: Euclidean, Manhattan, Minkowski, Jaccard, Hamming, and cosine, and why the choice and the scaling change the result."
+    },
+    {
+      "slug": "k-nearest-neighbors",
+      "id": 5,
+      "title": "k-Nearest Neighbors",
+      "topic": "Similarity",
+      "requires": [
+        "similarity-and-distance-measures"
+      ],
+      "related": [
+        {
+          "label": "Cross-Validation",
+          "slug": "cross-validation",
+          "feature": "curriculum/ai-theory/machine-learning"
+        }
+      ],
+      "summary": "k-NN as lazy learning: classification and regression by neighbors, choosing k, the curse of dimensionality, and the index structures that make queries practical."
+    },
+    {
+      "slug": "frequent-itemsets-and-the-apriori-algorithm",
+      "id": 6,
+      "title": "Frequent Itemsets and the Apriori Algorithm",
+      "topic": "Frequent Patterns",
+      "requires": [
+        "k-nearest-neighbors"
+      ],
+      "related": [],
+      "summary": "Itemsets and support, the anti-monotone property that prunes the search, and Apriori's level-wise candidate generation worked on a small transaction set."
+    },
+    {
+      "slug": "fp-growth",
+      "id": 7,
+      "title": "FP-Growth",
+      "topic": "Frequent Patterns",
+      "requires": [
+        "frequent-itemsets-and-the-apriori-algorithm"
+      ],
+      "related": [],
+      "summary": "Mining frequent itemsets without candidate generation: building the FP-tree, mining conditional pattern bases, and when this beats Apriori."
+    },
+    {
+      "slug": "association-rules-support-confidence-lift",
+      "id": 8,
+      "title": "Association Rules: Support, Confidence, Lift",
+      "topic": "Frequent Patterns",
+      "requires": [
+        "fp-growth"
+      ],
+      "related": [],
+      "summary": "From frequent itemsets to rules: support, confidence, and lift, and why high confidence alone can mislead."
+    },
+    {
+      "slug": "hierarchical-clustering",
+      "id": 9,
+      "title": "Hierarchical Clustering",
+      "topic": "Clustering",
+      "requires": [
+        "association-rules-support-confidence-lift"
+      ],
+      "related": [
+        {
+          "label": "K-Means Clustering",
+          "slug": "k-means-clustering",
+          "feature": "curriculum/ai-theory/machine-learning"
+        }
+      ],
+      "summary": "Agglomerative and divisive clustering, single, complete, average, and Ward linkage, reading a dendrogram, and how this differs from k-means."
+    },
+    {
+      "slug": "density-based-clustering-with-dbscan",
+      "id": 10,
+      "title": "Density-Based Clustering with DBSCAN",
+      "topic": "Clustering",
+      "requires": [
+        "hierarchical-clustering"
+      ],
+      "related": [],
+      "summary": "DBSCAN's core, border, and noise points, density reachability, choosing eps and minPts, and clusters of arbitrary shape."
+    },
+    {
+      "slug": "cluster-validation",
+      "id": 11,
+      "title": "Cluster Validation",
+      "topic": "Clustering",
+      "requires": [
+        "density-based-clustering-with-dbscan"
+      ],
+      "related": [],
+      "summary": "Internal and external validation with silhouette, Davies-Bouldin, and the adjusted Rand index, choosing the number of clusters, and when these metrics mislead."
+    },
+    {
+      "slug": "outlier-detection-quartiles-distance-based-density-based",
+      "id": 12,
+      "title": "Outlier Detection: Quartiles, Distance-Based, Density-Based",
+      "topic": "Outliers",
+      "requires": [
+        "cluster-validation"
+      ],
+      "related": [],
+      "summary": "Outliers by the interquartile range, by distance, and by local density with LOF, and how to decide whether an outlier is an error or the finding."
+    },
+    {
+      "slug": "text-mining-bag-of-words-and-tf-idf",
+      "id": 13,
+      "title": "Text Mining: Bag of Words and TF-IDF",
+      "topic": "Text Mining",
+      "requires": [
+        "outlier-detection-quartiles-distance-based-density-based"
+      ],
+      "related": [],
+      "summary": "Turning text into vectors: tokenization, stop words, stemming, bag of words, TF-IDF weighting, and cosine similarity between documents."
+    },
+    {
+      "slug": "a-text-clustering-pipeline-end-to-end",
+      "id": 14,
+      "title": "A Text Clustering Pipeline End to End",
+      "topic": "Text Mining",
+      "requires": [
+        "text-mining-bag-of-words-and-tf-idf"
+      ],
+      "related": [
+        {
+          "label": "Principal Component Analysis",
+          "slug": "principal-component-analysis",
+          "feature": "curriculum/ai-theory/machine-learning"
+        }
+      ],
+      "summary": "A worked pipeline from raw documents through TF-IDF, dimensionality reduction, clustering, and evaluation, ending with reading the top terms of each cluster."
+    },
+    {
+      "slug": "mining-at-scale-from-mapreduce-to-spark",
+      "id": 15,
+      "title": "Mining at Scale: From MapReduce to Spark",
+      "topic": "Mining at Scale",
+      "requires": [
+        "a-text-clustering-pipeline-end-to-end"
+      ],
+      "related": [
+        {
+          "label": "The MapReduce Programming Model",
+          "slug": "the-mapreduce-programming-model",
+          "feature": "curriculum/specialization/track-a-systems"
+        },
+        {
+          "label": "MapReduce Fault Tolerance, Locality, and Stragglers",
+          "slug": "mapreduce-fault-tolerance-locality-and-stragglers",
+          "feature": "curriculum/specialization/track-a-systems"
+        }
+      ],
+      "summary": "What changes when patterns and clusters no longer fit in memory: MapReduce rounds, Spark's in-memory model, and parallel frequent-pattern mining and k-means. Mahout appears only as a book-versus-today note."
+    },
+    {
+      "slug": "choosing-a-mining-technique-a-decision-guide",
+      "id": 16,
+      "title": "Choosing a Mining Technique: A Decision Guide",
+      "topic": "Capstone",
+      "requires": [
+        "mining-at-scale-from-mapreduce-to-spark"
+      ],
+      "related": [
+        {
+          "label": "Choosing and Validating a Model: A Decision Guide",
+          "slug": "choosing-and-validating-a-model-a-decision-guide",
+          "feature": "curriculum/ai-theory/machine-learning"
+        }
+      ],
+      "summary": "A decision guide for the whole discipline: given the data and the question, choose a mining task and a technique, and name what would invalidate the result."
+    }
+  ]
+}
