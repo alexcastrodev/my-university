@@ -39,7 +39,7 @@ Lazy primary copy                 RE     EX END AC
 Lazy update everywhere            RE     EX END AC
 ```
 
-Three facts can be read off this table. Eager and lazy differ only in whether AC comes before END. Primary copy has no SC, because the primary alone processes the update. Update everywhere needs SC before execution, with certification as the exception: it executes optimistically and aborts afterward to keep consistency. The paper groups the two lazy rows as weak consistency and the rest as strong. It also treats quorums as orthogonal: they decide how many sites participate, not which phases run.
+Three facts can be read off this table. Every eager row synchronizes through SC or AC before END, and the lazy rows do not. Only for primary copy is the difference a plain swap of AC and END: lazy update everywhere also has no SC, and the ABCAST row has no AC. Primary copy has no SC, because the primary alone processes the update. Eager update everywhere needs SC before execution, with certification as the exception: it executes optimistically and aborts afterward to keep consistency. The paper's prose states this SC rule for update everywhere in general, but its own figure shows lazy update everywhere without SC. The paper groups the two lazy rows as weak consistency and the rest as strong. It also treats quorums as orthogonal: they decide how many sites participate, not which phases run.
 
 ### The dangers
 
@@ -57,9 +57,9 @@ Lazy master deadlocks ≈ (TPS x N)^2 x Actions^4
                    / (4 x DB_Size^2)                           (19)
 ```
 
-Lazy group replication follows the wait rate of equation 10, because a transaction that would wait under eager faces reconciliation under lazy, and waits are far more frequent than deadlocks. Lazy master has no reconciliation, but it needs contact with the object's owner. The abstract's headline is that update-anywhere replication shows "a ten-fold increase in nodes and traffic gives a thousand fold increase in deadlocks or reconciliations". The paper also shows how assumption-dependent this is: if the database grows with the nodes, equation 13 is linear in N, and if replica updates run concurrently, the eager growth is quadratic.
+Lazy group replication follows the wait rate of equation 10, because a transaction that would wait under eager faces reconciliation under lazy, and waits are far more frequent than deadlocks. Lazy master has no reconciliation, but it needs contact with the object's owner. The abstract's headline is that update-anywhere replication shows "a ten-fold increase in nodes and traffic gives a thousand fold increase in deadlocks or reconciliations". Two assumptions soften the result. If the database grows with the nodes, equation 13 is linear in N, which the paper calls "still an unstable situation", and if replica updates run concurrently, the eager growth is quadratic. The ignored message delay points the other way: the model "ignores many issues that would make the predicted behavior even worse", and for eager replication the paper concludes "We see no solution to this problem".
 
-Timestamps give convergence without serializability. Gray et al. call them vulnerable to lost updates, and their proposal is **two-tier replication**: mobile nodes run tentative transactions, and base nodes re-execute them against master copies under an acceptance criterion. Commutative transactions need no reconciliation.
+Timestamps give convergence without serializability. Gray et al. call them vulnerable to lost updates, and their proposal is **two-tier replication**: mobile nodes run tentative transactions, and base nodes re-execute them against master copies under an acceptance criterion. If all transactions commute and none fails its acceptance criterion, there are no reconciliations, because failed acceptance criteria drive the reconciliation rate.
 
 ### Deferred update and certification
 
@@ -170,7 +170,7 @@ The second rule is the same-row comparison the MySQL page describes, applied her
 
 ## Common Misconceptions & Pitfalls
 
-- **"Gray et al. proved eager replication cannot scale."** The paper derives growth in a stated model that ignores message delay and applies updates sequentially. Equation 13 and the parallel-update remark in the paper change the exponent, and Postgres-R changes the mechanism.
+- **"Gray et al. proved eager replication cannot scale."** The paper gives an average-case analysis of a stated model, not a proof about every design. Sequential replica updates and a fixed database size raise the exponent: equation 13 and the parallel-update remark lower it, although the paper still calls the linear case unstable. Ignored message delay works the opposite way, since adding it would worsen the rates. Postgres-R changes the mechanism being modeled.
 - **"Lazy avoids the problem by avoiding locks."** Gray's summary says lazy group replication converts waits and deadlocks into reconciliations.
 - **"Certification needs 2PC to agree on the outcome."** Example 3 needs only total order and a deterministic test. Postgres-R does send a decision message, but it is not a vote.
 - **"Certification is free of cost because nothing waits."** Example 3 aborts a transaction that was serializable, and the cure, reordering, adds lock contention at high factors.
@@ -178,7 +178,7 @@ The second rule is the same-row comparison the MySQL page describes, applied her
 
 ## Summary
 
-Database replication is classified by when updates propagate and who originates them, and Wiesmann's five phases show eager and lazy as a swap of AC and END. Gray's model gives cubic deadlock and reconciliation growth for eager and lazy group replication under stated assumptions, and it motivates two-tier replication and commutative updates. Certification takes a different route: execute locally, atomically broadcast read and write sets, and let a deterministic test decide the same thing everywhere, proving 1SR with no atomic commitment. Postgres-R reaches eager replication through ordered write sets and local lock rules. These protocols pay in aborts and a total-order primitive. An update commits only after its broadcast is delivered, so they also give up the local answer during a partition that `transactional-causal-consistency` preserved.
+Database replication is classified by when updates propagate and who originates them, and Wiesmann's five phases show eager techniques synchronizing before END and lazy ones not, which is a plain swap of AC and END only for primary copy. Gray's model gives cubic deadlock and reconciliation growth for eager and lazy group replication under stated assumptions, and it motivates two-tier replication and commutative updates. Certification takes a different route: execute locally, atomically broadcast read and write sets, and let a deterministic test decide the same thing everywhere, proving 1SR with no atomic commitment. Postgres-R reaches eager replication through ordered write sets and local lock rules. These protocols pay in aborts and a total-order primitive. An update commits only after its broadcast is delivered, so they also give up the local answer during a partition that `transactional-causal-consistency` preserved.
 
 ## Documentation Links
 

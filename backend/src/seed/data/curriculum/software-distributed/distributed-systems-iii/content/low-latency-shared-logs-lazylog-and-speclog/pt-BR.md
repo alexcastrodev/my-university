@@ -6,7 +6,7 @@ summary: "Como reduzir o custo de ordenação de um shared log sem abrir mão da
 ---
 ## Objetivos de Aprendizagem
 
-- Separar os três momentos que um shared log eager funde (o registro está durável, tem posição, um consumidor pode usá-lo) e dizer qual momento o LazyLog e o SpecLog movem.
+- Separar três momentos que a interface de um shared log eager apresenta como um só (o registro está durável, tem posição, um consumidor pode usá-lo) e dizer qual momento o LazyLog e o SpecLog movem.
 - Explicar por que escritas sem coordenação em todas as réplicas de sequenciamento ainda contêm uma ordem linearizável, e por que a regra do `stable-gp` impede que essa ordem mude depois de um crash.
 - Manter três nomes separados (SpecLog é a abstração, fix-ante ordering é o mecanismo, Belfast é o sistema) e calcular as posições previstas de um shard a partir de cortes predeterminados.
 - Dizer quanto cada projeto custa e sob quais condições valem os números publicados.
@@ -60,6 +60,8 @@ O resultado principal do Belfast é medido contra um Scalog alterado para que s�
 
 ### Exemplo 1: uma ordem linearizável dentro de três logs que discordam
 
+Estes tempos são inventados, não vêm do paper, e foram escolhidos para produzir a discordância da sua Figura 4.
+
 ```text
 Append  início  fim   (cliente espera as 3 réplicas, em µs)
 a       0       24
@@ -90,7 +92,7 @@ Regra certa, stable-gp fica em 3 até o GC nos seguidores:
   após F1      4:a 5:b 6:c   sobrescrever é seguro
 ```
 
-Expor uma ordem e torná-la permanente precisa ser um passo só.
+Uma ordem precisa ser permanente antes de ser exposta.
 
 ### Exemplo 3: posições com fix-ante
 
@@ -133,7 +135,7 @@ O pico fica onde a computação iguala o atraso de ordenação. Abaixo dele, o c
 
 ## Resumo
 
-Um shared log eager faz durabilidade, posição e consumo acontecerem juntos. O LazyLog separa confirmação de posição, apoiado no fato de que a ordem de tempo real já está implícita nas escritas em todas as réplicas, e usa o `stable-gp` para que nenhum leitor veja uma ordem que ainda possa mudar. Ele paga quando os leitores alcançam os escritores. O SpecLog separa consumo de confirmação: o fix-ante ordering torna as posições previsíveis, e o Belfast mantém as previsões certas sob picos e mudanças de membros. Ele paga com a espera por quotas, e seu ganho é limitado pelo momento em que a confirmação chega. Nos dois, o trabalho de ordenação continua acontecendo, e só o seu lugar na linha do tempo muda.
+Um shared log eager segura o registro até ele estar durável e com posição: só então o append devolve essa posição e os consumidores podem recebê-lo. O LazyLog separa confirmação de posição, apoiado no fato de que a ordem de tempo real já está implícita nas escritas em todas as réplicas, e usa o `stable-gp` para que nenhum leitor veja uma ordem que ainda possa mudar. Ele paga quando os leitores alcançam os escritores. O SpecLog separa consumo de confirmação: o fix-ante ordering torna as posições previsíveis, e o Belfast mantém as previsões certas sob picos e mudanças de membros. Ele paga com a espera por quotas, e seu ganho é limitado pelo momento em que a confirmação chega. Nos dois, o trabalho de ordenação continua acontecendo, e só o seu lugar na linha do tempo muda.
 
 ## Documentation Links
 

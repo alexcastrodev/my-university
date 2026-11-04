@@ -56,9 +56,9 @@ O Acordo segue daí, e é uniforme: todo processo que chega ao fim da rodada f +
 
 ### O que um crash custa
 
-Um coordenador que cai no meio do broadcast divide as estimativas, e o coordenador seguinte conserta a divisão. Esse é o custo real de um crash: uma rodada de reparo. O crash de um processo que não está coordenando naquele momento não custa nada.
+Um coordenador que cai no meio do broadcast divide as estimativas, e um coordenador posterior conserta a divisão. Um futuro coordenador que morre antes da sua vez também causa dano: a rodada dele passa sem broadcast, e uma rodada de reparo se perde. Nos dois casos, o crash consome uma das f + 1 vagas de coordenador, e é por isso que f crashes exigem f + 1 delas. O crash de um processo sem rodada de coordenação pela frente não custa nada.
 
-O protocolo como escrito, porém, paga f + 1 rodadas mesmo sem crash nenhum: com rodadas de 50 ms e f = 2, leva 150 ms toda vez. Se p_1 é correto, o valor fica fixado depois da rodada 1, mas nenhum processo tem como saber que p_1 alcançou todos. Dolev, Reischuk e Strong separam dois casos. O acordo que precisa acontecer na mesma rodada exige t + 1 rodadas em alguma execução sem falhas, e este protocolo é desse tipo. Sem a exigência de simultaneidade, e com t < n - 1, o limite inferior é min(t + 1, f + 2) rodadas, onde t é o número de falhas toleradas e f o número real. O artigo deles estuda acordo bizantino; Wang, Teo e Cao depois provam o mesmo limite min(t + 1, f + 2) para crashes ordenados (orderly crash failures).
+O protocolo como escrito, porém, paga f + 1 rodadas mesmo sem crash nenhum: com rodadas de 50 ms e f = 2, leva 150 ms toda vez. Se p_1 é correto, o valor fica fixado depois da rodada 1, mas nenhum processo tem como saber que p_1 alcançou todos. Dolev, Reischuk e Strong separam dois casos. O acordo que precisa acontecer na mesma rodada exige t + 1 rodadas em alguma execução sem falhas, e este protocolo é desse tipo. Sem a exigência de simultaneidade, e com t < n - 1, o limite inferior é min(t + 1, f + 2) rodadas, onde t é o número de falhas toleradas e f o número real. O artigo deles estuda acordo bizantino; Wang, Teo e Cao depois provam o mesmo limite min(t + 1, f + 2) para crashes ordenados (orderly crash failures). Os dois resultados tratam de parada antecipada (early stopping), e Wang, Teo e Cao enunciam o deles para todos os processos corretos decidirem e pararem. Um processo pode decidir antes de parar, então o limite não diz que nenhum protocolo com crashes pode decidir antes da rodada f + 2.
 
 ### O limite inferior de f + 1
 
@@ -86,7 +86,7 @@ A entrada da tabela é t; o protocolo com coordenador acima usa t + 1 processos 
 
 ### Exemplo 1: uma divisão que o coordenador seguinte conserta
 
-Considere n = 4 e f = 2, com entradas a, b, c, d. As duas falhas são coordenadores caindo no meio do broadcast, a pior posição.
+Considere n = 4 e f = 2, com entradas a, b, c, d. As duas falhas são coordenadores caindo no meio do broadcast, uma das formas de derrotar uma execução de duas rodadas.
 
 ```text
           p1  p2  p3  p4
@@ -96,12 +96,14 @@ rodada 2  X   X   a   d    p2 alcança só p3 e cai
 rodada 3  X   X   a   a    p3 é correto e alcança p4
 ```
 
-Parar depois da rodada 2 deixaria p3 com a e p4 com d, ambos vivos e corretos. Uma enumeração exaustiva dos padrões de crash, incluindo todo subconjunto de destinatários de um coordenador que cai, dá:
+Parar depois da rodada 2 deixaria p3 com a e p4 com d, ambos vivos e corretos. Uma enumeração exaustiva, com estas mesmas entradas distintas, conta as execuções assim: no máximo f processos caem, e cada um escolhe uma rodada de crash. Um processo que cai na rodada que coordena também escolhe qualquer subconjunto dos outros 3 processos como destinatários, mortos ou não. Um processo que cai em qualquer outra rodada tem um único resultado. Isso dá:
 
 ```text
 rodadas = 2:  180 execuções, 42 com desacordo
 rodadas = 3:  424 execuções,  0 com desacordo
 ```
+
+Das 42, em 36 p1 e p2 caem cada um na sua própria rodada, como no rastreamento acima. Nas outras 6, p1 cai no meio do broadcast enquanto p2 cai na rodada 1, antes da sua vez: a rodada 2 fica sem broadcast nenhum, e a divisão sobrevive.
 
 ### Exemplo 2: a cadeia, com n = 3, f = 1, uma rodada
 
@@ -145,7 +147,7 @@ Os três processos estão vivos e discordam. No modelo, o silêncio de p1 signif
 
 - **"As f + 1 rodadas vêm do desenho com coordenador."** O limite vale para todo algoritmo quando n >= f + 2. O flooding paga as mesmas rodadas com mais mensagens.
 - **"Um líder no modelo síncrono precisa ser eleito."** A escala o atribui. A eleição existe para resolver um problema que este modelo não tem: saber se o líder atual está vivo.
-- **"Cada crash adiciona uma rodada."** O número de rodadas é fixo em f + 1. Só um coordenador caindo na sua própria rodada perturba alguma coisa, e o orçamento de pior caso já inclui isso.
+- **"Cada crash adiciona uma rodada."** O número de rodadas é fixo em f + 1. Um crash importa quando divide estimativas no meio do broadcast ou remove um coordenador cuja vez ainda não chegou, e as f + 1 vagas já pagam cada crash desse tipo.
 - **"O limite vale para todo n."** Com n = f + 1, f rodadas bastam, como o Exemplo 2 confirma para n = 3 e f = 2.
 - **"Tolerar f crashes com f + 1 processos torna isto melhor que o Paxos."** Esse número só vale enquanto o limite de tempo vale. O Exemplo 3 mostra uma violação de segurança com zero crashes.
 
@@ -159,6 +161,6 @@ Com limites de atraso conhecidos, uma mensagem ausente prova um crash, então o 
 - [Aspnes: Notes on Theory of Distributed Systems](https://arxiv.org/abs/2001.04235): o livro livre cujo capítulo sobre acordo síncrono traz o flooding, o limite de f + 1 por cadeia de execuções, a condição n >= f + 2 e a história do resultado.
 - [Chandra & Toueg: Unreliable Failure Detectors for Reliable Distributed Systems (JACM 1996)](https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf): o paradigma do coordenador rotativo e os seus usos anteriores.
 - [Dolev, Reischuk & Strong: Early Stopping in Byzantine Agreement (JACM 1990)](https://cris.huji.ac.il/en/publications/early-stopping-in-byzantine-agreement/): o resumo enuncia o limite min(t + 1, f + 2) e o limite t + 1 para acordo simultâneo.
-- [Wang, Teo & Cao: Lower Bounds for Achieving Synchronous Early Stopping Consensus with Orderly Crash Failures (2005)](https://dspace.mit.edu/handle/1721.1/7425): o limite min(t + 1, f + 2) para crashes ordenados.
+- [Wang, Teo & Cao: Lower Bounds for Achieving Synchronous Early Stopping Consensus with Orderly Crash Failures (2005)](https://dspace.mit.edu/handle/1721.1/7425): o limite min(t + 1, f + 2) sobre decidir e parar, para crashes ordenados.
 - [Abraham: Synchronous Consensus Lower Bound via Uncommitted Configurations (2019)](https://decentralizedthoughts.github.io/2019-12-15-synchrony-uncommitted-lower-bound): a prova para a frente do limite, seguindo Aguilera e Toueg.
 - [Lamport: Paxos Made Simple (2001)](https://lamport.azurewebsites.net/pubs/paxos-simple.pdf): as afirmações sobre eleição e segurança citadas na comparação com a referência.

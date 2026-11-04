@@ -158,9 +158,9 @@ one whole row down:     phase 1 works, phase 2 does not
 
 - **"Fast Paxos is leaderless."** Proposals skip the leader, but a coordinator still starts rounds, and classic rounds provide progress.
 - **"Fast Paxos is always faster."** It saves one delay without collision. Lamport himself says classic Paxos may be better if collisions are too frequent.
-- **"Flexible Paxos is free."** Reducing Q2 raises Q1. In Example 4, the 10-node system cannot change leaders after 3 failures, where a majority system could.
+- **"Flexible Paxos is free."** With simple quorums, taking Q2 below N/2 raises Q1 above a majority: in Example 4, the 10-node system cannot change leaders after 3 failures, where a majority system could. The paper also shows it is "not always necessary to compromise availability": at N = 8, Q2 drops from 5 to 4 while Q1 stays 5, and grid quorums shrink both phases, trading away tolerance of some failure combinations.
 - **"Q2 quorums must overlap so that two leaders cannot both decide."** Example 3 shows disjoint Q2s are safe. The phase 1 of the higher ballot is what stops the conflict.
-- **"Three-quarters is the only fast quorum."** It is one choice for maximum F. Fast Flexible Paxos shows smaller trade-offs are possible by enlarging phase 1.
+- **"Three-quarters is the only fast quorum."** It is one choice for maximum F. Fast Flexible Paxos shows smaller fast quorums are possible at the cost of a larger phase 1: 7 instead of 9 at n = 11, with a phase 1 quorum of 9.
 
 ## Summary
 

@@ -13,7 +13,7 @@ summary: "Dada uma carga de trabalho concreta, cinco perguntas levam a uma escol
 
 ## Contexto e Motivação
 
-Esta disciplina cobriu uma dúzia de formas de ordenar e replicar dados, e cada lição terminou com um preço. Nenhuma venceu. `multi-paxos-from-one-decision-to-a-replicated-log` é simples e forte, e cobra um round trip até uma maioria a cada escrita. `causal-consistency` responde localmente e não protege um invariante. `deterministic-transactions-calvin` elimina os votos de commit e exige conjuntos de leitura e escrita declarados.
+Esta disciplina cobriu uma dúzia de formas de ordenar e replicar dados, e cada lição terminou com um preço. Nenhuma venceu. `multi-paxos-from-one-decision-to-a-replicated-log` é simples e forte, e cobra um round trip até uma maioria a cada escrita. `causal-consistency` responde localmente, e `transactional-causal-consistency` mostra que ela ainda não protege um invariante. `deterministic-transactions-calvin` elimina os votos de commit e exige conjuntos de leitura e escrita declarados.
 
 A habilidade que importa é ler uma carga de trabalho com atenção suficiente para saber qual preço ela pode pagar. Este capstone aplica essa habilidade a um único sistema, como `capstone-designing-a-cloud-storage-system-for-a-workload` fez para armazenamento. A conclusão é que um sistema raramente tem uma resposta só.
 
@@ -29,7 +29,7 @@ A habilidade que importa é ler uma carga de trabalho com atenção suficiente p
 
 **4. Quanta contenção há nos dados?** A contenção decide entre projetos otimistas, que pagam com aborts, e projetos pessimistas ou determinísticos, que pagam com espera.
 
-**5. O que você controla?** Projetos de ordenação na rede precisam de um sequenciador na rede. O Calvin precisa de transações cujos conjuntos possam ser declarados. Um projeto só está disponível se suas suposições puderem ser atendidas.
+**5. O que você controla?** Projetos de ordenação na rede precisam de entrega ordenada, e seus melhores resultados usam um sequenciador em um switch ou middlebox. Um sequenciador em host evita esse hardware, com custo de latência. O Calvin precisa de transações cujos conjuntos possam ser declarados ou previstos a baixo custo. Um projeto só está disponível se suas suposições puderem ser atendidas.
 
 ### As famílias e o que elas supõem
 
@@ -39,8 +39,8 @@ A habilidade que importa é ler uma carga de trabalho com atenção suficiente p
 | Certificação | Serializabilidade de uma cópia | Atomic broadcast | Aborts sob contenção |
 | Réplicas causais | Escritas locais, disponibilidade | Nenhum invariante entre sites | Leituras mais fracas, atraso de visibilidade |
 | Shared log | Uma ordem sobre muitos servidores | Uma forma de ordenar em escala | Uma etapa de ordenação no caminho |
-| Determinístico | Ordem serial sem votos de commit | Conjuntos declarados | Atraso de batch, sem reordenar em torno de travamentos |
-| Ordenação na rede | Caminho rápido sem coordenação | Uma rede controlada pelo operador | Um caminho lento, um datacenter |
+| Determinístico | Ordem serial sem votos de commit | Conjuntos declarados | Atraso de batch, sem reordenar em torno de travamentos, assimetria de execução |
+| Ordenação na rede | Caminho rápido sem coordenação | Um sequenciador no caminho, na rede para os melhores resultados | Um caminho lento para perdas e falhas |
 
 Detecção de falhas e membership ficam por baixo de todas elas. `failure-detectors` explica por que a suspeita basta para a vivacidade, e `reconfiguration-changing-membership-in-paxos-and-raft` mostra por que trocar réplicas exige o mesmo cuidado que o caminho dos dados.
 
@@ -59,20 +59,20 @@ O mapa de shards e as feature flags mudam algumas vezes por minuto, precisam ser
 Um log de consenso se encaixa diretamente. Vale conferir quóruns flexíveis, porque `fast-paxos-and-flexible-quorums` mostra que só os quóruns da fase 1 e da fase 2 precisam se intersectar:
 
 ```text
-Q1  Q2  intersectam?  quedas suportadas escrevendo  quedas suportadas elegendo
-3   3   sim           2                             2
-4   2   sim           3                             1
-5   1   sim           4                             0
+Q1  Q2  intersectam?  quedas que as escritas suportam, com líder vivo  quedas que uma eleição suporta
+3   3   sim           2                                               2
+4   2   sim           3                                               1
+5   1   sim           4                                               0
 3   2   não
 ```
 
-Um quórum menor na fase 2 ajuda uma carga que escreve o tempo todo. Esta quase não escreve, e com Q1 = 4 uma troca de líder suportaria só uma queda. Maiorias simples vencem, e a otimização é recusada.
+Um quórum menor na fase 2 ajuda uma carga que escreve o tempo todo. Esta quase não escreve, e se o líder estiver entre os nós que caíram, as escritas param até uma eleição, que com Q1 = 4 suporta só uma queda. Maiorias simples vencem, e a otimização é recusada.
 
 ### Exemplo 2: Estoque de assentos
 
 Dezesseis shards em uma região guardam os assentos. Uma compra leva vários assentos que podem cruzar shards, e uma abertura de vendas concorrida deixa poucas chaves extremamente quentes. "Vendido uma vez" é um invariante, então a pergunta 2 elimina as réplicas causais.
 
-A certificação não tem janela de lock, então parece atraente. Considere conjuntos de escrita de `k` chaves entre `D` chaves quentes, e `c` transações concorrentes:
+A certificação não segura lock entre sites durante o acordo, então parece atraente. Considere conjuntos de escrita de `k` chaves entre `D` chaves quentes, e `c` transações concorrentes:
 
 ```text
 D          k  c    P(duas transações se sobrepõem)  P(ao menos uma sobreposição)
@@ -82,16 +82,16 @@ D          k  c    P(duas transações se sobrepõem)  P(ao menos uma sobreposi�
 
 Em um espaço de chaves grande e frio, a certificação é excelente. Em uma abertura de vendas, a transação quase sempre encontra um conflito, e o trabalho abortado é repetido na mesma contenção.
 
-Compare dois caminhos com lock em uma chave quente, supondo atraso de ida de 0,25 ms e 0,1 ms de execução. Neste modelo simples, 2PC sobre grupos de consenso segura os locks durante prepare, replicação, voto e replicação da decisão, ou seja, 6 atrasos de ida. Um projeto determinístico os segura durante a troca de leituras e a execução, cerca de 2 atrasos, porque a ordem foi fixada antes:
+Compare dois caminhos com lock em uma chave quente, supondo atraso de ida de 0,25 ms e 0,1 ms de execução. Neste modelo simples, 2PC sobre grupos de consenso segura os locks durante prepare, replicação, voto e replicação da decisão, ou seja, 6 atrasos de ida. Um projeto determinístico os segura durante a troca de leituras e a execução, cerca de 2 atrasos, porque a ordem foi fixada antes. As duas contagens são aproximadas:
 
 ```text
 2PC sobre consenso:  segura 1,60 ms -> no máximo 625 transações/s nessa chave
 Determinístico:      segura 0,60 ms -> no máximo 1.667 transações/s nessa chave
 ```
 
-O caminho determinístico paga em outro lugar: com as épocas de 10 ms do Calvin, uma requisição espera em média 5 ms pelo seu batch, mais a replicação. Os IDs dos assentos estão na requisição, então os conjuntos podem ser declarados, e alguns milissegundos são aceitáveis para quem compra um ingresso. Um projeto determinístico se encaixa.
+Leia 1.667 como um teto, porque supõe que todos os participantes começam juntos. `deterministic-transactions-calvin` lista a assimetria de execução e a CPU de transações multipartição como os custos justamente neste regime. O caminho determinístico também paga em latência: com as épocas de 10 ms do Calvin, uma requisição espera em média 5 ms pelo seu batch, mais a replicação. Os IDs dos assentos estão na requisição, então os conjuntos podem ser declarados, e alguns milissegundos são aceitáveis para quem compra um ingresso. Um projeto determinístico se encaixa.
 
-A ordenação na rede cortaria ainda mais a latência, mas `network-ordered-consensus-nopaxos-eris-and-hydra` supõe uma rede controlada pelo operador. A plataforma roda em nuvem pública, então a pergunta 5 a elimina.
+A ordenação na rede parece um ganho adicional, mas uma compra condicionada a assentos em outro shard não é uma transação independente no modelo do Eris, então iria pelo caminho geral, mais lento. Os sequenciadores na rede por trás dos melhores resultados de `network-ordered-consensus-nopaxos-eris-and-hydra` também exigem um operador que controle a rede. A plataforma roda em nuvem pública, onde só cabe um sequenciador em host, e nenhuma dessas fontes mede esse cenário, então a pergunta 5 deixa a opção de lado.
 
 ### Exemplo 3: Perfis e seguidores
 
@@ -106,7 +106,7 @@ Tóquio       220 ms                 local
 
 A replicação causal confirma na região local, e a escrita fica visível nas outras depois de pelo menos o atraso de ida: 35 ms da Virgínia para a Irlanda, 75 ms para Tóquio, 105 ms da Irlanda para Tóquio. Perfis e seguidores não têm invariante entre sites, e um seguir que aparece 100 ms depois não prejudica ninguém, então a consistência causal transacional se encaixa. `causal-metadata-for-geo-replication-saturn` importa se os metadados virarem um problema de visibilidade ou de vazão.
 
-Há uma exceção dentro desse conjunto. Nomes de usuário precisam ser únicos, e a pergunta 2 se aplica. As reservas de nome passam pelo log de consenso do plano de controle e pagam o round trip. Elas são raras, então o custo é pequeno.
+Há uma exceção dentro desse conjunto. Nomes de usuário precisam ser únicos, e a pergunta 2 se aplica. As reservas de nome passam por um log de consenso. Usar o log do plano de controle significa um round trip até a região dele, um custo entre regiões para a maioria dos usuários, e as reservas param se essa região se perder. As reservas são raras, então os dois custos são aceitáveis aqui.
 
 ### Exemplo 4: Eventos de pedidos
 
@@ -124,7 +124,7 @@ O sequenciador vira gargalo muito antes do armazenamento. `scaling-shared-logs-f
 | Conjunto de dados | Projeto | O que mudaria a escolha |
 |---|---|---|
 | Plano de controle | Log de consenso, maiorias | Carga pesada de escrita |
-| Estoque de assentos | Transações determinísticas | Conjuntos que não possam ser declarados |
+| Estoque de assentos | Transações determinísticas | Conjuntos que não possam ser declarados nem previstos |
 | Perfis, seguidores | Causal transacional | Um novo invariante entre sites |
 | Nomes de usuário | Log de consenso | Nada comum |
 | Eventos de pedidos | Shared log com cuts | Reprodução deixar de precisar de uma ordem |
@@ -133,9 +133,9 @@ O sequenciador vira gargalo muito antes do armazenamento. `scaling-shared-logs-f
 
 - **"Escolha a garantia mais forte para ficar seguro."** O Exemplo 3 mostra a opção mais forte somando 220 ms a uma escrita que não precisava disso. Força tem preço, e pagá-lo onde nada depende dela é erro de projeto.
 - **"Consistência causal é quase tão boa quanto consenso."** Ela serve bem até aparecer um invariante. O nome de usuário do Exemplo 3 não pode ser protegido por metadados, por mais ricos que sejam.
-- **"Certificação é sempre mais barata porque evita locks."** O Exemplo 2 mostra que isso depende inteiramente da contenção: o mesmo protocolo foi de 0,5% à quase certeza de conflito.
+- **"Certificação é sempre mais barata porque evita locks distribuídos."** O Exemplo 2 mostra que isso depende inteiramente da contenção: o mesmo protocolo foi de 0,5% à quase certeza de conflito.
 - **"Este paper chegou a um milhão de operações por segundo, então meu sistema chega."** Esse número vem com um testbed, um payload e muitas vezes um fator de replicação omitido. Use-o para a forma, não para planejar.
-- **"Um sequenciador mais rápido na rede resolve."** Só para operadores que podem implantá-lo, e só dentro de um datacenter.
+- **"Um sequenciador mais rápido na rede resolve."** Só para operadores que podem implantá-lo. Um sequenciador em host evita o hardware e devolve parte do ganho de latência.
 - **"Um sistema deve ter um único projeto de replicação."** Quatro conjuntos de dados com respostas diferentes são o resultado normal, não uma falha de arquitetura.
 
 ## Resumo

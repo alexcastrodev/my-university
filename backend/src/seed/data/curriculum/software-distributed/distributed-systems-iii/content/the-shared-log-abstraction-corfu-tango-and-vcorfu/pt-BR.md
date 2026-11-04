@@ -112,17 +112,17 @@ reads at tail: ['A', 'err_unwritten', 'err_unwritten', 'D']
   fill(1): head had B, chain now holds B
   fill(2): head had err_unwritten, chain now holds <junk>
 C3 wakes up, retries token 2
-  F0:1 <- C: err_overwritten
+  F0:1 <- C: err_trimmed
 C3 new token=4 maps to (('F0', 'F1'), 2)
   F0:2 <- C: ok
   F1:2 <- C: ok
-log: ['A', 'B', '<junk>', 'D', 'C']
+log: ['A', 'B', 'err_trimmed', 'D', 'C']
 seal(epoch 0) highest page per unit: {'F0': 2, 'F1': 2, 'F2': 1, 'F3': 1}
 new sequencer starts at 5
 late write in epoch 0: err_badepoch
 ```
 
-B chegou à primeira unidade, mas os leitores receberam erro até `fill` terminar a cadeia: a visibilidade segue a última unidade. A posição 2 não tinha nada e virou lixo, e o write-once transformou a escrita atrasada de C3 numa nova tentativa. A página 2 do primeiro par é a posição 4, então um sequenciador novo começa em 5 só com as respostas do seal.
+B chegou à primeira unidade, mas os leitores receberam erro até `fill` terminar a cadeia: a visibilidade segue a última unidade. A posição 2 não tinha nada e virou lixo, que o CORFU apara na mesma operação: leituras posteriores e a escrita atrasada de C3 recebem `err_trimmed`, e C3 tenta de novo com um token novo. A página 2 do primeiro par é a posição 4, então um sequenciador novo começa em 5 só com as respostas do seal.
 
 ### Exemplo 2: duas réplicas decidem sozinhas
 

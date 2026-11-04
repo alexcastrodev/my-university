@@ -43,7 +43,7 @@ bucket cheio                 -> faz ping na cabeça (visto há mais tempo)
 
 Contatos vivos nunca são removidos. O paper dá dois motivos: traces do Gnutella mostraram que, quanto mais tempo um nó está no ar, mais provável é que fique mais uma hora, e inundar o sistema com nós novos não apaga o estado de roteamento existente.
 
-A versão dos anais também faz a tabela crescer como árvore: um bucket cobre o espaço todo e se divide quando enche e a sua faixa contém o ID do próprio nó.
+A versão dos anais também faz a tabela crescer como árvore: um bucket cobre o espaço todo, e um bucket cheio se divide quando a sua faixa contém o ID do próprio nó. Esse não é o único gatilho: o paper também divide outros buckets para manter todos os contatos válidos numa subárvore de pelo menos `k` nós, e para rotear `b > 1` bits por hop.
 
 ### O lookup: k, α e quem faz o trabalho
 
@@ -72,17 +72,17 @@ No nó `A`, com chave `D` e `shl` sendo o tamanho do prefixo comum em dígitos, 
 3. caso raro -> encaminha a qualquer T em L, R ou M com shl(T, D) >= l e |T - D| < |A - D|
 ```
 
-Cada passo aumenta o prefixo comum, ou o mantém e chega numericamente mais perto, então o roteamento sempre converge. Com `b = 4` e `10^6` nós, uma tabela tem em média 75 entradas e uma rota leva 5 hops esperados; com `10^9` nós, os números são 105 e 7. O caso 3 aparece em menos de 2% das rotas com `|L| = 2^b` e em 0,6% com `|L| = 2 × 2^b`. A entrega é garantida, a menos que `|L|/2` nós adjacentes falhem ao mesmo tempo.
+Uma rota tem três tipos de passo. Um passo pela tabela aumenta o prefixo comum, um passo do caso raro mantém pelo menos o mesmo prefixo e chega numericamente mais perto, e um hop pelo leaf set vai direto ao nó numericamente mais próximo, mesmo que isso encurte o prefixo, como no Exemplo 3. Com estado correto, esse progresso faz o roteamento convergir. Com `b = 4` e `10^6` nós, uma tabela tem em média 75 entradas e uma rota leva 5 hops esperados; com `10^9` nós, os números são 105 e 7. O caso 3 aparece em menos de 2% das rotas com `|L| = 2^b` e em 0,6% com `|L| = 2 × 2^b`. A entrega é garantida, a menos que `|L|/2` nós adjacentes falhem ao mesmo tempo.
 
 ### Localidade e paralelismo gastam a mesma liberdade
 
 Muitos nós podem ocupar uma mesma entrada. O Pastry escolhe o mais próximo segundo uma métrica escalar de proximidade, como hops de IP, e um nó que entra herda e depois refina linhas dos nós da sua rota de join. Como cada linha escolhe num conjunto exponencialmente menor, os hops ficam mais longos conforme a rota avança. Em emulação com até 100.000 nós, as rotas do Pastry ficaram cerca de 30% a 40% mais longas que as de um esquema fictício com tabelas completas, com cerca de 75 entradas em vez de 99.999.
 
-O Kademlia pode encaminhar para qualquer um de `k` nós, pode usar estimativas de round-trip para escolher os `α`, e tolera contatos mortos sem esperar por eles. O Exemplo 4 põe números aproximados nas duas ideias.
+Um iniciador do Kademlia pode consultar qualquer um dos `k` nós de um bucket, pode usar estimativas de round-trip para escolher os `α`, e tolera contatos mortos sem esperar por eles. O Exemplo 4 põe números aproximados nas duas ideias.
 
 ### Onde os dois desenhos se separam
 
-Os autores do Kademlia descrevem o Pastry em duas fases: uma primeira que reduz a distância XOR pela metade, e uma segunda na diferença numérica. Nós próximos pela segunda métrica podem estar longe pela primeira, o que, segundo eles, cria descontinuidades e complica a análise formal. O Kademlia usa um algoritmo e uma métrica do começo ao fim. O paper do Pastry, que veio antes, sustenta o seu desenho com medições: com 5.000 nós e 500 falhando, a média de hops subiu de 2,73 para 2,96 antes do reparo e voltou a 2,74 depois.
+Os autores do Kademlia descrevem o Pastry em duas fases: uma primeira que reduz a distância XOR pela metade, e uma segunda na diferença numérica. Nós próximos pela segunda métrica podem estar longe pela primeira, o que, segundo eles, cria descontinuidades e complica a análise formal. O Kademlia usa um algoritmo e uma métrica do começo ao fim. O paper do Pastry veio antes e não trata dessa crítica. O experimento de falhas dele mede outra coisa, a qualidade das rotas sob falha e reparo: com 5.000 nós e 500 falhando, a média de hops subiu de 2,73 para 2,96 antes do reparo e voltou a 2,74 depois.
 
 **Paper vs. hoje:** os traces do Gnutella e o `b = 5` são de 2002. A Mainline DHT do BitTorrent (BEP 5) é uma descendente em produção: IDs de 160 bits, distância XOR e buckets de oito (`K`, "currently eight"), que só se dividem quando a faixa do bucket contém o ID do próprio nó. Ela guarda contatos de peers, não arquivos, e exige um token de um `get_peers` recente antes de aceitar `announce_peer`, o que impede um host de inscrever outros.
 

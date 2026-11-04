@@ -51,7 +51,8 @@ To A-broadcast m:          R-broadcast m
 
 When R-deliver(m):         add m to R_delivered
 
-Loop, while R_delivered - A_delivered is not empty:
+Forever:
+    wait until R_delivered - A_delivered is not empty
     k := k + 1
     propose(k, R_delivered - A_delivered)
     wait for decide(k, msgSet)
@@ -146,7 +147,7 @@ Processes propose x, y, and z by A-broadcasting them, and suppose the proposer o
 
 ### Example 4: the cost hidden by "equivalent"
 
-Theorem 7.1.6 of Chandra and Toueg applies to synchronous systems too, so the coordinator protocol of `leader-based-consensus-in-the-synchronous-model` can drive this reduction. Take n = 5 and f = 2, so each instance costs 3 rounds and up to 12 messages. To order 1000 messages:
+Theorem 7.1.6 of Chandra and Toueg covers synchronous systems too, but the coordinator protocol of `leader-based-consensus-in-the-synchronous-model` cannot be plugged in unchanged. It assumes every process starts round 1 together, while in the reduction processes enter instance k at different times. It needs an adaptation, such as starting each instance at an agreed round, with a process that has nothing undelivered proposing the empty set. With that adaptation, take n = 5 and f = 2, so each instance costs 3 rounds and up to 12 messages. To order 1000 messages:
 
 ```text
 batch size    instances    rounds    consensus messages

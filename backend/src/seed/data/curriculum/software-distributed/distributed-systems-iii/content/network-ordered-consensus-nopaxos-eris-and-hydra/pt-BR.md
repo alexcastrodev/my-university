@@ -1,14 +1,14 @@
 ---
 version: 1.0
 updatedAt: 2026-11-04
-title: "Consenso Ordenado pela Rede: NoPaxos, Eris e Hydra"
-summary: "Levar a ordenação para a rede e deixar a entrega confiável na aplicação: o multicast ordenado e não confiável do NOPaxos, os multi-stamps do Eris para transações entre shards e o Hydra, que combina relógios e números de sequência para dispensar um ponto único de serialização, sempre dentro de um datacenter."
+title: "Consenso Ordenado pela Rede: NOPaxos, Eris e Hydra"
+summary: "Levar a ordenação para a rede e deixar a entrega confiável na aplicação: o multicast ordenado e não confiável do NOPaxos, os multi-stamps do Eris para transações entre shards e o Hydra, que combina relógios e números de sequência para dispensar um ponto único de serialização."
 ---
 ## Objetivos de Aprendizagem
 
 - Explicar o ordered unreliable multicast e por que ordenar sem garantir entrega é barato, enquanto ordenar garantindo entrega não é.
 - Acompanhar o caso normal do NOPaxos e o seu gap agreement num número de sequência concreto.
-- Explicar por que nem um contador global nem um contador por shard servem para transações, e como o multi-stamp do Eris resolve os dois problemas.
+- Explicar por que nem um contador global nem o sequenciamento independente por shard servem para transações, e como o multi-stamp do Eris, com um contador por grupo incrementado de forma atômica, resolve os dois problemas.
 - Aplicar a regra de entrega do Hydra a um trace de dois sequenciadores, e dizer pelo que cada projeto continua pagando.
 
 ## Contexto e Motivação
@@ -55,7 +55,7 @@ O modelo de transação é o que torna isso suficiente. Uma transação independ
 
 ### Hydra: ordem sem ponto de serialização
 
-Os dois projetos roteiam todo o tráfego por um único dispositivo, o que limita a vazão, restringe o roteamento e amarra a troca de sequenciador ao reroteamento da rede. O [Hydra](/papers/hydra-serialization-free-network-ordering) (NSDI 2023) roda vários sequenciadores ao mesmo tempo e dá as mesmas garantias. Contadores independentes sozinhos falham: dois sequenciadores podem escrever o mesmo número, e desempatar pelo ID do sequenciador deixa um receptor sem como notar a perda da mensagem que viria antes.
+Os dois projetos roteiam todo o tráfego por um único dispositivo, o que restringe o roteamento e amarra a troca de sequenciador ao reroteamento da rede. Isso também pode limitar a vazão quando um sequenciador atende muitos grupos, como no Eris, ou roda num end host, embora para um único grupo do NOPaxos um switch não seja o gargalo. O [Hydra](/papers/hydra-serialization-free-network-ordering) (NSDI 2023) roda vários sequenciadores ao mesmo tempo e dá as mesmas garantias. Contadores independentes sozinhos falham: dois sequenciadores podem escrever o mesmo número, e desempatar pelo ID do sequenciador deixa um receptor sem como notar a perda da mensagem que viria antes.
 
 Por isso o Hydra usa dois dados, cada um para o que sabe fazer. **Relógios dão a ordem**: cada sequenciador carimba seu relógio, sincronizado de forma frouxa, e os receptores ordenam por (relógio, ID do sequenciador). **Números de sequência detectam buracos**: cada sequenciador mantém contadores por grupo. Um receptor acompanha o maior relógio visto de cada sequenciador e só entrega uma mensagem quando ela está no mínimo desses valores ou abaixo dele (`cmin`). Até lá, qualquer perda já apareceu como buraco. O skew de relógio pode atrasar a entrega, mas a segurança só exige relógios que não andem para trás.
 
@@ -68,16 +68,19 @@ Um sequenciador ocioso travaria todos os receptores, então os sequenciadores en
 NOPaxos      ordem total por grupo          gap agreement, view changes
 Eris         ordem parcial entre shards     recuperar drops via FC, épocas,
                                             locks em transações gerais
-Hydra        o mesmo, com N sequenciadores  o mesmo, mais flushes e
-                                            remoção de sequenciador
+Hydra        o mesmo, com N sequenciadores  recuperar drops (gap agreement ou FC),
+                                            locks em transações gerais,
+                                            sem troca de época
 ```
+
+Flushes e remoção de sequenciador ficam na camada do Hydra, não na aplicação: as aplicações nem sabem dos flushes, e NOPaxos e Eris só mudam ao desligar o próprio tratamento de falha de sequenciador.
 
 O consenso não desaparece: o controlador SDN do NOPaxos é replicado com Paxos, e o Failure Coordinator do Eris também é replicado. A coordenação sai do caminho comum.
 
 ### Números e suas condições
 
 - **NOPaxos.** Vazão a até 2% e latência a até 16 µs do sistema sem replicação, num middlebox Cavium com cinco réplicas. Latência de 111 µs contra 240 µs do Paxos. Depois de uma falha de sequenciador simulada avisando o controlador, a operação voltou em cerca de 110 ms e a vazão de pico em 270 ms. O hardware para um sequenciador dentro do switch ainda não estava disponível em 2016, então esse projeto ficou sem medição ali.
-- **Eris.** 221K transações new-order TPC-C por segundo, 7,6× o Lock-Store, em 15 shards de 3 réplicas, com o particionamento do H-Store, que torna todas as transações independentes. Os 35× vêm da execução mais enviesada de uma carga própria. A capacidade do sequenciador foi de 6,19M pacotes por segundo no middlebox.
+- **Eris.** 221K transações new-order TPC-C por segundo, 7,6× o Lock-Store, em 15 shards de 3 réplicas, com o particionamento do H-Store, que torna todas as transações independentes. O maior ganho, 35× sobre o Lock-Store, vem da execução mais enviesada de uma carga própria. A capacidade do sequenciador foi de 6,19M pacotes por segundo no middlebox.
 - **Hydra.** Num switch Tofino com dois sequenciadores e três réplicas, o HydraPaxos tem latência a até 5 µs e vazão a até 17% do NOPaxos. O HydraTxn consegue 47% a mais que o Eris numa execução que limita a taxa dos sequenciadores e usa transações de um só shard.
 
 ## Exemplos Resolvidos
@@ -144,7 +147,7 @@ M1 espera evidência do sequenciador 2. O número 3 de F1 revela que o #2 se per
 
 ## Resumo
 
-Esses projetos entregam a ordenação à rede, onde um contador num pacote é barato, e mantêm a entrega confiável na aplicação. O NOPaxos reduz a replicação a decidir quais slots pular. O Eris estende a ordem entre shards com multi-stamps, para transações que cabem no modelo independente. O Hydra remove o dispositivo único ao ordenar com relógios e detectar drops com números por sequenciador, ao preço de tráfego de flush e de alguma vazão em relação à serialização. Os três mantêm um caminho lento para drops e falhas, e os três assumem um datacenter cuja rede o operador controla.
+Esses projetos entregam a ordenação à rede, onde um contador num pacote é barato, e mantêm a entrega confiável na aplicação. O NOPaxos reduz a replicação a decidir quais slots pular. O Eris estende a ordem entre shards com multi-stamps, para transações que cabem no modelo independente. O Hydra remove o dispositivo único ao ordenar com relógios e detectar drops com números por sequenciador, ao preço de tráfego de flush e, onde o sequenciador não é o gargalo, de alguma vazão: 17% do HydraPaxos em relação ao NOPaxos. Os três mantêm um caminho lento para drops e falhas. Sequenciar dentro da rede exige controle sobre ela, e um sequenciador em end host evita isso ao custo de latência.
 
 ## Documentation Links
 

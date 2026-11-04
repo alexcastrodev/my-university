@@ -58,7 +58,7 @@ No rumor básico, um site ativo liga para um site aleatório e, depois de uma li
 - **Traffic**: `m`, atualizações enviadas divididas pelo número de sites.
 - **Delay**: `t_ave`, a média entre os sites, e `t_last`, para o último site alcançado.
 
-As variações são **blind vs feedback** (perder o interesse sem olhar o destinatário, ou só se ele já sabia) e **coin vs counter** (com probabilidade `1/k`, ou depois de `k` contatos desnecessários). O resultado surpreendente é que todas seguem a mesma lei em push, `s = e^-m`: são `nm` atualizações enviadas, e um site perde todas com probabilidade `(1 - 1/n)^(nm)`. Só o delay as separa, e counters pesam mais que feedback.
+As variações são **blind vs feedback** (perder o interesse sem olhar o destinatário, ou só se ele já sabia) e **coin vs counter** (com probabilidade `1/k`, ou depois de `k` contatos desnecessários). O resultado surpreendente é que todas seguem a mesma lei em push, `s = e^-m`: são `nm` atualizações enviadas, e um site perde todas com probabilidade `(1 - 1/n)^(nm)`. Essa lei vem com uma ressalva: como `m` não é constante, ela depende de os momentos da sua distribuição irem a zero quando `n` cresce, o que o artigo observou empiricamente, mas não provou. Ela também supõe ausência de limite de conexões, já que push com limite de um deve se comportar como `s = e^(-lambda m)` com `lambda = 1/(1 - 1/e)`. Dentro da lei, só o delay separa as variantes, e counters pesam mais que feedback.
 
 Rumores em pull fazem melhor que `s = e^-m`, e a recorrência do artigo para counter com feedback exibe `s = e^(-Theta(m^3))`. O preço é o custo ocioso: num banco quieto, push para de gerar tráfego, enquanto pull continua enviando pedidos inúteis.
 
@@ -142,7 +142,7 @@ sites perdidos pelo rumor          37 em média, 68 no pior caso, nunca 0
 ciclos de pull até terminar        1,73 em média, 3 no pior caso
 ```
 
-O rumor fez quase toda a propagação, e mesmo assim nenhuma das 3000 execuções alcançou todos os sites, o que combina com um residue de 0,037 em 1000 sites. A anti-entropy então termina em cerca de dois ciclos, pelo motivo do Exemplo 2. Compare com as 90.000 mensagens de remailing para 300 sites da abertura: o rumor custa um múltiplo pequeno de `n`, e não `n` ao quadrado.
+O rumor fez quase toda a propagação, e mesmo assim nenhuma das 3000 execuções alcançou todos os sites, o que combina com um residue de 0,037 em 1000 sites. A anti-entropy então termina em cerca de dois ciclos, pelo motivo do Exemplo 2. O tráfego do rumor é um múltiplo pequeno de `n`. A seção 1.5 do artigo faz o ponto correspondente sobre redistribuição: reenviar por mail uma atualização entregue pela metade pode gerar `O(n^2)` mensagens, enquanto redistribuí-la como rumor reduziria muito o custo esperado.
 
 ## Equívocos Comuns e Armadilhas
 
@@ -155,7 +155,7 @@ O rumor fez quase toda a propagação, e mesmo assim nenhuma das 3000 execuçõe
 
 ## Resumo
 
-Direct mail é rápido e pouco confiável, anti-entropy é confiável e cara, e rumor mongering é barato e pode deixar sites de fora. Juntos formam o desenho que funciona: espalhar por rumor ou mail e reparar com anti-entropy pouco frequente. Anti-entropy alcança todos em tempo logarítmico, e na cauda pull eleva o resto ao quadrado enquanto push só o divide por `e`. Em rumores push, todas as variantes blind, feedback, coin e counter obedecem a `s = e^-m`, então só o delay as separa. Remoção exige death certificates, e a escolha uniforme de parceiro precisa ser temperada pela topologia e fornecida por algum mecanismo de membership. A próxima lição, `unstructured-p2p-flooding-super-peers-and-bittorrent`, leva a mesma ideia de vizinho aleatório de réplicas que querem toda atualização para peers que querem um arquivo.
+Direct mail é rápido e pouco confiável, anti-entropy é confiável e cara, e rumor mongering é barato e pode deixar sites de fora. O que rodou na rede da Xerox foi direct mail com anti-entropy ajustada espacialmente. Rumor mongering com anti-entropy de reserva continuou sendo a proposta do artigo, que "shows promise as an efficient replacement" para o passo de mail, e se mostrou sensível à topologia: numa distribuição espacial, rumores em push precisaram de `k = 36`. Anti-entropy alcança todos em tempo logarítmico, e na cauda pull eleva o resto ao quadrado enquanto push só o divide por `e`. Em rumores push sem limite de conexões, as variantes blind, feedback, coin e counter seguem `s = e^-m`, relação observada empiricamente e não provada, então é o delay que as separa. Remoção exige death certificates, e a escolha uniforme de parceiro precisa ser temperada pela topologia e fornecida por algum mecanismo de membership. A próxima lição, `unstructured-p2p-flooding-super-peers-and-bittorrent`, leva a mesma ideia de vizinho aleatório de réplicas que querem toda atualização para peers que querem um arquivo.
 
 ## Documentation Links
 

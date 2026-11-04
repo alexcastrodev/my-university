@@ -56,7 +56,7 @@ Master leases, PML 5.2       Enquanto o lease vale, nenhuma outra
                              Paxos, então o mestre lê localmente.
 Leases em leituras,          Uma maioria de aceitadores concede o
 PMMC 4.5                     lease; supõe desvio de relógio limitado.
-Epoch numbers, PML 5.3       Aborta um pedido se o mestrado mudou
+Epoch numbers, PML 5.3       Aborta um pedido se a liderança mudou
                              durante o seu tratamento.
 Corrupção de disco, PML 5.1  Uma réplica que perdeu estado entra sem
                              voto, para não quebrar uma promessa.

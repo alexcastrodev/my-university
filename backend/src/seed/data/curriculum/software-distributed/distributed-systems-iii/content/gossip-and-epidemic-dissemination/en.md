@@ -56,7 +56,7 @@ In the basic rumor, an active site phones a random site, and after an unnecessar
 - **Traffic**: `m`, updates sent divided by the number of sites.
 - **Delay**: `t_ave` averaged over sites, and `t_last` for the last site reached.
 
-Variations are **blind vs feedback** (lose interest regardless of the recipient, or only if it already knew) and **coin vs counter** (with probability `1/k`, or after `k` unnecessary contacts). The surprising result is that they share one law for push, `s = e^-m`: there are `nm` updates sent, and one site misses all of them with probability `(1 - 1/n)^(nm)`. Only delay separates them, with counters mattering more than feedback.
+Variations are **blind vs feedback** (lose interest regardless of the recipient, or only if it already knew) and **coin vs counter** (with probability `1/k`, or after `k` unnecessary contacts). The surprising result is that they share one law for push, `s = e^-m`: there are `nm` updates sent, and one site misses all of them with probability `(1 - 1/n)^(nm)`. That law carries a hedge: since `m` is not constant, it depends on the moments of its distribution going to zero as `n` grows, which the paper has observed empirically but not proven. It also assumes no connection limit, since push with a limit of one is expected to behave like `s = e^(-lambda m)` with `lambda = 1/(1 - 1/e)`. Within the law, only delay separates the variants, with counters mattering more than feedback.
 
 Pull rumors do better than `s = e^-m`, and the paper's counter-with-feedback recurrence exhibits `s = e^(-Theta(m^3))`. The tradeoff is idle cost: on a quiescent database push stops generating traffic, while pull keeps sending fruitless requests.
 
@@ -140,7 +140,7 @@ sites missed by the rumor     37 on average, 68 at worst, never 0
 pull cycles to finish         1.73 on average, 3 at worst
 ```
 
-The rumor did almost all the spreading, yet not one of 3000 runs reached every site, which matches a residue of 0.037 on 1000 sites. Anti-entropy then finishes in about two cycles, for the reason Example 2 gave. Compare the 90,000 remailed messages for 300 sites from the opening: the rumor costs a small multiple of `n`, not `n` squared.
+The rumor did almost all the spreading, yet not one of 3000 runs reached every site, which matches a residue of 0.037 on 1000 sites. Anti-entropy then finishes in about two cycles, for the reason Example 2 gave. The rumor's traffic is a small multiple of `n`. The paper's section 1.5 makes the matching point about redistribution: re-mailing a half-delivered update can generate `O(n^2)` messages, while redistributing it as a rumor would greatly reduce the expected cost.
 
 ## Common Misconceptions & Pitfalls
 
@@ -153,7 +153,7 @@ The rumor did almost all the spreading, yet not one of 3000 runs reached every s
 
 ## Summary
 
-Direct mail is timely and unreliable, anti-entropy is reliable and expensive, and rumor mongering is cheap and can miss sites. Together they form the working design: spread by rumor or mail, and repair by infrequent anti-entropy. Anti-entropy reaches everyone in logarithmic time, and in the tail pull squares the remainder while push only divides it by `e`. For push rumors, every blind, feedback, coin, and counter variant obeys `s = e^-m`, so only delay separates them. Deletion requires death certificates, and uniform partner choice must be tempered by topology and provided by some membership mechanism. The next lesson, `unstructured-p2p-flooding-super-peers-and-bittorrent`, takes the same random-neighbor idea from replicas that want every update to peers that want one file.
+Direct mail is timely and unreliable, anti-entropy is reliable and expensive, and rumor mongering is cheap and can miss sites. What ran on the Xerox network was direct mail with spatially tuned anti-entropy. Rumor mongering backed by anti-entropy remained the paper's proposal, one that "shows promise as an efficient replacement" for the mailing step, and it proved sensitive to topology: under one spatial distribution, push rumors needed `k = 36`. Anti-entropy reaches everyone in logarithmic time, and in the tail pull squares the remainder while push only divides it by `e`. For push rumors with no connection limit, the blind, feedback, coin, and counter variants follow `s = e^-m`, a relationship observed empirically rather than proven, so delay is what separates them. Deletion requires death certificates, and uniform partner choice must be tempered by topology and provided by some membership mechanism. The next lesson, `unstructured-p2p-flooding-super-peers-and-bittorrent`, takes the same random-neighbor idea from replicas that want every update to peers that want one file.
 
 ## Documentation Links
 

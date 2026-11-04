@@ -4,7 +4,7 @@ updatedAt: 2026-11-04
 ---
 ## Learning Objectives
 
-- Separate the three moments an eager shared log fuses together (the record is durable, it has a position, a consumer may use it), and say which moment LazyLog and SpecLog each move.
+- Separate three moments that an eager shared log's interface presents as one (the record is durable, it has a position, a consumer may use it), and say which moment LazyLog and SpecLog each move.
 - Explain why uncoordinated writes to every sequencing replica still contain a linearizable order, and why the `stable-gp` rule keeps that order from changing after a crash.
 - Keep three names apart (SpecLog the abstraction, fix-ante ordering the mechanism, Belfast the system) and compute a shard's predicted positions from predetermined cuts.
 - State what each design costs, and the conditions behind its reported numbers.
@@ -58,6 +58,8 @@ Belfast's headline result is measured against a Scalog changed so that only the 
 
 ### Example 1: a linearizable order inside three disagreeing logs
 
+These times are invented, not from the paper, and chosen to produce the disagreement in its Figure 4.
+
 ```text
 Append  start  done   (client waits for all 3 replicas, in µs)
 a       0      24
@@ -88,7 +90,7 @@ Correct rule, stable-gp stays 3 until followers GC:
   after F1     4:a 5:b 6:c   overwrite is safe
 ```
 
-Exposing an order and making it permanent must be one step.
+An order must be permanent before it is exposed.
 
 ### Example 3: fix-ante positions
 
@@ -131,7 +133,7 @@ The peak sits where compute equals the ordering delay. Below it, the consumer wa
 
 ## Summary
 
-An eager shared log makes durability, position and consumption happen together. LazyLog separates acknowledgment from position, relying on the fact that real-time order is already implied by writes to all replicas, and it uses `stable-gp` so that no reader sees an order that could change. It pays when readers catch up with writers. SpecLog separates consumption from confirmation: fix-ante ordering makes positions predictable, and Belfast keeps predictions right under bursts and membership changes. It pays with quota waiting, and its gain is bounded by the moment confirmation arrives. In both, the ordering work still happens, and only its place on the timeline changes.
+An eager shared log holds a record back until it is durable and positioned: the append then returns its position, and consumers can get it. LazyLog separates acknowledgment from position, relying on the fact that real-time order is already implied by writes to all replicas, and it uses `stable-gp` so that no reader sees an order that could change. It pays when readers catch up with writers. SpecLog separates consumption from confirmation: fix-ante ordering makes positions predictable, and Belfast keeps predictions right under bursts and membership changes. It pays with quota waiting, and its gain is bounded by the moment confirmation arrives. In both, the ordering work still happens, and only its place on the timeline changes.
 
 ## Documentation Links
 

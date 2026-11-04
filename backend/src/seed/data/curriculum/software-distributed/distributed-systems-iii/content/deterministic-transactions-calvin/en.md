@@ -104,16 +104,16 @@ Transfer 100 from x on P1 to z on P2. Both partitions write, so both are active.
 ```text
 x=150, z=20:  P1 commit (x=50, z=120)   P2 commit (x=50, z=120)
 x=70,  z=20:  P1 abort                  P2 abort
-Messages: 2 one-way reads.
-Two-phase commit with two participants: 2 prepares + 2 votes
-  + 2 decisions + 2 acks = 8.
+After sequencing, both designs need the 2 one-way reads.
+Calvin adds no commit messages. Two-phase commit, with a separate
+coordinator, adds 2 prepares + 2 votes + 2 decisions + 2 acks = 8.
 ```
 
-There is no window in which a participant is unsure of the outcome, so the blocked participant from `two-phase-commit-and-the-blocking-problem` has no equivalent here. If P2 crashes after forwarding, its replica has the same plan. A crashed node can also restart from a checkpoint: replaying a five-operation input log from a checkpoint taken after operation 2 gives x=55, z=120, the same state as the live run.
+This counts only the commit path: Calvin paid for sequencing and input replication earlier. The input fixes the outcome before execution, but a participant may not know it yet: with x=70, P2 holds its lock on z until x arrives from P1. That wait differs from the blocked participant in `two-phase-commit-and-the-blocking-problem`, because no vote or coordinator decision is pending, and a replica of P1 can send the value as long as one is alive. If P2 crashes after forwarding, its replica has the same plan. A crashed node can also restart from a checkpoint and replay the input log after it, which reproduces the live run's state.
 
 ### Example 3: the stall, with and without prefetching
 
-A, B, C, D arrive in that order, and each executes in 1 ms. A needs a 40 ms disk read and conflicts with B and C on key q. D conflicts with C.
+A, B, C, D arrive in that order, and each executes in 1 ms. A needs a 40 ms disk read before it locks q, the key it shares with B and C. D conflicts with C.
 
 ```text
                           finishes at (ms)
@@ -123,7 +123,7 @@ Reordered (conventional)  41   1    2    3
 Calvin, 40 ms prefetch    41   1    2    3
 ```
 
-Prefetching keeps B, C and D as fast as a reordering system, because A enters the sequence after its data is in memory. If the estimate is 25 ms, A enters at 25 and holds its locks during the remaining 15 ms of disk wait, and a conflicting E arriving at 26 finishes at 42. The paper reports 40 ms as the delay its filesystem engine needed at contention index 0.01.
+Leaving aside the batching delay, which this table omits, prefetching keeps B, C and D as fast as a reordering system, because A enters the sequence after its data is in memory. If the estimate is 25 ms, A enters at 25 and holds its locks during the remaining 15 ms of disk wait, and a conflicting E arriving at 26 finishes at 42. The paper reports 40 ms as the delay its filesystem engine needed at contention index 0.01.
 
 ### Example 4: the two-phase commit line is a model
 

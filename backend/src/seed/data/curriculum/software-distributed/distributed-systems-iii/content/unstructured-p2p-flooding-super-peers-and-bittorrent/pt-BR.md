@@ -14,9 +14,9 @@ summary: "Overlays não estruturados: flooding e seu custo, super-peers como mei
 
 ## Contexto e Motivação
 
-`the-client-server-and-p2p-architectures` apresentou peers que escalam sozinhos e observou que descoberta e transferência em massa são subproblemas diferentes. `gossip-and-epidemic-dissemination` mostrou o que contatos aleatórios fazem quando toda réplica quer toda atualização. Esta lição faz a pergunta mais difícil: peers entram e saem à vontade, ninguém controla o overlay nem onde os dados ficam, e um peer quer uma coisa específica.
+`the-client-server-and-p2p-architectures` observou que descoberta e transferência em massa são subproblemas diferentes. `gossip-and-epidemic-dissemination` mostrou o que contatos aleatórios fazem quando toda réplica quer toda atualização. Aqui peers entram e saem à vontade, ninguém controla o overlay nem onde os dados ficam, e um peer quer uma coisa específica.
 
-Lv e colegas chamam esses sistemas de descentralizados e não estruturados: sem diretório central e sem controle preciso sobre topologia ou posição dos arquivos. O Gnutella era o exemplo famoso. Seu atrativo era a resiliência a nós que entram e saem, e seu problema era o custo de achar qualquer coisa. Seguem três respostas: buscar com menos tráfego, dar mais trabalho aos peers capazes e, na distribuição em massa, abandonar a busca de vez.
+Lv e colegas chamam esses sistemas de descentralizados e não estruturados: sem diretório central e sem controle preciso sobre topologia ou posição dos arquivos. O Gnutella era o exemplo famoso. Seguem três respostas: buscar com menos tráfego, dar mais trabalho aos peers capazes e, na distribuição em massa, abandonar a busca de vez.
 
 ## Teoria Central
 
@@ -36,7 +36,7 @@ Com `N = 4` e `T = 5` do cliente original, são 484 usuários, não importa quan
 
 **Expanding ring** ataca o problema do TTL: faz flood com TTL pequeno e tenta de novo com um maior até o objeto aparecer. Objetos populares param cedo, mas as duplicatas continuam.
 
-**Random walks** atacam as duplicatas. Um walker repassa a query a um vizinho aleatório por vez. Um walker só reduz mensagens, mas aumenta o atraso em uma ordem de grandeza, então quem pergunta lança `k` walkers: `k` walkers depois de `T` passos alcançam mais ou menos os mesmos nós que um walker depois de `kT` passos. Os walkers terminam fazendo **checking** com quem perguntou, e o artigo achou que checar a cada quatro passos é um bom equilíbrio, com 16 a 64 walkers em geral dando bons resultados. Seu resultado com 32 walkers reduziu o overhead de mensagens em cerca de duas ordens de grandeza, com os hops subindo de 2-6 para 4-15. O mesmo artigo acha grafos aleatórios uniformes melhores que os de lei de potência, porque nós de grau alto concentram carga e multiplicam duplicatas.
+**Random walks** são a resposta de Lv et al. à duplicação. Um walker repassa a query a um vizinho aleatório por vez. Um walker só reduz mensagens, mas aumenta o atraso em uma ordem de grandeza, então quem pergunta lança `k` walkers: `k` walkers depois de `T` passos alcançam mais ou menos os mesmos nós que um walker depois de `kT` passos. Os walkers terminam fazendo **checking** com quem perguntou, e o artigo achou que checar a cada quatro passos é um bom equilíbrio, com 16 a 64 walkers em geral dando bons resultados. Seu resultado com 32 walkers reduziu o overhead de mensagens em cerca de duas ordens de grandeza, com os hops subindo de 2-6 para 4-15. Essa economia está no número de mensagens, então a contagem absoluta de duplicatas cai junto, mas a fração de duplicatas quase não muda: os números da Tabela 2 implicam cerca de 51% para 32 walkers contra 63% para flooding. O mesmo artigo acha grafos aleatórios uniformes melhores que os de lei de potência, porque nós de grau alto concentram carga e multiplicam duplicatas.
 
 ### Super-peers
 
@@ -59,21 +59,19 @@ O BitTorrent de Cohen não busca. Quem publica posta um arquivo `.torrent` com n
 Peças:        arquivo cortado em peças (tipicamente um quarto de megabyte), cada
               uma com hash SHA1 no .torrent; o peer só anuncia a peça depois de
               conferi-la.
-Sub-peças:    16 KB na rede, cerca de cinco pedidos em pipeline.
 Seleção:      termina primeiro a peça começada (strict priority);
               aleatória até a primeira peça completa, pois o peer ainda não
               tem o que trocar;
               depois RAREST FIRST entre os próprios vizinhos;
               perto do fim, pede as sub-peças restantes a todos (endgame).
-Choking:      faz upload a um número fixo de peers (padrão: quatro), escolhidos
+Choking:      faz unchoke de um número fixo de peers (padrão: quatro), escolhidos
               pela taxa de download vinda deles (média móvel de 20 s),
               recalculados a cada 10 s.
-Otimista:     um peer extra liberado sem olhar a taxa, trocado a cada 30 s.
-Snubbed:      sem peça de um peer por mais de um minuto, só faz upload a ele
-              como optimistic unchoke.
+Otimista:     um desses quatro é liberado sem olhar a taxa, trocado a cada 30 s
+              (o BEP 3 o conta entre os quatro).
 ```
 
-Choking é uma variante de tit-for-tat: peers retribuem a quem envia para eles. O optimistic unchoke descobre parceiros melhores e, como nota Cohen, faz o papel de cooperar na primeira jogada do dilema do prisioneiro. Rarest first mantém cada peer com algo que os outros querem, e replica peças escassas antes que o seed ou o único detentor saia.
+Choking é uma variante de tit-for-tat: peers retribuem a quem envia para eles. O optimistic unchoke descobre parceiros melhores. Rarest first mantém cada peer com algo que os outros querem, e replica peças escassas antes que o seed ou o único detentor saia.
 
 **Paper vs hoje:** a implantação de Cohen em 2003 dependia de trackers como único jeito de os peers se acharem. O BEP 5 acrescentou depois uma DHT baseada em Kademlia para torrents sem tracker, e `kademlia-and-pastry` cobre essa família. Piatek et al. (2007) testaram a alegação de incentivo em swarms reais e concluíram que o mecanismo "is not robust to strategic clients": o cliente BitTyrant deles ganhou 70% na mediana para um cliente de 1 Mbit em swarms reais, apoiado na descoberta de que todos os peers contribuem com recursos que não melhoram diretamente seu desempenho.
 
@@ -87,7 +85,6 @@ Floods num grafo aleatório 4-regular de 10.000 nós, 200 origens por TTL, contr
 
 ```text
  T | limite   | alcance | mensagens | duplicatas
- 3 |      52  |    51,9 |     52,0  |   0,1%
  5 |     484  |   473,6 |    480,7  |   1,5%
  7 |   4.372  | 3.547   |  4.072    |  12,9%
  8 |  13.120  | 7.298   | 10.603    |  31,2%
@@ -97,7 +94,7 @@ Floods num grafo aleatório 4-regular de 10.000 nós, 200 origens por TTL, contr
 
 Até `T = 5` a árvore é quase exata, e o padrão alcança menos de 5% desta rede. Depois de `T = 7` o limite passa da população e deixa de prever qualquer coisa, enquanto as mensagens continuam subindo. Os dois últimos passos de TTL somam 2.700 nós por 18.800 mensagens: o dilema em números.
 
-### Exemplo 2: reproduzindo a comparação de busca
+### Exemplo 2: conferindo a comparação de busca contra a Tabela 2
 
 Um grafo aleatório do tamanho usado por Lv et al. (9.836 nós, 20.099 enlaces), objetos em 1% dos nós, comparado com a Tabela 2 deles (query e replicação uniformes, grafo Random):
 
@@ -109,7 +106,9 @@ expanding ring     0,066     0,062        570      536
 32 walkers         0,028     0,031        135      149
 ```
 
-O flooding visita quase tudo para achar um objeto que está em 1 nó a cada 100, quando cerca de 100 visitas bastariam em média. O ring economiza um fator de cerca de 40, os walkers cerca de 90. O checking soma cerca de 0,007 mensagem por nó aqui. Um walker sozinho precisou de 144 passos até o primeiro acerto, contra 7,2 com 32 walkers, e é por isso que quem pergunta paga pelo paralelismo.
+O flooding visita quase tudo para achar um objeto que está em 1 nó a cada 100, quando cerca de 100 visitas bastariam em média. O ring economiza um fator de cerca de 40, os walkers cerca de 90.
+
+A concordância tem limites. A linha dos walkers conta só os passos deles. Se cada check for um pedido e uma resposta, como sugere o "message exchange" de Lv, o checking soma cerca de 0,014 mensagem por nó, e Lv não diz se o 0,031 da Tabela 2 inclui o checking, então a concordância dessa linha não está estabelecida. Os hops não se reproduzem e ficam fora da tabela: 32 walkers levaram 7,2 hops até o primeiro acerto aqui contra 10,30 na Tabela 2, e o ring 3,3 contra 5,77.
 
 ### Exemplo 3: o tradeoff de super-peers no tráfego de query
 
@@ -123,7 +122,7 @@ cluster | overlay | cobertos | por query | peer coberto  | nó do overlay
   100   |    100  |  9.627   |     212   |    0,02       | 196/s, 147 kbps
 ```
 
-Passar a cluster de tamanho 10 cobre 2,6 vezes os peers com 0,4 vez as mensagens. A taxa de chegada em cada super-peer sobe cerca de 4 vezes, porque as queries dos 10.000 usuários agora caem em 1.000 nós, e os clientes não veem nada disso. Na rede pura, todo peer gasta 27 kbps só com chegadas de query, cerca de metade de um modem de 56 kbps antes de qualquer resposta. O agregado melhora, o super-peer piora e os peers fracos ficam aliviados.
+Passar a cluster de tamanho 10 cobre 2,6 vezes os peers com 0,4 vez as mensagens. A taxa de chegada em cada super-peer sobe cerca de 4 vezes, porque as queries dos 10.000 usuários agora caem em 1.000 nós, e os clientes não veem nada disso. Na rede pura, todo peer gasta 27 kbps só com chegadas de query, cerca de metade de um modem de 56 kbps antes de qualquer resposta.
 
 ### Exemplo 4: rarest first contra seleção aleatória
 
@@ -136,39 +135,38 @@ random    238           230        30           3 de 60 execuções
 rarest    228           214        14          60 de 60 execuções
 ```
 
-O tempo final quase não muda, porque a capacidade agregada de upload é a mesma nas duas políticas. O que muda é o upload escasso do seed: rarest first desperdiça metade dos uploads do seed em peças que já estão no swarm. Isso decide a sobrevivência: swarms com rarest first sempre tinham o arquivo inteiro quando o seed saiu em 220 uploads, e os aleatórios quase nunca. Isso combina com a alegação de Cohen de que rarest first "does a good job of only downloading new pieces from the seed", ainda que não perfeito.
+O tempo final quase não muda, porque a capacidade agregada de upload é a mesma nas duas políticas. O que muda é o upload escasso do seed: rarest first desperdiça menos da metade do que a seleção aleatória: 14 uploads do seed contra 30, em peças que já estão no swarm. Isso decide a sobrevivência: swarms com rarest first sempre tinham o arquivo inteiro quando o seed saiu em 220 uploads, e os aleatórios quase nunca. Isso combina com a alegação de Cohen de que rarest first "does a good job of only downloading new pieces from the seed", ainda que não perfeito.
 
 ### Exemplo 5: o que o choking faz com um free rider
 
-20 peers que sempre têm algo que os outros querem: 5 com upload 4, 14 com upload 1, um com upload 0. Cada um roda 4 slots regulares e 1 otimista, 200 execuções:
+20 peers que sempre têm algo que os outros querem: 5 com upload 4, 14 com upload 1, um com upload 0. Cada peer tem quatro slots iguais: 3 regulares pela taxa recente, mais 1 otimista sorteado entre os peers fora desses três (Piatek et al. descrevem os alvos otimistas como peers que não conquistaram esse status). Um slot regular sem peer que retribua é preenchido ao acaso. 4000 execuções:
 
 ```text
 classe             upload   download médio
-rápido (5 peers)   4        3,08
-lento (14 peers)   1        1,30
-free rider (1)     0        0,36
+rápido (5 peers)   4        3,45
+lento (14 peers)   1        1,16
+free rider (1)     0        0,55
 ```
 
-Os totais batem, 34 de subida e 34 de descida, como Cohen nota que precisam bater. O download acompanha o upload, mas não exatamente: peers rápidos subsidiam os lentos pelos slots otimistas. O free rider recebe só capacidade otimista, um quinto de 34 dividido entre 19 candidatos, o que prevê 0,358 e bate com os 0,36 medidos. O tit-for-tat aqui pune o free riding sem eliminá-lo.
+Os totais batem, 34 de subida e 34 de descida, como Cohen nota que precisam bater. O download acompanha o upload, mas não exatamente: peers rápidos subsidiam os lentos pelos slots otimistas. O free rider vive de capacidade otimista: um quarto de 34, dividido entre os 16 peers fora do conjunto regular de cada uploader, prevê 0,531. O resto dos 0,55 medidos vem dos 2,2% de slots regulares preenchidos ao acaso: fechá-los para o free rider dá 0,53. Sortear o peer otimista entre todos os outros 19 dá 0,47, ou 0,44 sem o preenchimento (previsão 0,447). O tit-for-tat aqui pune o free riding sem eliminá-lo.
 
 ## Equívocos Comuns e Armadilhas
 
 - **"O tráfego de flooding é exponencial para sempre."** É exponencial até o alcance saturar. O Exemplo 1 mostra as mensagens se estabilizando em cerca de três por nó, e o desperdício vira duplicata.
-- **"TTL maior significa busca melhor."** A regra 4 de Yang e Garcia-Molina e o Exemplo 1 concordam: com cobertura total, TTL a mais só soma custo.
 - **"Super-peers aliviam a carga de todo mundo."** A carga agregada cai e os clientes são aliviados, mas o super-peer carrega mais. A regra 1 existe porque as duas curvas andam em sentidos opostos.
 - **"BitTorrent é um Gnutella melhor."** Ele responde a outra pergunta. Não acha arquivo por palavra-chave, já que o `.torrent` precisa estar em mãos.
-- **"Rarest first é sobre velocidade."** O efeito principal no Exemplo 4 é sobrevivência e eficiência do seed.
 - **"Tit-for-tat torna a contribuição obrigatória."** O Exemplo 5 e Piatek et al. mostram o contrário: slots otimistas alimentam free riders, e clientes estratégicos ganham contribuindo menos por peer.
 
 ## Resumo
 
-O flooding espalha uma query para `N(N-1)^(t-1)` nós novos por hop até o grafo saturar, e seu TTL precisa ser definido sem saber quão raro é o objeto. Expanding ring elimina o chute do TTL e random walkers eliminam a maior parte das duplicatas, cortando o tráfego em até duas ordens de grandeza. Super-peers exploram a heterogeneidade, trocando carga agregada menor por carga individual maior e um ponto de falha por cluster. O BitTorrent contorna a busca por inteiro: um tracker fornece vizinhos aleatórios, rarest first mantém as peças disponíveis e o choking amarra download a upload, de modo imperfeito. Todos tratam localização como algo a buscar ou contornar. `chord-a-ring-dht-with-logarithmic-lookup` segue o outro caminho: impor estrutura e fazer localizar uma chave custar um número logarítmico de hops.
+O flooding espalha uma query para `N(N-1)^(t-1)` nós novos por hop até o grafo saturar, e seu TTL precisa ser definido sem saber quão raro é o objeto. Expanding ring elimina o chute do TTL, e random walkers cortam o tráfego em até duas ordens de grandeza, o que reduz a contagem absoluta de duplicatas mesmo com cerca de metade das suas mensagens ainda duplicadas. Super-peers exploram a heterogeneidade, trocando carga agregada menor por carga individual maior e um ponto de falha por cluster. O BitTorrent contorna a busca por inteiro: um tracker fornece vizinhos aleatórios, rarest first mantém as peças disponíveis e o choking amarra download a upload, de modo imperfeito. `chord-a-ring-dht-with-logarithmic-lookup` segue o outro caminho: impor estrutura e localizar uma chave num número logarítmico de hops.
 
 ## Documentation Links
 
-- [Ritter: Why Gnutella Can't Scale. No, Really. (2001)](http://www.darkridge.com/~jpr5/doc/gnutella.html): os limites de alcance e banda de uma rede Gnutella balanceada, com o vínculo do autor com o Napster declarado.
+- [Ritter: Why Gnutella Can't Scale. No, Really. (2001)](http://www.darkridge.com/~jpr5/doc/gnutella.html): limites de alcance e banda de uma rede Gnutella balanceada.
 - [Lv et al.: Search and Replication in Unstructured Peer-to-Peer Networks (ICS 2002)](https://www.cse.uoi.gr/~pitoura/courses/p2p05/papers/searchp2p.pdf): limites do flooding, expanding ring, random walks com k walkers e comparação de topologias.
-- [Yang and Garcia-Molina: Designing a Super-Peer Network (ICDE 2003)](https://kldp.org/files/superpeer_296.pdf): o modelo de super-peer, sua análise de custo, as regras práticas e k-redundancy.
+- [Yang and Garcia-Molina: Designing a Super-Peer Network (ICDE 2003)](https://kldp.org/files/superpeer_296.pdf): o modelo de super-peer, a análise de custo e as regras práticas.
 - [Cohen: Incentives Build Robustness in BitTorrent (2003)](https://www.bittorrent.org/bittorrentecon.pdf): trackers, peças, seleção de peças e os algoritmos de choking.
 - [Piatek et al.: Do Incentives Build Robustness in BitTorrent? (NSDI 2007)](https://www.cs.princeton.edu/courses/archive/fall14/cos561/papers/BitTyrant07.pdf): medição de altruísmo em swarms reais e o cliente estratégico BitTyrant.
+- [BEP 3: The BitTorrent Protocol Specification](https://www.bittorrent.org/beps/bep_0003.html): o algoritmo de choking e o optimistic unchoke.
 - [BEP 5: DHT Protocol](https://www.bittorrent.org/beps/bep_0005.html): a DHT baseada em Kademlia usada em torrents sem tracker.

@@ -81,7 +81,7 @@ Short fork é write skew, long fork deixa dois observadores verem duas transaç�
 
 - **Invariantes entre transações concorrentes.** Nada impede que dois datacenters aprovem, cada um, uma ação legal isoladamente e ilegal em conjunto, como mostra o Exemplo 3.
 - **Frescor.** Atualizações remotas esperam estabilidade. O Cure mediu em média de 80 a 90 ms de latência de visibilidade remota com 50 ms injetados entre datacenters.
-- **Escritas recentes quando um datacenter morre.** Lloyd et al. afirmam que atualizações ainda não copiadas para fora de um datacenter que falhou se perdem, custo inevitável de commits locais de baixa latência. O Cure tem o mesmo formato, porque o commit retorna antes de as atualizações se propagarem.
+- **Escritas recentes quando um datacenter morre.** Lloyd et al. afirmam que atualizações ainda não copiadas para fora de um datacenter que falhou se perdem, custo inevitável de commits locais de baixa latência. O paper do Cure não diz isso, mas o mesmo raciocínio se aplica a ele, porque o commit retorna antes de as atualizações se propagarem.
 - **Parte do throughput.** No benchmark do Cure com registradores LWW, a consistência eventual ficou cerca de 30 por cento acima dele em todas as cargas.
 - **A espera não some.** Leituras podem esperar uma partição alcançar o snapshot, e um cliente cujo `cvc` está à frente do GSS bloqueia ao iniciar uma transação. O commit dentro de um datacenter é 2PC, e as falhas que o paper discute são falhas de datacenter e partições entre datacenters.
 
@@ -93,7 +93,7 @@ Cada resultado abaixo cobre todos os escalonamentos descritos. Os valores de rel
 
 ### Exemplo 1: a corrida da ACL, enumerada
 
-Comece com ACL v1 pública e Album v1 limpo. Alice emite quatro escritas: ACL v2 friends, Album v2 pessoal (depende de ACL v2), Album v3 limpo, ACL v3 pública (depende de Album v3). Um passo conta as escritas já aplicadas. Um resultado proibido junta ACL pública com álbum pessoal.
+Comece com ACL v1 pública e Album v1 limpo. Alice emite quatro escritas: ACL v2 friends, Album v2 pessoal (depende de ACL v2), Album v3 limpo (depende de Album v2), ACL v3 pública (depende de Album v3). Um passo conta as escritas já aplicadas. Um resultado proibido junta ACL pública com álbum pessoal.
 
 ```text
 Dois gets simples, cada leitura em qualquer passo (15 escalonamentos):
@@ -127,7 +127,8 @@ p2 recebe T   p1.pvc[B]=120  p2.pvc[B]=120  GSS[B]=120
 
 Datacenter C particionado: pvc[B]=300, pvc[C]=90 nas duas partições.
   GSS = {B: 300, C: 90}
-  atualização de B no tempo 200, regra vetorial:  visível (200 <= 300)
+  atualização de B no tempo 200, entrada de C no snapshot <= 90,
+  regra vetorial:                                 visível (200 <= 300, entrada de C <= 90)
   mesma atualização, escalar min(300, 90)=90:     invisível
 ```
 
@@ -161,7 +162,7 @@ Os dois snapshots eram causalmente consistentes e o CRDT convergiu. Nenhuma das 
 
 ## Resumo
 
-Consistência causal por chave não dá visão consistente de várias chaves, qualquer que seja a ordem de leitura. O COPS-GT acrescenta transações só de leitura em até duas rodadas, guardando dependências junto das versões. A Consistência Causal Transacional, definida com o Cure, oferece transações interativas que leem de snapshots causalmente consistentes, com visibilidade atômica e convergência por CRDTs. O Cure faz isso com commit vector clocks e um globally stable snapshot que decide quando transações remotas aparecem. O modelo abre mão de invariantes entre transações concorrentes, de parte do frescor, de escritas recentes num datacenter perdido e de parte do throughput da consistência eventual. A pretensão de ser o modelo transacional disponível mais forte é posição dos autores, não um limite provado.
+Consistência causal por chave não dá visão consistente de várias chaves, qualquer que seja a ordem de leitura. O COPS-GT acrescenta transações só de leitura em até duas rodadas, guardando dependências junto das versões. A Consistência Causal Transacional, definida com o Cure, oferece transações interativas que leem de snapshots causalmente consistentes, com visibilidade atômica e convergência por CRDTs. O Cure faz isso com commit vector clocks e um globally stable snapshot que decide quando transações remotas aparecem. O modelo abre mão de invariantes entre transações concorrentes, de parte do frescor, de escritas recentes num datacenter perdido e, em registradores LWW, de parte do throughput da consistência eventual. A pretensão de ser o modelo transacional disponível mais forte é posição dos autores, não um limite provado.
 
 ## Documentation Links
 

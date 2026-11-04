@@ -53,7 +53,7 @@ Virtual Synchrony pays off in state transfer. Replicas that move together from `
 
 Membership still rests on timeouts, which remain imperfect. Isis treats the verdict as authoritative. Once a failure is declared, the system cuts the process off, and a process that was in fact alive must rejoin like a new one. Applications then see a detector that makes no visible mistakes, which Birman's history describes as implementing a fail-stop model.
 
-Chandra and Toueg draw the cost. Each false suspicion removes a live process, so Isis must set timeouts very conservatively, closer to the worst case, and they report a timeout above 10 seconds in the Isis version of the time. With their detectors a premature timeout only delays progress, so timeouts can sit closer to the average case.
+Chandra and Toueg draw the cost. Each false suspicion removes a live process, so Isis must set timeouts very conservatively, closer to the worst case, and they report a timeout above 10 seconds in the Isis version of the time. With a detector of the ◇W kind they discuss, a premature timeout only delays progress, so timeouts can sit closer to the average case.
 
 Membership cannot avoid the impossibility results either. Chandra and Toueg cite a proof that group membership is unsolvable in asynchronous systems with crash failures, even with the Isis approach of killing suspected processes. The survey proves a companion result: a precise membership service is as strong as ◇P, because each view can serve as a failure detector output. So GCS liveness is stated conditionally, for runs where the failure detector behaves like ◇P and the network stabilizes.
 
@@ -92,7 +92,7 @@ The view change fixes the set of messages for V1:
 
 ### Example 2: the irrevocability gap, and the majority rule
 
-Same start, but now `s` delivers `m3` to itself, answers a client, and crashes before anyone else has `m3`.
+Same group, but now `p` holds only `m2`, and `s` delivers `m3` to itself, answers a client, and crashes before anyone else has `m3`.
 
 ```text
 Survivors report p {m2}  q {m2}  r {m2}. Agreed set: {m2}.

@@ -6,7 +6,7 @@ updatedAt: 2026-11-04
 
 - Explain ordered unreliable multicast, and why ordering without reliable delivery is cheap to provide while ordering with it is not.
 - Trace NOPaxos's normal case and its gap agreement at a concrete sequence number.
-- Explain why neither one global counter nor one counter per shard works for transactions, and how Eris's multi-stamp fixes both.
+- Explain why neither one global counter nor independent sequencing per shard works for transactions, and how Eris's multi-stamp, with one counter per group incremented atomically, fixes both.
 - Apply Hydra's delivery rule to a trace from two sequencers, and say what each design keeps paying for.
 
 ## Context & Motivation
@@ -53,7 +53,7 @@ The transaction model makes this enough. An independent transaction is a one-sho
 
 ### Hydra: ordering without a serialization point
 
-Both designs route all traffic through one device, which caps throughput, restricts routing, and couples sequencer replacement to network rerouting. [Hydra](/papers/hydra-serialization-free-network-ordering) (NSDI 2023) runs several sequencers at once and gives the same guarantees. Independent counters alone fail: two sequencers can write the same number, and breaking the tie by sequencer ID leaves a receiver unable to notice a lost "smaller" message.
+Both designs route all traffic through one device, which restricts routing and couples sequencer replacement to network rerouting. It can also cap throughput where one sequencer serves many groups, as in Eris, or runs on an end host, though for a single NOPaxos group a switch is not the bottleneck. [Hydra](/papers/hydra-serialization-free-network-ordering) (NSDI 2023) runs several sequencers at once and gives the same guarantees. Independent counters alone fail: two sequencers can write the same number, and breaking the tie by sequencer ID leaves a receiver unable to notice a lost "smaller" message.
 
 Hydra therefore uses two pieces of data, each for what it can do. **Clocks give the order**: each sequencer stamps its loosely synchronized clock, and receivers order by (clock, sequencer ID). **Sequence numbers detect gaps**: each sequencer keeps per-group counters. A receiver tracks the largest clock seen from each sequencer and delivers a message only once it is at or below the minimum of those values (`cmin`). By then, anything lost has shown up as a gap. Clock skew can delay delivery, but safety needs only clocks that never run backwards.
 
@@ -66,16 +66,19 @@ An idle sequencer would stall every receiver, so sequencers send **flush** messa
 NOPaxos      total order per group       gap agreement, view changes
 Eris         partial order across shards drop recovery via FC, epochs,
                                          locks for general transactions
-Hydra        same, with N sequencers     same, plus flushes and
-                                         sequencer removal
+Hydra        same, with N sequencers     drop recovery (gap agreement or FC),
+                                         locks for general transactions,
+                                         no epoch change
 ```
+
+Flushes and sequencer removal live in the Hydra layer, not in the application: applications are unaware of flushes, and NOPaxos and Eris change only by disabling their own sequencer failure handling.
 
 Consensus does not disappear: the SDN controller in NOPaxos is replicated with Paxos, and the Eris Failure Coordinator is replicated too. Coordination leaves the common path.
 
 ### Numbers and their conditions
 
 - **NOPaxos.** Throughput within 2% and latency within 16 µs of unreplicated, on a Cavium middlebox with five replicas. Latency 111 µs against Paxos's 240 µs. After a sequencer failure simulated by notifying the controller, operation resumed in about 110 ms and peak throughput returned in 270 ms. The hardware for an in-switch sequencer was not yet available in 2016, so that design went unmeasured there.
-- **Eris.** 221K TPC-C new-order transactions per second, 7.6× Lock-Store, on 15 shards of 3 replicas, with H-Store's partitioning, which makes all transactions independent. The 35× comes from the most skewed run of a custom workload. Sequencer capacity was 6.19M packets per second on the middlebox.
+- **Eris.** 221K TPC-C new-order transactions per second, 7.6× Lock-Store, on 15 shards of 3 replicas, with H-Store's partitioning, which makes all transactions independent. Its largest gain, 35× over Lock-Store, comes from the most skewed run of a custom workload. Sequencer capacity was 6.19M packets per second on the middlebox.
 - **Hydra.** On a Tofino switch with two sequencers and three replicas, HydraPaxos has latency within 5 µs and throughput within 17% of NOPaxos. HydraTxn gets 47% more than Eris in a run that rate limits sequencers and uses single-shard transactions.
 
 ## Worked Examples
@@ -142,7 +145,7 @@ M1 waits for evidence from sequencer 2. F1's number 3 reveals that #2 was lost. 
 
 ## Summary
 
-These designs hand ordering to the network, where a counter in a packet is cheap, and keep reliable delivery in the application. NOPaxos reduces replication to deciding which slots to skip. Eris extends the order across shards with multi-stamps, for transactions that fit its independent model. Hydra removes the single device by ordering with clocks and detecting drops with per-sequencer numbers, at the price of flush traffic and some throughput against serialization. All three keep a slow path for drops and failures, and all three assume one datacenter whose network the operator controls.
+These designs hand ordering to the network, where a counter in a packet is cheap, and keep reliable delivery in the application. NOPaxos reduces replication to deciding which slots to skip. Eris extends the order across shards with multi-stamps, for transactions that fit its independent model. Hydra removes the single device by ordering with clocks and detecting drops with per-sequencer numbers, at the price of flush traffic and, where the sequencer is not the bottleneck, some throughput: 17% for HydraPaxos against NOPaxos. All three keep a slow path for drops and failures. In-network sequencing needs control of the network, and an end-host sequencer avoids that at a latency cost.
 
 ## Documentation Links
 

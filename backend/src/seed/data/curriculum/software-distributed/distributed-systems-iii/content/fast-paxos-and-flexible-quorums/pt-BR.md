@@ -160,9 +160,9 @@ uma linha inteira fora:   a fase 1 funciona, a fase 2 não
 
 - **"O Fast Paxos não tem líder."** As propostas pulam o líder, mas um coordenador ainda inicia as rodadas, e as rodadas clássicas garantem o progresso.
 - **"O Fast Paxos é sempre mais rápido."** Ele economiza um atraso quando não há colisão. O próprio Lamport diz que o Paxos clássico pode ser melhor se as colisões forem frequentes demais.
-- **"O Flexible Paxos sai de graça."** Reduzir Q2 aumenta Q1. No Exemplo 4, o sistema de 10 nós não consegue trocar de líder depois de 3 falhas, e um sistema de maioria conseguiria.
+- **"O Flexible Paxos sai de graça."** Com quóruns simples, levar Q2 abaixo de N/2 eleva Q1 acima de uma maioria: no Exemplo 4, o sistema de 10 nós não consegue trocar de líder depois de 3 falhas, e um sistema de maioria conseguiria. O artigo também mostra que nem sempre é preciso abrir mão de disponibilidade ("not always necessary to compromise availability"): em N = 8, Q2 cai de 5 para 4 e Q1 fica em 5, e os quóruns em grade reduzem as duas fases, em troca de deixar de tolerar algumas combinações de falhas.
 - **"Os quóruns Q2 precisam se sobrepor para que dois líderes não decidam ao mesmo tempo."** O Exemplo 3 mostra que Q2 disjuntos são seguros. Quem impede o conflito é a fase 1 do ballot maior.
-- **"Três quartos é o único quórum rápido."** É uma escolha para F máximo. O Fast Flexible Paxos mostra que outros compromissos são possíveis aumentando a fase 1.
+- **"Três quartos é o único quórum rápido."** É uma escolha para F máximo. O Fast Flexible Paxos mostra que quóruns rápidos menores são possíveis ao custo de uma fase 1 maior: 7 em vez de 9 em n = 11, com quórum de fase 1 de 9.
 
 ## Resumo
 

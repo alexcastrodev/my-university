@@ -54,9 +54,9 @@ Agreement follows, and it is uniform: every process that reaches the end of roun
 
 ### What a crash costs
 
-A coordinator that crashes mid-broadcast splits the estimates, and the next coordinator repairs the split. That is the real cost of a crash: one round of repair. A crash of any process that is not currently coordinating costs nothing.
+A coordinator that crashes mid-broadcast splits the estimates, and a later coordinator repairs the split. A future coordinator that dies before its turn does harm too: its round passes with no broadcast, so a repair round is lost. Either way the crash consumes one of the f + 1 coordinator slots, which is why f crashes require f + 1 of them. A crash of a process with no coordinator round left costs nothing.
 
-The protocol as written, however, pays f + 1 rounds with no crash at all: with a 50 ms round and f = 2, it takes 150 ms every time. If p_1 is correct, the value is fixed after round 1, but no process can know that p_1 reached everyone. Dolev, Reischuk, and Strong separate two cases. Agreement that must happen in the same round needs t + 1 rounds in some fault-free execution, and this protocol is of that kind. Without the simultaneity requirement, and with t < n - 1, the lower bound is min(t + 1, f + 2) rounds, where t is the tolerated number of faults and f the actual number. Their paper studies Byzantine agreement; Wang, Teo, and Cao later prove the same min(t + 1, f + 2) bound for orderly crash failures.
+The protocol as written, however, pays f + 1 rounds with no crash at all: with a 50 ms round and f = 2, it takes 150 ms every time. If p_1 is correct, the value is fixed after round 1, but no process can know that p_1 reached everyone. Dolev, Reischuk, and Strong separate two cases. Agreement that must happen in the same round needs t + 1 rounds in some fault-free execution, and this protocol is of that kind. Without the simultaneity requirement, and with t < n - 1, the lower bound is min(t + 1, f + 2) rounds, where t is the tolerated number of faults and f the actual number. Their paper studies Byzantine agreement; Wang, Teo, and Cao later prove the same min(t + 1, f + 2) bound for orderly crash failures. Both results concern early stopping, and Wang, Teo, and Cao state theirs for all correct processes deciding and halting. A process can decide before it halts, so the bound does not say that no crash protocol can decide before round f + 2.
 
 ### The f + 1 lower bound
 
@@ -84,7 +84,7 @@ The table's entry is t; the coordinator protocol above uses t + 1 processes so t
 
 ### Example 1: a split that the next coordinator repairs
 
-Take n = 4 and f = 2, with inputs a, b, c, d. Both failures are coordinators crashing mid-broadcast, the worst placement.
+Take n = 4 and f = 2, with inputs a, b, c, d. Both failures are coordinators crashing mid-broadcast, which is one way to defeat a two-round run.
 
 ```text
           p1  p2  p3  p4
@@ -94,12 +94,14 @@ round 2   X   X   a   d    p2 reaches only p3, then crashes
 round 3   X   X   a   a    p3 is correct and reaches p4
 ```
 
-Stopping after round 2 would leave p3 with a and p4 with d, both alive and correct. An exhaustive enumeration of crash patterns, including every recipient subset of a crashing coordinator, gives:
+Stopping after round 2 would leave p3 with a and p4 with d, both alive and correct. An exhaustive enumeration, with these same distinct inputs, counts executions this way: at most f processes crash, and each picks a crash round. A process crashing in the round it coordinates also picks any subset of the other 3 processes as recipients, dead or not. A process crashing in any other round has one outcome. This gives:
 
 ```text
 rounds = 2:  180 executions, 42 with disagreement
 rounds = 3:  424 executions,  0 with disagreement
 ```
+
+Of the 42, 36 have p1 and p2 each crash in their own rounds, as in the trace above. The other 6 have p1 crash mid-broadcast while p2 crashes in round 1, before its turn: round 2 then has no broadcast at all, and the split survives.
 
 ### Example 2: the chain, with n = 3, f = 1, one round
 
@@ -143,7 +145,7 @@ All three processes are alive and they disagree. In the model, p1's silence woul
 
 - **"The f + 1 rounds come from the coordinator design."** The bound applies to every algorithm when n >= f + 2. Flooding pays the same rounds with more messages.
 - **"A leader in the synchronous model has to be elected."** The schedule assigns it. Election exists to solve a problem that this model does not have: telling whether the current leader is alive.
-- **"Every crash adds a round."** The round count is fixed at f + 1. Only a coordinator crashing during its own round disturbs anything, and the worst-case budget already includes it.
+- **"Every crash adds a round."** The round count is fixed at f + 1. A crash matters when it splits estimates mid-broadcast or removes a coordinator whose turn has not come, and the f + 1 slots already pay for each such crash.
 - **"The bound holds for all n."** With n = f + 1, f rounds are enough, as Example 2 confirms for n = 3 and f = 2.
 - **"Tolerating f crashes with f + 1 processes makes this better than Paxos."** That number holds only while the timing bound holds. Example 3 shows a safety violation with zero crashes.
 
@@ -157,6 +159,6 @@ With known delay bounds, a missing message proves a crash, so a leader can be as
 - [Aspnes: Notes on Theory of Distributed Systems](https://arxiv.org/abs/2001.04235): the free textbook whose synchronous agreement chapter gives flooding, the f + 1 lower bound by chain of executions, the n >= f + 2 condition, and the history of the result.
 - [Chandra & Toueg: Unreliable Failure Detectors for Reliable Distributed Systems (JACM 1996)](https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf): the rotating coordinator paradigm and its earlier uses.
 - [Dolev, Reischuk & Strong: Early Stopping in Byzantine Agreement (JACM 1990)](https://cris.huji.ac.il/en/publications/early-stopping-in-byzantine-agreement/): the abstract states the min(t + 1, f + 2) bound and the t + 1 bound for simultaneous agreement.
-- [Wang, Teo & Cao: Lower Bounds for Achieving Synchronous Early Stopping Consensus with Orderly Crash Failures (2005)](https://dspace.mit.edu/handle/1721.1/7425): the min(t + 1, f + 2) bound for orderly crash failures.
+- [Wang, Teo & Cao: Lower Bounds for Achieving Synchronous Early Stopping Consensus with Orderly Crash Failures (2005)](https://dspace.mit.edu/handle/1721.1/7425): the min(t + 1, f + 2) bound on deciding and halting, for orderly crash failures.
 - [Abraham: Synchronous Consensus Lower Bound via Uncommitted Configurations (2019)](https://decentralizedthoughts.github.io/2019-12-15-synchrony-uncommitted-lower-bound): the forward proof of the bound, following Aguilera and Toueg.
 - [Lamport: Paxos Made Simple (2001)](https://lamport.azurewebsites.net/pubs/paxos-simple.pdf): the statements on election and safety quoted in the baseline comparison.

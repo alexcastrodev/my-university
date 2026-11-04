@@ -5,7 +5,7 @@ updatedAt: 2026-11-04
 ## Learning Objectives
 
 - Describe the roles in Scribe (rendez-vous point, forwarder, member) and how a topic name becomes a tree root.
-- Trace how `JOIN` messages build a dissemination tree from Pastry routes, and why the result has no loops.
+- Trace how `JOIN` messages build a dissemination tree from Pastry routes, and why the base tree has no loops.
 - Follow a multicast from publisher to members, a `LEAVE`, and the repair after a forwarder or root fails.
 - Read Scribe's measured costs against IP multicast and naive unicast.
 - Compare the design with a centralized broker on durability, ordering, replay, and where the load lands.
@@ -38,7 +38,7 @@ forward(JOIN, key, nextId), at each node on the route:
 
 Each hop therefore adopts the previous node as a child, and a `JOIN` stops at the first node already on the tree. The tree is the union of Pastry routes from members to the root, in the spirit of reverse path forwarding. **Forwarders** need not be members. Membership lists are thus split across the tree, and the root does not handle every join.
 
-There are no loops because each hop of a Pastry route matches a longer prefix of the `groupId`, or the same length and numerically closer, or is the root.
+There are no loops because each hop of a Pastry route matches a longer prefix of the `groupId`, or the same length and numerically closer, or is the root. That argument covers the base mechanism. The bottleneck remover described below "may introduce routing loops", which the paper says happens only under failures and with low probability, and parents pass their path from the root to children so that loops are detected.
 
 ### Multicast and LEAVE
 
@@ -63,7 +63,7 @@ children table entries per node                        mean 6.2, median 3, maxim
 messages per link, Scribe vs IP multicast              mean 2.4 vs 0.7, maximum 4031 vs 950
 ```
 
-Naive unicast from a source would put at least 100,000 messages on some link. The long tail of 1059 entries motivated a bottleneck remover: an overloaded node hands its farthest child to a sibling, capping children at 64 and raising maximum link stress to 4728.
+Naive unicast from a source would put at least 100,000 messages on some link. The long tail of 1059 entries motivated a bottleneck remover: an overloaded node hands its farthest child to a sibling, capping children at 64. The cost is measured as link stress for joining, which the paper says is identical to the multicast figures above before the remover runs: the mean rises from 2.4 to 2.7 and the maximum from 4031 to 4728.
 
 Small groups are the weak spot. With 30,000 groups of 11 on 50,000 nodes, trees grow long unbranched paths, and average link stress was 6.1 against 2.9 for naive unicast. Collapsing non-member nodes that have a single child brought it down to 3.3.
 
@@ -159,9 +159,9 @@ size   nodes  forwarders  children  on one node    member     root unicasts
 4096   4096        0        46.5       61.0          1.00         0.08
 ```
 
-For 4,096 subscribers, a broker sends 4,096 copies from one place, and here the busiest node sends 61 on average across the 30 groups. The first row matches the paper's small-group finding: 17 passive forwarders for 11 members, and hardly any distance saved.
+For 4,096 subscribers, a broker cluster serves 4,096 deliveries from machines provisioned for that job. Here about the same number of copies is paid for by the peers, and the busiest node sends 61 on average across the 30 groups. Only the shape of the first row matches the paper's small-group finding: 17 non-member forwarders for 11 members. The metrics differ. The paper reports link stress about twice that of naive unicast (6.1 vs 2.9), while this row measures plane distance and shows a 5% saving.
 
-With 500 groups of 100 members each, a broker would hold 50,000 subscriptions. Spread over 4,096 peers, each node averages 22.3 children entries in 10.5 tables, and the busiest holds 119. Those 500 groups land on 456 distinct roots, with at most 3 on one node.
+With 500 groups of 100 members each, a broker cluster would hold 50,000 subscriptions. Scribe holds more state in total, because forwarders count too: 91,517 children entries, 1.8 times as many. What changes is where they sit. Spread over 4,096 peers, each node averages 22.3 entries in 10.5 tables, and the busiest holds 119. Those 500 groups land on 456 distinct roots, with at most 3 on one node.
 
 ## Common Misconceptions & Pitfalls
 

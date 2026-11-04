@@ -79,7 +79,7 @@ A short fork is write skew, a long fork lets two observers see two concurrent tr
 
 - **Invariants across concurrent transactions.** Nothing stops two datacenters from each approving an action that is individually legal and jointly illegal, as Example 3 shows.
 - **Freshness.** Remote updates wait for stability. Cure measured an average of 80 to 90 ms of remote visibility latency with 50 ms injected between datacenters.
-- **Recent writes when a datacenter dies.** Lloyd et al. state that updates not yet copied out of a failed datacenter are lost, an inevitable cost of low-latency local commits. Cure has the same shape, because commit returns before updates propagate.
+- **Recent writes when a datacenter dies.** Lloyd et al. state that updates not yet copied out of a failed datacenter are lost, an inevitable cost of low-latency local commits. The Cure paper does not say this, but the same reasoning applies to it, because commit returns before updates propagate.
 - **Some throughput.** In Cure's benchmark on LWW registers, eventual consistency outperformed it by about 30 percent across all workloads.
 - **Waiting is not gone.** Reads can wait for a partition to catch up, and a client whose `cvc` is ahead of the GSS blocks when it starts a transaction. Commit inside a datacenter is 2PC, and the failures the paper discusses are datacenter failures and partitions between datacenters.
 
@@ -91,7 +91,7 @@ Each result below covers every schedule stated. Example 2's clock values are inv
 
 ### Example 1: the ACL race, enumerated
 
-Start from ACL v1 public and Album v1 clean. Alice issues four writes: ACL v2 friends, Album v2 personal (depends on ACL v2), Album v3 clean, ACL v3 public (depends on Album v3). A step counts the writes applied so far. A forbidden result pairs a public ACL with the personal album.
+Start from ACL v1 public and Album v1 clean. Alice issues four writes: ACL v2 friends, Album v2 personal (depends on ACL v2), Album v3 clean (depends on Album v2), ACL v3 public (depends on Album v3). A step counts the writes applied so far. A forbidden result pairs a public ACL with the personal album.
 
 ```text
 Two single gets, each read at any step (15 schedules):
@@ -125,7 +125,8 @@ p2 gets T    p1.pvc[B]=120  p2.pvc[B]=120  GSS[B]=120
 
 Datacenter C partitioned: pvc[B]=300, pvc[C]=90 on both.
   GSS = {B: 300, C: 90}
-  B update at time 200, vector rule:    visible (200 <= 300)
+  B update at time 200, snapshot entry for C <= 90,
+  vector rule:                          visible (200 <= 300, C entry <= 90)
   same update, scalar min(300, 90)=90:  invisible
 ```
 
@@ -159,7 +160,7 @@ Both snapshots were causally consistent and the CRDT converged. Neither guarante
 
 ## Summary
 
-Single-key causal consistency gives no consistent multi-key view, whatever the read order. COPS-GT adds read-only transactions in at most two rounds by storing dependencies with versions. Transactional Causal Consistency, defined with Cure, gives interactive transactions reading from causally consistent snapshots, with atomic visibility and CRDT convergence. Cure achieves it with commit vector clocks and a globally stable snapshot that decides when remote transactions appear. The model gives up invariants across concurrent transactions, some freshness, recent writes in a lost datacenter, and part of the throughput of eventual consistency. Its claim to be the strongest available transactional model is the authors' position, not a proved bound.
+Single-key causal consistency gives no consistent multi-key view, whatever the read order. COPS-GT adds read-only transactions in at most two rounds by storing dependencies with versions. Transactional Causal Consistency, defined with Cure, gives interactive transactions reading from causally consistent snapshots, with atomic visibility and CRDT convergence. Cure achieves it with commit vector clocks and a globally stable snapshot that decides when remote transactions appear. The model gives up invariants across concurrent transactions, some freshness, recent writes in a lost datacenter, and, on LWW registers, part of the throughput of eventual consistency. Its claim to be the strongest available transactional model is the authors' position, not a proved bound.
 
 ## Documentation Links
 

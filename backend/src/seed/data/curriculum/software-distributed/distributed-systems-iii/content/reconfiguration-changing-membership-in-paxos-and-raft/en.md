@@ -68,7 +68,7 @@ The fix adds one rule: "a leader may not append a new configuration entry until 
 
 The dissertation treats three availability problems:
 
-- **Empty new servers.** Add an empty S4 to a three-server cluster and lose S3: commitment needs 3 of 4, but S4 cannot store new entries until it catches up. Raft first adds new servers as non-voting members, replicating to them in rounds until the last round is shorter than an election timeout.
+- **Empty new servers.** Add an empty S4 to a three-server cluster and lose S3: commitment needs 3 of 4, but S4 cannot store new entries until it catches up. Raft first adds new servers as non-voting members, and the dissertation suggests how to judge catch-up: replicate in rounds, wait a fixed number of them (such as 10), add the server if the last round lasted less than an election timeout, and otherwise abort the change with an error.
 - **A removed leader.** It steps down only once `C_new` commits, and until then it manages a cluster it does not count itself in. Leadership transfer is the alternative.
 - **Disruptive servers.** A removed server stops getting heartbeats, times out, and sends higher terms that depose the leader. Pre-Vote does not solve this, because the removed server's log can be up-to-date enough. Raft's answer is that a server ignores RequestVote within the minimum election timeout of hearing from a current leader.
 

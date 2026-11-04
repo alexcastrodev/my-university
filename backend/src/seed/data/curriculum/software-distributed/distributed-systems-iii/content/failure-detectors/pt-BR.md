@@ -56,11 +56,11 @@ Com `f` o número máximo de crashes entre `n` processos:
 
 - **S (e portanto P)** resolve consenso para qualquer `f < n`.
 - **◇S (e portanto ◇P)** resolve consenso somente se `f < ⌈n/2⌉`, ou seja, com uma maioria de processos corretos.
-- Esse limite é justo. Nem ◇P resolve consenso com `f ≥ ⌈n/2⌉`. Divida os processos em dois e atrase todas as mensagens entre as metades enquanto cada uma suspeita da outra para sempre: cada metade precisa decidir como se a outra tivesse caído, e as duas podem decidir diferente.
+- Esse limite é justo. Nem ◇P resolve consenso com `f ≥ ⌈n/2⌉`. Divida os processos em dois e atrase todas as mensagens entre as metades até as duas decidirem, com cada metade suspeitando da outra até lá: cada metade precisa decidir como se a outra tivesse caído, e as duas podem decidir diferente.
 
 O algoritmo com ◇S usa um coordenador rotativo: na rodada `r`, o coordenador é `(r mod n) + 1`. Ele junta `⌈(n+1)/2⌉` estimativas com timestamps, escolhe uma de maior timestamp e a envia. Cada processo adota o valor e responde ack, ou suspeita do coordenador e responde nack. Se todas as `⌈(n+1)/2⌉` respostas forem acks, o valor está travado e o coordenador faz reliable broadcast da decisão.
 
-Aqui o detector afeta só a vivacidade. Se ele se comportar mal para sempre, os processos podem nunca decidir, mas nunca decidem diferente. Erros custam rodadas, não segurança (Exemplo 2).
+Neste algoritmo com ◇S, o detector afeta só a vivacidade. Se ele se comportar mal para sempre, os processos podem nunca decidir, mas nunca decidem diferente. Erros custam rodadas, não segurança (Exemplo 2).
 
 ### Por que isso não contradiz o FLP
 
@@ -90,7 +90,7 @@ P_later(t) = probabilidade de o próximo heartbeat chegar mais de
 
 Suspeitar com `φ ≥ Φ` significa uma chance de erro de cerca de 10% com Φ = 1, 1% com Φ = 2 e 0,1% com Φ = 3. Accrual é uma interface, não uma fuga do FLP: o artigo mostra como construir ◇P em cima dela com limiares móveis, e ressalta que nenhum dos dois pode ser implementado de forma determinística em todo sistema assíncrono.
 
-O principal achado do artigo é que essa flexibilidade não custa nada significativo: reproduzido sobre o mesmo trace, o φ se saiu quase tão bem quanto o detector de Chen e melhor que o de Bertier, projetado para LANs, e os autores avisam para não exagerar a diferença com Chen. O trace veio de uma semana entre Japão e Suíça, com 5.845.712 heartbeats enviados por UDP e 5.822.521 recebidos (cerca de 0,4% de perda). A taxa de erros melhorou em dois degraus: de Φ = 0,5 a 2, quando heartbeats atrasados deixam de disparar suspeitas, e com Φ em [8; 12], quando heartbeats perdidos isolados deixam também.
+O principal achado do artigo é que essa flexibilidade não custa nada significativo: reproduzido sobre o mesmo trace, o φ se saiu tão bem quanto o detector de Chen, um pouco melhor na faixa agressiva e um pouco pior na conservadora, e melhor que o de Bertier, projetado para LANs. Os autores avisam para não exagerar a diferença com Chen. O trace veio de uma semana entre Japão e Suíça, com 5.845.712 heartbeats enviados por UDP e 5.822.521 recebidos (cerca de 0,4% de perda). A taxa de erros melhorou em dois degraus: de Φ = 0,5 a 2, quando heartbeats atrasados deixam de disparar suspeitas, e com Φ em [8; 12], quando heartbeats perdidos isolados deixam também.
 
 **Livro vs hoje:** a documentação atual de cluster do Akka ainda calcula φ com uma distribuição normal, usa limiar padrão 8 e sugere 12 em ambientes de nuvem como o Amazon EC2. Ela acrescenta uma margem, `acceptable-heartbeat-pause`, para pausas de garbage collection e falhas transitórias de rede, e diz que ajustar essa margem costuma bastar.
 
@@ -155,14 +155,14 @@ O mesmo Φ = 8 significa 130 ms num enlace e 316 ms no outro, que é a escala di
 
 ## Equívocos Comuns e Armadilhas
 
-- **"Um detector não confiável significa um protocolo inseguro."** Nos algoritmos de consenso aqui, o detector só afeta a terminação. O Exemplo 2 mostra uma suspeita errada custando uma rodada. A segurança vem da sobreposição de quóruns.
+- **"Um detector não confiável significa um protocolo inseguro."** Não no algoritmo com ◇S: nele o detector só afeta a terminação, o Exemplo 2 mostra uma suspeita errada custando uma rodada, e a segurança vem da sobreposição de quóruns. O algoritmo com S é diferente. Ele não tem quóruns, e seu acordo depende de um processo correto que de fato nunca é suspeito. Com `n = 2` e cada processo suspeitando do outro desde o início, nenhum espera, e cada um decide o próprio valor.
 - **"◇P é mais forte, então tolera mais falhas que ◇S."** Os dois precisam de uma maioria de processos corretos. O que tira a exigência de maioria é a precisão perpétua, não uma precisão eventual mais forte.
 - **"Chandra e Toueg provam que heartbeats implementam ◇P."** Só sob sincronia parcial. Num sistema puramente assíncrono, timeouts prematuros podem se repetir para sempre.
 - **"Φ = 8 significa um erro em 10^8."** Essa leitura assume que o modelo normal se ajusta aos dados. O próprio trace do artigo teve rajadas de perda de até 1.093 heartbeats, e o Exemplo 3 mostra como φ depende do que a janela já viu.
 
 ## Resumo
 
-Chandra e Toueg trocam timeouts por um oráculo abstrato definido por completude e precisão, com oito classes que se reduzem a quatro. S resolve consenso com qualquer número de crashes, e ◇S resolve com uma maioria correta, limite que vale até para ◇P. Nesses algoritmos o detector influencia só a vivacidade, já que a sobreposição de quóruns mantém as decisões seguras. Chandra, Hadzilacos e Toueg mostram que ◇W, equivalente ao líder eventual Ω, é o detector mais fraco para consenso quando `n > 2f`. Heartbeats com timeouts crescentes implementam ◇P sob sincronia parcial. O detector φ accrual transforma o histórico de heartbeats num nível contínuo de suspeita e deixa a escolha do limiar para cada aplicação.
+Chandra e Toueg trocam timeouts por um oráculo abstrato definido por completude e precisão, com oito classes que se reduzem a quatro. S resolve consenso com qualquer número de crashes, e ◇S resolve com uma maioria correta, limite que vale até para ◇P. No algoritmo com ◇S, o detector influencia só a vivacidade, já que a sobreposição de quóruns mantém as decisões seguras. Chandra, Hadzilacos e Toueg mostram que ◇W, equivalente ao líder eventual Ω, é o detector mais fraco para consenso quando `n > 2f`. Heartbeats com timeouts crescentes implementam ◇P sob sincronia parcial. O detector φ accrual transforma o histórico de heartbeats num nível contínuo de suspeita e deixa a escolha do limiar para cada aplicação.
 
 ## Documentation Links
 

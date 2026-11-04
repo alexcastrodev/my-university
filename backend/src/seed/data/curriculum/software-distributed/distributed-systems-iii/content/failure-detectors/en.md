@@ -54,11 +54,11 @@ With `f` the maximum number of crashes among `n` processes:
 
 - **S (and so P)** solves consensus for any `f < n`.
 - **◇S (and so ◇P)** solves consensus only if `f < ⌈n/2⌉`, that is, with a majority of correct processes.
-- That bound is tight. Even ◇P cannot solve consensus with `f ≥ ⌈n/2⌉`. Split the processes in two, and delay all messages between the halves while each permanently suspects the other: each half must decide as if the other had crashed, and the two can decide differently.
+- That bound is tight. Even ◇P cannot solve consensus with `f ≥ ⌈n/2⌉`. Split the processes in two, and delay all messages between the halves until both have decided, with each half suspecting the other until then: each half must decide as if the other had crashed, and the two can decide differently.
 
 The ◇S algorithm uses a rotating coordinator: in round `r` the coordinator is `(r mod n) + 1`. It gathers `⌈(n+1)/2⌉` estimates with timestamps, picks one with the largest timestamp, and sends it out. Each process either adopts it and acks, or suspects the coordinator and nacks. If all of the `⌈(n+1)/2⌉` replies are acks, the value is locked and the coordinator reliably broadcasts the decision.
 
-The detector affects only liveness here. If it misbehaves forever, processes may never decide, but they never decide differently. Mistakes cost rounds, not safety (Example 2).
+In this ◇S algorithm the detector affects only liveness. If it misbehaves forever, processes may never decide, but they never decide differently. Mistakes cost rounds, not safety (Example 2).
 
 ### Why this does not contradict FLP
 
@@ -88,7 +88,7 @@ P_later(t) = probability that the next heartbeat arrives more than
 
 Suspecting at `φ ≥ Φ` means a mistake likelihood of about 10% at Φ = 1, 1% at Φ = 2, and 0.1% at Φ = 3. Accrual is an interface, not an escape from FLP: the paper shows how to build ◇P on top with moving thresholds, and it stresses that neither can be implemented deterministically in all asynchronous systems.
 
-The paper's main finding is that this flexibility costs nothing significant: replayed on the same trace, φ performed about as well as the Chen detector and better than the Bertier detector, which was designed for LANs, and the authors warn against overreading the gap with Chen. The trace came from one week between Japan and Switzerland, with 5,845,712 heartbeats sent over UDP and 5,822,521 received (about 0.4% loss). The mistake rate improved in two steps: from Φ = 0.5 to 2, as late heartbeats stop triggering suspicions, and for Φ in [8; 12], as isolated lost heartbeats do.
+The paper's main finding is that this flexibility costs nothing significant: replayed on the same trace, φ performed equally well as the Chen detector, a little better in the aggressive range and a little worse in the conservative range, and better than the Bertier detector, which was designed for LANs. The authors warn against overreading the gap with Chen. The trace came from one week between Japan and Switzerland, with 5,845,712 heartbeats sent over UDP and 5,822,521 received (about 0.4% loss). The mistake rate improved in two steps: from Φ = 0.5 to 2, as late heartbeats stop triggering suspicions, and for Φ in [8; 12], as isolated lost heartbeats do.
 
 **Book vs today:** Akka's current cluster documentation still computes φ from a normal distribution, uses a default threshold of 8, and suggests 12 for cloud environments such as Amazon EC2. It adds a margin, `acceptable-heartbeat-pause`, for garbage collection pauses and transient network failures, and says tuning that margin is typically enough.
 
@@ -153,14 +153,14 @@ The same Φ = 8 means 130 ms on one link and 316 ms on the other, which is the d
 
 ## Common Misconceptions & Pitfalls
 
-- **"An unreliable detector means an unsafe protocol."** In the consensus algorithms here, the detector only affects termination. Example 2 shows a wrong suspicion costing a round. Safety comes from quorum overlap.
+- **"An unreliable detector means an unsafe protocol."** Not in the ◇S algorithm: there the detector only affects termination, Example 2 shows a wrong suspicion costing a round, and safety comes from quorum overlap. The S algorithm is different. It has no quorums, and its agreement depends on a correct process that is really never suspected. With `n = 2` and each process suspecting the other from the start, neither waits, and they decide their own values.
 - **"◇P is stronger, so it tolerates more failures than ◇S."** Both need a majority of correct processes. Perpetual accuracy, not stronger eventual accuracy, is what removes the majority requirement.
 - **"Chandra and Toueg prove that heartbeats implement ◇P."** Only under partial synchrony. In a purely asynchronous system, premature timeouts can recur forever.
 - **"Φ = 8 means one mistake in 10^8."** That reading assumes the normal model fits. The paper's own trace had loss bursts of up to 1,093 heartbeats, and Example 3 shows how sharply φ depends on what the window has seen.
 
 ## Summary
 
-Chandra and Toueg replace timeouts with an abstract oracle defined by completeness and accuracy, giving eight classes that reduce to four. S solves consensus for any number of crashes, and ◇S solves it with a correct majority, a bound that holds even for ◇P. Failure detectors influence only liveness in these algorithms, since quorum overlap keeps decisions safe. Chandra, Hadzilacos, and Toueg show that ◇W, equivalently the eventual leader Ω, is the weakest detector for consensus when `n > 2f`. Heartbeats with growing timeouts implement ◇P under partial synchrony. The φ accrual detector turns the heartbeat history into a continuous suspicion level, leaving the choice of threshold to each application.
+Chandra and Toueg replace timeouts with an abstract oracle defined by completeness and accuracy, giving eight classes that reduce to four. S solves consensus for any number of crashes, and ◇S solves it with a correct majority, a bound that holds even for ◇P. In the ◇S algorithm the detector influences only liveness, since quorum overlap keeps decisions safe. Chandra, Hadzilacos, and Toueg show that ◇W, equivalently the eventual leader Ω, is the weakest detector for consensus when `n > 2f`. Heartbeats with growing timeouts implement ◇P under partial synchrony. The φ accrual detector turns the heartbeat history into a continuous suspicion level, leaving the choice of threshold to each application.
 
 ## Documentation Links
 

@@ -70,7 +70,7 @@ A correção acrescenta uma regra: "a leader may not append a new configuration 
 
 A tese trata de três problemas de disponibilidade:
 
-- **Servidores novos vazios.** Adicione um S4 vazio a um cluster de três e perca o S3: a confirmação exige 3 de 4, mas o S4 não consegue armazenar entradas novas até alcançar o log. O Raft primeiro adiciona servidores novos como membros sem voto, replicando para eles em rodadas até a última rodada ficar mais curta que um timeout de eleição.
+- **Servidores novos vazios.** Adicione um S4 vazio a um cluster de três e perca o S3: a confirmação exige 3 de 4, mas o S4 não consegue armazenar entradas novas até alcançar o log. O Raft primeiro adiciona servidores novos como membros sem voto, e a tese sugere como julgar se eles alcançaram o log: replicar em rodadas, esperar um número fixo delas (como 10), adicionar o servidor se a última rodada durou menos que um timeout de eleição e, caso contrário, abortar a mudança com erro.
 - **Um líder removido.** Ele só deixa a liderança quando `C_new` é confirmada, e até lá gerencia um cluster no qual não se conta. Leadership transfer é a alternativa.
 - **Servidores que atrapalham.** Um servidor removido para de receber heartbeats, estoura o timeout e envia termos maiores que derrubam o líder. O Pre-Vote não resolve, porque o log do servidor removido pode estar atualizado o bastante. A resposta do Raft é que um servidor ignora RequestVote dentro do timeout de eleição mínimo depois de ouvir um líder atual.
 

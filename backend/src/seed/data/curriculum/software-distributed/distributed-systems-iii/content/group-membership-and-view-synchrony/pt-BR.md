@@ -54,7 +54,7 @@ A propriedade Virtual Synchrony se paga na transferência de estado. Réplicas q
 
 O membership continua apoiado em timeouts, que continuam imperfeitos. O Isis trata o veredito como autoridade. Uma vez declarada a falha, o sistema corta o processo, e um processo que estava vivo precisa voltar como um processo novo. As aplicações passam a ver um detector que não comete erros visíveis, o que a história de Birman descreve como implementar um modelo fail-stop.
 
-Chandra e Toueg mostram o custo. Cada suspeita falsa remove um processo vivo, então o Isis precisa de timeouts muito conservadores, mais perto do pior caso, e eles relatam um timeout acima de 10 segundos na versão do Isis daquela época. Com os detectores deles, um timeout prematuro só atrasa o progresso, então os timeouts podem ficar mais perto do caso médio.
+Chandra e Toueg mostram o custo. Cada suspeita falsa remove um processo vivo, então o Isis precisa de timeouts muito conservadores, mais perto do pior caso, e eles relatam um timeout acima de 10 segundos na versão do Isis daquela época. Com um detector do tipo ◇W que eles discutem, um timeout prematuro só atrasa o progresso, então os timeouts podem ficar mais perto do caso médio.
 
 O membership também não escapa dos resultados de impossibilidade. Chandra e Toueg citam uma prova de que group membership é insolúvel em sistemas assíncronos com crashes, mesmo com a abordagem do Isis de matar processos suspeitos. O survey prova um resultado complementar: um serviço de membership preciso é tão forte quanto ◇P, porque cada view pode servir de saída de um detector de falha. Por isso a vivacidade de um GCS é enunciada de forma condicional, para execuções em que o detector se comporta como ◇P e a rede estabiliza.
 
@@ -93,7 +93,7 @@ A mudança de view fixa o conjunto de mensagens de V1:
 
 ### Exemplo 2: a lacuna de irrevogabilidade e a regra da maioria
 
-Mesmo início, mas agora `s` entrega `m3` a si mesmo, responde a um cliente e cai antes de qualquer outro ter `m3`.
+Mesmo grupo, mas agora `p` só tem `m2`, e `s` entrega `m3` a si mesmo, responde a um cliente e cai antes de qualquer outro ter `m3`.
 
 ```text
 Sobreviventes relatam p {m2}  q {m2}  r {m2}. Conjunto acordado: {m2}.

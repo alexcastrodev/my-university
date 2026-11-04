@@ -606,6 +606,11 @@
         "type": "paper"
       },
       {
+        "label": "BEP 3: The BitTorrent Protocol Specification",
+        "url": "https://www.bittorrent.org/beps/bep_0003.html",
+        "type": "doc"
+      },
+      {
         "label": "BEP 5: DHT Protocol",
         "url": "https://www.bittorrent.org/beps/bep_0005.html",
         "type": "doc"
@@ -1073,7 +1078,7 @@
         "slug": "reconfiguration-changing-membership-in-paxos-and-raft"
       }
     ],
-    "summary": "Given a concrete workload, choose among consensus, chain, certification, causal, shared-log, deterministic, and network-ordered designs, and defend the choice against its failure modes and costs.",
+    "summary": "Given a concrete workload, choose among consensus, certification, causal, shared-log, deterministic, and network-ordered designs, and defend the choice against its failure modes and costs.",
     "publishedAt": "2026-11-04",
     "references": [
       {

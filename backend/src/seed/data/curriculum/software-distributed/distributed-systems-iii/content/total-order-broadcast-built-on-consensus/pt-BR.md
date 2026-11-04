@@ -53,7 +53,8 @@ Para fazer A-broadcast de m:   R-broadcast de m
 
 Ao R-deliver(m):               adiciona m a R_delivered
 
-Laço, enquanto R_delivered - A_delivered não estiver vazio:
+Para sempre:
+    espera até R_delivered - A_delivered não estar vazio
     k := k + 1
     propose(k, R_delivered - A_delivered)
     espera decide(k, msgSet)
@@ -148,7 +149,7 @@ Os processos propõem x, y e z por A-broadcast, e suponha que o proponente de y 
 
 ### Exemplo 4: o custo escondido em "equivalente"
 
-O Teorema 7.1.6 de Chandra e Toueg também se aplica a sistemas síncronos, então o protocolo com coordenador de `leader-based-consensus-in-the-synchronous-model` pode alimentar esta redução. Tome n = 5 e f = 2, de modo que cada instância custa 3 rodadas e até 12 mensagens. Para ordenar 1000 mensagens:
+O Teorema 7.1.6 de Chandra e Toueg também cobre sistemas síncronos, mas o protocolo com coordenador de `leader-based-consensus-in-the-synchronous-model` não pode ser encaixado sem mudanças. Ele supõe que todo processo começa a rodada 1 junto, enquanto na redução os processos entram na instância k em momentos diferentes. É preciso uma adaptação, como iniciar cada instância numa rodada combinada, com o processo que não tem nada a entregar propondo o conjunto vazio. Com essa adaptação, tome n = 5 e f = 2, de modo que cada instância custa 3 rodadas e até 12 mensagens. Para ordenar 1000 mensagens:
 
 ```text
 tamanho do lote   instâncias   rodadas   mensagens de consenso

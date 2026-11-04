@@ -41,7 +41,7 @@ Lazy primary copy                 RE     EX END AC
 Lazy update everywhere            RE     EX END AC
 ```
 
-Três fatos saem dessa tabela. Eager e lazy só diferem em AC vir antes ou depois de END. Primary copy não tem SC, porque só o primário processa a atualização. Update everywhere precisa de SC antes da execução, e a certificação é a exceção: ela executa de forma otimista e aborta depois para manter a consistência. O paper agrupa as duas linhas lazy como consistência fraca e as demais como forte. Ele também trata quóruns como ortogonais: eles decidem quantos sites participam, não quais fases rodam.
+Três fatos saem dessa tabela. Toda linha eager sincroniza por SC ou AC antes de END, e as linhas lazy não. Só em primary copy a diferença é uma simples troca de AC e END: lazy update everywhere também não tem SC, e a linha ABCAST não tem AC. Primary copy não tem SC, porque só o primário processa a atualização. Eager update everywhere precisa de SC antes da execução, e a certificação é a exceção: ela executa de forma otimista e aborta depois para manter a consistência. O texto do paper enuncia essa regra de SC para update everywhere em geral, mas a própria figura mostra lazy update everywhere sem SC. O paper agrupa as duas linhas lazy como consistência fraca e as demais como forte. Ele também trata quóruns como ortogonais: eles decidem quantos sites participam, não quais fases rodam.
 
 ### Os perigos
 
@@ -59,9 +59,9 @@ Deadlocks lazy master ≈ (TPS x N)^2 x Actions^4
                    / (4 x DB_Size^2)                           (19)
 ```
 
-A replicação lazy group segue a taxa de espera da equação 10, porque uma transação que esperaria no eager enfrenta reconciliação no lazy, e esperas são muito mais frequentes que deadlocks. Lazy master não tem reconciliação, mas exige contato com o dono do objeto. A manchete do abstract é que a replicação update-anywhere mostra "a ten-fold increase in nodes and traffic gives a thousand fold increase in deadlocks or reconciliations". O paper também mostra o quanto isso depende das hipóteses: se o banco cresce junto com os nós, a equação 13 é linear em N, e se as atualizações de réplica rodam em paralelo, o crescimento eager é quadrático.
+A replicação lazy group segue a taxa de espera da equação 10, porque uma transação que esperaria no eager enfrenta reconciliação no lazy, e esperas são muito mais frequentes que deadlocks. Lazy master não tem reconciliação, mas exige contato com o dono do objeto. A manchete do abstract é que a replicação update-anywhere mostra "a ten-fold increase in nodes and traffic gives a thousand fold increase in deadlocks or reconciliations". Duas hipóteses suavizam o resultado. Se o banco cresce junto com os nós, a equação 13 é linear em N, caso que o paper chama de "still an unstable situation", e se as atualizações de réplica rodam em paralelo, o crescimento eager é quadrático. O atraso de mensagem ignorado aponta para o outro lado: o modelo "ignores many issues that would make the predicted behavior even worse", e sobre a replicação eager o paper conclui "We see no solution to this problem".
 
-Timestamps dão convergência sem serializabilidade. Gray et al. os chamam de vulneráveis a lost updates, e a proposta deles é a **replicação two-tier**: nós móveis rodam transações tentativas, e nós base as reexecutam sobre as cópias mestras sob um critério de aceitação. Transações comutativas dispensam reconciliação.
+Timestamps dão convergência sem serializabilidade. Gray et al. os chamam de vulneráveis a lost updates, e a proposta deles é a **replicação two-tier**: nós móveis rodam transações tentativas, e nós base as reexecutam sobre as cópias mestras sob um critério de aceitação. Se todas as transações comutam e nenhuma reprova no critério de aceitação, não há reconciliações, porque são as reprovações nesse critério que comandam a taxa de reconciliação.
 
 ### Deferred update e certificação
 
@@ -172,7 +172,7 @@ A segunda regra é a comparação por linha que a página do MySQL descreve, apl
 
 ## Equívocos Comuns e Armadilhas
 
-- **"Gray et al. provaram que replicação eager não escala."** O paper deriva crescimento num modelo declarado, que ignora atraso de mensagem e aplica atualizações em sequência. A equação 13 e a observação sobre atualizações paralelas mudam o expoente, e o Postgres-R muda o mecanismo.
+- **"Gray et al. provaram que replicação eager não escala."** O paper faz uma análise de caso médio de um modelo declarado, não uma prova sobre todo projeto. Atualizações de réplica em sequência e banco de tamanho fixo elevam o expoente: a equação 13 e a observação sobre atualizações paralelas o reduzem, embora o paper ainda chame o caso linear de instável. O atraso de mensagem ignorado age ao contrário, já que incluí-lo pioraria as taxas. O Postgres-R muda o mecanismo modelado.
 - **"Lazy evita o problema porque evita locks."** O resumo de Gray diz que a replicação lazy group converte esperas e deadlocks em reconciliações.
 - **"Certificação precisa de 2PC para chegar a um resultado."** O Exemplo 3 só precisa de ordem total e de um teste determinístico. O Postgres-R envia uma mensagem de decisão, mas ela não é um voto.
 - **"Certificação não custa nada porque ninguém espera."** O Exemplo 3 aborta uma transação que era serializável, e o remédio, a reordenação, aumenta a contenção de locks em fatores altos.
@@ -180,7 +180,7 @@ A segunda regra é a comparação por linha que a página do MySQL descreve, apl
 
 ## Resumo
 
-A replicação de bancos de dados se classifica por quando as atualizações se propagam e por quem as origina, e as cinco fases de Wiesmann mostram eager e lazy como uma troca de AC e END. O modelo de Gray dá crescimento cúbico de deadlocks e reconciliações para eager e lazy group sob hipóteses declaradas, e motiva a replicação two-tier e as atualizações comutativas. A certificação segue outro caminho: executa localmente, difunde read set e write set por atomic broadcast e deixa um teste determinístico decidir o mesmo em todo lugar, com 1SR provado e sem atomic commit. O Postgres-R chega à replicação eager por meio de write sets ordenados e regras locais de lock. Esses protocolos pagam em aborts e numa primitiva de ordem total. Uma atualização só faz commit depois de entregue pelo broadcast, então eles também abrem mão da resposta local durante uma partição que `transactional-causal-consistency` preservou.
+A replicação de bancos de dados se classifica por quando as atualizações se propagam e por quem as origina, e as cinco fases de Wiesmann mostram técnicas eager sincronizando antes de END e lazy não, o que é uma simples troca de AC e END só em primary copy. O modelo de Gray dá crescimento cúbico de deadlocks e reconciliações para eager e lazy group sob hipóteses declaradas, e motiva a replicação two-tier e as atualizações comutativas. A certificação segue outro caminho: executa localmente, difunde read set e write set por atomic broadcast e deixa um teste determinístico decidir o mesmo em todo lugar, com 1SR provado e sem atomic commit. O Postgres-R chega à replicação eager por meio de write sets ordenados e regras locais de lock. Esses protocolos pagam em aborts e numa primitiva de ordem total. Uma atualização só faz commit depois de entregue pelo broadcast, então eles também abrem mão da resposta local durante uma partição que `transactional-causal-consistency` preservou.
 
 ## Documentation Links
 

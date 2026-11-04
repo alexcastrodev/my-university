@@ -57,13 +57,13 @@ Labels skip branches with no interested datacenter, which gives genuine partial 
 
 ### Configuration is where the trade-off went
 
-A single serializer cannot be near every datacenter, so Saturn uses several, and it may add artificial delays so that a label does not outrun its data. For a path between datacenters i and j, `mismatch(i,j) = |metadata path latency - bulk data latency|`. The goal is the tree, placement and delays that minimize the sum of mismatches weighted by each path's importance. The problem is NP-hard, and the number of trees explodes (2,027,025 for nine datacenters), so a heuristic prunes candidates using a constraint solver. Matching every pair is "unlikely (impossible in most cases)".
+A single serializer cannot be near every datacenter, so Saturn uses several, and it may add artificial delays so that a label does not outrun its data. For a path between datacenters i and j, `mismatch(i,j) = |metadata path latency - bulk data latency|`. The goal is the tree, placement and delays that minimize the sum of mismatches weighted by each path's importance. The problem is NP-hard, and the number of trees explodes (2,027,025 for nine datacenters), so a heuristic prunes candidates using a constraint solver. With a limited set of potential locations, matching every pair is "unlikely (impossible in most cases)".
 
 The configuration is computed offline, and a substantial workload change calls for a new tree, which can be swapped through an epoch change label. If the service has an outage, labels also travel with payloads, so datacenters fall back to timestamp order. Each datacenter must be linearizable and export a serial stream of updates.
 
 ### Numbers and their conditions
 
-Each experiment ran on EC2 in seven regions, against an eventually consistent store built by the authors as the baseline.
+The experiments below ran on EC2 in seven regions, against an eventually consistent store built by the authors as the baseline.
 
 ```text
                          Synthetic        Facebook-based
@@ -76,7 +76,7 @@ Added visibility (avg)
   GentleRain             97.9 ms          79.2 ms
 ```
 
-The synthetic defaults are 2-byte values, a 9:1 read/write ratio and no remote reads, and at 2048 bytes all systems handle almost the same load. Saturn's worst paths lose: on Ireland to Sydney, Cure is 3.6 ms lower at the 90th percentile, and on Ireland to Tokyo in the Facebook run, Saturn adds 0.9 ms over GentleRain and 9.9 ms over Cure. Failure paths were not measured.
+The synthetic throughput rows average a sweep over value size, read/write ratio, correlation and remote reads, and the Facebook ones average runs with a maximum of 2 to 5 replicas. Only the synthetic visibility rows use the defaults: 2-byte values, a 9:1 read/write ratio, no remote reads, and exponential correlation, a strongly partial replication that favors Saturn. At full replication, its throughput is only comparable to GentleRain's and 15.2% above Cure's, and at 2048 bytes all systems handle almost the same load. Saturn's worst paths lose: on Ireland to Sydney, Cure is 3.6 ms lower at the 90th percentile, and on Ireland to Tokyo in the Facebook run, Saturn adds 0.9 ms over GentleRain and 9.9 ms over Cure. Failure paths were not measured.
 
 ## Worked Examples
 
@@ -100,8 +100,8 @@ Order `abc` matches real time and is the worst: b and c wait for an update they 
 Update a is issued at dc1. dc2 sees it and issues b, and dc3 must see a before b. A script draws each link delay uniformly from 10 to 100 ms, over 100,000 trials:
 
 ```text
-Labels sent directly between datacenters:  b's label first in 11,553 trials
-Labels through one FIFO serializer:        b's label first in 0 trials
+Labels sent directly between datacenters:  b's label first in about 11,700
+Labels through one FIFO serializer:        b's label first in 0
 ```
 
 The direct case needs dependency metadata to reorder at dc3. Through a serializer, a's label reached it before dc2 could even learn of a, so no extra information is needed. The cost moves from bytes to latency: every label now travels through a shared path.
@@ -122,7 +122,7 @@ Tokyo-Sydney       52        261               52
 Sum of mismatches            213               14
 ```
 
-One serializer in Ireland ruins the nearby pair in the far region, because Tokyo to Sydney detours through Europe. Two serializers fix it, at a small loss on Frankfurt to Sydney. The paper's measurement has the same shape: its multi-serializer tree over seven regions deviates 8.2 ms from optimal on average, while timestamp order alone tends toward the longest travel time, 161 ms.
+One serializer in Ireland ruins the nearby pair in the far region, because Tokyo to Sydney detours through Europe. Two serializers fix it, losing 5 ms each on Ireland to Sydney and Frankfurt to Sydney. These sums come from a latency table, not from a run. The paper measures the same contrast in visibility latency: with its one serializer in Ireland, updates from Tokyo to Sydney perform poorly, because labels detour through Ireland, while its multi-serializer tree deviates only 8.2 ms from optimal on average.
 
 ## Common Misconceptions & Pitfalls
 
@@ -134,7 +134,7 @@ One serializer in Ireland ruins the nearby pair in the far region, because Tokyo
 
 ## Summary
 
-Causal stores trade metadata size against visibility latency: a scalar creates false dependencies, and a vector costs throughput. Saturn takes metadata out of the data path and keeps labels constant in size. A tree of FIFO serializers delivers labels in causal order, and each datacenter gets its own serialization, aimed at delivering each label when its data arrives. The hard part becomes configuration, an offline NP-hard placement problem that no tree solves for every pair, which is why the worst paths give some of the gain back. Read its results per experiment, with their workload, and treat the headline figures with care.
+Causal stores trade metadata size against visibility latency: a scalar creates false dependencies, and a vector costs throughput. Saturn takes metadata out of the data path and keeps labels constant in size. A tree of FIFO serializers delivers labels in causal order, and each datacenter gets its own serialization, aimed at delivering each label when its data arrives. The hard part becomes configuration, an offline NP-hard placement problem where a limited set of serializer locations makes it unlikely that a tree matches every pair, which is why the worst paths give some of the gain back. Read its results per experiment, with their workload, and treat the headline figures with care.
 
 ## Documentation Links
 

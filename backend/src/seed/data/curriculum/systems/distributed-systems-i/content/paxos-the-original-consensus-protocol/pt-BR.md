@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-07
+version: 1.1
+updatedAt: 2026-11-04
 title: "Paxos: O Protocolo de Consenso Original"
 summary: "O Paxos, a solução original de Lamport para o consenso de 1989 (publicada como “The Part-Time Parliament” em 1998, e depois reexplicada no muito mais legível “Paxos Made Simple” em 2001), atribui três papéis (proponentes, aceitadores e aprendizes) e roda duas fases por tentativa (Prepare/Promise, depois Accept/Accepted), construídas inteiramente sobre o fato de que quaisquer duas maiorias de aceitadores precisam se sobrepor em pelo menos um membro. Essa sobreposição é exatamente o que prova a propriedade de segurança central do Paxos, de que, uma vez escolhido qualquer valor, nenhum valor diferente pode jamais ser escolhido depois. Este conceito cobre o Paxos exatamente neste nível (papéis reais, fases reais, o argumento de segurança real pelo nome) sem rederivar cada detalhe de vivacidade e reconfiguração, deixando o tratamento trabalhado mais completo para o Raft, que os próximos três conceitos constroem do zero justamente porque o próprio algoritmo de Lamport era, por amplo consenso, incluindo o título do seu próprio artigo, incomumente difícil de ensinar."
 ---
@@ -76,7 +76,7 @@ sequenceDiagram
 
 ### Por que este nível de tratamento, e por que o Raft a seguir
 
-O argumento de segurança do Paxos (a sobreposição de maiorias forçando um valor escolhido a persistir) é exatamente o conceito que vale entender a fundo, porque é a mesma ideia central que a própria prova de segurança do Raft reutiliza (`raft-safety-the-election-restriction-and-log-completeness`, vários conceitos adiante). O que este conceito deliberadamente não rederiva por completo é a mecânica de vivacidade do Paxos (lidar com proponentes em duelo que ficam se antecipando às fases Prepare uns dos outros com números maiores, uma dificuldade prática real e bem conhecida) e a sua história de pertencimento ao cluster/reconfiguração. Essas são exatamente as áreas que o próprio artigo "Paxos Made Simple" de Lamport reconhece serem mais difíceis de explicar com clareza do que o próprio argumento de segurança, e exatamente o que motivou Ongaro & Ousterhout a projetar o Raft especificamente para ser compreensível desde a base, sem mudar a garantia de segurança fundamental que o Paxos já tinha estabelecido.
+O argumento de segurança do Paxos (a sobreposição de maiorias forçando um valor escolhido a persistir) é exatamente o conceito que vale entender a fundo, porque é a mesma ideia central que a própria prova de segurança do Raft reutiliza (`raft-safety-the-election-restriction-and-log-completeness`, vários conceitos adiante). O que este conceito deliberadamente não rederiva por completo é a mecânica de vivacidade do Paxos (lidar com proponentes em duelo que ficam se antecipando às fases Prepare uns dos outros com números maiores, uma dificuldade prática real e bem conhecida) e a sua história de pertencimento ao cluster/reconfiguração. "Paxos Made Simple", de Lamport, dá pouco espaço a essas duas áreas, uma seção curta sobre progresso e um parágrafo final sobre reconfiguração, e elas são o que motivou Ongaro & Ousterhout a projetar o Raft especificamente para ser compreensível desde a base, sem mudar a garantia de segurança fundamental que o Paxos já tinha estabelecido.
 
 ## Exemplos Resolvidos
 

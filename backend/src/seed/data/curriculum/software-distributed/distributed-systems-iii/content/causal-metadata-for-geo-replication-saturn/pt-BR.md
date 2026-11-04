@@ -59,13 +59,13 @@ Os labels pulam ramos sem datacenter interessado, o que dá replicação parcial
 
 ### A troca foi parar na configuração
 
-Um único serializador não fica perto de todos os datacenters, então o Saturn usa vários, e pode acrescentar atrasos artificiais para que um label não ultrapasse seus dados. Para um caminho entre os datacenters i e j, `mismatch(i,j) = |latência do caminho de metadados - latência dos dados|`. O objetivo é a árvore, a colocação e os atrasos que minimizam a soma dos mismatches ponderada pela importância de cada caminho. O problema é NP-difícil e o número de árvores explode (2.027.025 para nove datacenters), então uma heurística poda candidatas com um constraint solver. Casar todos os pares é "unlikely (impossible in most cases)".
+Um único serializador não fica perto de todos os datacenters, então o Saturn usa vários, e pode acrescentar atrasos artificiais para que um label não ultrapasse seus dados. Para um caminho entre os datacenters i e j, `mismatch(i,j) = |latência do caminho de metadados - latência dos dados|`. O objetivo é a árvore, a colocação e os atrasos que minimizam a soma dos mismatches ponderada pela importância de cada caminho. O problema é NP-difícil e o número de árvores explode (2.027.025 para nove datacenters), então uma heurística poda candidatas com um constraint solver. Com um conjunto limitado de locais possíveis, casar todos os pares é "unlikely (impossible in most cases)".
 
 A configuração é calculada offline, e uma mudança substancial de carga pede uma nova árvore, que pode ser trocada por meio de um label de mudança de época. Numa queda do serviço, os labels também viajam com os payloads, então os datacenters recorrem à ordem de timestamps. Cada datacenter precisa ser linearizável e exportar um fluxo serial de atualizações.
 
 ### Números e suas condições
 
-Cada experimento rodou no EC2 em sete regiões, contra um banco eventualmente consistente construído pelos autores como base.
+Os experimentos abaixo rodaram no EC2 em sete regiões, contra um banco eventualmente consistente construído pelos autores como base.
 
 ```text
                             Sintético        Baseado no Facebook
@@ -78,7 +78,7 @@ Visibilidade extra (média)
   GentleRain                97,9 ms          79,2 ms
 ```
 
-Os padrões do sintético são valores de 2 bytes, proporção leitura/escrita de 9:1 e nenhuma leitura remota, e com 2048 bytes todos os sistemas lidam com quase a mesma carga. Os piores caminhos do Saturn perdem: de Irlanda a Sydney, o Cure fica 3,6 ms abaixo no percentil 90, e de Irlanda a Tóquio, na execução do Facebook, o Saturn adiciona 0,9 ms sobre o GentleRain e 9,9 ms sobre o Cure. Caminhos de falha não foram medidos.
+As linhas de vazão do sintético fazem a média de uma varredura sobre tamanho de valor, proporção leitura/escrita, correlação e leituras remotas, e as do Facebook fazem a média de execuções com máximo de 2 a 5 réplicas. Só as linhas de visibilidade do sintético usam os padrões: valores de 2 bytes, proporção leitura/escrita de 9:1, nenhuma leitura remota e correlação exponencial, uma replicação fortemente parcial que favorece o Saturn. Com replicação total, a vazão dele fica apenas comparável à do GentleRain e 15,2% acima da do Cure, e com 2048 bytes todos os sistemas lidam com quase a mesma carga. Os piores caminhos do Saturn perdem: de Irlanda a Sydney, o Cure fica 3,6 ms abaixo no percentil 90, e de Irlanda a Tóquio, na execução do Facebook, o Saturn adiciona 0,9 ms sobre o GentleRain e 9,9 ms sobre o Cure. Caminhos de falha não foram medidos.
 
 ## Exemplos Resolvidos
 
@@ -102,8 +102,8 @@ A ordem `abc` coincide com o tempo real e é a pior: b e c esperam uma atualiza�
 A atualização a sai de dc1. dc2 a vê e emite b, e dc3 precisa ver a antes de b. Um script sorteia cada atraso de enlace uniformemente entre 10 e 100 ms, em 100.000 tentativas:
 
 ```text
-Labels enviados direto entre datacenters:  label de b primeiro em 11.553 tentativas
-Labels por um serializador FIFO:           label de b primeiro em 0 tentativas
+Labels enviados direto entre datacenters:  label de b primeiro em cerca de 11.700
+Labels por um serializador FIFO:           label de b primeiro em 0
 ```
 
 O caso direto precisa de metadados de dependência para reordenar em dc3. Com um serializador, o label de a chegou a ele antes que dc2 pudesse saber de a, então nenhuma informação extra é necessária. O custo sai dos bytes e vai para a latência: todo label agora percorre um caminho compartilhado.
@@ -124,7 +124,7 @@ Tóquio-Sydney       52      261               52
 Soma dos mismatches         213               14
 ```
 
-Um serializador na Irlanda arruína o par próximo na região distante, porque Tóquio a Sydney faz um desvio pela Europa. Dois serializadores corrigem isso, com pequena perda em Frankfurt a Sydney. A medição do paper tem a mesma forma: sua árvore com vários serializadores em sete regiões se afasta 8,2 ms do ótimo em média, enquanto a ordem de timestamps sozinha tende ao maior tempo de viagem, 161 ms.
+Um serializador na Irlanda arruína o par próximo na região distante, porque Tóquio a Sydney faz um desvio pela Europa. Dois serializadores corrigem isso, perdendo 5 ms cada em Irlanda a Sydney e Frankfurt a Sydney. Essas somas vêm de uma tabela de latências, não de uma execução. O paper mede o mesmo contraste em latência de visibilidade: com seu único serializador na Irlanda, atualizações de Tóquio a Sydney se saem mal, porque os labels desviam pela Irlanda, enquanto sua árvore com vários serializadores se afasta só 8,2 ms do ótimo em média.
 
 ## Equívocos Comuns e Armadilhas
 
@@ -136,7 +136,7 @@ Um serializador na Irlanda arruína o par próximo na região distante, porque T
 
 ## Resumo
 
-Bancos causais trocam tamanho de metadados por latência de visibilidade: um escalar cria falsas dependências, e um vetor custa vazão. O Saturn tira os metadados do caminho dos dados e mantém os labels em tamanho constante. Uma árvore de serializadores FIFO entrega os labels em ordem causal, e cada datacenter recebe a própria serialização, feita para entregar cada label quando seus dados chegam. A parte difícil vira a configuração, um problema offline e NP-difícil de colocação que nenhuma árvore resolve para todos os pares, e é por isso que os piores caminhos devolvem parte do ganho. Leia os resultados por experimento, com a carga de cada um, e trate os números da manchete com cuidado.
+Bancos causais trocam tamanho de metadados por latência de visibilidade: um escalar cria falsas dependências, e um vetor custa vazão. O Saturn tira os metadados do caminho dos dados e mantém os labels em tamanho constante. Uma árvore de serializadores FIFO entrega os labels em ordem causal, e cada datacenter recebe a própria serialização, feita para entregar cada label quando seus dados chegam. A parte difícil vira a configuração, um problema offline e NP-difícil de colocação em que um conjunto limitado de locais torna improvável que uma árvore case todos os pares, e é por isso que os piores caminhos devolvem parte do ganho. Leia os resultados por experimento, com a carga de cada um, e trate os números da manchete com cuidado.
 
 ## Documentation Links
 

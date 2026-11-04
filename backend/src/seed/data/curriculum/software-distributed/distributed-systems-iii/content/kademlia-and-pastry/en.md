@@ -41,7 +41,7 @@ bucket full                -> ping the head (least recently seen)
 
 Live contacts are never evicted. The paper gives two reasons: Gnutella traces showed that the longer a node has been up, the likelier it stays up another hour, and flooding the system with new nodes cannot flush existing routing state.
 
-The proceedings version also grows the table as a tree: one bucket covers the whole space and splits when it fills and its range holds the node's own ID.
+The proceedings version also grows the table as a tree: one bucket covers the whole space, and a full bucket splits when its range holds the node's own ID. That is not the only trigger: the paper also splits other buckets to keep all valid contacts in a subtree of at least `k` nodes, and to route `b > 1` bits per hop.
 
 ### The lookup: k, α, and who does the work
 
@@ -70,17 +70,17 @@ At node `A`, with key `D` and `shl` the shared prefix length in digits, the proc
 3. rare case -> forward to any T in L, R or M with shl(T, D) >= l and |T - D| < |A - D|
 ```
 
-Every step lengthens the shared prefix, or keeps it and gets numerically closer, so routing always converges. With `b = 4` and `10^6` nodes, a table averages 75 entries and a route takes 5 expected hops; at `10^9` nodes the figures are 105 and 7. Case 3 arises on less than 2% of routes with `|L| = 2^b` and 0.6% with `|L| = 2 × 2^b`. Delivery is guaranteed unless `|L|/2` adjacent nodes fail at once.
+A route has three kinds of step. A table step lengthens the shared prefix, a rare-case step keeps at least the same prefix and gets numerically closer, and a leaf-set hop goes straight to the numerically closest node, even if that shortens the prefix, as in Example 3. With accurate state, this progress makes routing converge. With `b = 4` and `10^6` nodes, a table averages 75 entries and a route takes 5 expected hops; at `10^9` nodes the figures are 105 and 7. Case 3 arises on less than 2% of routes with `|L| = 2^b` and 0.6% with `|L| = 2 × 2^b`. Delivery is guaranteed unless `|L|/2` adjacent nodes fail at once.
 
 ### Locality and parallelism spend the same freedom
 
 Many nodes can fill any given entry. Pastry picks the closest under a scalar proximity metric such as IP hops, and a joining node inherits and then refines rows from the nodes on its join route. Because each row chooses from an exponentially smaller set, hops grow longer as a route proceeds. In emulation with up to 100,000 nodes, Pastry routes were roughly 30% to 40% longer than a fictitious scheme with complete tables, for about 75 entries instead of 99,999.
 
-Kademlia can forward to any of `k` nodes, can use round-trip estimates to pick the `α`, and tolerates dead contacts without waiting for them. Example 4 puts rough numbers on both ideas.
+A Kademlia initiator can query any of the `k` nodes in a bucket, can use round-trip estimates to pick the `α`, and tolerates dead contacts without waiting for them. Example 4 puts rough numbers on both ideas.
 
 ### Where the two designs part
 
-Kademlia's authors describe Pastry as two phases: a first that halves XOR distance, and a second on numeric difference. Nodes close by the second metric can be far by the first, which they say creates discontinuities and complicates formal analysis. Kademlia uses one algorithm and one metric from start to finish. Pastry's paper, which came first, supports its design with measurements instead: at 5,000 nodes with 500 failing, average hops rose from 2.73 to 2.96 before repair and returned to 2.74 after.
+Kademlia's authors describe Pastry as two phases: a first that halves XOR distance, and a second on numeric difference. Nodes close by the second metric can be far by the first, which they say creates discontinuities and complicates formal analysis. Kademlia uses one algorithm and one metric from start to finish. Pastry's paper came first and does not address this criticism. Its failure experiment measures something else, route quality under failure and repair: at 5,000 nodes with 500 failing, average hops rose from 2.73 to 2.96 before repair and returned to 2.74 after.
 
 **Paper vs. today:** the Gnutella traces and `b = 5` belong to 2002. BitTorrent's Mainline DHT (BEP 5) is a deployed descendant: 160-bit IDs, XOR distance, and buckets of eight (`K`, "currently eight"), splitting only when the bucket's range holds the node's own ID. It stores peer contacts, not files, and requires a token from a recent `get_peers` before accepting `announce_peer`, which stops hosts from signing up others.
 

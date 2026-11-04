@@ -20,7 +20,7 @@ summary: "Dois caminhos para além de um sequenciador único: o FuzzyLog relaxa 
 
 ### Duas queixas
 
-O "expensive" do FuzzyLog é aritmética sobre premissas, comparada com velocidades publicadas de sequenciadores, e não um experimento. Tome 20 servidores a 30K appends de 4KB/s por Gbps:
+Na seção de motivação do FuzzyLog, "expensive" é aritmética sobre premissas, comparada com velocidades publicadas de sequenciadores, e não um experimento; o experimento do paper aparece mais abaixo. Tome 20 servidores a 30K appends de 4KB/s por Gbps:
 
 ```text
   1 Gbps 20 servers 4096 B payload ->      0.60 M tokens/s
@@ -154,9 +154,13 @@ colors wedged; recovery client reads WAL, fences, rolls forward
 S1 phase2 C3 max=4.2
   S1 delivers C3
   S1 delivers C4
+S2 phase2 C3 max=4.2
+  S2 delivers C3
+  S2 delivers C4
+order S1 ['C1', 'C2', 'C3', 'C4']  S2 ['C1', 'C2', 'C3', 'C4']
 ```
 
-C2 chegou primeiro a S1, mas esperou, porque o timestamp final de C1 ainda podia ser menor. C4 terminou as duas fases e ainda assim ficou atrás de C3: o pico de latência do paper, não uma cascata de recuperações.
+A fase 2 de C2 chegou a S1 antes da de C1, mas S1 a segurou: C1 estava pendente ali em 2.1, então seu timestamp final ainda podia ser menor. C4 terminou as duas fases e ainda assim ficou atrás de C3: o pico de latência do paper, não uma cascata de recuperações.
 
 ### Exemplo 3: cortes, com a Figura 2 do paper do Scalog
 

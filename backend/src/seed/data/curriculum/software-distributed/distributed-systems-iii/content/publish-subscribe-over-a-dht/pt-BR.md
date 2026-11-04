@@ -7,7 +7,7 @@ summary: "Como construir publish-subscribe sobre um overlay estruturado: árvore
 ## Objetivos de Aprendizagem
 
 - Descrever os papéis no Scribe (rendez-vous point, forwarder, membro) e como o nome de um tópico vira a raiz de uma árvore.
-- Acompanhar como mensagens `JOIN` constroem uma árvore de disseminação a partir de rotas do Pastry, e por que o resultado não tem laços.
+- Acompanhar como mensagens `JOIN` constroem uma árvore de disseminação a partir de rotas do Pastry, e por que a árvore básica não tem laços.
 - Seguir um multicast do publisher até os membros, um `LEAVE`, e o reparo depois da falha de um forwarder ou da raiz.
 - Ler os custos medidos do Scribe em relação a IP multicast e a unicast ingênuo.
 - Comparar o desenho com um broker centralizado em durabilidade, ordenação, replay e no lugar onde a carga cai.
@@ -40,7 +40,7 @@ forward(JOIN, key, nextId), em cada nó da rota:
 
 Cada hop adota o nó anterior como filho, e um `JOIN` para no primeiro nó que já está na árvore. A árvore é a união das rotas do Pastry dos membros até a raiz, no espírito do reverse path forwarding. **Forwarders** não precisam ser membros. A lista de membros fica assim repartida pela árvore, e a raiz não trata todo join.
 
-Não há laços porque cada hop de uma rota do Pastry casa um prefixo mais longo do `groupId`, ou um do mesmo tamanho e numericamente mais perto, ou é a raiz.
+Não há laços porque cada hop de uma rota do Pastry casa um prefixo mais longo do `groupId`, ou um do mesmo tamanho e numericamente mais perto, ou é a raiz. Esse argumento cobre o mecanismo básico. O bottleneck remover descrito adiante pode introduzir laços de roteamento, o que, segundo o paper, só acontece sob falhas e com baixa probabilidade, e os pais passam aos filhos o caminho desde a raiz para que os laços sejam detectados.
 
 ### Multicast e LEAVE
 
@@ -65,7 +65,7 @@ entradas de children table por nó                       média 6,2, mediana 3, 
 mensagens por enlace, Scribe vs IP multicast            média 2,4 vs 0,7, máximo 4031 vs 950
 ```
 
-Unicast ingênuo a partir de uma fonte colocaria pelo menos 100.000 mensagens em algum enlace. A cauda longa de 1059 entradas motivou um bottleneck remover: um nó sobrecarregado passa o filho mais distante para um irmão, o que limita os filhos a 64 e eleva o stress máximo de enlace para 4728.
+Unicast ingênuo a partir de uma fonte colocaria pelo menos 100.000 mensagens em algum enlace. A cauda longa de 1059 entradas motivou um bottleneck remover: um nó sobrecarregado passa o filho mais distante para um irmão, o que limita os filhos a 64. O custo é medido como stress de enlace nos joins, que o paper diz ser idêntico aos números de multicast acima antes de o remover rodar: a média sobe de 2,4 para 2,7 e o máximo de 4031 para 4728.
 
 Grupos pequenos são o ponto fraco. Com 30.000 grupos de 11 membros em 50.000 nós, as árvores criam caminhos longos sem ramificação, e o stress médio de enlace foi 6,1 contra 2,9 do unicast ingênuo. Colapsar nós não membros com um único filho baixou esse valor para 3,3.
 
@@ -162,9 +162,9 @@ grupo    árvore  não membros   da raiz   em um nó      por membro  unicasts d
 4096     4096        0          46,5       61,0          1,00         0,08
 ```
 
-Para 4.096 assinantes, um broker envia 4.096 cópias de um lugar só, e aqui o nó mais ocupado envia 61 em média nos 30 grupos. A primeira linha bate com o achado do paper sobre grupos pequenos: 17 forwarders passivos para 11 membros, e quase nenhuma distância economizada.
+Para 4.096 assinantes, um cluster de brokers atende 4.096 entregas a partir de máquinas provisionadas para isso. Aqui, mais ou menos o mesmo número de cópias é pago pelos peers, e o nó mais ocupado envia 61 em média nos 30 grupos. Só a forma da primeira linha bate com o achado do paper sobre grupos pequenos: 17 forwarders não membros para 11 membros. As métricas são outras. O paper relata stress de enlace cerca de duas vezes o do unicast ingênuo (6,1 vs 2,9), enquanto esta linha mede distância no plano e mostra economia de 5%.
 
-Com 500 grupos de 100 membros, um broker guardaria 50.000 assinaturas. Espalhados por 4.096 peers, cada nó tem em média 22,3 entradas em 10,5 tabelas, e o mais ocupado guarda 119. Esses 500 grupos caem em 456 raízes distintas, com no máximo 3 no mesmo nó.
+Com 500 grupos de 100 membros, um cluster de brokers guardaria 50.000 assinaturas. O Scribe guarda mais estado no total, porque os forwarders também contam: 91.517 entradas de children table, 1,8 vez mais. O que muda é onde elas ficam. Espalhadas por 4.096 peers, cada nó tem em média 22,3 entradas em 10,5 tabelas, e o mais ocupado guarda 119. Esses 500 grupos caem em 456 raízes distintas, com no máximo 3 no mesmo nó.
 
 ## Equívocos Comuns e Armadilhas
 

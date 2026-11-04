@@ -18,7 +18,7 @@ updatedAt: 2026-11-04
 
 ### Two complaints
 
-FuzzyLog's "expensive" is arithmetic over assumptions, set against published sequencer speeds, not an experiment. Take 20 servers at 30K 4KB appends/s per Gbps:
+In FuzzyLog's motivation section, "expensive" is arithmetic over assumptions, set against published sequencer speeds, not an experiment; the paper's experiment appears below. Take 20 servers at 30K 4KB appends/s per Gbps:
 
 ```text
   1 Gbps 20 servers 4096 B payload ->      0.60 M tokens/s
@@ -152,9 +152,13 @@ colors wedged; recovery client reads WAL, fences, rolls forward
 S1 phase2 C3 max=4.2
   S1 delivers C3
   S1 delivers C4
+S2 phase2 C3 max=4.2
+  S2 delivers C3
+  S2 delivers C4
+order S1 ['C1', 'C2', 'C3', 'C4']  S2 ['C1', 'C2', 'C3', 'C4']
 ```
 
-C2 reached S1 first but waited, since C1's final timestamp could still be lower. C4 finished both phases and still blocked behind C3: the paper's latency spike, not a cascade of recoveries.
+C2's phase 2 reached S1 before C1's, but S1 held it: C1 was pending there at 2.1, so its final timestamp could still be lower. C4 finished both phases and still blocked behind C3: the paper's latency spike, not a cascade of recoveries.
 
 ### Example 3: cuts, using Figure 2 of the Scalog paper
 

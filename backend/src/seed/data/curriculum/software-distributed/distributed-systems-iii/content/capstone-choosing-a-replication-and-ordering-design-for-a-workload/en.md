@@ -11,7 +11,7 @@ updatedAt: 2026-11-04
 
 ## Context & Motivation
 
-This discipline has covered a dozen ways to order and replicate data, and each lesson ended with a price. None of them won. `multi-paxos-from-one-decision-to-a-replicated-log` is simple and strong, and it charges a round trip to a majority for every write. `causal-consistency` answers locally and cannot protect an invariant. `deterministic-transactions-calvin` removes commit votes and requires declared read and write sets.
+This discipline has covered a dozen ways to order and replicate data, and each lesson ended with a price. None of them won. `multi-paxos-from-one-decision-to-a-replicated-log` is simple and strong, and it charges a round trip to a majority for every write. `causal-consistency` answers locally, and `transactional-causal-consistency` shows that it still cannot protect an invariant. `deterministic-transactions-calvin` removes commit votes and requires declared read and write sets.
 
 The working skill is reading a workload closely enough to know which price it can pay. This capstone applies that skill to a single system, the way `capstone-designing-a-cloud-storage-system-for-a-workload` did for storage. The conclusion is that one system rarely has one answer.
 
@@ -27,7 +27,7 @@ The working skill is reading a workload closely enough to know which price it ca
 
 **4. How contended is the data?** Contention decides between optimistic designs, which pay in aborts, and pessimistic or deterministic ones, which pay in waiting.
 
-**5. What do you control?** Network-ordered designs need a sequencer in the network. Calvin needs transactions whose sets can be declared. A design is only available if its assumptions can be met.
+**5. What do you control?** Network-ordered designs need ordered delivery, and their best results use a sequencer in a switch or middlebox. An end-host sequencer avoids that hardware at a latency cost. Calvin needs transactions whose sets can be declared or cheaply predicted. A design is only available if its assumptions can be met.
 
 ### The families and what they assume
 
@@ -37,8 +37,8 @@ The working skill is reading a workload closely enough to know which price it ca
 | Certification | One-copy serializability | Atomic broadcast | Aborts under contention |
 | Causal stores | Local writes, availability | No cross-site invariants | Weaker reads, visibility delay |
 | Shared log | One order over many servers | A way to order at scale | An ordering step on the path |
-| Deterministic | Serial order without commit votes | Declared sets | Batching delay, no reordering around stalls |
-| Network-ordered | Fast path without coordination | A network the operator controls | A slow path, one datacenter |
+| Deterministic | Serial order without commit votes | Declared sets | Batching delay, no reordering around stalls, execution skew |
+| Network-ordered | Fast path without coordination | A sequencer on the path, in the network for the best results | A slow path for drops and failures |
 
 Failure detection and membership sit underneath all of them. `failure-detectors` explains why suspicion is enough for liveness, and `reconfiguration-changing-membership-in-paxos-and-raft` shows why changing replicas needs the same care as the data path.
 
@@ -57,20 +57,20 @@ The shard map and feature flags change a few times a minute, must be read consis
 A consensus log fits directly. Flexible quorums are worth checking, because `fast-paxos-and-flexible-quorums` shows that only phase 1 and phase 2 quorums must intersect:
 
 ```text
-Q1  Q2  intersect?  crashes survivable writing  crashes survivable electing
-3   3   yes         2                           2
-4   2   yes         3                           1
-5   1   yes         4                           0
+Q1  Q2  intersect?  crashes writes survive, leader alive  crashes an election survives
+3   3   yes         2                                     2
+4   2   yes         3                                     1
+5   1   yes         4                                     0
 3   2   no
 ```
 
-A smaller phase 2 quorum helps a workload that writes constantly. This one barely writes, and with Q1 = 4 a leader change would survive only one crash. Plain majorities win, and the optimization is declined.
+A smaller phase 2 quorum helps a workload that writes constantly. This one barely writes, and if the leader is among the crashed nodes, writes stop until an election, which with Q1 = 4 survives only one crash. Plain majorities win, and the optimization is declined.
 
 ### Example 2: Seat inventory
 
 Sixteen shards in one region hold seats. A purchase takes several seats that can span shards, and a popular on-sale makes a few keys extremely hot. "Sold once" is an invariant, so question 2 rules out causal stores.
 
-Certification has no lock window, so it seems attractive. Take write sets of `k` keys among `D` hot keys, and `c` concurrent transactions:
+Certification holds no lock across sites during agreement, so it seems attractive. Take write sets of `k` keys among `D` hot keys, and `c` concurrent transactions:
 
 ```text
 D          k  c    P(two transactions overlap)  P(at least one overlap)
@@ -80,16 +80,16 @@ D          k  c    P(two transactions overlap)  P(at least one overlap)
 
 On a large, cold key space certification is excellent. During an on-sale, a transaction almost always meets a conflict, and the aborted work is retried into the same contention.
 
-Compare two lock-based paths on one hot key, assuming a one-way delay of 0.25 ms and 0.1 ms of execution. In this simple model, 2PC over consensus groups holds locks across prepare, replication, the vote, and replicating the decision, which is 6 one-way delays. A deterministic design holds them for the read exchange and execution, about 2 delays, because the order was fixed first:
+Compare two lock-based paths on one hot key, assuming a one-way delay of 0.25 ms and 0.1 ms of execution. In this simple model, 2PC over consensus groups holds locks across prepare, replication, the vote, and replicating the decision, which is 6 one-way delays. A deterministic design holds them for the read exchange and execution, about 2 delays, because the order was fixed first. Both counts are rough:
 
 ```text
 2PC over consensus:  hold 1.60 ms -> at most 625 transactions/s on that key
 Deterministic:       hold 0.60 ms -> at most 1,667 transactions/s on that key
 ```
 
-The deterministic path pays elsewhere: with Calvin's 10 ms epochs a request waits 5 ms on average for its batch, plus replication. Seat IDs are in the request, so the sets can be declared, and a few milliseconds are acceptable to someone buying a ticket. A deterministic design fits.
+Read 1,667 as a ceiling, because it assumes all participants start together. `deterministic-transactions-calvin` lists execution skew and multipartition CPU as the costs in exactly this regime. The deterministic path also pays in latency: with Calvin's 10 ms epochs a request waits 5 ms on average for its batch, plus replication. Seat IDs are in the request, so the sets can be declared, and a few milliseconds are acceptable to someone buying a ticket. A deterministic design fits.
 
-Network ordering would cut latency further, but `network-ordered-consensus-nopaxos-eris-and-hydra` assumes a network the operator controls. The platform runs on a public cloud, so question 5 removes it.
+Network ordering looks like a further gain, but a purchase conditional on seats in another shard is not an independent transaction in Eris's model, so it would take the slower general path. The in-network sequencers behind the best results in `network-ordered-consensus-nopaxos-eris-and-hydra` also need an operator who controls the network. The platform runs on a public cloud, where only an end-host sequencer is possible, and none of these sources measures that setting, so question 5 sets the option aside.
 
 ### Example 3: Profiles and follows
 
@@ -104,7 +104,7 @@ Tokyo       220 ms            local
 
 Causal replication acknowledges in the local region, and a write becomes visible elsewhere after at least the one-way delay: 35 ms from Virginia to Ireland, 75 ms to Tokyo, 105 ms from Ireland to Tokyo. Profiles and follows have no cross-site invariant, and a follow that appears 100 ms later harms nobody, so transactional causal consistency fits. `causal-metadata-for-geo-replication-saturn` matters if metadata grows into a visibility or throughput problem.
 
-There is one exception inside this data set. Usernames must be unique, and question 2 applies. Username claims go through the control plane's consensus log and pay the round trip. Those are rare, so the cost is small.
+There is one exception inside this data set. Usernames must be unique, and question 2 applies. Username claims go through a consensus log. Using the control plane's log means a round trip to its region, which is a cross-region cost for most users, and claims stop if that region is lost. Claims are rare, so both costs are acceptable here.
 
 ### Example 4: Order events
 
@@ -122,7 +122,7 @@ The sequencer becomes the bottleneck long before storage does. `scaling-shared-l
 | Data set | Design | What would change the choice |
 |---|---|---|
 | Control plane | Consensus log, majorities | Heavy write load |
-| Seat inventory | Deterministic transactions | Sets that cannot be declared |
+| Seat inventory | Deterministic transactions | Sets that cannot be declared or predicted |
 | Profiles, follows | Transactional causal | A new cross-site invariant |
 | Usernames | Consensus log | Nothing common |
 | Order events | Shared log with cuts | Replay no longer needing one order |
@@ -131,9 +131,9 @@ The sequencer becomes the bottleneck long before storage does. `scaling-shared-l
 
 - **"Pick the strongest guarantee to be safe."** Example 3 shows the strongest option adding 220 ms to a write that needed none of it. Strength has a price, and paying it where nothing depends on it is a design error.
 - **"Causal consistency is nearly as good as consensus."** It is a good fit until an invariant appears. The username in Example 3 cannot be protected by metadata, however rich.
-- **"Certification is always cheaper because it avoids locks."** Example 2 shows it depends entirely on contention: the same protocol went from 0.5% to near certainty of conflict.
+- **"Certification is always cheaper because it avoids distributed locks."** Example 2 shows it depends entirely on contention: the same protocol went from 0.5% to near certainty of conflict.
 - **"This paper reached a million operations per second, so my system will."** That figure carries a testbed, a payload, and often a missing replication factor. Use it for shape, not for planning.
-- **"A faster network sequencer solves it."** Only for operators who can deploy one, and only inside one datacenter.
+- **"A faster network sequencer solves it."** Only for operators who can deploy one. An end-host sequencer avoids the hardware and gives back part of the latency gain.
 - **"One system should have one replication design."** Four data sets with different answers is the normal result, not a failure of architecture.
 
 ## Summary

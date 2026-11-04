@@ -13,7 +13,7 @@ summary: "A inversão do Calvin: as máquinas concordam com uma sequência globa
 
 ## Contexto e Motivação
 
-`two-phase-commit-and-the-blocking-problem` mostrou um participante segurando locks enquanto espera uma decisão. `spanner-truetime-and-external-consistency` mantém essa estrutura e a torna suportável: o Paxos replica cada shard e o two-phase commit roda entre shards, com os locks ainda presos durante o acordo.
+`two-phase-commit-and-the-blocking-problem` mostrou um participante segurando locks enquanto espera uma decisão. `spanner-truetime-and-external-consistency` mantém essa estrutura e a torna capaz de sobreviver a falhas: o Paxos replica cada shard e o two-phase commit roda entre shards, com os locks ainda presos durante o acordo.
 
 O Calvin, paper de Yale no SIGMOD 2012, faz outra pergunta. `low-latency-shared-logs-lazylog-and-speclog` deixou a ordenação terminar depois do ponto em que alguém esperava. O Calvin puxa o acordo para antes: as máquinas decidem o que fazer "outside of transactional boundaries", antes de pegar qualquer lock. Aí `the-replicated-state-machine-approach` passa a valer para um banco inteiro. Se toda réplica recebe as mesmas entradas na mesma ordem e a execução é determinística, as réplicas não precisam trocar resultados para continuar idênticas.
 
@@ -106,16 +106,16 @@ Transferir 100 de x em P1 para z em P2. As duas partições escrevem, então amb
 ```text
 x=150, z=20:  P1 commit (x=50, z=120)   P2 commit (x=50, z=120)
 x=70,  z=20:  P1 abort                  P2 abort
-Mensagens: 2 leituras de ida.
-Two-phase commit com dois participantes: 2 prepares + 2 votos
-  + 2 decisões + 2 acks = 8.
+Depois do sequenciamento, os dois projetos precisam das 2 leituras de ida.
+O Calvin não acrescenta mensagens de commit. Two-phase commit, com
+coordenador separado, acrescenta 2 prepares + 2 votos + 2 decisões + 2 acks = 8.
 ```
 
-Não há janela em que um participante esteja incerto do resultado, então o participante bloqueado de `two-phase-commit-and-the-blocking-problem` não tem equivalente aqui. Se P2 cai depois de encaminhar, sua réplica tem o mesmo plano. Um nó que caiu também pode recomeçar de um checkpoint: reexecutar um log de cinco operações de entrada a partir de um checkpoint tirado após a operação 2 dá x=55, z=120, o mesmo estado da execução ao vivo.
+Isso conta só o caminho de commit: o Calvin pagou antes pelo sequenciamento e pela replicação da entrada. A entrada fixa o resultado antes da execução, mas um participante pode ainda não conhecê-lo: com x=70, P2 segura seu lock em z até x chegar de P1. Essa espera difere do participante bloqueado de `two-phase-commit-and-the-blocking-problem`, porque nenhum voto ou decisão de coordenador está pendente, e uma réplica de P1 pode enviar o valor enquanto alguma estiver viva. Se P2 cai depois de encaminhar, sua réplica tem o mesmo plano. Um nó que caiu também pode recomeçar de um checkpoint e reexecutar o log de entrada depois dele, o que reproduz o estado da execução ao vivo.
 
 ### Exemplo 3: o bloqueio, com e sem prefetch
 
-A, B, C, D chegam nessa ordem, e cada uma executa em 1 ms. A precisa de uma leitura de disco de 40 ms e conflita com B e C na chave q. D conflita com C.
+A, B, C, D chegam nessa ordem, e cada uma executa em 1 ms. A precisa de uma leitura de disco de 40 ms antes de travar q, a chave que divide com B e C. D conflita com C.
 
 ```text
                              termina em (ms)
@@ -125,7 +125,7 @@ Reordenado (convencional)    41   1    2    3
 Calvin, prefetch de 40 ms    41   1    2    3
 ```
 
-O prefetch mantém B, C e D tão rápidas quanto num sistema que reordena, porque A entra na sequência depois que seus dados estão em memória. Se a estimativa for 25 ms, A entra em 25 e segura seus locks durante os 15 ms restantes de disco, e uma E em conflito que chega em 26 termina em 42. O paper relata 40 ms como o atraso de que seu engine de filesystem precisou com índice de contenção 0,01.
+Deixando de lado o atraso de batch, que esta tabela omite, o prefetch mantém B, C e D tão rápidas quanto num sistema que reordena, porque A entra na sequência depois que seus dados estão em memória. Se a estimativa for 25 ms, A entra em 25 e segura seus locks durante os 15 ms restantes de disco, e uma E em conflito que chega em 26 termina em 42. O paper relata 40 ms como o atraso de que seu engine de filesystem precisou com índice de contenção 0,01.
 
 ### Exemplo 4: a linha do two-phase commit é um modelo
 
