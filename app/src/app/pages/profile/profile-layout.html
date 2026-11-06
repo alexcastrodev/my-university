@@ -14,8 +14,22 @@
       >
         <div actions class="actions-row">
           <button type="button" class="btn btn-primary" data-testid="edit-profile" [attr.aria-expanded]="editing()" aria-controls="edit-panel" (click)="toggleEditing()" i18n="@@profile.editProfile">Edit profile</button>
-          @if (linkKey(); as key) {
-            <a class="btn btn-quiet" data-testid="view-as-visitor" [routerLink]="['/u', key]" i18n="@@profile.viewAsVisitor">View as visitor</a>
+          @if (profileLink(); as link) {
+            <div class="public-link">
+              <span class="public-link-pill">
+                <span class="public-link-text" data-testid="public-link">{{ link }}</span>
+                <button type="button" class="icon-btn" data-testid="copy-public-link" [attr.aria-label]="copyLabel()" [title]="copyLabel()" (click)="copyLink()">
+                  @if (copied()) {
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l5 5 9-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  } @else {
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2" /><path d="M5 15V6a2 2 0 0 1 2-2h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                  }
+                </button>
+              </span>
+              <a class="icon-btn icon-link" data-testid="open-public-link" [href]="link" target="_blank" rel="noopener" i18n-aria-label="@@profile.openPublic" aria-label="Open public profile" i18n-title="@@profile.openPublic" title="Open public profile">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </a>
+            </div>
           }
         </div>
         <nav tabs class="tabs" i18n-aria-label="@@profile.tabs.aria" aria-label="Profile sections">
@@ -97,7 +111,7 @@
               <div class="row">
                 <button type="button" class="btn btn-primary" data-testid="save-slug" [disabled]="saving()" (click)="saveSlug()" i18n="@@settings.save">Save</button>
                 @if (currentSlug()) {
-                  <button type="button" class="btn btn-quiet" data-testid="remove-slug" [disabled]="saving()" (click)="removeSlug()" i18n="@@profile.slug.remove">Use the default link</button>
+                  <button type="button" class="btn btn-quiet" data-testid="remove-slug" [disabled]="saving()" (click)="confirmRemoveOpen.set(true)" i18n="@@profile.slug.remove">Remove custom link</button>
                 }
               </div>
             </div>
@@ -108,6 +122,16 @@
           }
         </section>
       }
+
+        <app-confirm-dialog
+          [open]="confirmRemoveOpen()"
+          [heading]="removeDialog.heading"
+          [message]="removeDialog.message"
+          [confirmLabel]="removeDialog.confirm"
+          [cancelLabel]="removeDialog.cancel"
+          (confirmed)="confirmRemove()"
+          (cancelled)="confirmRemoveOpen.set(false)"
+        />
 
         <router-outlet />
       </div>
