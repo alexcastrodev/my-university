@@ -1,6 +1,6 @@
 | Book | Pages | Cover |
 | --- | --- | --- |
-| [O Codificador Limpo](https://www.martinsfontespaulista.com.br/o-codificador-limpo-692164/p) | 212 |  |
+| [O Codificador Limpo](https://www.martinsfontespaulista.com.br/o-codificador-limpo-692164/p) | 212 | https://static.fnac-static.com/multimedia/Images/PT/MC/6e/4e/93/9653870/1540-1/tsp20161227142922/O-Codificador-Limpo.jpg#4835b257-1464-4103-a82b-2282a1d62d13 |
 | [Código Limpo](https://openlibrary.org/works/OL25308313W) | 425 | https://covers.openlibrary.org/b/isbn/9788576082675-L.jpg |
 | [Introduction to Algorithms, Fourth Edition](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/) | 1312 | https://covers.openlibrary.org/b/isbn/9780262046305-L.jpg |
 | [Algorithms, Fourth Edition](https://algs4.cs.princeton.edu/home/) | 976 | https://covers.openlibrary.org/b/isbn/9780321573513-L.jpg |
