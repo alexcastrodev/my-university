@@ -37,14 +37,14 @@
 }
 
 /* The tabs live at the bottom edge of the banner band */
-.tabs { display: flex; gap: 0.25rem; overflow-x: auto; margin-top: 0.25rem; }
+.tabs { display: flex; gap: 1.25rem; overflow-x: auto; }
 .tab {
-  padding: 0.75rem 1.1rem;
+  padding: 0.9rem 0.5rem 0.7rem;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--mu-muted);
   text-decoration: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   white-space: nowrap;
 }
 .tab:hover { color: var(--mu-ink); }

@@ -11,6 +11,7 @@ import { LevelProgress, ProfileBanner } from './profile-banner';
       [level]="level" [levelProgress]="progress" [xp]="xp" [badgeCount]="3" [trophyCount]="1" [streak]="streak"
     >
       <button actions class="owner-only">Edit</button>
+      @if (withLink) { <div link class="the-link">link</div> }
       <nav tabs class="the-tabs">tabs</nav>
     </app-profile-banner>
   `,
@@ -22,6 +23,7 @@ class Host {
   progress: LevelProgress | null = { percent: 40, remaining: 151 };
   xp: number | null = 329;
   streak: number | null = 5;
+  withLink = true;
 }
 
 function setup(patch: Partial<Host> = {}) {
@@ -78,7 +80,9 @@ describe('ProfileBanner', () => {
   });
 
   it('leaves out the level until it is known', () => {
-    expect(setup({ level: null, progress: null }).q('.level')).toBeNull();
+    const { q } = setup({ level: null, progress: null });
+    expect(q('.level-line')).toBeNull();
+    expect(q('.xp-row')).toBeNull();
   });
 
   it('leaves out XP and streak until known', () => {
@@ -93,9 +97,36 @@ describe('ProfileBanner', () => {
     expect(q('[data-testid="streak-days"]')!.textContent).toBe('0');
   });
 
-  it('projects the owner\'s actions under the name and the tabs at the bottom edge of the band', () => {
+  it('projects the owner\'s actions at the right of the name, the link under the numbers and the tabs at the bottom edge', () => {
     const { q } = setup();
-    expect(q('.identity .actions .owner-only')).not.toBeNull();
-    expect(q('.inner > .the-tabs')).not.toBeNull();
+    expect(q('.top > .actions .owner-only')).not.toBeNull();
+    expect(q('.stats + .link-row .the-link')).not.toBeNull();
+    expect(q('.link-row + .tabs-row .the-tabs')).not.toBeNull();
+  });
+
+  it('collapses the link row for a visitor, who has no public link to copy', () => {
+    const { q } = setup({ withLink: false });
+    expect(q('.link-row')!.children.length).toBe(0);
+  });
+
+  it('says the XP next to the way to the next level, above the bar', () => {
+    const { q } = setup();
+    expect(q('.xp-row')!.textContent).toContain('329 XP');
+    expect(q('.xp-row')!.textContent).toContain('151 XP to next level');
+    expect(q('.xp-row + .level-bar')).not.toBeNull();
+  });
+
+  it('draws the numbers as tiles with the icons of the rest of the app: a blue hexagon for badges, a gold one for trophies', () => {
+    const { el } = setup();
+    const hexes = el.querySelectorAll('.stat app-award-hex .hex');
+    expect(hexes.length).toBe(2);
+    expect(hexes[0].classList.contains('hex-trophy')).toBe(false);
+    expect(hexes[1].classList.contains('hex-trophy')).toBe(true);
+    expect([...el.querySelectorAll('.stat-label')].map((l) => l.textContent!.trim())).toEqual(['Badges', 'Trophies', 'Total XP', 'Streak']);
+  });
+
+  it('gives a visitor three tiles: no streak', () => {
+    const { el } = setup({ streak: null });
+    expect(el.querySelectorAll('.stat').length).toBe(3);
   });
 });
