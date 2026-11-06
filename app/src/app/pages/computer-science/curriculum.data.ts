@@ -648,6 +648,24 @@ export const CURRICULUM: CurriculumModule[] = [
         ],
       },
       {
+        slug: 'track-f-robotics',
+        title: $localize`:@@curriculum.specialization.track-f-robotics.title:Track F: Robotics`,
+        disciplines: [
+          {
+            slug: 'robotics',
+            title: $localize`:@@curriculum.specialization.track-f-robotics.robotics.title:Robotics depth`,
+            topics: [
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.1:robot kinematics`,
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.2:Jacobians`,
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.3:robot dynamics`,
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.4:control`,
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.5:joint-space trajectories`,
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.6:ROS 2`,
+            ],
+          },
+        ],
+      },
+      {
         slug: 'computer-graphics',
         title: $localize`:@@curriculum.specialization.computer-graphics.title:Computer Graphics`,
         disciplines: [
