@@ -25,6 +25,8 @@ const NARROW = 480;
 const NARROW_COVER = 128;
 const NARROW_OPEN = 160;
 
+let instances = 0;
+
 /** The URL again if it is `https:`, else nothing. Covers and links from a file anyone can edit must pass this. */
 export function safeHttpsUrl(value: string | undefined): string | undefined {
   if (!value) return undefined;
@@ -52,6 +54,7 @@ function injectStyles(doc: Document): void {
 export function mountBookShelf(host: HTMLElement, initial: ShelfBook[], options: MountOptions): ShelfHandle {
   const doc = host.ownerDocument;
   const { labels } = options;
+  const instance = ++instances;
   const layout = { ...DEFAULTS, ...options.layout };
   injectStyles(doc);
   host.classList.add('book-shelf');
@@ -125,22 +128,36 @@ export function mountBookShelf(host: HTMLElement, initial: ShelfBook[], options:
     return slot;
   }
 
+  /** Title and length on one line, the comment as paragraphs, then the button to the book's page. Text only, never markup. */
   function detailNodes(book: ShelfBook): Node[] {
+    const head = el('div', 'shelf-detail-head');
     const title = el('h3', 'shelf-detail-title');
+    title.id = `book-shelf-title-${instance}`;
+    title.textContent = book.title;
+    const meta = el('p', 'shelf-detail-meta');
+    meta.textContent = labels.pages(book.pages);
+    head.append(title, meta);
+    const nodes: Node[] = [head];
+    if (typeof book.comment === 'string') {
+      for (const paragraph of book.comment.split('\n')) {
+        if (!paragraph.trim()) continue;
+        const p = el('p', 'shelf-detail-comment');
+        p.textContent = paragraph;
+        nodes.push(p);
+      }
+    }
     const url = safeHttpsUrl(book.url);
     if (url) {
-      const link = doc.createElement('a');
+      const link = el('a', 'shelf-detail-link');
       link.href = url;
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
-      link.textContent = book.title;
-      title.append(link);
-    } else {
-      title.textContent = book.title;
+      // The button says what it does and the heading above says for which book.
+      link.setAttribute('aria-describedby', title.id);
+      link.textContent = labels.visit;
+      nodes.push(link);
     }
-    const meta = el('p', 'shelf-detail-meta');
-    meta.textContent = labels.pages(book.pages);
-    return [title, meta];
+    return nodes;
   }
 
   /** Applies the open book to the slots and the detail block, without rebuilding anything (so widths animate). */

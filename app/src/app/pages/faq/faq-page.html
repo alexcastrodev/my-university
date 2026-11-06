@@ -10,7 +10,7 @@
         <li i18n="@@faq.books.step1">Keep your profile public (it is by default) and sign in with the GitHub account that will name the file.</li>
         <li i18n="@@faq.books.step2">Fork the project repository on GitHub.</li>
         <li><span i18n="@@faq.books.step3">In your fork, create this file, using your GitHub login in lowercase:</span> <code>public/books/your-login.md</code></li>
-        <li i18n="@@faq.books.step4">Fill it with a table like the one below, one row per book.</li>
+        <li i18n="@@faq.books.step4">Fill it with one block of lines per book, like the example below.</li>
         <li i18n="@@faq.books.step5">Open a pull request. A check confirms that the author of the pull request owns the file.</li>
         <li i18n="@@faq.books.step6">After the merge, your books show up on your Library tab within about 15 minutes.</li>
       </ol>
@@ -19,12 +19,18 @@
 
       <h3 class="subheading" i18n="@@faq.books.rules.title">The rules</h3>
       <ul class="rules">
-        <li i18n="@@faq.books.rule.title">First column: the title as a link to the book, written [Title](https://link).</li>
-        <li i18n="@@faq.books.rule.pages">Second column: the total number of pages, from 1 to 5000. It sets how thick the book is on the shelf.</li>
-        <li i18n="@@faq.books.rule.cover">Third column: the address of the cover image. It can be left empty.</li>
-        <li i18n="@@faq.books.rule.https">Links and covers must start with https://. A row that breaks a rule is ignored; the other rows still show.</li>
-        <li i18n="@@faq.books.rule.limits">Up to 200 books per file, and no | character inside a title.</li>
+        <li i18n="@@faq.books.rule.fields">title, url and pages are required. cover and comment are optional.</li>
+        <li i18n="@@faq.books.rule.separate">Put each book between two --- lines, like the metadata at the top of a concept. A blank line also ends a book.</li>
+        <li i18n="@@faq.books.rule.pages">pages is the total number of pages, from 1 to 5000. It sets how thick the book is on the shelf.</li>
+        <li i18n="@@faq.books.rule.cover">cover is the address of the cover image. Without it the book shows its title on a plain cover.</li>
+        <li i18n="@@faq.books.rule.comment">comment is plain text shown with the title when the book is opened. Each comment line is a paragraph, up to 4 lines of 500 characters. Links and formatting are shown as typed, never interpreted.</li>
+        <li i18n="@@faq.books.rule.https">url and cover must start with https://. A book that breaks a rule is ignored; the other books still show.</li>
+        <li i18n="@@faq.books.rule.limits">Up to 200 books per file.</li>
       </ul>
+
+      <h3 class="subheading" i18n="@@faq.books.table.title">Prefer a table?</h3>
+      <p i18n="@@faq.books.table.body">A table works too, one row per book: the title as a link, the pages and the cover (it can be empty). It has no comment column, and a title cannot contain the | character. You can mix tables and blocks in the same file.</p>
+      <pre class="example"><code data-testid="books-example-table">{{ tableExample }}</code></pre>
 
       <p class="note" i18n="@@faq.books.privacy">The file is public and carries your GitHub login, so anyone can tie the books on your profile to your GitHub account.</p>
 

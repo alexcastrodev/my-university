@@ -169,7 +169,8 @@ test.describe('the FAQ', () => {
 
     await expect(faq.booksHeading).toBeInViewport();
     await expect(faq.steps).toHaveCount(6);
-    await expect(faq.example).toContainText('| Book | Pages | Cover |');
+    await expect(faq.example).toContainText('comment:');
+    await expect(faq.tableExample).toContainText('| Book | Pages | Cover |');
     await expect(faq.folderLink).toHaveAttribute('href', 'https://github.com/alexcastrodev/my-university/tree/main/public/books');
   });
 

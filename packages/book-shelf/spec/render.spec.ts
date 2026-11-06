@@ -5,6 +5,7 @@ import type { ShelfBook, ShelfLabels } from '../src/types';
 const labels: ShelfLabels = {
   pages: (count) => `${count} pages`,
   open: (title) => `Open ${title}`,
+  visit: 'Go to the book',
 };
 
 const sample = (n: number): ShelfBook[] =>
@@ -101,7 +102,7 @@ describe('mountBookShelf', () => {
     expect(front.classList.contains('has-cover')).toBe(false);
   });
 
-  it('opens a book on click, shows its pages and link, and closes it on a second click', () => {
+  it('opens a book on click, shows its pages and a button to its link, and closes it on a second click', () => {
     mountBookShelf(host, [{ title: 'Clean Code', pages: 464, url: 'https://example.com/cc' }], { labels });
     const [slot] = slots();
     slot.click();
@@ -112,17 +113,42 @@ describe('mountBookShelf', () => {
     expect(link.href).toBe('https://example.com/cc');
     expect(link.target).toBe('_blank');
     expect(link.rel).toBe('noopener noreferrer');
+    expect(link.textContent).toBe('Go to the book');
+    const title = host.querySelector('.shelf-detail-title')!;
+    expect(title.textContent).toBe('Clean Code');
+    expect(title.querySelector('a')).toBeNull();
+    expect(link.getAttribute('aria-describedby')).toBe(title.id);
     expect(host.querySelector('.shelf-detail-meta')!.textContent).toBe('464 pages');
     slot.click();
     expect(slot.getAttribute('aria-pressed')).toBe('false');
     expect(host.querySelector('.shelf-detail')!.childNodes.length).toBe(0);
   });
 
-  it('does not make a link out of an address that is not https', () => {
-    mountBookShelf(host, [{ title: 'X', pages: 100, url: 'javascript:alert(1)' }], { labels });
+  it('does not make a button out of an address that is not https', () => {
+    for (const bad of ['javascript:alert(1)', 'http://example.com', 'data:text/html,x', undefined]) {
+      mountBookShelf(host, [{ title: 'X', pages: 100, url: bad }], { labels });
+      slots()[0].click();
+      expect(host.querySelector('.shelf-detail a')).toBeNull();
+      expect(host.querySelector('.shelf-detail-title')!.textContent).toBe('X');
+    }
+  });
+
+  it('shows the comment, one paragraph per line, as text and never as markup', () => {
+    const hostile = '<img src=x onerror=alert(1)><script>alert(1)</script>';
+    mountBookShelf(host, [{ title: 'A', pages: 100, comment: `First paragraph.\n\n${hostile}\n  \nLast.` }], { labels });
     slots()[0].click();
-    expect(host.querySelector('.shelf-detail a')).toBeNull();
-    expect(host.querySelector('.shelf-detail-title')!.textContent).toBe('X');
+    const paragraphs = Array.from(host.querySelectorAll('.shelf-detail-comment'));
+    expect(paragraphs.map((p) => p.textContent)).toEqual(['First paragraph.', hostile, 'Last.']);
+    expect(host.querySelector('.shelf-detail img, .shelf-detail script')).toBeNull();
+    expect(host.querySelectorAll('.shelf-detail a').length).toBe(0);
+  });
+
+  it('shows no comment block for a book without one, or with a comment that is not text', () => {
+    mountBookShelf(host, [{ title: 'A', pages: 100 }, { title: 'B', pages: 100, comment: 42 as unknown as string }], { labels });
+    for (const slot of slots()) {
+      slot.click();
+      expect(host.querySelector('.shelf-detail-comment')).toBeNull();
+    }
   });
 
   it('keeps one book open at a time', () => {
@@ -167,6 +193,12 @@ describe('mountBookShelf', () => {
     document.body.append(other);
     mountBookShelf(other, sample(1), { labels });
     expect(document.head.querySelectorAll('style[data-book-shelf]').length).toBe(1);
+  });
+
+  it('lets only the slot button take clicks, not the 3D faces drawn inside it', () => {
+    mountBookShelf(host, sample(1), { labels });
+    const css = document.head.querySelector('style[data-book-shelf]')!.textContent!;
+    expect(css).toMatch(/\.sb-book, \.book-shelf \.sb-book \* \{ pointer-events: none; \}/);
   });
 
   it('empties the container and stops listening on destroy', () => {
