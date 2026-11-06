@@ -8,6 +8,7 @@ const LABELS: ShelfLabels = {
     ? $localize`:@@bookShelf.page:1 page`
     : $localize`:@@bookShelf.pages:${count}:count: pages`,
   open: (title) => $localize`:@@bookShelf.open:Open ${title}:title:`,
+  visit: $localize`:@@bookShelf.visit:Go to the book`,
 };
 
 /**

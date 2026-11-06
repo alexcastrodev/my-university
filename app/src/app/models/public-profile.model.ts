@@ -16,4 +16,6 @@ export interface PublicBook {
   url: string;
   pages: number;
   cover?: string;
+  /** Plain text; paragraphs are separated by a line break. */
+  comment?: string;
 }

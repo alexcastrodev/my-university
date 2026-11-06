@@ -6,4 +6,5 @@
   --bs-ink: var(--mu-ink);
   --bs-muted: var(--mu-muted);
   --bs-focus: var(--mu-accent);
+  --bs-surface: var(--mu-surface);
 }

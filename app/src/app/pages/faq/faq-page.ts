@@ -17,8 +17,25 @@ export class FaqPage implements OnInit {
 
   protected readonly foldersUrl = BOOKS_FOLDER_URL;
   protected readonly newFileUrl = BOOKS_NEW_FILE_URL;
-  /** The file a person writes. Not translated: it is the format, and the header row is ignored when it is read. */
+  /** The file a person writes. Not translated: it is the format. */
   protected readonly example = [
+    '---',
+    'title: Designing Data-Intensive Applications',
+    'url: https://dataintensive.net/',
+    'pages: 616',
+    'cover: https://covers.openlibrary.org/b/isbn/9781449373320-L.jpg',
+    'comment: Explains why data systems work the way they do.',
+    'comment: The chapters on replication and consistency are worth a second read.',
+    '---',
+    '',
+    '---',
+    'title: Clean Code',
+    'url: https://www.oreilly.com/library/view/clean-code-a/9780136083238/',
+    'pages: 464',
+    '---',
+  ].join('\n');
+  /** The same books as a table; the header row is ignored when it is read. */
+  protected readonly tableExample = [
     '| Book | Pages | Cover |',
     '| --- | --- | --- |',
     '| [Designing Data-Intensive Applications](https://dataintensive.net/) | 616 | https://covers.openlibrary.org/b/isbn/9781449373320-L.jpg |',

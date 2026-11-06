@@ -7,7 +7,8 @@ export class FaqPage {
 
     this.booksHeading = page.getByRole('heading', { name: 'Show your books on your profile' });
     this.steps = page.locator('#books ol li');
-    this.example = page.locator('#books pre');
+    this.example = page.getByTestId('books-example');
+    this.tableExample = page.getByTestId('books-example-table');
     this.folderLink = page.getByRole('link', { name: 'See the books folder' });
   }
 

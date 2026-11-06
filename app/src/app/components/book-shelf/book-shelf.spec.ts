@@ -37,6 +37,19 @@ describe('BookShelf', () => {
     expect(el.querySelector('.shelf-detail-meta')!.textContent).toBe('1 page');
   });
 
+  it('shows the comment as text and a button to the link, in the language of the page', async () => {
+    const hostile = '<img src=x onerror=alert(1)>';
+    const { el, slots } = setup([{ ...books(1)[0], comment: `Worth reading.\n${hostile}` }]);
+    await until(() => slots().length === 1);
+    slots()[0].click();
+    expect(Array.from(el.querySelectorAll('.shelf-detail-comment')).map((p) => p.textContent)).toEqual(['Worth reading.', hostile]);
+    expect(el.querySelector('.shelf-detail img')).toBeNull();
+    const link = el.querySelector<HTMLAnchorElement>('.shelf-detail-link')!;
+    expect(link.textContent).toBe('Go to the book');
+    expect(link.href).toBe('https://example.com/b');
+    expect(link.rel).toBe('noopener noreferrer');
+  });
+
   it('shows the new books when the list changes', async () => {
     const { fixture, slots } = setup(books(2));
     await until(() => slots().length === 2);

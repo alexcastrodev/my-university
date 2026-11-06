@@ -22,11 +22,14 @@ describe('FaqPage', () => {
     expect(section.querySelectorAll('ol li').length).toBe(6);
   });
 
-  it('shows the file to write, in the format the profile reads', () => {
+  it('shows the file to write, as lines with a comment, and the same books as a table', () => {
     const { el } = setup();
     const example = el.querySelector('[data-testid="books-example"]')!.textContent!;
-    expect(example).toContain('| Book | Pages | Cover |');
-    expect(example).toMatch(/\| \[[^\]]+\]\(https:\/\/[^)]+\) \| \d+ \| /);
+    expect(example).toMatch(/^---\ntitle: .+\nurl: https:\/\/.+\npages: \d+\n/);
+    expect(example).toContain('comment: ');
+    const table = el.querySelector('[data-testid="books-example-table"]')!.textContent!;
+    expect(table).toContain('| Book | Pages | Cover |');
+    expect(table).toMatch(/\| \[[^\]]+\]\(https:\/\/[^)]+\) \| \d+ \| /);
     expect(el.textContent).toContain('public/books/your-login.md');
   });
 

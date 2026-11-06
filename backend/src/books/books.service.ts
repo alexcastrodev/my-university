@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { parseBooksTable, type PublicBook } from './parse-books';
+import { parseBooks, type PublicBook } from './parse-books';
 
 const DEFAULT_BASE = 'https://raw.githubusercontent.com/alexcastrodev/my-university/main/public/books';
 const TIMEOUT_MS = 5_000;
@@ -85,7 +85,7 @@ export class BooksService {
     try {
       const text = await download(`${baseUrl()}/${name}.md`);
       if (text !== null) {
-        books = parseBooksTable(text);
+        books = parseBooks(text);
         keepFor = KEEP_MS;
       }
     } catch (error) {
