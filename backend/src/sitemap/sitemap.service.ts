@@ -66,9 +66,12 @@ export class SitemapService {
 
   async buildUrls(): Promise<SitemapUrl[]> {
     // Pages made of interface text only, translated in full.
-    const urls: SitemapUrl[] = ['/', '/tracks', '/computer-science'].flatMap(
-      (path) => this.localizedPage(path),
-    );
+    const urls: SitemapUrl[] = [
+      '/',
+      '/tracks',
+      '/computer-science',
+      '/faq',
+    ].flatMap((path) => this.localizedPage(path));
 
     // Every section is a list page plus one page per item, each with a pt-BR twin where the translation exists.
     // The public papers are authored files with a translation each (#213); a reader's private papers are not listed.
