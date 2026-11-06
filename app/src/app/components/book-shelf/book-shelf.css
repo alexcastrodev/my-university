@@ -1,0 +1,9 @@
+/* The shelf is drawn by the book-shelf package; this only gives it the app's colours. */
+:host {
+  display: block;
+  --bs-board: var(--mu-bg-alt);
+  --bs-board-edge: var(--mu-line);
+  --bs-ink: var(--mu-ink);
+  --bs-muted: var(--mu-muted);
+  --bs-focus: var(--mu-accent);
+}
