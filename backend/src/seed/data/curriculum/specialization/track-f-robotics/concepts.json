@@ -1,0 +1,729 @@
+[
+  {
+    "slug": "what-a-robot-is-classification-components-and-degrees-of-freedom",
+    "id": 1,
+    "title": "What a Robot Is: Classification, Components, and Degrees of Freedom",
+    "topic": "Foundations",
+    "requires": [],
+    "related": [],
+    "summary": "What counts as a robot, links, joints, actuators, sensors, and end effectors, classifying manipulators by their joints, and counting degrees of freedom.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics, book page",
+        "url": "https://hades.mech.northwestern.edu/index.php/Modern_Robotics",
+        "type": "doc"
+      },
+      {
+        "label": "Lynch and Park (2017): Modern Robotics: Mechanics, Planning, and Control, preprint PDF",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "International Federation of Robotics: Industrial Robots (definition and classification after ISO 8373:2021)",
+        "url": "https://ifr.org/industrial-robots",
+        "type": "doc"
+      },
+      {
+        "label": "International Federation of Robotics: Service Robots (ISO 8373 definitions)",
+        "url": "https://ifr.org/service-robots",
+        "type": "doc"
+      },
+      {
+        "label": "Asada (2005): MIT OCW 2.12 Introduction to Robotics, lecture notes",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/pages/lecture-notes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "rotation-matrices-and-rigid-body-orientation",
+    "id": 2,
+    "title": "Rotation Matrices and Rigid-Body Orientation",
+    "topic": "Foundations",
+    "requires": [
+      "what-a-robot-is-classification-components-and-degrees-of-freedom"
+    ],
+    "related": [
+      {
+        "label": "Orthogonality and Orthogonal Matrices",
+        "slug": "orthogonality-and-orthogonal-matrices",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      }
+    ],
+    "summary": "Rotation matrices and their properties, composing rotations about fixed and moving frames, Euler and roll-pitch-yaw angles, and gimbal lock.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics, book page",
+        "url": "https://hades.mech.northwestern.edu/index.php/Modern_Robotics",
+        "type": "doc"
+      },
+      {
+        "label": "Lynch and Park (2017): Modern Robotics: Mechanics, Planning, and Control, preprint PDF",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "SciPy: scipy.spatial.transform.Rotation.from_euler",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.from_euler.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy: scipy.spatial.transform.Rotation.as_euler",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.as_euler.html",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Active and passive transformation",
+        "url": "https://en.wikipedia.org/wiki/Active_and_passive_transformation",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "homogeneous-transformations-for-robot-poses",
+    "id": 3,
+    "title": "Homogeneous Transformations for Robot Poses",
+    "topic": "Kinematics",
+    "requires": [
+      "rotation-matrices-and-rigid-body-orientation"
+    ],
+    "related": [
+      {
+        "label": "Homogeneous Coordinates and 2D Affine Transformations",
+        "slug": "homogeneous-coordinates-and-2d-affine-transformations",
+        "feature": "curriculum/specialization/computer-graphics"
+      },
+      {
+        "label": "3D Transformations and Composing the Model Matrix",
+        "slug": "3d-transformations-and-composing-the-model-matrix",
+        "feature": "curriculum/specialization/computer-graphics"
+      }
+    ],
+    "summary": "The 4x4 homogeneous transform as a rigid-body pose, its composition along a kinematic chain, and its inverse, moving the graphics lesson's idea into robot frames.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics, book page",
+        "url": "https://hades.mech.northwestern.edu/index.php/Modern_Robotics",
+        "type": "doc"
+      },
+      {
+        "label": "Lynch and Park (2017): Modern Robotics: Mechanics, Planning, and Control, preprint PDF",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Open Robotics: ROS 2 Jazzy documentation, tf2",
+        "url": "https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Tf2.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy: numpy.linalg.svd",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy: numpy.linalg.inv",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.inv.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "forward-kinematics-of-serial-manipulators",
+    "id": 4,
+    "title": "Forward Kinematics of Serial Manipulators",
+    "topic": "Kinematics",
+    "requires": [
+      "homogeneous-transformations-for-robot-poses"
+    ],
+    "related": [],
+    "summary": "Forward kinematics as a product of link transforms, worked on planar two-link and three-link arms and checked numerically.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics, book page",
+        "url": "https://hades.mech.northwestern.edu/index.php/Modern_Robotics",
+        "type": "doc"
+      },
+      {
+        "label": "Lynch and Park (2017): Modern Robotics: Mechanics, Planning, and Control, preprint PDF",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Asada (2005): MIT OCW 2.12, Chapter 4 Planar Kinematics",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/c8828a16e71c246b78461dd0596b983f_chapter4.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy: scipy.linalg.expm",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.expm.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-denavit-hartenberg-convention",
+    "id": 5,
+    "title": "The Denavit-Hartenberg Convention",
+    "topic": "Kinematics",
+    "requires": [
+      "forward-kinematics-of-serial-manipulators"
+    ],
+    "related": [
+      {
+        "label": "Forward Kinematics of Serial Manipulators",
+        "slug": "forward-kinematics-of-serial-manipulators"
+      },
+      {
+        "label": "Homogeneous Transformations for Robot Poses",
+        "slug": "homogeneous-transformations-for-robot-poses"
+      }
+    ],
+    "summary": "The Denavit-Hartenberg parameters, assigning link frames step by step, building the table, and the difference between the classic and modified conventions.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics, preprint PDF",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Murray, Li and Sastry (1994): A Mathematical Introduction to Robotic Manipulation",
+        "url": "http://www.cds.caltech.edu/~murray/books/MLS/pdf/mls94-complete.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Robotics Toolbox for Python: Denavit-Hartenberg models",
+        "url": "https://petercorke.github.io/robotics-toolbox-python/arm_dh.html",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Denavit-Hartenberg parameters",
+        "url": "https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "inverse-kinematics-and-workspace",
+    "id": 6,
+    "title": "Inverse Kinematics and Workspace",
+    "topic": "Kinematics",
+    "requires": [
+      "the-denavit-hartenberg-convention"
+    ],
+    "related": [
+      {
+        "label": "Newton's Method",
+        "slug": "newtons-method",
+        "feature": "curriculum/algorithms-software/numerical-methods"
+      },
+      {
+        "label": "The Denavit-Hartenberg Convention",
+        "slug": "the-denavit-hartenberg-convention"
+      }
+    ],
+    "summary": "Geometric and numerical inverse kinematics, multiple solutions, and reachable versus dexterous workspace.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics, preprint PDF",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Murray, Li and Sastry (1994): A Mathematical Introduction to Robotic Manipulation",
+        "url": "http://www.cds.caltech.edu/~murray/books/MLS/pdf/mls94-complete.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Asada (2005): MIT OCW 2.12, Chapter 4: Planar Kinematics",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/resources/chapter4/",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy: numpy.arctan2",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.arctan2.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy: numpy.linalg.solve",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy: random Generator",
+        "url": "https://numpy.org/doc/stable/reference/random/generator.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "velocity-kinematics-and-the-jacobian",
+    "id": 7,
+    "title": "Velocity Kinematics and the Jacobian",
+    "topic": "Differential Kinematics",
+    "requires": [
+      "inverse-kinematics-and-workspace"
+    ],
+    "related": [
+      {
+        "label": "Partial Derivatives and the Multivariable Chain Rule",
+        "slug": "partial-derivatives-and-the-multivariable-chain-rule",
+        "feature": "curriculum/foundations/calculus"
+      },
+      {
+        "label": "The Denavit-Hartenberg Convention",
+        "slug": "the-denavit-hartenberg-convention"
+      },
+      {
+        "label": "Inverse Kinematics and Workspace",
+        "slug": "inverse-kinematics-and-workspace"
+      }
+    ],
+    "summary": "Linear and angular velocity of the end effector, building the geometric Jacobian from the chain, and how it differs from the analytic Jacobian.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics, preprint PDF",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Asada (2005): MIT OCW 2.12, Chapter 5: Differential Motion",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/resources/chapter5/",
+        "type": "doc"
+      },
+      {
+        "label": "Murray, Li and Sastry (1994): A Mathematical Introduction to Robotic Manipulation",
+        "url": "http://www.cds.caltech.edu/~murray/books/MLS/pdf/mls94-complete.pdf",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "singularities-and-manipulability",
+    "id": 8,
+    "title": "Singularities and Manipulability",
+    "topic": "Differential Kinematics",
+    "requires": [
+      "velocity-kinematics-and-the-jacobian"
+    ],
+    "related": [
+      {
+        "label": "Velocity Kinematics and the Jacobian",
+        "slug": "velocity-kinematics-and-the-jacobian"
+      },
+      {
+        "label": "Inverse Kinematics and Workspace",
+        "slug": "inverse-kinematics-and-workspace"
+      },
+      {
+        "label": "The Denavit-Hartenberg Convention",
+        "slug": "the-denavit-hartenberg-convention"
+      }
+    ],
+    "summary": "Where the Jacobian loses rank, what a singularity does to joint velocities, and Yoshikawa's manipulability measure.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics, preprint PDF",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Murray, Li and Sastry (1994): A Mathematical Introduction to Robotic Manipulation",
+        "url": "http://www.cds.caltech.edu/~murray/books/MLS/pdf/mls94-complete.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Asada (2005): MIT OCW 2.12, Chapter 5: Differential Motion",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/resources/chapter5/",
+        "type": "doc"
+      },
+      {
+        "label": "Robotics Toolbox for Python: robot superclass",
+        "url": "https://petercorke.github.io/robotics-toolbox-python/arm_superclass.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy: numpy.linalg.svd",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy: numpy.linalg.matrix_rank",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.matrix_rank.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "static-forces-and-joint-torques",
+    "id": 9,
+    "title": "Static Forces and Joint Torques",
+    "topic": "Differential Kinematics",
+    "requires": [
+      "singularities-and-manipulability"
+    ],
+    "related": [
+      {
+        "label": "Velocity Kinematics and the Jacobian",
+        "slug": "velocity-kinematics-and-the-jacobian"
+      },
+      {
+        "label": "Singularities and Manipulability",
+        "slug": "singularities-and-manipulability"
+      }
+    ],
+    "summary": "How the transpose of the Jacobian maps an end-effector force to joint torques, worked numerically on a serial arm.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics: Mechanics, Planning, and Control (preprint PDF)",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Asada (2005): MIT OCW 2.12 Introduction to Robotics, Chapter 6: Statics",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/resources/chapter6/",
+        "type": "doc"
+      },
+      {
+        "label": "Asada (2005): MIT OCW 2.12 Introduction to Robotics, Chapter 5: Differential Motion",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/resources/chapter5/",
+        "type": "doc"
+      },
+      {
+        "label": "NumPy documentation: numpy.linalg.svd",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "lagrangian-dynamics-of-an-open-chain-robot",
+    "id": 10,
+    "title": "Lagrangian Dynamics of an Open-Chain Robot",
+    "topic": "Dynamics",
+    "requires": [
+      "static-forces-and-joint-torques"
+    ],
+    "related": [
+      {
+        "label": "Static Forces and Joint Torques",
+        "slug": "static-forces-and-joint-torques"
+      }
+    ],
+    "summary": "Kinetic and potential energy of the links, the Euler-Lagrange equation, and deriving the dynamics of a two-link arm.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics: Mechanics, Planning, and Control (preprint PDF)",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Asada (2005): MIT OCW 2.12 Introduction to Robotics, Chapter 7: Dynamics",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/resources/chapter7/",
+        "type": "doc"
+      },
+      {
+        "label": "SymPy documentation: Calculus tutorial",
+        "url": "https://docs.sympy.org/latest/tutorials/intro-tutorial/calculus.html",
+        "type": "doc"
+      },
+      {
+        "label": "SymPy documentation: Kane's Method and Lagrange's Method (API)",
+        "url": "https://docs.sympy.org/latest/modules/physics/mechanics/api/kane_lagrange.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.integrate.solve_ivp",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-manipulator-equation-inertia-coriolis-gravity",
+    "id": 11,
+    "title": "The Manipulator Equation: Inertia, Coriolis, Gravity",
+    "topic": "Dynamics",
+    "requires": [
+      "lagrangian-dynamics-of-an-open-chain-robot"
+    ],
+    "related": [
+      {
+        "label": "Lagrangian Dynamics of an Open-Chain Robot",
+        "slug": "lagrangian-dynamics-of-an-open-chain-robot"
+      }
+    ],
+    "summary": "The standard form of the manipulator equation, what its inertia, Coriolis, centrifugal, and gravity terms mean physically, and how they are computed for a two-link arm.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics: Mechanics, Planning, and Control (preprint PDF)",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Tedrake: Underactuated Robotics, Multi-Body Dynamics (course notes, MIT 6.832)",
+        "url": "https://underactuated.mit.edu/multibody.html",
+        "type": "book"
+      },
+      {
+        "label": "Asada (2005): MIT OCW 2.12 Introduction to Robotics, Chapter 7: Dynamics",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/resources/chapter7/",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.integrate.solve_ivp",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "independent-joint-control-and-pid",
+    "id": 12,
+    "title": "Independent Joint Control and PID",
+    "topic": "Control and Programming",
+    "requires": [
+      "the-manipulator-equation-inertia-coriolis-gravity"
+    ],
+    "related": [
+      {
+        "label": "The Manipulator Equation: Inertia, Coriolis, Gravity",
+        "slug": "the-manipulator-equation-inertia-coriolis-gravity"
+      },
+      {
+        "label": "Lagrangian Dynamics of an Open-Chain Robot",
+        "slug": "lagrangian-dynamics-of-an-open-chain-robot"
+      }
+    ],
+    "summary": "Independent joint control of a geared motor, the P, I, and D terms and their tuning, gravity feed-forward, and what the decoupled approach ignores.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017): Modern Robotics: Mechanics, Planning, and Control (preprint PDF)",
+        "url": "https://hades.mech.northwestern.edu/images/7/7f/MR.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Astrom and Murray (2008): Feedback Systems: An Introduction for Scientists and Engineers (complete PDF)",
+        "url": "http://www.cds.caltech.edu/~murray/books/AM08/pdf/am08-complete_22Feb09.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Asada (2005): MIT OCW 2.12 Introduction to Robotics, Chapter 2: Actuators and Drive Systems",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/resources/chapter2/",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy documentation: scipy.linalg.expm",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.expm.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "trajectory-planning-in-joint-space",
+    "id": 13,
+    "title": "Trajectory Planning in Joint Space",
+    "topic": "Control and Programming",
+    "requires": [
+      "independent-joint-control-and-pid"
+    ],
+    "related": [
+      {
+        "label": "Splines",
+        "slug": "splines",
+        "feature": "curriculum/algorithms-software/numerical-methods"
+      },
+      {
+        "label": "The Manipulator Equation: Inertia, Coriolis, Gravity",
+        "slug": "the-manipulator-equation-inertia-coriolis-gravity"
+      },
+      {
+        "label": "Forward Kinematics of Serial Manipulators",
+        "slug": "forward-kinematics-of-serial-manipulators"
+      }
+    ],
+    "summary": "Joint-space trajectories with cubic and quintic polynomials, trapezoidal velocity profiles, and via points.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park (2017, preprint 2019): Modern Robotics, Chapter 9 Trajectory Generation",
+        "url": "https://hades.mech.northwestern.edu/images/2/25/MR-v2.pdf",
+        "type": "book"
+      },
+      {
+        "label": "Lynch and Park: Modern Robotics book resources, 9.3 Polynomial via point trajectories",
+        "url": "https://modernrobotics.northwestern.edu/nu-gm-book-resource/9-3-polynomial-via-point-trajectories/",
+        "type": "video"
+      },
+      {
+        "label": "NxRLab: Modern Robotics code library",
+        "url": "https://github.com/NxRLab/ModernRobotics",
+        "type": "doc"
+      },
+      {
+        "label": "Corke: Robotics Toolbox for Python, Trajectories",
+        "url": "https://petercorke.github.io/robotics-toolbox-python/arm_trajectory.html",
+        "type": "doc"
+      },
+      {
+        "label": "ros2_control: joint trajectory controller, trajectory representation (Lyrical)",
+        "url": "https://control.ros.org/lyrical/doc/ros2_controllers/joint_trajectory_controller/doc/trajectory.html",
+        "type": "doc"
+      },
+      {
+        "label": "SciPy: scipy.interpolate.CubicSpline",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "robot-programming-teach-pendants-offline-languages-and-ros-2",
+    "id": 14,
+    "title": "Robot Programming: Teach Pendants, Offline Languages, and ROS 2",
+    "topic": "Control and Programming",
+    "requires": [
+      "trajectory-planning-in-joint-space"
+    ],
+    "related": [
+      {
+        "label": "Remote Procedure Calls and the Illusion of a Local Call",
+        "slug": "remote-procedure-calls-and-the-illusion-of-a-local-call",
+        "feature": "curriculum/systems/distributed-systems-i"
+      }
+    ],
+    "summary": "Teach pendants and offline languages as the book describes them, then the ROS 2 model of nodes, topics, services, and actions as practiced today.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Open Robotics: ROS 2 Documentation, Distributions",
+        "url": "https://docs.ros.org/en/rolling/Releases.html",
+        "type": "doc"
+      },
+      {
+        "label": "Open Robotics: ROS 2 Documentation, Lyrical Luth",
+        "url": "https://docs.ros.org/en/lyrical/Releases/Release-Lyrical-Luth.html",
+        "type": "doc"
+      },
+      {
+        "label": "Open Robotics: ROS 2 Documentation, Nodes",
+        "url": "https://docs.ros.org/en/lyrical/ROS-Framework/About-Nodes.html",
+        "type": "doc"
+      },
+      {
+        "label": "Open Robotics: ROS 2 Documentation, Topics vs Services vs Actions",
+        "url": "https://docs.ros.org/en/lyrical/ROS-Framework/interfaces/Topics-Services-Actions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Open Robotics: ROS 2 Documentation, Actions",
+        "url": "https://docs.ros.org/en/lyrical/ROS-Framework/interfaces/About-Actions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Open Robotics: Writing a simple publisher and subscriber (Python)",
+        "url": "https://docs.ros.org/en/lyrical/ROS-Framework/client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html",
+        "type": "doc"
+      },
+      {
+        "label": "Open Robotics: Writing a simple service and client (Python)",
+        "url": "https://docs.ros.org/en/lyrical/ROS-Framework/client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html",
+        "type": "doc"
+      },
+      {
+        "label": "Open Robotics: Writing an action server and client (Python)",
+        "url": "https://docs.ros.org/en/lyrical/ROS-Framework/interfaces/actions/Working-with-actions/Writing-an-Action-Server-Client/Py.html",
+        "type": "doc"
+      },
+      {
+        "label": "ros2_control: joint trajectory controller (Lyrical)",
+        "url": "https://control.ros.org/lyrical/doc/ros2_controllers/joint_trajectory_controller/doc/userdoc.html",
+        "type": "doc"
+      },
+      {
+        "label": "PickNik: MoveIt 2, low-level controllers",
+        "url": "https://moveit.picknik.ai/main/doc/examples/controller_configuration/controller_configuration_tutorial.html",
+        "type": "doc"
+      },
+      {
+        "label": "ABB (2026): Technical reference manual, RAPID overview, RobotWare 6.16.04, rev. Y",
+        "url": "https://library.e.abb.com/public/4b22867e301345528bfa6c0b50633795/3HAC050947%20TRM%20RAPID%20Overview%20RW%206-en.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Universal Robots: URScript motion module (PolyScope 5.23)",
+        "url": "https://www.universal-robots.com/manuals/EN/HTML/SW5_23/Content/prod-scriptmanual/all_scripts/Module_otion.htm",
+        "type": "doc"
+      },
+      {
+        "label": "Universal Robots: movej (PolyScope 5.23)",
+        "url": "https://www.universal-robots.com/manuals/EN/HTML/SW5_23/Content/prod-scriptmanual/all_scripts/movej_qa14v105t0r.htm",
+        "type": "doc"
+      },
+      {
+        "label": "Villani, Pini, Leali, Secchi, Fantuzzi (2018): Survey on human-robot interaction for robot programming in industrial applications, IFAC INCOM 2018 slides",
+        "url": "https://tc.ifac-control.org/5/3/activities/past/presentations-incom-2018/MoAT2%20-%20INCOM2018_Robot_programming.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-tracing-a-pick-and-place-through-kinematics-dynamics-and-control",
+    "id": 15,
+    "title": "Capstone: Tracing a Pick-and-Place Through Kinematics, Dynamics, and Control",
+    "topic": "Capstone",
+    "requires": [
+      "robot-programming-teach-pendants-offline-languages-and-ros-2"
+    ],
+    "related": [
+      {
+        "label": "Independent Joint Control and PID",
+        "slug": "independent-joint-control-and-pid"
+      },
+      {
+        "label": "Trajectory Planning in Joint Space",
+        "slug": "trajectory-planning-in-joint-space"
+      },
+      {
+        "label": "The Manipulator Equation: Inertia, Coriolis, Gravity",
+        "slug": "the-manipulator-equation-inertia-coriolis-gravity"
+      }
+    ],
+    "summary": "One pick-and-place task traced through the whole discipline: poses, inverse kinematics, a joint-space trajectory, the torques it demands, and the control loop that tracks it.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Lynch and Park, Modern Robotics: 9.3 Polynomial via-point trajectories",
+        "url": "https://modernrobotics.northwestern.edu/nu-gm-book-resource/9-3-polynomial-via-point-trajectories/",
+        "type": "book"
+      },
+      {
+        "label": "Asada (2005), MIT OCW 2.12, Chapter 7: Dynamics",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/resources/chapter7/",
+        "type": "doc"
+      },
+      {
+        "label": "Asada (2005), MIT OCW 2.12, Chapter 5: Differential Motion",
+        "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/resources/chapter5/",
+        "type": "doc"
+      },
+      {
+        "label": "Tedrake, Underactuated Robotics: Multi-Body Dynamics",
+        "url": "https://underactuated.mit.edu/multibody.html",
+        "type": "doc"
+      }
+    ]
+  }
+]
