@@ -393,10 +393,7 @@ export class XpService {
    * profile alike, so a response never reveals that a private user exists.
    */
   async getPublicProfile(key: string): Promise<PublicProfile | null> {
-    const slug = normalizeSlug(key);
-    const where = PROFILE_ID.test(key)
-      ? { publicProfileId: key, profilePublic: true }
-      : slugProblem(slug) === null ? { profileSlug: slug, profilePublic: true } : null;
+    const where = this.publicUserWhere(key);
     if (!where) return null;
     const user = await this.repo.manager.getRepository(User).findOne({
       where,
@@ -414,6 +411,25 @@ export class XpService {
       badges: awards.filter((a) => a.type === 'badge'),
       trophies: awards.filter((a) => a.type === 'trophy'),
     };
+  }
+
+  /** Which user a link key reaches, if the profile is public: the same rule for the profile and for what hangs off it. */
+  private publicUserWhere(key: string) {
+    const slug = normalizeSlug(key);
+    return PROFILE_ID.test(key)
+      ? { publicProfileId: key, profilePublic: true }
+      : slugProblem(slug) === null ? { profileSlug: slug, profilePublic: true } : null;
+  }
+
+  /**
+   * The GitHub login behind a public profile key, for server-side use only (it names the user's file of books).
+   * It never goes in a response. Null for a malformed, unknown or private profile, like `getPublicProfile`.
+   */
+  async getPublicGithubLogin(key: string): Promise<string | null> {
+    const where = this.publicUserWhere(key);
+    if (!where) return null;
+    const user = await this.repo.manager.getRepository(User).findOne({ where, select: { githubLogin: true } });
+    return user?.githubLogin ?? null;
   }
 
   /** Top users by total XP across all sources, for the profile leaderboard. */

@@ -170,6 +170,48 @@ jobs:
                       sys.exit('an upload location lost: ' + need)
           PY
 
+  # public/books/<github login>.md lists one person's books on their public profile, and the profile reads it
+  # straight from the repository. The file name is the identity, so a pull request may only touch the file named
+  # after its own author (the owner of the repository curates and is exempt). `pull_request`, not
+  # `pull_request_target`: the check needs no secrets and runs no code from the pull request. The author comes
+  # in through the environment, never pasted into the script.
+  books-owner:
+    name: Books belong to their author
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history, to compare with the base)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Only the author changes their own public/books file
+        env:
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          OWNER: ${{ github.repository_owner }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          author=$(printf '%s' "$AUTHOR" | tr '[:upper:]' '[:lower:]')
+          owner=$(printf '%s' "$OWNER" | tr '[:upper:]' '[:lower:]')
+          # --no-renames: a rename counts as a deletion plus an addition, so both names are checked.
+          files=$(git diff --name-only --no-renames "$BASE" HEAD -- public/books)
+          status=0
+          while IFS= read -r file; do
+            [ -n "$file" ] || continue
+            name=${file#public/books/}
+            case "$name" in
+              */*) echo "::error file=$file::books go directly in public/books, with no subfolder"; status=1; continue;;
+            esac
+            if ! printf '%s' "$name" | grep -Eq '^[a-z0-9][a-z0-9-]{0,38}\.md$'; then
+              echo "::error file=$file::the file name is your GitHub login in lowercase, plus .md"; status=1; continue
+            fi
+            if [ "${name%.md}" != "$author" ] && [ "$author" != "$owner" ]; then
+              echo "::error file=$file::only the GitHub account '${name%.md}' can change this file, and this pull request is from '$author'"; status=1
+            fi
+          done <<< "$files"
+          exit $status
+
   images:
     name: Container images (Trivy)
     runs-on: ubuntu-latest

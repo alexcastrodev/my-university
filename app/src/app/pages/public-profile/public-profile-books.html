@@ -1,0 +1,17 @@
+@if (state(); as current) {
+  @if (current.kind === 'loading') {
+    <p class="state" role="status" i18n="@@publicProfile.books.loading">Loading library…</p>
+  } @else if (current.kind === 'error') {
+    <div class="card state-box" role="alert">
+      <p i18n="@@publicProfile.books.error">Could not load this library.</p>
+      <button type="button" class="btn" (click)="load()" i18n="@@publicProfile.retry">Try again</button>
+    </div>
+  } @else if (current.kind === 'empty') {
+    <div class="card state-box" data-testid="books-empty">
+      <p i18n="@@publicProfile.books.empty">No books here yet.</p>
+      <a class="link" routerLink="/faq" fragment="books" data-testid="books-help" i18n="@@publicProfile.books.emptyHelp">How to show your books</a>
+    </div>
+  } @else {
+    <app-book-shelf [books]="current.books" />
+  }
+}

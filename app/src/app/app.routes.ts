@@ -38,6 +38,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login-page').then((m) => m.LoginPage),
   },
   {
+    path: 'faq',
+    loadComponent: () => import('./pages/faq/faq-page').then((m) => m.FaqPage),
+  },
+  {
     // One shell (banner, edit panel, tabs) with the three sections inside it.
     path: 'profile',
     loadComponent: () => import('./pages/profile/profile-layout').then((m) => m.ProfileLayout),
@@ -50,6 +54,10 @@ export const routes: Routes = [
   {
     path: 'u/:profileKey',
     loadComponent: () => import('./pages/public-profile/public-profile-page').then((m) => m.PublicProfilePage),
+    children: [
+      { path: '', loadComponent: () => import('./pages/public-profile/public-profile-awards').then((m) => m.PublicProfileAwards) },
+      { path: 'books', loadComponent: () => import('./pages/public-profile/public-profile-books').then((m) => m.PublicProfileBooks) },
+    ],
   },
   {
     path: 'java/exams',

@@ -16,6 +16,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    // Not prerendered, for the same reason as above: the canonical and og:url would carry the build's localhost.
+    path: 'faq',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'computer-science/:module/:discipline',
     renderMode: RenderMode.Server,
   },
@@ -228,6 +233,11 @@ export const serverRoutes: ServerRoute[] = [
     // the API, which checks that the profile is public). The profile itself is fetched in the browser, never
     // baked into SSR output, since it can turn private at any moment.
     path: 'u/:profileKey',
+    renderMode: RenderMode.Server,
+  },
+  {
+    // The Library tab of the same profile, rendered the same way.
+    path: 'u/:profileKey/books',
     renderMode: RenderMode.Server,
   },
   {

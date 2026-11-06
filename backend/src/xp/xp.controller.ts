@@ -1,6 +1,7 @@
-import { Controller, Get, NotFoundException, Param, Post, Query, Res } from '@nestjs/common';
+import { Controller, Get, Inject, NotFoundException, Param, Post, Query, Res } from '@nestjs/common';
 import type { FastifyReply } from 'fastify';
 import { CurrentUserId } from '../auth/session';
+import { BooksService } from '../books/books.service';
 import { XpService } from './xp.service';
 
 /** A query value as an integer within bounds; anything missing or not a number falls back to `fallback`. */
@@ -91,7 +92,10 @@ export class XpController {
 /** Public learner profiles, reachable by link and never by login or user id. */
 @Controller('profile')
 export class ProfileController {
-  constructor(private service: XpService) {}
+  constructor(
+    private service: XpService,
+    @Inject(BooksService) private books: BooksService,
+  ) {}
 
   /** `:key` is the `publicProfileId` or the user's vanity slug; both reach the same profile. */
   @Get(':key')
@@ -103,5 +107,20 @@ export class ProfileController {
     const profile = await this.service.getPublicProfile(key);
     if (!profile) throw new NotFoundException();
     return profile;
+  }
+
+  /**
+   * The books on the profile's library tab, read from the user's file in the repository. The GitHub login that
+   * names the file stays here: the response is the books and nothing else. A key that reaches no public profile is a 404.
+   */
+  @Get(':key/books')
+  async getBooks(
+    @Param('key') key: string,
+    @Res({ passthrough: true }) reply: FastifyReply,
+  ) {
+    reply.header('Cache-Control', 'no-store');
+    const login = await this.service.getPublicGithubLogin(key);
+    if (!login) throw new NotFoundException();
+    return { books: await this.books.booksOf(login) };
   }
 }
