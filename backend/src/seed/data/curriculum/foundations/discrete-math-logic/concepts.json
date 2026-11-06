@@ -364,5 +364,94 @@
       { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
       { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
     ]
+  },
+  {
+    "slug": "euler-paths-and-circuits",
+    "id": 27,
+    "title": "Euler Paths and Circuits",
+    "topic": "Graph Theory",
+    "requires": ["graphs-terminology-and-representations", "trees"],
+    "related": [
+      { "label": "Graphs: Terminology and Representations", "slug": "graphs-terminology-and-representations" },
+      { "label": "Trees", "slug": "trees" }
+    ],
+    "summary": "The Königsberg bridges, the degree condition for Euler paths and circuits with its proof, and Hierholzer's algorithm for finding one.",
+    "publishedAt": "2026-11-06",
+    "references": [
+      { "label": "Diestel (2025): Graph Theory, 6th ed., Chapter 1 (free preview)", "url": "https://www.math.uni-hamburg.de/home/diestel/books/graph.theory/preview/Ch1.pdf", "type": "book" },
+      { "label": "Lehman, Leighton, Meyer (2015): Mathematics for Computer Science", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "book" },
+      { "label": "Levin (2025): Discrete Mathematics: An Open Introduction, 3rd ed., Euler Paths and Circuits", "url": "https://discrete.openmathbooks.org/dmoi3/sec_paths.html", "type": "book" },
+      { "label": "Euler (1741): Solutio problematis ad geometriam situs pertinentis, Euler Archive E53", "url": "https://scholarlycommons.pacific.edu/euler-works/53/", "type": "paper" },
+      { "label": "Wikipedia: Seven Bridges of Königsberg", "url": "https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg", "type": "doc" },
+      { "label": "Wikipedia: Eulerian path", "url": "https://en.wikipedia.org/wiki/Eulerian_path", "type": "doc" },
+      { "label": "NetworkX: Eulerian algorithms", "url": "https://networkx.org/documentation/stable/reference/algorithms/euler.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "hamiltonian-paths-and-why-they-are-hard",
+    "id": 28,
+    "title": "Hamiltonian Paths and Why They Are Hard",
+    "topic": "Graph Theory",
+    "requires": ["euler-paths-and-circuits"],
+    "related": [
+      { "label": "Euler Paths and Circuits", "slug": "euler-paths-and-circuits" }
+    ],
+    "summary": "Hamiltonian paths and cycles, why no simple degree test exists as it does for Euler, sufficient conditions such as Dirac's theorem, and the link to NP-completeness and the traveling salesman problem.",
+    "publishedAt": "2026-11-06",
+    "references": [
+      { "label": "Diestel (2025): Graph Theory, 6th ed., Chapter 10 (free preview)", "url": "https://www.math.uni-hamburg.de/home/diestel/books/graph.theory/preview/Ch10.pdf", "type": "book" },
+      { "label": "Wikipedia: Hamiltonian path", "url": "https://en.wikipedia.org/wiki/Hamiltonian_path", "type": "doc" },
+      { "label": "Wikipedia: Ore's theorem", "url": "https://en.wikipedia.org/wiki/Ore%27s_theorem", "type": "doc" },
+      { "label": "Wikipedia: Icosian game", "url": "https://en.wikipedia.org/wiki/Icosian_game", "type": "doc" },
+      { "label": "Wikipedia: Karp's 21 NP-complete problems", "url": "https://en.wikipedia.org/wiki/Karp%27s_21_NP-complete_problems", "type": "doc" },
+      { "label": "Erickson (2019): Algorithms, Chapter 12: NP-Hardness", "url": "https://jeffe.cs.illinois.edu/teaching/algorithms/book/12-nphard.pdf", "type": "book" },
+      { "label": "Wikipedia: Held-Karp algorithm", "url": "https://en.wikipedia.org/wiki/Held%E2%80%93Karp_algorithm", "type": "doc" },
+      { "label": "Levin (2025): Discrete Mathematics: An Open Introduction, 3rd ed., Euler Paths and Circuits", "url": "https://discrete.openmathbooks.org/dmoi3/sec_paths.html", "type": "book" }
+    ]
+  },
+  {
+    "slug": "graph-connectivity-cut-vertices-and-bridges",
+    "id": 29,
+    "title": "Graph Connectivity: Cut Vertices and Bridges",
+    "topic": "Graph Theory",
+    "requires": ["hamiltonian-paths-and-why-they-are-hard"],
+    "related": [
+      { "label": "Hamiltonian Paths and Why They Are Hard", "slug": "hamiltonian-paths-and-why-they-are-hard" },
+      { "label": "Trees", "slug": "trees" },
+      { "label": "Graphs: Terminology and Representations", "slug": "graphs-terminology-and-representations" }
+    ],
+    "summary": "Connected components, cut vertices and bridges, vertex and edge connectivity, and how a depth-first search finds them.",
+    "publishedAt": "2026-11-06",
+    "references": [
+      { "label": "Lehman, Leighton and Meyer (2015): Mathematics for Computer Science", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "book" },
+      { "label": "Diestel (2025): Graph Theory, 6th ed., Chapter 1 (free preview)", "url": "https://www.math.uni-hamburg.de/home/diestel/books/graph.theory/preview/Ch1.pdf", "type": "book" },
+      { "label": "Sedgewick and Wayne: Algorithms, 4.1 Undirected Graphs", "url": "https://algs4.cs.princeton.edu/41graph/", "type": "doc" },
+      { "label": "Sedgewick and Wayne: Biconnected.java", "url": "https://algs4.cs.princeton.edu/41graph/Biconnected.java.html", "type": "doc" },
+      { "label": "Sedgewick and Wayne: Bridge.java", "url": "https://algs4.cs.princeton.edu/41graph/Bridge.java.html", "type": "doc" },
+      { "label": "NetworkX: articulation_points", "url": "https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.components.articulation_points.html", "type": "doc" },
+      { "label": "NetworkX: bridges", "url": "https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.bridges.bridges.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "graph-coloring-and-the-chromatic-number",
+    "id": 30,
+    "title": "Graph Coloring and the Chromatic Number",
+    "topic": "Graph Theory",
+    "requires": ["graph-connectivity-cut-vertices-and-bridges", "planar-graphs"],
+    "related": [
+      { "label": "Graph Connectivity: Cut Vertices and Bridges", "slug": "graph-connectivity-cut-vertices-and-bridges" },
+      { "label": "Planar Graphs", "slug": "planar-graphs" }
+    ],
+    "summary": "Proper colorings, the chromatic number and its bounds, greedy coloring, the four color theorem for planar graphs, and why computing the chromatic number is hard.",
+    "publishedAt": "2026-11-06",
+    "references": [
+      { "label": "Lehman, Leighton and Meyer (2015): Mathematics for Computer Science", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "book" },
+      { "label": "Diestel (2025): Graph Theory, 6th ed., Chapter 5 (free preview)", "url": "https://www.math.uni-hamburg.de/home/diestel/books/graph.theory/preview/Ch5.pdf", "type": "book" },
+      { "label": "Robin Thomas: The Four Color Theorem", "url": "https://thomas.math.gatech.edu/FC/fourcolor.html", "type": "doc" },
+      { "label": "Gonthier: A computer-checked proof of the Four Color Theorem", "url": "https://inria.hal.science/hal-04034866/document", "type": "paper" },
+      { "label": "rocq-community: fourcolor", "url": "https://github.com/rocq-community/fourcolor", "type": "doc" },
+      { "label": "Sedgewick and Wayne: Algorithms, 4.1 Undirected Graphs", "url": "https://algs4.cs.princeton.edu/41graph/", "type": "doc" },
+      { "label": "NetworkX: greedy_color", "url": "https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.coloring.greedy_color.html", "type": "doc" }
+    ]
   }
 ]
