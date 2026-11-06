@@ -1,0 +1,28 @@
+.dialog {
+  box-sizing: border-box;
+  width: min(26rem, calc(100vw - 2rem));
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--mu-line);
+  border-radius: 12px;
+  background: var(--mu-surface);
+  color: var(--mu-ink);
+}
+.dialog::backdrop { background: rgba(10, 16, 28, 0.55); }
+.title { margin: 0 0 0.5rem; font-size: 1rem; font-weight: 700; }
+.body { margin: 0; font-size: 0.9rem; color: var(--mu-muted); }
+.actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: inherit;
+}
+.btn:hover { opacity: 0.88; }
+.btn-quiet { background: var(--mu-bg-alt); color: var(--mu-ink-soft); border-color: var(--mu-line); }
+.btn-danger { background: var(--mu-danger); color: var(--mu-white); }

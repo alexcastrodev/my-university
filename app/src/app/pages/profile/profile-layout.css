@@ -79,7 +79,38 @@
 .feedback { font-size: 0.8rem; color: var(--mu-success-strong); margin: 0; }
 .feedback.error { color: var(--mu-danger-strong); }
 
-.actions-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.actions-row { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; min-width: 0; }
+
+/* The public link: the address with a copy button inside it, and an icon button that opens it */
+.public-link { display: inline-flex; align-items: center; gap: 0.35rem; min-width: 0; max-width: 100%; }
+.public-link-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 0.15rem 0.2rem 0.15rem 0.75rem;
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  background: var(--mu-bg-alt);
+}
+.public-link-text { min-width: 0; font-size: 0.8rem; color: var(--mu-ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--mu-ink-soft);
+  cursor: pointer;
+}
+.icon-btn:hover { color: var(--mu-ink); background: var(--mu-surface); }
+.icon-btn:focus-visible { outline: 2px solid var(--mu-accent); outline-offset: 2px; }
+.icon-link { border-color: var(--mu-line); background: var(--mu-bg-alt); border-radius: 8px; }
 
 /* The tabs live at the bottom edge of the banner band */
 .tabs { display: flex; gap: 0.25rem; overflow-x: auto; margin-top: 0.25rem; }

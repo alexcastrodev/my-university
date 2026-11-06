@@ -244,15 +244,34 @@ describe('ProfileLayout', () => {
       expect(write).toHaveBeenCalledOnceWith(link);
     });
 
-    it('offers no link and no visitor view when the profile is private', () => {
+    it('offers no link on the page or the banner when the profile is private', () => {
       const { q } = open({ user: { ...USER, profilePublic: false } });
       expect(q('[data-testid="profile-link"]')).toBeNull();
       expect(q('[data-testid="copy-link"]')).toBeNull();
-      expect(q('[data-testid="view-as-visitor"]')).toBeNull();
+      expect(q('[data-testid="public-link"]')).toBeNull();
+      expect(q('[data-testid="copy-public-link"]')).toBeNull();
+      expect(q('[data-testid="open-public-link"]')).toBeNull();
     });
 
-    it('offers "View as visitor" on the banner when the profile is public', () => {
-      expect(setup().q('[data-testid="view-as-visitor"]')!.getAttribute('href')).toBe(`/u/${ID}`);
+    it('shows the public link on the banner when the profile is public, with a way to open it in a new tab', () => {
+      const { q } = setup();
+      expect(q('[data-testid="public-link"]')!.textContent).toMatch(new RegExp(`/u/${ID}$`));
+      const open = q<HTMLAnchorElement>('[data-testid="open-public-link"]')!;
+      expect(open.getAttribute('href')).toMatch(new RegExp(`/u/${ID}$`));
+      expect(open.getAttribute('target')).toBe('_blank');
+      expect(open.getAttribute('rel')).toContain('noopener');
+      expect(open.getAttribute('aria-label')).toBe('Open public profile');
+    });
+
+    it('copies the link from the icon inside the banner pill, and says so', async () => {
+      const write = spyOn(navigator.clipboard, 'writeText').and.resolveTo();
+      const { q, click, fixture } = setup();
+      expect(q('[data-testid="copy-public-link"]')!.getAttribute('aria-label')).toBe('Copy link');
+      click('[data-testid="copy-public-link"]');
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(write).toHaveBeenCalledOnceWith(q('[data-testid="public-link"]')!.textContent!);
+      expect(q('[data-testid="copy-public-link"]')!.getAttribute('aria-label')).toBe('Copied');
     });
   });
   describe('custom link', () => {
@@ -276,13 +295,14 @@ describe('ProfileLayout', () => {
       expect(q('[data-testid="remove-slug"]')).not.toBeNull();
     });
 
-    it('saves what was typed, and the link, the copy field and "View as visitor" all follow it', () => {
+    it('saves what was typed, and the link, the copy field and the banner link all follow it', () => {
       const { q, click, type, updateProfileSlug, fixture } = open();
       type('#profile-slug', 'lekitoonrails');
       click('[data-testid="save-slug"]');
       expect(updateProfileSlug).toHaveBeenCalledOnceWith('lekitoonrails');
       expect(q<HTMLInputElement>('[data-testid="profile-link"]')!.value).toMatch(/\/u\/lekitoonrails$/);
-      expect(q('[data-testid="view-as-visitor"]')!.getAttribute('href')).toBe('/u/lekitoonrails');
+      expect(q('[data-testid="public-link"]')!.textContent).toMatch(/\/u\/lekitoonrails$/);
+      expect(q('[data-testid="open-public-link"]')!.getAttribute('href')).toMatch(/\/u\/lekitoonrails$/);
       expect(q('[data-testid="remove-slug"]')).not.toBeNull();
       expect(fixture.nativeElement.textContent).toContain('Saved.');
     });
@@ -297,10 +317,30 @@ describe('ProfileLayout', () => {
       expect(updateProfileSlug).toHaveBeenCalledOnceWith('ada');
     });
 
-    it('goes back to the id link by sending null, and the link follows', () => {
+    it('asks before removing the custom link, and sends nothing until it is confirmed', () => {
+      const { q, click, updateProfileSlug } = open({ user: { ...USER, profileSlug: 'lekitoonrails' } });
+      expect(q<HTMLButtonElement>('[data-testid="remove-slug"]')!.textContent).toContain('Remove custom link');
+      expect(q<HTMLDialogElement>('[data-testid="confirm-dialog"]')!.open).toBe(false);
+      click('[data-testid="remove-slug"]');
+      expect(q<HTMLDialogElement>('[data-testid="confirm-dialog"]')!.open).toBe(true);
+      expect(updateProfileSlug).not.toHaveBeenCalled();
+    });
+
+    it('keeps the custom link when the question is cancelled', () => {
       const { q, click, updateProfileSlug } = open({ user: { ...USER, profileSlug: 'lekitoonrails' } });
       click('[data-testid="remove-slug"]');
+      click('[data-testid="confirm-dialog-cancel"]');
+      expect(q<HTMLDialogElement>('[data-testid="confirm-dialog"]')!.open).toBe(false);
+      expect(updateProfileSlug).not.toHaveBeenCalled();
+      expect(q<HTMLInputElement>('#profile-slug')!.value).toBe('lekitoonrails');
+    });
+
+    it('goes back to the id link by sending null once confirmed, and the link follows', () => {
+      const { q, click, updateProfileSlug } = open({ user: { ...USER, profileSlug: 'lekitoonrails' } });
+      click('[data-testid="remove-slug"]');
+      click('[data-testid="confirm-dialog-confirm"]');
       expect(updateProfileSlug).toHaveBeenCalledOnceWith(null);
+      expect(q<HTMLDialogElement>('[data-testid="confirm-dialog"]')!.open).toBe(false);
       expect(q<HTMLInputElement>('[data-testid="profile-link"]')!.value).toMatch(new RegExp(`/u/${ID}$`));
       expect(q<HTMLInputElement>('#profile-slug')!.value).toBe('');
       expect(q('[data-testid="remove-slug"]')).toBeNull();

@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { LevelProgress, ProfileBanner } from '../../components/profile-banner/profile-banner';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
+import { ConfirmDialog } from '../../shared/confirm-dialog/confirm-dialog';
 import { profileKey, publicProfileUrl } from '../../shared/public-profile-url';
 
 /**
@@ -14,7 +15,7 @@ import { profileKey, publicProfileUrl } from '../../shared/public-profile-url';
 @Component({
   selector: 'app-profile-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ProfileBanner, RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [ConfirmDialog, ProfileBanner, RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './profile-layout.html',
   styleUrl: './profile-layout.css',
 })
@@ -58,6 +59,18 @@ export class ProfileLayout implements OnInit {
   protected currentSlug = computed(() => this.auth.currentUser()?.profileSlug ?? null);
   protected slugDraft = signal('');
   protected slugError = signal<string | null>(null);
+  protected copyLabel = computed(() => this.copied()
+    ? $localize`:@@settings.publicProfile.copied:Copied`
+    : $localize`:@@settings.publicProfile.copy:Copy link`);
+
+  /** Removing the custom link frees the name for anyone else, so it asks first. */
+  protected confirmRemoveOpen = signal(false);
+  protected readonly removeDialog = {
+    heading: $localize`:@@profile.slug.remove.title:Remove custom link?`,
+    message: $localize`:@@profile.slug.remove.body:Your profile goes back to the link with the long id. The current custom link stops working and anyone can claim it.`,
+    confirm: $localize`:@@profile.slug.remove.confirm:Remove`,
+    cancel: $localize`:@@papers.notes.cancel:Cancel`,
+  };
 
   ngOnInit(): void {
     if (!this.auth.currentUser()) return;
@@ -100,8 +113,9 @@ export class ProfileLayout implements OnInit {
     this.submitSlug(this.slugDraft());
   }
 
-  /** Goes back to the link made of the id only. */
-  protected removeSlug(): void {
+  /** The dialog was confirmed: goes back to the link made of the id only. */
+  protected confirmRemove(): void {
+    this.confirmRemoveOpen.set(false);
     this.submitSlug(null);
   }
 
