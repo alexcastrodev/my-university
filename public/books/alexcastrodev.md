@@ -85,7 +85,7 @@ cover: https://covers.openlibrary.org/b/isbn/9788550804606-L.jpg
 
 ---
 title: Linguagem C
-url: https://www.amazon.com.br/dp/8521615191
+url: https://www.amazon.es/dp/9727221564
 pages: 628
 ---
 
