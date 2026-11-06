@@ -1,0 +1,20 @@
+{
+  "name": "book-shelf",
+  "version": "0.1.0",
+  "description": "Framework-agnostic bookshelf: books as spines whose width follows the page count, wrapped into rows that never scroll sideways.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch",
+    "spec": "vitest run --config vitest.config.ts",
+    "spec:watch": "vitest --config vitest.config.ts"
+  },
+  "devDependencies": {
+    "happy-dom": "^21.0.4",
+    "typescript": "~6.0.3",
+    "vitest": "^4.1.12"
+  }
+}

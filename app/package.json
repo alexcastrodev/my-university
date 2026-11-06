@@ -34,6 +34,7 @@
     "@angular/ssr": "^22.2.1",
     "@sentry/angular": "^11.0.0",
     "algorithmator": "workspace:*",
+    "book-shelf": "workspace:*",
     "cytoscape": "3.34.3",
     "cytoscape-dagre": "4.0.1",
     "dagre": "0.8.5",

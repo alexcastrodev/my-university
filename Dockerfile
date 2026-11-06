@@ -3,7 +3,7 @@
 ARG PREVIOUS_WEB_IMAGE=no-previous-web
 
 # ─── Stage 1: Build Frontend ──────────────────────────────────────────────────
-# app/ depends on the "algorithmator" workspace package (packages/algorithmator), so this
+# app/ depends on the "algorithmator" and "book-shelf" workspace packages (packages/*), so this
 # stage needs the repo-root pnpm workspace, not just app/ in isolation.
 FROM node:24-alpine AS frontend-build
 WORKDIR /repo
@@ -11,10 +11,12 @@ RUN corepack enable && corepack prepare pnpm@11.3.0 --activate
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
 COPY app/package.json ./app/package.json
 COPY packages/algorithmator/package.json ./packages/algorithmator/package.json
+COPY packages/book-shelf/package.json ./packages/book-shelf/package.json
 RUN pnpm install --frozen-lockfile --filter ocp-simulator...
 COPY app/ ./app/
 COPY packages/algorithmator/ ./packages/algorithmator/
-RUN pnpm --filter algorithmator build
+COPY packages/book-shelf/ ./packages/book-shelf/
+RUN pnpm --filter algorithmator build && pnpm --filter book-shelf build
 # The deployed commit, so Sentry can tell releases apart (performance before/after a deploy).
 # Passed by the deploy workflow; local and test builds leave it empty and report no release.
 ARG SENTRY_RELEASE=""

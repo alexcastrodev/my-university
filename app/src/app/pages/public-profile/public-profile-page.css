@@ -36,6 +36,20 @@
   border: 1px solid transparent;
 }
 
+/* The tabs live at the bottom edge of the banner band */
+.tabs { display: flex; gap: 0.25rem; overflow-x: auto; margin-top: 0.25rem; }
+.tab {
+  padding: 0.75rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--mu-muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--mu-ink); }
+.tab-active { color: var(--mu-ink); border-bottom-color: var(--mu-accent); }
+
 @media (max-width: 480px) {
   .page-body { padding: 1.25rem 1rem; }
 }

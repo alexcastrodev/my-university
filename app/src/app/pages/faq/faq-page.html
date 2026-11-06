@@ -1,0 +1,37 @@
+<div class="page">
+  <main class="content">
+    <h1 class="title" i18n="@@faq.title">Frequently asked questions</h1>
+
+    <section id="books" class="section" aria-labelledby="books-title">
+      <h2 id="books-title" class="heading" i18n="@@faq.books.title">Show your books on your profile</h2>
+      <p i18n="@@faq.books.intro">The Library tab of a public profile lists the books you write in a file of the project's repository. You add the file with a pull request, and the profile reads it from there.</p>
+
+      <ol class="steps">
+        <li i18n="@@faq.books.step1">Keep your profile public (it is by default) and sign in with the GitHub account that will name the file.</li>
+        <li i18n="@@faq.books.step2">Fork the project repository on GitHub.</li>
+        <li><span i18n="@@faq.books.step3">In your fork, create this file, using your GitHub login in lowercase:</span> <code>public/books/your-login.md</code></li>
+        <li i18n="@@faq.books.step4">Fill it with a table like the one below, one row per book.</li>
+        <li i18n="@@faq.books.step5">Open a pull request. A check confirms that the author of the pull request owns the file.</li>
+        <li i18n="@@faq.books.step6">After the merge, your books show up on your Library tab within about 15 minutes.</li>
+      </ol>
+
+      <pre class="example"><code data-testid="books-example">{{ example }}</code></pre>
+
+      <h3 class="subheading" i18n="@@faq.books.rules.title">The rules</h3>
+      <ul class="rules">
+        <li i18n="@@faq.books.rule.title">First column: the title as a link to the book, written [Title](https://link).</li>
+        <li i18n="@@faq.books.rule.pages">Second column: the total number of pages, from 1 to 5000. It sets how thick the book is on the shelf.</li>
+        <li i18n="@@faq.books.rule.cover">Third column: the address of the cover image. It can be left empty.</li>
+        <li i18n="@@faq.books.rule.https">Links and covers must start with https://. A row that breaks a rule is ignored; the other rows still show.</li>
+        <li i18n="@@faq.books.rule.limits">Up to 200 books per file, and no | character inside a title.</li>
+      </ul>
+
+      <p class="note" i18n="@@faq.books.privacy">The file is public and carries your GitHub login, so anyone can tie the books on your profile to your GitHub account.</p>
+
+      <p class="links">
+        <a [href]="newFileUrl" target="_blank" rel="noopener" data-testid="books-new-file" i18n="@@faq.books.linkNew">Create your file on GitHub</a>
+        <a [href]="foldersUrl" target="_blank" rel="noopener" data-testid="books-folder" i18n="@@faq.books.linkFolder">See the books folder</a>
+      </p>
+    </section>
+  </main>
+</div>

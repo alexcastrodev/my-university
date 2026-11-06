@@ -1,0 +1,23 @@
+.card {
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.state, .state-box p { color: var(--mu-muted); font-size: 0.9rem; margin: 0; }
+.state-box { display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+
+.link { color: var(--mu-accent); font-size: 0.9rem; font-weight: 600; }
+
+.btn {
+  display: inline-flex;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--mu-accent);
+  color: var(--mu-white);
+  border: 1px solid transparent;
+}
