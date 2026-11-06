@@ -151,6 +151,37 @@ describe('mountBookShelf', () => {
     }
   });
 
+  it('opens the first book at the start when asked to, and nothing for an empty shelf', () => {
+    mountBookShelf(host, sample(3), { labels, openFirst: true });
+    expect(slots().map((s) => s.getAttribute('aria-pressed'))).toEqual(['true', 'false', 'false']);
+    expect(host.querySelectorAll('.shelf-detail:not(:empty)').length).toBe(1);
+    const other = document.createElement('div');
+    document.body.append(other);
+    expect(() => mountBookShelf(other, [], { labels, openFirst: true })).not.toThrow();
+  });
+
+  it('tells the host which book opened, on the first open and on each click', () => {
+    const opened: string[] = [];
+    mountBookShelf(host, sample(3), { labels, openFirst: true, onOpen: (book) => opened.push(book.title) });
+    slots()[2].click();
+    expect(opened.slice(0, 1)).toEqual([sample(3)[0].title]);
+    expect(opened.at(-1)).toBe(sample(3)[2].title);
+  });
+
+  it('leaves out the detail block for a host that shows the open book itself', () => {
+    mountBookShelf(host, sample(2), { labels, detail: false });
+    slots()[0].click();
+    expect(slots()[0].getAttribute('aria-pressed')).toBe('true');
+    expect(host.querySelector('.shelf-detail-title')).toBeNull();
+  });
+
+  it('opens the first book again after an update, with openFirst', () => {
+    const handle = mountBookShelf(host, sample(3), { labels, openFirst: true });
+    slots()[2].click();
+    handle.update(sample(4));
+    expect(slots().map((s) => s.getAttribute('aria-pressed'))).toEqual(['true', 'false', 'false', 'false']);
+  });
+
   it('keeps one book open at a time', () => {
     mountBookShelf(host, sample(3), { labels });
     slots()[0].click();

@@ -1,0 +1,20 @@
+<article class="summary" data-testid="book-summary" aria-labelledby="book-summary-title">
+  <h2 id="book-summary-title" class="title">{{ book().title }}</h2>
+  <dl class="facts">
+    <div class="fact">
+      <dt i18n="@@bookSummary.link">Link</dt>
+      <dd>
+        <a class="link" [href]="book().url" target="_blank" rel="noopener noreferrer" aria-describedby="book-summary-title" data-testid="book-summary-link">
+          <svg class="link-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg><ng-container i18n="@@bookShelf.visit">Go to the book</ng-container>
+        </a>
+      </dd>
+    </div>
+    <div class="fact">
+      <dt i18n="@@bookSummary.pages">Pages</dt>
+      <dd data-testid="book-summary-pages">{{ book().pages }}</dd>
+    </div>
+  </dl>
+  @for (paragraph of paragraphs(); track $index) {
+    <p class="comment">{{ paragraph }}</p>
+  }
+</article>

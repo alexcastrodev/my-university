@@ -37,24 +37,28 @@ cover: https://github.com/user-attachments/assets/88056d4d-dfbd-4049-880e-3d7eef
 title: IELTS 20 Academic: Authentic Practice Tests
 url: https://www.amazon.com/dp/1009814907
 pages: 144
+cover: https://github.com/user-attachments/assets/00a0cdba-0cba-4114-8d29-6ab437cbdc31
 ---
 
 ---
 title: Accelerating Server-Side Development with Fastify
 url: https://www.amazon.com.br/dp/1800563582
 pages: 406
+cover: https://content.packt.com/_/image/original/B16496/cover_image.jpg?version=1775851274
 ---
 
 ---
 title: Mastering the Java Virtual Machine
 url: https://www.amazon.com.br/dp/1835467962
 pages: 234
+cover: https://m.media-amazon.com/images/I/71remj2QT+L._SL1500_.jpg
 ---
 
 ---
 title: TypeScript Cookbook
 url: https://www.amazon.com.br/dp/1098136659
 pages: 419
+cover: https://m.media-amazon.com/images/I/81ZjZVaCVcL._SL1500_.jpg
 ---
 
 ---
@@ -75,6 +79,7 @@ cover: https://covers.openlibrary.org/b/id/11110546-L.jpg
 title: Refatoração: Segunda Edição
 url: https://www.amazon.com.br/dp/8575227246
 pages: 448
+cover: https://m.media-amazon.com/images/I/71vEr0oyt-L._SL1500_.jpg
 ---
 
 ---
@@ -95,6 +100,8 @@ cover: https://github.com/user-attachments/assets/0570bff8-7144-4d8f-adec-5acefd
 title: Java: The Complete Reference, Twelfth Edition
 url: https://www.amazon.com/dp/1260463419
 pages: 1248
+cover: https://m.media-amazon.com/images/I/81vfI+kGqoL._SL1500_.jpg
+
 ---
 
 ---

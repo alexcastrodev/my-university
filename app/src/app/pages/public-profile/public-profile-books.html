@@ -12,6 +12,15 @@
       <a class="link" routerLink="/faq" fragment="books" data-testid="books-help" i18n="@@publicProfile.books.emptyHelp">How to show your books</a>
     </div>
   } @else {
-    <app-book-shelf [books]="current.books" />
+    <div class="library">
+      <div class="main">
+        <app-book-shelf [books]="current.books" (opened)="selected.set($event)" />
+      </div>
+      @if (selected(); as book) {
+        <aside class="side" i18n-aria-label="@@publicProfile.books.side" aria-label="Book details">
+          <app-book-summary [book]="book" />
+        </aside>
+      }
+    </div>
   }
 }

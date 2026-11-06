@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, PLATFORM_ID, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BookShelf } from '../../components/book-shelf/book-shelf';
+import { BookSummary } from '../../components/book-summary/book-summary';
 import { PublicBook } from '../../models/public-profile.model';
 import { PublicProfilePage } from './public-profile-page';
 
@@ -15,7 +16,7 @@ type State = { kind: 'loading' } | { kind: 'error' } | { kind: 'empty' } | { kin
 @Component({
   selector: 'app-public-profile-books',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BookShelf, RouterLink],
+  imports: [BookShelf, BookSummary, RouterLink],
   templateUrl: './public-profile-books.html',
   styleUrl: './public-profile-books.css',
 })
@@ -25,6 +26,8 @@ export class PublicProfileBooks implements OnInit {
   private platformId = inject(PLATFORM_ID);
 
   protected state = signal<State>({ kind: 'loading' });
+  /** The book last opened on the shelf (the first one, on arrival): the panel beside the shelf shows it. */
+  protected selected = signal<PublicBook | null>(null);
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) this.load();

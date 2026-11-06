@@ -1,0 +1,15 @@
+/* No box: the title, the facts and the comment sit straight on the column, like the top of a paper's page. */
+:host { display: block; }
+.title { margin: 0 0 1rem; font-size: 1.5rem; font-weight: 700; line-height: 1.3; color: var(--mu-ink); overflow-wrap: anywhere; }
+
+.facts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.75rem; margin: 0 0 1.1rem; }
+.fact { min-width: 0; }
+.fact dt { margin-bottom: 0.15rem; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--mu-muted); }
+.fact dd { margin: 0; font-size: 0.92rem; color: var(--mu-ink); overflow-wrap: anywhere; }
+
+.link { display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 600; color: var(--mu-ink-soft); text-decoration: none; }
+.link:hover { color: var(--mu-accent-strong); }
+.link:focus-visible { outline: 2px solid var(--mu-accent); outline-offset: 3px; }
+.link-icon { flex: none; color: var(--mu-accent-strong); }
+
+.comment { margin: 0 0 0.75rem; font-size: 0.92rem; line-height: 1.6; color: var(--mu-ink-soft); overflow-wrap: anywhere; }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, afterNextRender, effect, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, afterNextRender, effect, inject, input, output } from '@angular/core';
 import type { ShelfHandle, ShelfLabels } from 'book-shelf';
 import { PublicBook } from '../../models/public-profile.model';
 
@@ -24,6 +24,8 @@ const LABELS: ShelfLabels = {
 })
 export class BookShelf {
   readonly books = input.required<PublicBook[]>();
+  /** The book that just opened: the details are not drawn here but beside the shelf, in `app-book-summary`. */
+  readonly opened = output<PublicBook>();
 
   private host = inject<ElementRef<HTMLElement>>(ElementRef);
   private handle: ShelfHandle | null = null;
@@ -32,7 +34,14 @@ export class BookShelf {
   constructor() {
     afterNextRender(() => {
       void import('book-shelf').then(({ mountBookShelf }) => {
-        if (!this.destroyed) this.handle = mountBookShelf(this.host.nativeElement, this.books(), { labels: LABELS });
+        if (this.destroyed) return;
+        this.handle = mountBookShelf(this.host.nativeElement, this.books(), {
+          labels: LABELS,
+          openFirst: true,
+          detail: false,
+          // The shelf got `PublicBook`s and hands the same objects back.
+          onOpen: (book) => this.opened.emit(book as PublicBook),
+        });
       });
     });
     // `books()` is read first, outside the `?.`: while the package is still loading `handle` is null, and an

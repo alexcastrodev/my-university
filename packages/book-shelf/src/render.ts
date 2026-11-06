@@ -5,10 +5,16 @@ import type { ShelfBook, ShelfLabels } from './types';
 export interface MountOptions {
   labels: ShelfLabels;
   layout?: LayoutOptions;
+  /** Starts with the first book open, so the shelf does not land as a row of closed spines. */
+  openFirst?: boolean;
+  /** Called with the open book each time the shelf is painted with one open (on opening, and again on a re-layout). */
+  onOpen?(book: ShelfBook): void;
+  /** `false` leaves out the title/comment/link block under the row, for a host that shows the open book elsewhere. */
+  detail?: boolean;
 }
 
 export interface ShelfHandle {
-  /** Replaces the books and closes the open one. */
+  /** Replaces the books and closes the open one (or opens the first again, with `openFirst`). */
   update(books: ShelfBook[]): void;
   /** Lays the rows out again, for `width` px or, left out, for the container's current width. */
   relayout(width?: number): void;
@@ -64,7 +70,7 @@ export function mountBookShelf(host: HTMLElement, initial: ShelfBook[], options:
   // Set by build() from the width: the full size on a wide shelf, the smaller one on a phone.
   let coverWidth = COVER_WIDTH;
   let openWidth = layout.openWidth;
-  let open: number | null = null;
+  let open: number | null = options.openFirst && initial.length ? 0 : null;
   let slots: HTMLButtonElement[] = [];
   let details: HTMLElement[] = [];
   let rowOf: number[] = [];
@@ -168,9 +174,10 @@ export function mountBookShelf(host: HTMLElement, initial: ShelfBook[], options:
       slot.setAttribute('aria-pressed', String(isOpen));
       slot.style.width = `${isOpen ? openWidth : slotWidth(books[i].pages, layout)}px`;
     });
+    if (open !== null) options.onOpen?.(books[open]);
     details.forEach((detail, row) => {
       detail.replaceChildren();
-      if (open !== null && rowOf[open] === row) detail.append(...detailNodes(books[open]));
+      if (options.detail !== false && open !== null && rowOf[open] === row) detail.append(...detailNodes(books[open]));
     });
   }
 
@@ -230,7 +237,7 @@ export function mountBookShelf(host: HTMLElement, initial: ShelfBook[], options:
   return {
     update(next) {
       books = next;
-      open = null;
+      open = options.openFirst && next.length ? 0 : null;
       build(measure());
     },
     relayout(forWidth) {

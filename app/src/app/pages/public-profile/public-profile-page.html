@@ -30,11 +30,11 @@
       >
         <nav tabs class="tabs" i18n-aria-label="@@profile.tabs.aria" aria-label="Profile sections">
           <a class="tab" [routerLink]="['/u', key]" routerLinkActive="tab-active" [routerLinkActiveOptions]="{ exact: true }" data-testid="tab-overview" i18n="@@profile.tab.overview">Overview</a>
-          <a class="tab" [routerLink]="['/u', key, 'books']" routerLinkActive="tab-active" data-testid="tab-books" i18n="@@publicProfile.tab.books">Library</a>
+          <a class="tab" [routerLink]="['/u', key, 'books']" routerLinkActive="tab-active" #booksTab="routerLinkActive" data-testid="tab-books" i18n="@@publicProfile.tab.books">Library</a>
         </nav>
       </app-profile-banner>
 
-      <div class="page-body">
+      <div class="page-body" [class.page-body-wide]="booksTab.isActive">
         <router-outlet />
       </div>
     }
