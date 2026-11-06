@@ -30,6 +30,7 @@ cover: https://covers.openlibrary.org/b/isbn/9780321573513-L.jpg
 title: Domain-Driven Design
 url: https://www.amazon.com.br/dp/8550800651
 pages: 528
+cover: https://github.com/user-attachments/assets/88056d4d-dfbd-4049-880e-3d7eef2cae85
 ---
 
 ---
