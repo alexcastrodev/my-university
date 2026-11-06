@@ -630,6 +630,24 @@ export const CURRICULUM: CurriculumModule[] = [
         ],
       },
       {
+        slug: 'track-e-human-computing',
+        title: $localize`:@@curriculum.specialization.track-e-human-computing.title:Track E: Human Computing`,
+        disciplines: [
+          {
+            slug: 'human-computing',
+            title: $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.title:Human computing depth`,
+            topics: [
+              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.1:HCI`,
+              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.2:usability`,
+              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.3:user research`,
+              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.4:accessibility`,
+              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.5:visualization`,
+              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.6:interaction`,
+            ],
+          },
+        ],
+      },
+      {
         slug: 'computer-graphics',
         title: $localize`:@@curriculum.specialization.computer-graphics.title:Computer Graphics`,
         disciplines: [
