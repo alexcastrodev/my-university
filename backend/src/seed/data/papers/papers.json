@@ -1799,5 +1799,343 @@
     "publicationDate": "2026-07",
     "url": "https://www.usenix.org/conference/osdi26/presentation/mao-ziming-writeguards",
     "paperUrl": "https://www.usenix.org/system/files/osdi26-mao-ziming-writeguards.pdf"
+  },
+  {
+    "slug": "atmosphere-practical-verified-kernels-with-rust-and-verus",
+    "title": "Atmosphere: Practical Verified Kernels with Rust and Verus",
+    "authors": [
+      {
+        "name": "Xiangdong Chen"
+      },
+      {
+        "name": "Zhaofeng Li"
+      },
+      {
+        "name": "Jerry Zhang"
+      },
+      {
+        "name": "Vikram Narayanan"
+      },
+      {
+        "name": "Anton Burtsev"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764821",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764821"
+  },
+  {
+    "slug": "cache-ext-customizing-the-page-cache-with-ebpf",
+    "title": "cache_ext: Customizing the Page Cache with eBPF",
+    "authors": [
+      {
+        "name": "Tal Zussman"
+      },
+      {
+        "name": "Ioannis Zarkadas"
+      },
+      {
+        "name": "Jeremy Carin"
+      },
+      {
+        "name": "Andrew Cheng"
+      },
+      {
+        "name": "Hubertus Franke"
+      },
+      {
+        "name": "Jonas Pfefferle"
+      },
+      {
+        "name": "Asaf Cidon"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764820",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764820"
+  },
+  {
+    "slug": "cortenmm-efficient-memory-management-with-strong-correctness",
+    "title": "CortenMM: Efficient Memory Management with Strong Correctness Guarantees",
+    "authors": [
+      {
+        "name": "Junyang Zhang"
+      },
+      {
+        "name": "Xiangcan Xu"
+      },
+      {
+        "name": "Yonghao Zou"
+      },
+      {
+        "name": "Zhe Tang"
+      },
+      {
+        "name": "Xinyi Wan"
+      },
+      {
+        "name": "Kang Hu"
+      },
+      {
+        "name": "Siyuan Wang"
+      },
+      {
+        "name": "Wenbo Xu"
+      },
+      {
+        "name": "Di Wang"
+      },
+      {
+        "name": "Hao Chen"
+      },
+      {
+        "name": "Lin Huang"
+      },
+      {
+        "name": "Shoumeng Yan"
+      },
+      {
+        "name": "Yuval Tamir"
+      },
+      {
+        "name": "Yingwei Luo"
+      },
+      {
+        "name": "Xiaolin Wang"
+      },
+      {
+        "name": "Huashan Yu"
+      },
+      {
+        "name": "Zhenlin Wang"
+      },
+      {
+        "name": "Hongliang Tian"
+      },
+      {
+        "name": "Diyu Zhou"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764836",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764836"
+  },
+  {
+    "slug": "ufork-posix-fork-within-a-single-address-space-os",
+    "title": "μFork: Supporting POSIX fork Within a Single-Address-Space OS",
+    "authors": [
+      {
+        "name": "John Alistair Kressel"
+      },
+      {
+        "name": "Hugo Lefeuvre"
+      },
+      {
+        "name": "Pierre Olivier"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764809",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764809",
+    "paperUrl": "https://arxiv.org/pdf/2509.09439"
+  },
+  {
+    "slug": "virtual-firmware-monitor-design-and-implementation",
+    "title": "The Design and Implementation of a Virtual Firmware Monitor",
+    "authors": [
+      {
+        "name": "Charly Castes"
+      },
+      {
+        "name": "François Costa"
+      },
+      {
+        "name": "Neelu S. Kalani"
+      },
+      {
+        "name": "Timothy Roscoe"
+      },
+      {
+        "name": "Nate Foster"
+      },
+      {
+        "name": "Thomas Bourgeat"
+      },
+      {
+        "name": "Edouard Bugnion"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764826",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764826",
+    "paperUrl": "https://charlycst.github.io/papers/virtual-firmware-monitor.pdf"
+  },
+  {
+    "slug": "tiga-accelerating-geo-distributed-transactions-with-synchronized-clocks",
+    "title": "Tiga: Accelerating Geo-Distributed Transactions with Synchronized Clocks",
+    "authors": [
+      {
+        "name": "Jinkun Geng"
+      },
+      {
+        "name": "Shuai Mu"
+      },
+      {
+        "name": "Anirudh Sivaraman"
+      },
+      {
+        "name": "Balaji Prabhakar"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764854",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764854",
+    "paperUrl": "https://arxiv.org/pdf/2509.05759"
+  },
+  {
+    "slug": "pesto-high-performance-bft-queries",
+    "title": "Pesto: Cooking up High Performance BFT Queries",
+    "authors": [
+      {
+        "name": "Florian Suri-Payer"
+      },
+      {
+        "name": "Neil Giridharan"
+      },
+      {
+        "name": "Liam Arzola"
+      },
+      {
+        "name": "Shir Cohen"
+      },
+      {
+        "name": "Lorenzo Alvisi"
+      },
+      {
+        "name": "Natacha Crooks"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764799",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764799"
+  },
+  {
+    "slug": "radical-running-consistent-applications-closer-to-users",
+    "title": "Running Consistent Applications Closer to Users with Radical for Lower Latency",
+    "authors": [
+      {
+        "name": "Nicolaas Kaashoek"
+      },
+      {
+        "name": "Oleg A. Golev"
+      },
+      {
+        "name": "Austin T. Li"
+      },
+      {
+        "name": "Amit Levy"
+      },
+      {
+        "name": "Wyatt Lloyd"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764831",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764831"
+  },
+  {
+    "slug": "targeted-task-cancellation-for-application-resource-overload",
+    "title": "Mitigating Application Resource Overload with Targeted Task Cancellation",
+    "authors": [
+      {
+        "name": "Yigong Hu"
+      },
+      {
+        "name": "Zeyin Zhang"
+      },
+      {
+        "name": "Yicheng Liu"
+      },
+      {
+        "name": "Yile Gu"
+      },
+      {
+        "name": "Shuangyu Lei"
+      },
+      {
+        "name": "Baris Kasikci"
+      },
+      {
+        "name": "Peng Huang"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764835",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764835"
+  },
+  {
+    "slug": "orthrus-detecting-silent-user-data-corruption-in-the-cloud",
+    "title": "Orthrus: Efficient and Timely Detection of Silent User Data Corruption in the Cloud with Resource-Adaptive Computation Validation",
+    "authors": [
+      {
+        "name": "Chenxiao Liu"
+      },
+      {
+        "name": "Zhenting Zhu"
+      },
+      {
+        "name": "Quanxi Li"
+      },
+      {
+        "name": "Yanwen Xia"
+      },
+      {
+        "name": "Yifan Qiao"
+      },
+      {
+        "name": "Xiangyun Deng"
+      },
+      {
+        "name": "Youyou Lu"
+      },
+      {
+        "name": "Tao Xie"
+      },
+      {
+        "name": "Huimin Cui"
+      },
+      {
+        "name": "Zidong Du"
+      },
+      {
+        "name": "Harry Xu"
+      },
+      {
+        "name": "Chenxi Wang"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764832",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764832"
   }
 ]
