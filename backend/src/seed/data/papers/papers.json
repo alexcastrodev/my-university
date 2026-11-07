@@ -2428,5 +2428,263 @@
     "doi": "10.1145/3694715.3695952",
     "url": "https://dl.acm.org/doi/10.1145/3694715.3695952",
     "paperUrl": "https://www.andrew.cmu.edu/user/bparno/papers/verus-sys.pdf"
+  },
+  {
+    "slug": "antipode-cross-service-causal-consistency-in-distributed-applications",
+    "title": "Antipode: Enforcing Cross-Service Causal Consistency in Distributed Applications",
+    "authors": [
+      {
+        "name": "João Ferreira Loff"
+      },
+      {
+        "name": "Daniel Porto"
+      },
+      {
+        "name": "João Garcia"
+      },
+      {
+        "name": "Jonathan Mace"
+      },
+      {
+        "name": "Rodrigo Rodrigues"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613176",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613176"
+  },
+  {
+    "slug": "concord-microsecond-scale-tail-latency-with-approximate-optimal-scheduling",
+    "title": "Achieving Microsecond-Scale Tail Latency Efficiently with Approximate Optimal Scheduling",
+    "authors": [
+      {
+        "name": "Rishabh Iyer"
+      },
+      {
+        "name": "Musa Unal"
+      },
+      {
+        "name": "Marios Kogias"
+      },
+      {
+        "name": "George Candea"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613136",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613136",
+    "paperUrl": "https://dslab.epfl.ch/pubs/concord.pdf"
+  },
+  {
+    "slug": "grove-separation-logic-library-for-verifying-distributed-systems",
+    "title": "Grove: a Separation-Logic Library for Verifying Distributed Systems",
+    "authors": [
+      {
+        "name": "Upamanyu Sharma"
+      },
+      {
+        "name": "Ralf Jung"
+      },
+      {
+        "name": "Joseph Tassarotti"
+      },
+      {
+        "name": "M. Frans Kaashoek"
+      },
+      {
+        "name": "Nickolai Zeldovich"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613172",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613172"
+  },
+  {
+    "slug": "halfmoon-log-optimal-fault-tolerant-stateful-serverless-computing",
+    "title": "Halfmoon: Log-Optimal Fault-Tolerant Stateful Serverless Computing",
+    "authors": [
+      {
+        "name": "Sheng Qi"
+      },
+      {
+        "name": "Xuanzhe Liu"
+      },
+      {
+        "name": "Xin Jin"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613154",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613154"
+  },
+  {
+    "slug": "memtis-efficient-memory-tiering-with-dynamic-page-classification",
+    "title": "MEMTIS: Efficient Memory Tiering with Dynamic Page Classification and Page Size Determination",
+    "authors": [
+      {
+        "name": "Taehyung Lee"
+      },
+      {
+        "name": "Sumit Kumar Monga"
+      },
+      {
+        "name": "Changwoo Min"
+      },
+      {
+        "name": "Young Ik Eom"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613167",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613167"
+  },
+  {
+    "slug": "quepaxa-escaping-the-tyranny-of-timeouts-in-consensus",
+    "title": "QuePaxa: Escaping the tyranny of timeouts in consensus",
+    "authors": [
+      {
+        "name": "Pasindu Tennage"
+      },
+      {
+        "name": "Cristina Băsescu"
+      },
+      {
+        "name": "Lefteris Kokoris-Kogias"
+      },
+      {
+        "name": "Ewa Syta"
+      },
+      {
+        "name": "Philipp Jovanovic"
+      },
+      {
+        "name": "Vero Estrada-Galiñanes"
+      },
+      {
+        "name": "Bryan Ford"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613150",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613150"
+  },
+  {
+    "slug": "refcounting-bugs-in-all-modern-linux-kernels",
+    "title": "One Simple API Can Cause Hundreds of Bugs An Analysis of Refcounting Bugs in All Modern Linux Kernels",
+    "authors": [
+      {
+        "name": "Liang He"
+      },
+      {
+        "name": "Purui Su"
+      },
+      {
+        "name": "Chao Zhang"
+      },
+      {
+        "name": "Yan Cai"
+      },
+      {
+        "name": "Jinxin Ma"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613162",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613162"
+  },
+  {
+    "slug": "silent-data-corruptions-in-a-large-production-cpu-population",
+    "title": "Understanding Silent Data Corruptions in a Large Production CPU Population",
+    "authors": [
+      {
+        "name": "Shaobu Wang"
+      },
+      {
+        "name": "Guangyan Zhang"
+      },
+      {
+        "name": "Junyu Wei"
+      },
+      {
+        "name": "Yang Wang"
+      },
+      {
+        "name": "Jiesheng Wu"
+      },
+      {
+        "name": "Qingchao Luo"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613149",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613149"
+  },
+  {
+    "slug": "treesls-whole-system-persistent-microkernel-with-tree-structured-checkpoint",
+    "title": "TreeSLS: A Whole-system Persistent Microkernel with Tree-structured State Checkpoint on NVM",
+    "authors": [
+      {
+        "name": "Fangnuo Wu"
+      },
+      {
+        "name": "Mingkai Dong"
+      },
+      {
+        "name": "Gequan Mo"
+      },
+      {
+        "name": "Haibo Chen"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613160",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613160"
+  },
+  {
+    "slug": "trio-high-performance-and-secure-userspace-nvm-file-systems",
+    "title": "Enabling High-Performance and Secure Userspace NVM File Systems with the Trio Architecture",
+    "authors": [
+      {
+        "name": "Diyu Zhou"
+      },
+      {
+        "name": "Vojtech Aschenbrenner"
+      },
+      {
+        "name": "Tao Lyu"
+      },
+      {
+        "name": "Jian Zhang"
+      },
+      {
+        "name": "Sudarsun Kannan"
+      },
+      {
+        "name": "Sanidhya Kashyap"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613171",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613171"
   }
 ]

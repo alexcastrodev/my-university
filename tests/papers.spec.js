@@ -5,7 +5,7 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 77;
+const SEED = 87;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
 const JOURNAL_ARTICLES = 10;
@@ -168,13 +168,21 @@ test.describe('Papers catalog', () => {
     test('filters by research area', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await papers.areaSelect.selectOption({ label: 'Operating Systems (18)' });
-      await expect(papers.cards).toHaveCount(18);
-      await expect(papers.card('Snap')).toBeVisible();
-      await expect(papers.card('ghOSt')).toBeVisible();
-      await expect(papers.card('Demikernel')).toBeVisible();
-      await expect(papers.card('Rakaia')).toBeVisible();
-      await expect(papers.card('kSTEP')).toBeVisible();
+      await papers.areaSelect.selectOption({ label: 'Operating Systems (23)' });
+      await expect(page).toHaveURL(/area=Operating(\+|%20)Systems/);
+
+      // 23 papers: a full first page of the newest, and the three oldest (2019 and 2021) on the second.
+      await expect(papers.cards).toHaveCount(PAGE);
+      const newest = await papers.titles();
+      expect(newest.some((t) => t.startsWith('Rakaia'))).toBe(true);
+      expect(newest.some((t) => t.startsWith('kSTEP'))).toBe(true);
+
+      await papers.nextLink.click();
+      await expect(papers.cards).toHaveCount(3);
+      const oldest = await papers.titles();
+      expect(oldest.some((t) => t.startsWith('Snap'))).toBe(true);
+      expect(oldest.some((t) => t.startsWith('ghOSt'))).toBe(true);
+      expect(oldest.some((t) => t.includes('Demikernel'))).toBe(true);
     });
 
     test('groups the five video-conferencing papers under Computer Networks, in either language', async ({ page }) => {
