@@ -72,6 +72,8 @@ export class PapersSearch implements OnApplicationBootstrap {
         await this.rebuild();
       } catch (err) {
         this.log.error(`Failed to build the papers search index: ${(err as Error).message}`);
+        // Nest's logger is not Sentry: without this the failure never leaves the container logs.
+        Sentry.captureException(err);
       }
     });
   }
