@@ -854,6 +854,7 @@
     "search.type.dotnetConcept": ".NET",
     "search.type.csharpConcept": "C#",
     "search.type.dotnetTestingConcept": ".NET Testes",
+    "search.type.paper": "Papers",
     "search.type.course": "Exames",
     "search.type.lesson": "Lições",
     "search.filter.all": "Todos",
