@@ -45,6 +45,7 @@ const TYPE_LABELS: Record<SearchResultType, string> = {
   'dotnet-concept': $localize`:@@search.type.dotnetConcept:.NET`,
   'csharp-concept': $localize`:@@search.type.csharpConcept:C#`,
   'dotnet-testing-concept': $localize`:@@search.type.dotnetTestingConcept:.NET Testing`,
+  paper: $localize`:@@search.type.paper:Papers`,
   course: $localize`:@@search.type.course:Exams`,
   lesson: $localize`:@@search.type.lesson:Lessons`,
 };

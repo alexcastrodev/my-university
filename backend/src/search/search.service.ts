@@ -21,6 +21,7 @@ import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
+import { PapersCatalogService } from '../papers/papers-catalog.service';
 import { ConceptSection } from '../shared/concept-content';
 import {
   DEFAULT_LANGUAGE,
@@ -53,6 +54,7 @@ export const SEARCH_RESULT_TYPES = [
   'dotnet-concept',
   'csharp-concept',
   'dotnet-testing-concept',
+  'paper',
 ] as const;
 
 export type SearchResultType = (typeof SEARCH_RESULT_TYPES)[number];
@@ -159,6 +161,7 @@ export class SearchService implements OnApplicationBootstrap {
     private dotNetTestingConceptsService: DotNetTestingConceptsService,
     private quarkusConceptsService: QuarkusConceptsService,
     private kubernetesConceptsService: KubernetesConceptsService,
+    private papersCatalog: PapersCatalogService,
     private meili: MeilisearchClient,
   ) {}
 
@@ -293,6 +296,31 @@ export class SearchService implements OnApplicationBootstrap {
         this.dotNetTestingConceptsService.findAllDetailed(l),
       ),
     ];
+
+    // The public papers, which also have their own search on /papers (papers-search.ts). The abstract
+    // goes in as a section so that it is searchable here as well.
+    sources.push({
+      type: 'paper',
+      idPrefix: 'paper',
+      subtitle: 'Papers',
+      url: (slug) => `/papers/${slug}`,
+      list: (lang) =>
+        this.papersCatalog.slugs().map(({ slug }) => {
+          const paper = this.papersCatalog.detail(slug, lang);
+          return {
+            slug,
+            title: paper.title,
+            summary: paper.summary ?? '',
+            sections: [
+              ...(paper.abstract
+                ? [{ title: 'Abstract', content: paper.abstract }]
+                : []),
+              ...paper.sections,
+            ],
+            language: paper.language,
+          };
+        }),
+    });
 
     for (const {
       module,
