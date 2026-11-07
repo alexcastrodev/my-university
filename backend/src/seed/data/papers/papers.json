@@ -1482,5 +1482,322 @@
     "publicationDate": "2025-07",
     "url": "https://www.usenix.org/conference/osdi25/presentation/bhat",
     "paperUrl": "https://www.usenix.org/system/files/osdi25-bhat.pdf"
+  },
+  {
+    "slug": "rakaia-in-kernel-scheduling-for-tcp-rpcs",
+    "title": "Rakaia: Scalable In-Kernel Scheduling for TCP-Based RPCs",
+    "authors": [
+      {
+        "name": "Rui Yang"
+      },
+      {
+        "name": "Konstantinos Prasopoulos"
+      },
+      {
+        "name": "Edouard Bugnion"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/yang-rui",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-yang-rui.pdf"
+  },
+  {
+    "slug": "kstep-deterministic-testing-of-linux-cpu-scheduler-bugs",
+    "title": "kSTEP: Characterization and Deterministic Testing of Linux CPU Scheduler Bugs",
+    "authors": [
+      {
+        "name": "Tingjia Cao"
+      },
+      {
+        "name": "Shawn (Wanxiang) Zhong"
+      },
+      {
+        "name": "Caeden Whitaker"
+      },
+      {
+        "name": "Ke Han"
+      },
+      {
+        "name": "Andrea C. Arpaci-Dusseau"
+      },
+      {
+        "name": "Remzi H. Arpaci-Dusseau"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/cao",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-cao.pdf"
+  },
+  {
+    "slug": "peer-first-class-scheduling-for-latency-critical-ebpf-applications",
+    "title": "PeeR: First-Class Scheduling for Latency-Critical eBPF Applications",
+    "authors": [
+      {
+        "name": "Jeremy Carin"
+      },
+      {
+        "name": "Ben Holmes"
+      },
+      {
+        "name": "Weiyang Wang"
+      },
+      {
+        "name": "Ankit Bhardwaj"
+      },
+      {
+        "name": "Manya Ghobadi"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/carin",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-carin.pdf"
+  },
+  {
+    "slug": "xkernel-principled-performance-tunability-of-os-kernels",
+    "title": "Xkernel: Principled Performance Tunability of Operating System Kernels",
+    "authors": [
+      {
+        "name": "Zhongjie Chen"
+      },
+      {
+        "name": "Wentao Zhang"
+      },
+      {
+        "name": "Yulong Tang"
+      },
+      {
+        "name": "Ran Shu"
+      },
+      {
+        "name": "Fengyuan Ren"
+      },
+      {
+        "name": "Tianyin Xu"
+      },
+      {
+        "name": "Jing Liu"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/chen-zhongjie",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-chen-zhongjie.pdf"
+  },
+  {
+    "slug": "oxbow-coordinated-architecture-for-multi-component-file-systems",
+    "title": "Oxbow: A Coordinated Architecture for Multi-component File Systems",
+    "authors": [
+      {
+        "name": "Jongyul Kim"
+      },
+      {
+        "name": "Jaehwan Lee"
+      },
+      {
+        "name": "Inhoe Koo"
+      },
+      {
+        "name": "Peizhe Liu"
+      },
+      {
+        "name": "Jiyuan Zhang"
+      },
+      {
+        "name": "Junho Ahn"
+      },
+      {
+        "name": "Tianyin Xu"
+      },
+      {
+        "name": "Youngjin Kwon"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/kim-jongyul",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-kim-jongyul.pdf"
+  },
+  {
+    "slug": "bodega-localized-linearizable-reads-with-roster-leases",
+    "title": "Bodega: Localized Linearizable Reads at Anywhere Anytime via Roster Leases",
+    "authors": [
+      {
+        "name": "Guanzhou Hu"
+      },
+      {
+        "name": "Andrea C. Arpaci-Dusseau"
+      },
+      {
+        "name": "Remzi H. Arpaci-Dusseau"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/hu-guanzhou",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-hu-guanzhou.pdf"
+  },
+  {
+    "slug": "jetpack-consensus-made-generally-fast",
+    "title": "Jetpack: Consensus Made Generally Fast",
+    "authors": [
+      {
+        "name": "Ze Tang"
+      },
+      {
+        "name": "Zihao Zhang"
+      },
+      {
+        "name": "Weihai Shen"
+      },
+      {
+        "name": "Jicheng Shi"
+      },
+      {
+        "name": "Shuai Mu"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/tang",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-tang.pdf"
+  },
+  {
+    "slug": "ambulance-saving-bft-through-racing",
+    "title": "Ambulance: Saving BFT through Racing",
+    "authors": [
+      {
+        "name": "Neil Giridharan"
+      },
+      {
+        "name": "Shubham Mishra"
+      },
+      {
+        "name": "Lorenzo Alvisi"
+      },
+      {
+        "name": "Natacha Crooks"
+      },
+      {
+        "name": "Benjamin Marsh"
+      },
+      {
+        "name": "Hein Meling"
+      },
+      {
+        "name": "Kartik Nayak"
+      },
+      {
+        "name": "Grzegorz Prusak"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/giridharan",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-giridharan.pdf"
+  },
+  {
+    "slug": "logdrive-composable-durability-for-cloud-based-shared-logs",
+    "title": "The LogDrive: Composable Durability for Cloud-Based Shared Logs",
+    "authors": [
+      {
+        "name": "Gardner Vickers"
+      },
+      {
+        "name": "Lucas Bradstreet"
+      },
+      {
+        "name": "Mahesh Balakrishnan"
+      },
+      {
+        "name": "Prince Mahajan"
+      },
+      {
+        "name": "David Mao"
+      },
+      {
+        "name": "Xavier Léauté"
+      },
+      {
+        "name": "Ismael Juma"
+      },
+      {
+        "name": "Nikhil Bhatia"
+      },
+      {
+        "name": "Jack Vanlightly"
+      },
+      {
+        "name": "Prateek Jindal"
+      },
+      {
+        "name": "Sumit Arrawatia"
+      },
+      {
+        "name": "Andrew Grant"
+      },
+      {
+        "name": "Dhruvil Shah"
+      },
+      {
+        "name": "Dimitar Dimitrov"
+      },
+      {
+        "name": "Gaurav Badoni"
+      },
+      {
+        "name": "Shimiao Zhang"
+      },
+      {
+        "name": "Yang Yu"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/vickers",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-vickers.pdf"
+  },
+  {
+    "slug": "writeguards-distributed-storage-support-for-strongly-consistent-caches",
+    "title": "WriteGuards: Distributed Storage Support for Strongly Consistent Caches",
+    "authors": [
+      {
+        "name": "Ziming Mao"
+      },
+      {
+        "name": "Atul Adya"
+      },
+      {
+        "name": "Jonathan Ellithorpe"
+      },
+      {
+        "name": "Rishabh Iyer"
+      },
+      {
+        "name": "Matei Zaharia"
+      },
+      {
+        "name": "Scott Shenker"
+      },
+      {
+        "name": "Ion Stoica"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/mao-ziming-writeguards",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-mao-ziming-writeguards.pdf"
   }
 ]

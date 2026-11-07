@@ -5,7 +5,7 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 47;
+const SEED = 57;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
 const JOURNAL_ARTICLES = 10;
@@ -33,6 +33,11 @@ const SCALLOP = {
   title: 'Scalable Video Conferencing Using SDN Principles',
   titlePt: 'Videoconferência escalável com princípios de SDN',
   doi: '10.1145/3718958.3750489',
+};
+// The first of the newest month (OSDI 2026) when the list is newest first, ties broken by slug.
+const NEWEST = {
+  slug: 'ambulance-saving-bft-through-racing',
+  title: 'Ambulance: Saving BFT through Racing',
 };
 // A USENIX paper: open access, with no DOI, only the page of the conference.
 const SALSIFY = {
@@ -72,8 +77,12 @@ test.describe('Papers catalog', () => {
       await papers.goto();
       await expect(papers.cards).toHaveCount(PAGE);
 
-      expect((await papers.titles())[0]).toBe(SCALLOP.title);
-      await expect(papers.cardRef(SCALLOP.title)).toHaveText(`[1] / DOI ${SCALLOP.doi}`);
+      // Ten OSDI 2026 papers share the newest month; a tie goes to the slug, so Ambulance leads. Scallop comes
+      // after them and after Agentic SWMM, and the tag says where.
+      const titles = await papers.titles();
+      expect(titles[0]).toBe(NEWEST.title);
+      expect(titles).toContain(SCALLOP.title);
+      await expect(papers.cardRef(SCALLOP.title)).toHaveText(`[${titles.indexOf(SCALLOP.title) + 1}] / DOI ${SCALLOP.doi}`);
       await expect(papers.cardAvatars(SCALLOP.title).first()).toHaveText('OM');
       await expect(papers.cardSource(SCALLOP.title, 'DOI')).toHaveAttribute('href', `https://doi.org/${SCALLOP.doi}`);
       await expect(papers.cardSource(SCALLOP.title, 'Page')).toHaveAttribute('href', `https://dl.acm.org/doi/${SCALLOP.doi}`);
@@ -116,8 +125,8 @@ test.describe('Papers catalog', () => {
       await expect(papers.cards).toHaveCount(1);
       await expect(papers.card(FDB.title)).toBeVisible();
 
+      // A keyword of Demikernel, and also words in the text of newer papers (Oxbow), so more than one card is fine.
       await papers.search('kernel bypass');
-      await expect(papers.cards).toHaveCount(1);
       await expect(papers.card('Demikernel')).toBeVisible();
     });
 
@@ -155,11 +164,13 @@ test.describe('Papers catalog', () => {
     test('filters by research area', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await papers.areaSelect.selectOption({ label: 'Operating Systems (3)' });
-      await expect(papers.cards).toHaveCount(3);
+      await papers.areaSelect.selectOption({ label: 'Operating Systems (8)' });
+      await expect(papers.cards).toHaveCount(8);
       await expect(papers.card('Snap')).toBeVisible();
       await expect(papers.card('ghOSt')).toBeVisible();
       await expect(papers.card('Demikernel')).toBeVisible();
+      await expect(papers.card('Rakaia')).toBeVisible();
+      await expect(papers.card('kSTEP')).toBeVisible();
     });
 
     test('groups the five video-conferencing papers under Computer Networks, in either language', async ({ page }) => {
@@ -233,8 +244,9 @@ test.describe('Papers catalog', () => {
       await papers.search('FoundationDB');
       await expect(papers.errorMessage).toBeVisible();
 
+      // WriteGuards names FoundationDB in its text, so the search holds two papers now.
       await papers.retryButton.click();
-      await expect(papers.cards).toHaveCount(1);
+      await expect(papers.card(FDB.title)).toBeVisible();
     });
 
     test('lists the same papers in Portuguese', async ({ page }) => {
