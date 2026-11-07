@@ -1,18 +1,21 @@
 ---
-version: 1.0
-updatedAt: 2026-10-05
+version: 1.1
+updatedAt: 2026-11-07
 title: "Configuração e o Options Pattern"
 summary: Fontes de configuração e sua precedência, override por ambiente sem tocar no código, settings tipados com ValidateOnStart e como manter segredos fora do repositório.
 ---
 ## Objective
 
-Uma connection string digitada num arquivo C# funciona na sua máquina e falha em
-todo o resto. O ASP.NET Core separa *o que o código precisa* de *de onde o valor
-vem*: a configuração é uma visão única de chave-valor montada a partir de várias
-fontes, e o código lê dessa visão sem saber qual fonte forneceu cada valor. O
-objetivo é conhecer as fontes e a precedência entre elas, sobrescrever um valor
-por ambiente sem tocar no código, ligar uma seção a uma classe tipada com o
-options pattern e manter segredos fora do repositório.
+Uma connection string definida diretamente no código pode funcionar na sua
+máquina, mas causar problemas quando a aplicação é executada em outros
+ambientes. Para evitar esse acoplamento, o ASP.NET Core reúne as configurações
+em um único sistema, alimentado por diferentes fontes, como arquivos JSON,
+variáveis de ambiente e argumentos de linha de comando. Assim, o código consulta
+as configurações sem precisar conhecer a origem de cada valor. Neste conteúdo,
+você vai conhecer essas fontes e a ordem de precedência entre elas, aprender a
+sobrescrever valores conforme o ambiente sem alterar o código, mapear uma seção
+de configuração para uma classe tipada usando o Options Pattern e manter
+informações sensíveis fora do repositório.
 
 ## Use Cases
 
