@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-05
+version: 1.1
+updatedAt: 2026-11-07
 title: "Configuração e o Options Pattern"
 summary: Fontes de configuração e sua precedência, override por ambiente sem tocar no código, settings tipados com ValidateOnStart e como manter segredos fora do repositório.
 ---
