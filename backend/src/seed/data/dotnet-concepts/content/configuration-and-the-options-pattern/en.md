@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-05
+version: 1.1
+updatedAt: 2026-11-07
 ---
 ## Objective
 
