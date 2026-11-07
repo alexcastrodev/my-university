@@ -5,7 +5,7 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 57;
+const SEED = 87;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
 const JOURNAL_ARTICLES = 10;
@@ -39,6 +39,8 @@ const NEWEST = {
   slug: 'ambulance-saving-bft-through-racing',
   title: 'Ambulance: Saving BFT through Racing',
 };
+// The list holds the 20 newest papers, so a reader reaches an older one by searching for its title, and so do these tests.
+const search = (paper) => `?q=${encodeURIComponent(paper.title)}`;
 // A USENIX paper: open access, with no DOI, only the page of the conference.
 const SALSIFY = {
   slug: 'salsify-low-latency-video-codec-and-transport',
@@ -64,6 +66,7 @@ test.describe('Papers catalog', () => {
       await expect(papers.cards).toHaveCount(PAGE);
       await expect(papers.resultsCount).toContainText(String(SEED));
 
+      await papers.goto(search(METASTABLE));
       const card = papers.card(METASTABLE.title);
       await expect(card).toContainText('Nathan Bronson');
       await expect(card).toContainText('Conference paper');
@@ -77,22 +80,24 @@ test.describe('Papers catalog', () => {
       await papers.goto();
       await expect(papers.cards).toHaveCount(PAGE);
 
-      // Ten OSDI 2026 papers share the newest month; a tie goes to the slug, so Ambulance leads. Scallop comes
-      // after them and after Agentic SWMM, and the tag says where.
-      const titles = await papers.titles();
-      expect(titles[0]).toBe(NEWEST.title);
-      expect(titles).toContain(SCALLOP.title);
-      await expect(papers.cardRef(SCALLOP.title)).toHaveText(`[${titles.indexOf(SCALLOP.title) + 1}] / DOI ${SCALLOP.doi}`);
+      // Ten OSDI 2026 papers share the newest month; a tie goes to the slug, so Ambulance leads.
+      expect((await papers.titles())[0]).toBe(NEWEST.title);
+      await expect(papers.cardRef(NEWEST.title)).toHaveText('[1]');
+
+      // An older paper is reached by searching for it: the row keeps its DOI, initials and links to the sources.
+      await papers.goto(search(SCALLOP));
+      await expect(papers.cardRef(SCALLOP.title)).toContainText(`/ DOI ${SCALLOP.doi}`);
       await expect(papers.cardAvatars(SCALLOP.title).first()).toHaveText('OM');
       await expect(papers.cardSource(SCALLOP.title, 'DOI')).toHaveAttribute('href', `https://doi.org/${SCALLOP.doi}`);
       await expect(papers.cardSource(SCALLOP.title, 'Page')).toHaveAttribute('href', `https://dl.acm.org/doi/${SCALLOP.doi}`);
+      await papers.goto(search(FDB));
       await expect(papers.card(FDB.title)).toContainText('more');
       await expectNoHorizontalScroll(page);
     });
 
     test('shows a paper that has no DOI with its place in the result and a link to its page only', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto();
+      await papers.goto(search(SALSIFY));
 
       await expect(papers.cardRef(SALSIFY.title)).toHaveText(/^\[\d+\]$/);
       await expect(papers.cardSource(SALSIFY.title, 'DOI')).toHaveCount(0);
@@ -106,12 +111,12 @@ test.describe('Papers catalog', () => {
       await papers.search(TIDB.title);
 
       await expect(page).toHaveURL(/[?&]q=/);
-      await expect(papers.cards).toHaveCount(1);
+      // Newer papers name TiDB in their text, so the result may hold more than the paper itself.
       await expect(papers.card(TIDB.title)).toBeVisible();
 
       await page.reload();
       await expect(papers.searchInput).toHaveValue(TIDB.title);
-      await expect(papers.cards).toHaveCount(1);
+      await expect(papers.card(TIDB.title)).toBeVisible();
     });
 
     test('finds a paper by author, by DOI and by keyword', async ({ page }) => {
@@ -145,8 +150,7 @@ test.describe('Papers catalog', () => {
       const papers = new PapersListPage(page);
       await papers.goto();
       await expect(papers.cards).toHaveCount(PAGE);
-      await expect(papers.cardStage(TIDB.title)).toHaveText('Published');
-      await expect(papers.cardStage(METASTABLE.title)).toHaveText('Published');
+      await expect(papers.cardStage(NEWEST.title)).toHaveText('Published');
 
       await papers.stageSelect.selectOption({ label: 'Published' });
       await expect(page).toHaveURL(/stage=published/);
@@ -164,13 +168,21 @@ test.describe('Papers catalog', () => {
     test('filters by research area', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await papers.areaSelect.selectOption({ label: 'Operating Systems (8)' });
-      await expect(papers.cards).toHaveCount(8);
-      await expect(papers.card('Snap')).toBeVisible();
-      await expect(papers.card('ghOSt')).toBeVisible();
-      await expect(papers.card('Demikernel')).toBeVisible();
-      await expect(papers.card('Rakaia')).toBeVisible();
-      await expect(papers.card('kSTEP')).toBeVisible();
+      await papers.areaSelect.selectOption({ label: 'Operating Systems (23)' });
+      await expect(page).toHaveURL(/area=Operating(\+|%20)Systems/);
+
+      // 23 papers: a full first page of the newest, and the three oldest (2019 and 2021) on the second.
+      await expect(papers.cards).toHaveCount(PAGE);
+      const newest = await papers.titles();
+      expect(newest.some((t) => t.startsWith('Rakaia'))).toBe(true);
+      expect(newest.some((t) => t.startsWith('kSTEP'))).toBe(true);
+
+      await papers.nextLink.click();
+      await expect(papers.cards).toHaveCount(3);
+      const oldest = await papers.titles();
+      expect(oldest.some((t) => t.startsWith('Snap'))).toBe(true);
+      expect(oldest.some((t) => t.startsWith('ghOSt'))).toBe(true);
+      expect(oldest.some((t) => t.includes('Demikernel'))).toBe(true);
     });
 
     test('groups the five video-conferencing papers under Computer Networks, in either language', async ({ page }) => {
@@ -190,7 +202,8 @@ test.describe('Papers catalog', () => {
 
     test('filters by a keyword chip and lets the reader remove the filter', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto();
+      // FoundationDB is no longer on the first page, so the chip is reached through a search for the paper.
+      await papers.goto(search(FDB));
 
       await papers.card(FDB.title).getByRole('link', { name: 'oltp' }).click();
       await expect(page).toHaveURL(/keyword=oltp/);
@@ -253,17 +266,20 @@ test.describe('Papers catalog', () => {
       const papers = new PapersListPage(page);
       await papers.gotoPortuguese();
       await expect(papers.cards).toHaveCount(PAGE);
+
+      await papers.gotoPortuguese(search(METASTABLE));
       await expect(papers.card(METASTABLE.titlePt)).toContainText('junho de 2021');
     });
 
     test('shows the area and the start of the abstract in Portuguese, and keeps an English link working', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.gotoPortuguese();
-
-      await expect(papers.cardArea(PAGED.titlePt)).toHaveText('Sistemas para aprendizado de máquina');
-      await expect(papers.cardExcerpt(PAGED.titlePt)).toContainText('Servir modelos de linguagem grandes');
       await expect(papers.areaSelectPortuguese.locator('option', { hasText: 'Sistemas operacionais' })).toHaveCount(1);
       await expect(papers.areaSelectPortuguese.locator('option', { hasText: 'Operating Systems' })).toHaveCount(0);
+
+      await papers.gotoPortuguese(search(PAGED));
+      await expect(papers.cardArea(PAGED.titlePt)).toHaveText('Sistemas para aprendizado de máquina');
+      await expect(papers.cardExcerpt(PAGED.titlePt)).toContainText('Servir modelos de linguagem grandes');
 
       // A link copied from the English list still finds the paper after the switch of language.
       await papers.gotoPortuguese('?area=Machine+Learning+Systems');
@@ -273,23 +289,22 @@ test.describe('Papers catalog', () => {
 
     test('shows the translated title with the published one under it, and finds a paper by either', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.gotoPortuguese();
+      await papers.gotoPortuguese(search(METASTABLE));
 
       await expect(papers.card(METASTABLE.titlePt).getByRole('heading', { level: 2 })).toHaveText(METASTABLE.titlePt);
       await expect(papers.cardOriginalTitle(METASTABLE.titlePt)).toHaveText(`Título original: ${METASTABLE.title}`);
 
       // A search typed in English still finds it, and so does one in Portuguese.
+      // (Targeted Task Cancellation also has the two words in its text, so the result may hold it too.)
       await papers.gotoPortuguese('?q=Metastable+Failures');
-      await expect(papers.cards).toHaveCount(1);
       await expect(papers.card(METASTABLE.titlePt)).toBeVisible();
       await papers.gotoPortuguese('?q=metaest%C3%A1veis');
-      await expect(papers.cards).toHaveCount(1);
       await expect(papers.card(METASTABLE.titlePt)).toBeVisible();
     });
 
     test('keeps the published title alone for an English reader', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto();
+      await papers.goto(search(METASTABLE));
 
       await expect(papers.card(METASTABLE.title)).toBeVisible();
       await expect(papers.cardOriginalTitle(METASTABLE.title)).toHaveCount(0);
@@ -297,7 +312,7 @@ test.describe('Papers catalog', () => {
 
     test('keeps the English texts for an English reader', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto();
+      await papers.goto(search(PAGED));
 
       await expect(papers.cardArea(PAGED.title)).toHaveText('Machine Learning Systems');
       await expect(papers.cardExcerpt(PAGED.title)).toContainText('High throughput serving of large language models');
@@ -315,7 +330,7 @@ test.describe('Papers catalog', () => {
     test('opens from the list on the slug of the paper and shows the whole record', async ({ page }) => {
       const list = new PapersListPage(page);
       const paper = new PaperDetailPage(page);
-      await list.goto();
+      await list.goto(search(METASTABLE));
       await list.open(METASTABLE.title);
 
       await expect(page).toHaveURL(new RegExp(`/papers/${METASTABLE.slug}$`));

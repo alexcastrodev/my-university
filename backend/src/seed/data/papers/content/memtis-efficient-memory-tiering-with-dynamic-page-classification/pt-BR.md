@@ -1,0 +1,69 @@
+---
+title: "MEMTIS: gerenciamento eficiente de memória em camadas com classificação dinâmica de páginas e determinação do tamanho de página"
+summary: O Memtis é um sistema de memória em camadas para o Linux que amostra os acessos com contadores de hardware, lê um histograma de hotness das páginas para definir limites de hot, warm e cold que cabem no fast tier, e divide apenas as huge pages cujos subpages são acessados de forma desigual.
+researchArea: Sistemas operacionais
+keywords: memória em camadas, posicionamento de páginas, huge pages, tamanho de página, classificação de hotness, pebs, cxl
+version: 1.0
+updatedAt: 2026-11-07
+---
+
+## Visão geral
+
+A memória principal é uma parcela grande do custo de um servidor, e os autores citam números de cerca de 37,1% do custo dos servidores da Meta e cerca de 50% dos do Microsoft Azure. A memória não DRAM (NVM) e a memória ligada por CXL oferecem capacidade mais barata com latência de acesso maior, então um servidor pode combinar um fast tier pequeno de DRAM local com um capacity tier grande. Duas decisões passam a definir o desempenho: quais páginas vivem em qual tier e qual tamanho de página usar, porque as huge pages reduzem o custo de tradução de endereços mas desperdiçam espaço do fast tier quando só poucos de seus subpages são quentes.
+
+Este artigo do SOSP 2023 (Koblenz), da Sungkyunkwan University, da Virginia Tech e da Igalia, argumenta que os sistemas anteriores erram as duas decisões: decidem a hotness com heurísticas e limites estáticos, sem olhar a distribuição geral dos acessos às páginas, e tratam uma huge page inteira como quente ou fria. A resposta é o Memtis, uma modificação do kernel Linux que deriva seus limites de um histograma de acessos e decide o tamanho de página a partir da assimetria medida. Os metadados da ACM escrevem o nome MEMTIS e o artigo escreve Memtis, que é a forma usada abaixo.
+
+Termos para não confundir: o fast tier é a DRAM local e o capacity tier é a memória NVM ou CXL. Uma huge page tem 2 MB e é formada por 512 subpages do tamanho de uma página base, de 4 KB. PEBS (Processor Event-Based Sampling) é um recurso da Intel que grava em um buffer o endereço de eventos amostrados, como misses no cache de último nível. rHR é a fração medida dos acessos amostrados atendida pelo fast tier, e eHR é a fração que o Memtis estima que obteria usando apenas páginas base. ksampled e kmigrated são as duas threads do kernel que rastreiam acessos e migram páginas.
+
+Vale conhecer antes: tabelas de páginas, alcance do TLB e Transparent Huge Pages (THP) no Linux, e a recuperação de páginas no estilo LRU. Seguem quatro pareamentos, e as conexões entre os artigos são minhas, não deles. O [Colloid](/papers/tiered-memory-management-access-latency-is-the-key) é posterior a este artigo (SOSP 2024) e usa o MEMTIS como um de seus três sistemas de base, questionando a regra de posicionamento que o Memtis divide com seus pares. O [CortenMM](/papers/cortenmm-efficient-memory-management-with-strong-correctness) redesenha a camada de tabelas de páginas que a divisão de uma huge page precisa atualizar. O artigo cita o LRU multigeracional do Linux (MGLRU) como prova de que a qualidade da classificação importa, e o [cache-ext](/papers/cache-ext-customizing-the-page-cache-with-ebpf) porta o MGLRU para eBPF no page cache de arquivos. O [PagedAttention](/papers/pagedattention-memory-management-for-llm-serving) enfrenta um trade-off de tamanho parecido nos blocos do KV cache, entre utilização do hardware e fragmentação.
+
+## Contribuição
+
+- **Duas constatações sobre os sistemas existentes.** A detecção de hotness é subótima, então boa parte do fast tier guarda páginas que não são as mais quentes, e os acessos aos subpages dentro de uma huge page costumam ser muito assimétricos. No exemplo dos autores, o limite estático do HeMem preenche o espaço livre do fast tier com páginas frias arbitrárias quando o hot set é pequeno e promove um subconjunto arbitrário quando ele é grande, e no XSBench ele classifica apenas de 2 a 30 MB como quentes. O Silo toca em apenas 5 a 15% dos subpages de uma huge page. Os sistemas que migram no tratador de page fault também acrescentam latência ao caminho crítico.
+- **Rastreamento leve.** O ksampled amostra load misses no LLC retirados e stores retirados por meio do PEBS, começando com intervalos de 200 e 100.000 eventos, e os ajusta a partir de uma média móvel do próprio uso de CPU para ficar abaixo de 3% de um core, com histerese de 0,5%. A hotness é uma contagem de acessos, multiplicada por 512 nas páginas base para que sejam comparáveis às huge pages. São mantidos dois histogramas de 16 bins exponenciais (128 bytes cada): um no tamanho real da página e outro emulando só páginas base.
+- **Conjuntos hot, warm e cold guiados pelo histograma.** O limite hot sobe até onde os bins mais quentes ainda cabem no fast tier. Como os bins são exponenciais, o hot set pode ficar abaixo da capacidade. Se ele está abaixo de 90% do fast tier, um limite warm um bin abaixo protege da demoção as páginas quase quentes, e as páginas warm nunca são promovidas nem demovidas, a menos que seja preciso liberar espaço. As páginas novas começam no limite hot. Os limites se adaptam a cada 100.000 amostras e as contagens são divididas pela metade ("cooling") a cada dois milhões, o que, com bins exponenciais, é um deslocamento de um bin.
+- **Migração em segundo plano.** Uma thread kmigrated por tier acorda a cada 500 ms e move páginas entre uma lista de promoção e uma lista de demoção. A demoção começa quando a memória livre do fast tier cai abaixo de 2% e leva primeiro as páginas cold, depois as warm. Rastreamento, classificação e migração nunca rodam no caminho do fault.
+- **Divisão sensível à assimetria.** O Memtis compara rHR com eHR e só divide quando a diferença é de pelo menos 5%, verificada quando as amostras passam de um quarto das páginas alocadas. O número de divisões cresce com a diferença, com a razão de latência entre os tiers e com o número de huge pages tocadas. Os candidatos são ordenados por um fator de assimetria (a soma dos quadrados da hotness dos subpages dividida pelo quadrado do número de subpages quentes). Dividir libera os subpages zerados que nunca foram escritos e envia cada subpage ao seu tier, e a fusão exige que todas as páginas constituintes sejam quentes, então é rara.
+- **Implementação.** 5.166 linhas alteradas no Linux 5.15.19. Os metadados das huge pages ficam em struct pages não usadas da compound page, e os das páginas base em uma página de 4 KB apontada pela página da tabela de páginas, para no máximo 0,195% de overhead de memória. Os autores liberam o protótipo.
+
+## Metodologia
+
+O servidor tem dois sockets com CPUs Intel Xeon Gold 5218R (20 cores a 2,1 GHz), cada socket com 6 x 16 GB de DDR4 e 6 x 128 GB de Optane DCPMM, e só um socket é usado para evitar efeitos de NUMA. Dois capacity tiers são testados: NVM Optane (300 ns de latência de load) e memória CXL emulada por um nó NUMA remoto com a interconexão desacelerada (177 ns, escolhida porque um estudo citado relata que o CXL acrescenta de 70 a 90 ns, e limitada ao CXL 1.1 ligado diretamente).
+
+Oito aplicações rodam com 20 threads: Graph500, PageRank (GAP, grafo do Twitter), XSBench, Liblinear (KDD12), Silo (YCSB-C, Zipfian, 400 milhões de pares, 15 bilhões de lookups), uma Btree em memória (157 milhões de pares, 8 bilhões de lookups), e o 603.bwaves e o 654.roms do SPEC CPU 2017. As seis baselines são AutoNUMA, AutoTiering, Tiering-0.8, TPP, Nimble e HeMem. As razões entre fast e capacity tier são 1:2, 1:8 e 1:16 (o fast tier equivale a 33% e a 5,9% do resident set size na primeira e na última), reportadas em relação à execução inteira em NVM com THP. O HeMem sempre coloca alocações pequenas no fast tier, então os autores reduzem o tamanho configurado dele por essa sobrealocação (Tabela 3). Estudos adicionais cobrem escalabilidade, uma configuração 2:1, uma comparação detalhada com o HeMem, sensibilidade a parâmetros e overhead do rastreamento.
+
+## Resultados
+
+Estes são os resultados relatados pelos autores.
+
+- **Visão geral em NVM.** O Memtis é o melhor em 23 de 24 casos, com média geométrica 33,6% acima do segundo melhor sistema. O TPP é o segundo melhor em 14 de 24 casos, mas o pior no PageRank em 1:2. Os ganhos sobre o segundo melhor são de 16,3% a 17,7% no Graph500, de 10,2% a 47,9% no PageRank, de 17,3% a 43,7% no Liblinear (taxas de acerto de 96,39% a 99,99%), de 15,5% a 18,9% na Btree, de 1,3% a 10,6% no 603.bwaves, de 5,7% a 35,9% no 654.roms, e 15,9%, 21,2% e 7,1% no Silo em 1:2, 1:8 e 1:16.
+- **Divisão.** No caso 1:8, a divisão dá 10,6% no Silo e 10,4% na Btree contra o Memtis sem ela, e a Btree ganha até 19,9% no melhor momento. O resident set da Btree cai de 38,3 GB para 36,95, 27,2 e 20,9 GB em 1:2, 1:8 e 1:16, o que dá a redução de bloat de 45,4% alegada na introdução. A diferença entre o eHR e a taxa de acerto sem divisão é de 64,1% no Silo e 36,42% na Btree, e a divisão eleva a taxa de acerto em 52,91% e 19,92%.
+- **Warm set.** Ele elimina de 2,7% a 64,8% do tráfego de migração, mas prejudica o 603.bwaves, em que um warm set grande atrasa a liberação de espaço para alocações de vida curta. O Nimble migra 56,43 vezes mais que o Memtis no Silo.
+- **Contra o HeMem.** Na Btree, a classificação por histograma sozinha fica 1,4% abaixo do HeMem+ (o HeMem com o mesmo tamanho de fast tier configurado do Memtis, e portanto usando mais memória do fast tier), e somar a divisão deixa o Memtis 22,6% mais rápido que o HeMem+. A thread de amostragem do HeMem usa cerca de 100% de um core. O HeMem não conseguiu rodar vários casos em 1:8 e 1:16.
+- **Escala.** Aumentar o Graph500 de 128 GB para 690 GB com um fast tier de 64 GB mantém o Memtis à frente por 8,1% a 60,5%, com o HeMem em segundo lugar com 336 GB e 690 GB.
+- **2:1 e CXL.** Em 2:1, o alvo de produção da Meta, o Memtis fica perto do all-DRAM, exceto no SPEC, e supera o TPP em 6,1% a 33,3% quando as páginas amostradas excedem o fast tier. Em CXL emulado ele supera o TPP nos oito benchmarks, por até 102,9% no PageRank, com diferenças menores conforme as latências convergem.
+- **Overhead e sensibilidade.** O ksampled usa em média 2,016% de uma CPU (3,0% no máximo) e custa 0,922% de desempenho em média, 2,384% no máximo. Os resultados são insensíveis aos intervalos de adaptação e de cooling de um décimo a dez vezes o padrão, exceto com um intervalo de adaptação de 1M.
+
+## Análise crítica
+
+O artigo é franco sobre onde a amostragem por hardware e suas próprias políticas ficam aquém. Ele admite o seguinte.
+
+- **Um ponto cego do PEBS.** Páginas raramente ou nunca acessadas dificilmente são amostradas, então sua hotness é imprecisa. Os autores sugerem somar a varredura de tabelas de páginas, como faz o TMTS, notando que ela pode acrescentar overhead sem ganho. Em 2:1 eles também reconhecem limites da amostragem, e o SPEC não chega ao all-DRAM.
+- **Políticas que perdem.** O warm set prejudica o 603.bwaves, a divisão não eleva sua taxa de acerto, e o intervalo de adaptação 10x maior prejudica aplicações pequenas.
+- **Escopo.** Um socket, CXL emulado (o artigo registra em nota que não havia hardware CXL publicamente disponível), sem switches CXL, e uma comparação com o TMTS apenas na discussão, com objetivos diferentes.
+
+Os pontos a seguir são uma leitura da evidência, não afirmações do artigo.
+
+- **Os números de destaque divergem.** O resumo diz que o Memtis supera "o melhor deles em até 33,6%", mas a introdução e a Seção 6 dão 33,6% como média geométrica. Os 169,0% do resumo não aparecem em lugar nenhum do corpo do texto, então provavelmente foram lidos de um gráfico, e uso aqui os números do corpo.
+- **Nenhuma dispersão é reportada.** O texto não dá número de repetições nem barras de erro, e várias diferenças são pequenas (7,1% no Silo em 1:16, 1,3% no 603.bwaves, a diferença de 1,4% para o HeMem+). O segundo melhor sistema muda a cada caso, então a média geométrica compara com um alvo móvel.
+- **A comparação com o HeMem pede cuidado.** As execuções principais mantêm os 20 cores ocupados, o que penaliza a thread de amostragem do HeMem, e o acompanhamento com 16 threads cobre apenas 1:2. O HeMem também não tem resultados em vários casos e foi redimensionado à mão.
+- **O gatilho da divisão é a taxa de acerto, não o custo de tradução.** O artigo diz que o Memtis equilibra custo de acesso e custo de tradução de endereços, mas quem guia a decisão são eHR menos rHR e a razão de latência dos tiers. Nenhuma contagem de TLB misses é reportada, e o custo de uma divisão aparece apenas como uma "pequena queda de desempenho" em uma série temporal.
+- **As constantes são fixadas à mão.** Os valores 0,9, 0,4, 5%, 2% e 500 ms são escolhas fixas (o artigo chama de empírico apenas o 0,9), e a sensibilidade é reportada só para os intervalos de adaptação e de cooling. O Algoritmo 1 é impresso com um "or" na condição do laço, onde o texto sugere "and".
+- **Contenção e multilocação não foram testadas.** O texto não descreve aplicações concorrentes nem um antagonista de banda, a premissa que o [Colloid](/papers/tiered-memory-management-access-latency-is-the-key) questionou depois. Só o PEBS da Intel é avaliado, e o MGLRU é citado mas não comparado.
+
+## Pesquisas futuras
+
+- Combinar o PEBS com a varredura de tabelas de páginas para classificar bem as páginas raramente acessadas, o que os autores apontam como uma possível correção.
+- Hardware CXL real, switches CXL e máquinas com vários sockets, que o artigo deixa de fora ou emula com uma única configuração de latência.
+- Vários tenants dividindo um fast tier, contenção de banda de memória e o IBS da AMD, nada disso testado no artigo.
+- Um gatilho de divisão que inclua o custo medido do TLB, com o preço de uma divisão quantificado, e o ajuste de suas constantes.
