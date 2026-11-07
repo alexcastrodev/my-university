@@ -5,7 +5,7 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 67;
+const SEED = 77;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
 const JOURNAL_ARTICLES = 10;
@@ -168,8 +168,8 @@ test.describe('Papers catalog', () => {
     test('filters by research area', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await papers.areaSelect.selectOption({ label: 'Operating Systems (13)' });
-      await expect(papers.cards).toHaveCount(13);
+      await papers.areaSelect.selectOption({ label: 'Operating Systems (18)' });
+      await expect(papers.cards).toHaveCount(18);
       await expect(papers.card('Snap')).toBeVisible();
       await expect(papers.card('ghOSt')).toBeVisible();
       await expect(papers.card('Demikernel')).toBeVisible();

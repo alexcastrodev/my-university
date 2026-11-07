@@ -2137,5 +2137,296 @@
     "publicationDate": "2025-10-12",
     "doi": "10.1145/3731569.3764832",
     "url": "https://dl.acm.org/doi/10.1145/3731569.3764832"
+  },
+  {
+    "slug": "autobahn-seamless-high-speed-bft",
+    "title": "Autobahn: Seamless high speed BFT",
+    "authors": [
+      {
+        "name": "Neil Giridharan"
+      },
+      {
+        "name": "Florian Suri-Payer"
+      },
+      {
+        "name": "Ittai Abraham"
+      },
+      {
+        "name": "Lorenzo Alvisi"
+      },
+      {
+        "name": "Natacha Crooks"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695942",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695942",
+    "paperUrl": "https://arxiv.org/pdf/2401.10369"
+  },
+  {
+    "slug": "dirigent-lightweight-serverless-orchestration",
+    "title": "Dirigent: Lightweight Serverless Orchestration",
+    "authors": [
+      {
+        "name": "Lazar Cvetković"
+      },
+      {
+        "name": "François Costa"
+      },
+      {
+        "name": "Mihajlo Djokic"
+      },
+      {
+        "name": "Michal Friedman"
+      },
+      {
+        "name": "Ana Klimovic"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695966",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695966",
+    "paperUrl": "https://arxiv.org/pdf/2404.16393"
+  },
+  {
+    "slug": "efficient-reproduction-of-fault-induced-failures-in-distributed-systems",
+    "title": "Efficient Reproduction of Fault-Induced Failures in Distributed Systems with Feedback-Driven Fault Injection",
+    "authors": [
+      {
+        "name": "Jia Pan"
+      },
+      {
+        "name": "Haoze Wu"
+      },
+      {
+        "name": "Tanakorn Leesatapornwongsa"
+      },
+      {
+        "name": "Suman Nath"
+      },
+      {
+        "name": "Peng Huang"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695979",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695979",
+    "paperUrl": "https://web.eecs.umich.edu/~ryanph/paper/anduril-sosp24.pdf"
+  },
+  {
+    "slug": "fast-flexible-practical-kernel-extensions",
+    "title": "Fast, Flexible, and Practical Kernel Extensions",
+    "authors": [
+      {
+        "name": "Kumar Kartikeya Dwivedi"
+      },
+      {
+        "name": "Rishabh Iyer"
+      },
+      {
+        "name": "Sanidhya Kashyap"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695950",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695950",
+    "paperUrl": "https://rs3lab.github.io/assets/papers/2024/dwivedi:kflex.pdf"
+  },
+  {
+    "slug": "ozz-kernel-out-of-order-concurrency-bugs",
+    "title": "OZZ: Identifying Kernel Out-of-Order Concurrency Bugs with In-Vivo Memory Access Reordering",
+    "authors": [
+      {
+        "name": "Dae R. Jeong"
+      },
+      {
+        "name": "Yewon Choi"
+      },
+      {
+        "name": "Byoungyoung Lee"
+      },
+      {
+        "name": "Insik Shin"
+      },
+      {
+        "name": "Youngjin Kwon"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695944",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695944"
+  },
+  {
+    "slug": "retry-bugs-insights-and-llm-informed-tooling",
+    "title": "If At First You Don’t Succeed, Try, Try, Again...? Insights and LLM-informed Tooling for Detecting Retry Bugs in Software Systems",
+    "authors": [
+      {
+        "name": "Bogdan A. Stoica"
+      },
+      {
+        "name": "Utsav Sethi"
+      },
+      {
+        "name": "Yiming Su"
+      },
+      {
+        "name": "Cyrus Zhou"
+      },
+      {
+        "name": "Shan Lu"
+      },
+      {
+        "name": "Jonathan Mace"
+      },
+      {
+        "name": "Madanlal Musuvathi"
+      },
+      {
+        "name": "Suman Nath"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695971",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695971",
+    "paperUrl": "https://bastoica.github.io/files/papers/2024_sosp_wasabi.pdf"
+  },
+  {
+    "slug": "skyloft-general-scheduling-framework-in-user-space",
+    "title": "Skyloft: A General High-Efficient Scheduling Framework in User Space",
+    "authors": [
+      {
+        "name": "Yuekai Jia"
+      },
+      {
+        "name": "Kaifu Tian"
+      },
+      {
+        "name": "Yuyang You"
+      },
+      {
+        "name": "Yu Chen"
+      },
+      {
+        "name": "Kang Chen"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695973",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695973"
+  },
+  {
+    "slug": "swarm-replicating-shared-disaggregated-memory-data",
+    "title": "SWARM: Replicating Shared Disaggregated-Memory Data in No Time",
+    "authors": [
+      {
+        "name": "Antoine Murat"
+      },
+      {
+        "name": "Clément Burgelin"
+      },
+      {
+        "name": "Athanasios Xygkis"
+      },
+      {
+        "name": "Igor Zablotchi"
+      },
+      {
+        "name": "Marcos K. Aguilera"
+      },
+      {
+        "name": "Rachid Guerraoui"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695945",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695945",
+    "paperUrl": "https://arxiv.org/pdf/2409.16258"
+  },
+  {
+    "slug": "tiered-memory-management-access-latency-is-the-key",
+    "title": "Tiered Memory Management: Access Latency is the Key!",
+    "authors": [
+      {
+        "name": "Midhul Vuppalapati"
+      },
+      {
+        "name": "Rachit Agarwal"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695968",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695968"
+  },
+  {
+    "slug": "verus-practical-foundation-for-systems-verification",
+    "title": "Verus: A Practical Foundation for Systems Verification",
+    "authors": [
+      {
+        "name": "Andrea Lattuada"
+      },
+      {
+        "name": "Travis Hance"
+      },
+      {
+        "name": "Jay Bosamiya"
+      },
+      {
+        "name": "Matthias Brun"
+      },
+      {
+        "name": "Chanhee Cho"
+      },
+      {
+        "name": "Hayley LeBlanc"
+      },
+      {
+        "name": "Pranav Srinivasan"
+      },
+      {
+        "name": "Reto Achermann"
+      },
+      {
+        "name": "Tej Chajed"
+      },
+      {
+        "name": "Chris Hawblitzel"
+      },
+      {
+        "name": "Jon Howell"
+      },
+      {
+        "name": "Jacob R. Lorch"
+      },
+      {
+        "name": "Oded Padon"
+      },
+      {
+        "name": "Bryan Parno"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695952",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695952",
+    "paperUrl": "https://www.andrew.cmu.edu/user/bparno/papers/verus-sys.pdf"
   }
 ]
