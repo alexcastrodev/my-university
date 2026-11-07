@@ -7,6 +7,8 @@ const API_KEY = process.env.MEILI_MASTER_KEY;
 const INDEX = 'content';
 /** One document per index: the fingerprint of what that index was last built from (id = the index's name). */
 const META_INDEX = 'content_meta';
+/** A staging index older than this was left by a rebuild that never finished; a younger one may be another replica's. */
+const STALE_STAGING_MS = 15 * 60_000;
 
 /** Words of body text Meilisearch keeps around the best match for a result's snippet. */
 const SNIPPET_WORDS = 24;
@@ -217,6 +219,7 @@ export class MeilisearchClient {
     settings: object;
     documents: object[];
   }): Promise<void> {
+    await this.sweepStaging(index);
     const fingerprint = createHash('sha256')
       .update(JSON.stringify({ settings, documents }))
       .digest('hex');
@@ -247,6 +250,37 @@ export class MeilisearchClient {
       { id: index, fingerprint },
     ]);
     this.log.log(`Indexed ${documents.length} documents into Meilisearch index ${index}`);
+  }
+
+  /**
+   * `rebuild` deletes its staging index in a `finally`, which never runs when the process dies first
+   * (the API replaced mid rolling update, Meilisearch OOM-killed). Nothing else removed those, so they
+   * piled up on production: 62 of them, 7.6 GB on disk and about half of Meilisearch's memory.
+   * Best effort: a failure here must not stop the rebuild.
+   */
+  async sweepStaging(index: string): Promise<void> {
+    const staging = new RegExp(`^${index}_staging_(\\d+)$`);
+    try {
+      const { results } = await this.request<{ results: { uid: string }[] }>(
+        'GET',
+        '/indexes?limit=1000',
+      );
+      for (const { uid } of results) {
+        const stamp = staging.exec(uid)?.[1];
+        if (
+          stamp === undefined ||
+          Date.now() - Number(stamp) < STALE_STAGING_MS
+        )
+          continue;
+        await this.enqueue('DELETE', `/indexes/${uid}`).catch((err: Error) =>
+          this.log.warn(`Could not delete stale ${uid}: ${err.message}`),
+        );
+      }
+    } catch (err) {
+      this.log.warn(
+        `Could not look for stale ${index} staging indexes: ${(err as Error).message}`,
+      );
+    }
   }
 
   /**
