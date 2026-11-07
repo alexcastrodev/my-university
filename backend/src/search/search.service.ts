@@ -181,6 +181,8 @@ export class SearchService implements OnApplicationBootstrap {
           this.log.error(
             `Failed to build search index: ${(err as Error).message}`,
           );
+          // Nest's logger is not Sentry: without this the failure never leaves the container logs.
+          Sentry.captureException(err);
         }
       },
     );
