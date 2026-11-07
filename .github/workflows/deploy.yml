@@ -42,3 +42,21 @@ jobs:
 
       - name: Deploy stack to swarm
         run: ./deploy.sh
+
+      # Tells Sentry about the deploy: the release is marked as released and gets a production
+      # deploy, which is what makes "resolved in next release" and regression detection work.
+      # The site is already live here, so a Sentry outage or a missing token must not fail the run.
+      # Commits are not attached: that needs the GitHub integration installed on the Sentry side.
+      - name: Register release in Sentry
+        continue-on-error: true
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: |
+          api=https://us.sentry.io/api/0/organizations/kutz/releases
+          now=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          curl -fsS -H "Authorization: Bearer $SENTRY_AUTH_TOKEN" -H 'Content-Type: application/json' \
+            -d "{\"version\":\"${{ github.sha }}\",\"projects\":[\"university-api\",\"university-web\"],\"dateReleased\":\"$now\"}" \
+            "$api/"
+          curl -fsS -H "Authorization: Bearer $SENTRY_AUTH_TOKEN" -H 'Content-Type: application/json' \
+            -d '{"environment":"production"}' \
+            "$api/${{ github.sha }}/deploys/"
