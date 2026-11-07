@@ -16,10 +16,19 @@ interface Page {
   total: number;
 }
 
-const list = async (query = '') => {
-  const res = await get(`/papers?limit=50${query}`);
-  expect(res.status).toBe(200);
-  return json<Page>(res);
+/** Every match, whatever the page size (the API serves at most 50 a page and the seed is past that). */
+const list = async (query = ''): Promise<Page> => {
+  const items: Page['items'] = [];
+  let total = 0;
+  for (let page = 1; page === 1 || items.length < total; page++) {
+    const res = await get(`/papers?limit=50&page=${page}${query}`);
+    expect(res.status).toBe(200);
+    const got = await json<Page>(res);
+    total = got.total;
+    items.push(...got.items);
+    if (got.items.length === 0) break;
+  }
+  return { items, total };
 };
 
 describe('the seed is a usable catalog', () => {
