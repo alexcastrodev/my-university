@@ -21,6 +21,9 @@ export interface XpSummary {
   breakdown: { sourceType: XpSourceType; total: number }[];
 }
 
+/** A lab is an exercise, not an article: worth twice a concept read (10). */
+export const LAB_DONE_XP = 20;
+
 /** Fixed daily XP goal — not user-configurable. Reachable via one lesson + one concept-read, or half a skill-check. */
 export const DAILY_XP_GOAL = 30;
 
@@ -120,6 +123,15 @@ export class XpService {
 
   async grantEpisodeWatchedXp(userId: number, slug: string): Promise<void> {
     await this.awardOnce(userId, 'episode-watched', slug, 10);
+  }
+
+  /**
+   * A reader finished a concept's lab. Once per lab: finishing it again after undoing is the same lab, so it
+   * is not paid twice, and undoing does not take the XP back (the ledger only grows). Unlike a concept read it
+   * counts for no badge or trophy, which are earned by reading, so it needs no award pass.
+   */
+  async grantLabDoneXp(userId: number, sourceId: string): Promise<void> {
+    await this.awardOnce(userId, 'lab-done', sourceId, LAB_DONE_XP);
   }
 
   async grantSkillCheckXp(

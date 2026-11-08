@@ -3,6 +3,7 @@ export type XpSourceType =
   | 'skill-check'
   | 'concept-read'
   | 'episode-watched'
+  | 'lab-done'
   // The daily session was removed; its XP stays in the ledger.
   | 'daily-card'
   | 'badge'

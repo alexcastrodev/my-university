@@ -41,8 +41,8 @@ export function areaBreadcrumb(module: string | undefined, discipline?: string):
   return [COMPUTER_SCIENCE_LABEL, disc?.title ?? mod.title];
 }
 
-/** One-line name for a track in the sidebar: "Java JVM", ".NET", or the Computer Science module's own title. */
-export function areaLabel(module: string): string {
-  const parts = areaBreadcrumb(module);
+/** One-line name for a track in the sidebar: "Java JVM", ".NET", or the Computer Science module's (or discipline's) own title. */
+export function areaLabel(module: string, discipline?: string): string {
+  const parts = areaBreadcrumb(module, discipline);
   return (parts[0] === COMPUTER_SCIENCE_LABEL ? parts.slice(1) : parts).join(' ');
 }

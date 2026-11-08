@@ -17,6 +17,17 @@ describe('buildBreakdownRows', () => {
     expect(rows[0].label).toBe('profile.source.badges');
   });
 
+  it('shows lab XP as its own row, not folded into the concepts it belongs to', () => {
+    const rows = buildBreakdownRows(
+      summary([{ sourceType: 'concept-read', total: 10 }, { sourceType: 'lab-done', total: 20 }]),
+      [],
+    );
+    expect(rows.map((r) => [r.key, r.label, r.total])).toEqual([
+      ['lab-done', 'profile.source.labs', 20],
+      ['concepts', 'profile.source.concepts', 10],
+    ]);
+  });
+
   it('calls unclaimed concept XP "Concepts" and never "Java Concepts"', () => {
     const rows = buildBreakdownRows(summary([{ sourceType: 'concept-read', total: 100 }]), []);
     expect(rows).toEqual([{ key: 'concepts', label: 'profile.source.concepts', total: 100 }]);

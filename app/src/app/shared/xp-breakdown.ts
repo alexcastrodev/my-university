@@ -7,6 +7,7 @@ const SOURCE_LABELS: Record<string, string> = {
   'skill-check': 'profile.source.skillChecks',
   'concept-read': 'profile.source.concepts',
   'episode-watched': 'profile.source.minutes',
+  'lab-done': 'profile.source.labs',
   'daily-card': 'profile.source.dailyCards',
   badge: 'profile.source.badges',
   trophy: 'profile.source.trophies',

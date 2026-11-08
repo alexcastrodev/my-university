@@ -7,7 +7,7 @@
         <span>Published on {{ c.publishedAt }}</span>
         @if (c.version) { <span class="sep">·</span><span>v{{ c.version }}</span> }
       </div>
-      <app-concept-actions [read]="read()" [marking]="marking()" (markRead)="markRead.emit()" />
+      <app-concept-actions module="csharp-concepts" [slug]="c.slug" [tab]="tab()" [read]="read()" [marking]="marking()" (markRead)="markRead.emit()" />
     </header>
 
     @if (c.labUrl) {

@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
+import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { CourseNestModule } from './course/course.module';
 import { Exam } from './exam/exam.entity';
 import { ExamAttempt } from './exam/exam-attempt.entity';
@@ -124,6 +125,7 @@ import { XpModule } from './xp/xp.module';
     ExamModule,
     XpModule,
     ConceptLookupModule,
+    BookmarksModule,
     DiscussionModule,
     PapersModule,
     PaperAttachmentsModule,
