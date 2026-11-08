@@ -1,0 +1,56 @@
+<div class="page">
+  <div class="page-body">
+    <div class="head">
+      <h1 class="page-title" i18n="@@bookmarks.title">Bookmarks</h1>
+    </div>
+    <p class="lead" i18n="@@bookmarks.lead">One bookmark per module, so you can leave and come back to exactly where you were.</p>
+
+    @if (!auth.currentUser()) {
+      <div class="state">
+        <p i18n="@@bookmarks.loginPrompt">Log in to keep bookmarks.</p>
+        <a routerLink="/login" class="link-btn" i18n="@@reviewQueue.logIn">Log In</a>
+      </div>
+    } @else {
+      @if (course(); as c) {
+        <a class="item" [routerLink]="c.route" data-testid="bookmark-course">
+          <span class="area">{{ c.title }}</span>
+          @if (c.lesson) {
+            <span class="what"><span class="kind" i18n="@@bookmarks.nextLesson">Next lesson</span> {{ c.lesson }}</span>
+          } @else {
+            <span class="what" i18n="@@bookmarks.courseDone">Course complete</span>
+          }
+        </a>
+      }
+
+      @if (!bookmarkService.loaded()) {
+        <p class="state" role="status" i18n="@@bookmarks.loading">Loading bookmarks...</p>
+      } @else if (bookmarkService.bookmarks().length === 0) {
+        <p class="state" data-testid="bookmarks-empty" i18n="@@bookmarks.empty">No bookmarks yet. Open any concept and use Bookmark here to keep your place in that module.</p>
+      } @else {
+        <ul class="list">
+          @for (bookmark of bookmarkService.bookmarks(); track bookmark.id) {
+            <li class="row" data-testid="bookmark-row">
+              <a class="item" [routerLink]="bookmark.route" [queryParams]="bookmark.tab === 'lab' ? { tab: 'lab' } : null">
+                <span class="area">{{ areaOf(bookmark) }}</span>
+                <span class="what">{{ bookmark.title }}</span>
+                @if (bookmark.tab === 'lab' || bookmarkService.isLabDone(bookmark)) {
+                  <span class="badges">
+                    @if (bookmark.tab === 'lab') {
+                      <span class="badge" i18n="@@conceptTabs.lab">Lab</span>
+                    }
+                    @if (bookmarkService.isLabDone(bookmark)) {
+                      <span class="badge done" i18n="@@lab.finishedDone">Lab finished</span>
+                    }
+                  </span>
+                }
+              </a>
+              <button type="button" class="remove" (click)="bookmarkService.remove(bookmark.id)" i18n-aria-label="@@bookmarks.remove" aria-label="Remove bookmark">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    }
+  </div>
+</div>

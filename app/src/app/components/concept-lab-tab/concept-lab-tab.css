@@ -26,6 +26,13 @@
   font-size: 0.9rem;
 }
 
+.lab-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
 .lab-cta {
   display: inline-flex;
   align-items: center;
@@ -42,6 +49,44 @@
 
 .lab-cta:hover {
   background: var(--mu-accent-strong);
+}
+
+.lab-done-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-divider);
+  color: var(--mu-ink-soft);
+  border-radius: 8px;
+  padding: 0.7rem 1.1rem;
+  font: inherit;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+
+.lab-done-btn:hover:not(:disabled) {
+  background: var(--mu-bg-alt);
+  border-color: var(--mu-faint);
+}
+
+.lab-done-btn.done {
+  background: var(--mu-success-soft);
+  border-color: var(--mu-success);
+  color: var(--mu-success-strong);
+}
+
+.lab-done-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.lab-done-btn.locked {
+  background: var(--mu-bg);
+  color: var(--mu-muted);
+  border-style: dashed;
 }
 
 .lab-body {

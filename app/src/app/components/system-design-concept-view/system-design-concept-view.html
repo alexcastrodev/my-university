@@ -15,7 +15,7 @@
           <span class="concept-tag">{{ tag }}</span>
         }
       </div>
-      <app-concept-actions [read]="read()" [marking]="marking()" [labUrl]="c.labUrl" (markRead)="markRead.emit()" />
+      <app-concept-actions module="system-design-concepts" [slug]="c.slug" [read]="read()" [marking]="marking()" [labUrl]="c.labUrl" (markRead)="markRead.emit()" />
     </header>
 
     @if (fallbackNotice()) {

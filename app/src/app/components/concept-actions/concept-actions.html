@@ -18,6 +18,27 @@
       ⚡ Got it!
     }
   </button>
+  @if (target()) {
+    <button
+      class="bookmark-btn"
+      [class.active]="here()"
+      [class.locked]="!auth.currentUser()"
+      [disabled]="!auth.currentUser()"
+      [attr.aria-pressed]="here()"
+      [attr.title]="!auth.currentUser() ? bookmarkLockedTitle : null"
+      (click)="onToggleBookmark()"
+      type="button"
+    >
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
+        <path d="M7 4h10v16l-5-3.5L7 20V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" [attr.fill]="here() ? 'currentColor' : 'none'" />
+      </svg>
+      @if (here()) {
+        <span i18n="@@conceptActions.bookmarked">Bookmarked</span>
+      } @else {
+        <span i18n="@@conceptActions.bookmark">Bookmark here</span>
+      }
+    </button>
+  }
   @if (labUrl()) {
     <a [href]="labUrl()" target="_blank" rel="noopener noreferrer" class="lab-link-btn">
       🔬 Open Lab

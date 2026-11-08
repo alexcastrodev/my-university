@@ -7,7 +7,7 @@
         <span>Published on {{ c.publishedAt }}</span>
         @if (c.version) { <span class="sep">·</span><span>v{{ c.version }}</span> }
       </div>
-      <app-concept-actions [read]="read()" [marking]="marking()" [labUrl]="c.labUrl" (markRead)="markRead.emit()" />
+      <app-concept-actions module="algorithms-concepts" [slug]="c.slug" [read]="read()" [marking]="marking()" [labUrl]="c.labUrl" (markRead)="markRead.emit()" />
     </header>
 
     @for (section of sections(); track section.title) {

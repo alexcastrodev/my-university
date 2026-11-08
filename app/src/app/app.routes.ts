@@ -128,6 +128,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/papers/papers-list').then((m) => m.PapersListPage),
   },
   {
+    path: 'bookmarks',
+    loadComponent: () => import('./pages/bookmarks/bookmarks-page').then((m) => m.BookmarksPage),
+  },
+  {
     path: 'library',
     loadComponent: () => import('./pages/papers/paper-library').then((m) => m.PaperLibraryPage),
   },

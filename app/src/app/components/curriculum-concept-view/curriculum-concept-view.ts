@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnChanges, SimpleChanges, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnChanges, SimpleChanges, computed, inject, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CurriculumConceptDetail } from '../../models/curriculum-concept.model';
@@ -57,6 +57,10 @@ export class CurriculumConceptView extends DeepDiveConceptView implements OnChan
   private sanitizer = inject(DomSanitizer);
   sections = signal<{ title: string; html: SafeHtml }[]>([]);
   relatedItems = signal<CurriculumConceptLinkItem[]>([]);
+
+  /** `basePath` is `/computer-science/<module>/<discipline>`; a bookmark in Computer Science belongs to the discipline. */
+  protected bookmarkModule = computed(() => this.basePath().split('/')[2] ?? null);
+  protected bookmarkDiscipline = computed(() => this.basePath().split('/')[3]);
 
   referenceIcon = getReferenceIcon;
 

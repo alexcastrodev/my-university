@@ -24,6 +24,8 @@ export class UserXpEntry {
     | 'skill-check'
     | 'concept-read'
     | 'episode-watched'
+    // A reader said they finished a concept's lab; worth more than reading it, and counts for no award.
+    | 'lab-done'
     // The daily session was removed; its XP stays in the ledger.
     | 'daily-card'
     | 'badge'

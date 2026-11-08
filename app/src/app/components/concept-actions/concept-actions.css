@@ -4,7 +4,8 @@
   flex-wrap: wrap;
 }
 
-.got-it-btn {
+.got-it-btn,
+.bookmark-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -20,7 +21,8 @@
   transition: background .12s, border-color .12s, color .12s;
 }
 
-.got-it-btn:hover:not(:disabled) {
+.got-it-btn:hover:not(:disabled),
+.bookmark-btn:hover:not(:disabled) {
   background: var(--mu-bg-alt);
   border-color: var(--mu-faint);
 }
@@ -31,20 +33,29 @@
   color: var(--mu-success-strong);
 }
 
-.got-it-btn:disabled {
+.got-it-btn:disabled,
+.bookmark-btn:disabled {
   cursor: not-allowed;
   opacity: 0.65;
 }
 
-.got-it-btn.locked {
+.got-it-btn.locked,
+.bookmark-btn.locked {
   background: var(--mu-bg);
   color: var(--mu-muted);
   border-style: dashed;
 }
 
-.got-it-btn.locked:hover {
+.got-it-btn.locked:hover,
+.bookmark-btn.locked:hover {
   background: var(--mu-bg);
   border-color: var(--mu-divider);
+}
+
+.bookmark-btn.active {
+  background: var(--mu-accent-soft);
+  border-color: var(--mu-accent-border);
+  color: var(--mu-accent-strong);
 }
 
 .lab-link-btn {

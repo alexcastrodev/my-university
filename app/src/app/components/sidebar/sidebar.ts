@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  effect,
   HostListener,
   PLATFORM_ID,
   computed,
@@ -10,23 +9,22 @@ import {
   signal,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { catchError, filter, forkJoin, of } from 'rxjs';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { LanguageService } from '../../services/language.service';
-import { ResumeService } from '../../services/resume.service';
-import { ActivityService } from '../../services/activity.service';
+import { BookmarkService } from '../../services/bookmark.service';
 import { SearchService } from '../../services/search.service';
 import { ThemeService } from '../../services/theme.service';
 import { XpService } from '../../services/xp.service';
 import { LANGUAGE_LABELS, Language } from '../../models/language.model';
-import { StudyingNowItem, deriveStudyingNow } from '../../shared/studying-now';
+import { Bookmark } from '../../models/bookmark.model';
+import { areaLabel } from '../../shared/area-labels';
 
 /** Same key and values the inline script in index.html reads before first paint. */
 const STORAGE_KEY = 'sidebar-collapsed';
-/** The badge and "Studying now" list are refreshed at most this often while the reader navigates. */
-const REFRESH_MS = 60_000;
+/** How many of the reader's bookmarks the rail lists; the rest are on the Bookmarks page. */
+const MAX_BOOKMARKS = 3;
 /** Below this width the sidebar starts collapsed to icons unless the reader expanded it. */
 const NARROW_QUERY = '(max-width: 1199px)';
 
@@ -51,8 +49,7 @@ export class Sidebar {
   private languageService = inject(LanguageService);
   private router = inject(Router);
   private searchService = inject(SearchService);
-  private activityService = inject(ActivityService);
-  private resumeService = inject(ResumeService);
+  private bookmarkService = inject(BookmarkService);
   private elementRef = inject(ElementRef);
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
@@ -71,8 +68,8 @@ export class Sidebar {
   private preference = signal<boolean | null>(this.readPreference());
   private narrow = signal(this.isBrowser && matchMedia(NARROW_QUERY).matches);
   collapsed = computed(() => this.preference() ?? this.narrow());
-  studying = signal<StudyingNowItem[]>([]);
-  private lastRefresh = 0;
+  /** Where the reader was last in each module, most recent first. */
+  bookmarks = computed(() => this.bookmarkService.bookmarks().slice(0, MAX_BOOKMARKS));
 
   userMenuOpen = signal(false);
   languageMenuOpen = signal(false);
@@ -116,31 +113,11 @@ export class Sidebar {
     if (!this.isBrowser) return;
 
     matchMedia(NARROW_QUERY).addEventListener('change', (event) => this.narrow.set(event.matches));
-    this.router.events
-      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
-      .subscribe(() => {
-        // Reading a concept changes it, so look again when it's stale.
-        const stale = Date.now() - this.lastRefresh > REFRESH_MS;
-        if (this.auth.currentUser() && stale) {
-          this.refresh();
-        }
-      });
-
-    effect(() => {
-      if (this.auth.currentUser()) {
-        this.refresh();
-      } else {
-        this.studying.set([]);
-      }
-    });
   }
 
-  private refresh(): void {
-    this.lastRefresh = Date.now();
-    forkJoin({
-      recent: this.activityService.getRecentActivity().pipe(catchError(() => of([]))),
-      resume: this.resumeService.getResumePoint().pipe(catchError(() => of(null))),
-    }).subscribe(({ recent, resume }) => this.studying.set(deriveStudyingNow(recent, resume)));
+  /** "Java Concepts", "Spring", or the Computer Science discipline the bookmark is in. */
+  protected areaOf(bookmark: Bookmark): string {
+    return areaLabel(bookmark.module, bookmark.discipline);
   }
 
   toggleCollapsed(): void {

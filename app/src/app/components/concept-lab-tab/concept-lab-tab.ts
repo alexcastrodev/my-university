@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, input } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { DiscussionService } from '../../discussion/discussion.service';
+import { AuthService } from '../../services/auth.service';
+import { BookmarkService } from '../../services/bookmark.service';
 import { LanguageService } from '../../services/language.service';
 import { ConceptDiscussion } from '../concept-discussion/concept-discussion';
 
@@ -22,6 +24,10 @@ export class ConceptLabTab {
   slug = input.required<string>();
 
   private lang = inject(LanguageService).language;
+  private bookmarks = inject(BookmarkService);
+  protected auth = inject(AuthService);
+
+  protected readonly finishLockedTitle = $localize`:@@lab.finishLocked:Log in to mark this lab as finished`;
 
   constructor() {
     const discussion = inject(DiscussionService);
@@ -30,4 +36,12 @@ export class ConceptLabTab {
   }
 
   protected topic = computed(() => ({ module: this.module(), slug: this.slug(), lang: this.lang }));
+
+  /** The reader said they finished this lab. Separate from "Got it!", which only says they read the concept. */
+  protected done = computed(() => this.bookmarks.isLabDone({ module: this.module(), slug: this.slug() }));
+
+  toggleDone(): void {
+    if (!this.auth.currentUser()) return;
+    this.bookmarks.setLabDone({ module: this.module(), slug: this.slug() }, !this.done());
+  }
 }

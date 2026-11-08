@@ -130,6 +130,11 @@
   text-decoration: none;
 }
 
+/* Two shortcuts in a row sit closer to each other than to what follows. */
+.shortcut:has(+ .shortcut) {
+  margin-bottom: 0.6rem;
+}
+
 .marks-text {
   flex: 1;
   display: flex;
