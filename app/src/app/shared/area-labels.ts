@@ -21,6 +21,7 @@ const COMPLEMENTARY: Record<string, [group: string, track?: string]> = {
   'rubyonrails-concepts': ['Ruby', 'Rails'],
   'dotnet-concepts': ['.NET'],
   'dotnet-testing-concepts': ['.NET', $localize`:@@area.track.testing:Testing`],
+  'dotnet-ai-concepts': ['.NET', 'AI'],
   'csharp-concepts': ['C#'],
   'csharp-minute': ['C#', 'C# Minute'],
 };

@@ -13,6 +13,7 @@ import { RubyOnRailsConceptsService } from '../src/rubyonrails-concepts/rubyonra
 import { DotNetConceptsService } from '../src/dotnet-concepts/dotnet-concepts.service';
 import { CSharpConceptsService } from '../src/csharp-concepts/csharp-concepts.service';
 import { DotNetTestingConceptsService } from '../src/dotnet-testing-concepts/dotnet-testing-concepts.service';
+import { DotNetAiConceptsService } from '../src/dotnet-ai-concepts/dotnet-ai-concepts.service';
 import { PapersCatalogService } from '../src/papers/papers-catalog.service';
 import { SearchService, toPlainText } from '../src/search/search.service';
 import { SpringConceptsService } from '../src/spring-concepts/spring-concepts.service';
@@ -41,6 +42,7 @@ function buildDocuments() {
     new DotNetConceptsService(),
     new CSharpConceptsService(),
     new DotNetTestingConceptsService(),
+    new DotNetAiConceptsService(),
     new QuarkusConceptsService(),
     new KubernetesConceptsService(),
     papersCatalog,

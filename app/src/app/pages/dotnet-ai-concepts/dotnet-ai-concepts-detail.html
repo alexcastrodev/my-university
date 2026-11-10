@@ -1,0 +1,35 @@
+<div class="page">
+  <div class="page-body">
+    @if (loading()) {
+      <a routerLink="/dotnet-ai-concepts" class="back-link">← {{ backLabelText }}</a>
+      <div class="loading" role="status" i18n-aria-label="@@dotnetAiConceptsDetail.loading.ariaLabel" aria-label="Loading concept">
+        <span class="spinner" aria-hidden="true"></span>
+        <ng-container i18n="@@dotnetAiConceptsDetail.loading">Loading concept…</ng-container>
+      </div>
+    } @else if (notFound()) {
+      <a routerLink="/dotnet-ai-concepts" class="back-link">← {{ backLabelText }}</a>
+      <div class="not-found">
+        <p i18n="@@dotnetAiConceptsDetail.notFound">Concept not found.</p>
+      </div>
+    } @else {
+      <app-concept-detail-layout
+        backHref="/dotnet-ai-concepts"
+        [backLabel]="backLabelText"
+        basePath="/dotnet-ai-concepts"
+        [items]="sidebarItems()"
+        [sidebarTitle]="currentTopic()"
+        [activeSlug]="nav.slug()"
+        [prevItem]="prevItem()"
+        [nextItem]="nextItem()"
+      >
+        <app-dotnet-ai-concept-view
+          [concept]="concept()"
+          [read]="read()"
+          [marking]="marking()"
+          [breadcrumbs]="breadcrumbItems()"
+          (markRead)="onMarkRead()"
+        />
+      </app-concept-detail-layout>
+    }
+  </div>
+</div>

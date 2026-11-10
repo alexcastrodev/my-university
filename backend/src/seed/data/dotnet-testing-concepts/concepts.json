@@ -1054,5 +1054,160 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "choosing-a-test-framework-mstest-xunit-nunit-tunit",
+    "id": 15,
+    "title": "Choosing a Test Framework: MSTest, xUnit, NUnit and TUnit",
+    "topic": "Tooling & CI",
+    "summary": "The same eight tests in MSTest 4, xUnit v3 4.0, NUnit 5 and TUnit on .NET 10: an equivalence table built from compiled code, instances per test and per class, measured parallelism defaults, failure messages, filters and exit codes on MTP and VSTest, run time at 2,000 tests, analyzers, an xUnit to MSTest migration and a decision guide.",
+    "publishedAt": "2026-10-29",
+    "requires": [
+      "mstest-fundamentals-lifecycle-and-testcontext"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Testing.Platform, dotnet test and Code Coverage in CI",
+        "slug": "microsoft-testing-platform-and-dotnet-test",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Data-Driven Tests in MSTest: DataRow, DynamicData and Custom Sources",
+        "slug": "mstest-data-driven-tests",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "MSTest 4 Fundamentals: Lifecycle, TestContext and Parallelism",
+        "slug": "mstest-fundamentals-lifecycle-and-testcontext",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Test Doubles in .NET: Fakes, Stubs and NSubstitute",
+        "slug": "test-doubles-fakes-stubs-and-nsubstitute",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Analyzers, EditorConfig and Build Quality Gates",
+        "slug": "analyzers-editorconfig-and-build-quality-gates",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JUnit 5 Architecture",
+        "slug": "junit-5-architecture",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Reusing Test Fixtures, Parameterized Tests, and Assertion Libraries",
+        "slug": "reusing-test-fixtures-and-parameterized-tests",
+        "feature": "testing-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Testing in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Testing.Platform overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-intro",
+        "type": "doc"
+      },
+      {
+        "label": "Getting started with xUnit.net v3, xunit.net",
+        "url": "https://xunit.net/docs/getting-started/v3/getting-started",
+        "type": "doc"
+      },
+      {
+        "label": "xUnit.net v3 4.0.0 release notes, xunit.net",
+        "url": "https://xunit.net/releases/v3/4.0.0",
+        "type": "doc"
+      },
+      {
+        "label": "NUnit framework release notes, docs.nunit.org",
+        "url": "https://docs.nunit.org/articles/nunit/release-notes/framework.html",
+        "type": "doc"
+      },
+      {
+        "label": "TUnit introduction, tunit.dev",
+        "url": "https://tunit.dev/docs/intro/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "testing-distributed-apps-with-aspire",
+    "id": 16,
+    "title": "Testing Distributed Apps with Aspire",
+    "topic": "ASP.NET Core Testing",
+    "summary": "Run the real Aspire 13.6 AppHost from MSTest with DistributedApplicationTestingBuilder: random ports and parallel runs, waiting for Running vs healthy with a timeout, failing in about a second when a resource crashes, which configuration overrides arrive, removing resources, the dashboard switch, asserting on a resource log, shared vs per-test app timings, cleanup, and a measured comparison with WebApplicationFactory.",
+    "publishedAt": "2026-10-29",
+    "requires": [
+      "integration-testing-with-webapplicationfactory"
+    ],
+    "related": [
+      {
+        "label": "Integration Testing ASP.NET Core with WebApplicationFactory",
+        "slug": "integration-testing-with-webapplicationfactory",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing Against a Real Database with Testcontainers",
+        "slug": "testing-with-real-databases-using-testcontainers",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Microsoft.Testing.Platform, dotnet test and Code Coverage in CI",
+        "slug": "microsoft-testing-platform-and-dotnet-test",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Aspire: AppHost, ServiceDefaults and Deployment",
+        "slug": "aspire-apphost-servicedefaults-and-deployment",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Health Checks: Liveness and Readiness",
+        "slug": "health-checks-liveness-and-readiness",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Testing overview, aspire.dev",
+        "url": "https://aspire.dev/testing/overview/",
+        "type": "doc"
+      },
+      {
+        "label": "Write your first test, aspire.dev",
+        "url": "https://aspire.dev/testing/write-your-first-test/",
+        "type": "doc"
+      },
+      {
+        "label": "Manage the AppHost in tests, aspire.dev",
+        "url": "https://aspire.dev/testing/manage-app-host/",
+        "type": "doc"
+      },
+      {
+        "label": "Access resources in tests, aspire.dev",
+        "url": "https://aspire.dev/testing/accessing-resources/",
+        "type": "doc"
+      },
+      {
+        "label": "Testing in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest test lifecycle, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
+        "type": "doc"
+      }
+    ]
   }
 ]

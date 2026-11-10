@@ -1,0 +1,465 @@
+[
+  {
+    "slug": "meai-ichatclient-and-middleware-pipeline",
+    "id": 1,
+    "title": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
+    "topic": "Microsoft.Extensions.AI",
+    "summary": "IChatClient, ChatMessage and ChatOptions against a local Ollama model: GetResponseAsync versus streaming with ToChatResponse, the ChatResponse shape with real Usage, stateless history versus ConversationId, ChatClientBuilder order proved with a DelegatingChatClient, UseLogging and UseDistributedCache measured, AddChatClient and AddKeyedChatClient in DI, GetService and ChatClientMetadata, a provider swap to a scripted fake, and the exact OllamaSharp failures.",
+    "publishedAt": "2026-10-29",
+    "requires": [],
+    "related": [
+      {
+        "label": "Tool Calling with AIFunction",
+        "slug": "tool-calling-with-aifunction",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Structured Output with Typed Responses",
+        "slug": "structured-output-with-typed-responses",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tokens, Cost and Telemetry for LLM Calls",
+        "slug": "tokens-cost-and-telemetry-for-llm-calls",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Caching: IMemoryCache, HybridCache and Distributed",
+        "slug": "caching-imemorycache-hybridcache-and-distributed",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ILogger: Categories, Levels, Filtering and Scopes",
+        "slug": "ilogger-categories-levels-filtering-and-scopes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Async Streams with IAsyncEnumerable",
+        "slug": "async-streams-iasyncenumerable",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Use the IChatClient interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/ichatclient",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Extensions.AI libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/microsoft-extensions-ai",
+        "type": "doc"
+      },
+      {
+        "label": ".NET + AI ecosystem tools and SDKs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/dotnet-ai-ecosystem",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Extensions.AI README, dotnet/extensions on GitHub",
+        "url": "https://github.com/dotnet/extensions/blob/main/src/Libraries/Microsoft.Extensions.AI/README.md",
+        "type": "doc"
+      },
+      {
+        "label": "OllamaSharp, GitHub",
+        "url": "https://github.com/awaescher/OllamaSharp",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Extensions.AI.Ollama (deprecated), NuGet",
+        "url": "https://www.nuget.org/packages/Microsoft.Extensions.AI.Ollama",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "embeddings-and-vector-search-with-vectordata",
+    "id": 4,
+    "title": "Embeddings and Vector Search with Microsoft.Extensions.VectorData",
+    "topic": "Data & RAG",
+    "summary": "IEmbeddingGenerator on a local Ollama (embeddinggemma:300m): vector size and norm, batching, cosine and dot product with TensorPrimitives, task prefixes, UseDistributedCache and silent truncation, then Microsoft.Extensions.VectorData records, upsert, search, filter, get and delete with the same code on InMemory and SQLite (sqlite-vec), and why scores flip meaning between providers.",
+    "publishedAt": "2026-10-29",
+    "requires": [
+      "meai-ichatclient-and-middleware-pipeline"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
+        "slug": "meai-ichatclient-and-middleware-pipeline",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "RAG: Ingestion, Chunking and Grounding",
+        "slug": "rag-ingestion-chunking-and-grounding",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tokens, Cost and Telemetry for LLM Calls",
+        "slug": "tokens-cost-and-telemetry-for-llm-calls",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Caching: IMemoryCache, HybridCache and Distributed",
+        "slug": "caching-imemorycache-hybridcache-and-distributed",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Expression Trees and IQueryable Providers",
+        "slug": "expression-trees-and-iqueryable-providers",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Use the IEmbeddingGenerator interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/iembeddinggenerator",
+        "type": "doc"
+      },
+      {
+        "label": "How embeddings extend your AI model's reach, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/conceptual/embeddings",
+        "type": "doc"
+      },
+      {
+        "label": "Vector databases for .NET AI apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/vector-stores/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Vector search using vector store providers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/vector-stores/vector-search",
+        "type": "doc"
+      },
+      {
+        "label": "Retrieval-augmented generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/conceptual/rag",
+        "type": "doc"
+      },
+      {
+        "label": "EmbeddingGemma model card, Google AI for Developers",
+        "url": "https://ai.google.dev/gemma/docs/embeddinggemma/model_card",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+    "id": 6,
+    "title": "MCP Servers and Clients with the C# SDK",
+    "topic": "Agents & Tools",
+    "summary": "A stdio MCP server on the generic host with tools, a prompt and a resource, a McpClient that calls them, the real JSON-RPC traffic (server/discover in spec 2026-07-28 versus the older initialize handshake), what a stray stdout write does, tool errors, the HTTP transport session modes and Mcp-Session-Id, MCP tools as AIFunctions with qwen3:4b-instruct, and prompt injection through tool output.",
+    "publishedAt": "2026-10-29",
+    "requires": [
+      "tool-calling-with-aifunction"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
+        "slug": "meai-ichatclient-and-middleware-pipeline",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tool Calling with AIFunction",
+        "slug": "tool-calling-with-aifunction",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Microsoft Agent Framework: Agents, Sessions and Tools",
+        "slug": "agent-framework-agents-sessions-and-tools",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "ILogger: Categories, Levels, Filtering and Scopes",
+        "slug": "ilogger-categories-levels-filtering-and-scopes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Get started with .NET AI and the Model Context Protocol, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/get-started-mcp",
+        "type": "doc"
+      },
+      {
+        "label": "Create a minimal MCP server using C# and publish to NuGet, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/quickstarts/build-mcp-server",
+        "type": "doc"
+      },
+      {
+        "label": "Create a minimal MCP client using .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/quickstarts/build-mcp-client",
+        "type": "doc"
+      },
+      {
+        "label": "Model Context Protocol specification 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28",
+        "type": "doc"
+      },
+      {
+        "label": "Specification changelog 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "tool-calling-with-aifunction",
+    "id": 2,
+    "title": "Tool Calling with AIFunction",
+    "topic": "Agents & Tools",
+    "summary": "AIFunctionFactory.Create and the JSON schema it generates, ChatOptions.Tools and a ToolMode that OllamaSharp ignores, the manual loop with FunctionCallContent and FunctionResultContent, UseFunctionInvocation call counts, iteration and error limits, IncludeDetailedErrors, AllowConcurrentInvocation, FunctionInvoker, unknown tools, bad arguments, approval with ApprovalRequiredAIFunction, validation inside the tool and the token cost of tool definitions.",
+    "publishedAt": "2026-10-30",
+    "requires": [
+      "meai-ichatclient-and-middleware-pipeline"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
+        "slug": "meai-ichatclient-and-middleware-pipeline",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Structured Output with Typed Responses",
+        "slug": "structured-output-with-typed-responses",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Microsoft Agent Framework: Agents, Sessions and Tools",
+        "slug": "agent-framework-agents-sessions-and-tools",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Converters, Contract Customization and Schema Export",
+        "slug": "json-converters-contracts-and-schema-export",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "AI tool calling, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/conceptual/calling-tools",
+        "type": "doc"
+      },
+      {
+        "label": "Use the IChatClient interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/ichatclient",
+        "type": "doc"
+      },
+      {
+        "label": "Invoke .NET functions using an AI model, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/quickstarts/use-function-calling",
+        "type": "doc"
+      },
+      {
+        "label": "Access data in AI functions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/how-to/access-data-in-functions",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Extensions.AI README, dotnet/extensions on GitHub",
+        "url": "https://github.com/dotnet/extensions/blob/main/src/Libraries/Microsoft.Extensions.AI/README.md",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "structured-output-with-typed-responses",
+    "id": 3,
+    "title": "Structured Output with Typed Responses",
+    "topic": "Microsoft.Extensions.AI",
+    "summary": "GetResponseAsync<T> and ChatResponse<T> against a local Ollama model: the JSON schema MEAI generates and the real HTTP body with the format field, data wrapping for arrays and primitives, ResponseFormat by hand and the JsonSerializerOptions mismatch, exact failures from a scripted fake, required and Range after parsing, a bounded retry, and measured effects of enum names, descriptions, nullable fields and schema token cost.",
+    "publishedAt": "2026-10-30",
+    "requires": [
+      "meai-ichatclient-and-middleware-pipeline"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
+        "slug": "meai-ichatclient-and-middleware-pipeline",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tool Calling with AIFunction",
+        "slug": "tool-calling-with-aifunction",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tokens, Cost and Telemetry for LLM Calls",
+        "slug": "tokens-cost-and-telemetry-for-llm-calls",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "JSON Converters, Contract Customization and Schema Export",
+        "slug": "json-converters-contracts-and-schema-export",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Nullable Reference Types and Flow Analysis",
+        "slug": "nullable-reference-types-and-flow-analysis",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Quickstart: Request a response with structured output, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/quickstarts/structured-output",
+        "type": "doc"
+      },
+      {
+        "label": "ChatClientStructuredOutputExtensions.GetResponseAsync, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.ai.chatclientstructuredoutputextensions.getresponseasync",
+        "type": "doc"
+      },
+      {
+        "label": "Use the IChatClient interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/ichatclient",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Extensions.AI README, dotnet/extensions on GitHub",
+        "url": "https://github.com/dotnet/extensions/blob/main/src/Libraries/Microsoft.Extensions.AI/README.md",
+        "type": "doc"
+      },
+      {
+        "label": "Structured outputs, Ollama Blog",
+        "url": "https://ollama.com/blog/structured-outputs",
+        "type": "doc"
+      },
+      {
+        "label": "How to use structured outputs with Azure OpenAI, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/structured-outputs",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "agent-framework-agents-sessions-and-tools",
+    "id": 7,
+    "title": "Microsoft Agent Framework: Agents, Sessions and Tools",
+    "topic": "Agents & Tools",
+    "summary": "AsAIAgent and ChatClientAgent, RunAsync and RunStreamingAsync with AgentResponse, the history a session resends every turn, ConversationId for stateful services, serializing a session and continuing in another process, lost messages under concurrent runs, tools and approval on the agent, an agent as another agent's tool, run and function-calling middleware, context providers that pile messages into history, structured output and OpenTelemetry.",
+    "publishedAt": "2026-10-30",
+    "requires": [
+      "tool-calling-with-aifunction"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
+        "slug": "meai-ichatclient-and-middleware-pipeline",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tool Calling with AIFunction",
+        "slug": "tool-calling-with-aifunction",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Agent Framework Workflows and Orchestration",
+        "slug": "agent-framework-workflows-and-orchestration",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Locks, Monitor, and Interlocked",
+        "slug": "locks-monitor-and-interlocked",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Microsoft Agent Framework Overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/overview/",
+        "type": "doc"
+      },
+      {
+        "label": "Session, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/concepts/agents/conversations/session",
+        "type": "doc"
+      },
+      {
+        "label": "Agent Middleware, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/concepts/agents/middleware/",
+        "type": "doc"
+      },
+      {
+        "label": "Context Providers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/concepts/agents/conversations/context-providers",
+        "type": "doc"
+      },
+      {
+        "label": "Tools Overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/agents/tools/",
+        "type": "doc"
+      },
+      {
+        "label": "Semantic Kernel to Microsoft Agent Framework Migration Guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/migration-guide/from-semantic-kernel/",
+        "type": "doc"
+      }
+    ]
+  }
+]

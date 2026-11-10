@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-10-29
 title: "Diretivas de Pré-processador e Compilação Condicional"
 summary: #define e #if, os símbolos que o SDK define (RELEASE sim, WINDOWS não), DefineConstants, #pragma warning, #nullable, #line, #error, #region, as diretivas #! e #: de file-based apps e as alternativas ao #if: Conditional, feature switches e static readonly.
 ---
@@ -12,9 +12,8 @@ condicional com `#define` e `#if`, controle de diagnósticos com `#pragma
 warning` e `#nullable`, mapeamento de fonte com `#line`, diagnósticos próprios
 com `#error` e `#warning`, dobra no editor com `#region` e, novidade do .NET 10,
 as linhas `#!` e `#:` de file-based apps. Este conceito mostra cada uma no .NET
-10 / C# 14, os símbolos que o SDK define (e os que não define), como criar os
-seus e quando uma checagem em runtime, um atributo ou um feature switch é
-melhor que `#if`.
+10 / C# 14, os símbolos que o SDK define (e não define), como criar os seus e
+quando checagem em runtime, atributo ou feature switch é melhor que `#if`.
 
 ## Use Cases
 
@@ -80,10 +79,9 @@ dotnet run -p:DefineConstants=FEATURE_X               NET10_0 FEATURE_X
 
 A última linha é a armadilha: `DefineConstants` na linha de comando é uma
 propriedade global que substitui o valor do projeto, e `DEBUG` e `TRACE` somem
-(o SDK acrescenta os símbolos de framework depois, em
-`AddImplicitDefineConstants`). Vários símbolos pedem `-p:DefineConstants=A%3BB`
-ou `"A;B"`. Uma propriedade própria mapeada no projeto, como `-p:Foo=bar`, é
-mais segura.
+(o SDK acrescenta os de framework depois, em `AddImplicitDefineConstants`).
+Vários símbolos pedem `-p:DefineConstants=A%3BB` ou `"A;B"`. Uma propriedade
+própria mapeada no projeto, como `-p:Foo=bar`, é mais segura.
 
 ### Checagem de plataforma é em runtime
 
@@ -119,10 +117,9 @@ for 'GetHashCod'`. A CI precisa compilar toda configuração e todo alvo.
 ### Alternativas ao #if
 
 - `[Conditional("DEBUG")]` remove a chamada e a avaliação dos argumentos (veja
-  Atributos: Customizados e Lidos pelo Compilador). `Debug.Assert` usa isso:
-  um `Debug.Assert(Probe(), "Probe failed")` que falha imprimiu `Process
-  terminated. Assertion failed.` e saiu com 134 em Debug; em Release `Probe()`
-  nem rodou.
+  Atributos: Personalizados e Lidos pelo Compilador). `Debug.Assert` usa isso:
+  um `Debug.Assert(Probe(), "Probe failed")` falho imprimiu `Process terminated.
+  Assertion failed.` e saiu com 134 em Debug; em Release `Probe()` nem rodou.
 - Um feature switch muda o comportamento sem recompilar. O item
   `<RuntimeHostConfigurationOption Include="MyApp.UseNewParser" Value="true"
   Trim="true" />` vai para o `runtimeconfig.json`; `AppContext.TryGetSwitch`
@@ -145,10 +142,9 @@ for 'GetHashCod'`. A CI precisa compilar toda configuração e todo alvo.
 // Program.cs(2,8): error CS1029: #error: 'TODO: pick a serializer before shipping'
 ```
 
-Um `#warning` sozinho mantém `Build succeeded.`; `#error` quebra o build
-(exit code 1), então `#if !NET10_0_OR_GREATER` com `#error` protege um alvo.
-`#error version` também imprime `CS8304` com as versões do compilador e da
-linguagem.
+Um `#warning` mantém `Build succeeded.`; `#error` quebra o build (exit code 1),
+então `#if !NET10_0_OR_GREATER` com `#error` protege um alvo. `#error version`
+também imprime `CS8304` com as versões do compilador e da linguagem.
 
 ### #pragma warning e #nullable
 
@@ -191,10 +187,9 @@ Template.tt(200,13): warning CS0219: The variable 'unused' is assigned but its v
 "Page.razor"`, mapeou um warning para `Page.razor(3,10)`. Segundo a
 documentação, `#pragma checksum` grava no PDB o checksum do arquivo original.
 
-`#region`/`#endregion` não mudam nada na saída, só dobram código no editor, e
-precisam aninhar com `#if` (cruzar deu `CS1027` e `CS1038`). Uma região
-escondendo 300 linhas diz que a classe deveria ser dividida; o StyleCop tem a
-regra `SA1124` contra elas.
+`#region`/`#endregion` não mudam a saída, só dobram código no editor, e devem
+aninhar com `#if` (cruzar deu `CS1027` e `CS1038`). Uma região de 300 linhas
+pede dividir a classe; o StyleCop tem a regra `SA1124` contra regiões.
 
 ### #! e #: em file-based apps
 
@@ -229,12 +224,10 @@ error CS9298: '#:' directives can be only used in file-based programs ('-feature
 
 - **`#if` é de graça em runtime e caro em manutenção.** Ramos mortos nunca são
   verificados, então cada símbolo precisa do próprio build na CI.
-- **Checagem em runtime ganha de símbolo de plataforma.**
-  `OperatingSystem.IsWindows()` com CA1416 mantém um binário e um caminho
-  compilado; `#if WINDOWS` só funciona com alvos específicos de SO.
-- **Suprima com precisão.** Um id e um `restore` correspondente documentam uma
-  exceção no lugar; um `disable` sem lista ou um `NoWarn` no projeto todo
-  escondem problemas futuros.
+- **Checagem em runtime ganha de símbolo de plataforma.** `IsWindows()` com
+  CA1416 mantém um binário e um caminho; `#if WINDOWS` exige alvo de SO.
+- **Suprima com precisão.** Um id e um `restore` documentam uma exceção no
+  lugar; `disable` sem lista ou `NoWarn` no projeto escondem problemas futuros.
 
 ## Documentation Links
 
