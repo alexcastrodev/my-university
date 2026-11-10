@@ -2784,5 +2784,65 @@
     "publicationDate": "2004-10-28",
     "url": "https://www.aes.org/e-lib/browse.cfm?elib=12865",
     "paperUrl": "https://ccrma.stanford.edu/~cc/vox/aesFinal.pdf"
+  },
+  {
+    "slug": "pulse-before-sound-midi-native-telematic-performance",
+    "title": "Pulse Before Sound: Reimagining Presence and Liveness in Telematic Music Performance through MIDI-Native Collaboration",
+    "authors": [
+      {
+        "name": "Matt C. Bray"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Journal of Network Music and Arts",
+    "publicationDate": "2026",
+    "url": "https://commons.library.stonybrook.edu/jonma/vol8/iss1/2",
+    "paperUrl": "https://raw.githubusercontent.com/alexcastrodev/my-university-papers/main/computer-music/pulse-before-sound-midi-native-telematic-performance/paper.pdf"
+  },
+  {
+    "slug": "global-metronome-professional-networked-ensemble",
+    "title": "Toward Professional Distributed Performances: Effects of a Global Metronome on Networked Musical Ensemble Interactions",
+    "authors": [
+      {
+        "name": "Robert Hupke"
+      },
+      {
+        "name": "Marcel Nophut"
+      },
+      {
+        "name": "Stephan Preihs"
+      },
+      {
+        "name": "Jürgen Peissig"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Journal of the Audio Engineering Society",
+    "publicationDate": "2021-10",
+    "doi": "10.17743/jaes.2021.0037",
+    "url": "https://www.aes.org/e-lib/browse.cfm?elib=21467"
+  },
+  {
+    "slug": "overview-of-networked-music-performance-technologies",
+    "title": "An Overview on Networked Music Performance Technologies",
+    "authors": [
+      {
+        "name": "Cristina Rottondi"
+      },
+      {
+        "name": "Chris Chafe"
+      },
+      {
+        "name": "Claudio Allocchio"
+      },
+      {
+        "name": "Augusto Sarti"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "IEEE Access",
+    "publicationDate": "2016-12-05",
+    "doi": "10.1109/access.2016.2628440",
+    "url": "https://ieeexplore.ieee.org/document/7769205"
   }
 ]

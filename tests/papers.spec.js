@@ -5,10 +5,10 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 92;
+const SEED = 95;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
-const JOURNAL_ARTICLES = 12;
+const JOURNAL_ARTICLES = 15;
 const FDB = {
   slug: 'foundationdb-unbundled-transactional-kv-store',
   title: 'FoundationDB: A Distributed Unbundled Transactional Key Value Store',
@@ -207,12 +207,12 @@ test.describe('Papers catalog', () => {
     test('groups the networked music performance papers under Computer Music, in either language', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await papers.areaSelect.selectOption({ label: 'Computer Music (5)' });
-      await expect(papers.cards).toHaveCount(5);
+      await papers.areaSelect.selectOption({ label: 'Computer Music (8)' });
+      await expect(papers.cards).toHaveCount(8);
       await expect(papers.card(GLOBAL_METRONOME.title)).toBeVisible();
 
       await papers.gotoPortuguese('?area=Computer+Music');
-      await expect(papers.cards).toHaveCount(5);
+      await expect(papers.cards).toHaveCount(8);
       await expect(papers.areaSelectPortuguese.locator('option', { hasText: 'Computação musical' })).toHaveCount(1);
     });
 
