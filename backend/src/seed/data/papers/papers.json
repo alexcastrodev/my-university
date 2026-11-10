@@ -2686,5 +2686,103 @@
     "publicationDate": "2023-10-23",
     "doi": "10.1145/3600006.3613171",
     "url": "https://dl.acm.org/doi/10.1145/3600006.3613171"
+  },
+  {
+    "slug": "impact-of-audio-delay-and-quality-in-network-music-performance",
+    "title": "Impact of Audio Delay and Quality in Network Music Performance",
+    "authors": [
+      {
+        "name": "Konstantinos Tsioutas"
+      },
+      {
+        "name": "George Xylomenos"
+      },
+      {
+        "name": "Ioannis Doumanis"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Future Internet",
+    "publicationDate": "2025-07-28",
+    "doi": "10.3390/fi17080337",
+    "url": "https://www.mdpi.com/1999-5903/17/8/337",
+    "paperUrl": "https://clok.uclan.ac.uk/id/eprint/56398/1/56398%20Tsioutas%20et%20al.%20VOR.pdf"
+  },
+  {
+    "slug": "time-delay-dyadic-rhythm-coordination-finger-tapping",
+    "title": "Effect of time delay on performance and timing control in dyadic rhythm coordination using finger tapping",
+    "authors": [
+      {
+        "name": "Yuka Koike"
+      },
+      {
+        "name": "Taiki Ogata"
+      },
+      {
+        "name": "Takayuki Nozawa"
+      },
+      {
+        "name": "Yoshihiro Miyake"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Scientific Reports",
+    "publicationDate": "2024-07-29",
+    "doi": "10.1038/s41598-024-68326-6",
+    "url": "https://www.nature.com/articles/s41598-024-68326-6",
+    "paperUrl": "https://www.nature.com/articles/s41598-024-68326-6.pdf"
+  },
+  {
+    "slug": "exploiting-latency-networked-music-performance-percussive-improvisation",
+    "title": "Exploiting Latency in the Design of a Networked Music Performance System for Percussive Collective Improvisation",
+    "authors": [
+      {
+        "name": "Ari Liloia"
+      },
+      {
+        "name": "Roger Dannenberg"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the International Conference on New Interfaces for Musical Expression (NIME 2025)",
+    "publicationDate": "2025-06-19",
+    "doi": "10.5281/zenodo.15698934",
+    "url": "https://nime.org/proc/nime2025_69/",
+    "paperUrl": "https://nime.org/proceedings/2025/nime2025_69.pdf"
+  },
+  {
+    "slug": "global-metronome-absolute-tempo-sync-networked-performance",
+    "title": "The Global Metronome: Absolute Tempo Sync For Networked Musical Performance",
+    "authors": [
+      {
+        "name": "Reid Oda"
+      },
+      {
+        "name": "Rebecca Fiebrink"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the International Conference on New Interfaces for Musical Expression (NIME 2016)",
+    "publicationDate": "2016-06",
+    "doi": "10.5281/zenodo.1176096",
+    "url": "https://nime.org/proc/nime2016_oda/",
+    "paperUrl": "https://research.gold.ac.uk/id/eprint/18693/1/OdaFiebrink_NIME2016.pdf"
+  },
+  {
+    "slug": "network-time-delay-and-ensemble-accuracy",
+    "title": "Network Time Delay and Ensemble Accuracy: Effects of Latency, Asymmetry",
+    "authors": [
+      {
+        "name": "Chris Chafe"
+      },
+      {
+        "name": "Michael Gurevich"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Audio Engineering Society 117th Convention",
+    "publicationDate": "2004-10-28",
+    "url": "https://www.aes.org/e-lib/browse.cfm?elib=12865",
+    "paperUrl": "https://ccrma.stanford.edu/~cc/vox/aesFinal.pdf"
   }
 ]

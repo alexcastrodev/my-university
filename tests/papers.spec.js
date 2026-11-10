@@ -5,10 +5,10 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 87;
+const SEED = 92;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
-const JOURNAL_ARTICLES = 10;
+const JOURNAL_ARTICLES = 12;
 const FDB = {
   slug: 'foundationdb-unbundled-transactional-kv-store',
   title: 'FoundationDB: A Distributed Unbundled Transactional Key Value Store',
@@ -33,6 +33,10 @@ const SCALLOP = {
   title: 'Scalable Video Conferencing Using SDN Principles',
   titlePt: 'Videoconferência escalável com princípios de SDN',
   doi: '10.1145/3718958.3750489',
+};
+const GLOBAL_METRONOME = {
+  slug: 'global-metronome-absolute-tempo-sync-networked-performance',
+  title: 'The Global Metronome: Absolute Tempo Sync For Networked Musical Performance',
 };
 // The first of the newest month (OSDI 2026) when the list is newest first, ties broken by slug.
 const NEWEST = {
@@ -198,6 +202,18 @@ test.describe('Papers catalog', () => {
       await expect(papers.areaSelectPortuguese.locator('option', { hasText: 'Redes de computadores' })).toHaveCount(1);
       await expect(papers.cardArea(SCALLOP.titlePt)).toHaveText('Redes de computadores');
       await expect(papers.cardOriginalTitle(SCALLOP.titlePt)).toHaveText(`Título original: ${SCALLOP.title}`);
+    });
+
+    test('groups the networked music performance papers under Computer Music, in either language', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.goto();
+      await papers.areaSelect.selectOption({ label: 'Computer Music (5)' });
+      await expect(papers.cards).toHaveCount(5);
+      await expect(papers.card(GLOBAL_METRONOME.title)).toBeVisible();
+
+      await papers.gotoPortuguese('?area=Computer+Music');
+      await expect(papers.cards).toHaveCount(5);
+      await expect(papers.areaSelectPortuguese.locator('option', { hasText: 'Computação musical' })).toHaveCount(1);
     });
 
     test('filters by a keyword chip and lets the reader remove the filter', async ({ page }) => {
