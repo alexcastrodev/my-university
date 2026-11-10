@@ -1,0 +1,417 @@
+import { Language } from './language.model';
+
+export const PAPER_TYPES = [
+  'journal-article',
+  'conference-paper',
+  'preprint',
+  'book-chapter',
+  'book',
+  'thesis',
+  'report',
+  'other',
+] as const;
+export type PaperType = (typeof PAPER_TYPES)[number];
+
+/** Where a paper stands for a reader with no academic background; the API derives it from the type. */
+export const PUBLICATION_STAGES = ['preprint', 'published', 'thesis', 'report', 'unknown'] as const;
+export type PublicationStage = (typeof PUBLICATION_STAGES)[number];
+
+export type PaperSort = 'recent' | 'title';
+
+/** A row of the public catalog; mirrors GET /api/papers. */
+export interface PaperSummary {
+  /** The public id: the slug of a catalog paper (a file), the UUIDv7 of a private one. */
+  id: string;
+  title: string;
+  /** The title the authors published, when `title` is our translation of it (a catalog paper read in Portuguese). */
+  originalTitle: string | null;
+  authors: string[];
+  keywords: string[];
+  venue: string | null;
+  /** `YYYY`, `YYYY-MM` or `YYYY-MM-DD`: scholarly dates are often only a year. */
+  publicationDate: string | null;
+  doi: string | null;
+  url: string | null;
+  /** The full text as a PDF, when there is a public link to it; null for a private paper. */
+  paperUrl?: string | null;
+  researchArea: string | null;
+  type: PaperType;
+  stage: PublicationStage;
+  /** The start of the abstract, or null when the paper has none. */
+  excerpt: string | null;
+}
+
+export interface PaperPage {
+  items: PaperSummary[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface FacetValue {
+  value: string;
+  count: number;
+}
+
+export interface PaperFacets {
+  areas: FacetValue[];
+  types: FacetValue[];
+}
+
+/** The record of one paper; mirrors GET /api/paper-library/:id/paper. */
+export interface Paper {
+  /** The public id: a slug for a catalog paper, a UUIDv7 for a private one. */
+  id: string;
+  title: string;
+  /** The title the authors published, when `title` is our translation of it. */
+  originalTitle?: string | null;
+  abstract: string | null;
+  /** True when `abstract` is our translation of the authors' English one (a catalog paper read in Portuguese). */
+  abstractTranslated?: boolean;
+  doi: string | null;
+  venue: string | null;
+  publicationDate: string | null;
+  url: string | null;
+  researchArea: string | null;
+  type: PaperType;
+  stage: PublicationStage;
+  authors: { name: string; orcid: string | null }[];
+  keywords: string[];
+}
+
+/** One `##` section of the Research Analysis; `content` is markdown. */
+export interface PaperSection {
+  title: string;
+  content: string;
+}
+
+/**
+ * A catalog paper with our Research Analysis; mirrors GET /api/papers/:slug. The analysis is the markdown of the
+ * paper's file, in the reader's language (English when it has no translation).
+ */
+export interface PublicPaper extends Paper {
+  /** The full text as a PDF, when there is a public link to it. */
+  paperUrl: string | null;
+  language: Language;
+  availableLanguages: Language[];
+  summary: string;
+  version: string;
+  /** The day the analysis was last revised, `YYYY-MM-DD`. */
+  updatedAt: string;
+  sections: PaperSection[];
+}
+
+/** The catalog filters as they live in the URL: a missing key means "not filtered". */
+export interface PaperQuery {
+  q?: string;
+  author?: string;
+  keyword?: string;
+  area?: string;
+  type?: PaperType;
+  stage?: PublicationStage;
+  sort?: PaperSort;
+  page?: number;
+}
+
+export type AttachmentState = 'pending' | 'approved' | 'rejected' | 'superseded';
+
+export interface AttachmentVersion {
+  version: number;
+  state: AttachmentState;
+  filename: string;
+  size: number;
+  sha256: string;
+  /** Stable code of why a refused version was refused; map it with `attachmentErrorMessage`. */
+  rejectCode: string | null;
+  rejectReason: string | null;
+  uploadedAt: string;
+  scannedAt: string | null;
+}
+
+/** The signed-in reader's own PDF for a paper; mirrors GET /api/papers/:id/attachment. Newest version first. */
+export interface PaperAttachment {
+  id: number;
+  visibility: 'private';
+  /** The version being served, or null when none was approved. */
+  current: number | null;
+  versions: AttachmentVersion[];
+}
+
+export const LIBRARY_STATUSES = ['to-read', 'reading', 'read'] as const;
+export type LibraryStatus = (typeof LIBRARY_STATUSES)[number];
+
+export type LibrarySort = 'added' | 'title' | 'completed' | 'rating';
+
+/** One of the reader's own collections as a paper names it. */
+export interface CollectionRef {
+  id: string;
+  name: string;
+}
+
+/** A collection of the reader's library papers (#188); mirrors GET /api/paper-library/collections. */
+export interface Collection extends CollectionRef {
+  /** How many papers it holds. */
+  count: number;
+  createdAt: string;
+}
+
+/** What the signed-in reader keeps about a paper; mirrors GET /api/paper-library/:paperId. */
+export interface LibraryEntry {
+  /** The paper's public id. */
+  paperId: string;
+  /** True for a paper only this reader has (#203): it has no public page. */
+  private: boolean;
+  status: LibraryStatus;
+  /** 1 to 5, or null when not rated. */
+  rating: number | null;
+  tags: string[];
+  addedAt: string;
+  /** The day it was finished, `YYYY-MM-DD`; only a paper with status `read` has one. */
+  completedAt: string | null;
+  /** The collections this paper sits in, by name. */
+  collections: CollectionRef[];
+}
+
+export interface LibraryItem extends PaperSummary {
+  library: LibraryEntry;
+}
+
+export interface LibraryPage {
+  items: LibraryItem[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface LibraryFacets {
+  total: number;
+  statuses: { value: LibraryStatus; count: number }[];
+  tags: FacetValue[];
+}
+
+/** What dropping a PDF came to; mirrors POST /api/paper-library/private. */
+export interface PrivatePaperResult {
+  /** The public id of the paper that holds the PDF now. */
+  paperId: string;
+  private: boolean;
+  /** True when the DOI was already in the catalog and that paper was added instead of a copy. */
+  matched: boolean;
+  created: boolean;
+  library: LibraryEntry;
+  attachment: PaperAttachment;
+}
+
+/** The library filters as they live in the URL: a missing key means "not filtered". */
+export interface LibraryQuery {
+  q?: string;
+  status?: LibraryStatus;
+  tag?: string;
+  /** The id of one of the reader's collections. */
+  collection?: string;
+  sort?: LibrarySort;
+  page?: number;
+}
+
+/** A change to one entry. A missing key is left alone; `null` clears the rating or the finishing day. */
+export interface LibraryChange {
+  status?: LibraryStatus;
+  rating?: number | null;
+  tags?: string[];
+  completedAt?: string | null;
+}
+
+/** A paper as it is sent to be created by hand; mirrors the body of POST /api/papers. Only the title is required. */
+export interface PaperInput {
+  title: string;
+  abstract?: string;
+  doi?: string;
+  venue?: string;
+  publicationDate?: string;
+  url?: string;
+  researchArea?: string;
+  type?: PaperType;
+  authors?: { name: string; orcid?: string }[];
+  keywords?: string[];
+}
+
+/** The paper a DOI already is for the reader; mirrors POST /api/paper-library/import/preview. */
+export interface ImportMatch {
+  paperId: string;
+  title: string;
+  /** True for one of the reader's own papers; false for a catalog paper, which is used as it is. */
+  private: boolean;
+  inLibrary: boolean;
+}
+
+/** What looking a DOI up found, and what adding it would do. */
+export interface ImportPreview {
+  doi: string;
+  source: { name: 'crossref'; retrievedAt: string };
+  candidate: PaperInput;
+  /** What adding would reuse; null when it would create a new private paper. */
+  match: ImportMatch | null;
+}
+
+/** The answer of POST /api/paper-library/import and /manual: the paper now in the library. */
+export type AddPaperResult = Omit<PrivatePaperResult, 'attachment'>;
+
+export const ANNOTATION_KINDS = ['note', 'highlight', 'comment', 'question', 'bookmark'] as const;
+export type AnnotationKind = (typeof ANNOTATION_KINDS)[number];
+
+/** Where an annotation sits on its page, as fractions (0 to 1) of the page from its top left corner. */
+export interface AnnotationRect {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+/** A note, or something the reader marked on their own PDF; mirrors GET /api/paper-library/:paperId/annotations. */
+export interface Annotation {
+  id: string;
+  kind: AnnotationKind;
+  /** What the reader typed, markdown as typed: show it through `renderNoteMarkdown`, never as HTML. */
+  body: string | null;
+  page: number | null;
+  quote: string | null;
+  prefix: string | null;
+  suffix: string | null;
+  rects: AnnotationRect[] | null;
+  pdfVersion: number | null;
+  /** True when the PDF now served is not the file it was made on: kept for review, never drawn on the new one. */
+  stale: boolean;
+  /** What the reader chose to publish of it, or null while it is private (the default). */
+  share: AnnotationShare | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/** Who a shared annotation is for: `public` is anyone who opens the paper, `users` the readers named, `group` the reading groups chosen. */
+export type ShareVisibility = 'public' | 'users' | 'group';
+
+/** The audience and the age of the copy a reader published; mirrors the `share` of an annotation. */
+export interface AnnotationShare {
+  visibility: ShareVisibility;
+  /** The readers a `users` share is for, by the id of their public profile. */
+  recipients: { id: string; name: string }[];
+  /** The reading groups a `group` share is for. */
+  groups: { id: string; name: string }[];
+  sharedAt: string;
+  /** When the copy was last made from the annotation: editing the annotation does not change it. */
+  updatedAt: string;
+}
+
+/** What the audience is sent as; mirrors PUT /api/paper-library/:paperId/annotations/:id/share. */
+export interface ShareInput {
+  visibility: ShareVisibility;
+  /** Public profile names (the part after `/u/`), or ids, for a `users` share. */
+  recipients?: string[];
+  /** The ids of the reading groups (up to 5) for a `group` share; the reader must be in all of them. */
+  groups?: string[];
+}
+
+/** A copy shared on a public paper, as the viewer may see it; mirrors GET /api/papers/:slug/shared-annotations. */
+export interface SharedAnnotation {
+  id: string;
+  kind: AnnotationKind;
+  body: string | null;
+  page: number | null;
+  /** The passage, cut to a few lines by the server. */
+  quote: string | null;
+  visibility: ShareVisibility;
+  /** True for the viewer's own. */
+  mine: boolean;
+  author: { name: string; avatarUrl: string; /** The key of `/u/<key>`, or null when the author's profile is not public. */ profile: string | null };
+  sharedAt: string;
+}
+
+export interface AnnotationList {
+  /** The PDF version being served, or null when the paper has no PDF. */
+  version: number | null;
+  items: Annotation[];
+}
+
+/** An annotation as it is sent to be created; the server fills in the rest. */
+export interface AnnotationInput {
+  kind: AnnotationKind;
+  body?: string;
+  version?: number;
+  page?: number;
+  quote?: string;
+  prefix?: string;
+  suffix?: string;
+  rects?: AnnotationRect[];
+}
+
+// ---- Reading groups (#190)
+
+export type GroupRole = 'owner' | 'moderator' | 'member';
+
+/** A reading group as its member sees it; mirrors GET /api/paper-groups. */
+export interface PaperGroup {
+  id: string;
+  name: string;
+  description: string | null;
+  /** The role of the reader who asked. */
+  role: GroupRole;
+  memberCount: number;
+  paperCount: number;
+  createdAt: string;
+}
+
+/** A person by what their public profile publishes. `id` is the id of that profile. */
+export interface GroupPerson {
+  id: string;
+  name: string;
+  avatarUrl: string;
+  /** The key of `/u/<profile>`, or null when the person's profile is not public. */
+  profile: string | null;
+}
+
+export interface GroupMember extends GroupPerson {
+  role: GroupRole;
+  joinedAt: string;
+  you: boolean;
+}
+
+/** Either the reader's own invitation (`group`, `invitedBy`) or one a manager sees in the group (`invitee`). */
+export interface GroupInvitation {
+  id: string;
+  createdAt: string;
+  group?: { id: string; name: string; description: string | null };
+  invitedBy?: GroupPerson | null;
+  invitee?: GroupPerson;
+}
+
+/** A public paper on a group's list. */
+export interface GroupPaper extends PaperSummary {
+  addedAt: string;
+  addedBy: string | null;
+  /** How many annotations members shared into the group for it. */
+  sharedCount: number;
+}
+
+export interface GroupPost {
+  id: string;
+  body: string;
+  /** The slug of the group paper the post is about, if any. */
+  paper: string | null;
+  author: GroupPerson;
+  createdAt: string;
+  mine: boolean;
+  canRemove: boolean;
+}
+
+/** An annotation a member shared into the group; `id` is the id of the share. */
+export interface GroupAnnotation {
+  id: string;
+  paper: string;
+  kind: AnnotationKind;
+  body: string | null;
+  page: number | null;
+  quote: string | null;
+  author: GroupPerson;
+  sharedAt: string;
+  mine: boolean;
+  canRemove: boolean;
+}

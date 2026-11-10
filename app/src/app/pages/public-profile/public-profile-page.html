@@ -27,14 +27,15 @@
         [xp]="current.profile.xp"
         [badgeCount]="current.profile.badges.length"
         [trophyCount]="current.profile.trophies.length"
-      />
+      >
+        <nav tabs class="tabs" i18n-aria-label="@@profile.tabs.aria" aria-label="Profile sections">
+          <a class="tab" [routerLink]="['/u', key]" routerLinkActive="tab-active" [routerLinkActiveOptions]="{ exact: true }" data-testid="tab-overview" i18n="@@profile.tab.overview">Overview</a>
+          <a class="tab" [routerLink]="['/u', key, 'books']" routerLinkActive="tab-active" #booksTab="routerLinkActive" data-testid="tab-books" i18n="@@publicProfile.tab.books">Library</a>
+        </nav>
+      </app-profile-banner>
 
-      <div class="page-body">
-        <app-awards-sections [trophies]="current.profile.trophies" [badges]="current.profile.badges" />
-
-        @if (current.profile.badges.length === 0 && current.profile.trophies.length === 0) {
-          <p class="state" i18n="@@publicProfile.empty">No badges or trophies yet.</p>
-        }
+      <div class="page-body" [class.page-body-wide]="booksTab.isActive">
+        <router-outlet />
       </div>
     }
   }

@@ -1,0 +1,53 @@
+@if (items().length) {
+  <section id="shared-annotations" class="block" aria-labelledby="shared-heading">
+    <h2 id="shared-heading" class="block-title" i18n="@@papers.shared.title">Shared by readers</h2>
+    <p class="muted" i18n="@@papers.shared.note">Annotations that readers chose to share. They are the readers' own words, not the authors' and not Kurz's.</p>
+
+    <ul class="list" aria-label="Shared annotations" i18n-aria-label="@@papers.shared.list">
+      @for (a of items(); track a.id) {
+        <li class="item" [attr.data-kind]="a.kind" [attr.data-annotation]="a.id" [attr.data-visibility]="a.visibility">
+          <header class="head">
+            <span class="avatar" aria-hidden="true">
+              @if (a.author.avatarUrl) {
+                <img [src]="a.author.avatarUrl" alt="" width="28" height="28" loading="lazy" referrerpolicy="no-referrer" />
+              }
+            </span>
+            @if (a.author.profile; as profile) {
+              <a class="author" [routerLink]="['/u', profile]">{{ a.author.name }}</a>
+            } @else {
+              <span class="author">{{ a.author.name }}</span>
+            }
+            @if (a.mine) {
+              <span class="badge" i18n="@@papers.shared.mine">You</span>
+            }
+            @if (a.visibility === 'users') {
+              <span class="badge" i18n="@@papers.shared.chosen">Shared with chosen readers</span>
+            }
+          </header>
+          <p class="meta">
+            <span>{{ kindLabel(a.kind) }}</span>
+            @if (a.page) {
+              <span>{{ pageLabel(a.page) }}</span>
+            }
+            <time [attr.datetime]="a.sharedAt">{{ when(a.sharedAt) }}</time>
+          </p>
+          @if (a.quote) {
+            <blockquote class="quote">{{ a.quote }}</blockquote>
+          }
+          @if (a.body) {
+            <app-annotation-text [text]="a.body" />
+          }
+          @if (a.mine) {
+            <p class="manage">
+              @if (a.kind === 'note') {
+                <a [routerLink]="['/library', slug()]" fragment="notes" i18n="@@papers.shared.manageNote">Manage it in your notes</a>
+              } @else {
+                <a [routerLink]="['/library', slug(), 'read']" i18n="@@papers.shared.manageReader">Manage it in the reader</a>
+              }
+            </p>
+          }
+        </li>
+      }
+    </ul>
+  </section>
+}

@@ -7,6 +7,7 @@ import { TestingConceptView } from '../../components/testing-concept-view/testin
 import { TESTING_CONCEPT_TOPIC_ORDER, TestingConcept, TestingConceptSummary } from '../../models/testing-concept.model';
 import { TestingConceptsService } from '../../services/testing-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 import { orderByTopic } from '../../shared/concept-topics';
@@ -81,6 +82,7 @@ export class TestingConceptsDetailPage implements OnInit {
           title: `${concept.title} — Testing Concepts`,
           description: concept.summary,
           path: `/java/testing/${concept.slug}`,
+          alternates: localizedAlternates(`/java/testing/${concept.slug}`, concept.availableLanguages),
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,

@@ -82,6 +82,12 @@ export const MANIFEST: TrackManifest[] = [
     source: { kind: 'curriculum', module: 'ai-theory', discipline: 'artificial-intelligence' },
   },
   {
+    trackId: '01a1a693-4bb9-7c14-97ca-abdcd4ede4ba',
+    title: 'Data Mining',
+    status: 'active',
+    source: { kind: 'curriculum', module: 'ai-theory', discipline: 'data-mining' },
+  },
+  {
     trackId: '01a144df-4132-7791-bff0-4c07f871ae94',
     title: 'Deep Learning',
     status: 'active',
@@ -136,6 +142,12 @@ export const MANIFEST: TrackManifest[] = [
     source: { kind: 'curriculum', module: 'algorithms-software', discipline: 'linear-programming-optimization' },
   },
   {
+    trackId: '01a1a596-fb50-74ad-bc64-14870e4b5073',
+    title: 'Numerical Methods',
+    status: 'active',
+    source: { kind: 'curriculum', module: 'algorithms-software', discipline: 'numerical-methods' },
+  },
+  {
     trackId: '01a144df-4132-77a5-a07c-ace72925e7f1',
     title: 'Programming Paradigms',
     status: 'active',
@@ -176,6 +188,12 @@ export const MANIFEST: TrackManifest[] = [
     title: 'Systems Laboratory',
     status: 'active',
     source: { kind: 'curriculum', module: 'computer', discipline: 'systems-laboratory' },
+  },
+  {
+    trackId: '01a1a558-85ba-7e6c-8cfc-fc65bade7bea',
+    title: 'Calculus',
+    status: 'active',
+    source: { kind: 'curriculum', module: 'foundations', discipline: 'calculus' },
   },
   {
     trackId: '01a144df-4132-77b8-b561-7a9065452bb1',
@@ -242,6 +260,12 @@ export const MANIFEST: TrackManifest[] = [
     title: 'Distributed Systems II',
     status: 'active',
     source: { kind: 'curriculum', module: 'software-distributed', discipline: 'distributed-systems-ii' },
+  },
+  {
+    trackId: '01a1a493-3d28-7b0b-8ba8-dfab485677e2',
+    title: 'Distributed Systems III',
+    status: 'active',
+    source: { kind: 'curriculum', module: 'software-distributed', discipline: 'distributed-systems-iii' },
   },
   {
     trackId: '01a144df-4132-77d0-a27f-f1714cc81e59',

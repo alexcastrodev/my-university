@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
+import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { CourseNestModule } from './course/course.module';
 import { Exam } from './exam/exam.entity';
 import { ExamAttempt } from './exam/exam-attempt.entity';
@@ -28,6 +29,21 @@ import { JavaMinuteModule } from './java-minute/java-minute.module';
 import { CSharpMinuteModule } from './csharp-minute/csharp-minute.module';
 import { JvmConceptsModule } from './jvm-concepts/jvm-concepts.module';
 import { OgImageModule } from './og-image/og-image.module';
+import { PaperAttachment } from './paper-attachments/paper-attachment.entity';
+import { PaperAttachmentVersion } from './paper-attachments/paper-attachment-version.entity';
+import { PaperAnnotation } from './paper-annotations/paper-annotation.entity';
+import { PaperAnnotationShare, PaperAnnotationShareRecipient } from './paper-annotations/paper-annotation-share.entity';
+import { PaperAnnotationsModule } from './paper-annotations/paper-annotations.module';
+import { PaperGroupsModule } from './paper-groups/paper-groups.module';
+import { PaperAttachmentsModule } from './paper-attachments/paper-attachments.module';
+import { StorageDeletion } from './paper-attachments/storage-deletion.entity';
+import { Paper } from './papers/paper.entity';
+import { PaperAuthor } from './papers/paper-author.entity';
+import { PaperKeyword } from './papers/paper-keyword.entity';
+import { PaperLibraryEntry } from './papers/paper-library.entity';
+import { PaperSource } from './papers/paper-source.entity';
+import { PapersModule } from './papers/papers.module';
+import { PrivatePapersModule } from './private-papers/private-papers.module';
 import { Progress } from './progress/progress.entity';
 import { ProgressModule } from './progress/progress.module';
 import { QuarkusConceptsModule } from './quarkus-concepts/quarkus-concepts.module';
@@ -70,6 +86,17 @@ import { XpModule } from './xp/xp.module';
         DiscussionComment,
         DiscussionVote,
         Notification,
+        Paper,
+        PaperAuthor,
+        PaperKeyword,
+        PaperLibraryEntry,
+        PaperSource,
+        PaperAttachment,
+        PaperAttachmentVersion,
+        PaperAnnotation,
+        PaperAnnotationShare,
+        PaperAnnotationShareRecipient,
+        StorageDeletion,
       ],
       migrations: [join(__dirname, 'migrations', '*.js')],
       // Run explicitly in main.ts under a cross-replica advisory lock instead.
@@ -100,7 +127,13 @@ import { XpModule } from './xp/xp.module';
     ExamModule,
     XpModule,
     ConceptLookupModule,
+    BookmarksModule,
     DiscussionModule,
+    PapersModule,
+    PaperAttachmentsModule,
+    PaperAnnotationsModule,
+    PaperGroupsModule,
+    PrivatePapersModule,
     SeedModule,
     SearchModule,
     SitemapModule,

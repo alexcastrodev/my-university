@@ -1,0 +1,36 @@
+@switch (state()) {
+  @case ('closed') {
+    <p class="note" i18n="@@papers.fullText.note">The PDF of this paper is open to the public. Read it here, without leaving the page.</p>
+    <div class="actions">
+      <button type="button" class="action" (click)="open()" i18n="@@papers.fullText.open">Read the paper here</button>
+    </div>
+  }
+  @case ('loading') {
+    <div class="state" role="status">
+      <span class="spinner" aria-hidden="true"></span>
+      <ng-container i18n="@@papers.fullText.loading">Loading the paper…</ng-container>
+    </div>
+  }
+  @case ('ready') {
+    <div class="actions">
+      <button type="button" class="action action-quiet" (click)="close()" i18n="@@papers.fullText.close">Hide the full text</button>
+    </div>
+    <div #pages class="pages">
+      @for (n of pageNumbers(); track n) {
+        <p class="page-label" aria-hidden="true">{{ pageLabel(n) }}</p>
+        <div class="page" role="region" [attr.data-page]="n" [attr.aria-label]="pageLabel(n)" [style.width.px]="box(n).w" [style.height.px]="box(n).h">
+          <canvas width="0" height="0"></canvas>
+          <div class="textLayer"></div>
+        </div>
+      }
+    </div>
+  }
+  @default {
+    <div class="state state-error" role="alert">
+      <p i18n="@@papers.fullText.error">Preview not available.</p>
+    </div>
+    <div class="actions">
+      <button type="button" class="action" (click)="open()" i18n="@@papers.retry">Try again</button>
+    </div>
+  }
+}

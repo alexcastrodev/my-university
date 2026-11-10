@@ -1,0 +1,102 @@
+<div class="page">
+  <div class="page-body">
+    <header class="list-head">
+      <div>
+        <h1 class="page-title" i18n="@@groups.page.title">Reading groups</h1>
+        <p class="page-sub" i18n="@@groups.page.subtitle">Study public papers with a few other readers. A group never sees your library, your notes or your PDFs.</p>
+      </div>
+      <div class="head-actions">
+        <a class="head-action" routerLink="/library" i18n="@@groups.page.library">My library</a>
+        <a class="head-action" routerLink="/papers" i18n="@@papers.library.page.browse">Browse all papers</a>
+      </div>
+    </header>
+
+    @switch (state()) {
+      @case ('loading') {
+        <div class="state" role="status"><span class="spinner"></span></div>
+      }
+      @case ('signedOut') {
+        <div class="state">
+          <p i18n="@@groups.page.signedOut">Sign in to see your reading groups.</p>
+          <a class="search-button" routerLink="/login" i18n="@@papers.library.page.signIn">Sign in</a>
+        </div>
+      }
+      @case ('failed') {
+        <div class="state state-error">
+          <p i18n="@@groups.page.failed">Your groups could not be loaded.</p>
+          <button type="button" class="search-button" (click)="retry()" i18n="@@papers.retry">Try again</button>
+        </div>
+      }
+      @default {
+        @if (problem(); as text) {
+          <p class="problem" role="alert">{{ text }}</p>
+        }
+
+        @if (invitations().length) {
+          <section class="block" aria-labelledby="invitations-heading">
+            <h2 id="invitations-heading" class="block-title" i18n="@@groups.invitations.title">Invitations</h2>
+            <ul class="list">
+              @for (invitation of invitations(); track invitation.id) {
+                <li class="item" [attr.data-invitation]="invitation.id">
+                  <span class="item-title">{{ invitation.group?.name }}</span>
+                  @if (invitation.group?.description; as text) {
+                    <p class="desc">{{ text }}</p>
+                  }
+                  @if (invitation.invitedBy; as person) {
+                    <p class="meta"><span><ng-container i18n="@@groups.invitations.from">Invited by</ng-container> {{ person.name }}</span></p>
+                  }
+                  <div class="buttons">
+                    <button type="button" class="btn btn-primary" [disabled]="busy()" (click)="accept(invitation)" i18n="@@groups.invitations.accept">Accept</button>
+                    <button type="button" class="btn" [disabled]="busy()" (click)="decline(invitation)" i18n="@@groups.invitations.decline">Decline</button>
+                  </div>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+
+        <section class="block" aria-labelledby="groups-heading">
+          <h2 id="groups-heading" class="block-title" i18n="@@groups.list.title">Your groups</h2>
+          @if (groups().length) {
+            <ul class="list">
+              @for (group of groups(); track group.id) {
+                <li class="item" [attr.data-group]="group.id">
+                  <div class="head">
+                    <a class="item-title" [routerLink]="['/groups', group.id]">{{ group.name }}</a>
+                    <span class="badge">{{ roleLabel(group.role) }}</span>
+                  </div>
+                  @if (group.description; as text) {
+                    <p class="desc">{{ text }}</p>
+                  }
+                  <p class="meta">
+                    <span>{{ readersLabel(group.memberCount) }}</span>
+                    <span>{{ papersLabel(group.paperCount) }}</span>
+                  </p>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="empty" i18n="@@groups.list.empty">You are not in any group yet. Start one below, or accept an invitation.</p>
+          }
+        </section>
+
+        <section class="block" aria-labelledby="create-heading">
+          <h2 id="create-heading" class="block-title" i18n="@@groups.create.title">Start a group</h2>
+          <form class="form" (submit)="create($event)">
+            <label class="label">
+              <span i18n="@@groups.create.name">Name</span>
+              <input type="text" class="field" maxlength="80" autocomplete="off" [value]="name()" (input)="name.set($any($event.target).value)" />
+            </label>
+            <label class="label">
+              <span i18n="@@groups.create.description">What the group studies (optional)</span>
+              <textarea class="field" rows="2" maxlength="500" [value]="description()" (input)="description.set($any($event.target).value)"></textarea>
+            </label>
+            <div class="buttons">
+              <button type="submit" class="btn btn-primary" [disabled]="busy() || !name().trim()" i18n="@@groups.create.submit">Create group</button>
+            </div>
+          </form>
+        </section>
+      }
+    }
+  </div>
+</div>

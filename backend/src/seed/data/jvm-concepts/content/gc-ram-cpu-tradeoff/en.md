@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-04
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
@@ -88,8 +88,8 @@ One concrete pattern makes the formula tangible: add threads or cores to a workl
     malloc/free or refcounting     footprint ≈ 200 MB      CPU: pays malloc+free per object, fixed
     generational moving GC         footprint ≈ 200 MB + H  CPU: falls as H grows — a knob, not a fact
   ```
-  Whether that trade is usually the economically correct one to make given real hardware pricing is a separate question — see [Sizing the JVM Heap: RAM/CPU Economics in Practice](/jvm-concepts/heap-sizing-economics).
-- **Passing a raw object pointer across the FFI boundary is harder with a moving collector**, since a GC cycle can relocate the object mid-call — one real reason low-level and embedded languages have historically leaned on manual memory management even though it costs more CPU. It's also why the [Foreign Function and Memory API](/java-concepts/foreign-function-and-memory-api) has to pin or copy memory it hands to native code instead of passing a bare Java reference across.
+  Whether that trade is usually the economically correct one to make given real hardware pricing is a separate question — see [Sizing the JVM Heap: RAM/CPU Economics in Practice](/java/jvm-concepts/heap-sizing-economics).
+- **Passing a raw object pointer across the FFI boundary is harder with a moving collector**, since a GC cycle can relocate the object mid-call — one real reason low-level and embedded languages have historically leaned on manual memory management even though it costs more CPU. It's also why the [Foreign Function and Memory API](/java/java-concepts/foreign-function-and-memory-api) has to pin or copy memory it hands to native code instead of passing a bare Java reference across.
 - **A production-grade moving/generational collector is a decade-scale engineering investment**, which is why only the best-resourced runtimes ship one (the JDK, .NET's CLR, V8). A smaller-team language without one has a real but smaller lever available instead: allocate more aggressively on the stack to lower the allocation rate in the first place — which is what Go does. That only shrinks the formula's numerator, though; it doesn't change the underlying cost shape the way a moving collector's headroom denominator does.
 - **Java's upcoming value classes (Project Valhalla) are commonly assumed to be a stack-allocation optimization for reducing GC pressure — they're not.** Their primary motivation is heap *layout*: flattening an object's fields into its container instead of storing a pointer to a separately-allocated instance, which removes a pointer indirection and a per-object header regardless of where the object ends up living.
 - **This whole calculus assumes the stack stays a small slice of memory next to the heap** — true for a normal thread count, but virtual threads can exist by the hundreds of thousands, each with its own stack. Whether that shifts the RAM/CPU trade-off meaningfully is outside this concept's scope, but it's worth not assuming stack memory is always negligible.

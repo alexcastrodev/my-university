@@ -27,30 +27,44 @@ export class SeedService implements OnApplicationBootstrap {
     await this.seedQuestions();
   }
 
+  /**
+   * Brings the courses in line with the course files on every boot, not only on the first one: a
+   * lesson added to a file later (or a new title, order or content path) would otherwise never reach
+   * a database that already has the course. Rows are matched by lesson id and by module order and
+   * never deleted, so a reader's progress on a lesson stays valid.
+   * ponytail: a lesson removed from the files stays in the database; delete it by hand or in a migration.
+   */
   private async seedCourses() {
     for (const courseData of ALL_COURSES) {
-      const exists = await this.courseRepo.findOne({ where: { id: courseData.id } });
-      if (exists) continue;
+      const known = await this.courseRepo.findOne({ where: { id: courseData.id } });
+      if (!known) this.log.log(`Seeding course: ${courseData.title}`);
 
-      this.log.log(`Seeding course: ${courseData.title}`);
-      const course = this.courseRepo.create({
-        id: courseData.id,
-        title: courseData.title,
-        tag: courseData.tag,
-        audience: courseData.audience,
-        moduleCount: courseData.moduleCount,
-        duration: courseData.duration,
-        description: courseData.description,
-        benefits: courseData.benefits,
-      });
-      await this.courseRepo.save(course);
-
-      const moduleEntities = courseData.modules.map((mod: any) =>
-        this.moduleRepo.create({ order: mod.id, title: mod.title, course }),
+      const course = await this.courseRepo.save(
+        this.courseRepo.create({
+          id: courseData.id,
+          title: courseData.title,
+          tag: courseData.tag,
+          audience: courseData.audience,
+          moduleCount: courseData.moduleCount,
+          duration: courseData.duration,
+          description: courseData.description,
+          benefits: courseData.benefits,
+        }),
       );
-      const savedModules = await this.moduleRepo.save(moduleEntities);
 
-      const lessonEntities = courseData.modules.flatMap((mod: any, moduleIndex: number) =>
+      const knownModules = known?.modules ?? [];
+      const modules = await this.moduleRepo.save(
+        courseData.modules.map((mod: any) =>
+          this.moduleRepo.create({
+            id: knownModules.find((m) => m.order === mod.id)?.id,
+            order: mod.id,
+            title: mod.title,
+            course,
+          }),
+        ),
+      );
+
+      const lessons = courseData.modules.flatMap((mod: any, moduleIndex: number) =>
         mod.lessons.map((lesson: any, i: number) => {
           const lessonEntity = new Lesson();
           lessonEntity.id = lesson.id;
@@ -61,13 +75,13 @@ export class SeedService implements OnApplicationBootstrap {
           lessonEntity.contentPath = lesson.contentPath ?? null;
           lessonEntity.topic = (lesson as any).topic ?? null;
           lessonEntity.order = i;
-          lessonEntity.module = savedModules[moduleIndex];
+          lessonEntity.module = modules[moduleIndex];
           return lessonEntity;
         }),
       );
-      await this.lessonRepo.save(lessonEntities);
+      await this.lessonRepo.save(lessons);
 
-      this.log.log(`Course seeded: ${courseData.id}`);
+      if (!known) this.log.log(`Course seeded: ${courseData.id}`);
     }
   }
 

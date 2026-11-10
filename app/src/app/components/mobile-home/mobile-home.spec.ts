@@ -75,9 +75,14 @@ describe('MobileHome', () => {
 
   it('links the tracks page', () => {
     const { fixture } = setup();
-    const shortcut: HTMLElement = fixture.nativeElement.querySelector('.shortcut');
-    expect(shortcut.getAttribute('href')).toBe('/tracks');
+    const shortcut: HTMLElement = fixture.nativeElement.querySelector('.shortcut[href="/tracks"]');
     expect(shortcut.textContent).toContain('Tracks');
+  });
+
+  it('links the bookmarks page, which has no sidebar to carry it on a phone', () => {
+    const { fixture } = setup();
+    const shortcut: HTMLElement = fixture.nativeElement.querySelector('.shortcut[href="/bookmarks"]');
+    expect(shortcut.textContent).toContain('Bookmarks');
   });
 
   it('lists areas by recency, with depth from how much was read there', () => {

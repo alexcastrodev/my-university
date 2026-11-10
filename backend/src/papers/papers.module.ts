@@ -1,0 +1,52 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PaperAuditModule } from '../paper-audit/paper-audit.module';
+import { Paper } from './paper.entity';
+import { PaperAuthor } from './paper-author.entity';
+import { PaperKeyword } from './paper-keyword.entity';
+import { PaperLibraryController } from './paper-library.controller';
+import { PaperCollectionsController } from './paper-collections.controller';
+import { PaperCollectionsService } from './paper-collections.service';
+import { PaperLibraryEntry } from './paper-library.entity';
+import { PaperLibraryService } from './paper-library.service';
+import { PaperSource } from './paper-source.entity';
+import { CrossrefClient } from './crossref.client';
+import { PaperImportController } from './paper-import.controller';
+import { PaperImportService } from './paper-import.service';
+import { PaperIds } from './paper-public-id';
+import { MeilisearchClient } from '../search/meilisearch.client';
+import { PapersCatalogService } from './papers-catalog.service';
+import { PapersFullText } from './papers-full-text.service';
+import { PapersSearch } from './papers-search';
+import { PapersController } from './papers.controller';
+import { PapersService } from './papers.service';
+
+// The public papers are authored files read through PapersCatalogService (#213): no route writes to them.
+// Adding a paper needs a session and puts it in the reader's own library, never in the public list (#212).
+@Module({
+  imports: [
+    PaperAuditModule,
+    TypeOrmModule.forFeature([
+      Paper,
+      PaperAuthor,
+      PaperKeyword,
+      PaperLibraryEntry,
+      PaperSource,
+    ]),
+  ],
+  controllers: [PapersController, PaperImportController, PaperLibraryController, PaperCollectionsController],
+  providers: [
+    PapersService,
+    PapersCatalogService,
+    PapersFullText,
+    PapersSearch,
+    MeilisearchClient,
+    PaperImportService,
+    CrossrefClient,
+    PaperLibraryService,
+    PaperCollectionsService,
+    PaperIds,
+  ],
+  exports: [PapersService, PapersCatalogService, PaperIds, PaperLibraryService],
+})
+export class PapersModule {}

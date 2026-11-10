@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AlgorithmsConceptsModule } from '../algorithms-concepts/algorithms-concepts.module';
+import { CourseNestModule } from '../course/course.module';
 import { CurriculumModule } from '../curriculum/curriculum.module';
 import { DatabaseConceptsModule } from '../database-concepts/database-concepts.module';
 import { ExamModule } from '../exam/exam.module';
@@ -7,6 +8,7 @@ import { JavaConceptsModule } from '../java-concepts/java-concepts.module';
 import { JavaMinuteModule } from '../java-minute/java-minute.module';
 import { CSharpMinuteModule } from '../csharp-minute/csharp-minute.module';
 import { JvmConceptsModule } from '../jvm-concepts/jvm-concepts.module';
+import { PapersModule } from '../papers/papers.module';
 import { QuarkusConceptsModule } from '../quarkus-concepts/quarkus-concepts.module';
 import { KubernetesConceptsModule } from '../kubernetes-concepts/kubernetes-concepts.module';
 import { RubyConceptsModule } from '../ruby-concepts/ruby-concepts.module';
@@ -33,6 +35,7 @@ import { SitemapService } from './sitemap.service';
     JavaMinuteModule,
     CSharpMinuteModule,
     ExamModule,
+    CourseNestModule,
     RubyConceptsModule,
     RubyOnRailsConceptsModule,
     DotNetConceptsModule,
@@ -41,6 +44,7 @@ import { SitemapService } from './sitemap.service';
     DotNetAiConceptsModule,
     QuarkusConceptsModule,
     KubernetesConceptsModule,
+    PapersModule,
     CurriculumModule,
   ],
   controllers: [SitemapController],

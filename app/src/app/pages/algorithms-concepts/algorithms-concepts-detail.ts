@@ -7,6 +7,7 @@ import { ConceptDetailLayout } from '../../components/concept-detail-layout/conc
 import { ALGORITHMS_CONCEPT_TOPIC_ORDER, AlgorithmsConcept, AlgorithmsConceptSummary } from '../../models/algorithms-concept.model';
 import { AlgorithmsConceptsService } from '../../services/algorithms-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 import { orderByTopic } from '../../shared/concept-topics';
@@ -81,6 +82,7 @@ export class AlgorithmsConceptsDetailPage implements OnInit {
           title: `${concept.title} — Algorithms`,
           description: concept.summary,
           path: `/algorithms/algorithms-concepts/${concept.slug}`,
+          alternates: localizedAlternates(`/algorithms/algorithms-concepts/${concept.slug}`, concept.availableLanguages),
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,

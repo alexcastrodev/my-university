@@ -151,7 +151,8 @@
     "requires": ["proving-np-completeness-via-reduction"],
     "related": [
       { "label": "Minimum Spanning Trees: Problem Framing", "slug": "minimum-spanning-trees-problem", "feature": "curriculum/algorithms-software/algorithms" },
-      { "label": "Kruskal's Algorithm", "slug": "kruskals-algorithm", "feature": "curriculum/algorithms-software/algorithms" }
+      { "label": "Kruskal's Algorithm", "slug": "kruskals-algorithm", "feature": "curriculum/algorithms-software/algorithms" },
+      { "label": "Hamiltonian Paths and Why They Are Hard", "slug": "hamiltonian-paths-and-why-they-are-hard", "feature": "curriculum/foundations/discrete-math-logic" }
     ],
     "summary": "A full polynomial-time reduction from Hamiltonian Cycle proves TSP's decision version is NP-complete, a sharp contrast with Minimum Spanning Trees, which looks superficially similar but is solved exactly in polynomial time by Kruskal's and Prim's algorithms.",
     "publishedAt": "2026-09-13",

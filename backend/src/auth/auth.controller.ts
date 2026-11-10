@@ -9,6 +9,7 @@ import {
   Query,
   Req,
   Res,
+  UnauthorizedException,
 } from '@nestjs/common';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { AuthService } from './auth.service';
@@ -18,6 +19,7 @@ import {
   clearOauthState,
   clearSession,
   CurrentUserId,
+  OptionalUserId,
   readOauthState,
   setOauthState,
   setSession,

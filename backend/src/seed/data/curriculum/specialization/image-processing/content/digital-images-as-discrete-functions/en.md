@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-08
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Learning Objectives
 
@@ -15,7 +15,7 @@ Every technique this discipline builds, a blur kernel, an edge detector, a segme
 
 That boundary matters because a sibling discipline, `ai-theory/deep-learning` (19 concepts, published), already teaches convolution, pooling, and CNNs as a technique for *learning* image filters from data. This discipline is not a second, redundant pass over that material. It is the classical, pre-learning tradition that predates it: every kernel, every threshold, every structuring element used here is chosen by a human, in closed form, before the image is ever seen. `the-convolution-and-correlation-operation`, two concepts from here, states this line precisely at the exact point where the two disciplines' mechanics overlap. This concept's job is narrower: get the representation right first.
 
-Where does this fit in the wider computing curriculum? The ACM/IEEE-CS Computer Science Curricula 2013 report is honest about not having a clean, separate Image Processing Knowledge Area: it states plainly that "Graphics and Visualization is related to machine vision and image processing, which are found in the Intelligent Systems (IS) KA" (CS2013, p. 121 area), and lists "Image processing techniques" only as a topic bullet inside GV's elective Interactive Visualization unit, never as its own unit. This discipline exists to give that scattered, elective-level topic the depth CS2013 itself never built out, precisely because, as the module's own topic list already argues, pixel-level image processing is the real foundation Computer Vision (a recurring topic across this curriculum's `track-b-ai`, `track-e-human-computing`, and `track-f-robotics`) is built on top of.
+Where does this fit in the wider computing curriculum? The ACM/IEEE-CS Computer Science Curricula 2013 report is honest about not having a clean, separate Image Processing Knowledge Area: it states plainly that "Graphics and Visualization is related to machine vision and image processing, which are found in the Intelligent Systems (IS) KA" (CS2013, p. 121 area), and lists "Image processing techniques" only as a topic bullet inside GV's elective Interactive Visualization unit, never as its own unit. This discipline exists to give that scattered, elective-level topic the depth CS2013 itself never built out, precisely because, as the module's own topic list already argues, pixel-level image processing is the real foundation Computer Vision (a topic of this curriculum's `track-b-ai`) is built on top of.
 
 ## Core Theory
 

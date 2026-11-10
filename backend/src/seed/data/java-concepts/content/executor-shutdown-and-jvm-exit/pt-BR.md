@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-13
+version: 1.1
+updatedAt: 2026-11-03
 title: Encerrando um ExecutorService, e Como a JVM Decide Sair
 summary: Compara o shutdown() gracioso com o shutdownNow() agressivo, o idioma awaitTermination()/close(), poison pills para consumidores baseados em fila, handlers de exceção não capturada, e shutdown hooks da JVM e daemon threads.
 ---
@@ -50,7 +50,7 @@ pool.execute(task3); // rejected — throws RejectedExecutionException
 `shutdownNow()` é o modo agressivo: também para de aceitar novas tasks, mas
 além disso interrompe toda task atualmente rodando (usando o mesmo
 mecanismo de interrupção coberto no conceito complementar sobre
-[cancelamento de tasks e interrupção](task-cancellation-and-interruption.md) —
+[cancelamento de tasks e interrupção](task-cancellation-and-interruption) —
 se uma task realmente para depende de se o código dela checa
 `isInterrupted()` ou chama um método bloqueante interrompível) e retorna a
 `List<Runnable>` de tasks que foram submetidas mas nunca chegaram a começar, para que

@@ -1,13 +1,13 @@
 ---
-version: 1.0
-updatedAt: 2026-08-13
+version: 1.1
+updatedAt: 2026-11-03
 title: As Ferramentas de Concorrência: Executors, Sincronizadores e Locks
 summary: O kit java.util.concurrent — executors e thread pools, Callable/Future, primitivas de coordenação como CountDownLatch e Semaphore, Locks explícitos e variáveis atômicas — como alternativa de mais alto nível ao código artesanal com Thread e synchronized.
 ---
 ## Objective
 
 `Thread`, `Runnable` e `synchronized` (cobertos em profundidade pelo conceito
-irmão sobre o [modelo de thread legado vs. virtual](../thread-model-legacy-vs-virtual-threads.md))
+irmão sobre o [modelo de thread legado vs. virtual](thread-model-legacy-vs-virtual-threads))
 são as *primitivas* que Java sempre teve para concorrência. O JDK 5 adicionou uma camada
 acima delas — as **ferramentas de concorrência** (concurrency utilities), espalhadas por
 `java.util.concurrent`, `java.util.concurrent.atomic` e `java.util.concurrent.locks` — que dá aos

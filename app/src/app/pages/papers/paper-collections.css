@@ -1,0 +1,103 @@
+.collections {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.row,
+.inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.name {
+  min-width: 11rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.count {
+  min-width: 1.5rem;
+}
+
+.confirm {
+  font-size: 0.88rem;
+}
+
+.field {
+  flex: 1;
+  min-width: 10rem;
+  max-width: 100%;
+  padding: 0.45rem 0.6rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--mu-ink);
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+}
+
+.btn {
+  padding: 0.4rem 0.8rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mu-ink);
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  color: var(--mu-accent-strong);
+  background: var(--mu-accent-soft);
+  border-color: var(--mu-accent-border);
+}
+
+.btn-danger {
+  color: var(--mu-danger-strong);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.field:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--mu-accent);
+  outline-offset: 1px;
+}
+
+.muted {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--mu-muted);
+}
+
+.problem {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--mu-danger-strong);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

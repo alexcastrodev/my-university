@@ -6,6 +6,7 @@ import { TrackTimeline } from '../../components/track-timeline/track-timeline';
 import { CurriculumConceptSummary } from '../../models/curriculum-concept.model';
 import { CurriculumConceptsService } from '../../services/curriculum-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
@@ -70,6 +71,7 @@ export class CurriculumConceptsListPage implements OnInit {
         title: this.disciplineTitle(),
         description: `${this.disciplineTitle()} — part of the Computer Science curriculum.`,
         path: `/computer-science/${mod}/${discipline}`,
+        alternates: localizedAlternates(`/computer-science/${mod}/${discipline}`),
       });
 
       this.loading.set(true);
@@ -78,7 +80,10 @@ export class CurriculumConceptsListPage implements OnInit {
           this.concepts.set(list);
           this.loading.set(false);
         },
-        error: () => this.loading.set(false),
+        error: (err) => {
+          this.loading.set(false);
+          if (err.status === 404) this.seo.setNotFound();
+        },
       });
     });
   }

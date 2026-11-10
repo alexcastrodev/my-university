@@ -19,7 +19,7 @@ related:
 
 ## Visão Geral
 
-O [conceito anterior](/concepts/batch-processing-in-distributed-systems) cobriu a infraestrutura sobre a qual um job em lote roda: um sistema de arquivos distribuído substituindo o disco local, um gerenciador de recursos e escalonador substituindo o kernel, executores de tarefas que isolam e tentam de novo tarefas individuais. Este conceito é sobre o programa que de fato roda em cima dessa infraestrutura — **MapReduce**, o padrão de processamento de dados que deu à era do "big data" sua forma e, indiretamente, seu vocabulário.
+O [conceito anterior](/pt-BR/system-design/system-design-concepts/batch-processing-in-distributed-systems) cobriu a infraestrutura sobre a qual um job em lote roda: um sistema de arquivos distribuído substituindo o disco local, um gerenciador de recursos e escalonador substituindo o kernel, executores de tarefas que isolam e tentam de novo tarefas individuais. Este conceito é sobre o programa que de fato roda em cima dessa infraestrutura — **MapReduce**, o padrão de processamento de dados que deu à era do "big data" sua forma e, indiretamente, seu vocabulário.
 
 A alegação central do MapReduce é que um número enorme de tarefas de processamento de dados se reduz à mesma forma de quatro passos, e essa forma é exatamente a que você construiria à mão com pipes do Unix para um conjunto de dados muito menor. *Designing Data-Intensive Applications*, de Kleppmann, introduz o MapReduce logo depois de percorrer um pipeline de análise de logs de servidor web construído com `awk`, `sort`, e `uniq -c` — e o objetivo de colocá-los lado a lado é que o MapReduce não é um algoritmo diferente daquele pipeline, é o mesmo algoritmo rodando em um cluster em vez de uma máquina.
 

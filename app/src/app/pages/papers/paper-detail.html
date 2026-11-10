@@ -1,0 +1,167 @@
+<div class="page">
+  <div class="page-body">
+    @if (loading()) {
+      <a routerLink="/papers" class="back-link">← {{ papersLabel }}</a>
+      <div class="state" role="status" i18n-aria-label="@@papers.detail.loading.ariaLabel" aria-label="Loading paper">
+        <span class="spinner" aria-hidden="true"></span>
+        <ng-container i18n="@@papers.detail.loading">Loading paper…</ng-container>
+      </div>
+    } @else if (notFound()) {
+      <a routerLink="/papers" class="back-link">← {{ papersLabel }}</a>
+      <div class="state" role="alert">
+        <p i18n="@@papers.detail.notFound">Paper not found.</p>
+      </div>
+    } @else if (failed()) {
+      <a routerLink="/papers" class="back-link">← {{ papersLabel }}</a>
+      <div class="state state-error" role="alert">
+        <p i18n="@@papers.detail.error">The paper could not be loaded.</p>
+        <button type="button" class="action" (click)="retry()" i18n="@@papers.retry">Try again</button>
+      </div>
+    } @else if (paper(); as p) {
+      <article class="paper layout">
+        <header class="paper-header">
+          <app-breadcrumbs [items]="breadcrumbs()" />
+          <h1 class="paper-title">{{ p.title }}</h1>
+          @if (p.originalTitle; as original) {
+            <p class="original-title"><span i18n="@@papers.originalTitle">Original title</span>: <em>{{ original }}</em></p>
+          }
+          <app-paper-stage [stage]="p.stage" [venue]="p.venue" [explain]="true" />
+        </header>
+
+        <aside class="side" i18n-aria-label="@@papers.detail.side" aria-label="Paper details">
+          <app-paper-library-button class="card" [paperId]="p.id" />
+
+          <section class="card" aria-labelledby="authors-heading">
+            <h2 id="authors-heading" class="card-title" i18n="@@papers.add.f.authors">Authors</h2>
+            <p class="paper-authors">
+              @if (p.authors.length) {
+                @for (author of p.authors; track $index) {
+                  <span class="author">
+                    <a [routerLink]="['/papers']" [queryParams]="{ author: author.name }" rel="nofollow">{{ author.name }}</a>
+                    @if (author.orcid) {
+                      <a class="orcid" [href]="orcidUrl(author.orcid)" target="_blank" rel="noopener noreferrer" i18n-title="@@papers.detail.orcid" title="ORCID">ORCID</a>
+                    }
+                  </span>
+                }
+              } @else {
+                <span class="muted" i18n="@@papers.detail.noAuthors">Authors not listed.</span>
+              }
+            </p>
+          </section>
+
+          <section class="card">
+            <dl class="facts">
+              <div class="fact">
+                <dt i18n="@@papers.detail.type">Type</dt>
+                <dd><a [routerLink]="['/papers']" [queryParams]="{ type: p.type }" rel="nofollow">{{ paperTypeLabel(p.type) }}</a></dd>
+              </div>
+              <div class="fact">
+                <dt i18n="@@papers.detail.published">Date</dt>
+                <dd>
+                  @if (date(); as d) { {{ d }} } @else { <span class="muted" i18n="@@papers.detail.dateUnknown">Date not listed</span> }
+                </dd>
+              </div>
+              @if (p.venue) {
+                <div class="fact">
+                  <dt i18n="@@papers.detail.venue">Venue</dt>
+                  <dd>{{ p.venue }}</dd>
+                </div>
+              }
+              @if (p.researchArea) {
+                <div class="fact">
+                  <dt i18n="@@papers.detail.area">Research area</dt>
+                  <dd><a [routerLink]="['/papers']" [queryParams]="{ area: p.researchArea }" rel="nofollow">{{ p.researchArea }}</a></dd>
+                </div>
+              }
+              @if (doiUrl(); as doi) {
+                <div class="fact">
+                  <dt i18n="@@papers.detail.doi">DOI</dt>
+                  <dd><a [href]="doi" target="_blank" rel="noopener noreferrer">{{ p.doi }}</a></dd>
+                </div>
+              }
+              @if (sourceUrl(); as url) {
+                <div class="fact">
+                  <dt i18n="@@papers.detail.source">Original page</dt>
+                  <dd><a [href]="url" target="_blank" rel="noopener noreferrer">{{ url }}</a></dd>
+                </div>
+              }
+              @if (pdfUrl(); as pdf) {
+                <div class="fact">
+                  <dt i18n="@@papers.detail.fullText">Full text</dt>
+                  <dd>
+                    <a class="pdf-link" [href]="pdf" target="_blank" rel="noopener noreferrer">
+                      <svg class="pdf-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 13.5h7M8.5 17h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><ng-container i18n="@@papers.detail.pdf">Read the PDF</ng-container>
+                    </a>
+                  </dd>
+                </div>
+              }
+            </dl>
+
+            <h2 id="keywords-heading" class="card-title card-title-sub" i18n="@@papers.detail.keywords">Keywords</h2>
+            @if (p.keywords.length) {
+              <p class="keywords">
+                @for (keyword of p.keywords; track keyword) {
+                  <a class="chip" [routerLink]="['/papers']" [queryParams]="{ keyword }" rel="nofollow">{{ keyword }}</a>
+                }
+              </p>
+            } @else {
+              <p class="muted" i18n="@@papers.detail.noKeywords">No keywords listed.</p>
+            }
+          </section>
+        </aside>
+
+        <div class="paper-body">
+          <section class="block" aria-labelledby="abstract-heading">
+            <h2 id="abstract-heading" class="block-title" i18n="@@papers.detail.abstract">Abstract</h2>
+            @for (paragraph of paragraphs(); track $index) {
+              <p class="abstract">{{ paragraph }}</p>
+            } @empty {
+              <p class="muted" i18n="@@papers.detail.noAbstract">No abstract is available for this paper.</p>
+            }
+            @if (p.abstractTranslated) {
+              <p class="abstract-note" i18n="@@papers.detail.abstractTranslated">Our translation of the authors' English abstract.</p>
+            }
+          </section>
+
+          <section id="analysis" class="block analysis" aria-labelledby="analysis-heading">
+            <h2 id="analysis-heading" class="block-title" i18n="@@papers.analysis.title">Research Analysis</h2>
+            <p class="analysis-note" i18n="@@papers.analysis.note">Written by Kurz, not by the authors of the paper. The abstract above is the authors' own.</p>
+
+            <dl class="analysis-credit">
+              <div>
+                <dt i18n="@@papers.analysis.revised">Last revised</dt>
+                <dd><time [attr.datetime]="p.updatedAt">{{ revised() }}</time></dd>
+              </div>
+              <div>
+                <dt i18n="@@papers.analysis.version">Version</dt>
+                <dd>{{ p.version }}</dd>
+              </div>
+            </dl>
+
+            @for (s of sections(); track s.title) {
+              <section class="analysis-section">
+                <h3 class="analysis-section-title">{{ s.title }}</h3>
+                <div class="section-body" [innerHTML]="s.html"></div>
+              </section>
+            }
+          </section>
+
+          @if (pdfUrl()) {
+            <section id="full-text" class="block" aria-labelledby="full-text-heading">
+              <h2 id="full-text-heading" class="block-title" i18n="@@papers.detail.fullText">Full text</h2>
+              <app-paper-full-text [slug]="p.id" />
+            </section>
+          }
+
+          <app-shared-annotations [slug]="p.id" />
+
+          @if (topic(); as t) {
+            <section id="discussion" class="block discussion">
+              <app-concept-discussion [topic]="t" />
+            </section>
+          }
+        </div>
+      </article>
+    }
+  </div>
+</div>

@@ -22,6 +22,7 @@ export interface CurriculumConceptSummary {
   title: string;
   summary: string;
   publishedAt: string;
+  updatedAt: string | null;
   language: Language;
   availableLanguages: Language[];
   /** Estimated reading time of the whole article, rounded up to a whole minute. */
@@ -32,7 +33,6 @@ export interface CurriculumConceptSummary {
 
 export interface CurriculumConceptDetail extends CurriculumConceptSummary {
   version: string | null;
-  updatedAt: string | null;
   sections: ConceptSection[];
   references: ConceptReference[];
   related: ConceptLinkRef[];
@@ -173,7 +173,7 @@ export class CurriculumService {
     meta: ConceptMeta,
     lang: Language,
   ): CurriculumConceptSummary {
-    const { language, availableLanguages, body, title, summary } =
+    const { language, availableLanguages, body, title, summary, updatedAt } =
       readConceptContent(dataDir, meta.slug, lang, FRONTMATTER_FIELDS);
 
     return {
@@ -182,6 +182,7 @@ export class CurriculumService {
       title: title ?? meta.title,
       summary: summary ?? meta.summary,
       publishedAt: meta.publishedAt,
+      updatedAt,
       language,
       availableLanguages,
       readingMinutes: estimateReadingMinutes(body),

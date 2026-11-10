@@ -1,0 +1,143 @@
+:host {
+  display: block;
+}
+
+.note {
+  margin: 0 0 0.8rem;
+  line-height: 1.6;
+  color: var(--mu-ink-soft);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.action {
+  padding: 0.55rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--mu-white);
+  background: var(--mu-accent);
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.action-quiet {
+  color: var(--mu-ink);
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+}
+
+.state {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+  color: var(--mu-muted);
+}
+
+.state-error {
+  color: var(--mu-ink);
+}
+
+.state p {
+  margin: 0;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--mu-line);
+  border-top-color: var(--mu-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* The pages sit on a tinted bed, fitted to the column, so the white page reads as paper. */
+.pages {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+}
+
+.page-label {
+  margin: 0.5rem 0 -0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--mu-muted);
+}
+
+.page-label:first-child {
+  margin-top: 0;
+}
+
+.page {
+  position: relative;
+  flex: none;
+  margin-inline: auto;
+  background: #fff;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.25);
+}
+
+.page canvas {
+  display: block;
+}
+
+/* The text pdf.js draws over the canvas so it can be selected. Its spans are made by the engine, not the template. */
+.page ::ng-deep .textLayer {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  line-height: 1;
+  text-align: initial;
+  transform-origin: 0 0;
+  forced-color-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+
+.page ::ng-deep .textLayer :is(span, br) {
+  position: absolute;
+  color: transparent;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+  user-select: text;
+}
+
+.page ::ng-deep .textLayer > :not(.markedContent),
+.page ::ng-deep .textLayer .markedContent span:not(.markedContent) {
+  --font-height: 0;
+  --scale-x: 1;
+  --rotate: 0deg;
+  z-index: 1;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+
+.page ::ng-deep .textLayer .markedContent {
+  display: contents;
+}
+
+.page ::ng-deep .textLayer ::selection {
+  background: rgb(0 90 255 / 0.3);
+}

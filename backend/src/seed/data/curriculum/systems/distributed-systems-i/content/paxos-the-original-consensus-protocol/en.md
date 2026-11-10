@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-07
+version: 1.1
+updatedAt: 2026-11-04
 ---
 ## Learning Objectives
 
@@ -75,7 +75,7 @@ sequenceDiagram
 
 ### Why this level of treatment, and why Raft next
 
-Paxos's safety argument (majority overlap forcing a chosen value to persist) is exactly the concept worth understanding deeply, because it is the same core idea Raft's own safety proof reuses (`raft-safety-the-election-restriction-and-log-completeness`, several concepts ahead). What this concept deliberately does not re-derive in full is Paxos's liveness mechanics (handling dueling proposers who keep pre-empting each other's Prepare phases with higher numbers, a real and well-known practical difficulty) and its cluster-membership/reconfiguration story — both are exactly the areas Lamport's own "Paxos Made Simple" paper acknowledges are harder to explain clearly than the safety argument itself, and exactly what motivated Ongaro & Ousterhout to design Raft specifically to make understandable from the ground up, without changing the fundamental safety guarantee Paxos already established.
+Paxos's safety argument (majority overlap forcing a chosen value to persist) is exactly the concept worth understanding deeply, because it is the same core idea Raft's own safety proof reuses (`raft-safety-the-election-restriction-and-log-completeness`, several concepts ahead). What this concept deliberately does not re-derive in full is Paxos's liveness mechanics (handling dueling proposers who keep pre-empting each other's Prepare phases with higher numbers, a real and well-known practical difficulty) and its cluster-membership/reconfiguration story. Lamport's "Paxos Made Simple" gives these two areas little space, a short section on progress and a closing paragraph on reconfiguration, and they are what motivated Ongaro & Ousterhout to design Raft specifically to make understandable from the ground up, without changing the fundamental safety guarantee Paxos already established.
 
 ## Worked Examples
 

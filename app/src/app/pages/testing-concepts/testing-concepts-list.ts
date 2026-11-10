@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { TESTING_CONCEPT_TOPIC_ORDER, TestingConceptCategory, TestingConceptSummary } from '../../models/testing-concept.model';
 import { TestingConceptsService } from '../../services/testing-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { groupByTopic } from '../../shared/concept-topics';
@@ -71,6 +72,7 @@ export class TestingConceptsListPage implements OnInit {
       title: 'Testing Concepts',
       description: 'JUnit 5, Mockito, and Spring testing concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
       path: '/java/testing',
+      alternates: localizedAlternates('/java/testing'),
     });
 
     this.testingConceptsService.listConcepts().subscribe({

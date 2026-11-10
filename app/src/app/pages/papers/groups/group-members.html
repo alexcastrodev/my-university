@@ -1,0 +1,83 @@
+<section class="block" aria-labelledby="members-heading">
+  <h2 id="members-heading" class="block-title" i18n="@@groups.members.title">Readers</h2>
+  @if (problem(); as text) {
+    <p class="problem" role="alert">{{ text }}</p>
+  }
+  <ul class="list" aria-labelledby="members-heading">
+    @for (m of members(); track m.id) {
+      <li class="item" [attr.data-member]="m.id">
+        <div class="head">
+          <span class="avatar" aria-hidden="true">
+            @if (m.avatarUrl) {
+              <img [src]="m.avatarUrl" alt="" width="28" height="28" loading="lazy" referrerpolicy="no-referrer" />
+            }
+          </span>
+          @if (m.profile; as profile) {
+            <a class="author" [routerLink]="['/u', profile]">{{ m.name }}</a>
+          } @else {
+            <span class="author">{{ m.name }}</span>
+          }
+          <span class="badge">{{ roleLabel(m.role) }}</span>
+          @if (m.you) {
+            <span class="badge" i18n="@@papers.shared.mine">You</span>
+          }
+        </div>
+        @if (owner() && !m.you && m.role !== 'owner') {
+          <div class="inline">
+            <label class="label">
+              <span class="visually-hidden">{{ roleLabelFor(m.name) }}</span>
+              <select class="field" [disabled]="busy()" [attr.aria-label]="roleLabelFor(m.name)" (change)="setRole(m, $any($event.target).value)">
+                <option value="member" [selected]="m.role === 'member'" i18n="@@groups.role.member">Member</option>
+                <option value="moderator" [selected]="m.role === 'moderator'" i18n="@@groups.role.moderator">Moderator</option>
+              </select>
+            </label>
+            <button type="button" class="btn btn-danger" [disabled]="busy()" (click)="remove(m)" i18n="@@groups.members.remove">Remove</button>
+          </div>
+        } @else if (canRemove(m)) {
+          <div class="buttons">
+            <button type="button" class="btn btn-danger" [disabled]="busy()" (click)="remove(m)" i18n="@@groups.members.remove">Remove</button>
+          </div>
+        }
+      </li>
+    }
+  </ul>
+</section>
+
+@if (manager()) {
+  <section class="block" aria-labelledby="invite-heading">
+    <h2 id="invite-heading" class="block-title" i18n="@@groups.invite.title">Invite a reader</h2>
+    <form class="form" (submit)="invite($event)">
+      <label class="label">
+        <span i18n="@@groups.invite.user">Their public profile name</span>
+        <input
+          type="text"
+          class="field"
+          autocomplete="off"
+          maxlength="200"
+          [value]="user()"
+          (input)="user.set($any($event.target).value)"
+          i18n-placeholder="@@groups.invite.placeholder"
+          placeholder="ana-silva"
+        />
+      </label>
+      <p class="muted" i18n="@@groups.invite.note">They get an invitation and join only when they accept. Only readers whose profile is public can be invited.</p>
+      <div class="buttons">
+        <button type="submit" class="btn btn-primary" [disabled]="busy() || !user().trim()" i18n="@@groups.invite.send">Invite</button>
+      </div>
+    </form>
+
+    @if (pending().length) {
+      <h3 class="block-title pending-title" i18n="@@groups.invite.pending">Waiting for an answer</h3>
+      <ul class="list">
+        @for (invitation of pending(); track invitation.id) {
+          <li class="item" [attr.data-pending]="invitation.id">
+            <div class="head">
+              <span class="author">{{ invitation.invitee?.name }}</span>
+              <button type="button" class="btn" [disabled]="busy()" (click)="revoke(invitation)" i18n="@@groups.invite.revoke">Withdraw invitation</button>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+}

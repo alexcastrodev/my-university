@@ -32,6 +32,7 @@ export interface DatabaseConceptSummary {
   topic: string;
   summary: string;
   publishedAt: string;
+  updatedAt: string | null;
   labUrl?: string;
   language: Language;
   availableLanguages: Language[];
@@ -39,7 +40,6 @@ export interface DatabaseConceptSummary {
 
 export interface DatabaseConceptDetail extends DatabaseConceptSummary {
   version: string | null;
-  updatedAt: string | null;
   sections: ConceptSection[];
   references: ConceptReference[];
   related: ConceptLinkRef[];
@@ -98,7 +98,7 @@ export class DatabaseConceptsService {
     meta: ConceptMeta,
     lang: Language,
   ): DatabaseConceptSummary {
-    const { language, availableLanguages, title, summary } = readConceptContent(
+    const { language, availableLanguages, title, summary, updatedAt } = readConceptContent(
       DATA_DIR,
       meta.slug,
       lang,
@@ -113,6 +113,7 @@ export class DatabaseConceptsService {
       topic: meta.topic,
       summary: summary ?? meta.summary,
       publishedAt: meta.publishedAt,
+      updatedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),
       language,
       availableLanguages,

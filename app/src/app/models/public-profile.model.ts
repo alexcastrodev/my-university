@@ -9,3 +9,13 @@ export interface PublicProfile {
   badges: AwardView[];
   trophies: AwardView[];
 }
+
+/** One book on the library tab, as `GET /api/profile/:key/books` returns it. */
+export interface PublicBook {
+  title: string;
+  url: string;
+  pages: number;
+  cover?: string;
+  /** Plain text; paragraphs are separated by a line break. */
+  comment?: string;
+}

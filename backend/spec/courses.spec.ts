@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { ALL_COURSES } from '../src/seed/course.data';
 import { get, json, login, put } from './helpers';
 
 const COURSE_ID = 'java-21';
@@ -115,4 +116,15 @@ describe('GET /courses/:id/lessons/:lessonId', () => {
     const body = await json<any>(await get(`/courses/${COURSE_ID}/lessons/${lessonId}`));
     expect(['slide', 'practice', 'skill-check']).toContain(body.type);
   });
+});
+
+describe('the course files and the database agree', () => {
+  // A lesson added to a course file after the first boot used to stay out of the database for good.
+  for (const file of ALL_COURSES) {
+    it(`serves every lesson of ${file.id}, in the files' order`, async () => {
+      const served = await json<any>(await get(`/courses/${file.id}`));
+      const lessonIds = (course: any) => course.modules.flatMap((m: any) => m.lessons.map((l: any) => l.id));
+      expect([...lessonIds(served)].sort()).toEqual([...lessonIds(file)].sort());
+    });
+  }
 });

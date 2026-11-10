@@ -1,0 +1,57 @@
+<article class="row">
+  <div class="row-top">
+    <span class="row-ref">[{{ position() }}]@if (paper().doi) { / DOI {{ paper().doi }}}</span>
+    @if (date(); as d) {
+      <span class="row-date">{{ d }}</span>
+    }
+  </div>
+
+  <h2 class="paper-title"><a [routerLink]="link()">{{ paper().title }}</a></h2>
+  @if (paper().originalTitle; as original) {
+    <p class="original-title"><span i18n="@@papers.originalTitle">Original title</span>: <em>{{ original }}</em></p>
+  }
+
+  @if (paper().authors.length) {
+    <div class="row-people">
+      <p class="paper-authors">
+        {{ names() }}
+        @if (moreAuthors() > 0) {
+          <span class="muted">+{{ moreAuthors() }} <ng-container i18n="@@papers.card.moreAuthors">more</ng-container></span>
+        }
+      </p>
+      <span class="avatars" aria-hidden="true">
+        @for (avatar of avatars(); track $index) {
+          <span class="avatar" [style.--h]="avatar.hue">{{ avatar.initials }}</span>
+        }
+      </span>
+    </div>
+  }
+
+  @if (paper().excerpt || doiUrl() || pageUrl() || pdfUrl()) {
+    <p class="paper-excerpt">
+      {{ paper().excerpt }}
+      @if (doiUrl() || pageUrl()) {
+        <span class="row-links">[@if (doiUrl(); as doi) {<a [href]="doi" target="_blank" rel="noopener noreferrer" i18n="@@papers.row.doi">DOI</a>}@if (doiUrl() && pageUrl()) {, }@if (pageUrl(); as page) {<a [href]="page" target="_blank" rel="noopener noreferrer" i18n="@@papers.row.page">Page</a>}]</span>
+      }
+      @if (pdfUrl(); as pdf) {
+        <a class="row-pdf" [href]="pdf" target="_blank" rel="noopener noreferrer" i18n-title="@@papers.row.pdf" title="PDF" i18n-aria-label="@@papers.row.pdfAria" aria-label="Open the PDF"><svg class="pdf-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 13.5h7M8.5 17h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span aria-hidden="true">PDF</span></a>
+      }
+    </p>
+  }
+
+  <div class="row-labels">
+    <app-paper-stage [stage]="paper().stage" />
+    <span class="badge">{{ paperTypeLabel(paper().type) }}</span>
+    @if (paper().venue) {
+      <span class="row-venue">{{ paper().venue }}</span>
+    }
+    @if (paper().researchArea; as area) {
+      @if (areaParams(); as params) {
+        <a class="chip chip-area" [routerLink]="[]" [queryParams]="params" rel="nofollow">{{ area }}</a>
+      } @else {
+        <span class="chip chip-area">{{ area }}</span>
+      }
+    }
+    <ng-content />
+  </div>
+</article>

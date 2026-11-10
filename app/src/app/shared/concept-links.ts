@@ -28,6 +28,8 @@ export interface ConceptLinkItem {
 
 export function toConceptLinkItem(ref: ConceptLinkRef, defaultFeature: ConceptFeature): ConceptLinkItem {
   if (typeof ref === 'string') return { label: ref, route: null };
-  const feature = ref.feature ?? defaultFeature;
-  return { label: ref.label, route: [FEATURE_ROUTES[feature], ref.slug] };
+  // A feature name this map does not know degrades to a plain label, like the curriculum resolver does,
+  // instead of a link with an `undefined` path segment that 404s and that search engines then crawl.
+  const base = FEATURE_ROUTES[ref.feature ?? defaultFeature] as string | undefined;
+  return { label: ref.label, route: base ? [base, ref.slug] : null };
 }

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { KUBERNETES_CONCEPT_TOPIC_ORDER, KubernetesConceptCategory, KubernetesConceptSummary } from '../../models/kubernetes-concept.model';
 import { KubernetesConceptsService } from '../../services/kubernetes-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { groupByTopic } from '../../shared/concept-topics';
@@ -79,6 +80,7 @@ export class KubernetesConceptsListPage implements OnInit {
       title: 'Kubernetes Concepts',
       description: 'Kubernetes in practice: workloads, configuration, networking, storage, Kustomize, operations, troubleshooting, observability and security, verified on real MicroK8s and k3s clusters.',
       path: '/kubernetes-concepts',
+      alternates: localizedAlternates('/kubernetes-concepts'),
     });
 
     this.kubernetesConceptsService.listConcepts().subscribe({

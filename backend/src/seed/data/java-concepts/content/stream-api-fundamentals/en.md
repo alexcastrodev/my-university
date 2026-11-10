@@ -1,10 +1,10 @@
 ---
-version: 1.0
-updatedAt: 2026-08-05
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
-A stream (`java.util.stream`) is a conduit for data, not a data structure — it never stores elements itself, it just moves them from a source (a collection, an array, an I/O channel) through a pipeline of operations. A stream is single-use: once a *terminal* operation consumes it, that stream object is spent, and getting a fresh one means going back to the source. Most of a stream's operations are lambdas or method references implementing the functional interfaces from `java.util.function` (`Predicate`, `Function`, `Consumer`, ...) — see [Lambda Expressions](/java-concepts/lambda-expressions) for how those are built and captured; this concept assumes that machinery and focuses on what streams do with it: build a lazily-evaluated pipeline that filters, transforms, and reduces data in a style closer to a database query than a loop.
+A stream (`java.util.stream`) is a conduit for data, not a data structure — it never stores elements itself, it just moves them from a source (a collection, an array, an I/O channel) through a pipeline of operations. A stream is single-use: once a *terminal* operation consumes it, that stream object is spent, and getting a fresh one means going back to the source. Most of a stream's operations are lambdas or method references implementing the functional interfaces from `java.util.function` (`Predicate`, `Function`, `Consumer`, ...) — see [Lambda Expressions](/java/java-concepts/lambda-expressions) for how those are built and captured; this concept assumes that machinery and focuses on what streams do with it: build a lazily-evaluated pipeline that filters, transforms, and reduces data in a style closer to a database query than a loop.
 
 ## Use Cases
 

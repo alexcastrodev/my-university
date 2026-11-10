@@ -6,6 +6,7 @@ import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/route
 import { BehaviorSubject } from 'rxjs';
 import { Course, Lesson } from '../../models/course.model';
 import { AuthService } from '../../services/auth.service';
+import { SeoService } from '../../services/seo.service';
 import { CoursePage } from './course-page';
 
 const PRACTICE_LESSON_ID = 'j21-13-7';
@@ -149,5 +150,60 @@ describe('CoursePage — quiz banner anonymous-attempt warning', () => {
     const fixture = await renderOverview(true);
     expect(fixture.nativeElement.querySelector('.quiz-anon-warning')).toBeFalsy();
     expect(fixture.nativeElement.querySelector('.attempts-link')).toBeTruthy();
+  });
+});
+
+describe('CoursePage and unknown ids', () => {
+  let seo: jasmine.SpyObj<SeoService>;
+  let http: HttpTestingController;
+
+  function render(examId: string, lessonId: string | null): void {
+    seo = jasmine.createSpyObj<SeoService>('SeoService', ['set', 'setNotFound']);
+    const params = convertToParamMap({ examId, ...(lessonId && { lessonId }) });
+    TestBed.configureTestingModule({
+      imports: [CoursePage],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+        { provide: SeoService, useValue: seo },
+        { provide: ActivatedRoute, useValue: { paramMap: new BehaviorSubject(params), snapshot: { paramMap: params } } },
+      ],
+    });
+    http = TestBed.inject(HttpTestingController);
+    TestBed.createComponent(CoursePage).detectChanges();
+  }
+
+  it('answers 404 for a course that does not exist, so crawlers drop it', () => {
+    render('no-such-course', null);
+    http.expectOne('/api/courses/no-such-course').flush({}, { status: 404, statusText: 'Not Found' });
+    expect(seo.setNotFound).toHaveBeenCalled();
+  });
+
+  it('does not answer 404 when the course request merely fails', () => {
+    render('java-21', null);
+    http.expectOne('/api/courses/java-21').flush({}, { status: 500, statusText: 'Server Error' });
+    expect(seo.setNotFound).not.toHaveBeenCalled();
+  });
+
+  it('answers 404 for a lesson id the course does not have', () => {
+    render('java-21', 'no-such-lesson');
+    http.expectOne('/api/courses/java-21').flush(makeCourse({}));
+    expect(seo.setNotFound).toHaveBeenCalled();
+  });
+
+  it('keeps a real lesson indexable', () => {
+    render('java-21', PRACTICE_LESSON_ID);
+    http.expectOne('/api/courses/java-21').flush(makeCourse({}));
+    expect(seo.setNotFound).not.toHaveBeenCalled();
+    expect(seo.set).toHaveBeenCalled();
+    expect(seo.set).not.toHaveBeenCalledWith(jasmine.objectContaining({ noindex: true }));
+  });
+
+  it('keeps a skill check out of the index: its questions are drawn in the browser, so it has no text to rank', () => {
+    render('java-21', PRACTICE_LESSON_ID);
+    http.expectOne('/api/courses/java-21').flush(makeCourse({ type: 'skill-check' }));
+    expect(seo.set).toHaveBeenCalledWith(jasmine.objectContaining({ noindex: true }));
   });
 });

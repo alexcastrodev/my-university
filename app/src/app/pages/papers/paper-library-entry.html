@@ -1,0 +1,145 @@
+<div class="page">
+  <div class="page-body">
+    <a routerLink="/library" class="back-link">← <ng-container i18n="@@header.nav.library">My library</ng-container></a>
+
+    @switch (state()) {
+      @case ('loading') {
+        <div class="state" role="status" i18n-aria-label="@@papers.detail.loading.ariaLabel" aria-label="Loading paper">
+          <span class="spinner" aria-hidden="true"></span>
+          <ng-container i18n="@@papers.detail.loading">Loading paper…</ng-container>
+        </div>
+      }
+      @case ('signedOut') {
+        <div class="state" role="alert">
+          <p i18n="@@papers.library.page.signedOut">Sign in to see your library.</p>
+          <a class="action" routerLink="/login" i18n="@@papers.library.page.signIn">Sign in</a>
+        </div>
+      }
+      @case ('missing') {
+        <div class="state" role="alert">
+          <p i18n="@@papers.library.entry.missing">This paper is not in your library.</p>
+          <a class="action" routerLink="/papers" i18n="@@papers.library.page.browse">Browse all papers</a>
+        </div>
+      }
+      @case ('failed') {
+        <div class="state state-error" role="alert">
+          <p i18n="@@papers.detail.error">The paper could not be loaded.</p>
+          <button type="button" class="action" (click)="retry()" i18n="@@papers.retry">Try again</button>
+        </div>
+      }
+      @case ('ready') {
+        @if (paper(); as p) {
+          @if (entry(); as e) {
+            <article class="paper layout">
+              <header class="paper-header">
+                <h1 class="paper-title">{{ p.title }}</h1>
+                @if (p.originalTitle; as original) {
+                  <p class="original-title"><span i18n="@@papers.originalTitle">Original title</span>: <em>{{ original }}</em></p>
+                }
+                <app-paper-stage [stage]="p.stage" [venue]="p.venue" [explain]="true" />
+
+                <p class="paper-authors">
+                  @if (p.authors.length) {
+                    {{ authorNames(p) }}
+                  } @else {
+                    <span class="muted" i18n="@@papers.detail.noAuthors">Authors not listed.</span>
+                  }
+                </p>
+              </header>
+
+              <aside class="side" i18n-aria-label="@@papers.detail.side" aria-label="Paper details">
+                <section class="card" aria-labelledby="mine-heading">
+                  <h2 id="mine-heading" class="card-title" i18n="@@papers.library.entry.mine">Your reading</h2>
+                  <p class="muted private-note" i18n="@@papers.library.private">Only you can see your library.</p>
+                  <app-paper-library-details [entry]="e" />
+                </section>
+
+                <app-paper-attachment-panel [paperId]="p.id" />
+
+                <section class="card">
+                  <dl class="facts">
+                    <div class="fact">
+                      <dt i18n="@@papers.detail.type">Type</dt>
+                      <dd>{{ paperTypeLabel(p.type) }}</dd>
+                    </div>
+                    <div class="fact">
+                      <dt i18n="@@papers.detail.published">Date</dt>
+                      <dd>
+                        @if (date(); as d) { {{ d }} } @else { <span class="muted" i18n="@@papers.detail.dateUnknown">Date not listed</span> }
+                      </dd>
+                    </div>
+                    @if (p.venue) {
+                      <div class="fact">
+                        <dt i18n="@@papers.detail.venue">Venue</dt>
+                        <dd>{{ p.venue }}</dd>
+                      </div>
+                    }
+                    @if (doiUrl(); as doi) {
+                      <div class="fact">
+                        <dt i18n="@@papers.detail.doi">DOI</dt>
+                        <dd><a [href]="doi" target="_blank" rel="noopener noreferrer">{{ p.doi }}</a></dd>
+                      </div>
+                    }
+                    @if (sourceUrl(); as url) {
+                      <div class="fact">
+                        <dt i18n="@@papers.detail.source">Original page</dt>
+                        <dd><a [href]="url" target="_blank" rel="noopener noreferrer">{{ url }}</a></dd>
+                      </div>
+                    }
+                  </dl>
+
+                  @if (e.private) {
+                    <p class="public-link">
+                      <span class="badge-private" i18n="@@papers.private.badge">Private</span>
+                      <span class="muted" i18n="@@papers.library.entry.privateNote">Only you can see this paper. It has no public page.</span>
+                    </p>
+                  } @else {
+                    <p class="public-link">
+                      <a [routerLink]="['/papers', p.id]" i18n="@@papers.library.entry.public">View the public page and its discussion</a>
+                    </p>
+                  }
+
+                  <div class="remove">
+                    @if (confirmingRemove()) {
+                      @if (e.private) {
+                        <span i18n="@@papers.library.entry.confirmDelete">Delete this paper, its PDF and what you recorded about it? This cannot be undone.</span>
+                        <button type="button" class="action action-danger" [disabled]="removing()" (click)="remove(p.id)" i18n="@@papers.library.entry.confirmDeleteYes">Delete</button>
+                      } @else {
+                        <span i18n="@@papers.library.entry.confirmRemove">Remove this paper and what you recorded about it?</span>
+                        <button type="button" class="action action-danger" [disabled]="removing()" (click)="remove(p.id)" i18n="@@papers.library.entry.confirm">Remove</button>
+                      }
+                      <button type="button" class="action" [disabled]="removing()" (click)="confirmingRemove.set(false)" i18n="@@papers.library.entry.cancel">Cancel</button>
+                    } @else {
+                      <button type="button" class="action action-quiet" (click)="confirmingRemove.set(true)">
+                        @if (e.private) { <ng-container i18n="@@papers.library.entry.delete">Delete paper</ng-container> } @else { <ng-container i18n="@@papers.library.remove">Remove from library</ng-container> }
+                      </button>
+                    }
+                    @if (removeFailed()) {
+                      <span class="remove-error" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</span>
+                    }
+                  </div>
+                </section>
+              </aside>
+
+              <div class="paper-body">
+                <section class="block" aria-labelledby="abstract-heading">
+                  <h2 id="abstract-heading" class="block-title" i18n="@@papers.detail.abstract">Abstract</h2>
+                  @for (paragraph of paragraphs(); track $index) {
+                    <p class="abstract">{{ paragraph }}</p>
+                  } @empty {
+                    <p class="muted" i18n="@@papers.detail.noAbstract">No abstract is available for this paper.</p>
+                  }
+                  @if (p.abstractTranslated) {
+                    <p class="abstract-note" i18n="@@papers.detail.abstractTranslated">Our translation of the authors' English abstract.</p>
+                  }
+                </section>
+
+                <app-paper-notes [paperId]="p.id" [canShare]="!e.private" />
+              </div>
+            </article>
+          }
+        }
+      }
+    }
+  </div>
+</div>

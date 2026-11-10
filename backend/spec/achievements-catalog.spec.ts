@@ -403,9 +403,9 @@ describe('published catalog (real seeds)', () => {
     expect([...j25.sessions, ...j21.sessions].every((s) => s.hasAssessment)).toBe(true);
   });
 
-  it('CC: one direct-unit track per reachable discipline, 38 of them', () => {
+  it('CC: one direct-unit track per reachable discipline, 42 of them', () => {
     const direct = real.tracks.filter((t) => t.source.kind === 'curriculum');
-    expect(direct).toHaveLength(38);
+    expect(direct).toHaveLength(42);
     expect(direct.every((t) => t.sessions.length === 0 && t.units.length > 0)).toBe(true);
   });
 

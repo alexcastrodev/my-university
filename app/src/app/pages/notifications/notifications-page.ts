@@ -31,6 +31,7 @@ export class NotificationsPage implements OnInit {
       title: $localize`:@@notifications.title:Notifications`,
       description: 'Replies to your comments.',
       path: '/notifications',
+      noindex: true,
     });
   }
 

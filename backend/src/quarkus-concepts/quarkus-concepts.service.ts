@@ -29,6 +29,7 @@ export interface QuarkusConceptSummary {
   topic: string;
   summary: string;
   publishedAt: string;
+  updatedAt: string | null;
   labUrl?: string;
   language: Language;
   availableLanguages: Language[];
@@ -36,7 +37,6 @@ export interface QuarkusConceptSummary {
 
 export interface QuarkusConceptDetail extends QuarkusConceptSummary {
   version: string | null;
-  updatedAt: string | null;
   sections: ConceptSection[];
   references: ConceptReference[];
   related: ConceptLinkRef[];
@@ -95,7 +95,7 @@ export class QuarkusConceptsService {
     meta: ConceptMeta,
     lang: Language,
   ): QuarkusConceptSummary {
-    const { language, availableLanguages, title, summary } = readConceptContent(
+    const { language, availableLanguages, title, summary, updatedAt } = readConceptContent(
       DATA_DIR,
       meta.slug,
       lang,
@@ -110,6 +110,7 @@ export class QuarkusConceptsService {
       topic: meta.topic,
       summary: summary ?? meta.summary,
       publishedAt: meta.publishedAt,
+      updatedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),
       language,
       availableLanguages,

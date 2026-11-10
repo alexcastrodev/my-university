@@ -1,1 +1,1279 @@
-[]
+[
+  {
+    "slug": "what-hci-studies-users-tasks-and-context",
+    "id": 1,
+    "title": "What HCI Studies: Users, Tasks, and Context",
+    "topic": "Foundations",
+    "requires": [],
+    "related": [
+      {
+        "label": "Functional vs. Non-Functional Requirements",
+        "slug": "functional-vs-non-functional-requirements",
+        "feature": "curriculum/software-distributed/software-engineering"
+      }
+    ],
+    "summary": "HCI as a discipline: users, tasks, and context of use, why the interface is the system from the user's point of view, and how this differs from visual design alone.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "HCI Bibliography",
+        "url": "https://hcibib.org/",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Human-computer interaction",
+        "url": "https://en.wikipedia.org/wiki/Human%E2%80%93computer_interaction",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen (2012, reviewed 2026): Usability 101",
+        "url": "https://www.nngroup.com/articles/usability-101-introduction-to-usability/",
+        "type": "doc"
+      },
+      {
+        "label": "Chan (2024): Mental Models and User Experience Design",
+        "url": "https://www.nngroup.com/articles/mental-models/",
+        "type": "doc"
+      },
+      {
+        "label": "FCC (2018): Report on the Hawaii False Alert",
+        "url": "https://docs.fcc.gov/public/attachments/DOC-350119A1.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Beede et al. (2020): A Human-Centered Evaluation of a Deep Learning System Deployed in Clinics",
+        "url": "https://research.google/pubs/a-human-centered-evaluation-of-a-deep-learning-system-deployed-in-clinics-for-the-detection-of-diabetic-retinopathy/",
+        "type": "paper"
+      },
+      {
+        "label": "Google (2020): Healthcare AI systems that put people at the center",
+        "url": "https://blog.google/innovation-and-ai/technology/health/healthcare-ai-systems-put-people-center/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "human-perception-and-cognition-for-interface-design",
+    "id": 2,
+    "title": "Human Perception and Cognition for Interface Design",
+    "topic": "Foundations",
+    "requires": [
+      "what-hci-studies-users-tasks-and-context"
+    ],
+    "related": [
+      {
+        "label": "What HCI Studies: Users, Tasks, and Context",
+        "slug": "what-hci-studies-users-tasks-and-context"
+      }
+    ],
+    "summary": "Attention, memory limits, and Gestalt grouping, and what they imply for layout, feedback, and how much an interface may ask a person to remember.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Simons and Chabris (1999): Gorillas in our midst",
+        "url": "https://www.chabris.com/Simons1999.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Rensink, O'Regan, and Clark (1996): To See or Not to See, abstract",
+        "url": "https://www2.psych.ubc.ca/~rensink/publications/abs.96.2.html",
+        "type": "paper"
+      },
+      {
+        "label": "Budiu (2018): Change Blindness in UX",
+        "url": "https://www.nngroup.com/articles/change-blindness-definition/",
+        "type": "doc"
+      },
+      {
+        "label": "Cowan (2010): The Magical Mystery Four",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2864034/",
+        "type": "paper"
+      },
+      {
+        "label": "Wikipedia: The Magical Number Seven, Plus or Minus Two",
+        "url": "https://en.wikipedia.org/wiki/The_Magical_Number_Seven,_Plus_or_Minus_Two",
+        "type": "doc"
+      },
+      {
+        "label": "Budiu (2024): Memory Recognition and Recall in User Interfaces",
+        "url": "https://www.nngroup.com/articles/recognition-and-recall/",
+        "type": "doc"
+      },
+      {
+        "label": "Budiu (2018): Working Memory and External Memory",
+        "url": "https://www.nngroup.com/articles/working-memory-external-memory/",
+        "type": "doc"
+      },
+      {
+        "label": "Wagemans et al. (2012): A Century of Gestalt Psychology in Visual Perception, part I",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3482144/",
+        "type": "paper"
+      },
+      {
+        "label": "Nielsen (1993): Response Times: The 3 Important Limits",
+        "url": "https://www.nngroup.com/articles/response-times-3-important-limits/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mental-models-and-the-gulfs-of-execution-and-evaluation",
+    "id": 3,
+    "title": "Mental Models and the Gulfs of Execution and Evaluation",
+    "topic": "Foundations",
+    "requires": [
+      "human-perception-and-cognition-for-interface-design"
+    ],
+    "related": [
+      {
+        "label": "What HCI Studies: Users, Tasks, and Context",
+        "slug": "what-hci-studies-users-tasks-and-context"
+      },
+      {
+        "label": "Human Perception and Cognition for Interface Design",
+        "slug": "human-perception-and-cognition-for-interface-design"
+      }
+    ],
+    "summary": "Mental models and the gulfs of execution and evaluation, with affordances, signifiers, mapping, and feedback as the tools that close them.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Whitenton (2018): The Two UX Gulfs",
+        "url": "https://www.nngroup.com/articles/two-ux-gulfs-evaluation-execution/",
+        "type": "doc"
+      },
+      {
+        "label": "IxDF: Gulf of Evaluation and Gulf of Execution",
+        "url": "https://ixdf.org/literature/book/the-glossary-of-human-computer-interaction/gulf-of-evaluation-and-gulf-of-execution",
+        "type": "doc"
+      },
+      {
+        "label": "Chan (2024): Mental Models and User Experience Design",
+        "url": "https://www.nngroup.com/articles/mental-models/",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Seven stages of action",
+        "url": "https://en.wikipedia.org/wiki/Seven_stages_of_action",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: The Design of Everyday Things",
+        "url": "https://en.wikipedia.org/wiki/The_Design_of_Everyday_Things",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Affordance",
+        "url": "https://en.wikipedia.org/wiki/Affordance",
+        "type": "doc"
+      },
+      {
+        "label": "Norman: Affordances and Design",
+        "url": "https://jnd.org/affordances-and-design/",
+        "type": "doc"
+      },
+      {
+        "label": "Norman (2008): Signifiers, not affordances",
+        "url": "https://jnd.org/signifiers-not-affordances/",
+        "type": "doc"
+      },
+      {
+        "label": "FCC (2018): Report on the Hawaii False Alert",
+        "url": "https://docs.fcc.gov/public/attachments/DOC-350119A1.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "fitts-law-and-hicks-law",
+    "id": 4,
+    "title": "Fitts's Law and Hick's Law",
+    "topic": "Models",
+    "requires": [
+      "mental-models-and-the-gulfs-of-execution-and-evaluation"
+    ],
+    "related": [
+      {
+        "label": "Mental Models and the Gulfs of Execution and Evaluation",
+        "slug": "mental-models-and-the-gulfs-of-execution-and-evaluation"
+      }
+    ],
+    "summary": "Two predictive models: Fitts's law for pointing time and Hick's law for choice time, with worked calculations on real target sizes and menus, and where each one stops applying.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "MacKenzie (2018): Fitts' Law",
+        "url": "https://www.yorku.ca/mack/hhci2018.html",
+        "type": "paper"
+      },
+      {
+        "label": "MacKenzie (1992): Fitts' Law as a Research and Design Tool in HCI",
+        "url": "https://www.yorku.ca/mack/hci1992.html",
+        "type": "paper"
+      },
+      {
+        "label": "Liu et al. (2020): How Relevant is Hick's Law for HCI?",
+        "url": "https://hal.science/hal-02867301/document",
+        "type": "paper"
+      },
+      {
+        "label": "Bi, Li, and Zhai (2013): FFitts Law",
+        "url": "https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/41645.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Budiu (2022): Fitts's Law and Its Applications in UX",
+        "url": "https://www.nngroup.com/articles/fitts-law/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C: Understanding SC 2.5.8 Target Size (Minimum)",
+        "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html",
+        "type": "doc"
+      },
+      {
+        "label": "W3C: Understanding SC 2.5.5 Target Size (Enhanced)",
+        "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "usability-and-its-definition-iso-9241-11",
+    "id": 5,
+    "title": "Usability and Its Definition (ISO 9241-11)",
+    "topic": "Usability",
+    "requires": [
+      "fitts-law-and-hicks-law"
+    ],
+    "related": [
+      {
+        "label": "The ISO/IEC 25010 Quality Model",
+        "slug": "the-iso-iec-25010-quality-model",
+        "feature": "curriculum/software-distributed/software-engineering"
+      }
+    ],
+    "summary": "The ISO 9241-11 definition of usability: effectiveness, efficiency, and satisfaction for specified users, goals, and context, and how that makes usability measurable.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "DIN Media: DIN EN ISO 9241-11:2018-11",
+        "url": "https://www.dinmedia.de/de/norm/din-en-iso-9241-11/279590417",
+        "type": "doc"
+      },
+      {
+        "label": "Lewis and Sauro (2020): Where Did the ISO 9241 Definition of Usability Come From, and Where Is It Going?",
+        "url": "https://measuringu.com/iso-9241/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C WAI: Accessibility, Usability, and Inclusion",
+        "url": "https://www.w3.org/WAI/fundamentals/accessibility-usability-inclusion/",
+        "type": "doc"
+      },
+      {
+        "label": "Speicher: What is Usability?",
+        "url": "https://arxiv.org/abs/1502.06792",
+        "type": "paper"
+      },
+      {
+        "label": "Yamauchi and Ito: A Method of Evaluating Effect of QoS Degradation",
+        "url": "https://arxiv.org/abs/1502.03612",
+        "type": "paper"
+      },
+      {
+        "label": "Nielsen: Usability 101",
+        "url": "https://www.nngroup.com/articles/usability-101-introduction-to-usability/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen: Success Rate, the Simplest Usability Metric",
+        "url": "https://www.nngroup.com/articles/success-rate-the-simplest-usability-metric/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen: Usability Metrics",
+        "url": "https://www.nngroup.com/articles/usability-metrics/",
+        "type": "doc"
+      },
+      {
+        "label": "Sauro (2011): Measuring Usability with the System Usability Scale",
+        "url": "https://measuringu.com/sus/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "nielsens-ten-heuristics-and-heuristic-evaluation",
+    "id": 6,
+    "title": "Nielsen's Ten Heuristics and Heuristic Evaluation",
+    "topic": "Usability",
+    "requires": [
+      "usability-and-its-definition-iso-9241-11"
+    ],
+    "related": [],
+    "summary": "Nielsen's ten heuristics and how to run a heuristic evaluation, including severity ratings and how many evaluators it takes.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "NN/g: 10 Usability Heuristics for User Interface Design",
+        "url": "https://www.nngroup.com/articles/ten-usability-heuristics/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen (1994): The Theory Behind Heuristic Evaluations",
+        "url": "https://www.nngroup.com/articles/how-to-conduct-a-heuristic-evaluation/theory-heuristic-evaluations/",
+        "type": "doc"
+      },
+      {
+        "label": "Moran and Gordon (2023): How to Conduct a Heuristic Evaluation",
+        "url": "https://www.nngroup.com/articles/how-to-conduct-a-heuristic-evaluation/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen (1994): Severity Ratings for Usability Problems",
+        "url": "https://www.nngroup.com/articles/how-to-rate-the-severity-of-usability-problems/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen: Characteristics of Usability Problems Found by Heuristic Evaluation",
+        "url": "https://www.nngroup.com/articles/usability-problems-found-by-heuristic-evaluation/",
+        "type": "doc"
+      },
+      {
+        "label": "Molich: Molich and Nielsen's heuristics (1990)",
+        "url": "https://www.dialogdesign.dk/molich-and-nielsens-heuristics-1990/",
+        "type": "doc"
+      },
+      {
+        "label": "Molich: Nielsen's heuristics (1994)",
+        "url": "https://www.dialogdesign.dk/nielsens-heuristics-1994/",
+        "type": "doc"
+      },
+      {
+        "label": "Molich: CUE studies",
+        "url": "https://www.dialogdesign.dk/cue-studies/",
+        "type": "doc"
+      },
+      {
+        "label": "Sauro (2010): A Brief History of the Magic Number 5",
+        "url": "https://measuringu.com/five-history/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "usability-testing-and-the-system-usability-scale",
+    "id": 7,
+    "title": "Usability Testing and the System Usability Scale",
+    "topic": "Usability",
+    "requires": [
+      "nielsens-ten-heuristics-and-heuristic-evaluation"
+    ],
+    "related": [
+      {
+        "label": "Human Studies in Computing Research",
+        "slug": "human-studies-in-computing-research",
+        "feature": "curriculum/graduate-studies/research-statistics"
+      },
+      {
+        "label": "Aggregation, Variability, and Reporting",
+        "slug": "aggregation-variability-and-reporting",
+        "feature": "curriculum/graduate-studies/research-statistics"
+      }
+    ],
+    "summary": "Planning a usability test, think-aloud, task success and time, and scoring the System Usability Scale correctly.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Nielsen (2000): Why You Only Need to Test with 5 Users",
+        "url": "https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen (2012): How Many Test Users in a Usability Study?",
+        "url": "https://www.nngroup.com/articles/how-many-test-users/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen (2006): Quantitative Studies, How Many Users to Test?",
+        "url": "https://www.nngroup.com/articles/quantitative-studies-how-many-users/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen (2012): Thinking Aloud, the #1 Usability Tool",
+        "url": "https://www.nngroup.com/articles/thinking-aloud-the-1-usability-tool/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen (2001): Success Rate, the Simplest Usability Metric",
+        "url": "https://www.nngroup.com/articles/success-rate-the-simplest-usability-metric/",
+        "type": "doc"
+      },
+      {
+        "label": "Pernice (2014): Talking with Participants During a Usability Test",
+        "url": "https://www.nngroup.com/articles/talking-to-users/",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia: Think aloud protocol",
+        "url": "https://en.wikipedia.org/wiki/Think_aloud_protocol",
+        "type": "doc"
+      },
+      {
+        "label": "Sauro (2010): Why you only need to test with five users (explained)",
+        "url": "https://measuringu.com/five-users/",
+        "type": "doc"
+      },
+      {
+        "label": "Sauro (2010): A Brief History of the Magic Number 5",
+        "url": "https://measuringu.com/five-history/",
+        "type": "doc"
+      },
+      {
+        "label": "Straub (2004): Enough is enough... but five probably isn't",
+        "url": "https://www.humanfactors.com/newsletters/enough_is_enough.html",
+        "type": "doc"
+      },
+      {
+        "label": "Molich: CUE studies",
+        "url": "https://www.dialogdesign.dk/cue-studies/",
+        "type": "doc"
+      },
+      {
+        "label": "Sauro (2011): Measuring Usability with the System Usability Scale",
+        "url": "https://measuringu.com/sus/",
+        "type": "doc"
+      },
+      {
+        "label": "Sauro (2013): 10 Things to Know About the System Usability Scale",
+        "url": "https://measuringu.com/10-things-sus/",
+        "type": "doc"
+      },
+      {
+        "label": "Sauro (2018): 5 Ways to Interpret a SUS Score",
+        "url": "https://measuringu.com/interpret-sus-score/",
+        "type": "doc"
+      },
+      {
+        "label": "Lewis and Sauro (2022): Sample Sizes for Comparing SUS to a Benchmark",
+        "url": "https://measuringu.com/sample-sizes-for-sus-benchmark-tests/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "user-research-interviews-personas-task-analysis",
+    "id": 8,
+    "title": "User Research: Interviews, Personas, Task Analysis",
+    "topic": "Research and Design",
+    "requires": [
+      "usability-testing-and-the-system-usability-scale"
+    ],
+    "related": [
+      {
+        "label": "Requirements Elicitation, Specification, and Validation",
+        "slug": "requirements-elicitation-specification-and-validation",
+        "feature": "curriculum/software-distributed/software-engineering"
+      }
+    ],
+    "summary": "Interviews and contextual inquiry, personas grounded in evidence instead of invention, and hierarchical task analysis.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Rosala and Pernice (2023): User Interviews 101",
+        "url": "https://www.nngroup.com/articles/user-interviews/",
+        "type": "doc"
+      },
+      {
+        "label": "Flaherty (2020): Contextual Inquiry",
+        "url": "https://www.nngroup.com/articles/contextual-inquiry/",
+        "type": "doc"
+      },
+      {
+        "label": "Holtzblatt and Beyer: Contextual Design",
+        "url": "https://ixdf.org/literature/book/the-encyclopedia-of-human-computer-interaction-2nd-ed/contextual-design",
+        "type": "book"
+      },
+      {
+        "label": "Dykes (2025): Personas Make Users Memorable",
+        "url": "https://www.nngroup.com/articles/persona/",
+        "type": "doc"
+      },
+      {
+        "label": "Pruitt and Grudin (2003): Personas: Practice and Theory",
+        "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2017/03/pruitt-grudinold.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Annett and Duncan (1967): Task Analysis and Training Design",
+        "url": "https://files.eric.ed.gov/fulltext/ED019566.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Rosala (2020): Task Analysis",
+        "url": "https://www.nngroup.com/articles/task-analysis/",
+        "type": "doc"
+      },
+      {
+        "label": "Usability Body of Knowledge: Hierarchical Task Analysis",
+        "url": "https://usabilitybok.org/hierarchical-task-analysis/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "prototyping-fidelity-sketch-wireframe-mockup-prototype",
+    "id": 9,
+    "title": "Prototyping Fidelity: Sketch, Wireframe, Mockup, Prototype",
+    "topic": "Research and Design",
+    "requires": [
+      "user-research-interviews-personas-task-analysis"
+    ],
+    "related": [
+      {
+        "label": "User Research: Interviews, Personas, Task Analysis",
+        "slug": "user-research-interviews-personas-task-analysis"
+      },
+      {
+        "label": "Requirements Elicitation, Specification, and Validation",
+        "slug": "requirements-elicitation-specification-and-validation",
+        "feature": "curriculum/software-distributed/software-engineering"
+      }
+    ],
+    "summary": "Sketch, wireframe, mockup, and prototype: the question each fidelity answers and the cost of testing at the wrong one.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Virzi, Sokolov, Karis (1996): Usability Problem Identification Using Both Low- and High-Fidelity Prototypes",
+        "url": "https://chi1996.acm.org/proceedings/papers/Virzi/RAVtext.html",
+        "type": "paper"
+      },
+      {
+        "label": "Walker, Takayama, Landay (2002): High-Fidelity or Low-Fidelity, Paper or Computer?",
+        "url": "https://www.leilatakayama.org/downloads/Takayama.Prototypes_HFES2002_prepress.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Lim, Stolterman, Tenenberg (2008): The Anatomy of Prototypes",
+        "url": "https://faculty.washington.edu/jtenenbg/publications/limAnatomyOfPrototypes-tochi2008.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Tohidi, Buxton, Baecker, Sellen (2006): Getting the Right Design and the Design Right",
+        "url": "https://www.microsoft.com/en-us/research/publication/getting-the-design-right-and-the-right-design-testing-many-is-better-than-one/",
+        "type": "paper"
+      },
+      {
+        "label": "Pernice (2016): UX Prototypes, Low Fidelity vs. High Fidelity",
+        "url": "https://www.nngroup.com/articles/ux-prototype-hi-lo-fidelity/",
+        "type": "doc"
+      },
+      {
+        "label": "Wang (2024): UX Deliverables Glossary",
+        "url": "https://www.nngroup.com/articles/ux-deliverables-glossary/",
+        "type": "doc"
+      },
+      {
+        "label": "Gordon (2021): How to Draw a Wireframe",
+        "url": "https://www.nngroup.com/articles/draw-wireframe-even-if-you-cant-draw/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "navigation-menus-windows-and-information-architecture",
+    "id": 10,
+    "title": "Navigation, Menus, Windows, and Information Architecture",
+    "topic": "Research and Design",
+    "requires": [
+      "prototyping-fidelity-sketch-wireframe-mockup-prototype"
+    ],
+    "related": [
+      {
+        "label": "Prototyping Fidelity: Sketch, Wireframe, Mockup, Prototype",
+        "slug": "prototyping-fidelity-sketch-wireframe-mockup-prototype"
+      }
+    ],
+    "summary": "Navigation patterns, menus, windows and dialogs, and the information architecture methods behind them, such as card sorting and tree testing.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Larson, Czerwinski (1998): Web Page Design",
+        "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/12/chi98_webdesign.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Porter (2003): Testing the Three-Click Rule",
+        "url": "https://articles.centercentre.com/three_click_rule/",
+        "type": "doc"
+      },
+      {
+        "label": "Laubheimer (2019): The 3-Click Rule",
+        "url": "https://www.nngroup.com/articles/3-click-rule/",
+        "type": "doc"
+      },
+      {
+        "label": "Pernice, Budiu (2016): Hamburger Menus and Hidden Navigation Hurt UX Metrics",
+        "url": "https://www.nngroup.com/articles/hamburger-menus/",
+        "type": "doc"
+      },
+      {
+        "label": "Tankala, Sherwin (2024): Card Sorting",
+        "url": "https://www.nngroup.com/articles/card-sorting-definition/",
+        "type": "doc"
+      },
+      {
+        "label": "Laubheimer (2023): Tree Testing",
+        "url": "https://www.nngroup.com/articles/tree-testing/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen (2004): Card Sorting, How Many Users to Test",
+        "url": "https://www.nngroup.com/articles/card-sorting-how-many-users-to-test/",
+        "type": "doc"
+      },
+      {
+        "label": "Fessenden (2017): Modal and Nonmodal Dialogs",
+        "url": "https://www.nngroup.com/articles/modal-nonmodal-dialog/",
+        "type": "doc"
+      },
+      {
+        "label": "WAI-ARIA APG: Dialog (Modal) Pattern",
+        "url": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
+        "type": "doc"
+      },
+      {
+        "label": "WAI-ARIA APG: Disclosure Navigation Menu",
+        "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/",
+        "type": "doc"
+      },
+      {
+        "label": "MDN: The dialog element",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "forms-and-input-design",
+    "id": 11,
+    "title": "Forms and Input Design",
+    "topic": "Interface Elements",
+    "requires": [
+      "navigation-menus-windows-and-information-architecture"
+    ],
+    "related": [
+      {
+        "label": "Navigation, Menus, Windows, and Information Architecture",
+        "slug": "navigation-menus-windows-and-information-architecture"
+      }
+    ],
+    "summary": "Labels, input types, defaults, validation timing, and error messages, for forms people actually finish.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Wroblewski (2009): Inline Validation in Web Forms",
+        "url": "https://alistapart.com/article/inline-validation-in-web-forms/",
+        "type": "doc"
+      },
+      {
+        "label": "Bargas-Avila et al. (2007): Usable Error Message Presentation",
+        "url": "https://edoc.unibas.ch/8009/",
+        "type": "paper"
+      },
+      {
+        "label": "Bargas-Avila et al. (2010): Introducing 20 Guidelines for Usable Web Form Design",
+        "url": "https://www.intechopen.com/chapters/10814",
+        "type": "paper"
+      },
+      {
+        "label": "Seckler et al. (2014): Designing Usable Web Forms",
+        "url": "https://research.google.com/pubs/archive/42513.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Penzo (2006): Label Placement in Forms",
+        "url": "https://www.uxmatters.com/mt/archives/2006/07/label-placement-in-forms.php",
+        "type": "doc"
+      },
+      {
+        "label": "Sherwin (2014): Placeholders in Form Fields Are Harmful",
+        "url": "https://www.nngroup.com/articles/form-design-placeholders/",
+        "type": "doc"
+      },
+      {
+        "label": "Krause (2019): 10 Design Guidelines for Reporting Errors in Forms",
+        "url": "https://www.nngroup.com/articles/errors-forms-design-guidelines/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen (2005): The Power of Defaults",
+        "url": "https://www.nngroup.com/articles/the-power-of-defaults/",
+        "type": "doc"
+      },
+      {
+        "label": "GOV.UK Design System: Validation",
+        "url": "https://design-system.service.gov.uk/patterns/validation/",
+        "type": "doc"
+      },
+      {
+        "label": "GOV.UK Design System: Text input",
+        "url": "https://design-system.service.gov.uk/components/text-input/",
+        "type": "doc"
+      },
+      {
+        "label": "GOV.UK Design System: Error message",
+        "url": "https://design-system.service.gov.uk/components/error-message/",
+        "type": "doc"
+      },
+      {
+        "label": "Laakso (2020): Why the GOV.UK Design System team changed the input type for numbers",
+        "url": "https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/",
+        "type": "doc"
+      },
+      {
+        "label": "WHATWG HTML: The input element",
+        "url": "https://html.spec.whatwg.org/multipage/input.html",
+        "type": "doc"
+      },
+      {
+        "label": "WHATWG HTML: Form control infrastructure",
+        "url": "https://html.spec.whatwg.org/multipage/form-control-infrastructure.html",
+        "type": "doc"
+      },
+      {
+        "label": "MDN: inputmode",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/inputmode",
+        "type": "doc"
+      },
+      {
+        "label": "MDN: :user-invalid",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:user-invalid",
+        "type": "doc"
+      },
+      {
+        "label": "WCAG 2.2",
+        "url": "https://www.w3.org/TR/WCAG22/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "color-typography-and-icons",
+    "id": 12,
+    "title": "Color, Typography, and Icons",
+    "topic": "Interface Elements",
+    "requires": [
+      "forms-and-input-design"
+    ],
+    "related": [
+      {
+        "label": "Grayscale, Color, and Color Spaces",
+        "slug": "grayscale-color-and-color-spaces",
+        "feature": "curriculum/specialization/image-processing"
+      }
+    ],
+    "summary": "Color contrast and color vision, typographic hierarchy and legibility, and when an icon needs a label.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "W3C (2024): Web Content Accessibility Guidelines 2.2",
+        "url": "https://www.w3.org/TR/WCAG22/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C: Understanding Contrast (Minimum)",
+        "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+        "type": "doc"
+      },
+      {
+        "label": "MedlinePlus Genetics: Color vision deficiency",
+        "url": "https://medlineplus.gov/genetics/condition/color-vision-deficiency/",
+        "type": "doc"
+      },
+      {
+        "label": "Perea (2013): Why does the APA recommend the use of serif fonts?",
+        "url": "https://www.psicothema.com/pdf/4073.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Machado, Oliveira, and Fernandes (2009): A Physiologically-based Model for Simulation of Color Vision Deficiency",
+        "url": "https://www.inf.ufrgs.br/~oliveira/pubs_files/CVD_Simulation/CVD_Simulation.html",
+        "type": "paper"
+      },
+      {
+        "label": "Nielsen Norman Group (2014): Icon Usability",
+        "url": "https://www.nngroup.com/articles/icon-usability/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen Norman Group (2016): Hamburger Menus and Hidden Navigation Hurt UX Metrics",
+        "url": "https://www.nngroup.com/articles/hamburger-menus/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen Norman Group (2025): The Hamburger-Menu Icon Today: Is it Recognizable?",
+        "url": "https://www.nngroup.com/articles/hamburger-menu-icon-recognizability/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "semiotic-engineering-communicability-and-the-designers-message",
+    "id": 13,
+    "title": "Semiotic Engineering: Communicability and the Designer's Message",
+    "topic": "Interface Elements",
+    "requires": [
+      "color-typography-and-icons"
+    ],
+    "related": [
+      {
+        "label": "Color, Typography, and Icons",
+        "slug": "color-typography-and-icons"
+      },
+      {
+        "label": "Mental Models and the Gulfs of Execution and Evaluation",
+        "slug": "mental-models-and-the-gulfs-of-execution-and-evaluation"
+      },
+      {
+        "label": "Forms and Input Design",
+        "slug": "forms-and-input-design"
+      }
+    ],
+    "summary": "Semiotic engineering: the interface as a message from designer to user, and the communicability evaluation method with its breakdown tags.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "de Souza: Semiotics, Encyclopedia of Human-Computer Interaction, 2nd ed.",
+        "url": "https://ixdf.org/literature/book/the-encyclopedia-of-human-computer-interaction-2nd-ed/semiotics",
+        "type": "book"
+      },
+      {
+        "label": "de Souza, Prates, Carey (2000): Missing and Declining Affordances",
+        "url": "https://www.scielo.br/j/jbcos/a/6nykpPHBs7ZCHZg4ddJSw6v/?lang=en",
+        "type": "paper"
+      },
+      {
+        "label": "SERG (2006): Communicability Evaluation Case Study",
+        "url": "https://id-book.pages.dev/downloads/casestudy_14point3.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Mattos (2010): Uma extensão do Método de Avaliação de Comunicabilidade para sistemas colaborativos",
+        "url": "https://repositorio.ufmg.br/bitstream/1843/SLSS-89PHM6/1/bernardoaugusto.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Vasconcelos, Monteiro (2025): Comunicabilidade em comentários de usuários",
+        "url": "https://sol.sbc.org.br/index.php/ihc_estendido/article/download/37766/37548",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "accessibility-and-wcag",
+    "id": 14,
+    "title": "Accessibility and WCAG",
+    "topic": "Inclusive and Modern Interfaces",
+    "requires": [
+      "semiotic-engineering-communicability-and-the-designers-message"
+    ],
+    "related": [
+      {
+        "label": "Color, Typography, and Icons",
+        "slug": "color-typography-and-icons"
+      }
+    ],
+    "summary": "WCAG's four principles and conformance levels, semantic markup, keyboard access, and testing with assistive technology, against the current published version of the standard.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "W3C (2024): Web Content Accessibility Guidelines 2.2",
+        "url": "https://www.w3.org/TR/WCAG22/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C WAI: WCAG 2 Overview",
+        "url": "https://www.w3.org/WAI/standards-guidelines/wcag/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C WAI: WCAG 2 FAQ",
+        "url": "https://www.w3.org/WAI/standards-guidelines/wcag/faq/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C (2026): WCAG 3.0 Working Draft",
+        "url": "https://www.w3.org/TR/wcag-3.0/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C WAI: WCAG 3 Introduction",
+        "url": "https://www.w3.org/WAI/standards-guidelines/wcag/wcag3-intro/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C WAI: ARIA Authoring Practices, Read Me First",
+        "url": "https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C WAI: Selecting Web Accessibility Evaluation Tools",
+        "url": "https://www.w3.org/WAI/test-evaluate/tools/selecting/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C WAI: Involving Users in Evaluating Web Accessibility",
+        "url": "https://www.w3.org/WAI/test-evaluate/involving-users/",
+        "type": "doc"
+      },
+      {
+        "label": "axe-core on GitHub",
+        "url": "https://github.com/dequelabs/axe-core",
+        "type": "doc"
+      },
+      {
+        "label": "GDS (2017): What we found when we tested tools on the world's least-accessible webpage",
+        "url": "https://accessibility.blog.gov.uk/2017/02/24/what-we-found-when-we-tested-tools-on-the-worlds-least-accessible-webpage/",
+        "type": "doc"
+      },
+      {
+        "label": "WebAIM (2026): The WebAIM Million",
+        "url": "https://webaim.org/projects/million/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "internationalization-and-localization",
+    "id": 15,
+    "title": "Internationalization and Localization",
+    "topic": "Inclusive and Modern Interfaces",
+    "requires": [
+      "accessibility-and-wcag"
+    ],
+    "related": [
+      {
+        "label": "Accessibility and WCAG",
+        "slug": "accessibility-and-wcag"
+      }
+    ],
+    "summary": "Internationalization versus localization, text expansion, right-to-left layout, and date, number, and plural rules through Unicode CLDR and ICU.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "W3C: Localization vs. Internationalization",
+        "url": "https://www.w3.org/International/questions/qa-i18n",
+        "type": "doc"
+      },
+      {
+        "label": "W3C: Text size in translation",
+        "url": "https://www.w3.org/International/articles/article-text-size",
+        "type": "doc"
+      },
+      {
+        "label": "W3C: Unicode Bidirectional Algorithm basics",
+        "url": "https://www.w3.org/International/articles/inline-bidi-markup/uba-basics",
+        "type": "doc"
+      },
+      {
+        "label": "W3C: Inline markup and bidirectional text in HTML",
+        "url": "https://www.w3.org/International/articles/inline-bidi-markup/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C: Structural markup and right-to-left text in HTML",
+        "url": "https://www.w3.org/International/questions/qa-html-dir",
+        "type": "doc"
+      },
+      {
+        "label": "Unicode: UAX #9, Unicode Bidirectional Algorithm",
+        "url": "https://www.unicode.org/reports/tr9/",
+        "type": "doc"
+      },
+      {
+        "label": "Unicode CLDR: Plural Rules",
+        "url": "https://cldr.unicode.org/index/cldr-spec/plural-rules",
+        "type": "doc"
+      },
+      {
+        "label": "Unicode CLDR 46: Language Plural Rules chart",
+        "url": "https://www.unicode.org/cldr/charts/46/supplemental/language_plural_rules.html",
+        "type": "doc"
+      },
+      {
+        "label": "ICU User Guide: Formatting Messages",
+        "url": "https://unicode-org.github.io/icu/userguide/format_parse/messages/",
+        "type": "doc"
+      },
+      {
+        "label": "MDN: Intl.PluralRules",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules",
+        "type": "doc"
+      },
+      {
+        "label": "Mozilla: Firefox RTL Guidelines",
+        "url": "https://firefox-source-docs.mozilla.org/code-quality/coding-style/rtl_guidelines.html",
+        "type": "doc"
+      },
+      {
+        "label": "Material Design (legacy): Bidirectionality",
+        "url": "https://m1.material.io/usability/bidirectionality.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ubiquitous-computing-and-post-wimp-interaction",
+    "id": 16,
+    "title": "Ubiquitous Computing and Post-WIMP Interaction",
+    "topic": "Inclusive and Modern Interfaces",
+    "requires": [
+      "internationalization-and-localization"
+    ],
+    "related": [
+      {
+        "label": "Internationalization and Localization",
+        "slug": "internationalization-and-localization"
+      },
+      {
+        "label": "Mental Models and the Gulfs of Execution and Evaluation",
+        "slug": "mental-models-and-the-gulfs-of-execution-and-evaluation"
+      },
+      {
+        "label": "Fitts's Law and Hick's Law",
+        "slug": "fitts-law-and-hicks-law"
+      }
+    ],
+    "summary": "Weiser's vision of ubiquitous computing and post-WIMP interaction through touch, voice, gesture, and context awareness, with what held up and what did not.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Jacob et al. (2008): Reality-Based Interaction",
+        "url": "https://www.cs.tufts.edu/~jacob/papers/chi08.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Nielsen (1993): Noncommand User Interfaces",
+        "url": "https://www.nngroup.com/articles/noncommand/",
+        "type": "doc"
+      },
+      {
+        "label": "Scientific American: The Computer for the 21st Century",
+        "url": "https://www.scientificamerican.com/article/the-computer-for-the-21st-century/",
+        "type": "doc"
+      },
+      {
+        "label": "Bell and Dourish (2007): Yesterday's Tomorrows",
+        "url": "https://www.dourish.com/publications/2007/BellDourish-YesterdaysTomorrows-PUC.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Rogers (2022): The Four Phases of Pervasive Computing",
+        "url": "https://discovery.ucl.ac.uk/10153147/1/Rogers_Four%20Phases%20of%20Pervasive%20Computing-Rogers-Jun22.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Pavlus (2013): How Smart Watches and Phablets Fulfill a 20-Year-Old Prophecy",
+        "url": "https://www.technologyreview.com/2013/03/18/179356/how-smart-watches-and-phablets-fulfill-a-20-year-old-prophecy-about-ubiquitous-computing/",
+        "type": "doc"
+      },
+      {
+        "label": "Dourish (2004): What We Talk About When We Talk About Context",
+        "url": "https://www.dourish.com/publications/2004/PUC2004-context.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "W3C: WCAG 2.2",
+        "url": "https://www.w3.org/TR/WCAG22/",
+        "type": "doc"
+      },
+      {
+        "label": "Apple HIG: Accessibility",
+        "url": "https://developer.apple.com/design/human-interface-guidelines/accessibility",
+        "type": "doc"
+      },
+      {
+        "label": "Apple HIG: Eyes",
+        "url": "https://developer.apple.com/design/human-interface-guidelines/eyes",
+        "type": "doc"
+      },
+      {
+        "label": "Whitenton and Budiu (2018): The Paradox of Intelligent Assistants",
+        "url": "https://www.nngroup.com/articles/intelligent-assistants-poor-usability-high-adoption/",
+        "type": "doc"
+      },
+      {
+        "label": "Koenecke et al. (2020): Racial Disparities in Automated Speech Recognition",
+        "url": "https://ideas.repec.org/a/nas/journl/v117y2020p7684-7689.html",
+        "type": "paper"
+      },
+      {
+        "label": "Amazon (2025): Introducing Alexa+",
+        "url": "https://www.aboutamazon.com/news/devices/new-alexa-generative-artificial-intelligence",
+        "type": "doc"
+      },
+      {
+        "label": "Norman (2010): Natural User Interfaces Are Not Natural",
+        "url": "https://jnd.org/natural-user-interfaces-are-not-natural/",
+        "type": "doc"
+      },
+      {
+        "label": "Wobbrock et al. (2009): User-Defined Gestures for Surface Computing",
+        "url": "https://faculty.washington.edu/wobbrock/pubs/chi-09.02.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Game Developer (2017): Microsoft kills the Kinect",
+        "url": "https://gamedeveloper.com/business/microsoft-kills-the-kinect-as-production-shuts-down",
+        "type": "doc"
+      },
+      {
+        "label": "Jacob (1990): What You Look At Is What You Get",
+        "url": "https://www.cs.tufts.edu/~jacob/papers/chi90.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Pew Research Center (2026): Americans' Use of Mobile Devices",
+        "url": "https://www.pewresearch.org/internet/fact-sheet/mobile/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "visual-encoding-and-perception-in-data-visualization",
+    "id": 17,
+    "title": "Visual Encoding and Perception in Data Visualization",
+    "topic": "Inclusive and Modern Interfaces",
+    "requires": [
+      "ubiquitous-computing-and-post-wimp-interaction"
+    ],
+    "related": [
+      {
+        "label": "Intuition and Visualization of Results",
+        "slug": "intuition-and-visualization-of-results",
+        "feature": "curriculum/graduate-studies/research-statistics"
+      }
+    ],
+    "summary": "Cleveland and McGill's ranking of perceptual encodings, preattentive features, and choosing a chart by the comparison it has to support.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Heer and Bostock (2010): Crowdsourcing Graphical Perception",
+        "url": "https://homes.cs.washington.edu/~jheer/files/2010-MTurk-CHI.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Davis et al. (2022): The Risks of Ranking",
+        "url": "https://arxiv.org/pdf/2212.10533",
+        "type": "paper"
+      },
+      {
+        "label": "Xu, Williams, and Wall (2023): Let's Get Vysical",
+        "url": "https://arxiv.org/pdf/2308.04392",
+        "type": "paper"
+      },
+      {
+        "label": "Nguyen et al. (2025): Evaluating Graphical Perception with Multimodal LLMs",
+        "url": "https://arxiv.org/pdf/2504.04221",
+        "type": "paper"
+      },
+      {
+        "label": "Saket, Endert, and Demiralp (2018): Task-Based Effectiveness of Basic Visualizations",
+        "url": "https://arxiv.org/pdf/1709.08546",
+        "type": "paper"
+      },
+      {
+        "label": "Bertini, Correll, and Franconeri (2020): Why Shouldn't All Charts Be Scatter Plots?",
+        "url": "https://arxiv.org/pdf/2008.11310",
+        "type": "paper"
+      },
+      {
+        "label": "Skau and Kosara (2016): Arcs, Angles, or Areas",
+        "url": "https://kosara.net/papers/2016/Skau-EuroVis-2016.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Wolfe (2021): Guided Search 6.0",
+        "url": "https://search.bwh.harvard.edu/new/pubs/Wolfe2021_GS6.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Wolfe (2020): Visual Search",
+        "url": "https://search.bwh.harvard.edu/new/pubs/Wolfe2020_VisualSearch_annurev-vision.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Wolfe and Horowitz (2017): Five Factors That Guide Attention",
+        "url": "https://search.bwh.harvard.edu/new/pubs/FiveFactors_Wolfe-Horowitz_2017.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-evaluating-a-real-interface-end-to-end",
+    "id": 18,
+    "title": "Capstone: Evaluating a Real Interface End to End",
+    "topic": "Capstone",
+    "requires": [
+      "visual-encoding-and-perception-in-data-visualization"
+    ],
+    "related": [
+      {
+        "label": "What HCI Studies: Users, Tasks, and Context",
+        "slug": "what-hci-studies-users-tasks-and-context"
+      },
+      {
+        "label": "User Research: Interviews, Personas, Task Analysis",
+        "slug": "user-research-interviews-personas-task-analysis"
+      },
+      {
+        "label": "Nielsen's Ten Heuristics and Heuristic Evaluation",
+        "slug": "nielsens-ten-heuristics-and-heuristic-evaluation"
+      },
+      {
+        "label": "Usability Testing and the System Usability Scale",
+        "slug": "usability-testing-and-the-system-usability-scale"
+      },
+      {
+        "label": "Accessibility and WCAG",
+        "slug": "accessibility-and-wcag"
+      }
+    ],
+    "summary": "One real interface evaluated across the whole discipline: task analysis, heuristic evaluation, a small usability test scored with SUS, a WCAG check, and a prioritized list of findings.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "W3C, Web Content Accessibility Guidelines (WCAG) 2.2",
+        "url": "https://www.w3.org/TR/WCAG22/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C, Understanding SC 2.4.1: Bypass Blocks",
+        "url": "https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html",
+        "type": "doc"
+      },
+      {
+        "label": "Deque, axe-core",
+        "url": "https://github.com/dequelabs/axe-core",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen Norman Group, 10 Usability Heuristics for User Interface Design",
+        "url": "https://www.nngroup.com/articles/ten-usability-heuristics/",
+        "type": "doc"
+      },
+      {
+        "label": "Nielsen Norman Group, Severity Ratings for Usability Problems",
+        "url": "https://www.nngroup.com/articles/how-to-rate-the-severity-of-usability-problems/",
+        "type": "doc"
+      },
+      {
+        "label": "MeasuringU, Measuring Usability with the System Usability Scale",
+        "url": "https://measuringu.com/sus/",
+        "type": "doc"
+      }
+    ]
+  }
+]

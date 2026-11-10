@@ -4,6 +4,7 @@ import { TrackIcon } from '../../components/track-icon/track-icon';
 import { COMPLEMENTARY_AREAS } from '../computer-science/complementary-studies.data';
 import { AuthService } from '../../services/auth.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { XpService } from '../../services/xp.service';
 
 interface TopicCard {
@@ -52,9 +53,10 @@ export class LandingPage implements OnInit {
     if (this.auth.currentUser()) return;
 
     this.seo.set({
-      title: 'My University — A Computer Science curriculum, one topic at a time',
-      description: 'A from-scratch Computer Science curriculum plus Java, Ruby, Spring, PostgreSQL, system design, and algorithms — tracked by XP, one topic at a time.',
+      title: $localize`:@@landing.seo.title:My University: A Computer Science curriculum, one topic at a time`,
+      description: $localize`:@@landing.seo.description:A from-scratch Computer Science curriculum plus Java, Ruby, Spring, PostgreSQL, system design, and algorithms, tracked by XP, one topic at a time.`,
       path: '/',
+      alternates: localizedAlternates('/'),
     });
 
     // Public endpoint — safe to show to a logged-out visitor as real, live proof

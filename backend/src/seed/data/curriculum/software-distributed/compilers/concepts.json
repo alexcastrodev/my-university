@@ -274,7 +274,9 @@
     "title": "Register Allocation via Graph Coloring",
     "topic": "Code Generation",
     "requires": ["instruction-selection-tree-pattern-matching"],
-    "related": [],
+    "related": [
+      { "label": "Graph Coloring and the Chromatic Number", "slug": "graph-coloring-and-the-chromatic-number", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
     "summary": "Instruction selection assumes an unlimited supply of virtual registers; real hardware has a handful. Register allocation builds an interference graph from live-variable analysis (two values that are simultaneously live can't share a register), colors it with K colors for K real registers, and — when no valid coloring exists — spills a value to the stack or coalesces registers made redundant by a move, the Chaitin-style algorithm real compilers still use.",
     "publishedAt": "2026-09-07",
     "references": [

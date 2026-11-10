@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-21
+version: 1.2
+updatedAt: 2026-11-03
 title: "Solid Queue, Solid Cache e Solid Cable: os Padrões Sem Redis do Rails 8"
 summary: O Rails 8 usa por padrão adaptadores de job, cache e pubsub apoiados em banco de dados em vez de Redis; a 37signals cortou o custo de cache do Basecamp em 80% e sua latência P95 pela metade fazendo isso, mas polling não é push, e o teto honesto de cada adaptador é documentado, não presumido.
 ---
@@ -116,7 +116,7 @@ production:
 Controles de concorrência (`limits_concurrency`) limitam quantos jobs com
 uma dada chave rodam de uma vez; esse é um recurso do Solid Queue,
 distinto dos *padrões de design* de idempotência e fan-out/fan-in cobertos
-em [Jobs em Segundo Plano: Idempotência e Fan-Out](background-jobs-idempotency-and-fan-out.md):
+em [Jobs em Segundo Plano: Idempotência e Fan-Out](background-jobs-idempotency-and-fan-out):
 
 ```ruby
 class DeliverAnnouncementToContactJob < ApplicationJob
@@ -182,7 +182,7 @@ aposta dependente de carga de trabalho: uma aplicação levemente cacheada
 para começar não vai ver o mesmo retorno, e segundo o README do Solid
 Cache, latência por leitura ainda importa nesse caso; nada aqui dispensa
 o raciocínio de latência de cache store coberto em [Russian Doll
-Caching](russian-doll-caching.md), que é dono da pergunta de estratégia
+Caching](russian-doll-caching), que é dono da pergunta de estratégia
 sobre *o que* cachear e *como* chaveá-lo, não do motor de armazenamento
 por baixo.
 
@@ -304,7 +304,7 @@ das aplicações Rails no formato CRUD, nunca acontece.
   Queue é dimensionar o `threads:` de um worker igual a ou abaixo do
   tamanho do pool do banco de dados de fila menos 2; errar isso não falha
   alto, aparece como `ActiveRecord::ConnectionTimeoutError` intermitente
-  sob carga; veja [Connection Pooling e PgBouncer](connection-pooling-and-pgbouncer.md)
+  sob carga; veja [Connection Pooling e PgBouncer](connection-pooling-and-pgbouncer)
   para a matemática de dimensionamento de pool com a qual isso interage.
 - **"Menos peças móveis" não significa "um banco de dados".** A
   configuração recomendada para os três adaptadores é um banco de dados

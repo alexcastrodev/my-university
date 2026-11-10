@@ -28,6 +28,7 @@ export interface CSharpConceptSummary {
   topic: string;
   summary: string;
   publishedAt: string;
+  updatedAt: string | null;
   labUrl?: string;
   language: Language;
   availableLanguages: Language[];
@@ -35,7 +36,6 @@ export interface CSharpConceptSummary {
 
 export interface CSharpConceptDetail extends CSharpConceptSummary {
   version: string | null;
-  updatedAt: string | null;
   sections: ConceptSection[];
   /** Markdown of the `## Lab` section, kept out of `sections` so it only shows in the Lab tab. */
   lab?: string;
@@ -85,7 +85,7 @@ export class CSharpConceptsService {
   }
 
   private readSummary(meta: ConceptMeta, lang: Language): CSharpConceptSummary {
-    const { language, availableLanguages, title, summary } = readConceptContent(
+    const { language, availableLanguages, title, summary, updatedAt } = readConceptContent(
       DATA_DIR,
       meta.slug,
       lang,
@@ -100,6 +100,7 @@ export class CSharpConceptsService {
       topic: meta.topic,
       summary: summary ?? meta.summary,
       publishedAt: meta.publishedAt,
+      updatedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),
       language,
       availableLanguages,

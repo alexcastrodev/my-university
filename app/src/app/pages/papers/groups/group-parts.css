@@ -1,0 +1,279 @@
+:host {
+  display: block;
+}
+
+.head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.block {
+  margin-bottom: 1.5rem;
+}
+
+.block-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: var(--mu-ink);
+}
+
+.muted {
+  margin: 0 0 0.75rem;
+  font-size: 0.88rem;
+  color: var(--mu-muted);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  min-width: 0;
+  padding: 0.75rem 0.9rem;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 10px;
+}
+
+.item-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--mu-ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+a.item-title:hover {
+  color: var(--mu-accent-strong);
+  text-decoration: underline;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.avatar {
+  display: inline-flex;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+  background: var(--mu-bg-alt);
+  border-radius: 50%;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.author {
+  font-weight: 600;
+  color: var(--mu-ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+a.author:hover {
+  text-decoration: underline;
+}
+
+.badge {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--mu-accent-strong, var(--mu-accent));
+  background: var(--mu-accent-soft, var(--mu-bg-alt));
+  border-radius: 999px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.75rem;
+  margin: 0.35rem 0;
+  font-size: 0.8rem;
+  color: var(--mu-muted);
+}
+
+.desc {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: var(--mu-ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.quote {
+  margin: 0 0 0.5rem;
+  padding-left: 0.7rem;
+  font-style: italic;
+  color: var(--mu-ink-soft);
+  border-left: 3px solid var(--mu-line);
+  overflow-wrap: anywhere;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.8rem;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 10px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mu-ink);
+}
+
+.field {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  font: inherit;
+  font-weight: 400;
+  color: var(--mu-ink);
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+textarea.field {
+  resize: vertical;
+}
+
+.filter .field {
+  width: auto;
+  max-width: 100%;
+}
+
+.field:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--mu-accent);
+  outline-offset: 1px;
+}
+
+.inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.inline .label {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.problem {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--mu-danger-strong);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.btn {
+  padding: 0.35rem 0.8rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mu-ink-soft);
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.btn-primary {
+  color: var(--mu-white);
+  background: var(--mu-accent);
+  border-color: var(--mu-accent);
+}
+
+.btn-danger {
+  color: var(--mu-danger-strong);
+}
+
+.empty {
+  margin: 0;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--mu-muted);
+  background: var(--mu-surface);
+  border: 1px dashed var(--mu-line);
+  border-radius: 10px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.pending-title {
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+.found {
+  margin-top: 0.75rem;
+}
+
+.muted-inline {
+  font-size: 0.8rem;
+  color: var(--mu-muted);
+}
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: var(--mu-muted);
+}
+
+.chip {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--mu-info-strong, var(--mu-ink-soft));
+  background: var(--mu-info-soft, var(--mu-bg-alt));
+  border-radius: 999px;
+}

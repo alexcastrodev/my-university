@@ -2,9 +2,9 @@
  * Static registry of the Computer Science curriculum tree, mirroring the folder slugs
  * under `backend/src/seed/data/curriculum/`. There is no semester/timeline here — a
  * module is just a parent grouping; `specialization` is the one module whose children
- * are further modules (tracks) instead of disciplines directly. All content is currently
- * empty (`concepts.json: []` on the backend) — this registry only exists to make the
- * structure browsable before any discipline has content.
+ * are further modules (tracks) instead of disciplines directly. Each entry holds the title,
+ * hours and topics the Computer Science page shows; the lessons themselves live in the
+ * discipline's `concepts.json` on the backend.
  */
 export interface CurriculumDiscipline {
   slug: string;
@@ -74,6 +74,19 @@ export const CURRICULUM: CurriculumModule[] = [
         title: $localize`:@@curriculum.foundations.mathematics-for-computing.title:Mathematics for Computing`,
         hours: 60,
         topics: [$localize`:@@curriculum.foundations.mathematics-for-computing.topic.1:linear algebra`],
+      },
+      {
+        slug: 'calculus',
+        title: $localize`:@@curriculum.foundations.calculus.title:Calculus`,
+        hours: 80,
+        topics: [
+          $localize`:@@curriculum.foundations.calculus.topic.1:limits`,
+          $localize`:@@curriculum.foundations.calculus.topic.2:derivatives`,
+          $localize`:@@curriculum.foundations.calculus.topic.3:integrals`,
+          $localize`:@@curriculum.foundations.calculus.topic.4:sequences and series`,
+          $localize`:@@curriculum.foundations.calculus.topic.5:multivariable calculus`,
+          $localize`:@@curriculum.foundations.calculus.topic.6:differential equations`,
+        ],
       },
       {
         slug: 'questions-scientific-thinking',
@@ -176,6 +189,31 @@ export const CURRICULUM: CurriculumModule[] = [
           $localize`:@@curriculum.algorithms-software.linear-programming-optimization.topic.4:integer programming`,
           $localize`:@@curriculum.algorithms-software.linear-programming-optimization.topic.5:branch and bound`,
           $localize`:@@curriculum.algorithms-software.linear-programming-optimization.topic.6:max-flow min-cut`,
+        ],
+      },
+      {
+        slug: 'numerical-methods',
+        title: $localize`:@@curriculum.algorithms-software.numerical-methods.title:Numerical Methods`,
+        hours: 60,
+        topics: [
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.1:numerical error`,
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.2:root finding`,
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.3:linear systems`,
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.4:interpolation`,
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.5:numerical integration`,
+          $localize`:@@curriculum.algorithms-software.numerical-methods.topic.6:differential equation solvers`,
+        ],
+      },
+      {
+        slug: 'formal-languages-automata',
+        title: $localize`:@@curriculum.algorithms-software.formal-languages-automata.title:Formal Languages & Automata`,
+        hours: 12,
+        topics: [
+          $localize`:@@curriculum.algorithms-software.formal-languages-automata.topic.1:finite automata`,
+          $localize`:@@curriculum.algorithms-software.formal-languages-automata.topic.2:regular expressions`,
+          $localize`:@@curriculum.algorithms-software.formal-languages-automata.topic.3:non-regularity proofs`,
+          $localize`:@@curriculum.algorithms-software.formal-languages-automata.topic.4:context-free grammars`,
+          $localize`:@@curriculum.algorithms-software.formal-languages-automata.topic.5:pushdown automata`,
         ],
       },
     ],
@@ -311,6 +349,18 @@ export const CURRICULUM: CurriculumModule[] = [
           $localize`:@@curriculum.systems.distributed-systems-i.topic.6:fault tolerance`,
         ],
       },
+      {
+        slug: 'parallel-computing',
+        title: $localize`:@@curriculum.systems.parallel-computing.title:Parallel Computing`,
+        hours: 14,
+        topics: [
+          $localize`:@@curriculum.systems.parallel-computing.topic.1:parallel architectures`,
+          $localize`:@@curriculum.systems.parallel-computing.topic.2:decomposition`,
+          $localize`:@@curriculum.systems.parallel-computing.topic.3:speedup and scalability`,
+          $localize`:@@curriculum.systems.parallel-computing.topic.4:OpenMP`,
+          $localize`:@@curriculum.systems.parallel-computing.topic.5:MPI`,
+        ],
+      },
     ],
   },
   {
@@ -341,6 +391,20 @@ export const CURRICULUM: CurriculumModule[] = [
           $localize`:@@curriculum.software-distributed.distributed-systems-ii.topic.4:distributed databases`,
           $localize`:@@curriculum.software-distributed.distributed-systems-ii.topic.5:eventual consistency`,
           $localize`:@@curriculum.software-distributed.distributed-systems-ii.topic.6:CRDTs`,
+        ],
+      },
+      {
+        slug: 'distributed-systems-iii',
+        title: $localize`:@@curriculum.software-distributed.distributed-systems-iii.title:Distributed Systems III`,
+        hours: 80,
+        topics: [
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.1:consensus variants`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.2:group membership`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.3:causal consistency`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.4:database replication`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.5:peer-to-peer systems`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.6:shared logs`,
+          $localize`:@@curriculum.software-distributed.distributed-systems-iii.topic.7:network ordering`,
         ],
       },
       {
@@ -419,6 +483,19 @@ export const CURRICULUM: CurriculumModule[] = [
           $localize`:@@curriculum.ai-theory.machine-learning.topic.3:optimization`,
           $localize`:@@curriculum.ai-theory.machine-learning.topic.4:machine learning`,
           $localize`:@@curriculum.ai-theory.machine-learning.topic.5:deep learning`,
+        ],
+      },
+      {
+        slug: 'data-mining',
+        title: $localize`:@@curriculum.ai-theory.data-mining.title:Data Mining`,
+        hours: 60,
+        topics: [
+          $localize`:@@curriculum.ai-theory.data-mining.topic.1:KDD process`,
+          $localize`:@@curriculum.ai-theory.data-mining.topic.2:data warehouses and OLAP`,
+          $localize`:@@curriculum.ai-theory.data-mining.topic.3:frequent patterns`,
+          $localize`:@@curriculum.ai-theory.data-mining.topic.4:clustering`,
+          $localize`:@@curriculum.ai-theory.data-mining.topic.5:outlier detection`,
+          $localize`:@@curriculum.ai-theory.data-mining.topic.6:text mining`,
         ],
       },
       {
@@ -554,35 +631,73 @@ export const CURRICULUM: CurriculumModule[] = [
       },
       {
         slug: 'track-e-human-computing',
-        title: $localize`:@@curriculum.specialization.track-e-human-computing.title:Track E — Human Computing`,
+        title: $localize`:@@curriculum.specialization.track-e-human-computing.title:Track E: Human Computing`,
         disciplines: [
           {
             slug: 'human-computing',
             title: $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.title:Human computing depth`,
             topics: [
               $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.1:HCI`,
-              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.2:graphics`,
-              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.3:visualization`,
-              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.4:computer vision`,
-              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.5:interaction`,
+              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.2:usability`,
+              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.3:user research`,
+              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.4:accessibility`,
+              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.5:visualization`,
+              $localize`:@@curriculum.specialization.track-e-human-computing.human-computing.topic.6:interaction`,
             ],
           },
         ],
       },
       {
         slug: 'track-f-robotics',
-        title: $localize`:@@curriculum.specialization.track-f-robotics.title:Track F — Robotics`,
+        title: $localize`:@@curriculum.specialization.track-f-robotics.title:Track F: Robotics`,
         disciplines: [
           {
             slug: 'robotics',
             title: $localize`:@@curriculum.specialization.track-f-robotics.robotics.title:Robotics depth`,
             topics: [
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.1:robotics`,
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.2:control`,
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.3:computer vision`,
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.4:planning`,
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.5:robot learning`,
-              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.6:autonomous systems`,
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.1:robot kinematics`,
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.2:Jacobians`,
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.3:robot dynamics`,
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.4:control`,
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.5:joint-space trajectories`,
+              $localize`:@@curriculum.specialization.track-f-robotics.robotics.topic.6:ROS 2`,
+            ],
+          },
+        ],
+      },
+      {
+        slug: 'computer-graphics',
+        title: $localize`:@@curriculum.specialization.computer-graphics.title:Computer Graphics`,
+        disciplines: [
+          {
+            slug: 'computer-graphics',
+            title: $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.title:Computer graphics depth`,
+            hours: 11,
+            topics: [
+              $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.topic.1:rendering pipeline`,
+              $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.topic.2:geometric transformations`,
+              $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.topic.3:rasterization`,
+              $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.topic.4:shading and illumination`,
+              $localize`:@@curriculum.specialization.computer-graphics.computer-graphics.topic.5:ray tracing`,
+            ],
+          },
+        ],
+      },
+      {
+        slug: 'image-processing',
+        title: $localize`:@@curriculum.specialization.image-processing.title:Image Processing`,
+        disciplines: [
+          {
+            slug: 'image-processing',
+            title: $localize`:@@curriculum.specialization.image-processing.image-processing.title:Image processing depth`,
+            hours: 13,
+            topics: [
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.1:image representation`,
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.2:spatial filtering`,
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.3:edge detection`,
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.4:segmentation`,
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.5:frequency domain`,
+              $localize`:@@curriculum.specialization.image-processing.image-processing.topic.6:compression`,
             ],
           },
         ],

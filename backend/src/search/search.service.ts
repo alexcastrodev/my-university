@@ -22,6 +22,7 @@ import { DotNetAiConceptsService } from '../dotnet-ai-concepts/dotnet-ai-concept
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
+import { PapersCatalogService } from '../papers/papers-catalog.service';
 import { ConceptSection } from '../shared/concept-content';
 import {
   DEFAULT_LANGUAGE,
@@ -29,7 +30,10 @@ import {
   SUPPORTED_LANGUAGES,
   normalizeLanguage,
 } from '../shared/language';
+import { toPlainText } from '../shared/plain-text';
 import { MeilisearchClient, SearchDocument } from './meilisearch.client';
+
+export { toPlainText };
 
 export const SEARCH_RESULT_TYPES = [
   'course',
@@ -52,6 +56,7 @@ export const SEARCH_RESULT_TYPES = [
   'csharp-concept',
   'dotnet-testing-concept',
   'dotnet-ai-concept',
+  'paper',
 ] as const;
 
 export type SearchResultType = (typeof SEARCH_RESULT_TYPES)[number];
@@ -107,23 +112,6 @@ function titleCase(slug: string): string {
     .join(' ');
 }
 
-/**
- * Markdown syntax is noise for both matching and the snippet shown under a result, so the body is
- * flattened to prose (code stays, since searching for an identifier is a real use case; only the
- * fences and markup characters go).
- */
-export function toPlainText(markdown: string): string {
-  return markdown
-    .replace(/^```.*$/gm, ' ')
-    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-    .replace(/^\s{0,3}(#{1,6}|>|[-*+]|\d+\.)\s+/gm, '')
-    .replace(/[*_`|]+/g, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
 function sectionsText(sections: ConceptSection[]): string {
   return toPlainText(
     sections.map((s) => `${s.title}\n${s.content}`).join('\n'),
@@ -176,6 +164,7 @@ export class SearchService implements OnApplicationBootstrap {
     private dotNetAiConceptsService: DotNetAiConceptsService,
     private quarkusConceptsService: QuarkusConceptsService,
     private kubernetesConceptsService: KubernetesConceptsService,
+    private papersCatalog: PapersCatalogService,
     private meili: MeilisearchClient,
   ) {}
 
@@ -198,6 +187,8 @@ export class SearchService implements OnApplicationBootstrap {
           this.log.error(
             `Failed to build search index: ${(err as Error).message}`,
           );
+          // Nest's logger is not Sentry: without this the failure never leaves the container logs.
+          Sentry.captureException(err);
         }
       },
     );
@@ -311,6 +302,31 @@ export class SearchService implements OnApplicationBootstrap {
         this.dotNetAiConceptsService.findAllDetailed(l),
       ),
     ];
+
+    // The public papers, which also have their own search on /papers (papers-search.ts). The abstract
+    // goes in as a section so that it is searchable here as well.
+    sources.push({
+      type: 'paper',
+      idPrefix: 'paper',
+      subtitle: 'Papers',
+      url: (slug) => `/papers/${slug}`,
+      list: (lang) =>
+        this.papersCatalog.slugs().map(({ slug }) => {
+          const paper = this.papersCatalog.detail(slug, lang);
+          return {
+            slug,
+            title: paper.title,
+            summary: paper.summary ?? '',
+            sections: [
+              ...(paper.abstract
+                ? [{ title: 'Abstract', content: paper.abstract }]
+                : []),
+              ...paper.sections,
+            ],
+            language: paper.language,
+          };
+        }),
+    });
 
     for (const {
       module,

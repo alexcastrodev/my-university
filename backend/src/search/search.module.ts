@@ -20,6 +20,7 @@ import { DotNetAiConceptsModule } from '../dotnet-ai-concepts/dotnet-ai-concepts
 import { SpringConceptsModule } from '../spring-concepts/spring-concepts.module';
 import { SystemDesignConceptsModule } from '../system-design-concepts/system-design-concepts.module';
 import { TestingConceptsModule } from '../testing-concepts/testing-concepts.module';
+import { PapersModule } from '../papers/papers.module';
 import { MeilisearchClient } from './meilisearch.client';
 import { SearchController } from './search.controller';
 import { SearchService } from './search.service';
@@ -45,6 +46,7 @@ import { SearchService } from './search.service';
     DotNetAiConceptsModule,
     QuarkusConceptsModule,
     KubernetesConceptsModule,
+    PapersModule,
   ],
   controllers: [SearchController],
   providers: [SearchService, MeilisearchClient],

@@ -30,6 +30,7 @@ export interface AlgorithmsConceptSummary {
   title: string;
   summary: string;
   publishedAt: string;
+  updatedAt: string | null;
   labUrl?: string;
   language: Language;
   availableLanguages: Language[];
@@ -37,7 +38,6 @@ export interface AlgorithmsConceptSummary {
 
 export interface AlgorithmsConceptDetail extends AlgorithmsConceptSummary {
   version: string | null;
-  updatedAt: string | null;
   sections: ConceptSection[];
   references: ConceptReference[];
 }
@@ -89,7 +89,7 @@ export class AlgorithmsConceptsService {
     meta: ConceptMeta,
     lang: Language,
   ): AlgorithmsConceptSummary {
-    const { language, availableLanguages, title, description } =
+    const { language, availableLanguages, title, description, updatedAt } =
       readConceptContent(DATA_DIR, meta.slug, lang, FRONTMATTER_FIELDS);
 
     return {
@@ -100,6 +100,7 @@ export class AlgorithmsConceptsService {
       title: title ?? meta.title,
       summary: description ?? meta.summary,
       publishedAt: meta.publishedAt,
+      updatedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),
       language,
       availableLanguages,

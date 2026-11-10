@@ -12,7 +12,7 @@ tipo ou ajuda do GC. Com `Span<T>`, `MemoryMarshal` e os helpers vetorizados,
 quase todo código que precisava disso não precisa mais. Este conceito cobre
 habilitar `unsafe` no .NET 10 / C# 14, operadores de ponteiro, `fixed` e
 buffers fixos ao lado de `[InlineArray]`, `Unsafe` e `NativeMemory`, overrun e
-ponteiro obsoleto na prática, function pointers medidos e o modelo do C# 15.
+ponteiro obsoleto na prática, function pointers medidos e o modelo em preview no C# 15.
 
 ## Use Cases
 
@@ -209,7 +209,7 @@ fixed (byte* p = data)                                    // antes: cerca de 294
 int count = data.AsSpan().Count((byte)'\n');              // depois: cerca de 53 us
 ```
 
-### Para onde a linguagem vai: C# 15 e .NET 11
+### Para onde a linguagem vai: um preview no C# 15 e .NET 11
 
 A página de unsafe code descreve dois modelos. O *original* (o padrão, único no
 SDK 10.0.100) torna unsafe os recursos de ponteiro sem impor nada a quem chama.
@@ -219,7 +219,8 @@ O *updated memory safety model*, que a documentação diz estar "in preview in C
 function pointer e índice em buffer fixo continuam exigindo `unsafe`. Um membro
 `unsafe` vira *requires-unsafe*: quem chama precisa de contexto `unsafe`, e o
 dever de auditoria se propaga até um método validar as entradas atrás de uma
-assinatura segura. Ativa-se com o SDK do .NET 11 e `LangVersion` `preview`; nada
+assinatura segura. É um preview: exige o SDK do .NET 11, `LangVersion` `preview`
+e um opt-in separado para as regras novas, os detalhes ainda podem mudar e nada
 disso foi compilado aqui.
 
 ## Trade-offs

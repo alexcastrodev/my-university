@@ -11,7 +11,7 @@ arrived, most code that once needed this no longer does. This concept covers
 enabling `unsafe` on .NET 10 / C# 14, the pointer operators, `fixed` and
 fixed-size buffers next to `[InlineArray]`, `Unsafe` and `NativeMemory`, what
 an overrun and a stale pointer really do, function pointers with measured call
-costs, and the C# 15 safety model.
+costs, and the safety model that is in preview in C# 15.
 
 ## Use Cases
 
@@ -207,7 +207,7 @@ fixed (byte* p = data)                                    // before: about 294 u
 int count = data.AsSpan().Count((byte)'\n');              // after: about 53 us
 ```
 
-### Where the language is going: C# 15 and .NET 11
+### Where the language is going: a preview in C# 15 and .NET 11
 
 The unsafe-code page now describes two models. The *original* one (the default,
 and the only one SDK 10.0.100 has) makes pointer features unsafe and puts no
@@ -217,8 +217,9 @@ the docs say "is in preview in C# 15 and .NET 11", makes declaring pointers,
 `*p`, `->`, `p[i]`, function pointer calls and fixed-buffer indexing still need
 `unsafe`. An `unsafe` member becomes *requires-unsafe*: callers need an
 `unsafe` context, so the audit duty propagates until a method validates its
-inputs behind a safe signature. It is enabled with the .NET 11 SDK and
-`LangVersion` `preview`; none of it was compiled here.
+inputs behind a safe signature. It is a preview: it needs the .NET 11 SDK,
+`LangVersion` `preview` and a separate opt-in for the new rules, the details can
+still change, and none of it was compiled here.
 
 ## Trade-offs
 

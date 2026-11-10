@@ -115,14 +115,14 @@ Nenhuma das topologias é estritamente melhor: o modelo "nodes burros, cliente i
 
 ## Além do Cache: Pub/Sub, Filas e Streams
 
-As estruturas de dados adicionais do Redis o transformam em mais que um cache na prática: sorted sets fazem um leaderboard ou fila de prioridade barato, `INCR` com TTL é o bloco de construção padrão para um rate limiter de janela fixa (veja [Rate Limiting](/system-design-concepts/rate-limiting)), e `SET key value NX` é um primitivo comum (embora imperfeito — veja Trade-offs) de lock distribuído.
+As estruturas de dados adicionais do Redis o transformam em mais que um cache na prática: sorted sets fazem um leaderboard ou fila de prioridade barato, `INCR` com TTL é o bloco de construção padrão para um rate limiter de janela fixa (veja [Rate Limiting](/pt-BR/system-design/system-design-concepts/rate-limiting)), e `SET key value NX` é um primitivo comum (embora imperfeito — veja Trade-offs) de lock distribuído.
 
 O Redis também vem com dois primitivos de mensageria fáceis de usar como alternativa leve a um broker dedicado, com uma lacuna real por baixo da semelhança:
 
 - **Pub/Sub** é fire-and-forget: uma mensagem publicada enquanto ninguém está inscrito simplesmente some, sem buffer e sem replay.
 - **Streams** (Redis 5.0+) adicionam um log somente-anexação com consumer groups, confirmação (acknowledgment) e replay a partir de uma posição dada — arquiteturalmente muito mais próximo do Kafka do que o Pub/Sub.
 
-Nenhum dos dois substitui um broker construído para o propósito sob requisitos reais de durabilidade ou throughput — veja [Message Brokers: Queues vs. Log-Based Streaming](/system-design-concepts/message-brokers-queues-vs-logs) para entender o que um sistema dedicado te dá que o Redis Streams, rodando dentro da mesma instância single-threaded que seu tráfego de cache, não dá.
+Nenhum dos dois substitui um broker construído para o propósito sob requisitos reais de durabilidade ou throughput — veja [Message Brokers: Queues vs. Log-Based Streaming](/pt-BR/system-design/system-design-concepts/message-brokers-queues-vs-logs) para entender o que um sistema dedicado te dá que o Redis Streams, rodando dentro da mesma instância single-threaded que seu tráfego de cache, não dá.
 
 ## Trade-offs
 

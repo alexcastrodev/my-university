@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-20
+version: 1.1
+updatedAt: 2026-11-03
 title: "Views e Queries Map/Reduce no CouchDB"
 summary: O CouchDB não tem linguagem de query ad-hoc para nada além de buscas simples por chave, toda query não trivial é uma view map/reduce predefinida, escrita em JavaScript com emit(), salva em um design document, e materializada incrementalmente em um índice B-tree conforme documentos mudam. Desde o CouchDB 2.0 (2016), as queries declarativas _find do Mango cobrem buscas simples sem JavaScript escrito à mão, mas elas mesmas são construídas sobre a mesma infraestrutura de views MapReduce e ainda não conseguem substituir views para padrões de agregação ou fan-out.
 ---
@@ -143,7 +143,7 @@ O mapeador de uma view sozinho te dá uma lista filtrada, re-chaveada, ordenada.
 
 ## Trade-offs
 
-- **Você precisa conhecer suas queries antes de escrever seu modelo de dados: não há válvula de escape no momento da query.** Todo caminho de acesso precisa de uma view desenhada e salva antecipadamente; não existe equivalente de digitar um `WHERE name = ?` ad-hoc contra um campo que ninguém indexou. Essa é a mesma troca de planejamento antecipado que a modelagem de padrão de acesso do DynamoDB faz (veja [DynamoDB Data Modeling Approach](/database-concepts/dynamodb-data-modeling-approach)): ambos os sistemas se recusam a deixar você adiar a decisão de "o que eu vou consultar?" para o momento da leitura, em troca de caminhos de leitura que permanecem rápidos (uma busca pré-construída em B-tree, não uma varredura) conforme o dado cresce.
+- **Você precisa conhecer suas queries antes de escrever seu modelo de dados: não há válvula de escape no momento da query.** Todo caminho de acesso precisa de uma view desenhada e salva antecipadamente; não existe equivalente de digitar um `WHERE name = ?` ad-hoc contra um campo que ninguém indexou. Essa é a mesma troca de planejamento antecipado que a modelagem de padrão de acesso do DynamoDB faz (veja [DynamoDB Data Modeling Approach](/pt-BR/databases/database-concepts/dynamodb-data-modeling-approach)): ambos os sistemas se recusam a deixar você adiar a decisão de "o que eu vou consultar?" para o momento da leitura, em troca de caminhos de leitura que permanecem rápidos (uma busca pré-construída em B-tree, não uma varredura) conforme o dado cresce.
 - **Um padrão de acesso esquecido é uma view nova e uma reconstrução de índice, não uma query de acompanhamento rápida.** Perceber depois do fato que você também precisa de artistas por gênero significa escrever e implantar uma nova map function, e então esperar o CouchDB construir aquele índice sobre todo documento existente: mais parecido com uma migração do que com um `CREATE INDEX`.
 - **Mapeadores de fan-out trocam simplicidade no momento da escrita por flexibilidade de query.** Emitir uma linha por álbum, ou uma linha por tag vários níveis abaixo, significa que uma única atualização de documento toca muitas linhas de índice na reconstrução. Esse é o preço de conseguir consultar dado aninhado independentemente de seu documento pai.
 - **Reduce functions têm um teto real.** A exigência de que um redutor colapse para um resultado pequeno, de tamanho fixo, descarta alguns agregados intuitivamente razoáveis (por exemplo, "me dê a lista de toda tag única" como uma saída de reduce): esses precisam de uma forma de view diferente (agrupar por chave, sem reduce), em vez de um redutor esperto.

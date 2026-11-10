@@ -28,9 +28,16 @@ services:
       - GITHUB_CLIENT_SECRET
       - GITHUB_CALLBACK_URL
       - FRONTEND_URL
+      - S3_ENDPOINT=http://seaweedfs:8333
+      - S3_BUCKET=university-papers
+      - S3_REGION=us-east-1
+      - S3_FORCE_PATH_STYLE=true
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY:-localdev}
+      - S3_SECRET_KEY=${S3_SECRET_KEY:-localdev-secret}
     depends_on:
       - meilisearch
       - postgres
+      - seaweedfs
 
   ssr:
     build:
@@ -62,16 +69,60 @@ services:
     volumes:
       - meili_data:/meili_data
 
+  # S3-compatible object store for private uploads. With no s3.json, SeaweedFS turns
+  # AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY into a single identity, so no credentials file is
+  # committed. The defaults below are for this local stack only; production keys live in the host's
+  # s3.json (see backend/src/storage/README.md).
+  seaweedfs:
+    image: chrislusf/seaweedfs:4.47
+    # -ip is the address the cluster advertises to other containers (the init job below), so it
+    # must be this service's name; 0.0.0.0 would point them back at themselves.
+    command: server -dir=/data -ip=seaweedfs -s3 -s3.port=8333
+    environment:
+      - AWS_ACCESS_KEY_ID=${S3_ACCESS_KEY:-localdev}
+      - AWS_SECRET_ACCESS_KEY=${S3_SECRET_KEY:-localdev-secret}
+    volumes:
+      - seaweedfs_data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:9333/cluster/status"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+
+  # One-shot: creates the private bucket, then exits. Safe to run again.
+  seaweedfs-init:
+    image: chrislusf/seaweedfs:4.47
+    entrypoint: ["sh", "-c"]
+    command:
+      - echo "s3.bucket.create -name university-papers" | weed shell -master=seaweedfs:9333
+    depends_on:
+      seaweedfs:
+        condition: service_healthy
+    restart: "no"
+
   console-test:
     image: node:24-alpine
     working_dir: /workspace
     volumes:
       - ./backend:/workspace
+      # Keeps the container's Linux node_modules off the host: without it, `pnpm install` in here
+      # overwrites ./backend/node_modules with binaries the host cannot run.
+      - /workspace/node_modules
     environment:
       - API_URL=http://web/api
+      - DATABASE_URL=postgres://postgres@postgres:5432/ocp_java
       - CI=true
+      - S3_ENDPOINT=http://seaweedfs:8333
+      - S3_BUCKET=university-papers
+      - S3_REGION=us-east-1
+      - S3_FORCE_PATH_STYLE=true
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY:-localdev}
+      - S3_SECRET_KEY=${S3_SECRET_KEY:-localdev-secret}
     command: sh -c "corepack enable && corepack prepare pnpm@11.3.0 --activate && pnpm install --frozen-lockfile && pnpm spec"
     depends_on:
+      seaweedfs-init:
+        condition: service_completed_successfully
       # The specs hit the API through nginx, so both must actually be serving, not just started.
       web:
         condition: service_healthy
@@ -83,3 +134,4 @@ services:
 volumes:
   postgres_data:
   meili_data:
+  seaweedfs_data:

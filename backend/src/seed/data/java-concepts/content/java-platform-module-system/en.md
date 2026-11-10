@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-18
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
@@ -141,7 +141,7 @@ The provider class need not be exported — the module system wires it up itself
 
 ### Strong encapsulation and the singleton attack
 
-This is the enforcement the [Singletons and Noninstantiable Utility Classes](/java-concepts/singleton-and-noninstantiable-classes) concept mentions in passing. The reflective "clone the singleton" attack —
+This is the enforcement the [Singletons and Noninstantiable Utility Classes](/java/java-concepts/singleton-and-noninstantiable-classes) concept mentions in passing. The reflective "clone the singleton" attack —
 
 ```java
 Constructor<Elvis> ctor = Elvis.class.getDeclaredConstructor();

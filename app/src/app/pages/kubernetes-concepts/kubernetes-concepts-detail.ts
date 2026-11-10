@@ -7,6 +7,7 @@ import { KubernetesConceptView } from '../../components/kubernetes-concept-view/
 import { KUBERNETES_CONCEPT_TOPIC_ORDER, KubernetesConcept, KubernetesConceptSummary } from '../../models/kubernetes-concept.model';
 import { KubernetesConceptsService } from '../../services/kubernetes-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 import { orderByTopic } from '../../shared/concept-topics';
@@ -81,6 +82,7 @@ export class KubernetesConceptsDetailPage implements OnInit {
           title: `${concept.title} | Kubernetes Concepts`,
           description: concept.summary,
           path: `/kubernetes-concepts/${concept.slug}`,
+          alternates: localizedAlternates(`/kubernetes-concepts/${concept.slug}`, concept.availableLanguages),
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,

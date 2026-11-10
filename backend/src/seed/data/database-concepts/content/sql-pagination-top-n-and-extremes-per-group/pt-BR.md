@@ -1,12 +1,12 @@
 ---
-version: 1.0
-updatedAt: 2026-08-05
+version: 1.1
+updatedAt: 2026-11-03
 title: Paginação, Top-N com Empates e Extremos por Grupo
 summary: Toda uma família de problemas do tipo "quais linhas, e quantas" que vai além de um LIMIT simples, como paginar resultados, amostrar uma linha a cada N, lidar com empates em uma consulta top-N e encontrar o maior/menor valor por grupo.
 ---
 ## Objective
 
-Toda uma família de problemas do tipo "quais linhas, e quantas" fica logo depois de um simples `LIMIT 5`: entregar a um usuário a página 4 de um conjunto de resultados, amostrar uma tabela grande pegando uma linha a cada 100, retornar "os cinco maiores salários" de um jeito que trate empates como o negócio realmente quer dizer, e encontrar o maior e o menor valor *por grupo* em vez de uma vez na tabela inteira. Os quatro são, no fundo, problemas de window function: você impõe uma ordem, numera ou ranqueia as linhas segundo essa ordem e então filtra pelo número. Este conceito pressupõe a sintaxe básica de limitar linhas (`LIMIT`, `TOP`, `FETCH FIRST`) de [SQL: Limiting and Random Sampling](/database-concepts/sql-limiting-and-random-sampling) e constrói os padrões mais difíceis em cima dela.
+Toda uma família de problemas do tipo "quais linhas, e quantas" fica logo depois de um simples `LIMIT 5`: entregar a um usuário a página 4 de um conjunto de resultados, amostrar uma tabela grande pegando uma linha a cada 100, retornar "os cinco maiores salários" de um jeito que trate empates como o negócio realmente quer dizer, e encontrar o maior e o menor valor *por grupo* em vez de uma vez na tabela inteira. Os quatro são, no fundo, problemas de window function: você impõe uma ordem, numera ou ranqueia as linhas segundo essa ordem e então filtra pelo número. Este conceito pressupõe a sintaxe básica de limitar linhas (`LIMIT`, `TOP`, `FETCH FIRST`) de [SQL: Limiting and Random Sampling](/pt-BR/databases/database-concepts/sql-limiting-and-random-sampling) e constrói os padrões mais difíceis em cima dela.
 
 ## Use Cases
 

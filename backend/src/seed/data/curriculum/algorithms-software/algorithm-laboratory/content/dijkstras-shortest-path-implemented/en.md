@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-06
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Learning Objectives
 
@@ -12,11 +12,11 @@ updatedAt: 2026-09-06
 
 ## Context & Motivation
 
-Dijkstra's algorithm — the greedy strategy of always finalizing the not-yet-settled vertex with the smallest tentative distance, and why a binary heap is exactly the right tool to answer "which vertex is that" in O(log V) — was already proved correct and analyzed in full in [Dijkstra's Algorithm](../../../algorithms/content/dijkstras-algorithm/en.md). This lab does not re-derive any of that theory. It takes the algorithm as already understood and builds it: a real graph represented in code, a real priority queue, and a real trace checked line-by-line against numbers computed independently by hand. The gap this lab closes is the one every algorithms course leaves open after a whiteboard proof — pseudocode compiles into nothing, and the specific way a graph gets represented, a heap gets queried, and a "distance so far" gets updated all involve small decisions a proof never has to make.
+Dijkstra's algorithm — the greedy strategy of always finalizing the not-yet-settled vertex with the smallest tentative distance, and why a binary heap is exactly the right tool to answer "which vertex is that" in O(log V) — was already proved correct and analyzed in full in [Dijkstra's Algorithm](/computer-science/algorithms-software/algorithms/dijkstras-algorithm). This lab does not re-derive any of that theory. It takes the algorithm as already understood and builds it: a real graph represented in code, a real priority queue, and a real trace checked line-by-line against numbers computed independently by hand. The gap this lab closes is the one every algorithms course leaves open after a whiteboard proof — pseudocode compiles into nothing, and the specific way a graph gets represented, a heap gets queried, and a "distance so far" gets updated all involve small decisions a proof never has to make.
 
 ## Core Theory
 
-The two facts this lab leans on without re-proving: (1) the greedy extraction order is correct only because every edge weight is non-negative, and (2) a binary heap turns "find the not-yet-finalized vertex with the smallest tentative distance" from an O(V) scan into an O(log V) `heappop`, which is what gives the whole algorithm its O((V + E) log V) running time. Python's `heapq` module is used here as the heap — it is a genuine, production-grade binary heap (the same array-backed, sift-up/sift-down structure already covered in [Heap Insert and Extract-Max/Min](../../../../data-structures-ii/content/heap-insert-and-extract/en.md)), not a toy stand-in, so nothing about the running-time analysis changes by using it instead of a hand-rolled heap class.
+The two facts this lab leans on without re-proving: (1) the greedy extraction order is correct only because every edge weight is non-negative, and (2) a binary heap turns "find the not-yet-finalized vertex with the smallest tentative distance" from an O(V) scan into an O(log V) `heappop`, which is what gives the whole algorithm its O((V + E) log V) running time. Python's `heapq` module is used here as the heap — it is a genuine, production-grade binary heap (the same array-backed, sift-up/sift-down structure already covered in [Heap Insert and Extract-Max/Min](/computer-science/algorithms-software/data-structures-ii/heap-insert-and-extract)), not a toy stand-in, so nothing about the running-time analysis changes by using it instead of a hand-rolled heap class.
 
 One representational decision matters enough to state explicitly before the code: this implementation uses **lazy deletion** rather than a decrease-key operation. When a shorter path to an already-queued vertex is found, a brand-new `(distance, vertex)` pair is pushed rather than updating the old entry in place — `heapq` has no built-in decrease-key, and implementing one correctly requires tracking each vertex's array index, extra bookkeeping that buys nothing asymptotically. The cost is that stale, superseded entries accumulate in the heap; the fix is a single `if u in finalized: continue` check when an entry is popped, discarding stale pops in O(1). This does not change the O((V + E) log V) bound: each vertex triggers at most one push per edge relaxation, so the heap never holds more than O(E) entries total.
 
@@ -84,7 +84,7 @@ def reconstruct_path(parent, target):
 
 ### Trace against a hand-computed answer
 
-Running `dijkstra(adj, 'A')`: by the same relaxation sequence already traced in [Dijkstra's Algorithm](../../../algorithms/content/dijkstras-algorithm/en.md) — extract A (0), relax to B (4) and C (1); extract C (1), relax B down to 3, D to 6; extract B (3), relax D down to 4, E to 10; extract D (4), relax E down to 7; extract E (7) — the implementation above must produce exactly:
+Running `dijkstra(adj, 'A')`: by the same relaxation sequence already traced in [Dijkstra's Algorithm](/computer-science/algorithms-software/algorithms/dijkstras-algorithm) — extract A (0), relax to B (4) and C (1); extract C (1), relax B down to 3, D to 6; extract B (3), relax D down to 4, E to 10; extract D (4), relax E down to 7; extract E (7) — the implementation above must produce exactly:
 
 ```python
 dist, parent = dijkstra(adj, 'A')

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-06
+version: 1.1
+updatedAt: 2026-11-04
 title: Regressão Linear como Mínimos Quadrados
 summary: O modelo mais usado de toda a estatística e do machine learning chega aqui sem matemática nova alguma. Ele é exatamente o problema da equação normal já resolvido, geometricamente e por otimização, na disciplina de álgebra linear deste currículo, agora reenquadrado como previsão em dados não vistos.
 ---
@@ -54,19 +54,19 @@ X = [[1, 1], [1, 2], [1, 3], [1, 4]]   (a primeira coluna é o termo de intercep
 y = [3, 5, 7, 8]
 
 XᵀX = [[4, 10], [10, 30]]
-Xᵀy = [23, 71]
+Xᵀy = [23, 66]
 
 Resolvendo XᵀXθ = Xᵀy:
-θ₀ ≈ 0.5,  θ₁ ≈ 2.0
+θ₀ = 1.5,  θ₁ = 1.7
 
-Reta ajustada: ŷ = 0.5 + 2.0x
+Reta ajustada: ŷ = 1.5 + 1.7x
 ```
 
-Conferindo: em `x=1`, `ŷ = 2.5` (real 3); em `x=4`, `ŷ = 8.5` (real 8). É um ajuste razoável, com pequenos erros residuais, exatamente como se espera de dados sem uma relação linear perfeita.
+Conferindo: em `x=1`, `ŷ = 3.2` (real 3); em `x=4`, `ŷ = 8.3` (real 8). É um ajuste razoável, com pequenos erros residuais, exatamente como se espera de dados sem uma relação linear perfeita.
 
 ### Exemplo 2: prevendo numa entrada não vista
 
-Usando a reta ajustada `ŷ = 0.5 + 2.0x` do Exemplo 1, o modelo agora pode prever para `x = 5`, um valor que nunca esteve nos dados de treino: `ŷ = 0.5 + 2.0(5) = 10.5`. Esse é todo o propósito do enquadramento de machine learning acrescentado sobre o resultado de álgebra linear preexistente: usar os parâmetros ajustados para generalizar para entradas novas, não vistas, e não apenas descrever os próprios pontos de treino.
+Usando a reta ajustada `ŷ = 1.5 + 1.7x` do Exemplo 1, o modelo agora pode prever para `x = 5`, um valor que nunca esteve nos dados de treino: `ŷ = 1.5 + 1.7(5) = 10.0`. Esse é todo o propósito do enquadramento de machine learning acrescentado sobre o resultado de álgebra linear preexistente: usar os parâmetros ajustados para generalizar para entradas novas, não vistas, e não apenas descrever os próprios pontos de treino.
 
 ## Equívocos Comuns e Armadilhas
 

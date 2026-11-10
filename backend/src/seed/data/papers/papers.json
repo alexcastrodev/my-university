@@ -1,0 +1,2848 @@
+[
+  {
+    "slug": "foundationdb-unbundled-transactional-kv-store",
+    "title": "FoundationDB: A Distributed Unbundled Transactional Key Value Store",
+    "authors": [
+      {
+        "name": "Jingyu Zhou"
+      },
+      {
+        "name": "Meng Xu"
+      },
+      {
+        "name": "Alexander Shraer"
+      },
+      {
+        "name": "Bala Namasivayam"
+      },
+      {
+        "name": "Alex Miller"
+      },
+      {
+        "name": "Evan Tschannen"
+      },
+      {
+        "name": "Steve Atherton"
+      },
+      {
+        "name": "Andrew J. Beamon"
+      },
+      {
+        "name": "Rusty Sears"
+      },
+      {
+        "name": "John Leach"
+      },
+      {
+        "name": "Dave Rosenthal"
+      },
+      {
+        "name": "Xin Dong"
+      },
+      {
+        "name": "Will Wilson"
+      },
+      {
+        "name": "Ben Collins"
+      },
+      {
+        "name": "David Scherer"
+      },
+      {
+        "name": "Alec Grieser"
+      },
+      {
+        "name": "Young Liu"
+      },
+      {
+        "name": "Alvin Moore"
+      },
+      {
+        "name": "Bhaskar Muppana"
+      },
+      {
+        "name": "Xiaoge Su"
+      },
+      {
+        "name": "Vishesh Yadav"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2021 International Conference on Management of Data",
+    "publicationDate": "2021-06-09",
+    "doi": "10.1145/3448016.3457559",
+    "url": "https://dl.acm.org/doi/10.1145/3448016.3457559"
+  },
+  {
+    "slug": "metastable-failures-in-distributed-systems",
+    "title": "Metastable Failures in Distributed Systems",
+    "authors": [
+      {
+        "name": "Nathan Bronson"
+      },
+      {
+        "name": "Abutalib Aghayev"
+      },
+      {
+        "name": "Aleksey Charapko"
+      },
+      {
+        "name": "Timothy Zhu"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Workshop on Hot Topics in Operating Systems",
+    "publicationDate": "2021-06",
+    "doi": "10.1145/3458336.3465286",
+    "url": "https://dl.acm.org/doi/10.1145/3458336.3465286"
+  },
+  {
+    "slug": "tidb-raft-based-htap-database",
+    "title": "TiDB: A Raft-based HTAP Database",
+    "authors": [
+      {
+        "name": "Dongxu Huang"
+      },
+      {
+        "name": "Qi Liu"
+      },
+      {
+        "name": "Qiu Cui"
+      },
+      {
+        "name": "Zhuhe Fang"
+      },
+      {
+        "name": "Xiaoyu Ma"
+      },
+      {
+        "name": "Fei Xu"
+      },
+      {
+        "name": "Li Shen"
+      },
+      {
+        "name": "Liu Tang"
+      },
+      {
+        "name": "Yuxing Zhou"
+      },
+      {
+        "name": "Menglong Huang"
+      },
+      {
+        "name": "Wan Wei"
+      },
+      {
+        "name": "Cong Liu"
+      },
+      {
+        "name": "Jian Zhang"
+      },
+      {
+        "name": "Jianjun Li"
+      },
+      {
+        "name": "Xuelian Wu"
+      },
+      {
+        "name": "Lingyu Song"
+      },
+      {
+        "name": "Ruoxi Sun"
+      },
+      {
+        "name": "Shuaipeng Yu"
+      },
+      {
+        "name": "Lei Zhao"
+      },
+      {
+        "name": "Nicholas Cameron"
+      },
+      {
+        "name": "Liquan Pei"
+      },
+      {
+        "name": "Xin Tang"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Proceedings of the VLDB Endowment",
+    "publicationDate": "2020-08",
+    "doi": "10.14778/3415478.3415535",
+    "url": "https://dl.acm.org/doi/10.14778/3415478.3415535"
+  },
+  {
+    "slug": "snap-microkernel-approach-to-host-networking",
+    "title": "Snap: a Microkernel Approach to Host Networking",
+    "authors": [
+      {
+        "name": "Michael Marty"
+      },
+      {
+        "name": "Marc de Kruijf"
+      },
+      {
+        "name": "Jacob Adriaens"
+      },
+      {
+        "name": "Christopher Alfeld"
+      },
+      {
+        "name": "Sean Bauer"
+      },
+      {
+        "name": "Carlo Contavalli"
+      },
+      {
+        "name": "Michael Dalton"
+      },
+      {
+        "name": "Nandita Dukkipati"
+      },
+      {
+        "name": "William C. Evans"
+      },
+      {
+        "name": "Steve Gribble"
+      },
+      {
+        "name": "Nicholas Kidd"
+      },
+      {
+        "name": "Roman Kononov"
+      },
+      {
+        "name": "Gautam Kumar"
+      },
+      {
+        "name": "Carl Mauer"
+      },
+      {
+        "name": "Emily Musick"
+      },
+      {
+        "name": "Lena Olson"
+      },
+      {
+        "name": "Erik Rubow"
+      },
+      {
+        "name": "Michael Ryan"
+      },
+      {
+        "name": "Kevin Springborn"
+      },
+      {
+        "name": "Paul Turner"
+      },
+      {
+        "name": "Valas Valancius"
+      },
+      {
+        "name": "Xi Wang"
+      },
+      {
+        "name": "Amin Vahdat"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 27th ACM Symposium on Operating Systems Principles",
+    "publicationDate": "2019-10-27",
+    "doi": "10.1145/3341301.3359657",
+    "url": "https://dl.acm.org/doi/10.1145/3341301.3359657"
+  },
+  {
+    "slug": "ghost-user-space-delegation-of-linux-scheduling",
+    "title": "ghOSt: Fast & Flexible User-Space Delegation of Linux Scheduling",
+    "authors": [
+      {
+        "name": "Jack Tigar Humphries"
+      },
+      {
+        "name": "Neel Natu"
+      },
+      {
+        "name": "Ashwin Chaugule"
+      },
+      {
+        "name": "Ofir Weisse"
+      },
+      {
+        "name": "Barret Rhoden"
+      },
+      {
+        "name": "Josh Don"
+      },
+      {
+        "name": "Luigi Rizzo"
+      },
+      {
+        "name": "Oleg Rombakh"
+      },
+      {
+        "name": "Paul Turner"
+      },
+      {
+        "name": "Christos Kozyrakis"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 28th Symposium on Operating Systems Principles",
+    "publicationDate": "2021-10-26",
+    "doi": "10.1145/3477132.3483542",
+    "url": "https://dl.acm.org/doi/10.1145/3477132.3483542"
+  },
+  {
+    "slug": "demikernel-datapath-os-for-microsecond-datacenter-systems",
+    "title": "The Demikernel Datapath OS Architecture for Microsecond-scale Datacenter Systems",
+    "authors": [
+      {
+        "name": "Irene Zhang"
+      },
+      {
+        "name": "Amanda Raybuck"
+      },
+      {
+        "name": "Pratyush Patel"
+      },
+      {
+        "name": "Kirk Olynyk"
+      },
+      {
+        "name": "Jacob Nelson"
+      },
+      {
+        "name": "Omar S. Navarro Leija"
+      },
+      {
+        "name": "Ashlie Martinez"
+      },
+      {
+        "name": "Jing Liu"
+      },
+      {
+        "name": "Anna Kornfeld Simpson"
+      },
+      {
+        "name": "Sujay Jayakar"
+      },
+      {
+        "name": "Pedro Henrique Penna"
+      },
+      {
+        "name": "Max Demoulin"
+      },
+      {
+        "name": "Piali Choudhury"
+      },
+      {
+        "name": "Anirudh Badam"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 28th Symposium on Operating Systems Principles",
+    "publicationDate": "2021-10-26",
+    "doi": "10.1145/3477132.3483569",
+    "url": "https://dl.acm.org/doi/10.1145/3477132.3483569"
+  },
+  {
+    "slug": "pagedattention-memory-management-for-llm-serving",
+    "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+    "authors": [
+      {
+        "name": "Woosuk Kwon",
+        "orcid": "0009-0008-8870-4892"
+      },
+      {
+        "name": "Zhuohan Li",
+        "orcid": "0009-0004-1534-9106"
+      },
+      {
+        "name": "Siyuan Zhuang",
+        "orcid": "0009-0007-3787-0316"
+      },
+      {
+        "name": "Ying Sheng",
+        "orcid": "0000-0002-1883-2126"
+      },
+      {
+        "name": "Lianmin Zheng",
+        "orcid": "0000-0002-6611-4612"
+      },
+      {
+        "name": "Cody Hao Yu",
+        "orcid": "0000-0002-9298-6254"
+      },
+      {
+        "name": "Joseph Gonzalez",
+        "orcid": "0000-0003-2921-956X"
+      },
+      {
+        "name": "Hao Zhang",
+        "orcid": "0009-0003-8392-3977"
+      },
+      {
+        "name": "Ion Stoica",
+        "orcid": "0000-0002-5373-0088"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613165",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613165"
+  },
+  {
+    "slug": "scallop-sdn-inspired-sfu-for-video-conferencing",
+    "title": "Scalable Video Conferencing Using SDN Principles",
+    "authors": [
+      {
+        "name": "Oliver Michel"
+      },
+      {
+        "name": "Satadal Sengupta"
+      },
+      {
+        "name": "Hyojoon Kim"
+      },
+      {
+        "name": "Ravi Netravali"
+      },
+      {
+        "name": "Jennifer Rexford"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGCOMM 2025 Conference",
+    "publicationDate": "2025-08-27",
+    "doi": "10.1145/3718958.3750489",
+    "url": "https://dl.acm.org/doi/10.1145/3718958.3750489"
+  },
+  {
+    "slug": "measuring-zoom-meet-teams-network-utilization",
+    "title": "Measuring the Performance and Network Utilization of Popular Video Conferencing Applications",
+    "authors": [
+      {
+        "name": "Kyle MacMillan"
+      },
+      {
+        "name": "Tarun Mangla"
+      },
+      {
+        "name": "James Saxon"
+      },
+      {
+        "name": "Nick Feamster"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 21st ACM Internet Measurement Conference",
+    "publicationDate": "2021-11-02",
+    "doi": "10.1145/3487552.3487842",
+    "url": "https://dl.acm.org/doi/10.1145/3487552.3487842"
+  },
+  {
+    "slug": "zoom-passive-measurement-in-production-networks",
+    "title": "Enabling Passive Measurement of Zoom Performance in Production Networks",
+    "authors": [
+      {
+        "name": "Oliver Michel"
+      },
+      {
+        "name": "Satadal Sengupta"
+      },
+      {
+        "name": "Hyojoon Kim"
+      },
+      {
+        "name": "Ravi Netravali"
+      },
+      {
+        "name": "Jennifer Rexford"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 22nd ACM Internet Measurement Conference",
+    "publicationDate": "2022-10-25",
+    "doi": "10.1145/3517745.3561414",
+    "url": "https://dl.acm.org/doi/10.1145/3517745.3561414"
+  },
+  {
+    "slug": "salsify-low-latency-video-codec-and-transport",
+    "title": "Salsify: Low-Latency Network Video through Tighter Integration between a Video Codec and a Transport Protocol",
+    "authors": [
+      {
+        "name": "Sadjad Fouladi"
+      },
+      {
+        "name": "John Emmons"
+      },
+      {
+        "name": "Emre Orbay"
+      },
+      {
+        "name": "Catherine Wu"
+      },
+      {
+        "name": "Riad S. Wahby"
+      },
+      {
+        "name": "Keith Winstein"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "15th USENIX Symposium on Networked Systems Design and Implementation (NSDI 18)",
+    "publicationDate": "2018-04",
+    "url": "https://www.usenix.org/conference/nsdi18/presentation/fouladi"
+  },
+  {
+    "slug": "tambur-streaming-codes-for-videoconferencing",
+    "title": "Tambur: Efficient loss recovery for videoconferencing via streaming codes",
+    "authors": [
+      {
+        "name": "Michael Rudow"
+      },
+      {
+        "name": "Francis Y. Yan"
+      },
+      {
+        "name": "Abhishek Kumar"
+      },
+      {
+        "name": "Ganesh Ananthanarayanan"
+      },
+      {
+        "name": "Martin Ellis"
+      },
+      {
+        "name": "K.V. Rashmi"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Networked Systems Design and Implementation (NSDI 23)",
+    "publicationDate": "2023-04",
+    "url": "https://www.usenix.org/conference/nsdi23/presentation/rudow"
+  },
+  {
+    "slug": "raft-understandable-consensus-algorithm",
+    "title": "In Search of an Understandable Consensus Algorithm",
+    "authors": [
+      {
+        "name": "Diego Ongaro"
+      },
+      {
+        "name": "John Ousterhout"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2014 USENIX Annual Technical Conference (USENIX ATC 14)",
+    "publicationDate": "2014-06",
+    "url": "https://www.usenix.org/conference/atc14/technical-sessions/presentation/ongaro"
+  },
+  {
+    "slug": "spanner-globally-distributed-database",
+    "title": "Spanner: Google's Globally-Distributed Database",
+    "authors": [
+      {
+        "name": "James C. Corbett"
+      },
+      {
+        "name": "Jeffrey Dean"
+      },
+      {
+        "name": "Michael Epstein"
+      },
+      {
+        "name": "Andrew Fikes"
+      },
+      {
+        "name": "Christopher Frost"
+      },
+      {
+        "name": "JJ Furman"
+      },
+      {
+        "name": "Sanjay Ghemawat"
+      },
+      {
+        "name": "Andrey Gubarev"
+      },
+      {
+        "name": "Christopher Heiser"
+      },
+      {
+        "name": "Peter Hochschild"
+      },
+      {
+        "name": "Wilson Hsieh"
+      },
+      {
+        "name": "Sebastian Kanthak"
+      },
+      {
+        "name": "Eugene Kogan"
+      },
+      {
+        "name": "Hongyi Li"
+      },
+      {
+        "name": "Alexander Lloyd"
+      },
+      {
+        "name": "Sergey Melnik"
+      },
+      {
+        "name": "David Mwaura"
+      },
+      {
+        "name": "David Nagle"
+      },
+      {
+        "name": "Sean Quinlan"
+      },
+      {
+        "name": "Rajesh Rao"
+      },
+      {
+        "name": "Lindsay Rolig"
+      },
+      {
+        "name": "Yasushi Saito"
+      },
+      {
+        "name": "Michal Szymaniak"
+      },
+      {
+        "name": "Christopher Taylor"
+      },
+      {
+        "name": "Ruth Wang"
+      },
+      {
+        "name": "Dale Woodford"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "10th USENIX Symposium on Operating Systems Design and Implementation (OSDI 12)",
+    "publicationDate": "2012-10",
+    "url": "https://www.usenix.org/conference/osdi12/technical-sessions/presentation/corbett"
+  },
+  {
+    "slug": "dataflow-model-unbounded-out-of-order-data",
+    "title": "The Dataflow Model: A Practical Approach to Balancing Correctness, Latency, and Cost in Massive-Scale, Unbounded, Out-of-Order Data Processing",
+    "authors": [
+      {
+        "name": "Tyler Akidau"
+      },
+      {
+        "name": "Robert Bradshaw"
+      },
+      {
+        "name": "Craig Chambers"
+      },
+      {
+        "name": "Slava Chernyak"
+      },
+      {
+        "name": "Rafael J. Fernández-Moctezuma"
+      },
+      {
+        "name": "Reuven Lax"
+      },
+      {
+        "name": "Sam McVeety"
+      },
+      {
+        "name": "Daniel Mills"
+      },
+      {
+        "name": "Frances Perry"
+      },
+      {
+        "name": "Eric Schmidt"
+      },
+      {
+        "name": "Sam Whittle"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Proceedings of the VLDB Endowment",
+    "publicationDate": "2015-08",
+    "doi": "10.14778/2824032.2824076",
+    "url": "https://doi.org/10.14778/2824032.2824076"
+  },
+  {
+    "slug": "critique-of-ansi-sql-isolation-levels",
+    "title": "A Critique of ANSI SQL Isolation Levels",
+    "authors": [
+      {
+        "name": "Hal Berenson"
+      },
+      {
+        "name": "Phil Bernstein"
+      },
+      {
+        "name": "Jim Gray"
+      },
+      {
+        "name": "Jim Melton"
+      },
+      {
+        "name": "Elizabeth O'Neil"
+      },
+      {
+        "name": "Patrick O'Neil"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 1995 ACM SIGMOD International Conference on Management of Data",
+    "publicationDate": "1995",
+    "doi": "10.1145/223784.223785",
+    "url": "https://dl.acm.org/doi/10.1145/223784.223785"
+  },
+  {
+    "slug": "system-r-access-path-selection",
+    "title": "Access Path Selection in a Relational Database Management System",
+    "authors": [
+      {
+        "name": "P. Griffiths Selinger"
+      },
+      {
+        "name": "M. M. Astrahan"
+      },
+      {
+        "name": "D. D. Chamberlin"
+      },
+      {
+        "name": "R. A. Lorie"
+      },
+      {
+        "name": "T. G. Price"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 1979 ACM SIGMOD International Conference on Management of Data",
+    "publicationDate": "1979",
+    "doi": "10.1145/582095.582099",
+    "url": "https://dl.acm.org/doi/10.1145/582095.582099"
+  },
+  {
+    "slug": "duckdb-embeddable-analytical-database",
+    "title": "DuckDB: an Embeddable Analytical Database",
+    "authors": [
+      {
+        "name": "Mark Raasveldt"
+      },
+      {
+        "name": "Hannes Mühleisen"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2019 International Conference on Management of Data",
+    "publicationDate": "2019-06-25",
+    "doi": "10.1145/3299869.3320212",
+    "url": "https://dl.acm.org/doi/10.1145/3299869.3320212"
+  },
+  {
+    "slug": "immix-mark-region-garbage-collector",
+    "title": "Immix: A Mark-Region Garbage Collector with Space Efficiency, Fast Collection, and Mutator Performance",
+    "authors": [
+      {
+        "name": "Stephen M. Blackburn"
+      },
+      {
+        "name": "Kathryn S. McKinley"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th ACM SIGPLAN Conference on Programming Language Design and Implementation",
+    "publicationDate": "2008-06-07",
+    "doi": "10.1145/1375581.1375586",
+    "url": "https://dl.acm.org/doi/10.1145/1375581.1375586"
+  },
+  {
+    "slug": "rustbelt-securing-foundations-of-rust",
+    "title": "RustBelt: Securing the Foundations of the Rust Programming Language",
+    "authors": [
+      {
+        "name": "Ralf Jung"
+      },
+      {
+        "name": "Jacques-Henri Jourdan"
+      },
+      {
+        "name": "Robbert Krebbers"
+      },
+      {
+        "name": "Derek Dreyer"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Proceedings of the ACM on Programming Languages",
+    "publicationDate": "2017-12-27",
+    "doi": "10.1145/3158154",
+    "url": "https://dl.acm.org/doi/10.1145/3158154"
+  },
+  {
+    "slug": "csmith-finding-bugs-in-c-compilers",
+    "title": "Finding and Understanding Bugs in C Compilers",
+    "authors": [
+      {
+        "name": "Xuejun Yang"
+      },
+      {
+        "name": "Yang Chen"
+      },
+      {
+        "name": "Eric Eide"
+      },
+      {
+        "name": "John Regehr"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 32nd ACM SIGPLAN Conference on Programming Language Design and Implementation",
+    "publicationDate": "2011-06-04",
+    "doi": "10.1145/1993498.1993532",
+    "url": "https://dl.acm.org/doi/10.1145/1993498.1993532"
+  },
+  {
+    "slug": "modern-code-review-expectations-outcomes-challenges",
+    "title": "Expectations, Outcomes, and Challenges of Modern Code Review",
+    "authors": [
+      {
+        "name": "Alberto Bacchelli"
+      },
+      {
+        "name": "Christian Bird"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2013 35th International Conference on Software Engineering (ICSE)",
+    "publicationDate": "2013-05",
+    "doi": "10.1109/icse.2013.6606617",
+    "url": "https://doi.org/10.1109/icse.2013.6606617"
+  },
+  {
+    "slug": "coverage-not-correlated-with-test-suite-effectiveness",
+    "title": "Coverage Is Not Strongly Correlated with Test Suite Effectiveness",
+    "authors": [
+      {
+        "name": "Laura Inozemtseva"
+      },
+      {
+        "name": "Reid Holmes"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 36th International Conference on Software Engineering",
+    "publicationDate": "2014-05-31",
+    "doi": "10.1145/2568225.2568271",
+    "url": "https://dl.acm.org/doi/10.1145/2568225.2568271"
+  },
+  {
+    "slug": "spectre-attacks-exploiting-speculative-execution",
+    "title": "Spectre Attacks: Exploiting Speculative Execution",
+    "authors": [
+      {
+        "name": "Paul Kocher"
+      },
+      {
+        "name": "Jann Horn"
+      },
+      {
+        "name": "Anders Fogh"
+      },
+      {
+        "name": "Daniel Genkin"
+      },
+      {
+        "name": "Daniel Gruss"
+      },
+      {
+        "name": "Werner Haas"
+      },
+      {
+        "name": "Mike Hamburg"
+      },
+      {
+        "name": "Moritz Lipp"
+      },
+      {
+        "name": "Stefan Mangard"
+      },
+      {
+        "name": "Thomas Prescher"
+      },
+      {
+        "name": "Michael Schwarz"
+      },
+      {
+        "name": "Yuval Yarom"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2019 IEEE Symposium on Security and Privacy (SP)",
+    "publicationDate": "2019-05",
+    "doi": "10.1109/sp.2019.00002",
+    "url": "https://doi.org/10.1109/SP.2019.00002"
+  },
+  {
+    "slug": "lets-encrypt-automated-certificate-authority",
+    "title": "Let's Encrypt: An Automated Certificate Authority to Encrypt the Entire Web",
+    "authors": [
+      {
+        "name": "Josh Aas"
+      },
+      {
+        "name": "Richard Barnes"
+      },
+      {
+        "name": "Benton Case"
+      },
+      {
+        "name": "Zakir Durumeric"
+      },
+      {
+        "name": "Peter Eckersley"
+      },
+      {
+        "name": "Alan Flores-López"
+      },
+      {
+        "name": "J. Alex Halderman"
+      },
+      {
+        "name": "Jacob Hoffman-Andrews"
+      },
+      {
+        "name": "James Kasten"
+      },
+      {
+        "name": "Eric Rescorla"
+      },
+      {
+        "name": "Seth Schoen"
+      },
+      {
+        "name": "Brad Warren"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2019 ACM SIGSAC Conference on Computer and Communications Security",
+    "publicationDate": "2019-11-06",
+    "doi": "10.1145/3319535.3363192",
+    "url": "https://dl.acm.org/doi/10.1145/3319535.3363192"
+  },
+  {
+    "slug": "why-johnny-cant-encrypt-usability-evaluation-of-pgp",
+    "title": "Why Johnny Can't Encrypt: A Usability Evaluation of PGP 5.0",
+    "authors": [
+      {
+        "name": "Alma Whitten"
+      },
+      {
+        "name": "J. D. Tygar"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 8th USENIX Security Symposium",
+    "publicationDate": "1999-08",
+    "url": "https://www.usenix.org/conference/8th-usenix-security-symposium/why-johnny-cant-encrypt-usability-evaluation-pgp-50"
+  },
+  {
+    "slug": "primes-is-in-p",
+    "title": "PRIMES is in P",
+    "authors": [
+      {
+        "name": "Manindra Agrawal"
+      },
+      {
+        "name": "Neeraj Kayal"
+      },
+      {
+        "name": "Nitin Saxena"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Annals of Mathematics",
+    "publicationDate": "2004-09",
+    "doi": "10.4007/annals.2004.160.781",
+    "url": "https://doi.org/10.4007/annals.2004.160.781"
+  },
+  {
+    "slug": "shor-quantum-factoring-and-discrete-logarithms",
+    "title": "Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer",
+    "authors": [
+      {
+        "name": "Peter W. Shor"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "SIAM Journal on Computing",
+    "publicationDate": "1997-10",
+    "doi": "10.1137/s0097539795293172",
+    "url": "https://doi.org/10.1137/S0097539795293172"
+  },
+  {
+    "slug": "roofline-visual-performance-model-multicore",
+    "title": "Roofline: An Insightful Visual Performance Model for Multicore Architectures",
+    "authors": [
+      {
+        "name": "Samuel Williams"
+      },
+      {
+        "name": "Andrew Waterman"
+      },
+      {
+        "name": "David Patterson"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Communications of the ACM",
+    "publicationDate": "2009-04",
+    "doi": "10.1145/1498765.1498785",
+    "url": "https://dl.acm.org/doi/10.1145/1498765.1498785"
+  },
+  {
+    "slug": "gaussian-splatting-real-time-radiance-field-rendering",
+    "title": "3D Gaussian Splatting for Real-Time Radiance Field Rendering",
+    "authors": [
+      {
+        "name": "Bernhard Kerbl"
+      },
+      {
+        "name": "Georgios Kopanas"
+      },
+      {
+        "name": "Thomas Leimkühler"
+      },
+      {
+        "name": "George Drettakis"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Graphics",
+    "publicationDate": "2023-07-26",
+    "doi": "10.1145/3592433",
+    "url": "https://dl.acm.org/doi/10.1145/3592433"
+  },
+  {
+    "slug": "paxos-part-time-parliament",
+    "title": "The Part-Time Parliament",
+    "authors": [
+      {
+        "name": "Leslie Lamport"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Computer Systems",
+    "publicationDate": "1998-05",
+    "doi": "10.1145/279227.279229",
+    "url": "https://dl.acm.org/doi/10.1145/279227.279229",
+    "paperUrl": "https://dl.acm.org/doi/epdf/10.1145/279227.279229"
+  },
+  {
+    "slug": "paxos-made-simple",
+    "title": "Paxos Made Simple",
+    "authors": [
+      {
+        "name": "Leslie Lamport"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM SIGACT News",
+    "publicationDate": "2001-12",
+    "url": "https://www.microsoft.com/en-us/research/publication/paxos-made-simple/",
+    "paperUrl": "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/12/paxos-simple-Copy.pdf"
+  },
+  {
+    "slug": "agentic-swmm-auditable-stormwater-modelling-with-skills-and-mcp",
+    "title": "Agentic SWMM: Auditable and Reproducible Stormwater Modelling Workflow with Agent Skills and Model Context Protocol",
+    "authors": [
+      {
+        "name": "Zhonghao Zhang"
+      },
+      {
+        "name": "Caterina Valeo"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "AI for Engineering",
+    "publicationDate": "2026-06-09",
+    "doi": "10.3390/aieng1010005",
+    "url": "https://www.mdpi.com/3042-8831/1/1/5",
+    "paperUrl": "https://raw.githubusercontent.com/alexcastrodev/my-university-papers/main/software-engineering/agentic-swmm-auditable-stormwater-modelling-with-skills-and-mcp/paper.pdf"
+  },
+  {
+    "slug": "corfu-shared-log-design-for-flash-clusters",
+    "title": "CORFU: A Shared Log Design for Flash Clusters",
+    "authors": [
+      {
+        "name": "Mahesh Balakrishnan"
+      },
+      {
+        "name": "Dahlia Malkhi"
+      },
+      {
+        "name": "Vijayan Prabhakaran"
+      },
+      {
+        "name": "Ted Wobber"
+      },
+      {
+        "name": "Michael Wei"
+      },
+      {
+        "name": "John D. Davis"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "9th USENIX Symposium on Networked Systems Design and Implementation (NSDI 12)",
+    "publicationDate": "2012-04",
+    "url": "https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/balakrishnan",
+    "paperUrl": "https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final30.pdf"
+  },
+  {
+    "slug": "calvin-fast-distributed-transactions-for-partitioned-databases",
+    "title": "Calvin: Fast Distributed Transactions for Partitioned Database Systems",
+    "authors": [
+      {
+        "name": "Alexander Thomson"
+      },
+      {
+        "name": "Thaddeus Diamond"
+      },
+      {
+        "name": "Shu-Chun Weng"
+      },
+      {
+        "name": "Kun Ren"
+      },
+      {
+        "name": "Philip Shao"
+      },
+      {
+        "name": "Daniel J. Abadi"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2012 ACM SIGMOD International Conference on Management of Data",
+    "publicationDate": "2012-05-20",
+    "doi": "10.1145/2213836.2213838",
+    "url": "https://dl.acm.org/doi/10.1145/2213836.2213838",
+    "paperUrl": "https://cs.yale.edu/homes/thomson/publications/calvin-sigmod12.pdf"
+  },
+  {
+    "slug": "tango-distributed-data-structures-over-a-shared-log",
+    "title": "Tango: Distributed Data Structures over a Shared Log",
+    "authors": [
+      {
+        "name": "Mahesh Balakrishnan"
+      },
+      {
+        "name": "Dahlia Malkhi"
+      },
+      {
+        "name": "Ted Wobber"
+      },
+      {
+        "name": "Ming Wu"
+      },
+      {
+        "name": "Vijayan Prabhakaran"
+      },
+      {
+        "name": "Michael Wei"
+      },
+      {
+        "name": "John D. Davis"
+      },
+      {
+        "name": "Sriram Rao"
+      },
+      {
+        "name": "Tao Zou"
+      },
+      {
+        "name": "Aviad Zuck"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Twenty-Fourth ACM Symposium on Operating Systems Principles",
+    "publicationDate": "2013-11-03",
+    "doi": "10.1145/2517349.2522732",
+    "url": "https://dl.acm.org/doi/10.1145/2517349.2522732",
+    "paperUrl": "https://www.cs.cornell.edu/~taozou/sosp13/tangososp.pdf"
+  },
+  {
+    "slug": "nopaxos-replacing-consensus-with-network-ordering",
+    "title": "Just Say NO to Paxos Overhead: Replacing Consensus with Network Ordering",
+    "authors": [
+      {
+        "name": "Jialin Li"
+      },
+      {
+        "name": "Ellis Michael"
+      },
+      {
+        "name": "Naveen Kr. Sharma"
+      },
+      {
+        "name": "Adriana Szekeres"
+      },
+      {
+        "name": "Dan R. K. Ports"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "12th USENIX Symposium on Operating Systems Design and Implementation (OSDI 16)",
+    "publicationDate": "2016-11",
+    "url": "https://www.usenix.org/conference/osdi16/technical-sessions/presentation/li",
+    "paperUrl": "https://www.usenix.org/system/files/conference/osdi16/osdi16-li.pdf"
+  },
+  {
+    "slug": "eris-coordination-free-consistent-transactions",
+    "title": "Eris: Coordination-Free Consistent Transactions Using In-Network Concurrency Control",
+    "authors": [
+      {
+        "name": "Jialin Li"
+      },
+      {
+        "name": "Ellis Michael"
+      },
+      {
+        "name": "Dan R. K. Ports"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 26th Symposium on Operating Systems Principles",
+    "publicationDate": "2017-10-14",
+    "doi": "10.1145/3132747.3132751",
+    "url": "https://dl.acm.org/doi/10.1145/3132747.3132751",
+    "paperUrl": "https://syslab.cs.washington.edu/papers/eris-sosp17.pdf"
+  },
+  {
+    "slug": "saturn-distributed-metadata-service-for-causal-consistency",
+    "title": "Saturn: a Distributed Metadata Service for Causal Consistency",
+    "authors": [
+      {
+        "name": "Manuel Bravo"
+      },
+      {
+        "name": "Luís Rodrigues"
+      },
+      {
+        "name": "Peter Van Roy"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Twelfth European Conference on Computer Systems",
+    "publicationDate": "2017-04-23",
+    "doi": "10.1145/3064176.3064210",
+    "url": "https://dl.acm.org/doi/10.1145/3064176.3064210",
+    "paperUrl": "https://webperso.info.ucl.ac.be/~pvr/p111-Bravo.pdf"
+  },
+  {
+    "slug": "vcorfu-cloud-scale-object-store-on-a-shared-log",
+    "title": "vCorfu: A Cloud-Scale Object Store on a Shared Log",
+    "authors": [
+      {
+        "name": "Michael Wei"
+      },
+      {
+        "name": "Amy Tai"
+      },
+      {
+        "name": "Christopher J. Rossbach"
+      },
+      {
+        "name": "Ittai Abraham"
+      },
+      {
+        "name": "Maithem Munshed"
+      },
+      {
+        "name": "Medhavi Dhawan"
+      },
+      {
+        "name": "Jim Stabile"
+      },
+      {
+        "name": "Udi Wieder"
+      },
+      {
+        "name": "Scott Fritchie"
+      },
+      {
+        "name": "Steven Swanson"
+      },
+      {
+        "name": "Michael J. Freedman"
+      },
+      {
+        "name": "Dahlia Malkhi"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "14th USENIX Symposium on Networked Systems Design and Implementation (NSDI 17)",
+    "publicationDate": "2017-03",
+    "url": "https://www.usenix.org/conference/nsdi17/technical-sessions/presentation/wei-michael",
+    "paperUrl": "https://www.usenix.org/system/files/conference/nsdi17/nsdi17-wei-michael.pdf"
+  },
+  {
+    "slug": "fuzzylog-partially-ordered-shared-log",
+    "title": "The FuzzyLog: A Partially Ordered Shared Log",
+    "authors": [
+      {
+        "name": "Joshua Lockerman"
+      },
+      {
+        "name": "Jose M. Faleiro"
+      },
+      {
+        "name": "Juno Kim"
+      },
+      {
+        "name": "Soham Sankaran"
+      },
+      {
+        "name": "Daniel J. Abadi"
+      },
+      {
+        "name": "James Aspnes"
+      },
+      {
+        "name": "Siddhartha Sen"
+      },
+      {
+        "name": "Mahesh Balakrishnan"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "13th USENIX Symposium on Operating Systems Design and Implementation (OSDI 18)",
+    "publicationDate": "2018-10",
+    "url": "https://www.usenix.org/conference/osdi18/presentation/lockerman",
+    "paperUrl": "https://www.usenix.org/system/files/osdi18-lockerman.pdf"
+  },
+  {
+    "slug": "scalog-seamless-reconfiguration-and-total-order",
+    "title": "Scalog: Seamless Reconfiguration and Total Order in a Scalable Shared Log",
+    "authors": [
+      {
+        "name": "Cong Ding"
+      },
+      {
+        "name": "David Chu"
+      },
+      {
+        "name": "Evan Zhao"
+      },
+      {
+        "name": "Xiang Li"
+      },
+      {
+        "name": "Lorenzo Alvisi"
+      },
+      {
+        "name": "Robbert van Renesse"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "17th USENIX Symposium on Networked Systems Design and Implementation (NSDI 20)",
+    "publicationDate": "2020-02",
+    "url": "https://www.usenix.org/conference/nsdi20/presentation/ding",
+    "paperUrl": "https://www.usenix.org/system/files/nsdi20-paper-ding.pdf"
+  },
+  {
+    "slug": "boki-stateful-serverless-computing-with-shared-logs",
+    "title": "Boki: Stateful Serverless Computing with Shared Logs",
+    "authors": [
+      {
+        "name": "Zhipeng Jia"
+      },
+      {
+        "name": "Emmett Witchel"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 28th Symposium on Operating Systems Principles",
+    "publicationDate": "2021-10-26",
+    "doi": "10.1145/3477132.3483541",
+    "url": "https://dl.acm.org/doi/10.1145/3477132.3483541",
+    "paperUrl": "https://www.cs.utexas.edu/~witchel/pubs/jia21sosp-boki.pdf"
+  },
+  {
+    "slug": "hydra-serialization-free-network-ordering",
+    "title": "Hydra: Serialization-Free Network Ordering for Strongly Consistent Distributed Applications",
+    "authors": [
+      {
+        "name": "Inho Choi"
+      },
+      {
+        "name": "Ellis Michael"
+      },
+      {
+        "name": "Yunfan Li"
+      },
+      {
+        "name": "Dan R. K. Ports"
+      },
+      {
+        "name": "Jialin Li"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Networked Systems Design and Implementation (NSDI 23)",
+    "publicationDate": "2023-04",
+    "url": "https://www.usenix.org/conference/nsdi23/presentation/choi",
+    "paperUrl": "https://www.usenix.org/system/files/nsdi23-choi.pdf"
+  },
+  {
+    "slug": "flexlog-shared-log-for-stateful-serverless-computing",
+    "title": "FlexLog: A Shared Log for Stateful Serverless Computing",
+    "authors": [
+      {
+        "name": "Dimitra Giantsidi"
+      },
+      {
+        "name": "Emmanouil Giortamis"
+      },
+      {
+        "name": "Nathaniel Tornow"
+      },
+      {
+        "name": "Florin Dinu"
+      },
+      {
+        "name": "Pramod Bhatotia"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 32nd International Symposium on High-Performance Parallel and Distributed Computing",
+    "publicationDate": "2023-08-07",
+    "doi": "10.1145/3588195.3592993",
+    "url": "https://dl.acm.org/doi/10.1145/3588195.3592993",
+    "paperUrl": "https://dse.in.tum.de/wp-content/uploads/2023/05/FlexLog_HPDC23.pdf"
+  },
+  {
+    "slug": "lazylog-shared-log-abstraction-for-low-latency-applications",
+    "title": "LazyLog: A New Shared Log Abstraction for Low-Latency Applications",
+    "authors": [
+      {
+        "name": "Xuhao Luo"
+      },
+      {
+        "name": "Shreesha G. Bhat"
+      },
+      {
+        "name": "Jiyu Hu"
+      },
+      {
+        "name": "Ramnatthan Alagappan"
+      },
+      {
+        "name": "Aishwarya Ganesan"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695983",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695983",
+    "paperUrl": "https://dassl-uiuc.github.io/pdfs/papers/lazylog.pdf"
+  },
+  {
+    "slug": "speclog-low-latency-speculative-shared-log-fix-ante-ordering",
+    "title": "Low End-to-End Latency atop a Speculative Shared Log with Fix-Ante Ordering",
+    "authors": [
+      {
+        "name": "Shreesha G. Bhat"
+      },
+      {
+        "name": "Tony Hong"
+      },
+      {
+        "name": "Xuhao Luo"
+      },
+      {
+        "name": "Jiyu Hu"
+      },
+      {
+        "name": "Aishwarya Ganesan"
+      },
+      {
+        "name": "Ramnatthan Alagappan"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "19th USENIX Symposium on Operating Systems Design and Implementation (OSDI 25)",
+    "publicationDate": "2025-07",
+    "url": "https://www.usenix.org/conference/osdi25/presentation/bhat",
+    "paperUrl": "https://www.usenix.org/system/files/osdi25-bhat.pdf"
+  },
+  {
+    "slug": "rakaia-in-kernel-scheduling-for-tcp-rpcs",
+    "title": "Rakaia: Scalable In-Kernel Scheduling for TCP-Based RPCs",
+    "authors": [
+      {
+        "name": "Rui Yang"
+      },
+      {
+        "name": "Konstantinos Prasopoulos"
+      },
+      {
+        "name": "Edouard Bugnion"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/yang-rui",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-yang-rui.pdf"
+  },
+  {
+    "slug": "kstep-deterministic-testing-of-linux-cpu-scheduler-bugs",
+    "title": "kSTEP: Characterization and Deterministic Testing of Linux CPU Scheduler Bugs",
+    "authors": [
+      {
+        "name": "Tingjia Cao"
+      },
+      {
+        "name": "Shawn (Wanxiang) Zhong"
+      },
+      {
+        "name": "Caeden Whitaker"
+      },
+      {
+        "name": "Ke Han"
+      },
+      {
+        "name": "Andrea C. Arpaci-Dusseau"
+      },
+      {
+        "name": "Remzi H. Arpaci-Dusseau"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/cao",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-cao.pdf"
+  },
+  {
+    "slug": "peer-first-class-scheduling-for-latency-critical-ebpf-applications",
+    "title": "PeeR: First-Class Scheduling for Latency-Critical eBPF Applications",
+    "authors": [
+      {
+        "name": "Jeremy Carin"
+      },
+      {
+        "name": "Ben Holmes"
+      },
+      {
+        "name": "Weiyang Wang"
+      },
+      {
+        "name": "Ankit Bhardwaj"
+      },
+      {
+        "name": "Manya Ghobadi"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/carin",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-carin.pdf"
+  },
+  {
+    "slug": "xkernel-principled-performance-tunability-of-os-kernels",
+    "title": "Xkernel: Principled Performance Tunability of Operating System Kernels",
+    "authors": [
+      {
+        "name": "Zhongjie Chen"
+      },
+      {
+        "name": "Wentao Zhang"
+      },
+      {
+        "name": "Yulong Tang"
+      },
+      {
+        "name": "Ran Shu"
+      },
+      {
+        "name": "Fengyuan Ren"
+      },
+      {
+        "name": "Tianyin Xu"
+      },
+      {
+        "name": "Jing Liu"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/chen-zhongjie",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-chen-zhongjie.pdf"
+  },
+  {
+    "slug": "oxbow-coordinated-architecture-for-multi-component-file-systems",
+    "title": "Oxbow: A Coordinated Architecture for Multi-component File Systems",
+    "authors": [
+      {
+        "name": "Jongyul Kim"
+      },
+      {
+        "name": "Jaehwan Lee"
+      },
+      {
+        "name": "Inhoe Koo"
+      },
+      {
+        "name": "Peizhe Liu"
+      },
+      {
+        "name": "Jiyuan Zhang"
+      },
+      {
+        "name": "Junho Ahn"
+      },
+      {
+        "name": "Tianyin Xu"
+      },
+      {
+        "name": "Youngjin Kwon"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/kim-jongyul",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-kim-jongyul.pdf"
+  },
+  {
+    "slug": "bodega-localized-linearizable-reads-with-roster-leases",
+    "title": "Bodega: Localized Linearizable Reads at Anywhere Anytime via Roster Leases",
+    "authors": [
+      {
+        "name": "Guanzhou Hu"
+      },
+      {
+        "name": "Andrea C. Arpaci-Dusseau"
+      },
+      {
+        "name": "Remzi H. Arpaci-Dusseau"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/hu-guanzhou",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-hu-guanzhou.pdf"
+  },
+  {
+    "slug": "jetpack-consensus-made-generally-fast",
+    "title": "Jetpack: Consensus Made Generally Fast",
+    "authors": [
+      {
+        "name": "Ze Tang"
+      },
+      {
+        "name": "Zihao Zhang"
+      },
+      {
+        "name": "Weihai Shen"
+      },
+      {
+        "name": "Jicheng Shi"
+      },
+      {
+        "name": "Shuai Mu"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/tang",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-tang.pdf"
+  },
+  {
+    "slug": "ambulance-saving-bft-through-racing",
+    "title": "Ambulance: Saving BFT through Racing",
+    "authors": [
+      {
+        "name": "Neil Giridharan"
+      },
+      {
+        "name": "Shubham Mishra"
+      },
+      {
+        "name": "Lorenzo Alvisi"
+      },
+      {
+        "name": "Natacha Crooks"
+      },
+      {
+        "name": "Benjamin Marsh"
+      },
+      {
+        "name": "Hein Meling"
+      },
+      {
+        "name": "Kartik Nayak"
+      },
+      {
+        "name": "Grzegorz Prusak"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/giridharan",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-giridharan.pdf"
+  },
+  {
+    "slug": "logdrive-composable-durability-for-cloud-based-shared-logs",
+    "title": "The LogDrive: Composable Durability for Cloud-Based Shared Logs",
+    "authors": [
+      {
+        "name": "Gardner Vickers"
+      },
+      {
+        "name": "Lucas Bradstreet"
+      },
+      {
+        "name": "Mahesh Balakrishnan"
+      },
+      {
+        "name": "Prince Mahajan"
+      },
+      {
+        "name": "David Mao"
+      },
+      {
+        "name": "Xavier Léauté"
+      },
+      {
+        "name": "Ismael Juma"
+      },
+      {
+        "name": "Nikhil Bhatia"
+      },
+      {
+        "name": "Jack Vanlightly"
+      },
+      {
+        "name": "Prateek Jindal"
+      },
+      {
+        "name": "Sumit Arrawatia"
+      },
+      {
+        "name": "Andrew Grant"
+      },
+      {
+        "name": "Dhruvil Shah"
+      },
+      {
+        "name": "Dimitar Dimitrov"
+      },
+      {
+        "name": "Gaurav Badoni"
+      },
+      {
+        "name": "Shimiao Zhang"
+      },
+      {
+        "name": "Yang Yu"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/vickers",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-vickers.pdf"
+  },
+  {
+    "slug": "writeguards-distributed-storage-support-for-strongly-consistent-caches",
+    "title": "WriteGuards: Distributed Storage Support for Strongly Consistent Caches",
+    "authors": [
+      {
+        "name": "Ziming Mao"
+      },
+      {
+        "name": "Atul Adya"
+      },
+      {
+        "name": "Jonathan Ellithorpe"
+      },
+      {
+        "name": "Rishabh Iyer"
+      },
+      {
+        "name": "Matei Zaharia"
+      },
+      {
+        "name": "Scott Shenker"
+      },
+      {
+        "name": "Ion Stoica"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/mao-ziming-writeguards",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-mao-ziming-writeguards.pdf"
+  },
+  {
+    "slug": "atmosphere-practical-verified-kernels-with-rust-and-verus",
+    "title": "Atmosphere: Practical Verified Kernels with Rust and Verus",
+    "authors": [
+      {
+        "name": "Xiangdong Chen"
+      },
+      {
+        "name": "Zhaofeng Li"
+      },
+      {
+        "name": "Jerry Zhang"
+      },
+      {
+        "name": "Vikram Narayanan"
+      },
+      {
+        "name": "Anton Burtsev"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764821",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764821"
+  },
+  {
+    "slug": "cache-ext-customizing-the-page-cache-with-ebpf",
+    "title": "cache_ext: Customizing the Page Cache with eBPF",
+    "authors": [
+      {
+        "name": "Tal Zussman"
+      },
+      {
+        "name": "Ioannis Zarkadas"
+      },
+      {
+        "name": "Jeremy Carin"
+      },
+      {
+        "name": "Andrew Cheng"
+      },
+      {
+        "name": "Hubertus Franke"
+      },
+      {
+        "name": "Jonas Pfefferle"
+      },
+      {
+        "name": "Asaf Cidon"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764820",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764820"
+  },
+  {
+    "slug": "cortenmm-efficient-memory-management-with-strong-correctness",
+    "title": "CortenMM: Efficient Memory Management with Strong Correctness Guarantees",
+    "authors": [
+      {
+        "name": "Junyang Zhang"
+      },
+      {
+        "name": "Xiangcan Xu"
+      },
+      {
+        "name": "Yonghao Zou"
+      },
+      {
+        "name": "Zhe Tang"
+      },
+      {
+        "name": "Xinyi Wan"
+      },
+      {
+        "name": "Kang Hu"
+      },
+      {
+        "name": "Siyuan Wang"
+      },
+      {
+        "name": "Wenbo Xu"
+      },
+      {
+        "name": "Di Wang"
+      },
+      {
+        "name": "Hao Chen"
+      },
+      {
+        "name": "Lin Huang"
+      },
+      {
+        "name": "Shoumeng Yan"
+      },
+      {
+        "name": "Yuval Tamir"
+      },
+      {
+        "name": "Yingwei Luo"
+      },
+      {
+        "name": "Xiaolin Wang"
+      },
+      {
+        "name": "Huashan Yu"
+      },
+      {
+        "name": "Zhenlin Wang"
+      },
+      {
+        "name": "Hongliang Tian"
+      },
+      {
+        "name": "Diyu Zhou"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764836",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764836"
+  },
+  {
+    "slug": "ufork-posix-fork-within-a-single-address-space-os",
+    "title": "μFork: Supporting POSIX fork Within a Single-Address-Space OS",
+    "authors": [
+      {
+        "name": "John Alistair Kressel"
+      },
+      {
+        "name": "Hugo Lefeuvre"
+      },
+      {
+        "name": "Pierre Olivier"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764809",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764809",
+    "paperUrl": "https://arxiv.org/pdf/2509.09439"
+  },
+  {
+    "slug": "virtual-firmware-monitor-design-and-implementation",
+    "title": "The Design and Implementation of a Virtual Firmware Monitor",
+    "authors": [
+      {
+        "name": "Charly Castes"
+      },
+      {
+        "name": "François Costa"
+      },
+      {
+        "name": "Neelu S. Kalani"
+      },
+      {
+        "name": "Timothy Roscoe"
+      },
+      {
+        "name": "Nate Foster"
+      },
+      {
+        "name": "Thomas Bourgeat"
+      },
+      {
+        "name": "Edouard Bugnion"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764826",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764826",
+    "paperUrl": "https://charlycst.github.io/papers/virtual-firmware-monitor.pdf"
+  },
+  {
+    "slug": "tiga-accelerating-geo-distributed-transactions-with-synchronized-clocks",
+    "title": "Tiga: Accelerating Geo-Distributed Transactions with Synchronized Clocks",
+    "authors": [
+      {
+        "name": "Jinkun Geng"
+      },
+      {
+        "name": "Shuai Mu"
+      },
+      {
+        "name": "Anirudh Sivaraman"
+      },
+      {
+        "name": "Balaji Prabhakar"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764854",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764854",
+    "paperUrl": "https://arxiv.org/pdf/2509.05759"
+  },
+  {
+    "slug": "pesto-high-performance-bft-queries",
+    "title": "Pesto: Cooking up High Performance BFT Queries",
+    "authors": [
+      {
+        "name": "Florian Suri-Payer"
+      },
+      {
+        "name": "Neil Giridharan"
+      },
+      {
+        "name": "Liam Arzola"
+      },
+      {
+        "name": "Shir Cohen"
+      },
+      {
+        "name": "Lorenzo Alvisi"
+      },
+      {
+        "name": "Natacha Crooks"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764799",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764799"
+  },
+  {
+    "slug": "radical-running-consistent-applications-closer-to-users",
+    "title": "Running Consistent Applications Closer to Users with Radical for Lower Latency",
+    "authors": [
+      {
+        "name": "Nicolaas Kaashoek"
+      },
+      {
+        "name": "Oleg A. Golev"
+      },
+      {
+        "name": "Austin T. Li"
+      },
+      {
+        "name": "Amit Levy"
+      },
+      {
+        "name": "Wyatt Lloyd"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764831",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764831"
+  },
+  {
+    "slug": "targeted-task-cancellation-for-application-resource-overload",
+    "title": "Mitigating Application Resource Overload with Targeted Task Cancellation",
+    "authors": [
+      {
+        "name": "Yigong Hu"
+      },
+      {
+        "name": "Zeyin Zhang"
+      },
+      {
+        "name": "Yicheng Liu"
+      },
+      {
+        "name": "Yile Gu"
+      },
+      {
+        "name": "Shuangyu Lei"
+      },
+      {
+        "name": "Baris Kasikci"
+      },
+      {
+        "name": "Peng Huang"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764835",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764835"
+  },
+  {
+    "slug": "orthrus-detecting-silent-user-data-corruption-in-the-cloud",
+    "title": "Orthrus: Efficient and Timely Detection of Silent User Data Corruption in the Cloud with Resource-Adaptive Computation Validation",
+    "authors": [
+      {
+        "name": "Chenxiao Liu"
+      },
+      {
+        "name": "Zhenting Zhu"
+      },
+      {
+        "name": "Quanxi Li"
+      },
+      {
+        "name": "Yanwen Xia"
+      },
+      {
+        "name": "Yifan Qiao"
+      },
+      {
+        "name": "Xiangyun Deng"
+      },
+      {
+        "name": "Youyou Lu"
+      },
+      {
+        "name": "Tao Xie"
+      },
+      {
+        "name": "Huimin Cui"
+      },
+      {
+        "name": "Zidong Du"
+      },
+      {
+        "name": "Harry Xu"
+      },
+      {
+        "name": "Chenxi Wang"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
+    "publicationDate": "2025-10-12",
+    "doi": "10.1145/3731569.3764832",
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764832"
+  },
+  {
+    "slug": "autobahn-seamless-high-speed-bft",
+    "title": "Autobahn: Seamless high speed BFT",
+    "authors": [
+      {
+        "name": "Neil Giridharan"
+      },
+      {
+        "name": "Florian Suri-Payer"
+      },
+      {
+        "name": "Ittai Abraham"
+      },
+      {
+        "name": "Lorenzo Alvisi"
+      },
+      {
+        "name": "Natacha Crooks"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695942",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695942",
+    "paperUrl": "https://arxiv.org/pdf/2401.10369"
+  },
+  {
+    "slug": "dirigent-lightweight-serverless-orchestration",
+    "title": "Dirigent: Lightweight Serverless Orchestration",
+    "authors": [
+      {
+        "name": "Lazar Cvetković"
+      },
+      {
+        "name": "François Costa"
+      },
+      {
+        "name": "Mihajlo Djokic"
+      },
+      {
+        "name": "Michal Friedman"
+      },
+      {
+        "name": "Ana Klimovic"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695966",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695966",
+    "paperUrl": "https://arxiv.org/pdf/2404.16393"
+  },
+  {
+    "slug": "efficient-reproduction-of-fault-induced-failures-in-distributed-systems",
+    "title": "Efficient Reproduction of Fault-Induced Failures in Distributed Systems with Feedback-Driven Fault Injection",
+    "authors": [
+      {
+        "name": "Jia Pan"
+      },
+      {
+        "name": "Haoze Wu"
+      },
+      {
+        "name": "Tanakorn Leesatapornwongsa"
+      },
+      {
+        "name": "Suman Nath"
+      },
+      {
+        "name": "Peng Huang"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695979",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695979",
+    "paperUrl": "https://web.eecs.umich.edu/~ryanph/paper/anduril-sosp24.pdf"
+  },
+  {
+    "slug": "fast-flexible-practical-kernel-extensions",
+    "title": "Fast, Flexible, and Practical Kernel Extensions",
+    "authors": [
+      {
+        "name": "Kumar Kartikeya Dwivedi"
+      },
+      {
+        "name": "Rishabh Iyer"
+      },
+      {
+        "name": "Sanidhya Kashyap"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695950",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695950",
+    "paperUrl": "https://rs3lab.github.io/assets/papers/2024/dwivedi:kflex.pdf"
+  },
+  {
+    "slug": "ozz-kernel-out-of-order-concurrency-bugs",
+    "title": "OZZ: Identifying Kernel Out-of-Order Concurrency Bugs with In-Vivo Memory Access Reordering",
+    "authors": [
+      {
+        "name": "Dae R. Jeong"
+      },
+      {
+        "name": "Yewon Choi"
+      },
+      {
+        "name": "Byoungyoung Lee"
+      },
+      {
+        "name": "Insik Shin"
+      },
+      {
+        "name": "Youngjin Kwon"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695944",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695944"
+  },
+  {
+    "slug": "retry-bugs-insights-and-llm-informed-tooling",
+    "title": "If At First You Don’t Succeed, Try, Try, Again...? Insights and LLM-informed Tooling for Detecting Retry Bugs in Software Systems",
+    "authors": [
+      {
+        "name": "Bogdan A. Stoica"
+      },
+      {
+        "name": "Utsav Sethi"
+      },
+      {
+        "name": "Yiming Su"
+      },
+      {
+        "name": "Cyrus Zhou"
+      },
+      {
+        "name": "Shan Lu"
+      },
+      {
+        "name": "Jonathan Mace"
+      },
+      {
+        "name": "Madanlal Musuvathi"
+      },
+      {
+        "name": "Suman Nath"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695971",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695971",
+    "paperUrl": "https://bastoica.github.io/files/papers/2024_sosp_wasabi.pdf"
+  },
+  {
+    "slug": "skyloft-general-scheduling-framework-in-user-space",
+    "title": "Skyloft: A General High-Efficient Scheduling Framework in User Space",
+    "authors": [
+      {
+        "name": "Yuekai Jia"
+      },
+      {
+        "name": "Kaifu Tian"
+      },
+      {
+        "name": "Yuyang You"
+      },
+      {
+        "name": "Yu Chen"
+      },
+      {
+        "name": "Kang Chen"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695973",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695973"
+  },
+  {
+    "slug": "swarm-replicating-shared-disaggregated-memory-data",
+    "title": "SWARM: Replicating Shared Disaggregated-Memory Data in No Time",
+    "authors": [
+      {
+        "name": "Antoine Murat"
+      },
+      {
+        "name": "Clément Burgelin"
+      },
+      {
+        "name": "Athanasios Xygkis"
+      },
+      {
+        "name": "Igor Zablotchi"
+      },
+      {
+        "name": "Marcos K. Aguilera"
+      },
+      {
+        "name": "Rachid Guerraoui"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695945",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695945",
+    "paperUrl": "https://arxiv.org/pdf/2409.16258"
+  },
+  {
+    "slug": "tiered-memory-management-access-latency-is-the-key",
+    "title": "Tiered Memory Management: Access Latency is the Key!",
+    "authors": [
+      {
+        "name": "Midhul Vuppalapati"
+      },
+      {
+        "name": "Rachit Agarwal"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695968",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695968"
+  },
+  {
+    "slug": "verus-practical-foundation-for-systems-verification",
+    "title": "Verus: A Practical Foundation for Systems Verification",
+    "authors": [
+      {
+        "name": "Andrea Lattuada"
+      },
+      {
+        "name": "Travis Hance"
+      },
+      {
+        "name": "Jay Bosamiya"
+      },
+      {
+        "name": "Matthias Brun"
+      },
+      {
+        "name": "Chanhee Cho"
+      },
+      {
+        "name": "Hayley LeBlanc"
+      },
+      {
+        "name": "Pranav Srinivasan"
+      },
+      {
+        "name": "Reto Achermann"
+      },
+      {
+        "name": "Tej Chajed"
+      },
+      {
+        "name": "Chris Hawblitzel"
+      },
+      {
+        "name": "Jon Howell"
+      },
+      {
+        "name": "Jacob R. Lorch"
+      },
+      {
+        "name": "Oded Padon"
+      },
+      {
+        "name": "Bryan Parno"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 30th Symposium on Operating Systems Principles",
+    "publicationDate": "2024-11-04",
+    "doi": "10.1145/3694715.3695952",
+    "url": "https://dl.acm.org/doi/10.1145/3694715.3695952",
+    "paperUrl": "https://www.andrew.cmu.edu/user/bparno/papers/verus-sys.pdf"
+  },
+  {
+    "slug": "antipode-cross-service-causal-consistency-in-distributed-applications",
+    "title": "Antipode: Enforcing Cross-Service Causal Consistency in Distributed Applications",
+    "authors": [
+      {
+        "name": "João Ferreira Loff"
+      },
+      {
+        "name": "Daniel Porto"
+      },
+      {
+        "name": "João Garcia"
+      },
+      {
+        "name": "Jonathan Mace"
+      },
+      {
+        "name": "Rodrigo Rodrigues"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613176",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613176"
+  },
+  {
+    "slug": "concord-microsecond-scale-tail-latency-with-approximate-optimal-scheduling",
+    "title": "Achieving Microsecond-Scale Tail Latency Efficiently with Approximate Optimal Scheduling",
+    "authors": [
+      {
+        "name": "Rishabh Iyer"
+      },
+      {
+        "name": "Musa Unal"
+      },
+      {
+        "name": "Marios Kogias"
+      },
+      {
+        "name": "George Candea"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613136",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613136",
+    "paperUrl": "https://dslab.epfl.ch/pubs/concord.pdf"
+  },
+  {
+    "slug": "grove-separation-logic-library-for-verifying-distributed-systems",
+    "title": "Grove: a Separation-Logic Library for Verifying Distributed Systems",
+    "authors": [
+      {
+        "name": "Upamanyu Sharma"
+      },
+      {
+        "name": "Ralf Jung"
+      },
+      {
+        "name": "Joseph Tassarotti"
+      },
+      {
+        "name": "M. Frans Kaashoek"
+      },
+      {
+        "name": "Nickolai Zeldovich"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613172",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613172"
+  },
+  {
+    "slug": "halfmoon-log-optimal-fault-tolerant-stateful-serverless-computing",
+    "title": "Halfmoon: Log-Optimal Fault-Tolerant Stateful Serverless Computing",
+    "authors": [
+      {
+        "name": "Sheng Qi"
+      },
+      {
+        "name": "Xuanzhe Liu"
+      },
+      {
+        "name": "Xin Jin"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613154",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613154"
+  },
+  {
+    "slug": "memtis-efficient-memory-tiering-with-dynamic-page-classification",
+    "title": "MEMTIS: Efficient Memory Tiering with Dynamic Page Classification and Page Size Determination",
+    "authors": [
+      {
+        "name": "Taehyung Lee"
+      },
+      {
+        "name": "Sumit Kumar Monga"
+      },
+      {
+        "name": "Changwoo Min"
+      },
+      {
+        "name": "Young Ik Eom"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613167",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613167"
+  },
+  {
+    "slug": "quepaxa-escaping-the-tyranny-of-timeouts-in-consensus",
+    "title": "QuePaxa: Escaping the tyranny of timeouts in consensus",
+    "authors": [
+      {
+        "name": "Pasindu Tennage"
+      },
+      {
+        "name": "Cristina Băsescu"
+      },
+      {
+        "name": "Lefteris Kokoris-Kogias"
+      },
+      {
+        "name": "Ewa Syta"
+      },
+      {
+        "name": "Philipp Jovanovic"
+      },
+      {
+        "name": "Vero Estrada-Galiñanes"
+      },
+      {
+        "name": "Bryan Ford"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613150",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613150"
+  },
+  {
+    "slug": "refcounting-bugs-in-all-modern-linux-kernels",
+    "title": "One Simple API Can Cause Hundreds of Bugs An Analysis of Refcounting Bugs in All Modern Linux Kernels",
+    "authors": [
+      {
+        "name": "Liang He"
+      },
+      {
+        "name": "Purui Su"
+      },
+      {
+        "name": "Chao Zhang"
+      },
+      {
+        "name": "Yan Cai"
+      },
+      {
+        "name": "Jinxin Ma"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613162",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613162"
+  },
+  {
+    "slug": "silent-data-corruptions-in-a-large-production-cpu-population",
+    "title": "Understanding Silent Data Corruptions in a Large Production CPU Population",
+    "authors": [
+      {
+        "name": "Shaobu Wang"
+      },
+      {
+        "name": "Guangyan Zhang"
+      },
+      {
+        "name": "Junyu Wei"
+      },
+      {
+        "name": "Yang Wang"
+      },
+      {
+        "name": "Jiesheng Wu"
+      },
+      {
+        "name": "Qingchao Luo"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613149",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613149"
+  },
+  {
+    "slug": "treesls-whole-system-persistent-microkernel-with-tree-structured-checkpoint",
+    "title": "TreeSLS: A Whole-system Persistent Microkernel with Tree-structured State Checkpoint on NVM",
+    "authors": [
+      {
+        "name": "Fangnuo Wu"
+      },
+      {
+        "name": "Mingkai Dong"
+      },
+      {
+        "name": "Gequan Mo"
+      },
+      {
+        "name": "Haibo Chen"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613160",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613160"
+  },
+  {
+    "slug": "trio-high-performance-and-secure-userspace-nvm-file-systems",
+    "title": "Enabling High-Performance and Secure Userspace NVM File Systems with the Trio Architecture",
+    "authors": [
+      {
+        "name": "Diyu Zhou"
+      },
+      {
+        "name": "Vojtech Aschenbrenner"
+      },
+      {
+        "name": "Tao Lyu"
+      },
+      {
+        "name": "Jian Zhang"
+      },
+      {
+        "name": "Sudarsun Kannan"
+      },
+      {
+        "name": "Sanidhya Kashyap"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+    "publicationDate": "2023-10-23",
+    "doi": "10.1145/3600006.3613171",
+    "url": "https://dl.acm.org/doi/10.1145/3600006.3613171"
+  },
+  {
+    "slug": "impact-of-audio-delay-and-quality-in-network-music-performance",
+    "title": "Impact of Audio Delay and Quality in Network Music Performance",
+    "authors": [
+      {
+        "name": "Konstantinos Tsioutas"
+      },
+      {
+        "name": "George Xylomenos"
+      },
+      {
+        "name": "Ioannis Doumanis"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Future Internet",
+    "publicationDate": "2025-07-28",
+    "doi": "10.3390/fi17080337",
+    "url": "https://www.mdpi.com/1999-5903/17/8/337",
+    "paperUrl": "https://clok.uclan.ac.uk/id/eprint/56398/1/56398%20Tsioutas%20et%20al.%20VOR.pdf"
+  },
+  {
+    "slug": "time-delay-dyadic-rhythm-coordination-finger-tapping",
+    "title": "Effect of time delay on performance and timing control in dyadic rhythm coordination using finger tapping",
+    "authors": [
+      {
+        "name": "Yuka Koike"
+      },
+      {
+        "name": "Taiki Ogata"
+      },
+      {
+        "name": "Takayuki Nozawa"
+      },
+      {
+        "name": "Yoshihiro Miyake"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Scientific Reports",
+    "publicationDate": "2024-07-29",
+    "doi": "10.1038/s41598-024-68326-6",
+    "url": "https://www.nature.com/articles/s41598-024-68326-6",
+    "paperUrl": "https://www.nature.com/articles/s41598-024-68326-6.pdf"
+  },
+  {
+    "slug": "exploiting-latency-networked-music-performance-percussive-improvisation",
+    "title": "Exploiting Latency in the Design of a Networked Music Performance System for Percussive Collective Improvisation",
+    "authors": [
+      {
+        "name": "Ari Liloia"
+      },
+      {
+        "name": "Roger Dannenberg"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the International Conference on New Interfaces for Musical Expression (NIME 2025)",
+    "publicationDate": "2025-06-19",
+    "doi": "10.5281/zenodo.15698934",
+    "url": "https://nime.org/proc/nime2025_69/",
+    "paperUrl": "https://nime.org/proceedings/2025/nime2025_69.pdf"
+  },
+  {
+    "slug": "global-metronome-absolute-tempo-sync-networked-performance",
+    "title": "The Global Metronome: Absolute Tempo Sync For Networked Musical Performance",
+    "authors": [
+      {
+        "name": "Reid Oda"
+      },
+      {
+        "name": "Rebecca Fiebrink"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the International Conference on New Interfaces for Musical Expression (NIME 2016)",
+    "publicationDate": "2016-06",
+    "doi": "10.5281/zenodo.1176096",
+    "url": "https://nime.org/proc/nime2016_oda/",
+    "paperUrl": "https://research.gold.ac.uk/id/eprint/18693/1/OdaFiebrink_NIME2016.pdf"
+  },
+  {
+    "slug": "network-time-delay-and-ensemble-accuracy",
+    "title": "Network Time Delay and Ensemble Accuracy: Effects of Latency, Asymmetry",
+    "authors": [
+      {
+        "name": "Chris Chafe"
+      },
+      {
+        "name": "Michael Gurevich"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Audio Engineering Society 117th Convention",
+    "publicationDate": "2004-10-28",
+    "url": "https://www.aes.org/e-lib/browse.cfm?elib=12865",
+    "paperUrl": "https://ccrma.stanford.edu/~cc/vox/aesFinal.pdf"
+  },
+  {
+    "slug": "pulse-before-sound-midi-native-telematic-performance",
+    "title": "Pulse Before Sound: Reimagining Presence and Liveness in Telematic Music Performance through MIDI-Native Collaboration",
+    "authors": [
+      {
+        "name": "Matt C. Bray"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Journal of Network Music and Arts",
+    "publicationDate": "2026",
+    "url": "https://commons.library.stonybrook.edu/jonma/vol8/iss1/2",
+    "paperUrl": "https://raw.githubusercontent.com/alexcastrodev/my-university-papers/main/computer-music/pulse-before-sound-midi-native-telematic-performance/paper.pdf"
+  },
+  {
+    "slug": "global-metronome-professional-networked-ensemble",
+    "title": "Toward Professional Distributed Performances: Effects of a Global Metronome on Networked Musical Ensemble Interactions",
+    "authors": [
+      {
+        "name": "Robert Hupke"
+      },
+      {
+        "name": "Marcel Nophut"
+      },
+      {
+        "name": "Stephan Preihs"
+      },
+      {
+        "name": "Jürgen Peissig"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Journal of the Audio Engineering Society",
+    "publicationDate": "2021-10",
+    "doi": "10.17743/jaes.2021.0037",
+    "url": "https://www.aes.org/e-lib/browse.cfm?elib=21467"
+  },
+  {
+    "slug": "overview-of-networked-music-performance-technologies",
+    "title": "An Overview on Networked Music Performance Technologies",
+    "authors": [
+      {
+        "name": "Cristina Rottondi"
+      },
+      {
+        "name": "Chris Chafe"
+      },
+      {
+        "name": "Claudio Allocchio"
+      },
+      {
+        "name": "Augusto Sarti"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "IEEE Access",
+    "publicationDate": "2016-12-05",
+    "doi": "10.1109/access.2016.2628440",
+    "url": "https://ieeexplore.ieee.org/document/7769205"
+  }
+]

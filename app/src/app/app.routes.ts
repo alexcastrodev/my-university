@@ -38,6 +38,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login-page').then((m) => m.LoginPage),
   },
   {
+    path: 'faq',
+    loadComponent: () => import('./pages/faq/faq-page').then((m) => m.FaqPage),
+  },
+  {
     // One shell (banner, edit panel, tabs) with the three sections inside it.
     path: 'profile',
     loadComponent: () => import('./pages/profile/profile-layout').then((m) => m.ProfileLayout),
@@ -50,6 +54,10 @@ export const routes: Routes = [
   {
     path: 'u/:profileKey',
     loadComponent: () => import('./pages/public-profile/public-profile-page').then((m) => m.PublicProfilePage),
+    children: [
+      { path: '', loadComponent: () => import('./pages/public-profile/public-profile-awards').then((m) => m.PublicProfileAwards) },
+      { path: 'books', loadComponent: () => import('./pages/public-profile/public-profile-books').then((m) => m.PublicProfileBooks) },
+    ],
   },
   {
     path: 'java/exams',
@@ -114,6 +122,43 @@ export const routes: Routes = [
   {
     path: 'kubernetes-concepts',
     loadComponent: () => import('./pages/kubernetes-concepts/kubernetes-concepts-list').then((m) => m.KubernetesConceptsListPage),
+  },
+  {
+    path: 'papers',
+    loadComponent: () => import('./pages/papers/papers-list').then((m) => m.PapersListPage),
+  },
+  {
+    path: 'bookmarks',
+    loadComponent: () => import('./pages/bookmarks/bookmarks-page').then((m) => m.BookmarksPage),
+  },
+  {
+    path: 'library',
+    loadComponent: () => import('./pages/papers/paper-library').then((m) => m.PaperLibraryPage),
+  },
+  {
+    path: 'library/add',
+    loadComponent: () => import('./pages/papers/paper-add').then((m) => m.PaperAddPage),
+  },
+  {
+    path: 'groups',
+    loadComponent: () => import('./pages/papers/groups/groups').then((m) => m.PaperGroupsPage),
+  },
+  {
+    path: 'groups/:id',
+    loadComponent: () => import('./pages/papers/groups/group').then((m) => m.PaperGroupPage),
+  },
+  {
+    path: 'library/:paperId',
+    loadComponent: () => import('./pages/papers/paper-library-entry').then((m) => m.PaperLibraryEntryPage),
+  },
+  {
+    path: 'library/:paperId/read',
+    loadComponent: () => import('./pages/papers/paper-reader').then((m) => m.PaperReaderPage),
+  },
+  { path: 'papers/new', redirectTo: '/library/add', pathMatch: 'full' },
+  {
+    path: 'papers/:id',
+    loadComponent: () => import('./pages/papers/paper-detail').then((m) => m.PaperDetailPage),
   },
   {
     path: 'kubernetes-concepts/:slug',

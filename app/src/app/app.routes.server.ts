@@ -10,8 +10,15 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
   },
   {
+    // Not prerendered: the build renders on a local server, so a prerendered page would bake
+    // `http://localhost:<port>` into its canonical, og:url, hreflang and JSON-LD.
     path: 'computer-science',
-    renderMode: RenderMode.Prerender,
+    renderMode: RenderMode.Server,
+  },
+  {
+    // Not prerendered, for the same reason as above: the canonical and og:url would carry the build's localhost.
+    path: 'faq',
+    renderMode: RenderMode.Server,
   },
   {
     path: 'computer-science/:module/:discipline',
@@ -67,6 +74,47 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'kubernetes-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'papers',
+    renderMode: RenderMode.Server,
+  },
+  {
+    // The reader's own place in each module: private, so the browser fetches it.
+    path: 'bookmarks',
+    renderMode: RenderMode.Client,
+  },
+  {
+    // The reader's own papers: private, so the server renders only the shell and the browser fetches the list.
+    path: 'library',
+    renderMode: RenderMode.Client,
+  },
+  {
+    // Depends on who is signed in, which the server never knows: nothing to render ahead.
+    path: 'library/add',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'library/:paperId',
+    renderMode: RenderMode.Client,
+  },
+  {
+    // The PDF is the reader's own and is drawn by the browser: the server renders only the shell.
+    path: 'library/:paperId/read',
+    renderMode: RenderMode.Client,
+  },
+  {
+    // Reading groups (#190) depend on who is signed in: the server renders only the shell.
+    path: 'groups',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'groups/:id',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'papers/:id',
     renderMode: RenderMode.Server,
   },
   {
@@ -198,6 +246,11 @@ export const serverRoutes: ServerRoute[] = [
     // the API, which checks that the profile is public). The profile itself is fetched in the browser, never
     // baked into SSR output, since it can turn private at any moment.
     path: 'u/:profileKey',
+    renderMode: RenderMode.Server,
+  },
+  {
+    // The Library tab of the same profile, rendered the same way.
+    path: 'u/:profileKey/books',
     renderMode: RenderMode.Server,
   },
   {

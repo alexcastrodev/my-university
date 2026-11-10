@@ -1,0 +1,1436 @@
+[
+  {
+    "slug": "functions-and-the-elementary-families",
+    "id": 1,
+    "title": "Functions and the Elementary Families",
+    "topic": "Functions & Limits",
+    "requires": [],
+    "related": [],
+    "summary": "Functions as mappings with a domain and a range, then the families the rest of the discipline uses constantly: affine, quadratic, polynomial, exponential, logarithmic, and trigonometric, with composition and inverses. This lesson absorbs the precalculus the discipline assumes.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax (Calculus Volume 1): 1.1 Review of Functions",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/1-1-review-of-functions",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax (Calculus Volume 1): 1.2 Basic Classes of Functions",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/1-2-basic-classes-of-functions",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax (Calculus Volume 1): 1.3 Trigonometric Functions",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/1-3-trigonometric-functions",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax (Calculus Volume 1): 1.4 Inverse Functions",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/1-4-inverse-functions",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax (Calculus Volume 1): 1.5 Exponential and Logarithmic Functions",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/1-5-exponential-and-logarithmic-functions",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "limits-intuition-and-the-formal-definition",
+    "id": 2,
+    "title": "Limits: Intuition and the Formal Definition",
+    "topic": "Functions & Limits",
+    "requires": [
+      "functions-and-the-elementary-families"
+    ],
+    "related": [],
+    "summary": "What it means for f(x) to approach a value, first through tables and graphs and then through the epsilon-delta definition, with one-sided limits and the cases where a limit does not exist.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax (Calculus Volume 1): 2.2 The Limit of a Function",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/2-2-the-limit-of-a-function",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax (Calculus Volume 1): 2.5 The Precise Definition of a Limit",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/2-5-the-precise-definition-of-a-limit",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.01SC (Jerison, 2010): Part A, Definition and Basic Rules",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "limit-laws-and-indeterminate-forms",
+    "id": 3,
+    "title": "Limit Laws and Indeterminate Forms",
+    "topic": "Functions & Limits",
+    "requires": [
+      "limits-intuition-and-the-formal-definition"
+    ],
+    "related": [],
+    "summary": "The algebraic laws that let limits be computed instead of guessed, the squeeze theorem, and how factoring and rationalizing resolve 0/0 while dividing by the highest power resolves infinity over infinity.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax (Calculus Volume 1): 2.3 The Limit Laws",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/2-3-the-limit-laws",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax (Calculus Volume 1): 2.2 The Limit of a Function",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/2-2-the-limit-of-a-function",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.01SC (Jerison, 2010): Part A, Definition and Basic Rules",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "limits-at-infinity-and-asymptotic-growth",
+    "id": 4,
+    "title": "Limits at Infinity and Asymptotic Growth",
+    "topic": "Functions & Limits",
+    "requires": [
+      "limit-laws-and-indeterminate-forms"
+    ],
+    "related": [
+      {
+        "label": "Big-O and Asymptotic Complexity",
+        "slug": "big-o-and-asymptotic-complexity",
+        "feature": "curriculum/foundations/programming-computational-thinking"
+      }
+    ],
+    "summary": "Limits as x grows without bound, horizontal and vertical asymptotes, and the dominance hierarchy of logarithms, polynomials, and exponentials, which is the calculus underneath the formal statement of Big-O.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax (Calculus Volume 1): 4.6 Limits at Infinity and Asymptotes",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/4-6-limits-at-infinity-and-asymptotes",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax (Calculus Volume 1): 2.2 The Limit of a Function",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/2-2-the-limit-of-a-function",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.01SC (Jerison, 2010): Part A, Definition and Basic Rules",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "continuity-and-the-intermediate-value-theorem",
+    "id": 5,
+    "title": "Continuity and the Intermediate Value Theorem",
+    "topic": "Functions & Limits",
+    "requires": [
+      "limits-at-infinity-and-asymptotic-growth"
+    ],
+    "related": [
+      {
+        "label": "Guess-and-Check and Bisection Search",
+        "slug": "guess-and-check-and-bisection-search",
+        "feature": "curriculum/foundations/programming-computational-thinking"
+      },
+      {
+        "label": "Limits: Intuition and the Formal Definition",
+        "slug": "limits-intuition-and-the-formal-definition"
+      },
+      {
+        "label": "Limit Laws and Indeterminate Forms",
+        "slug": "limit-laws-and-indeterminate-forms"
+      }
+    ],
+    "summary": "Continuity at a point and on an interval, the kinds of discontinuity, and the Intermediate Value Theorem, the existence guarantee behind bisection search.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax: Calculus Volume 1, 2.4 Continuity",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/2-4-continuity",
+        "type": "book"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Session 5, Discontinuity",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-5-discontinuity/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Session 4, Limits and Continuity",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-4-limits-and-continuity/",
+        "type": "doc"
+      },
+      {
+        "label": "Active Calculus: 1.7 Limits, continuity, and differentiability",
+        "url": "https://activecalculus.org/single/sec-1-7-lim-cont-diff.html",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "the-derivative-as-a-rate-of-change",
+    "id": 6,
+    "title": "The Derivative as a Rate of Change",
+    "topic": "Derivatives",
+    "requires": [
+      "continuity-and-the-intermediate-value-theorem"
+    ],
+    "related": [
+      {
+        "label": "Continuity and the Intermediate Value Theorem",
+        "slug": "continuity-and-the-intermediate-value-theorem"
+      }
+    ],
+    "summary": "The derivative as the limit of a difference quotient: instantaneous rate of change, slope of the tangent line, best local linear approximation, and the functions where it fails to exist.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax: Calculus Volume 1, 3.1 Defining the Derivative",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax: Calculus Volume 1, 3.2 The Derivative as a Function",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/3-2-the-derivative-as-a-function",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax: Calculus Volume 1, 3.4 Derivatives as Rates of Change",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/3-4-derivatives-as-rates-of-change",
+        "type": "book"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Session 3, Derivative as Rate of Change",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-3-derivative-as-rate-of-change/",
+        "type": "doc"
+      },
+      {
+        "label": "Active Calculus: 1.8 The tangent line approximation",
+        "url": "https://activecalculus.org/single/sec-1-8-tan-line-approx.html",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "differentiation-rules-and-the-chain-rule",
+    "id": 7,
+    "title": "Differentiation Rules and the Chain Rule",
+    "topic": "Derivatives",
+    "requires": [
+      "the-derivative-as-a-rate-of-change"
+    ],
+    "related": [
+      {
+        "label": "The Derivative as a Rate of Change",
+        "slug": "the-derivative-as-a-rate-of-change"
+      }
+    ],
+    "summary": "The power, product, quotient, and chain rules, derived from the limit definition, with the chain rule read as a composition of local linear approximations.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax: Calculus Volume 1, 3.3 Differentiation Rules",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/3-3-differentiation-rules",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax: Calculus Volume 1, 3.6 The Chain Rule",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/3-6-the-chain-rule",
+        "type": "book"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Session 11, Chain Rule",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-11-chain-rule/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Session 9, Product Rule",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-9-product-rule/",
+        "type": "doc"
+      },
+      {
+        "label": "Active Calculus: 2.5 The chain rule",
+        "url": "https://activecalculus.org/single/sec-2-5-chain.html",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "derivatives-of-exponentials-logarithms-and-trigonometric-functions",
+    "id": 8,
+    "title": "Derivatives of Exponentials, Logarithms, and Trigonometric Functions",
+    "topic": "Derivatives",
+    "requires": [
+      "differentiation-rules-and-the-chain-rule"
+    ],
+    "related": [
+      {
+        "label": "Differentiation Rules and the Chain Rule",
+        "slug": "differentiation-rules-and-the-chain-rule"
+      },
+      {
+        "label": "Continuity and the Intermediate Value Theorem",
+        "slug": "continuity-and-the-intermediate-value-theorem"
+      },
+      {
+        "label": "Limit Laws and Indeterminate Forms",
+        "slug": "limit-laws-and-indeterminate-forms"
+      }
+    ],
+    "summary": "Why e is the base whose exponential is its own derivative, the derivatives of logarithms and trigonometric functions, and implicit and logarithmic differentiation for expressions the basic rules do not reach.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax: Calculus Volume 1, 3.9 Derivatives of Exponential and Logarithmic Functions",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/3-9-derivatives-of-exponential-and-logarithmic-functions",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax: Calculus Volume 1, 3.5 Derivatives of Trigonometric Functions",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/3-5-derivatives-of-trigonometric-functions",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax: Calculus Volume 1, 3.8 Implicit Differentiation",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/3-8-implicit-differentiation",
+        "type": "book"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Session 17, The Exponential Function, its Derivative, and its Inverse",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-b-implicit-differentiation-and-inverse-functions/session-17-the-exponential-function-its-derivative-and-its-inverse/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Session 19, An Interesting Limit Involving e",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-b-implicit-differentiation-and-inverse-functions/session-19-an-interesting-limit-involving-e/",
+        "type": "doc"
+      },
+      {
+        "label": "Active Calculus: 2.7 Derivatives of functions given implicitly",
+        "url": "https://activecalculus.org/single/sec-2-7-implicit.html",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "the-mean-value-theorem-and-monotonicity",
+    "id": 9,
+    "title": "The Mean Value Theorem and Monotonicity",
+    "topic": "Derivatives",
+    "requires": [
+      "derivatives-of-exponentials-logarithms-and-trigonometric-functions"
+    ],
+    "related": [
+      {
+        "label": "The Derivative as a Rate of Change",
+        "slug": "the-derivative-as-a-rate-of-change"
+      },
+      {
+        "label": "Continuity and the Intermediate Value Theorem",
+        "slug": "continuity-and-the-intermediate-value-theorem"
+      }
+    ],
+    "summary": "Rolle's theorem and the Mean Value Theorem, and what they justify: a positive derivative means increasing, and a zero derivative on an interval means constant.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 4.4 The Mean Value Theorem",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/4-4-the-mean-value-theorem",
+        "type": "book"
+      },
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 4.5 Derivatives and the Shape of a Graph",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/4-5-derivatives-and-the-shape-of-a-graph",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare (2010): 18.01SC Single Variable Calculus, Unit 2 Part C",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-c-mean-value-theorem-antiderivatives-and-differential-equations/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "extrema-concavity-and-optimization",
+    "id": 10,
+    "title": "Extrema, Concavity, and Optimization",
+    "topic": "Derivatives",
+    "requires": [
+      "the-mean-value-theorem-and-monotonicity"
+    ],
+    "related": [
+      {
+        "label": "The Mean Value Theorem and Monotonicity",
+        "slug": "the-mean-value-theorem-and-monotonicity"
+      },
+      {
+        "label": "Gradients: Extending Derivatives to Several Variables",
+        "slug": "gradients-extending-derivatives-to-several-variables",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      }
+    ],
+    "summary": "Critical points, the first and second derivative tests, concavity and inflection points, and how to turn a word problem into an optimization on a closed interval.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 4.3 Maxima and Minima",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/4-3-maxima-and-minima",
+        "type": "book"
+      },
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 4.5 Derivatives and the Shape of a Graph",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/4-5-derivatives-and-the-shape-of-a-graph",
+        "type": "book"
+      },
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 4.7 Applied Optimization Problems",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/4-7-applied-optimization-problems",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare (2010): 18.01SC Single Variable Calculus, Unit 2 Part B",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-b-optimization-related-rates-and-newtons-method/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "lhopitals-rule",
+    "id": 11,
+    "title": "L'Hôpital's Rule",
+    "topic": "Derivatives",
+    "requires": [
+      "extrema-concavity-and-optimization"
+    ],
+    "related": [
+      {
+        "label": "Limit Laws and Indeterminate Forms",
+        "slug": "limit-laws-and-indeterminate-forms"
+      },
+      {
+        "label": "Limits at Infinity and Asymptotic Growth",
+        "slug": "limits-at-infinity-and-asymptotic-growth"
+      },
+      {
+        "label": "Big-O and Asymptotic Complexity",
+        "slug": "big-o-and-asymptotic-complexity",
+        "feature": "curriculum/foundations/programming-computational-thinking"
+      }
+    ],
+    "summary": "L'Hôpital's Rule for 0/0 and infinity over infinity, when its hypotheses fail, and how to rewrite the other indeterminate forms so it applies, including comparing growth rates.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 4.8 L'Hôpital's Rule",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/4-8-lhopitals-rule",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare (2010): 18.01SC Single Variable Calculus, Unit 5 Part A",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-a-lhospitals-rule-and-improper-integrals/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "antiderivatives-and-initial-value-problems",
+    "id": 12,
+    "title": "Antiderivatives and Initial-Value Problems",
+    "topic": "Integrals",
+    "requires": [
+      "lhopitals-rule"
+    ],
+    "related": [
+      {
+        "label": "The Mean Value Theorem and Monotonicity",
+        "slug": "the-mean-value-theorem-and-monotonicity"
+      },
+      {
+        "label": "Differentiation Rules and the Chain Rule",
+        "slug": "differentiation-rules-and-the-chain-rule"
+      },
+      {
+        "label": "Derivatives of Exponentials, Logarithms, and Trigonometric Functions",
+        "slug": "derivatives-of-exponentials-logarithms-and-trigonometric-functions"
+      }
+    ],
+    "summary": "Reversing differentiation: the family of antiderivatives, the constant of integration, and how an initial condition picks a single solution.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 4.10 Antiderivatives",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/4-10-antiderivatives",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare (2010): 18.01SC Single Variable Calculus, Unit 2 Part C",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-c-mean-value-theorem-antiderivatives-and-differential-equations/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-definite-integral-and-riemann-sums",
+    "id": 13,
+    "title": "The Definite Integral and Riemann Sums",
+    "topic": "Integrals",
+    "requires": [
+      "antiderivatives-and-initial-value-problems"
+    ],
+    "related": [],
+    "summary": "Area as the limit of Riemann sums, the left, right, and midpoint rules, the formal definition of the definite integral, and its basic properties.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 5.1 Approximating Areas",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/5-1-approximating-areas",
+        "type": "book"
+      },
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 5.2 The Definite Integral",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/5-2-the-definite-integral",
+        "type": "book"
+      },
+      {
+        "label": "Active Calculus: 4.2 Riemann sums",
+        "url": "https://activecalculus.org/single/sec-4-2-Riemann.html",
+        "type": "book"
+      },
+      {
+        "label": "Active Calculus: 4.3 The definite integral",
+        "url": "https://activecalculus.org/single/sec-4-3-definite-integral.html",
+        "type": "book"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Unit 3 Part A",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-a-definition-of-the-definite-integral-and-first-fundamental-theorem/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-fundamental-theorem-of-calculus",
+    "id": 14,
+    "title": "The Fundamental Theorem of Calculus",
+    "topic": "Integrals",
+    "requires": [
+      "the-definite-integral-and-riemann-sums"
+    ],
+    "related": [
+      {
+        "label": "The Mean Value Theorem and Monotonicity",
+        "slug": "the-mean-value-theorem-and-monotonicity"
+      },
+      {
+        "label": "The Normal (Gaussian) Distribution",
+        "slug": "the-normal-distribution",
+        "feature": "curriculum/foundations/probability-statistics"
+      }
+    ],
+    "summary": "The two parts of the Fundamental Theorem of Calculus, which tie accumulation to rates of change and reduce a definite integral to evaluating an antiderivative.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 5.3 The Fundamental Theorem of Calculus",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/5-3-the-fundamental-theorem-of-calculus",
+        "type": "book"
+      },
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 5.4 Integration Formulas and the Net Change Theorem",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/5-4-integration-formulas-and-the-net-change-theorem",
+        "type": "book"
+      },
+      {
+        "label": "Active Calculus: 4.4 The Fundamental Theorem of Calculus",
+        "url": "https://activecalculus.org/single/sec-4-4-FTC.html",
+        "type": "book"
+      },
+      {
+        "label": "Active Calculus: 5.2 The Second Fundamental Theorem of Calculus",
+        "url": "https://activecalculus.org/single/sec-5-2-FTC2.html",
+        "type": "book"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Unit 3 Part B",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-b-second-fundamental-theorem-areas-volumes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "integration-by-substitution-and-by-parts",
+    "id": 15,
+    "title": "Integration by Substitution and by Parts",
+    "topic": "Integrals",
+    "requires": [
+      "the-fundamental-theorem-of-calculus"
+    ],
+    "related": [],
+    "summary": "Substitution as the chain rule run backwards and integration by parts as the product rule run backwards, with how to choose the substitution and the parts.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 5.5 Substitution",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/5-5-substitution",
+        "type": "book"
+      },
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 2, 3.1 Integration by Parts",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/3-1-integration-by-parts",
+        "type": "book"
+      },
+      {
+        "label": "Active Calculus: 5.3 Integration by substitution",
+        "url": "https://activecalculus.org/single/sec-5-3-substitution.html",
+        "type": "book"
+      },
+      {
+        "label": "Active Calculus: 5.4 Integration by parts",
+        "url": "https://activecalculus.org/single/sec-5-4-parts.html",
+        "type": "book"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Unit 4 Part B",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-4-techniques-of-integration/part-b-partial-fractions-integration-by-parts-arc-length-and-surface-area/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "applications-area-volume-and-average-value",
+    "id": 16,
+    "title": "Applications: Area, Volume, and Average Value",
+    "topic": "Integrals",
+    "requires": [
+      "integration-by-substitution-and-by-parts"
+    ],
+    "related": [
+      {
+        "label": "The Definite Integral and Riemann Sums",
+        "slug": "the-definite-integral-and-riemann-sums"
+      },
+      {
+        "label": "Continuity and the Intermediate Value Theorem",
+        "slug": "continuity-and-the-intermediate-value-theorem"
+      }
+    ],
+    "summary": "Setting up integrals for the area between curves, volumes by slicing and by revolution, and the average value of a function over an interval.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 6.1 Areas between Curves",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/6-1-areas-between-curves",
+        "type": "book"
+      },
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 6.2 Determining Volumes by Slicing",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/6-2-determining-volumes-by-slicing",
+        "type": "book"
+      },
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 6.3 Volumes of Revolution: Cylindrical Shells",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/6-3-volumes-of-revolution-cylindrical-shells",
+        "type": "book"
+      },
+      {
+        "label": "Strang, Herman et al. (2016): Calculus Volume 1, 5.3 The Fundamental Theorem of Calculus",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/5-3-the-fundamental-theorem-of-calculus",
+        "type": "book"
+      },
+      {
+        "label": "Active Calculus: 6.2 Using definite integrals to find volume",
+        "url": "https://activecalculus.org/single/sec-6-2-volume.html",
+        "type": "book"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Unit 3 Part C",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-c-average-value-probability-and-numerical-integration/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "improper-integrals",
+    "id": 17,
+    "title": "Improper Integrals",
+    "topic": "Integrals",
+    "requires": [
+      "applications-area-volume-and-average-value"
+    ],
+    "related": [
+      {
+        "label": "Continuous Random Variables and PDFs",
+        "slug": "continuous-random-variables-and-pdfs",
+        "feature": "curriculum/foundations/probability-statistics"
+      },
+      {
+        "label": "The Normal (Gaussian) Distribution",
+        "slug": "the-normal-distribution",
+        "feature": "curriculum/foundations/probability-statistics"
+      },
+      {
+        "label": "The Definite Integral and Riemann Sums",
+        "slug": "the-definite-integral-and-riemann-sums"
+      },
+      {
+        "label": "The Fundamental Theorem of Calculus",
+        "slug": "the-fundamental-theorem-of-calculus"
+      }
+    ],
+    "summary": "Integrals over unbounded intervals or of unbounded functions as limits, convergence and divergence, the p-test, and why a probability density has to integrate to 1 over the whole line.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 2: 3.7 Improper Integrals",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/3-7-improper-integrals",
+        "type": "book"
+      },
+      {
+        "label": "Active Calculus: 6.5 Improper integrals",
+        "url": "https://activecalculus.org/single/sec-6-5-improper.html",
+        "type": "book"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Unit 5, Exploring the Infinite",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sequences-and-convergence",
+    "id": 18,
+    "title": "Sequences and Convergence",
+    "topic": "Sequences & Series",
+    "requires": [
+      "improper-integrals"
+    ],
+    "related": [
+      {
+        "label": "Improper Integrals",
+        "slug": "improper-integrals"
+      },
+      {
+        "label": "Limits at Infinity and Asymptotic Growth",
+        "slug": "limits-at-infinity-and-asymptotic-growth"
+      }
+    ],
+    "summary": "Sequences as functions on the natural numbers, the formal definition of convergence, and the monotone convergence theorem for bounded sequences.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 2: 5.1 Sequences",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/5-1-sequences",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 1: 2.5 The Precise Definition of a Limit",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/2-5-the-precise-definition-of-a-limit",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 1: 2.3 The Limit Laws",
+        "url": "https://openstax.org/books/calculus-volume-1/pages/2-3-the-limit-laws",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "arithmetic-and-geometric-progressions",
+    "id": 19,
+    "title": "Arithmetic and Geometric Progressions",
+    "topic": "Sequences & Series",
+    "requires": [
+      "sequences-and-convergence"
+    ],
+    "related": [
+      {
+        "label": "Sequences and Convergence",
+        "slug": "sequences-and-convergence"
+      },
+      {
+        "label": "Dynamic Arrays and Amortized Resizing",
+        "slug": "dynamic-arrays-and-amortized-resizing",
+        "feature": "curriculum/foundations/data-structures-i"
+      },
+      {
+        "label": "Mathematical Induction",
+        "slug": "mathematical-induction",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      }
+    ],
+    "summary": "Arithmetic and geometric progressions, closed forms for their terms and finite sums, and where they appear in computing: loop counts, the amortized cost of a doubling array, and compound growth.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 2: 5.1 Sequences",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/5-1-sequences",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 2: 5.2 Infinite Series",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/5-2-infinite-series",
+        "type": "book"
+      },
+      {
+        "label": "Active Calculus: 8.3 Geometric sums",
+        "url": "https://activecalculus.org/single/sec-8-3-geometric.html",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "infinite-series-and-partial-sums",
+    "id": 20,
+    "title": "Infinite Series and Partial Sums",
+    "topic": "Sequences & Series",
+    "requires": [
+      "arithmetic-and-geometric-progressions"
+    ],
+    "related": [
+      {
+        "label": "Arithmetic and Geometric Progressions",
+        "slug": "arithmetic-and-geometric-progressions"
+      },
+      {
+        "label": "Sequences and Convergence",
+        "slug": "sequences-and-convergence"
+      },
+      {
+        "label": "Improper Integrals",
+        "slug": "improper-integrals"
+      }
+    ],
+    "summary": "An infinite series as the limit of its partial sums, the geometric series, telescoping sums, the divergence test, and why the harmonic series diverges.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 2: 5.2 Infinite Series",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/5-2-infinite-series",
+        "type": "book"
+      },
+      {
+        "label": "Active Calculus: 8.3 Geometric sums",
+        "url": "https://activecalculus.org/single/sec-8-3-geometric.html",
+        "type": "book"
+      },
+      {
+        "label": "MIT OCW 18.01SC: Unit 5, Exploring the Infinite",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "convergence-tests",
+    "id": 21,
+    "title": "Convergence Tests",
+    "topic": "Sequences & Series",
+    "requires": [
+      "infinite-series-and-partial-sums"
+    ],
+    "related": [
+      {
+        "label": "Infinite Series and Partial Sums",
+        "slug": "infinite-series-and-partial-sums"
+      }
+    ],
+    "summary": "The comparison, integral, ratio, root, and alternating series tests, absolute versus conditional convergence, and how to choose a test for a given series.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 2, 5.3 The Divergence and Integral Tests",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/5-3-the-divergence-and-integral-tests",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 2, 5.4 Comparison Tests",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/5-4-comparison-tests",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 2, 5.5 Alternating Series",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/5-5-alternating-series",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 2, 5.6 Ratio and Root Tests",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/5-6-ratio-and-root-tests",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.01SC, Session 95: Series Comparison",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-95-series-comparison/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "power-series-and-the-radius-of-convergence",
+    "id": 22,
+    "title": "Power Series and the Radius of Convergence",
+    "topic": "Sequences & Series",
+    "requires": [
+      "convergence-tests"
+    ],
+    "related": [
+      {
+        "label": "Convergence Tests",
+        "slug": "convergence-tests"
+      }
+    ],
+    "summary": "Power series as functions, the radius and interval of convergence, and term-by-term differentiation and integration.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 2, 6.1 Power Series and Functions",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/6-1-power-series-and-functions",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 2, 6.2 Properties of Power Series",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/6-2-properties-of-power-series",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.01SC, Session 97: Power Series",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-97-power-series/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "taylor-and-maclaurin-series-with-error-bounds",
+    "id": 23,
+    "title": "Taylor and Maclaurin Series with Error Bounds",
+    "topic": "Sequences & Series",
+    "requires": [
+      "power-series-and-the-radius-of-convergence"
+    ],
+    "related": [
+      {
+        "label": "Power Series and the Radius of Convergence",
+        "slug": "power-series-and-the-radius-of-convergence"
+      },
+      {
+        "label": "The Mean Value Theorem and Monotonicity",
+        "slug": "the-mean-value-theorem-and-monotonicity"
+      }
+    ],
+    "summary": "Taylor and Maclaurin series, the remainder and its error bound, and how many terms a target accuracy requires, which is the base of numerical approximation.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 2, 6.3 Taylor and Maclaurin Series",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/6-3-taylor-and-maclaurin-series",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 2, 6.4 Working with Taylor Series",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/6-4-working-with-taylor-series",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.01SC, Session 98: Taylor's Series",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-98-taylors-series/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.01SC, Session 99: Taylor's Series, Continued",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-99-taylors-series-continued/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "functions-of-several-variables-and-level-curves",
+    "id": 24,
+    "title": "Functions of Several Variables and Level Curves",
+    "topic": "Multivariable",
+    "requires": [
+      "taylor-and-maclaurin-series-with-error-bounds"
+    ],
+    "related": [
+      {
+        "label": "Limits: Intuition and the Formal Definition",
+        "slug": "limits-intuition-and-the-formal-definition"
+      },
+      {
+        "label": "Continuity and the Intermediate Value Theorem",
+        "slug": "continuity-and-the-intermediate-value-theorem"
+      }
+    ],
+    "summary": "Functions of two or more variables, their domains, graphs, and level curves, and limits and continuity when a point can be approached along many paths.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 3, 4.1 Functions of Several Variables",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/4-1-functions-of-several-variables",
+        "type": "doc"
+      },
+      {
+        "label": "OpenStax Calculus Volume 3, 4.2 Limits and Continuity",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/4-2-limits-and-continuity",
+        "type": "doc"
+      },
+      {
+        "label": "Active Calculus Multivariable, Functions of Several Variables",
+        "url": "https://activecalculus.org/multi/S-MV-Functions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Active Calculus Multivariable, Limits",
+        "url": "https://activecalculus.org/multi/S-mv_deriv-Limits.html",
+        "type": "doc"
+      },
+      {
+        "label": "MIT OCW 18.02SC, Unit 2 Part A: Functions of Two Variables",
+        "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/2.-partial-derivatives/part-a-functions-of-two-variables-tangent-approximation-and-optimization/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "partial-derivatives-and-the-multivariable-chain-rule",
+    "id": 25,
+    "title": "Partial Derivatives and the Multivariable Chain Rule",
+    "topic": "Multivariable",
+    "requires": [
+      "functions-of-several-variables-and-level-curves"
+    ],
+    "related": [
+      {
+        "label": "Gradients: Extending Derivatives to Several Variables",
+        "slug": "gradients-extending-derivatives-to-several-variables",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      },
+      {
+        "label": "Differentiation Rules and the Chain Rule",
+        "slug": "differentiation-rules-and-the-chain-rule"
+      }
+    ],
+    "summary": "Partial derivatives, the tangent plane as the linear approximation, and the multivariable chain rule for compositions through intermediate variables.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 3, 4.3 Partial Derivatives",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/4-3-partial-derivatives",
+        "type": "doc"
+      },
+      {
+        "label": "OpenStax Calculus Volume 3, 4.4 Tangent Planes and Linear Approximations",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/4-4-tangent-planes-and-linear-approximations",
+        "type": "doc"
+      },
+      {
+        "label": "OpenStax Calculus Volume 3, 4.5 The Chain Rule",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/4-5-the-chain-rule",
+        "type": "doc"
+      },
+      {
+        "label": "Active Calculus Multivariable, First-Order Partial Derivatives",
+        "url": "https://activecalculus.org/multi/S-mv_deriv-first_order.html",
+        "type": "doc"
+      },
+      {
+        "label": "Active Calculus Multivariable, The Multivariable Chain Rule",
+        "url": "https://activecalculus.org/multi/S_mv_deriv-chain_rule.html",
+        "type": "doc"
+      },
+      {
+        "label": "MIT OCW 18.02SC, Unit 2 Part B: Chain Rule, Gradient and Directional Derivatives",
+        "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/2.-partial-derivatives/part-b-chain-rule-gradient-and-directional-derivatives/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "directional-derivatives-and-the-direction-of-steepest-ascent",
+    "id": 26,
+    "title": "Directional Derivatives and the Direction of Steepest Ascent",
+    "topic": "Multivariable",
+    "requires": [
+      "partial-derivatives-and-the-multivariable-chain-rule"
+    ],
+    "related": [
+      {
+        "label": "Gradients: Extending Derivatives to Several Variables",
+        "slug": "gradients-extending-derivatives-to-several-variables",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      },
+      {
+        "label": "Functions of Several Variables and Level Curves",
+        "slug": "functions-of-several-variables-and-level-curves"
+      }
+    ],
+    "summary": "Deepens the existing gradients lesson without repeating it: the directional derivative, why the gradient points in the direction of steepest ascent, and why it is perpendicular to level curves.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 3, 4.6 Directional Derivatives and the Gradient",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient",
+        "type": "doc"
+      },
+      {
+        "label": "Active Calculus Multivariable, Directional Derivatives and the Gradient",
+        "url": "https://activecalculus.org/multi/S-mv_deriv-directional.html",
+        "type": "doc"
+      },
+      {
+        "label": "MIT OCW 18.02SC, Unit 2 Part B: Chain Rule, Gradient and Directional Derivatives",
+        "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/2.-partial-derivatives/part-b-chain-rule-gradient-and-directional-derivatives/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "critical-points-and-the-second-derivative-test",
+    "id": 27,
+    "title": "Critical Points and the Second-Derivative Test",
+    "topic": "Multivariable",
+    "requires": [
+      "directional-derivatives-and-the-direction-of-steepest-ascent"
+    ],
+    "related": [
+      {
+        "label": "Gradients: Extending Derivatives to Several Variables",
+        "slug": "gradients-extending-derivatives-to-several-variables",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      },
+      {
+        "label": "Extrema, Concavity, and Optimization",
+        "slug": "extrema-concavity-and-optimization"
+      },
+      {
+        "label": "Least Squares via Linear Algebra",
+        "slug": "least-squares-via-linear-algebra",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      }
+    ],
+    "summary": "Critical points of functions of two variables, the second-derivative test through the Hessian, saddle points, and absolute extrema on a closed region.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 3, 4.7 Maxima/Minima Problems",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/4-7-maxima-minima-problems",
+        "type": "doc"
+      },
+      {
+        "label": "Active Calculus Multivariable, Optimization",
+        "url": "https://activecalculus.org/multi/S-mv_deriv-optimization.html",
+        "type": "doc"
+      },
+      {
+        "label": "Active Calculus Multivariable, Second-Order Partial Derivatives",
+        "url": "https://activecalculus.org/multi/S-mv_deriv-second_order.html",
+        "type": "doc"
+      },
+      {
+        "label": "MIT OCW 18.02SC, Unit 2 Part A: Functions of Two Variables",
+        "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/2.-partial-derivatives/part-a-functions-of-two-variables-tangent-approximation-and-optimization/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "polar-coordinates",
+    "id": 28,
+    "title": "Polar Coordinates",
+    "topic": "Multivariable",
+    "requires": [
+      "critical-points-and-the-second-derivative-test"
+    ],
+    "related": [
+      {
+        "label": "Functions and the Elementary Families",
+        "slug": "functions-and-the-elementary-families"
+      },
+      {
+        "label": "Applications: Area, Volume, and Average Value",
+        "slug": "applications-area-volume-and-average-value"
+      },
+      {
+        "label": "The Definite Integral and Riemann Sums",
+        "slug": "the-definite-integral-and-riemann-sums"
+      }
+    ],
+    "summary": "Polar coordinates, conversion to and from Cartesian form, curves such as circles, cardioids, and roses, and area in polar form.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 3, 1.3 Polar Coordinates",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/1-3-polar-coordinates",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 3, 1.4 Area and Arc Length in Polar Coordinates",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/1-4-area-and-arc-length-in-polar-coordinates",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.02SC, Part A: Double Integrals",
+        "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/3.-double-integrals-and-line-integrals-in-the-plane/part-a-double-integrals/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "double-integrals-cartesian-and-polar",
+    "id": 29,
+    "title": "Double Integrals, Cartesian and Polar",
+    "topic": "Multivariable",
+    "requires": [
+      "polar-coordinates"
+    ],
+    "related": [
+      {
+        "label": "Polar Coordinates",
+        "slug": "polar-coordinates"
+      },
+      {
+        "label": "The Definite Integral and Riemann Sums",
+        "slug": "the-definite-integral-and-riemann-sums"
+      },
+      {
+        "label": "Improper Integrals",
+        "slug": "improper-integrals"
+      },
+      {
+        "label": "Partial Derivatives and the Multivariable Chain Rule",
+        "slug": "partial-derivatives-and-the-multivariable-chain-rule"
+      },
+      {
+        "label": "Integration by Substitution and by Parts",
+        "slug": "integration-by-substitution-and-by-parts"
+      },
+      {
+        "label": "The Normal (Gaussian) Distribution",
+        "slug": "the-normal-distribution",
+        "feature": "curriculum/foundations/probability-statistics"
+      }
+    ],
+    "summary": "Double integrals over rectangles and general regions, iterated integrals and Fubini's theorem, changing the order of integration, and the switch to polar coordinates that evaluates the Gaussian integral.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 3, 5.1 Double Integrals over Rectangular Regions",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/5-1-double-integrals-over-rectangular-regions",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 3, 5.2 Double Integrals over General Regions",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/5-2-double-integrals-over-general-regions",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 3, 5.3 Double Integrals in Polar Coordinates",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/5-3-double-integrals-in-polar-coordinates",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 3, 5.7 Change of Variables in Multiple Integrals",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/5-7-change-of-variables-in-multiple-integrals",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.02SC, Part A: Double Integrals",
+        "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/3.-double-integrals-and-line-integrals-in-the-plane/part-a-double-integrals/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "triple-integrals",
+    "id": 30,
+    "title": "Triple Integrals",
+    "topic": "Multivariable",
+    "requires": [
+      "double-integrals-cartesian-and-polar"
+    ],
+    "related": [
+      {
+        "label": "Double Integrals, Cartesian and Polar",
+        "slug": "double-integrals-cartesian-and-polar"
+      },
+      {
+        "label": "Polar Coordinates",
+        "slug": "polar-coordinates"
+      },
+      {
+        "label": "Applications: Area, Volume, and Average Value",
+        "slug": "applications-area-volume-and-average-value"
+      }
+    ],
+    "summary": "Triple integrals in Cartesian, cylindrical, and spherical coordinates, with volume and mass as the applications and the Jacobian determinant as the scaling factor of a change of variables.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 3, 5.4 Triple Integrals",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/5-4-triple-integrals",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 3, 5.5 Triple Integrals in Cylindrical and Spherical Coordinates",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/5-5-triple-integrals-in-cylindrical-and-spherical-coordinates",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 3, 5.7 Change of Variables in Multiple Integrals",
+        "url": "https://openstax.org/books/calculus-volume-3/pages/5-7-change-of-variables-in-multiple-integrals",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.02SC, Part A: Triple Integrals",
+        "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/4.-triple-integrals-and-surface-integrals-in-3-space/part-a-triple-integrals/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "differential-equations-and-initial-value-problems",
+    "id": 31,
+    "title": "Differential Equations and Initial-Value Problems",
+    "topic": "Differential Equations",
+    "requires": [
+      "triple-integrals"
+    ],
+    "related": [
+      {
+        "label": "Antiderivatives and Initial-Value Problems",
+        "slug": "antiderivatives-and-initial-value-problems"
+      },
+      {
+        "label": "The Mean Value Theorem and Monotonicity",
+        "slug": "the-mean-value-theorem-and-monotonicity"
+      },
+      {
+        "label": "Gradients: Extending Derivatives to Several Variables",
+        "slug": "gradients-extending-derivatives-to-several-variables",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      }
+    ],
+    "summary": "What a differential equation is, order and solutions, initial-value problems, slope fields, and exponential growth and decay as the first model.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 2: 4.1 Basics of Differential Equations",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/4-1-basics-of-differential-equations",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 2: 4.2 Direction Fields and Numerical Methods",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/4-2-direction-fields-and-numerical-methods",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.01SC: Part C, Mean Value Theorem, Antiderivatives and Differential Equations",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-c-mean-value-theorem-antiderivatives-and-differential-equations/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "separable-differential-equations",
+    "id": 32,
+    "title": "Separable Differential Equations",
+    "topic": "Differential Equations",
+    "requires": [
+      "differential-equations-and-initial-value-problems"
+    ],
+    "related": [
+      {
+        "label": "Differential Equations and Initial-Value Problems",
+        "slug": "differential-equations-and-initial-value-problems"
+      },
+      {
+        "label": "Integration by Substitution and by Parts",
+        "slug": "integration-by-substitution-and-by-parts"
+      }
+    ],
+    "summary": "Separation of variables, the logistic equation, Newton's law of cooling, and checking a solution by substituting it back.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax Calculus Volume 2: 4.3 Separable Equations",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/4-3-separable-equations",
+        "type": "book"
+      },
+      {
+        "label": "OpenStax Calculus Volume 2: 4.4 The Logistic Equation",
+        "url": "https://openstax.org/books/calculus-volume-2/pages/4-4-the-logistic-equation",
+        "type": "book"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.01SC: Part C, Mean Value Theorem, Antiderivatives and Differential Equations",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-c-mean-value-theorem-antiderivatives-and-differential-equations/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "choosing-a-calculus-tool-a-decision-guide",
+    "id": 33,
+    "title": "Choosing a Calculus Tool: A Decision Guide",
+    "topic": "Capstone",
+    "requires": [
+      "separable-differential-equations"
+    ],
+    "related": [
+      {
+        "label": "L'Hôpital's Rule",
+        "slug": "lhopitals-rule"
+      },
+      {
+        "label": "The Fundamental Theorem of Calculus",
+        "slug": "the-fundamental-theorem-of-calculus"
+      },
+      {
+        "label": "Taylor and Maclaurin Series with Error Bounds",
+        "slug": "taylor-and-maclaurin-series-with-error-bounds"
+      },
+      {
+        "label": "Separable Differential Equations",
+        "slug": "separable-differential-equations"
+      }
+    ],
+    "summary": "A decision guide for the whole discipline: given a problem, choose between limits, derivatives, integrals, series, and multivariable tools, and recognize the trap each one sets.",
+    "publishedAt": "2026-11-04",
+    "references": [
+      {
+        "label": "OpenStax: Calculus Volume 1",
+        "url": "https://openstax.org/details/books/calculus-volume-1",
+        "type": "doc"
+      },
+      {
+        "label": "OpenStax: Calculus Volume 2",
+        "url": "https://openstax.org/details/books/calculus-volume-2",
+        "type": "doc"
+      },
+      {
+        "label": "OpenStax: Calculus Volume 3",
+        "url": "https://openstax.org/details/books/calculus-volume-3",
+        "type": "doc"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.01SC: Single Variable Calculus",
+        "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT OpenCourseWare 18.02SC: Multivariable Calculus",
+        "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/",
+        "type": "doc"
+      }
+    ]
+  }
+]

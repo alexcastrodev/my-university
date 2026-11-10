@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { RUBYONRAILS_CONCEPT_TOPIC_ORDER, RubyOnRailsConceptSummary } from '../../models/rubyonrails-concept.model';
 import { RubyOnRailsConceptsService } from '../../services/rubyonrails-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { groupByTopic } from '../../shared/concept-topics';
@@ -53,6 +54,7 @@ export class RubyOnRailsConceptsListPage implements OnInit {
       title: 'Ruby on Rails Concepts',
       description: 'Rails framework and application performance concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
       path: '/rubyonrails-concepts',
+      alternates: localizedAlternates('/rubyonrails-concepts'),
     });
 
     this.rubyOnRailsConceptsService.listConcepts().subscribe({

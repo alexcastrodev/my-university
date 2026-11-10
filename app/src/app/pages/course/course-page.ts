@@ -132,6 +132,8 @@ export class CoursePage implements OnInit {
     if (lesson) {
       this.expandModuleForLesson(lessonId);
       this.openLesson(lesson);
+    } else {
+      this.seo.setNotFound();
     }
   }
 
@@ -180,6 +182,8 @@ export class CoursePage implements OnInit {
       description: `${lesson.title} — a lesson from the ${course.title} course on My University.`,
       path: `/java/exam/${course.id}/lesson/${lesson.id}`,
       type: 'article',
+      // A skill check is a quiz built in the browser: the server renders only its title and the playlist.
+      noindex: lesson.type === 'skill-check',
       breadcrumbs: this.breadcrumbItems(),
     });
   }
@@ -254,7 +258,10 @@ export class CoursePage implements OnInit {
         this.loading.set(false);
         this.activateLessonFromUrl(lessonId);
       },
-      error: () => { this.loading.set(false); },
+      error: (err) => {
+        this.loading.set(false);
+        if (err.status === 404) this.seo.setNotFound();
+      },
     });
   }
 }

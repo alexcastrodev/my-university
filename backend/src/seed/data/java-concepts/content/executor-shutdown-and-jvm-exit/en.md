@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-13
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Objective
 
@@ -49,7 +49,7 @@ pool.execute(task3); // rejected — throws RejectedExecutionException
 `shutdownNow()` is the aggressive mode: it also stops accepting new tasks, but on
 top of that it interrupts every currently running task (using the same
 interruption mechanism covered in the companion concept on
-[task cancellation and interruption](task-cancellation-and-interruption.md) —
+[task cancellation and interruption](task-cancellation-and-interruption) —
 whether a task actually stops depends on whether its code checks
 `isInterrupted()` or calls an interruptible blocking method) and returns the
 `List<Runnable>` of tasks that were submitted but never got to start, so the

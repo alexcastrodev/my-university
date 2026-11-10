@@ -1,15 +1,28 @@
 .page {
   min-height: calc(100vh - var(--mu-header-h));
   background: var(--mu-bg);
+  /* A column that fills the screen, so the Library can fill what is left under the banner. */
+  display: flex;
+  flex-direction: column;
+  /* The Library lays out by the room the page has, not by the screen: the sidebar takes 56 or 216px of it. */
+  container-type: inline-size;
 }
 
 .page-body {
+  width: 100%;
   max-width: 960px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+/* The Library tab uses the whole page: the shelf and the card of the open book sit side by side. */
+.page-body-wide { max-width: none; flex: 1; }
+/* With the room for the side column, the library goes edge to edge (it draws its own padding and the line of the column). */
+@container (min-width: 1000px) {
+  .page-body-wide { padding: 0; gap: 0; }
 }
 
 .card {
@@ -35,6 +48,20 @@
   color: var(--mu-white);
   border: 1px solid transparent;
 }
+
+/* The tabs live at the bottom edge of the banner band */
+.tabs { display: flex; gap: 1.25rem; overflow-x: auto; }
+.tab {
+  padding: 0.9rem 0.5rem 0.7rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--mu-muted);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--mu-ink); }
+.tab-active { color: var(--mu-ink); border-bottom-color: var(--mu-accent); }
 
 @media (max-width: 480px) {
   .page-body { padding: 1.25rem 1rem; }

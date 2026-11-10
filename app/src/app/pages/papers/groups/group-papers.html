@@ -1,0 +1,62 @@
+<section class="block" aria-labelledby="papers-heading">
+  <h2 id="papers-heading" class="block-title" i18n="@@groups.papers.title">Papers the group studies</h2>
+  @if (problem(); as text) {
+    <p class="problem" role="alert">{{ text }}</p>
+  }
+  @if (papers().length) {
+    <div class="rows" aria-labelledby="papers-heading">
+      @for (paper of papers(); track paper.id; let i = $index) {
+        <app-paper-row [paper]="paper" [position]="i + 1" [link]="['/papers', paper.id]" [attr.data-paper]="paper.id">
+          @if (paper.sharedCount) {
+            <span class="badge">{{ sharedLabel(paper.sharedCount) }}</span>
+          }
+          @if (manager()) {
+            <button type="button" class="btn btn-danger" [disabled]="busy()" [attr.aria-label]="removeLabel(paper.title)" (click)="remove(paper)" i18n="@@groups.members.remove">Remove</button>
+          }
+        </app-paper-row>
+      }
+    </div>
+  } @else {
+    <p class="empty" i18n="@@groups.papers.empty">No paper on the list yet.</p>
+  }
+</section>
+
+@if (manager()) {
+  <section class="block" aria-labelledby="add-heading">
+    <h2 id="add-heading" class="block-title" i18n="@@groups.papers.add">Add a paper</h2>
+    <p class="muted" i18n="@@groups.papers.addNote">Search the public papers. A paper only you can see in your library cannot be added.</p>
+    <form class="form" (submit)="search($event)">
+      <div class="inline">
+        <label class="label">
+          <span i18n="@@groups.papers.search">Search the papers</span>
+          <input type="search" class="field" autocomplete="off" [value]="query()" (input)="query.set($any($event.target).value)" />
+        </label>
+        <button type="submit" class="btn btn-primary" [disabled]="searching() || !query().trim()" i18n="@@groups.papers.searchButton">Search</button>
+      </div>
+    </form>
+
+    @if (results(); as found) {
+      @if (found.length) {
+        <ul class="list found" aria-label="Search results" i18n-aria-label="@@groups.papers.results">
+          @for (paper of found; track paper.id) {
+            <li class="item" [attr.data-result]="paper.id">
+              <span class="item-title">{{ paper.title }}</span>
+              @if (paper.authors.length) {
+                <p class="meta"><span>{{ paper.authors.join('; ') }}</span></p>
+              }
+              <div class="buttons">
+                @if (listed().has(paper.id)) {
+                  <span class="badge" i18n="@@groups.papers.listed">On the list</span>
+                } @else {
+                  <button type="button" class="btn" [disabled]="busy()" [attr.aria-label]="addLabel(paper.title)" (click)="add(paper)" i18n="@@groups.papers.addButton">Add</button>
+                }
+              </div>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="empty" i18n="@@groups.papers.noResults">No public paper matches that.</p>
+      }
+    }
+  </section>
+}

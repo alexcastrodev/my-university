@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { DOTNET_CONCEPT_TOPIC_ORDER, DotNetConceptCategory, DotNetConceptSummary } from '../../models/dotnet-concept.model';
 import { DotNetConceptsService } from '../../services/dotnet-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { localizedAlternates } from '../../shared/seo-alternates';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { groupByTopic } from '../../shared/concept-topics';
@@ -71,6 +72,7 @@ export class DotNetConceptsListPage implements OnInit {
       title: '.NET Concepts',
       description: '.NET platform and application architecture concepts explained in depth: objective, use cases, deep dive, and trade-offs.',
       path: '/dotnet-concepts',
+      alternates: localizedAlternates('/dotnet-concepts'),
     });
 
     this.dotNetConceptsService.listConcepts().subscribe({

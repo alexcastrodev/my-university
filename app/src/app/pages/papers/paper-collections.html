@@ -1,0 +1,51 @@
+<div class="collections">
+  @if (collections().length) {
+    <ul class="list">
+      @for (c of collections(); track c.id) {
+        <li class="row" [attr.data-collection]="c.name">
+          @if (renaming() === c.id) {
+            <form class="inline" (submit)="rename($event, c.id)">
+              <label class="visually-hidden" [for]="'rename-' + c.id" i18n="@@papers.collections.renameLabel">New name</label>
+              <input [id]="'rename-' + c.id" class="field" type="text" maxlength="80" autocomplete="off" [value]="newName()" (input)="newName.set($any($event.target).value)" />
+              <button type="submit" class="btn btn-primary" [disabled]="busy() || !newName().trim()" i18n="@@papers.collections.save">Save</button>
+              <button type="button" class="btn" (click)="renaming.set(null)" i18n="@@papers.notes.cancel">Cancel</button>
+            </form>
+          } @else {
+            <span class="name">{{ c.name }}</span>
+            <span class="muted count">{{ c.count }}</span>
+            @if (deleting() === c.id) {
+              <span class="confirm" i18n="@@papers.collections.confirmDelete">Delete this collection? Its papers stay in your library.</span>
+              <button type="button" class="btn btn-danger" [disabled]="busy()" (click)="remove(c.id)" i18n="@@papers.collections.confirmYes">Delete</button>
+              <button type="button" class="btn" (click)="deleting.set(null)" i18n="@@papers.notes.cancel">Cancel</button>
+            } @else {
+              <button type="button" class="btn" (click)="startRename(c)" i18n="@@papers.collections.rename">Rename</button>
+              <button type="button" class="btn" (click)="startDelete(c.id)" i18n="@@papers.collections.delete">Delete</button>
+            }
+          }
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="muted" i18n="@@papers.collections.empty">No collections yet. Make one to group papers, for example by project or topic. Only you can see them.</p>
+  }
+
+  <form class="inline create" (submit)="create($event)">
+    <label class="visually-hidden" for="collection-name" i18n="@@papers.collections.newLabel">New collection</label>
+    <input
+      id="collection-name"
+      class="field"
+      type="text"
+      maxlength="80"
+      autocomplete="off"
+      i18n-placeholder="@@papers.collections.newPlaceholder"
+      placeholder="Name of a new collection"
+      [value]="name()"
+      (input)="name.set($any($event.target).value)"
+    />
+    <button type="submit" class="btn btn-primary" [disabled]="busy() || !name().trim()" i18n="@@papers.collections.create">Create</button>
+  </form>
+
+  @if (problem(); as text) {
+    <p class="problem" role="alert">{{ text }}</p>
+  }
+</div>

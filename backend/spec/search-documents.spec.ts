@@ -14,11 +14,14 @@ import { DotNetConceptsService } from '../src/dotnet-concepts/dotnet-concepts.se
 import { CSharpConceptsService } from '../src/csharp-concepts/csharp-concepts.service';
 import { DotNetTestingConceptsService } from '../src/dotnet-testing-concepts/dotnet-testing-concepts.service';
 import { DotNetAiConceptsService } from '../src/dotnet-ai-concepts/dotnet-ai-concepts.service';
+import { PapersCatalogService } from '../src/papers/papers-catalog.service';
 import { SearchService, toPlainText } from '../src/search/search.service';
 import { SpringConceptsService } from '../src/spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../src/system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../src/testing-concepts/testing-concepts.service';
 import { SUPPORTED_LANGUAGES } from '../src/shared/language';
+
+const papersCatalog = new PapersCatalogService(null as never);
 
 function buildDocuments() {
   return new SearchService(
@@ -42,6 +45,7 @@ function buildDocuments() {
     new DotNetAiConceptsService(),
     new QuarkusConceptsService(),
     new KubernetesConceptsService(),
+    papersCatalog,
     null as never,
   ).buildContentDocuments();
 }
@@ -69,6 +73,19 @@ describe('search documents', () => {
     expect(translatedTypes).toContain('database-concept');
     expect(translatedTypes).toContain('curriculum-concept');
     expect(translatedTypes).toContain('system-design-concept');
+  });
+
+  it('indexes every public paper on its own page, so its title is found by the global search', () => {
+    const papers = documents.filter(
+      (doc) => doc.type === 'paper' && doc.language === 'en',
+    );
+    const expected = papersCatalog
+      .slugs()
+      .map(({ slug }) => `/papers/${slug}`)
+      .sort();
+    expect(expected.length).toBeGreaterThan(0);
+    expect(papers.map((doc) => doc.url).sort()).toEqual(expected);
+    expect(papers.every((doc) => doc.title && doc.content)).toBe(true);
   });
 
   it('keeps the original title searchable on a translated document', () => {

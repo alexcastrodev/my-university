@@ -1,0 +1,299 @@
+<div class="reader">
+  @switch (state()) {
+    @case ('loading') {
+      <div class="state" role="status" i18n-aria-label="@@papers.reader.loading.ariaLabel" aria-label="Opening the PDF">
+        <span class="spinner" aria-hidden="true"></span>
+        <ng-container i18n="@@papers.reader.loading">Opening your PDF…</ng-container>
+      </div>
+    }
+    @case ('signedOut') {
+      <div class="state" role="alert">
+        <p i18n="@@papers.library.page.signedOut">Sign in to see your library.</p>
+        <a class="action" routerLink="/login" i18n="@@papers.library.page.signIn">Sign in</a>
+      </div>
+    }
+    @case ('missing') {
+      <div class="state" role="alert">
+        <p i18n="@@papers.library.entry.missing">This paper is not in your library.</p>
+        <a class="action" routerLink="/papers" i18n="@@papers.library.page.browse">Browse all papers</a>
+      </div>
+    }
+    @case ('noFile') {
+      <div class="state" role="alert">
+        <p i18n="@@papers.reader.noFile">This paper has no PDF yet. Upload one on its library page.</p>
+        <a class="action" [routerLink]="['/library', paperId()]" i18n="@@papers.reader.toPaper">Go to the paper</a>
+      </div>
+    }
+    @case ('ready') {
+      <div #bar class="bar">
+      <div class="toolbar" role="toolbar" i18n-aria-label="@@papers.reader.toolbar" aria-label="PDF reader">
+        <a class="tool tool-back" [routerLink]="['/library', paperId()]" i18n-aria-label="@@papers.reader.back" aria-label="Back to the paper">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </a>
+        <h1 class="title">{{ paper()?.title }}</h1>
+
+        <form class="pager" (submit)="onPageSubmit($event)">
+          <button type="button" class="tool" [disabled]="current() <= 1" (click)="goTo(current() - 1)" i18n-aria-label="@@papers.reader.prev" aria-label="Previous page">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </button>
+          <input
+            id="reader-page"
+            class="page-input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            [value]="pageInput()"
+            (input)="pageInput.set($any($event.target).value)"
+            i18n-aria-label="@@papers.reader.pageInput"
+            aria-label="Page number"
+          />
+          <span class="page-total"><ng-container i18n="@@papers.reader.of">of</ng-container> {{ pageCount() }}</span>
+          <button type="button" class="tool" [disabled]="current() >= pageCount()" (click)="goTo(current() + 1)" i18n-aria-label="@@papers.reader.next" aria-label="Next page">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </button>
+        </form>
+
+        <div class="zoom">
+          <button type="button" class="tool" [disabled]="!canZoomOut()" (click)="zoomOut()" i18n-aria-label="@@papers.reader.zoomOut" aria-label="Zoom out">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+          </button>
+          <output class="zoom-level" aria-live="polite">{{ zoomPercent() }}%</output>
+          <button type="button" class="tool" [disabled]="!canZoomIn()" (click)="zoomIn()" i18n-aria-label="@@papers.reader.zoomIn" aria-label="Zoom in">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M12 5v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+          </button>
+          <button type="button" class="tool tool-text" [class.on]="zoomMode() === 'fit'" [attr.aria-pressed]="zoomMode() === 'fit'" (click)="fitWidth()" i18n="@@papers.reader.fit">Fit width</button>
+        </div>
+
+        <button
+          type="button"
+          id="reader-bookmark"
+          class="tool"
+          [class.on]="!!bookmark()"
+          [attr.aria-pressed]="!!bookmark()"
+          [disabled]="busyId() !== null || pdfVersion() === null"
+          (click)="toggleBookmark()"
+          i18n-aria-label="@@papers.reader.bookmark"
+          aria-label="Bookmark this page"
+        >
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 4h10v16l-5-4-5 4z" [attr.fill]="bookmark() ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+        </button>
+        <button
+          type="button"
+          id="reader-annotations"
+          class="tool"
+          [class.on]="panelOpen()"
+          [attr.aria-expanded]="panelOpen()"
+          aria-controls="reader-panel"
+          (click)="panelOpen.set(!panelOpen())"
+          i18n-aria-label="@@papers.reader.annotations"
+          aria-label="Annotations"
+        >
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 5h14v10H10l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+          @if (live().length + review().length; as total) {
+            <span class="count">{{ total }}</span>
+          }
+        </button>
+
+        <button type="button" class="tool" [class.on]="searchOpen()" [attr.aria-expanded]="searchOpen()" (click)="toggleSearch()" i18n-aria-label="@@papers.reader.search" aria-label="Search in the document">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="2" /><path d="M16 16l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+        </button>
+      </div>
+
+      @if (annotationError(); as problem) {
+        <p class="notice" role="alert">
+          @if (problem === 'stale') {
+            <ng-container i18n="@@papers.reader.error.stale">This PDF was replaced while you were reading. Reload to read the new one.</ng-container>
+            <button type="button" class="tool tool-text" (click)="retry()" i18n="@@papers.reader.reload">Reload</button>
+          } @else {
+            <ng-container i18n="@@papers.reader.error.save">That could not be saved. Try again.</ng-container>
+          }
+        </p>
+      }
+
+      @if (searchOpen()) {
+        <form class="search" (submit)="onSearch($event)">
+          <input
+            id="reader-search"
+            class="search-input"
+            type="search"
+            autocomplete="off"
+            [value]="query()"
+            (input)="query.set($any($event.target).value)"
+            i18n-aria-label="@@papers.reader.searchInput"
+            aria-label="Search in the document"
+          />
+          <button type="submit" class="tool tool-text" [disabled]="searching()" i18n="@@papers.reader.find">Find</button>
+          @if (searching()) {
+            <span class="search-status" role="status"><span class="spinner" aria-hidden="true"></span> <ng-container i18n="@@papers.reader.searching">Searching…</ng-container></span>
+          } @else if (searched()) {
+            <span class="search-status" role="status">
+              @if (hits().length) {
+                {{ hitIndex() + 1 }} / {{ matchesLabel() }}
+              } @else {
+                <ng-container i18n="@@papers.reader.noMatches">No matches</ng-container>
+              }
+            </span>
+            @if (hits().length > 1) {
+              <button type="button" class="tool" (click)="step(-1)" i18n-aria-label="@@papers.reader.prevMatch" aria-label="Previous match">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+              <button type="button" class="tool" (click)="step(1)" i18n-aria-label="@@papers.reader.nextMatch" aria-label="Next match">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+            }
+          }
+        </form>
+      }
+      </div>
+
+      <div class="workspace" [style.--bar-h]="barHeight() + 'px'">
+        <div #pages class="pages">
+          @for (n of pageNumbers(); track n) {
+            <div class="page" role="region" [attr.data-page]="n" [attr.aria-label]="pageLabel(n)" [style.width.px]="box(n).w" [style.height.px]="box(n).h">
+              <canvas width="0" height="0"></canvas>
+              <div class="marks" aria-hidden="true">
+                @for (a of onPage(n); track a.id) {
+                  @if (a.kind === 'bookmark') {
+                    <span class="ribbon" [attr.data-annotation]="a.id" data-kind="bookmark"></span>
+                  } @else {
+                    @for (r of a.rects ?? []; track $index) {
+                      <span
+                        class="mark"
+                        [attr.data-kind]="a.kind"
+                        [attr.data-annotation]="a.id"
+                        [class.flash]="flashId() === a.id"
+                        [style.left.%]="r.x * 100"
+                        [style.top.%]="r.y * 100"
+                        [style.width.%]="r.w * 100"
+                        [style.height.%]="r.h * 100"
+                      ></span>
+                    }
+                  }
+                }
+              </div>
+              <div class="textLayer"></div>
+            </div>
+          }
+        </div>
+
+        @if (panelOpen()) {
+          <aside id="reader-panel" class="panel" i18n-aria-label="@@papers.reader.panel.label" aria-label="Annotations on this PDF">
+            <header class="panel-head">
+              <h2 class="panel-title" i18n="@@papers.reader.panel.title">On this PDF</h2>
+              <button type="button" class="tool" (click)="panelOpen.set(false)" i18n-aria-label="@@papers.reader.panel.close" aria-label="Close the annotations">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+              </button>
+            </header>
+
+            @if (annotationsFailed()) {
+              <p class="panel-text" role="alert">
+                <ng-container i18n="@@papers.notes.error">Your notes could not be loaded.</ng-container>
+                <button type="button" class="tool tool-text" (click)="retry()" i18n="@@papers.retry">Try again</button>
+              </p>
+            }
+
+            @if (draft(); as d) {
+              <form class="draft" (submit)="saveDraft($event)">
+                <span class="kind">{{ kindLabel(d.kind) }}</span>
+                <blockquote class="quote">{{ d.anchor.quote }}</blockquote>
+                <textarea
+                  id="annotation-draft"
+                  class="field"
+                  rows="3"
+                  maxlength="5000"
+                  [value]="draftText()"
+                  (input)="draftText.set($any($event.target).value)"
+                  i18n-aria-label="@@papers.notes.editField"
+                  aria-label="Text"
+                ></textarea>
+                <div class="buttons">
+                  <button type="submit" class="btn btn-primary" [disabled]="!canSaveDraft()" i18n="@@papers.notes.save">Save</button>
+                  <button type="button" class="btn" (click)="draft.set(null)" i18n="@@papers.notes.cancel">Cancel</button>
+                </div>
+              </form>
+            }
+
+            <ul class="panel-list" aria-label="Annotations" i18n-aria-label="@@papers.reader.panel.list">
+              @for (a of live(); track a.id) {
+                <li>
+                  <app-annotation-item
+                    [annotation]="a"
+                    [busy]="busyId() === a.id"
+                    [sharePaper]="canShare() ? paperId() : null"
+                    (shareChange)="shared(a, $event)"
+                    (open)="show(a)"
+                    (save)="edit(a, $event)"
+                    (remove)="drop(a)"
+                  />
+                </li>
+              } @empty {
+                @if (!draft()) {
+                  <li class="panel-text" i18n="@@papers.reader.panel.empty">Select text to highlight it or to add a comment or a question. The ribbon in the bar marks the page you are on.</li>
+                }
+              }
+            </ul>
+
+            @if (review().length) {
+              <div class="review" id="reader-needs-review">
+                <h3 class="panel-title" i18n="@@papers.notes.review.title">Needs review</h3>
+                <p class="panel-text" i18n="@@papers.notes.review.text">The PDF changed after you made these, so they are not shown on it. Keep what they said as a note, or delete them.</p>
+                <ul class="panel-list">
+                  @for (a of review(); track a.id) {
+                    <li>
+                      <app-annotation-item
+                        [annotation]="a"
+                        [busy]="busyId() === a.id"
+                        (save)="edit(a, $event)"
+                        (remove)="drop(a)"
+                        (keep)="keep(a)"
+                      />
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+          </aside>
+        }
+      </div>
+
+      @if (selection() && !draft()) {
+        <div
+          class="selbar"
+          role="toolbar"
+          i18n-aria-label="@@papers.reader.select.label"
+          aria-label="Selected text"
+          (mousedown)="$event.preventDefault()"
+          (pointerdown)="holdSelection = true"
+          (pointerup)="holdSelection = false"
+          (pointercancel)="holdSelection = false"
+        >
+          <button type="button" class="sel-btn" id="annotate-highlight" [disabled]="busyId() !== null" (click)="highlightSelection()" i18n="@@papers.reader.select.highlight">Highlight</button>
+          <button type="button" class="sel-btn" id="annotate-comment" (click)="startDraft('comment')" i18n="@@papers.reader.select.comment">Comment</button>
+          <button type="button" class="sel-btn" id="annotate-question" (click)="startDraft('question')" i18n="@@papers.reader.select.question">Question</button>
+        </div>
+      }
+    }
+    @default {
+      <div class="state state-error" role="alert">
+        @switch (state()) {
+          @case ('corrupt') {
+            <p i18n="@@papers.reader.corrupt">This file is not a readable PDF.</p>
+          }
+          @case ('encrypted') {
+            <p i18n="@@papers.reader.encrypted">This PDF is password protected and cannot be opened here.</p>
+          }
+          @case ('memory') {
+            <p i18n="@@papers.reader.memory">This PDF is too large for this device to open.</p>
+          }
+          @default {
+            <p i18n="@@papers.reader.failed">The PDF could not be opened.</p>
+          }
+        }
+        <div class="state-actions">
+          <button type="button" class="action" (click)="retry()" i18n="@@papers.retry">Try again</button>
+          <a class="action action-quiet" [href]="fileUrl()" download i18n="@@papers.reader.download">Download the file</a>
+        </div>
+      </div>
+    }
+  }
+</div>

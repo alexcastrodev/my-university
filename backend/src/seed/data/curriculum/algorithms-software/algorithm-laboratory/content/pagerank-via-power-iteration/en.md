@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-09-06
+version: 1.1
+updatedAt: 2026-11-03
 ---
 ## Learning Objectives
 
@@ -12,7 +12,7 @@ updatedAt: 2026-09-06
 
 ## Context & Motivation
 
-[Markov Matrices and Stationary Distributions](../../../../mathematics-for-computing/content/markov-matrices-and-stationary-distributions/en.md) already solved PageRank exactly, by hand, on a toy 4-page web graph: it built the column-stochastic link matrix, solved Mπ = π directly by row-reduction, got π = (1/3, 1/6, 1/3, 1/6), and then ran a short power-iteration loop as a **verification check** — confirming that repeatedly applying M to a starting vector converged to the same answer already found algebraically. That power iteration was a nice-to-have there: a second, independent way of confirming a four-unknown linear system had been solved correctly, nothing more.
+[Markov Matrices and Stationary Distributions](/computer-science/foundations/mathematics-for-computing/markov-matrices-and-stationary-distributions) already solved PageRank exactly, by hand, on a toy 4-page web graph: it built the column-stochastic link matrix, solved Mπ = π directly by row-reduction, got π = (1/3, 1/6, 1/3, 1/6), and then ran a short power-iteration loop as a **verification check** — confirming that repeatedly applying M to a starting vector converged to the same answer already found algebraically. That power iteration was a nice-to-have there: a second, independent way of confirming a four-unknown linear system had been solved correctly, nothing more.
 
 This lab is the honest escalation that concept's verification check was gesturing at but did not need to make. Solving Mπ = π exactly, by row-reduction, requires setting up and solving a system with as many unknowns as there are pages — tractable by hand for 4 pages, hopeless by hand for even a few dozen, and never how the real algorithm has worked at any point since it was introduced. [Brin & Page's original paper](http://infolab.stanford.edu/pub/papers/google.pdf) describes computing PageRank across the actual web — hundreds of millions of pages at the time, tens of billions today — by nobody ever setting up or solving an eigenvector equation directly. Power iteration is not a convenient approximation standing in for the "real" algebraic method; for a graph at any real scale, power iteration *is* the real algorithm. This lab builds it as the primary, standalone method on a graph of 18 pages — small enough to print and inspect in full, but large enough that solving an 18-unknown linear system by hand is no longer a reasonable thing to attempt, which is precisely the point.
 

@@ -1,63 +1,62 @@
 <header class="band">
   <div class="inner">
     <div class="top">
-      <div class="who">
-        <img class="avatar" [src]="avatarUrl()" alt="" width="96" height="96" />
-        <div class="identity">
-          <div class="name-row">
-            <h1 class="display-name">{{ displayName() }}</h1>
-            @if (visibility(); as v) {
-              <span class="visibility" [class.visibility-private]="v === 'private'" data-testid="visibility-chip">
-                @if (v === 'public') { <ng-container i18n="@@settings.publicProfile.public">Public</ng-container> } @else { <ng-container i18n="@@settings.publicProfile.private">Private</ng-container> }
-              </span>
-            }
-          </div>
-          @if (handle(); as login) {
-            <span class="handle">&#64;{{ login }}</span>
+      <img class="avatar" [src]="avatarUrl()" alt="" width="92" height="92" />
+      <div class="identity">
+        <div class="name-row">
+          <h1 class="display-name">{{ displayName() }}</h1>
+          @if (visibility(); as v) {
+            <span class="visibility" [class.visibility-private]="v === 'private'" data-testid="visibility-chip">
+              @if (v === 'public') { <ng-container i18n="@@settings.publicProfile.public">Public</ng-container> } @else { <ng-container i18n="@@settings.publicProfile.private">Private</ng-container> }
+            </span>
           }
-          @if (level(); as current) {
-            <div class="level">
-              <span class="level-line" i18n="@@publicProfile.level">Level {{ current.number }} · {{ current.title }}</span>
-              @if (levelProgress(); as progress) {
-                <div class="level-bar" role="progressbar" [attr.aria-valuenow]="progress.percent" aria-valuemin="0" aria-valuemax="100">
-                  <div class="level-fill" [style.width.%]="progress.percent"></div>
-                </div>
-                <span class="level-note">
-                  @if (progress.remaining !== null) { <ng-container i18n="@@profile.xpToNextLevel">{{ progress.remaining }} XP to next level</ng-container> } @else { <ng-container i18n="@@profile.maxLevel">Max level reached</ng-container> }
-                </span>
-              }
-            </div>
-          }
-          <div class="actions"><ng-content select="[actions]" /></div>
         </div>
-      </div>
-
-      <div class="side">
-        <dl class="stats">
-          <div class="stat">
-            <dd class="stat-value" data-testid="badge-count">{{ badgeCount() }}</dd>
-            <dt class="stat-label" i18n="@@publicProfile.badges">Badges</dt>
+        @if (handle(); as login) {
+          <span class="handle">&#64;{{ login }}</span>
+        }
+        @if (level(); as current) {
+          <span class="level-line" i18n="@@publicProfile.level">Level {{ current.number }} · {{ current.title }}</span>
+        }
+        @if (levelProgress(); as progress) {
+          <div class="xp-row">
+            @if (xp() !== null) { <span>{{ xp() }} XP</span> }
+            <span class="level-note">
+              @if (progress.remaining !== null) { <ng-container i18n="@@profile.xpToNextLevel">{{ progress.remaining }} XP to next level</ng-container> } @else { <ng-container i18n="@@profile.maxLevel">Max level reached</ng-container> }
+            </span>
           </div>
-          <div class="stat">
-            <dd class="stat-value" data-testid="trophy-count">{{ trophyCount() }}</dd>
-            <dt class="stat-label" i18n="@@publicProfile.trophies">Trophies</dt>
+          <div class="level-bar" role="progressbar" [attr.aria-valuenow]="progress.percent" aria-valuemin="0" aria-valuemax="100">
+            <div class="level-fill" [style.width.%]="progress.percent"></div>
           </div>
-          @if (xp() !== null) {
-            <div class="stat">
-              <dd class="stat-value" data-testid="xp-total">{{ xp() }}</dd>
-              <dt class="stat-label" i18n="@@profile.stat.xp">XP</dt>
-            </div>
-          }
-          @if (streak() !== null) {
-            <div class="stat">
-              <dd class="stat-value" data-testid="streak-days">{{ streak() }}</dd>
-              <dt class="stat-label" i18n="@@profile.streak.title">Streak</dt>
-            </div>
-          }
-        </dl>
+        }
       </div>
+      <div class="actions"><ng-content select="[actions]" /></div>
     </div>
 
-    <ng-content select="[tabs]" />
+    <div class="stats" role="list">
+      <div class="stat" role="listitem">
+        <app-award-hex [award]="badgeIcon" size="small" />
+        <span class="stat-text"><strong class="stat-value" data-testid="badge-count">{{ badgeCount() }}</strong><small class="stat-label" i18n="@@publicProfile.badges">Badges</small></span>
+      </div>
+      <div class="stat" role="listitem">
+        <app-award-hex [award]="trophyIcon" size="small" />
+        <span class="stat-text"><strong class="stat-value" data-testid="trophy-count">{{ trophyCount() }}</strong><small class="stat-label" i18n="@@publicProfile.trophies">Trophies</small></span>
+      </div>
+      @if (xp() !== null) {
+        <div class="stat" role="listitem">
+          <span class="stat-icon stat-icon-xp" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg></span>
+          <span class="stat-text"><strong class="stat-value" data-testid="xp-total">{{ xp() }}</strong><small class="stat-label" i18n="@@profile.stat.xpTotal">Total XP</small></span>
+        </div>
+      }
+      @if (streak() !== null) {
+        <div class="stat" role="listitem">
+          <span class="stat-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span>
+          <span class="stat-text"><strong class="stat-value" data-testid="streak-days">{{ streak() }}</strong><small class="stat-label" i18n="@@profile.streak.title">Streak</small></span>
+        </div>
+      }
+    </div>
+
+    <div class="link-row"><ng-content select="[link]" /></div>
+
+    <div class="tabs-row"><ng-content select="[tabs]" /></div>
   </div>
 </header>

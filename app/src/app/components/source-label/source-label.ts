@@ -10,6 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       @case ('profile.source.skillChecks') { <ng-container i18n="@@profile.source.skillChecks">Skill Checks</ng-container> }
       @case ('profile.source.concepts') { <ng-container i18n="@@profile.source.concepts">Concepts</ng-container> }
       @case ('profile.source.minutes') { <ng-container i18n="@@profile.source.minutes">Minutes</ng-container> }
+      @case ('profile.source.labs') { <ng-container i18n="@@profile.source.labs">Labs</ng-container> }
       @case ('profile.source.dailyCards') { <ng-container i18n="@@profile.source.dailyCards">Daily cards</ng-container> }
       @case ('profile.source.badges') { <ng-container i18n="@@profile.source.badges">Badges</ng-container> }
       @case ('profile.source.trophies') { <ng-container i18n="@@profile.source.trophies">Trophies</ng-container> }

@@ -38,7 +38,9 @@ services:
       resources:
         limits:
           cpus: '0.5'
-          memory: 512M
+          # 512M was not enough: it idles near 320M, and an index rebuild builds the new
+          # generation next to the old one, so it was OOM-killed (exit 137) on deploys.
+          memory: 1G
 
 networks:
   proxy_net:
