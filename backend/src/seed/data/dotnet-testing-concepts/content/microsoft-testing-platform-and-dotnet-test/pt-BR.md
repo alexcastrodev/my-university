@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 title: "Microsoft.Testing.Platform, dotnet test e Code Coverage no CI"
 summary: Migre uma suíte MSTest do VSTest para o Microsoft.Testing.Platform com MSTest.Sdk e global.json, entenda os novos comandos e exit codes do dotnet test no .NET 10, colete cobertura com um gate no CI e veja, por mutação, por que cobertura alta não prova nada.
 ---
@@ -65,7 +65,7 @@ O lado do projeto fica mais simples com o `MSTest.Sdk`, um MSBuild SDK que
 substitui o `Microsoft.NET.Sdk` e liga o MTP por padrão:
 
 ```xml
-<Project Sdk="MSTest.Sdk/4.5.1">
+<Project Sdk="MSTest.Sdk/4.5.2">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -102,6 +102,9 @@ O lado do `dotnet test` é um arquivo ao lado da solution:
 ```
 
 `dotnet new mstest --sdk --test-runner Microsoft.Testing.Platform` gera os dois.
+O SDK do .NET 11 também lê a variável de ambiente `DOTNET_TEST_RUNNER`
+(`Microsoft.Testing.Platform` ou `VSTest`), que vence o `global.json` naquele
+shell. Sem nenhum dos dois, o padrão continua sendo VSTest.
 O modo é tudo ou nada. Com o `global.json` e um projeto ainda no VSTest, o
 `dotnet test` se recusa a começar:
 
@@ -114,7 +117,10 @@ Checkout.Tests.csproj
 Antes do .NET 10, projetos MTP rodavam no modo VSTest por meio de
 `<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>`, com
 as opções do MTP depois de um `--` extra. A documentação marca esse caminho como
-legado; no modo MTP nem a propriedade nem o `--` são obrigatórios.
+legado, e com o MTP 2 no SDK do .NET 10 ou posterior ele deixou de existir:
+`dotnet test` em modo VSTest num projeto MTP para o build com
+`Testing with VSTest target is no longer supported`. No modo MTP nem a
+propriedade nem o `--` são obrigatórios.
 
 ### O que muda na linha de comando
 
@@ -127,10 +133,14 @@ legado; no modo MTP nem a propriedade nem o `--` são obrigatórios.
 | `--collect "XPlat Code Coverage"` | `--coverage` (Microsoft) ou `--coverlet` (coverlet.MTP) |
 | `--filter "TestCategory=Shipping"` | igual no MSTest |
 
-O caminho de projeto posicional falha rápido com `Specifying a project for
-'dotnet test' should be via '--project'.` Uma opção do VSTest falha de outro
-jeito: `dotnet test --logger trx` compila, o módulo sai com o código 5 (linha de
-comando inválida), e a execução reporta `Zero tests ran` com exit code 1. Opções
+No SDK do .NET 10 o caminho de projeto posicional falha rápido com `Specifying a
+project for 'dotnet test' should be via '--project'.` O SDK do .NET 11 voltou a
+aceitá-lo e roda em modo MTP. Uma opção do VSTest falha de outro jeito:
+`dotnet test --logger trx` compila, e o módulo sai com o código 5 (linha de
+comando inválida) depois de imprimir `Option '--logger' uses VSTest syntax, which
+is not supported by Microsoft.Testing.Platform. Use '--report-trx' instead.` No
+SDK 10.0.100 a execução então reporta `Zero tests ran` com exit code 1; no SDK
+11.0.100 o próprio `dotnet test` sai com 5. Opções
 que o próprio `dotnet test` não conhece são repassadas para cada aplicação de
 teste. Coloque-as depois de um `--` literal quando quiser deixar isso explícito:
 
@@ -140,7 +150,9 @@ dotnet test --results-directory TestResults -- --report-trx --maximum-failed-tes
 
 `--maximum-failed-tests` para a execução depois desse número de falhas e sai com
 o código 13. `--minimum-expected-tests` antes do `--` vale para a execução
-inteira (desde o SDK 10.0.100); depois do `--` vale para cada módulo de teste.
+inteira (desde o SDK 10.0.100); depois do `--` vale para cada módulo de teste. A referência
+do `dotnet test` também lista `--maximum-failed-tests` e `--timeout` para a
+execução inteira, antes do `--`, a partir do SDK do .NET 11 com MTP 2.4.
 
 ### O projeto de teste é um executável
 

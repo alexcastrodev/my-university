@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-11
 title: "Código Unsafe, Ponteiros e Function Pointers"
 summary: Como habilitar unsafe, operadores de ponteiro, fixed, buffers de tamanho fixo versus InlineArray, Unsafe e NativeMemory, overrun e ponteiro obsoleto após compactação do GC, function pointers medidos e o modelo de segurança de memória do C# 15.
 ---
@@ -219,9 +219,15 @@ O *updated memory safety model*, que a documentação diz estar "in preview in C
 function pointer e índice em buffer fixo continuam exigindo `unsafe`. Um membro
 `unsafe` vira *requires-unsafe*: quem chama precisa de contexto `unsafe`, e o
 dever de auditoria se propaga até um método validar as entradas atrás de uma
-assinatura segura. É um preview: exige o SDK do .NET 11, `LangVersion` `preview`
-e um opt-in separado para as regras novas, os detalhes ainda podem mudar e nada
-disso foi compilado aqui.
+assinatura segura. Continua preview no .NET 11 lançado, com dois opt-ins
+separados. No SDK 11.0.100, só `LangVersion` `preview` ligou os relaxamentos:
+`int* p = &n;` e um `fixed` compilaram em código seguro sem `AllowUnsafeBlocks`,
+e `*p` deu error CS9360 ("This operation may only be used in an unsafe
+context"); com o C# 15 padrão o mesmo ponteiro continua CS0214. Somar
+`<Features>$(Features);updated-memory-safety-rules</Features>` ligou as regras
+de quem chama: chamar um método `unsafe` de código seguro deu CS9362, um método
+`extern` teve de ser marcado `unsafe` ou `safe` (CS9389), e o módulo compilado
+recebeu `MemorySafetyRulesAttribute(2)`. Os detalhes ainda podem mudar.
 
 ## Trade-offs
 

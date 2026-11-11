@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -221,8 +221,12 @@ Extension members have no storage. In C# 14 these were rejected (SDK
 | `virtual` member | error CS0106: The modifier 'virtual' is not valid for this item |
 | instance member with an unnamed receiver | error CS9303: cannot declare instance members in an extension block with an unnamed receiver parameter |
 
-The reference docs list extension indexers as a C# 15 addition, which matches
-the CS9282 above. If you need per-object state, the BCL's
+Indexers left that list in C# 15 (.NET 11 SDK). On SDK 11.0.100,
+`public int this[int index] => sequence.ElementAt(index);` inside
+`extension(IEnumerable<int> sequence)` made `numbers[2]` return `3`; with
+`LangVersion` 14 the same code is error CS9327 ("Feature 'extension indexers' is
+not available in C# 14.0"). The receiver must be named, and an indexer the type
+already declares wins over the extension one. If you need per-object state, the BCL's
 `ConditionalWeakTable<TKey, TValue>` can attach it without keeping objects
 alive, but a property that hides a table lookup surprises readers. Two version
 details: with `LangVersion` 13 a block does not even parse (you get syntax

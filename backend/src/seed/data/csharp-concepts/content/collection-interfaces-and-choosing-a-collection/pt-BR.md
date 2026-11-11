@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-11
 title: "Interfaces de Coleção e Como Escolher uma Coleção"
 summary: A escada IEnumerable até IList, visão somente leitura vs coleção imutável, tipos de parâmetro e de retorno, collection expressions do C# 12 e escolha da coleção concreta pelo padrão de acesso.
 ---
@@ -131,6 +131,16 @@ A expressão funciona com arrays, `List<T>`, `Span<T>`, `ReadOnlySpan<T>`, as
 interfaces de coleção acima e qualquer tipo com collection initializer ou
 `[CollectionBuilder]`. Quando o destino é uma interface, não conte com o tipo
 concreto recebido: quem escolhe é o compilador.
+
+O C# 15 (SDK do .NET 11) aceita um primeiro elemento `with(...)` que passa
+argumentos ao construtor, então capacidade e comparers não obrigam mais a voltar
+para o `new` (saída do SDK 11.0.100):
+
+```csharp
+string[] values = ["one", "two", "three"];
+List<string> names = [with(capacity: values.Length * 2), ..values];             // Capacity 6
+HashSet<string> set = [with(StringComparer.OrdinalIgnoreCase), "Hello", "HELLO"]; // Count 1
+```
 
 ### Params collections (C# 13)
 

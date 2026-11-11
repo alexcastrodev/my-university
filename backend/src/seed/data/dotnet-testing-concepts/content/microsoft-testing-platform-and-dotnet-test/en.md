@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -60,7 +60,7 @@ The project side is easiest with `MSTest.Sdk`, an MSBuild SDK that replaces
 `Microsoft.NET.Sdk` and turns MTP on by default:
 
 ```xml
-<Project Sdk="MSTest.Sdk/4.5.1">
+<Project Sdk="MSTest.Sdk/4.5.2">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -97,6 +97,9 @@ The `dotnet test` side is one file next to the solution:
 ```
 
 `dotnet new mstest --sdk --test-runner Microsoft.Testing.Platform` generates both.
+The .NET 11 SDK also reads the `DOTNET_TEST_RUNNER` environment variable
+(`Microsoft.Testing.Platform` or `VSTest`), which wins over `global.json` for that
+shell. With neither, the default is still VSTest.
 The mode is all or nothing. With the `global.json` and one project still on
 VSTest, `dotnet test` refuses to start:
 
@@ -108,8 +111,10 @@ Checkout.Tests.csproj
 
 Before .NET 10, MTP projects ran under the VSTest mode through
 `<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>`, with
-MTP options after an extra `--`. The docs mark that path as legacy; in the MTP
-mode neither the property nor the `--` is required.
+MTP options after an extra `--`. The docs mark that path as legacy, and with MTP 2
+on the .NET 10 SDK or later it is gone: `dotnet test` in VSTest mode on an MTP
+project stops the build with `Testing with VSTest target is no longer supported`.
+In the MTP mode neither the property nor the `--` is required.
 
 ### What changes on the command line
 
@@ -122,10 +127,14 @@ mode neither the property nor the `--` is required.
 | `--collect "XPlat Code Coverage"` | `--coverage` (Microsoft) or `--coverlet` (coverlet.MTP) |
 | `--filter "TestCategory=Shipping"` | unchanged for MSTest |
 
-The positional project path fails fast with `Specifying a project for 'dotnet
-test' should be via '--project'.` A VSTest option fails differently: `dotnet test
---logger trx` builds, the module exits with code 5 (invalid command line), and the
-run reports `Zero tests ran` with exit code 1. Options that `dotnet test` itself
+On the .NET 10 SDK the positional project path fails fast with `Specifying a
+project for 'dotnet test' should be via '--project'.` The .NET 11 SDK accepts it
+again and runs it in MTP mode. A VSTest option fails differently: `dotnet test
+--logger trx` builds, and the module exits with code 5 (invalid command line)
+after printing `Option '--logger' uses VSTest syntax, which is not supported by
+Microsoft.Testing.Platform. Use '--report-trx' instead.` On SDK 10.0.100 the run
+then reports `Zero tests ran` with exit code 1; on SDK 11.0.100 `dotnet test`
+itself exits with 5. Options that `dotnet test` itself
 does not know are forwarded to each test application. Put them after a literal
 `--` when you want that to be explicit:
 
@@ -135,7 +144,9 @@ dotnet test --results-directory TestResults -- --report-trx --maximum-failed-tes
 
 `--maximum-failed-tests` stops the run after that many failures and exits with
 code 13. `--minimum-expected-tests` before `--` applies to the whole run (since
-SDK 10.0.100); after `--` it applies to each test module.
+SDK 10.0.100); after `--` it applies to each test module. The `dotnet test`
+reference also lists run-level `--maximum-failed-tests` and `--timeout` options,
+placed before `--`, starting with the .NET 11 SDK and MTP 2.4.
 
 ### The test project is an executable
 

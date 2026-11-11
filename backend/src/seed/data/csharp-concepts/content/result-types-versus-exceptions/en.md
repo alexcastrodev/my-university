@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -197,11 +197,22 @@ result keeps expected failures out of the exception path and visible in the
 use case signature (`clean-architecture-in-four-projects` uses a per-use-case
 result with a status enum, a lighter variant of the same idea).
 
-The switch above needs the `_` arm. C# has no closed union type yet: even an
+The switch above needs the `_` arm. Up to C# 14 there is no closed union type: even an
 abstract record with a private constructor and two sealed nested records gives
 CS8509 ("The switch expression does not handle all possible values of its
 input type") when both subtypes are matched, because the compiler does not
 treat the hierarchy as closed.
+
+C# 15 (.NET 11 SDK, default for `net11.0`) adds `union` declarations and
+`closed` classes. On SDK 11.0.100, `union Pet(Cat, Dog, Bird)` switched with one
+arm per case type compiled with no `_` arm, and leaving `Bird` out gave CS8509
+("the pattern 'Bird' is not covered"). Two things measured there matter for a
+result type: the union is a struct whose `default` holds `null`, so
+`default(Pet)` reaching that switch threw `SwitchExpressionException` unless a
+`null` arm handled it, and a value-type case is boxed (`union IntOrString(int,
+string)` stores the `int` in `object? Value`). Targeting `net10.0` or earlier,
+the declaration fails with CS0518 because
+`System.Runtime.CompilerServices.IUnion` ships in the .NET 11 runtime.
 
 ### OneOf and ErrorOr
 

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -77,6 +77,15 @@ builder.Services.Configure<HostOptions>(o =>
     o.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore);
 // Restores the old behavior: the failure is logged and the host keeps running without the service.
 ```
+
+In .NET 11 the failure also reaches the caller. With `StopHost`, `await host.RunAsync()` on a host whose service throws from `ExecuteAsync`:
+
+```text
+.NET 10: RunAsync completed normally
+.NET 11: RunAsync threw InvalidOperationException: boom in ExecuteAsync
+```
+
+So an unhandled exception in `Program.cs` now ends the process with a non-zero exit code, which is what an orchestrator needs to see.
 
 ### Scoped services from a singleton
 

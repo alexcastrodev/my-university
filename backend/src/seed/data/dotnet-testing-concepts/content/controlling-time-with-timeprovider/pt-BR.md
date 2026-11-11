@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 title: "Controlando o Tempo nos Testes com TimeProvider e FakeTimeProvider"
 summary: Injete TimeProvider onde o tempo é lido, teste cada limite exatamente na fronteira, e conduza timers, Task.Delay, deadlines e PeriodicTimer com FakeTimeProvider, sem dormir.
 ---
@@ -75,7 +75,7 @@ a 1.0, está obsoleto desde o ASP.NET Core 8: as classes de options agora têm u
 ### FakeTimeProvider: um relógio que anda quando você manda
 
 ```xml
-<PackageReference Include="MSTest" Version="4.5.1" />
+<PackageReference Include="MSTest" Version="4.5.2" />
 <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.11.0" />
 ```
 

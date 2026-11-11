@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-11
 title: "Hosted Services e BackgroundService"
 summary: IHostedService vs BackgroundService, exceção que derruba o host, IServiceScopeFactory dentro de singleton, PeriodicTimer e graceful shutdown.
 ---
@@ -80,6 +80,15 @@ builder.Services.Configure<HostOptions>(o =>
     o.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore);
 // Restaura o comportamento antigo: a falha é registrada e o host segue rodando sem o serviço.
 ```
+
+No .NET 11 a falha também chega a quem chamou. Com `StopHost`, `await host.RunAsync()` num host cujo serviço lança no `ExecuteAsync`:
+
+```text
+.NET 10: RunAsync terminou normalmente
+.NET 11: RunAsync lançou InvalidOperationException: boom in ExecuteAsync
+```
+
+Assim, uma exceção não tratada no `Program.cs` agora encerra o processo com código de saída diferente de zero, que é o que um orquestrador precisa ver.
 
 ### Serviços scoped a partir de um singleton
 

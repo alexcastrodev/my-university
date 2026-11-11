@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -217,9 +217,16 @@ the docs say "is in preview in C# 15 and .NET 11", makes declaring pointers,
 `*p`, `->`, `p[i]`, function pointer calls and fixed-buffer indexing still need
 `unsafe`. An `unsafe` member becomes *requires-unsafe*: callers need an
 `unsafe` context, so the audit duty propagates until a method validates its
-inputs behind a safe signature. It is a preview: it needs the .NET 11 SDK,
-`LangVersion` `preview` and a separate opt-in for the new rules, the details can
-still change, and none of it was compiled here.
+inputs behind a safe signature. It is still a preview in the released .NET 11, with two
+separate opt-ins. On SDK 11.0.100, `LangVersion` `preview` alone enabled the
+relaxations: `int* p = &n;` and a `fixed` statement compiled in safe code
+without `AllowUnsafeBlocks`, and `*p` was error CS9360 ("This operation may only
+be used in an unsafe context"); with the default C# 15 the same pointer is
+still CS0214. Adding
+`<Features>$(Features);updated-memory-safety-rules</Features>` enabled the
+caller rules: calling an `unsafe` method from safe code was CS9362, an `extern`
+method had to be marked `unsafe` or `safe` (CS9389), and the compiled module
+carried `MemorySafetyRulesAttribute(2)`. The details can still change.
 
 ## Trade-offs
 

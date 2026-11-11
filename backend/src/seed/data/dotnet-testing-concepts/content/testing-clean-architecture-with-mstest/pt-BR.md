@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-07
+version: 1.1
+updatedAt: 2026-11-11
 title: "Testando Clean Architecture com MSTest"
 summary: Um projeto MSTest por camada: tabelas de domínio com DataRow, casos de uso contra uma porta fake, o contrato HTTP com WebApplicationFactory e um teste para a própria regra de dependência.
 ---
@@ -47,7 +47,7 @@ projeto não tem referência a eles. O csproj do menor deles é o setup inteiro:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="MSTest" Version="4.4.1" />
+  <PackageReference Include="MSTest" Version="4.5.2" />
 </ItemGroup>
 <ItemGroup>
   <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />

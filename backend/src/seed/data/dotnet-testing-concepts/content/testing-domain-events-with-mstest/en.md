@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-07
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -44,8 +44,8 @@ The project is one test project next to the module, with four test classes:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="MSTest" Version="4.4.1" />
-  <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.10.0" />
+  <PackageReference Include="MSTest" Version="4.5.2" />
+  <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.11.0" />
 </ItemGroup>
 <ItemGroup>
   <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-11
 title: "OpenTelemetry: logs, métricas e traces"
 summary: ILogger, Meter e ActivitySource como as três APIs do framework, o que o ASP.NET Core já emite sozinho, o que o SDK e os pacotes de instrumentação acrescentam, propagação de contexto, limite de cardinalidade de métricas, buckets de histograma, amostragem, resource e o caminho que o exportador OTLP realmente usa, com o resultado medido de cada experimento.
 ---
@@ -137,6 +137,14 @@ only AddSource:
 ```
 
 O span de cliente foi idêntico, mas o de servidor chegou com o nome cru da operação e sem tags. O pacote do ASP.NET Core nomeia o span pela rota e preenche os atributos das convenções semânticas (`http.route`, código de status), que é o que os dashboards usam para agrupar. Para métricas não houve diferença no resultado: os dois hosts exportaram `http.server.request.duration`, `kestrel.active_connections`, `http.client.request.duration` e o conjunto `dotnet.*` do runtime, porque os meters do framework já os publicam e os pacotes servem principalmente para habilitar os nomes de meter certos.
+
+Essa diferença acabou no .NET 11. No 11.0.0, um `ActivityListener` simples na source `Microsoft.AspNetCore`, sem nenhum pacote do OpenTelemetry, recebeu a activity de servidor já nomeada pela rota e com as tags:
+
+```text
+GET /hello | tags: client.address, network.peer.address, network.peer.port, server.address, server.port, http.request.method=GET, url.scheme=http, url.path=/hello, http.response.status_code=200, network.protocol.version=1.1, http.route=/hello
+```
+
+A [página de breaking change](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/http-activity-otel-semconv) diz que esse é o novo padrão, que `Activity.StatusDescription` deixa de ser preenchido em exceções não tratadas e que o switch `Microsoft.AspNetCore.Hosting.SuppressActivityOpenTelemetryData` restaura o comportamento antigo. Se o framework e um pacote de instrumentação antigo adicionarem as mesmas tags, a página manda atualizar o pacote.
 
 ### Um trace atravessando os saltos
 

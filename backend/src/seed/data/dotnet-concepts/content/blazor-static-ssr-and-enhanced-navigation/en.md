@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -46,6 +46,15 @@ the output is HTML. `UseAntiforgery()` is part of the pipeline because forms are
 a first-class feature here, and the template places it right before the
 endpoints. Events like `@onclick`
 do nothing on a static page, because nothing is listening in the browser.
+
+The .NET 11 template is different: `dotnet new blazor -int None` on SDK 11.0.100
+no longer writes `app.UseAntiforgery()`. Per the
+[breaking change page](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/blazor-server-side-rendering-deferred-cross-site-request-forgery-protection),
+`WebApplication.CreateBuilder` now injects a CSRF middleware that judges
+requests by the `Sec-Fetch-Site` and `Origin` headers, static SSR endpoints
+trust that verdict, and antiforgery tokens are generated only when
+`UseAntiforgery()` is in the pipeline. Everything below about tokens describes
+an app that keeps the call, which still works the same way.
 
 ### Enhanced navigation
 

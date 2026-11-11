@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 title: "Testes de integração no ASP.NET Core com WebApplicationFactory"
 summary: Suba a API real em memória com WebApplicationFactory e MSTest, troque só o que o teste não alcança, compartilhe um host por classe sem vazar estado e confira status, Location, ProblemDetails e redirects.
 ---
@@ -37,8 +37,8 @@ O projeto de teste referencia o projeto da API e um pacote:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="MSTest" Version="4.5.1" />
-  <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.13" />
+  <PackageReference Include="MSTest" Version="4.5.2" />
+  <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.15" />
 </ItemGroup>
 <ItemGroup>
   <ProjectReference Include="..\..\src\Orders.Api\Orders.Api.csproj" />
@@ -146,6 +146,24 @@ O mesmo override aparece no `IConfiguration` resolvido de `factory.Services`
 depois, então um endpoint que lê a configuração a cada request o enxergaria.
 Valores ligados com `IOptions<T>` também são lidos tarde. Um valor lido antes
 do `Build` precisa de `UseSetting` (ou de uma variável de ambiente).
+
+O .NET 11 traz uma terceira opção. O `WebApplicationFactory<T>` ganhou o override
+`ConfigureWebApplicationBuilder`, que roda assim que o
+`WebApplication.CreateBuilder` retorna, então uma fonte adicionada ali é vista
+pelo código acima de `builder.Build()`:
+
+```csharp
+protected override void ConfigureWebApplicationBuilder(IHostApplicationBuilder builder)
+{
+    builder.Configuration.AddInMemoryCollection(
+        new Dictionary<string, string?> { ["Orders:MaxQuantity"] = "1" });
+    base.ConfigureWebApplicationBuilder(builder);
+}
+```
+
+Com `Microsoft.AspNetCore.Mvc.Testing` 11.0.0 em `net11.0`, uma factory com esse
+override fez o mesmo POST de 2 unidades voltar 400: o limite 1 chegou ao
+`OrderRules`. No .NET 10 o método não existe, e o caminho é o `UseSetting`.
 
 A armadilha está na asserção, não só no override. Com limite 3 e um
 `appsettings.json` com limite 10, um teste que pede 50 unidades recebe 400 com

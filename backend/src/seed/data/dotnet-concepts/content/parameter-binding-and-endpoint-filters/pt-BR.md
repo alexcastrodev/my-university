@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 title: "Binding de Parâmetros e Endpoint Filters"
 summary: A ordem em que o framework decide de onde vem cada parâmetro, códigos de falha, [AsParameters], TryParse e BindAsync customizados, formulários com antiforgery e AddEndpointFilter.
 ---
@@ -160,6 +160,17 @@ um value type anulável vira `null` em vez de falha de parse. Confirmei que
 `DueDate=` resulta em `due=null` num record `TodoForm`, enquanto um parâmetro
 solto `[FromForm] DateOnly? due` ainda respondeu `400` para o mesmo valor vazio,
 então não generalize.
+
+No .NET 11 um endpoint com `[FromForm]` funciona sem `UseAntiforgery()`, porque o `WebApplication.CreateBuilder` adiciona uma checagem de CSRF baseada nos headers `Sec-Fetch-Site` e `Origin`. O mesmo post de formulário no 11.0.0, por header:
+
+```text
+                                      cross-site  same-origin  sem headers
+.NET 11, sem UseAntiforgery()             400         200          200
+.NET 11, UseAntiforgery(), sem token      400         400          400
+.NET 10, sem UseAntiforgery()             500 (InvalidOperationException: no anti-forgery middleware)
+```
+
+Com `UseAntiforgery()` quem decide é o token, como antes. Um endpoint JSON não é coberto pela checagem automática (um post JSON cross-site respondeu 200), e `.DisableAntiforgery()` a desliga para um endpoint.
 
 ### Endpoint filters: embrulhando o handler
 

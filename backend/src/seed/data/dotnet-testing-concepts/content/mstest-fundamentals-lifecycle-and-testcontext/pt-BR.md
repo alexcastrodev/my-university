@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 title: "Fundamentos do MSTest 4: ciclo de vida, TestContext e paralelismo"
 summary: Uma instância por teste, a ordem exata dos hooks provada por um teste, TestContext pelo construtor, Throws contra ThrowsExactly, e o que estado static faz com testes em paralelo, no MSTest 4 com .NET 10.
 ---
@@ -36,11 +36,11 @@ transforma uma suíte verde numa suíte instável. Tudo aqui mira o MSTest 4 no
 
 Um projeto de teste é uma referência de pacote. `MSTest` é um metapacote: o
 framework, o adapter que o `dotnet test` usa para achar os testes, o test SDK e
-os analyzers. A versão estável atual no NuGet é a 4.5.1:
+os analyzers. A versão estável atual no NuGet é a 4.5.2:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="MSTest" Version="4.5.1" />
+  <PackageReference Include="MSTest" Version="4.5.2" />
 </ItemGroup>
 <ItemGroup>
   <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />

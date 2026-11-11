@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -51,7 +51,7 @@ in the same test class: the log is a fake, the directory and the two senders are
 substitutes.
 
 ```xml
-<PackageReference Include="MSTest" Version="4.5.1" />
+<PackageReference Include="MSTest" Version="4.5.2" />
 <PackageReference Include="NSubstitute" Version="6.2.0" />
 <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" PrivateAssets="all" />
 ```

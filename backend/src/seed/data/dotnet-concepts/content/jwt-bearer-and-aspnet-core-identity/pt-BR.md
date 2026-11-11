@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-16
+version: 1.1
+updatedAt: 2026-11-11
 title: "Tokens JWT Bearer e ASP.NET Core Identity"
 summary: O que o handler JWT valida e o que deixa passar (clock skew de 5 minutos), por que as claims chegam com nomes estranhos, os tokens opacos do MapIdentityApi, o que refresh, logout e security stamp realmente revogam, passkeys no .NET 10 e onde o navegador deve guardar tokens.
 ---
@@ -177,6 +177,8 @@ biblioteca WebAuthn genérica. A lista de endpoints do `MapIdentityApi` acima
 não tem endpoints de passkey. Configure `IdentityPasskeyOptions.ServerDomain`
 ou garanta que os host headers sejam validados, porque senão o relying party ID
 sai do header `Host`.
+
+Uma mudança no .NET 11, segundo a [página de breaking change](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/passkey-signin-enforces-confirmation-lockout): o `PasskeySignInAsync` agora roda as mesmas checagens de pré-login de um login por senha, então uma conta bloqueada recebe `LockedOut` e um e-mail ou telefone não confirmado recebe `NotAllowed`. Antes, um passkey passava por cima do `RequireConfirmedEmail`.
 
 ### Onde o navegador deve guardar tokens
 

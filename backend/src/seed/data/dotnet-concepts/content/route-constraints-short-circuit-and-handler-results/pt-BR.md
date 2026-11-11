@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 title: "Route Constraints, Short-Circuit e Resultados de Handlers"
 summary: Constraints que decidem se a rota casa (404 versus 400), as armadilhas do regex, constraints customizadas, ShortCircuit e MapShortCircuit, e no que o retorno de um handler se transforma.
 ---
@@ -137,6 +137,12 @@ endpoint com `.RequireAuthorization().ShortCircuit()` respondeu `500` com
 `InvalidOperationException: Endpoint HTTP: GET /sc-auth contains authorization
 metadata, but this endpoint is marked with short circuit`. Use só em endpoints que
 não precisam de middleware transversal.
+
+O .NET 11 acrescenta uma forma em atributo do mesmo metadado. No 11.0.0:
+
+```csharp
+app.MapGet("/sc", [ShortCircuit(404)] () => "nunca");   // 404
+```
 
 ### No que o retorno de um handler se transforma
 

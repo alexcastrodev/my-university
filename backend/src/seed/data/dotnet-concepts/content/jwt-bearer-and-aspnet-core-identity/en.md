@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-16
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -171,6 +171,8 @@ authentication, not a general WebAuthn library. The `MapIdentityApi` endpoint
 list above has no passkey endpoints. Set `IdentityPasskeyOptions.ServerDomain`
 or make sure host headers are validated, because otherwise the relying party
 ID comes from the `Host` header.
+
+One change in .NET 11, per the [breaking change page](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/passkey-signin-enforces-confirmation-lockout): `PasskeySignInAsync` now runs the same pre-sign-in checks as a password sign-in, so a locked-out account gets `LockedOut` and an unconfirmed email or phone gets `NotAllowed`. Before, a passkey bypassed `RequireConfirmedEmail`.
 
 ### Where a browser should keep tokens
 

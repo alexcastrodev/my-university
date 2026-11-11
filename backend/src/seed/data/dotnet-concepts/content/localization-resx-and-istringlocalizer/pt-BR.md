@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-10-29
+version: 1.2
+updatedAt: 2026-11-11
 title: "Localização: resx e IStringLocalizer"
 summary: CurrentCulture versus CurrentUICulture, arquivos resx e satellite assemblies, a cadeia de fallback, a chave devolvida quando falta tradução, as regras de nome que falham em silêncio, UseRequestLocalization com query string, cookie e Accept-Language, mensagens de validação localizadas e o modo invariante de globalização, com a saída real de cada experimento.
 ---
@@ -203,7 +203,7 @@ MVC (en)               400 {... "errors":{"Name":["The name is required."]}}
 Minimal ?culture=pt-BR 400 {"title":"One or more validation errors occurred.","errors":{"Name":["NameRequired"]}}
 ```
 
-A mensagem foi localizada, mas o `title` do ProblemDetails continuou em inglês. No .NET 10 o validador de Minimal API imprimiu a chave crua; a documentação do ASP.NET Core coloca a localização das mensagens de validação de Minimal API (via `Microsoft.Extensions.Validation`) no ASP.NET Core 11.
+A mensagem foi localizada, mas o `title` do ProblemDetails continuou em inglês. No .NET 10 o validador de Minimal API imprimiu a chave crua; a documentação do ASP.NET Core coloca a localização das mensagens de validação de Minimal API (via `Microsoft.Extensions.Validation`) no ASP.NET Core 11. Confirmei no 11.0.0 com um `IStringLocalizer` de teste que prefixa `PT:`: com `AddLocalization()` e `AddValidation()`, `[Required(ErrorMessage = "NameRequired")]` voltou como `"Name":["PT:NameRequired"]`, ou seja, a chave agora passa pelo localizer. O `title` continuou em inglês.
 
 ### Globalização invariante, ICU e imagens chiseled
 

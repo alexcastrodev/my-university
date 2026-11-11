@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-07
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -43,7 +43,7 @@ no reference to them. The csproj of the smallest one is the whole setup:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="MSTest" Version="4.4.1" />
+  <PackageReference Include="MSTest" Version="4.5.2" />
 </ItemGroup>
 <ItemGroup>
   <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />

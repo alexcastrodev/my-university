@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -214,6 +214,13 @@ pending changes (`PendingModelChangesWarning`). In this suite every class
 migrates its database, so a drifted model turns all tests red, and this test
 tells you why in one line. `dotnet ef migrations has-pending-model-changes` does
 the same check in a CI step.
+
+EF Core 11 adds a second case. `Migrate()` on a context whose assembly has no
+migrations at all now throws `InvalidOperationException`
+(`RelationalEventId.MigrationsNotFound`, "No migrations were found in assembly
+..."). The same call returned normally on EF Core 10.0.15 (both checked on
+SQLite). A test context without migrations should call `EnsureCreated()`
+instead.
 
 ### Count the commands to catch N+1
 

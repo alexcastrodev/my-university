@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 title: "Test Doubles em .NET: Fakes, Stubs e NSubstitute"
 summary: Fake escrito à mão ou substituto do NSubstitute, o que um substituto não configurado devolve, o que não dá para substituir, e como Received, Arg.Any e valores default deixam um teste verde que não prova nada.
 ---
@@ -54,7 +54,7 @@ certo). O lab usa os dois na mesma classe de teste: o log é um fake, o diretór
 são substitutos do NSubstitute.
 
 ```xml
-<PackageReference Include="MSTest" Version="4.5.1" />
+<PackageReference Include="MSTest" Version="4.5.2" />
 <PackageReference Include="NSubstitute" Version="6.2.0" />
 <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" PrivateAssets="all" />
 ```

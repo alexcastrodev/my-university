@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 title: "Testando Componentes Blazor com bUnit e MSTest"
 summary: Renderize componentes Blazor em memória com bUnit 2 dentro do MSTest, teste parâmetros, formulários, serviços fake, JSInterop estrito, cascading values, autorização e renderização assíncrona, e evite os testes que passam pelo motivo errado.
 ---
@@ -33,14 +33,14 @@ que o bUnit simplesmente não testa.
 
 ### O pacote e o contexto
 
-O bUnit atual é o 2.11.3, um único pacote `bunit` com target `net10.0`. Ele não
+O bUnit atual é o 2.15.2, um único pacote `bunit` com target `net10.0`. Ele não
 depende de framework de teste, então fica ao lado do MSTest num projeto de teste
 comum:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="MSTest" Version="4.5.1" />
-  <PackageReference Include="bunit" Version="2.11.3" />
+  <PackageReference Include="MSTest" Version="4.5.2" />
+  <PackageReference Include="bunit" Version="2.15.2" />
 </ItemGroup>
 <ItemGroup>
   <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 title: "Testando queries, concorrência e migrations do EF Core"
 summary: Em PostgreSQL de verdade, teste a tradução de queries, query filters nomeados, concorrência otimista com xmin, violação de unique como erro de domínio, migrations e drift de modelo, e conte comandos SQL para pegar N+1.
 ---
@@ -222,6 +222,13 @@ classe migra o seu banco, então um modelo com drift deixa todos os testes
 vermelhos, e este teste diz o motivo numa linha. O
 `dotnet ef migrations has-pending-model-changes` faz a mesma checagem num passo
 de CI.
+
+O EF Core 11 acrescenta um segundo caso. `Migrate()` num contexto cujo assembly
+não tem nenhuma migration agora lança `InvalidOperationException`
+(`RelationalEventId.MigrationsNotFound`, "No migrations were found in assembly
+..."). A mesma chamada retornava normalmente no EF Core 10.0.15 (os dois
+conferidos no SQLite). Um contexto de teste sem migrations deve chamar
+`EnsureCreated()` no lugar.
 
 ### Conte os comandos para pegar N+1
 

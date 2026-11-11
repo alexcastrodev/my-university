@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-16
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -75,6 +75,8 @@ webapp    AddRazorPages + MapRazorPages
 blazor    AddRazorComponents + MapRazorComponents<App> + UseAntiforgery
 grpc      AddGrpc + MapGrpcService<GreeterService>
 ```
+
+That list comes from the .NET 10 templates. The .NET 11 `blazor` template (SDK 11.0.100) no longer calls `UseAntiforgery`; see `blazor-static-ssr-and-enhanced-navigation`.
 
 Exception handling, HSTS, HTTPS redirection, `MapStaticAssets` and
 authorization appear in the UI templates in the same order. Learning the
