@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 title: "Extension members e extension blocks (C# 14)"
 summary: Os blocos extension(Tipo receptor) do C# 14 com métodos e propriedades de instância, métodos e propriedades estáticos e operadores, blocos genéricos, receptores null e ref, o que o compilador emite (tipos de agrupamento e marcadores lidos com ilspy), teste de compatibilidade binária com a sintaxe this, ambiguidade e como resolvê-la, e o que não é permitido com os erros reais do compilador.
 ---
@@ -229,8 +229,12 @@ Membros de extensão não têm armazenamento. No C# 14 estes foram rejeitados
 | membro `virtual` | error CS0106: The modifier 'virtual' is not valid for this item |
 | membro de instância com receptor sem nome | error CS9303: cannot declare instance members in an extension block with an unnamed receiver parameter |
 
-A referência oficial coloca extension indexers como novidade do C# 15, o que
-bate com o CS9282 acima. Se você precisa de estado por objeto, o
+Indexers saíram dessa lista no C# 15 (SDK do .NET 11). No SDK 11.0.100,
+`public int this[int index] => sequence.ElementAt(index);` dentro de
+`extension(IEnumerable<int> sequence)` fez `numbers[2]` devolver `3`; com
+`LangVersion` 14 o mesmo código dá error CS9327 ("Feature 'extension indexers'
+is not available in C# 14.0"). O receptor precisa ter nome, e um indexer que o
+tipo já declara vence o de extensão. Se você precisa de estado por objeto, o
 `ConditionalWeakTable<TKey, TValue>` da BCL consegue anexá-lo sem manter os
 objetos vivos, mas uma propriedade que esconde uma busca numa tabela
 surpreende quem lê. Dois detalhes de versão: com `LangVersion` 13 um bloco nem

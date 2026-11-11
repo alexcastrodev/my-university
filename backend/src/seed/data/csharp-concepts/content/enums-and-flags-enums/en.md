@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -187,7 +187,9 @@ many places is the smell that the members want to be types. Two alternatives:
   bool IsFinal)` with `public static readonly OrderStatus Paid = ...`) when each
   value carries data or rules. You lose `switch` on constants and `[Flags]`, and
   gain a closed, validated set.
-- **A closed hierarchy** of records when each case has different data.
+- **A closed hierarchy** of records when each case has different data. C# 15
+  lets the compiler check it, with `closed` classes and `union` types; there is
+  no `closed enum` (CS0106 on SDK 11.0.100).
 
 ## Trade-offs
 

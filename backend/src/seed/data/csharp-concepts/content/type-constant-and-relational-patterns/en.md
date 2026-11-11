@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -136,9 +136,11 @@ Name((Color)42);
 
 Class hierarchies get no help in C# 14. Even with an `abstract` base and two
 `sealed` subclasses, both handled, the compiler still reports CS8509 with the
-pattern `'_'`, because another assembly could add a subclass. The documentation
-for C# 15, which is still in preview, describes `closed` classes that change
-this; in C# 14 you need a discard arm. A `bool` switch with `true` and `false`
+pattern `'_'`, because another assembly could add a subclass. C# 15, the
+default for `net11.0` with the .NET 11 SDK, adds `closed` classes that change
+this: with `closed class Shape` in place of `abstract`, the same switch compiled
+with no warning on SDK 11.0.100, and a class in another assembly that derives
+from `Shape` is error CS9382. In C# 14 you need a discard arm. A `bool` switch with `true` and `false`
 arms, on the other hand, is exhaustive and compiles silently.
 
 ### Subsumption: arms that can never run

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -104,7 +104,9 @@ class Prefixed : ILogger
 Three things surprise people. First, the default is not inherited as a class
 member: `new Plain().Info("x")` fails with CS1061, so you must call it through
 the interface. Second, default bodies need runtime support that arrived in
-.NET Core 3.0, which is why .NET Framework cannot use them. Third, the main
+.NET Core 3.0, which is why .NET Framework cannot use them (C# 15 relaxes one
+case: with SDK 11.0.100 a non-virtual `static` member with a body compiled for
+`netstandard2.0`, while an instance default body there is still CS8701). Third, the main
 motivation is versioning: the Framework Design Guidelines still say not to add
 members to a shipped interface, and a default body is what makes adding one
 non-breaking for existing implementers.

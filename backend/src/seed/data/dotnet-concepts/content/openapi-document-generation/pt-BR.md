@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 title: "Geração de Documentos OpenAPI no ASP.NET Core 10"
 summary: AddOpenApi e MapOpenApi, OpenAPI 3.1 por padrão no .NET 10, comentários XML e Description nos Produces, transformers, múltiplos documentos e geração em build, com a saída real do gerador.
 ---
@@ -168,9 +168,35 @@ O cabeçalho do documento virou `3.0.4`. Fique no 3.0 só quando algum consumido
 da sua cadeia não lê 3.1. A atualização também aparece no código dos
 transformers: o gerador migrou para `Microsoft.OpenApi` 2.x, onde `OpenApiAny`
 deixou de existir e os valores de extensão são `JsonNode`. A documentação diz que
-essas mudanças valem mesmo se você ficar no 3.0. Para registrar: a mesma página
-diz que o .NET 11 muda o padrão para 3.2, então fixe `OpenApiVersion` se algum
-consumidor depende de uma versão.
+essas mudanças valem mesmo se você ficar no 3.0. Esse padrão mudou de novo no .NET 11, então fixe
+`OpenApiVersion` se algum consumidor depende de uma versão.
+
+### 3.2 no .NET 11
+
+Com o pacote 11.0.0 e sem opções, o `AddOpenApi()` escreveu `"openapi": "3.2.0"`.
+`OpenApi3_1` deu `3.1.2` e `OpenApi3_0` continuou dando `3.0.4`. Dois endpoints
+mostraram a diferença na minha execução: um mapeado com
+`MapMethods("/search", ["QUERY"], ...)` e um que devolve
+`TypedResults.ServerSentEvents` com `SseItem<T>`:
+
+```text
+default (3.2.0):  "/search": { "query": { ... } }                       "text/event-stream": { "itemSchema": { ... } }
+OpenApi3_1 (3.1.2): "/search": { "x-oai-additionalOperations": ... }    "text/event-stream": { "x-oai-itemSchema": { ... } }
+OpenApi3_0 (3.0.4): igual ao 3.1 nesses dois
+```
+
+Mais três coisas mudaram na mesma execução. `[Obsolete]` no handler produziu
+`"deprecated": true` sem transformer. Duas chamadas `.Produces<T>(200, ...)`
+com content types diferentes apareceram as duas em `200` (antes a última
+vencia). E o pacote agora depende do `Microsoft.OpenApi` 3.x: o nuspec da 11.0.0
+pede `[3.11.0, 4.0.0)`, então um projeto que fixou a 2.x falha no restore:
+
+```text
+error NU1605: Warning As Error: Detected package downgrade: Microsoft.OpenApi from 3.11.0 to 2.7.5.
+```
+
+Nem toda ferramenta lê 3.2 ainda, então fixar `OpenApi3_1` é um padrão razoável
+enquanto seus geradores não acompanham.
 
 ### Transformers
 
@@ -260,13 +286,13 @@ roda. Proteja esse código (a documentação compara
   nomeados. Em geral é uma boa estrutura de qualquer forma, mas é uma restrição.
 - **O 3.1 é a spec melhor, e o padrão pode mudar debaixo de você.** Uma
   ferramenta da sua cadeia pode só entender 3.0, e a documentação diz que o
-  padrão muda de novo no .NET 11. Defina `OpenApiVersion` explicitamente quando
+  padrão mudou de novo no .NET 11 (para 3.2). Defina `OpenApiVersion` explicitamente quando
   algum consumidor importar.
   ```csharp
   options.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0; // fixe no que seus consumidores leem
   ```
 - **Transformers são poderosos e presos à versão da biblioteca.** A migração para
-  `Microsoft.OpenApi` 2.x quebrou código de transformer escrito para o .NET 9.
+  `Microsoft.OpenApi` 2.x quebrou código de transformer escrito para o .NET 9, e o .NET 11 passa para a 3.x.
   Mantenha-os pequenos e cobertos por um teste que compara o documento gerado.
 - **O schema espelha o serializador, não a sua intenção.** O tratamento de número
   vindo de string, as regras de construtor de record e o `required` seguem o

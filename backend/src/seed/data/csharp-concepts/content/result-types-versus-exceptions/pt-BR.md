@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 title: "Result Types versus Exceções"
 summary: Quando lançar exceção, quando usar Try e quando retornar um Result, a partir do tipo de falha; um Result<T> mínimo com as armadilhas de quem escreve o próprio (default como sucesso), composição com Bind, custo medido, tradução para ProblemDetails no HTTP e como ficam OneOf e ErrorOr.
 ---
@@ -205,11 +205,22 @@ visíveis na assinatura do caso de uso (`clean-architecture-in-four-projects`
 usa um result por caso de uso com um enum de status, uma variante mais leve da
 mesma ideia).
 
-O switch acima precisa do braço `_`. O C# ainda não tem tipo união fechado:
+O switch acima precisa do braço `_`. Até o C# 14 não há tipo união fechado:
 até um record abstrato com construtor privado e dois records selados aninhados
 dá CS8509 ("The switch expression does not handle all possible values of its
 input type") quando os dois subtipos são tratados, porque o compilador não
 considera a hierarquia fechada.
+
+O C# 15 (SDK do .NET 11, padrão do `net11.0`) traz declarações `union` e
+classes `closed`. No SDK 11.0.100, `union Pet(Cat, Dog, Bird)` com um braço por
+case type compilou sem o braço `_`, e deixar `Bird` de fora deu CS8509 ("the
+pattern 'Bird' is not covered"). Duas coisas medidas ali importam para um tipo
+de resultado: a union é uma struct cujo `default` guarda `null`, então
+`default(Pet)` chegando nesse switch lançou `SwitchExpressionException` quando
+não havia braço `null`, e um case de tipo valor sofre boxing (`union
+IntOrString(int, string)` guarda o `int` em `object? Value`). Com alvo `net10.0`
+ou anterior, a declaração falha com CS0518 porque
+`System.Runtime.CompilerServices.IUnion` vem no runtime do .NET 11.
 
 ### OneOf e ErrorOr
 

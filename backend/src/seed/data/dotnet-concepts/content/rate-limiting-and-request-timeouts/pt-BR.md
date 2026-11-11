@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-11
 title: "Rate limiting e timeouts de requisição"
 summary: Os middlewares de rate limiting e de request timeouts do ASP.NET Core medidos com rajadas reais: os quatro algoritmos, o 503 padrão, 429 com Retry-After, filas, políticas global e nomeadas, partições e o risco de DoS, o caso do proxy reverso, métricas e o que o cliente vê quando o tempo estoura.
 ---
@@ -69,6 +69,16 @@ Esgotei uma política por algoritmo (2 permissões, janela ou reposição de 10 
 ```
 
 A janela fixa respondeu 10 segundos embora restassem cerca de 7: no 10.0.0 ela informa uma janela inteira (a documentação descreve um valor baseado na próxima fronteira só para o ASP.NET Core 11, e o pacote 10.0.14 se comportou igual num teste em console). A janela deslizante lista `RETRY_AFTER` em `MetadataNames`, mas `TryGetMetadata` devolveu false. O limitador de concorrência não tem dica nenhuma, como diz a documentação. Trate a ausência da dica como algo normal.
+
+O mesmo teste no .NET 11 (11.0.0):
+
+```text
+/fixed 3 s into window: 429 Retry-After metadata=7 s
+/sliding 3 s into window: 429 Retry-After metadata=7 s
+/token 3 s into window: 429 Retry-After metadata=10 s
+```
+
+A janela fixa agora informa o tempo que falta até a próxima fronteira, e a janela deslizante devolveu o metadado que antes só listava. O token bucket continuou respondendo um período inteiro de reposição.
 
 ### Janela fixa vs janela deslizante na fronteira
 

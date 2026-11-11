@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -72,7 +72,7 @@ obsolete since ASP.NET Core 8: the options classes now have a `TimeProvider` pro
 ### FakeTimeProvider: a clock that moves when you say so
 
 ```xml
-<PackageReference Include="MSTest" Version="4.5.1" />
+<PackageReference Include="MSTest" Version="4.5.2" />
 <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.11.0" />
 ```
 

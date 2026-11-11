@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-07
+version: 1.1
+updatedAt: 2026-11-11
 title: "Testando Domain Events com MSTest"
 summary: Teste o aggregate sem infraestrutura, o interceptor do SaveChanges e o outbox em SQLite na memória, e um consumidor idempotente, com MSTest 4, fakes escritos à mão e uma checagem por mutação.
 ---
@@ -45,8 +45,8 @@ O projeto é um projeto de teste ao lado do módulo, com quatro classes de teste
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="MSTest" Version="4.4.1" />
-  <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.10.0" />
+  <PackageReference Include="MSTest" Version="4.5.2" />
+  <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.11.0" />
 </ItemGroup>
 <ItemGroup>
   <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />

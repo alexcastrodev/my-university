@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -35,8 +35,8 @@ The test project references the API project and one package:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="MSTest" Version="4.5.1" />
-  <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.13" />
+  <PackageReference Include="MSTest" Version="4.5.2" />
+  <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.15" />
 </ItemGroup>
 <ItemGroup>
   <ProjectReference Include="..\..\src\Orders.Api\Orders.Api.csproj" />
@@ -142,6 +142,24 @@ The same override is visible in `IConfiguration` resolved from
 `factory.Services` afterwards, so an endpoint that reads configuration per
 request would see it. Values bound with `IOptions<T>` are read late too. A
 value read before `Build` needs `UseSetting` (or an environment variable).
+
+.NET 11 adds a third option. `WebApplicationFactory<T>` has a new
+`ConfigureWebApplicationBuilder` override that runs as soon as
+`WebApplication.CreateBuilder` returns, so a source added there is visible to
+code above `builder.Build()`:
+
+```csharp
+protected override void ConfigureWebApplicationBuilder(IHostApplicationBuilder builder)
+{
+    builder.Configuration.AddInMemoryCollection(
+        new Dictionary<string, string?> { ["Orders:MaxQuantity"] = "1" });
+    base.ConfigureWebApplicationBuilder(builder);
+}
+```
+
+With `Microsoft.AspNetCore.Mvc.Testing` 11.0.0 on `net11.0`, a factory with this
+override made the same POST of 2 units come back as a 400: the limit of 1 reached
+`OrderRules`. On .NET 10 the method does not exist, and `UseSetting` is the way.
 
 The trap is in the assertion, not only in the override. With a limit of 3 and
 an `appsettings.json` limit of 10, a test that orders 50 units gets a 400 with

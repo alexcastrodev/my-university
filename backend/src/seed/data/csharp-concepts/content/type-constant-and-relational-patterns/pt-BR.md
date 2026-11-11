@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 title: "Pattern Matching: Patterns de Tipo, Constante e Relacionais, e switch Expressions"
 summary: O catálogo de patterns (tipo, declaração, constante, relacional, and/or/not, var, descarte), guardas when, exaustividade e subsunção com as mensagens reais do compilador, e o que o compilador gera.
 ---
@@ -137,9 +137,11 @@ Name((Color)42);
 
 Hierarquias de classes não ganham ajuda no C# 14. Mesmo com uma base `abstract`
 e duas subclasses `sealed`, ambas tratadas, o compilador ainda reporta CS8509
-com o pattern `'_'`, porque outro assembly poderia acrescentar uma subclasse. A
-documentação do C# 15, ainda em preview, descreve classes `closed` que mudam
-isso; no C# 14 você precisa de um braço de descarte. Já um `switch` sobre `bool`
+com o pattern `'_'`, porque outro assembly poderia acrescentar uma subclasse. O
+C# 15, padrão do `net11.0` com o SDK do .NET 11, traz classes `closed` que mudam
+isso: com `closed class Shape` no lugar de `abstract`, o mesmo switch compilou
+sem aviso no SDK 11.0.100, e uma classe de outro assembly que derive de `Shape`
+dá error CS9382. No C# 14 você precisa de um braço de descarte. Já um `switch` sobre `bool`
 com braços `true` e `false` é exaustivo e compila sem aviso.
 
 ### Subsunção: braços que nunca rodam

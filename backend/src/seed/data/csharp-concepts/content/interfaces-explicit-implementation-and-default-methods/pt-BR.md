@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 title: "Interfaces: implementação explícita e métodos padrão"
 summary: Implementação implícita versus explícita e quando a explícita é obrigatória, default interface methods (C# 8) e o diamante, membros static abstract e static virtual (C# 11) como introdução, e o trio IComparable, IComparer e IEquatable.
 ---
@@ -106,7 +106,9 @@ class Prefixed : ILogger
 Três coisas surpreendem. Primeiro, o padrão não é herdado como membro da classe:
 `new Plain().Info("x")` falha com CS1061, então a chamada tem que passar pela
 interface. Segundo, corpos padrão dependem de suporte do runtime que chegou no
-.NET Core 3.0, e por isso o .NET Framework não pode usá-los. Terceiro, a
+.NET Core 3.0, e por isso o .NET Framework não pode usá-los (o C# 15 afrouxa um
+caso: com o SDK 11.0.100 um membro `static` não virtual com corpo compilou para
+`netstandard2.0`, enquanto um corpo padrão de instância ali continua CS8701). Terceiro, a
 motivação principal é versionamento: as Framework Design Guidelines ainda dizem
 para não adicionar membros a uma interface publicada, e é o corpo padrão que
 torna essa adição segura para quem já implementa.

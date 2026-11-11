@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -33,11 +33,11 @@ MSTest 4 on .NET 10.
 
 A test project is one package reference. `MSTest` is a metapackage: the
 framework, the adapter that `dotnet test` uses to find the tests, the test SDK
-and the analyzers. The current stable version on NuGet is 4.5.1:
+and the analyzers. The current stable version on NuGet is 4.5.2:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="MSTest" Version="4.5.1" />
+  <PackageReference Include="MSTest" Version="4.5.2" />
 </ItemGroup>
 <ItemGroup>
   <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-18
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -30,13 +30,13 @@ selecting by CSS class), and knowing what bUnit cannot test at all.
 
 ### The package and the context
 
-The current bUnit is 2.11.3, one `bunit` package with a `net10.0` target. It is
+The current bUnit is 2.15.2, one `bunit` package with a `net10.0` target. It is
 test-framework agnostic, so it sits next to MSTest in an ordinary test project:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="MSTest" Version="4.5.1" />
-  <PackageReference Include="bunit" Version="2.11.3" />
+  <PackageReference Include="MSTest" Version="4.5.2" />
+  <PackageReference Include="bunit" Version="2.15.2" />
 </ItemGroup>
 <ItemGroup>
   <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />

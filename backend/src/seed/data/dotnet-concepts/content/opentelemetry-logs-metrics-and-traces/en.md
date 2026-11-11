@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -135,6 +135,14 @@ only AddSource:
 ```
 
 The client span was identical, but the server span arrived with the raw operation name and no tags. The ASP.NET Core package names the span after the route and fills in the semantic-convention attributes (`http.route`, status code), which is what dashboards group by. For metrics there was no difference in the result: both hosts exported `http.server.request.duration`, `kestrel.active_connections`, `http.client.request.duration` and the `dotnet.*` runtime set, because the framework meters already publish them and the packages mainly enable the right meter names.
+
+That gap closed in .NET 11. On 11.0.0, a plain `ActivityListener` on the `Microsoft.AspNetCore` source, with no OpenTelemetry package at all, received the server activity already named after the route and tagged:
+
+```text
+GET /hello | tags: client.address, network.peer.address, network.peer.port, server.address, server.port, http.request.method=GET, url.scheme=http, url.path=/hello, http.response.status_code=200, network.protocol.version=1.1, http.route=/hello
+```
+
+The [breaking change page](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/http-activity-otel-semconv) says this is the new default, that `Activity.StatusDescription` is no longer set for unhandled exceptions, and that the `Microsoft.AspNetCore.Hosting.SuppressActivityOpenTelemetryData` switch restores the old behavior. If both the framework and an old instrumentation package add the tags, the page says to update the package.
 
 ### One trace across hops
 

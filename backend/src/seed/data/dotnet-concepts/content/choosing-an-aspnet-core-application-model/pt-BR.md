@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-16
+version: 1.1
+updatedAt: 2026-11-11
 title: "Escolhendo um Modelo de Aplicação no ASP.NET Core"
 summary: Minimal APIs, controllers, Razor Pages, MVC, Blazor, gRPC e SPA com API lado a lado, o que cada template do .NET 10 realmente gera, o que o host compartilha entre todos e onde os padrões de cada modelo ainda divergem, medido em requisições reais.
 ---
@@ -76,6 +76,8 @@ webapp    AddRazorPages + MapRazorPages
 blazor    AddRazorComponents + MapRazorComponents<App> + UseAntiforgery
 grpc      AddGrpc + MapGrpcService<GreeterService>
 ```
+
+Essa lista vem dos templates do .NET 10. O template `blazor` do .NET 11 (SDK 11.0.100) não chama mais `UseAntiforgery`; veja `blazor-static-ssr-and-enhanced-navigation`.
 
 Tratamento de exceção, HSTS, redirecionamento para HTTPS, `MapStaticAssets` e
 autorização aparecem nos templates de UI na mesma ordem. Aprender o pipeline uma

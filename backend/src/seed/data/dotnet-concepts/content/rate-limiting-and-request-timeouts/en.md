@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -67,6 +67,16 @@ I exhausted one policy per algorithm (2 permits, 10 s window or replenishment), 
 ```
 
 The fixed window answered 10 seconds although about 7 were left: on 10.0.0 it reports a full window (the docs describe a boundary-based value only for ASP.NET Core 11, and the 10.0.14 package behaved the same in a console test). The sliding window lists `RETRY_AFTER` in `MetadataNames`, yet `TryGetMetadata` returned false. The concurrency limiter has no hint at all, as the docs say. Treat a missing hint as normal.
+
+The same test on .NET 11 (11.0.0):
+
+```text
+/fixed 3 s into window: 429 Retry-After metadata=7 s
+/sliding 3 s into window: 429 Retry-After metadata=7 s
+/token 3 s into window: 429 Retry-After metadata=10 s
+```
+
+The fixed window now reports the time left until the next window boundary, and the sliding window returned the metadata that it only listed before. The token bucket still answered a full replenishment period.
 
 ### Fixed window vs sliding window at the boundary
 

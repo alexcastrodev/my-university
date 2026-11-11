@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-14
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -37,6 +37,7 @@ designed with. This is easy to observe with the same source file:
 <TargetFramework>net8.0</TargetFramework>  <!-- default C# 12 -->
 <TargetFramework>net9.0</TargetFramework>  <!-- default C# 13 -->
 <TargetFramework>net10.0</TargetFramework> <!-- default C# 14 -->
+<TargetFramework>net11.0</TargetFramework> <!-- default C# 15 (.NET 11 SDK) -->
 ```
 
 Asking MSBuild for the property on a `net8.0` project with the 10.0.100 SDK
@@ -68,7 +69,8 @@ major version this compiler supports, ignoring the target framework),
 rules matter in practice:
 
 - The value is capped by the compiler. With the 10.0.100 SDK, setting `LangVersion` to `15` fails with `CS1617: Invalid option '15'`, and a .NET 9 SDK
-  (9.0.307) rejects `14` the same way. A newer language needs a newer SDK.
+  (9.0.307) rejects `14` the same way. The .NET 11 SDK (11.0.100) accepts `15`
+  and rejects `16` with the same CS1617. A newer language needs a newer SDK.
 - `latest` and `default` are machine-dependent. The documentation warns against
   `latest` because two machines with different SDKs build different languages.
   Pin an explicit number if you must override, or better, pin the SDK with
@@ -138,6 +140,17 @@ You can also build with a newer SDK than the runtime you ship on: a project can
 target `net10.0` and use a newer compiler through `LangVersion`, as long as the
 features used are compiler-only, and the SDK is pinned in `global.json` so the
 team agrees on it.
+
+C# 15 on the .NET 11 SDK (11.0.100) repeats the pattern of the table above.
+With `LangVersion` 15 on `net8.0` and `net10.0`, extension indexers, labeled
+`break`/`continue` and `with(...)` collection arguments compiled, while a
+`union` declaration failed with CS0518 (`IUnion` is not defined) and a `closed`
+class with CS0656 (`IsClosedTypeAttribute` is missing): both need types that
+ship in the .NET 11 runtime. The same SDK also shows a third kind of opt-in,
+the compiler `Features` list. The memory safety preview needs `LangVersion`
+`preview` for its syntax (`safe` on an `extern` method is CS8652 without it)
+plus `<Features>$(Features);updated-memory-safety-rules</Features>` for the new
+caller rules.
 
 ### Standard versus implementation
 

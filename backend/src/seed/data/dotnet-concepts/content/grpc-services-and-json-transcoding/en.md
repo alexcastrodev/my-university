@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -234,7 +234,7 @@ The rich error broke transcoding until I registered its detail type in `AddJsonT
 
 ### OpenAPI, gRPC-Web and load balancing
 
-`Microsoft.AspNetCore.Grpc.Swagger` worked at first try: `AddGrpcSwagger()` plus `AddSwaggerGen()` and `UseSwagger()` produced `/swagger/v1/swagger.json` with `/v1/greeter/{name}`, `/v1/countdown/{from}`, `/v1/fail/{kind}` and `/v1/catalog/{count}`; the unbound `/v1/sum` was absent. It is still a 0.x package built on Swashbuckle. gRPC-Web (docs only): the docs explain that browsers do not fully support HTTP/2 the way gRPC needs it, so `Grpc.AspNetCore.Web` adds `app.UseGrpcWeb()` and `.EnableGrpcWeb()` on the service and the browser uses a gRPC-Web client with protobuf. The docs say gRPC-Web browser clients cannot call client streaming or bidirectional methods, and cross-origin calls need CORS exposing the gRPC headers. Load balancing (docs only): one channel multiplexes every call on one long-lived HTTP/2 connection (as measured above), and the docs explain the consequence: an L4 balancer distributes TCP connections, so all calls on that connection go to one endpoint, and Kubernetes uses that kind of network balancer by default. The docs offer two fixes: an L7 proxy that understands HTTP/2 (Envoy, Linkerd and similar), or client-side load balancing in `Grpc.Net.Client`, with a `dns:///` address resolving a Kubernetes headless service and a `round_robin` policy, which, the docs stress, only works when the channel is reused.
+`Microsoft.AspNetCore.Grpc.Swagger` worked at first try: `AddGrpcSwagger()` plus `AddSwaggerGen()` and `UseSwagger()` produced `/swagger/v1/swagger.json` with `/v1/greeter/{name}`, `/v1/countdown/{from}`, `/v1/fail/{kind}` and `/v1/catalog/{count}`; the unbound `/v1/sum` was absent. It is still a 0.x package built on Swashbuckle, and the ASP.NET Core 11 release notes list it as deprecated. gRPC-Web (docs only): the docs explain that browsers do not fully support HTTP/2 the way gRPC needs it, so `Grpc.AspNetCore.Web` adds `app.UseGrpcWeb()` and `.EnableGrpcWeb()` on the service and the browser uses a gRPC-Web client with protobuf. The docs say gRPC-Web browser clients cannot call client streaming or bidirectional methods, and cross-origin calls need CORS exposing the gRPC headers. Load balancing (docs only): one channel multiplexes every call on one long-lived HTTP/2 connection (as measured above), and the docs explain the consequence: an L4 balancer distributes TCP connections, so all calls on that connection go to one endpoint, and Kubernetes uses that kind of network balancer by default. The docs offer two fixes: an L7 proxy that understands HTTP/2 (Envoy, Linkerd and similar), or client-side load balancing in `Grpc.Net.Client`, with a `dns:///` address resolving a Kubernetes headless service and a `round_robin` policy, which, the docs stress, only works when the channel is reused.
 
 ## Trade-offs
 

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 title: "Enums e Flags Enums"
 summary: Um enum é um inteiro com nomes, não um conjunto fechado. Tipo subjacente e tamanho, o valor zero, [Flags] e as operações de bit, as armadilhas do HasFlag, validação de valores de fora, switch sobre enum, código genérico e quando trocar o enum por outra coisa.
 ---
@@ -193,6 +193,8 @@ tipos. Duas alternativas:
   quando cada valor carrega dados ou regras. Você perde `switch` sobre
   constantes e `[Flags]`, e ganha um conjunto fechado e validado.
 - **Uma hierarquia fechada** de records quando cada caso tem dados diferentes.
+  O C# 15 deixa o compilador conferir isso, com classes `closed` e tipos
+  `union`; não existe `closed enum` (CS0106 no SDK 11.0.100).
 
 ## Trade-offs
 

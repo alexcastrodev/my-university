@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -154,6 +154,17 @@ type, an empty string for a nullable value type becomes `null` instead of a
 parse failure. I confirmed `DueDate=` gives `due=null` on a `TodoForm` record,
 while a top-level `[FromForm] DateOnly? due` parameter still answered `400` for
 the same empty value, so do not generalize.
+
+In .NET 11 a `[FromForm]` endpoint works without `UseAntiforgery()`, because `WebApplication.CreateBuilder` adds a CSRF check based on the `Sec-Fetch-Site` and `Origin` headers. The same form post on 11.0.0, by header:
+
+```text
+                                      cross-site  same-origin  no headers
+.NET 11, no UseAntiforgery()             400         200          200
+.NET 11, UseAntiforgery(), no token      400         400          400
+.NET 10, no UseAntiforgery()             500 (InvalidOperationException: no anti-forgery middleware)
+```
+
+With `UseAntiforgery()` the token decides, as before. A JSON endpoint is not covered by the automatic check (a cross-site JSON post answered 200), and `.DisableAntiforgery()` turns it off for one endpoint.
 
 ### Endpoint filters: wrapping the handler
 

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -166,9 +166,35 @@ The document header became `3.0.4`. Keep 3.0 only when a consumer in your chain 
 3.1. The
 upgrade is also visible in transformer code: the generator moved to
 `Microsoft.OpenApi` 2.x, where `OpenApiAny` is gone and extension values are
-`JsonNode`. The docs say these changes apply even when you stay on 3.0. As a
-note for later, the same page says .NET 11 changes the default to 3.2, so pin
+`JsonNode`. The docs say these changes apply even when you stay on 3.0. That default moved again in .NET 11, so pin
 `OpenApiVersion` if a consumer depends on one.
+
+### 3.2 in .NET 11
+
+With the 11.0.0 package and no options, `AddOpenApi()` wrote `"openapi": "3.2.0"`.
+`OpenApi3_1` gave `3.1.2` and `OpenApi3_0` still gave `3.0.4`. Two endpoints
+showed the difference in my run: one mapped with
+`MapMethods("/search", ["QUERY"], ...)` and one returning
+`TypedResults.ServerSentEvents` with `SseItem<T>`:
+
+```text
+default (3.2.0):  "/search": { "query": { ... } }                       "text/event-stream": { "itemSchema": { ... } }
+OpenApi3_1 (3.1.2): "/search": { "x-oai-additionalOperations": ... }    "text/event-stream": { "x-oai-itemSchema": { ... } }
+OpenApi3_0 (3.0.4): same as 3.1 for these two
+```
+
+Three more things changed in the same run. `[Obsolete]` on the handler produced
+`"deprecated": true` with no transformer. Two `.Produces<T>(200, ...)` calls
+with different content types both appeared under `200` (before, the last one
+won). And the package now depends on `Microsoft.OpenApi` 3.x: the 11.0.0 nuspec
+asks for `[3.11.0, 4.0.0)`, so a project that pinned 2.x fails restore:
+
+```text
+error NU1605: Warning As Error: Detected package downgrade: Microsoft.OpenApi from 3.11.0 to 2.7.5.
+```
+
+Not every tool reads 3.2 yet, so pinning `OpenApi3_1` is a reasonable default
+while your generators catch up.
 
 ### Transformers
 
@@ -255,13 +281,12 @@ server, so startup code that needs a database or a secret runs too. Guard it
   undocumented, so the style pushes you to named handlers. That is usually a
   good structure anyway, but it is a constraint.
 - **3.1 is the better spec, and a default can move under you.** A tool in your
-  chain may only understand 3.0, and the docs say the default changes again in
-  .NET 11. Set `OpenApiVersion` explicitly once a consumer cares.
+  chain may only understand 3.0, and the default changed again in .NET 11 (to 3.2). Set `OpenApiVersion` explicitly once a consumer cares.
   ```csharp
   options.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0; // pin to what your consumers parse
   ```
 - **Transformers are powerful and tied to a library version.** The move to
-  `Microsoft.OpenApi` 2.x broke transformer code written for .NET 9. Keep them
+  `Microsoft.OpenApi` 2.x broke transformer code written for .NET 9, and .NET 11 moves to 3.x. Keep them
   small and covered by a test that diffs the generated document.
 - **The schema mirrors the serializer, not your intent.** Number-from-string
   handling, record constructor rules and `required` follow `System.Text.Json`

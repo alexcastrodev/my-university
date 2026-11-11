@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-10-29
+version: 1.2
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -201,7 +201,7 @@ MVC (en)               400 {... "errors":{"Name":["The name is required."]}}
 Minimal ?culture=pt-BR 400 {"title":"One or more validation errors occurred.","errors":{"Name":["NameRequired"]}}
 ```
 
-The message was localized, but the ProblemDetails `title` stayed in English. In .NET 10 the Minimal API validator printed the raw key; the ASP.NET Core docs list localization of Minimal API validation messages (through `Microsoft.Extensions.Validation`) under ASP.NET Core 11.
+The message was localized, but the ProblemDetails `title` stayed in English. In .NET 10 the Minimal API validator printed the raw key; the ASP.NET Core docs list localization of Minimal API validation messages (through `Microsoft.Extensions.Validation`) under ASP.NET Core 11. I confirmed it on 11.0.0 with a stub `IStringLocalizer` that prefixes `PT:`: with `AddLocalization()` and `AddValidation()`, `[Required(ErrorMessage = "NameRequired")]` came back as `"Name":["PT:NameRequired"]`, so the key now goes through the localizer. The `title` was still in English.
 
 ### Invariant globalization, ICU and chiseled images
 

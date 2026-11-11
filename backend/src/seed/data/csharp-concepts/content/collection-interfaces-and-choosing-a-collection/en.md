@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -128,6 +128,16 @@ The expression works with arrays, `List<T>`, `Span<T>`, `ReadOnlySpan<T>`, the
 collection interfaces above, and any type with a collection initializer or a
 `[CollectionBuilder]`. When the target is an interface, do not rely on the
 concrete type you get: it is chosen by the compiler.
+
+C# 15 (.NET 11 SDK) lets a `with(...)` first element pass arguments to the
+constructor, so capacity and comparers no longer force you back to `new`
+(output from SDK 11.0.100):
+
+```csharp
+string[] values = ["one", "two", "three"];
+List<string> names = [with(capacity: values.Length * 2), ..values];             // Capacity 6
+HashSet<string> set = [with(StringComparer.OrdinalIgnoreCase), "Hello", "HELLO"]; // Count 1
+```
 
 ### Params collections (C# 13)
 

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 title: "Static SSR e Enhanced Navigation no Blazor"
 summary: Como o Blazor renderiza páginas só no servidor, o que enhanced navigation e enhanced forms fazem na rede, binding com antiforgery e streaming rendering, tudo observado em um app rodando.
 ---
@@ -48,6 +48,15 @@ vez e a saída é HTML. O `UseAntiforgery()` está no pipeline porque formulári
 são um recurso de primeira classe aqui, e o template o coloca logo antes dos
 endpoints. Eventos como `@onclick` não fazem nada em uma página estática, porque
 não há ninguém escutando no browser.
+
+O template do .NET 11 é diferente: `dotnet new blazor -int None` no SDK 11.0.100
+não escreve mais `app.UseAntiforgery()`. Segundo a
+[página de breaking change](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/blazor-server-side-rendering-deferred-cross-site-request-forgery-protection),
+o `WebApplication.CreateBuilder` agora injeta um middleware de CSRF que julga as
+requisições pelos headers `Sec-Fetch-Site` e `Origin`, os endpoints de SSR
+estático confiam nesse veredito, e os tokens antiforgery só são gerados quando
+o `UseAntiforgery()` está no pipeline. Tudo o que vem abaixo sobre tokens
+descreve um app que mantém a chamada, que continua funcionando do mesmo jeito.
 
 ### Enhanced navigation
 

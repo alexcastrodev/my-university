@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-14
+version: 1.1
+updatedAt: 2026-11-11
 title: "Versões do C#, o Compilador e Recursos Preview"
 summary: Como a versão da linguagem é escolhida a partir do target framework, como inspecioná-la e sobrescrevê-la, quais recursos do C# 14 funcionam em net8.0/net9.0 e quais exigem runtime novo, e como funcionam LangVersion preview e EnablePreviewFeatures.
 ---
@@ -40,6 +40,7 @@ arquivo-fonte:
 <TargetFramework>net8.0</TargetFramework>  <!-- padrão C# 12 -->
 <TargetFramework>net9.0</TargetFramework>  <!-- padrão C# 13 -->
 <TargetFramework>net10.0</TargetFramework> <!-- padrão C# 14 -->
+<TargetFramework>net11.0</TargetFramework> <!-- padrão C# 15 (SDK do .NET 11) -->
 ```
 
 Pedir a propriedade ao MSBuild em um projeto `net8.0` com o SDK 10.0.100
@@ -72,7 +73,8 @@ importam na prática:
 
 - O valor é limitado pelo compilador. Com o SDK 10.0.100, definir `LangVersion`
   como `15` falha com `CS1617: Invalid option '15'`, e um SDK do .NET 9
-  (9.0.307) rejeita `14` do mesmo jeito. Linguagem mais nova exige SDK mais novo.
+  (9.0.307) rejeita `14` do mesmo jeito. O SDK do .NET 11 (11.0.100) aceita `15`
+  e rejeita `16` com o mesmo CS1617. Linguagem mais nova exige SDK mais novo.
 - `latest` e `default` dependem da máquina. A documentação desaconselha
   `latest` porque duas máquinas com SDKs diferentes compilam linguagens
   diferentes. Fixe um número explícito se precisar sobrescrever, ou melhor, fixe
@@ -141,6 +143,17 @@ Também dá para compilar com um SDK mais novo que o runtime em que você public
 um projeto pode mirar `net10.0` e usar um compilador mais novo via
 `LangVersion`, desde que os recursos usados sejam só de compilador e o SDK esteja
 fixado no `global.json` para o time inteiro concordar.
+
+O C# 15 no SDK do .NET 11 (11.0.100) repete o padrão da tabela acima. Com
+`LangVersion` 15 em `net8.0` e `net10.0`, extension indexers, `break`/`continue`
+com rótulo e os argumentos `with(...)` de collection expression compilaram,
+enquanto uma declaração `union` falhou com CS0518 (`IUnion` não definido) e uma
+classe `closed` com CS0656 (falta `IsClosedTypeAttribute`): as duas dependem de
+tipos que vêm no runtime do .NET 11. O mesmo SDK mostra um terceiro tipo de
+opt-in, a lista `Features` do compilador. O preview de memory safety exige
+`LangVersion` `preview` para a sintaxe (`safe` num método `extern` dá CS8652
+sem ele) e `<Features>$(Features);updated-memory-safety-rules</Features>` para
+as regras novas de quem chama.
 
 ### Padrão versus implementação
 

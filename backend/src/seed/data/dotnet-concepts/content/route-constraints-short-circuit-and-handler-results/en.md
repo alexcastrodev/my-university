@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-11
 ---
 ## Objective
 
@@ -132,6 +132,12 @@ reproduced: a `.RequireAuthorization().ShortCircuit()` endpoint answered `500`
 with `InvalidOperationException: Endpoint HTTP: GET /sc-auth contains
 authorization metadata, but this endpoint is marked with short circuit`. Use it
 only for endpoints that need no cross-cutting middleware.
+
+.NET 11 adds an attribute form of the same metadata. On 11.0.0:
+
+```csharp
+app.MapGet("/sc", [ShortCircuit(404)] () => "never");   // 404
+```
 
 ### What a handler's return value becomes
 
