@@ -153,6 +153,61 @@
     ]
   },
   {
+    "slug": "rag-ingestion-chunking-and-grounding",
+    "id": 5,
+    "title": "RAG: Ingestion, Chunking and Grounding",
+    "topic": "Data & RAG",
+    "summary": "The full RAG loop in .NET on a local Ollama: measured chunking strategies, idempotent re-ingestion, citations, refusals, the context window, a poisoned chunk, an IChatClient wrapper and a regression set, with Microsoft.Extensions.DataIngestion marked as the preview it still is.",
+    "publishedAt": "2026-11-11",
+    "requires": [
+      "embeddings-and-vector-search-with-vectordata"
+    ],
+    "related": [
+      {
+        "label": "Embeddings and Vector Search with Microsoft.Extensions.VectorData",
+        "slug": "embeddings-and-vector-search-with-vectordata",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
+        "slug": "meai-ichatclient-and-middleware-pipeline",
+        "feature": "dotnet-ai-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Retrieval-augmented generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/conceptual/rag",
+        "type": "doc"
+      },
+      {
+        "label": "Data ingestion, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/conceptual/data-ingestion",
+        "type": "doc"
+      },
+      {
+        "label": "The Microsoft.Extensions.DataIngestion library, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/conceptual/medi-library",
+        "type": "doc"
+      },
+      {
+        "label": "Use Microsoft.ML.Tokenizers for text tokenization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/how-to/use-tokenizers",
+        "type": "doc"
+      },
+      {
+        "label": "The Microsoft.Extensions.AI.Evaluation libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/evaluation/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "Context length, Ollama docs",
+        "url": "https://docs.ollama.com/context-length",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
     "id": 6,
     "title": "MCP Servers and Clients with the C# SDK",
