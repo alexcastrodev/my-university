@@ -166,7 +166,7 @@ app.MapPost("/pay", ([FromKeyedServices("stripe")] IPaymentGateway gateway) => .
 
 ## Trade-offs
 
-- **O descarte de escopo tenta todos os serviços no .NET 11.** Resolvi dois `IDisposable` scoped em que o último lança em `Dispose`. No .NET 11.0.100 os dois `Dispose` rodaram (`D2 disposed`, depois `D1 disposed`) e a exceção apareceu no fim. Só rodei o caso de uma falha, que relançou a `InvalidOperationException` original; com vários serviços falhando espere um `AggregateException`. De qualquer forma, `Dispose` não deve lançar.
+- **O descarte de escopo tenta todos os serviços no .NET 11.** Resolvi dois `IDisposable` scoped em que o último lança em `Dispose`. No .NET 11.0.100 os dois `Dispose` rodaram (`D2 disposed`, depois `D1 disposed`) e a exceção apareceu no fim. Com um serviço falhando, a `InvalidOperationException` original é relançada. Com dois (`D2` e `D3` lançando), os três `Dispose` rodaram e o escopo lançou `AggregateException: One or more errors occurred. (boom D3) (boom D2)`. De qualquer forma, `Dispose` não deve lançar.
 
 - **Uma interface para tudo é ruído.** O container registra uma classe concreta
   diretamente. Crie uma interface quando houver uma segunda implementação ou uma
