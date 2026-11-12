@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-12
 title: "Apps de Console, Códigos de Saída e System.CommandLine"
 summary: Assinaturas de Main, args e o separador -- do dotnet run, códigos de saída e o truncamento para 0..255 no Unix, crashes e FailFast, stdout versus stderr, stdin e encodings, Ctrl+C e SIGTERM no .NET 10, e uma CLI com System.CommandLine 2.0 (opções, argumentos, validadores, ajuda, erros, response files, diretivas e cancelamento).
 ---
@@ -32,8 +32,14 @@ micro-framework em que métodos públicos viram comandos (nenhum foi testado).
 
 `Main` devolve `void`, `int`, `Task` ou `Task<int>`, com ou sem
 `string[] args`; um top-level program ganha a forma `int` quando contém
-`return n;`. `args` nunca traz o nome do programa, enquanto
-`Environment.GetCommandLineArgs()[0]` é o caminho do assembly. No `dotnet run`,
+`return n;`. `args` nunca traz o nome do programa. O que
+`Environment.GetCommandLineArgs()[0]` traz depende de como o programa começou:
+com `dotnet app.dll` é o caminho do `.dll`; pelo apphost também era o caminho do
+`.dll` até o .NET 10, mas no .NET 11 é o nome usado para invocá-lo (`./app`, ou
+`./alias` para um symlink), como diz a
+[página de compatibilidade](https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/environment-getcommandlineargs-apphost-invocation-name.md)
+e o runtime GA confirmou. Para o caminho do executável use
+`Environment.ProcessPath`. No `dotnet run`,
 o que vem após `--` vai ao programa; sem ele, o SDK fica com o que reconhece:
 
 ```text

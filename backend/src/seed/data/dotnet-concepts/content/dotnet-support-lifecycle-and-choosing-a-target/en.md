@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-14
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -22,8 +22,8 @@ host picks a runtime at startup, and how to choose a target in late 2026.
   only newer runtimes, or why it refuses to.
 - Choosing a container tag that receives patches automatically, or one that is
   reproducible byte for byte.
-- Planning the migration of `net8.0` and `net9.0` services before their support
-  ends.
+- Planning the migration of `net8.0` and `net9.0` services, whose support ended
+  on November 10, 2026.
 
 ## Deep Dive
 
@@ -46,16 +46,19 @@ cumulative, ship roughly monthly (security ones on Patch Tuesday, the second
 Tuesday of the month), and a machine on `10.0.0` while `10.0.13` exists is not
 in a supported state.
 
-State of the official support policy page in October 2026:
+State in November 2026, after the .NET 11 release, per the official
+[releases index](https://github.com/dotnet/core/blob/main/release-notes/releases-index.json):
 
-| Version | Type | Released | Phase | End of support |
-|---|---|---|---|---|
-| .NET 10 | LTS | November 11, 2025 | Active | November 14, 2028 |
-| .NET 9 | STS | November 12, 2024 | Maintenance | November 10, 2026 |
-| .NET 8 | LTS | November 14, 2023 | Maintenance | November 10, 2026 |
+| Version | Type | Released | Phase | End of support | Latest patch |
+|---|---|---|---|---|---|
+| .NET 11 | STS | November 10, 2026 | Active | November 14, 2028 | 11.0.0 |
+| .NET 10 | LTS | November 11, 2025 | Active | November 14, 2028 | 10.0.15 |
+| .NET 9 | STS | November 12, 2024 | End of support | November 10, 2026 | 9.0.23 (last) |
+| .NET 8 | LTS | November 14, 2023 | End of support | November 10, 2026 | 8.0.34 (last) |
 
-Notice that .NET 8 (LTS) and .NET 9 (STS) end on the same day. The 24 month
-STS window makes the STS release expire together with the LTS before it, so
+Notice that .NET 8 (LTS) and .NET 9 (STS) ended on the same day, and that .NET
+11 (STS) ends on the same day as .NET 10 (LTS). The 24 month STS window makes
+the STS release expire together with the LTS before it, so
 choosing an STS no longer means a much shorter life than the previous LTS. Dates
 move when the policy changes, so read the policy page before a plan, not this
 table.
@@ -198,10 +201,13 @@ tag or a digest is reproducible but only gets patches when someone bumps it.
 
 ### What to target in late 2026
 
-- **New services and apps**: `net10.0`. It is the only version in active
-  support and stays supported until November 2028.
-- **Existing `net8.0` and `net9.0` code**: both leave support on November 10,
-  2026. Move to `net10.0` now; staying means running without security fixes.
+- **New services and apps**: `net10.0` or `net11.0`. Both are in active
+  support and both end on November 14, 2028, so the choice is about features,
+  not support time: pick `net11.0` when you want its APIs (C# 15 is its
+  default language version), `net10.0` when the rest of the company is there.
+- **Existing `net8.0` and `net9.0` code**: both left support on November 10,
+  2026, with 8.0.34 and 9.0.23 as their last patches. Move to `net10.0` or
+  `net11.0` now; staying means running without security fixes.
 - **Libraries**: target the lowest version your consumers still run, or
   multi-target, and build them with the newest SDK.
 
@@ -212,7 +218,7 @@ tag or a digest is reproducible but only gets patches when someone bumps it.
   year.
 - **STS no longer costs much support time, but it forces a yearly rhythm.** With
   24 months, .NET 9 ended together with .NET 8; whoever adopted 9 still had to
-  move to 10 on the same date.
+  move to 10 on the same date. .NET 11 repeats the pattern with .NET 10.
 - **`global.json` with `disable` or `latestPatch` makes builds reproducible and
   fragile.** A new teammate with a different band gets exit code 155 before
   anything compiles.

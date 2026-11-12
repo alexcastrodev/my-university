@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-12
 title: "Diagnosticando produção com dotnet-trace, dotnet-dump e dotnet-gcdump"
 summary: As ferramentas de diagnóstico do .NET usadas num processo vivo sem mudar o código (dotnet-counters, dotnet-trace, dotnet-gcdump, dotnet-dump com SOS e dotnet-stack), aplicadas a um app com CPU alta, vazamento de memória, starvation do thread pool e deadlock, com a saída real e o que funcionou ou não no macOS.
 ---
@@ -131,6 +131,8 @@ snap2:  52,068,624  GC Heap bytes      31,659  GC Heap objects
 
 Leia as colunas com cuidado: "Object Bytes" é o tamanho de uma instância, não o total, então os 2,001 arrays de 10,024 bytes somam 20 MB. Um tipo cuja contagem acompanha o número de requisições entre dois retratos é o vazamento. A documentação diz que um gcdump é montado a partir dos eventos de uma coleta gen 2 induzida, então o que ele mostra sobreviveu a um GC completo (está enraizado). Os arquivos são pequenos (menos de 1 MB) porque guardam o grafo de objetos, não a memória. O que um gcdump não diz em texto é o caminho até a raiz: o report só tem a visão heapstat. Para isso você precisa de um dump.
 
+O aviso da primeira linha vem do runtime do alvo, não da ferramenta: aquele app rodava no .NET 10. Contra um processo no runtime .NET 11.0.0 GA o mesmo `dotnet-gcdump` (10.0.750501) não imprimiu aviso, gravou o arquivo e listou os 5.000 arrays que o processo segurava, porque o .NET 11 suporta o buffering sem perdas (Block) que a mensagem pede.
+
 ### Sintoma 2 de novo: dotnet-dump e SOS
 
 Meu primeiro `dotnet-dump collect` no macOS falhou na hora:
@@ -225,6 +227,8 @@ Dois locks, cada um com uma thread dona (`MonitorHeld 3` é um dono mais um espe
 
 Não pude rodar Docker aqui, então isto vem da documentação. As ferramentas podem rodar no mesmo container, no host ou num sidecar. Um sidecar precisa de namespace de processos compartilhado e do `/tmp` do alvo montado, porque o socket fica lá; sem isso ele informa que o processo está "not running compatible .NET runtime". `--diagnostic-port <caminho>` aponta uma ferramenta para o caminho do socket mapeado. O `dotnet-dump` precisa de ptrace (`--cap-add=SYS_PTRACE`), e o caminho do dump é resolvido no sistema de arquivos do alvo. O `dotnet-monitor` é a alternativa feita para isso: a documentação o descreve como uma ferramenta para coletar dumps, traces, logs e métricas em produção, sob demanda ou por regras, por uma API HTTP (padrão `https://localhost:52323`). Limites de memória apertados importam: a documentação observa que coletar um dump pode fazer o alvo carregar muita memória.
 
+Quando não há ptrace nenhum, o .NET 11 consegue imprimir um crash report de dentro do processo. Com `DOTNET_EnableCrashReportOnly=1`, um app no runtime GA que morreu de exceção não tratada escreveu no stderr um bloco que começa com `.NET Crash Report v1.0.0`, o build do runtime, `ABI: arm64`, `signal 6 (SIGABRT)`, a exceção gerenciada e os frames por thread, sem gravar arquivo de dump. Basta para ver o que quebrou num container em que você não consegue se anexar a nada.
+
 ### Qual ferramenta para qual sintoma
 
 | Sintoma | Primeira ferramenta | Depois |
@@ -239,7 +243,7 @@ Não pude rodar Docker aqui, então isto vem da documentação. As ferramentas p
 
 - **As ferramentas funcionam em qualquer processo, então qualquer um com o mesmo usuário consegue ler a memória dele.** A porta de diagnóstico e os dumps expõem a memória, inclusive segredos. Desative com `DOTNET_EnableDiagnostics=0` onde isso importa e trate dumps como dados de produção.
 - **Amostragem de thread time é tempo de relógio, não de CPU.** Esperas ociosas enchem o topo do `topN`; pule os frames de `Wait` e, no Linux, use `collect-linux` (root, kernel 6.4+) para pilhas reais de CPU.
-- **Um gcdump é barato, mas raso.** Menos de 1 MB e sem precisar de ptrace, mas sem caminhos até a raiz em texto e com perdas em runtimes anteriores ao .NET 11. Um dump responde tudo e pesa de centenas de MB a GB.
+- **Um gcdump é barato, mas raso.** Menos de 1 MB e sem precisar de ptrace, mas sem caminhos até a raiz em texto e com perdas em runtimes anteriores ao .NET 11 (a ferramenta avisa quando o alvo é .NET 10 ou anterior). Um dump responde tudo e pesa de centenas de MB a GB.
 - **Coletar não é de graça.** Um gcdump induz uma coleta gen 2, um dump Full copiou 7.6 GB aqui (cerca de 24 s com `--diag`) e um trace aloca um buffer no alvo (`--buffersize`, 256 MB por padrão).
 - **Leia as unidades dos contadores.** `/ 1 sec` num up-down counter na saída do `collect` significa variação por intervalo, não o valor atual.
   ```text

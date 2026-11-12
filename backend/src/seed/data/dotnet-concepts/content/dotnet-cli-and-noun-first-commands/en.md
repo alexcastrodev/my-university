@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -75,9 +75,10 @@ $ dotnet reference list        # no --project needed here
 ```
 
 `dotnet package add` found the project in the current folder without
-`--project`. I only reproduced this on 10.0.100; check a newer SDK before
-assuming it still happens. It is a good reason to keep CI scripts on one pinned
-SDK version.
+`--project`. SDK 11.0.100 fixed it: inside the project folder,
+`dotnet reference add ../lib/lib.csproj`, `dotnet reference list` and
+`dotnet reference remove` all worked without `--project`. A bug that lives in
+one SDK band is a good reason to keep CI scripts on one pinned SDK version.
 
 For file-based apps the same commands take `--file`: `dotnet package add
 Humanizer.Core@2.14.1 --file s.cs` inserted `#:package Humanizer.Core@2.14.1`
@@ -126,9 +127,13 @@ Tool package download needs confirmation. Run in interactive mode or use the "--
 $ dotnet tool exec --yes dotnetsay@2.1.7 -- hello      # runs
 ```
 
-The reference page says `--yes` is available starting with .NET 11, yet it
-worked and showed in the help of SDK 10.0.100; trust your installed help over
-the page. `dnx` is a shell script next to `dotnet` that only runs
+SDK 11 dropped that prompt: on SDK 11.0.100, `dotnet tool exec
+dotnetsay@2.1.7 -- hi < /dev/null` downloaded and ran the tool with exit code
+`0`, and the [SDK 11 notes](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk)
+say `tool exec` and `dnx` "no longer prompt". `--yes` is still accepted but no
+longer listed in the help, which now shows `dotnet tool execute` as the
+canonical name. In CI that means downloaded code runs with no confirmation at
+all, so pin `pkg@version` or use a manifest. `dnx` is a shell script next to `dotnet` that only runs
 `dotnet dnx "$@"`, an alias for `tool exec`, so `dnx dotnetsay@2.1.7 --yes --
 hi` is the short form. If a tool manifest is near the current folder, its pinned
 version wins: with `dotnetsay` pinned to 2.1.7 in a manifest, `dotnet tool exec
@@ -163,16 +168,17 @@ says commands are interactive by default in interactive terminals; pass
 
 ## Trade-offs
 
-- **Noun-first reads better, verb-first is safer today.** Both work, but the
-  10.0.100 `reference add` failure shows new surface area has new bugs.
+- **Noun-first reads better, verb-first is the safe fallback.** Both work, but
+  the 10.0.100 `reference add` failure (fixed in SDK 11) shows new surface area
+  has new bugs.
   ```text
   dotnet add reference ../lib/lib.csproj    # worked where dotnet reference add failed
   ```
 - **`-p:` is quick and easy to misuse.** It overrides the file silently, and
   anything that changes restore needs its own restore step.
 - **`tool exec` trades reproducibility for convenience.** Without a manifest it
-  takes the latest version at that moment; pin a version (`pkg@1.2.3`) or use a
-  manifest in CI.
+  takes the latest version at that moment, and since SDK 11 it does not ask
+  before running it; pin a version (`pkg@1.2.3`) or use a manifest in CI.
 - **Hot reload hides restarts.** State changes that need a restart look fine
   until you restart; keep a fresh run in your test loop.
 - **The CLI is the contract, the page is a copy.** Pages lag SDK bands (`--yes`,

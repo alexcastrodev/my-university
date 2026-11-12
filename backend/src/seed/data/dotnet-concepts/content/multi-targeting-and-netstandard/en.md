@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -143,6 +143,34 @@ With that file the project built for both targets. A type such as
 which you add conditionally with `Condition="'$(TargetFramework)' == 'netstandard2.0'"`.
 I did not run that package here, so treat it as the usual direction, not a
 measured result.
+
+C# 15 repeats the pattern. With the .NET 11 SDK and `<LangVersion>15.0</LangVersion>`,
+a library targeting `net11.0;net10.0;netstandard2.0` that declares a `union`
+and a `closed` class built for `net11.0` only; the other targets failed with
+`CS0518: Predefined type 'System.Runtime.CompilerServices.IUnion' is not defined or imported`
+and `CS0656: Missing compiler required member '...UnionAttribute..ctor'` (and
+the same for `IsClosedTypeAttribute`). These polyfills made `net10.0` build:
+
+```csharp
+#if !NET11_0_OR_GREATER
+namespace System.Runtime.CompilerServices
+{
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false)]
+    internal sealed class UnionAttribute : Attribute { }
+
+    internal interface IUnion { object? Value { get; } }
+
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+    internal sealed class IsClosedTypeAttribute : Attribute { }
+}
+#endif
+```
+
+`netstandard2.0` also needed `IsExternalInit` (for the records) and
+`CompilerFeatureRequiredAttribute` (for `closed`). Two limits remain: the
+consumer must compile with C# 15 too (a `net10.0` app on its default C# 14 got
+`CS9327: Feature 'unions' is not available in C# 14.0`), and an `internal`
+`IUnion` is invisible outside the library.
 
 ### Keeping the targets honest
 
