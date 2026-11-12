@@ -91,6 +91,11 @@
         "label": "C# Language Versions, the Compiler and Preview Features",
         "slug": "csharp-language-versions-and-preview-features",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in .NET 11: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-11",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -528,6 +533,11 @@
       {
         "label": "JSON Columns and Complex Types",
         "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 11: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-11",
         "feature": "dotnet-concepts"
       }
     ],
@@ -7595,5 +7605,230 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/upgrading-from-ef-core-10-to-11-breaking-changes"
+  },
+  {
+    "slug": "whats-new-in-dotnet-11",
+    "id": 122,
+    "category": "Platform & Tooling",
+    "title": "What's New in .NET 11: A Map of the Platform",
+    "topic": "Runtime & SDK",
+    "summary": "A hub for the .NET 11 release (STS) run on the 11.0.100 SDK: runtime, SDK and CLI, base library, what the 11 runtime changes even for a net10.0 app, and one pointer each to the C# 15, ASP.NET Core 11 and EF Core 11 maps, with what is still preview or doc only marked.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "dotnet-support-lifecycle-and-choosing-a-target",
+      "whats-new-in-dotnet-10"
+    ],
+    "related": [
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Upgrading to .NET 11 and Reading the Breaking Changes",
+        "slug": "upgrading-to-dotnet-11-and-reading-breaking-changes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Migrating from ASP.NET Core 10 to 11",
+        "slug": "migrating-from-aspnet-core-10-to-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Upgrading from EF Core 10 to 11: Breaking Changes",
+        "slug": "upgrading-from-ef-core-10-to-11-breaking-changes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Task, Async/Await Internals and Runtime Async",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "File-Based Apps",
+        "slug": "file-based-apps",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The dotnet CLI and the Noun-First Commands",
+        "slug": "dotnet-cli-and-noun-first-commands",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Compression: ZIP, GZip, Brotli and TAR",
+        "slug": "compression-zip-gzip-brotli-and-tar",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Conversions, Rounding and Overflow",
+        "slug": "numeric-conversions-rounding-and-overflow",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/overview",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the .NET 11 runtime, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/runtime",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the SDK and tooling for .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the .NET 11 libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries",
+        "type": "doc"
+      },
+      {
+        "label": ".NET 11 release notes, GitHub",
+        "url": "https://github.com/dotnet/core/tree/main/release-notes/11.0",
+        "type": "doc"
+      },
+      {
+        "label": ".NET and .NET Core official support policy",
+        "url": "https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "upgrading-to-dotnet-11-and-reading-breaking-changes",
+    "id": 123,
+    "category": "Platform & Tooling",
+    "title": "Upgrading to .NET 11 and Reading the Breaking Changes",
+    "topic": "Runtime & SDK",
+    "summary": "How to read the breaking changes page and the real 10 to 11 case, with before and after run on SDK 10 and SDK 11: silent numeric, ZIP, GZip and args[0] changes, the Native AOT publish default at GA, and the compiler breaks CS7083, CS8352, CS9380 and with(...) versus @with.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "dotnet-support-lifecycle-and-choosing-a-target",
+      "whats-new-in-dotnet-11"
+    ],
+    "related": [
+      {
+        "label": "What's New in .NET 11: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Porting from .NET Framework to Modern .NET",
+        "slug": "porting-from-net-framework-to-modern-net",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Multi-Targeting and netstandard",
+        "slug": "multi-targeting-and-netstandard",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Migrating from ASP.NET Core 10 to 11",
+        "slug": "migrating-from-aspnet-core-10-to-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Upgrading from EF Core 10 to 11: Breaking Changes",
+        "slug": "upgrading-from-ef-core-10-to-11-breaking-changes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Numeric Conversions, Rounding and Overflow",
+        "slug": "numeric-conversions-rounding-and-overflow",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Compression: ZIP, GZip, Brotli and TAR",
+        "slug": "compression-zip-gzip-brotli-and-tar",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Console Apps, Exit Codes and System.CommandLine",
+        "slug": "console-apps-exit-codes-and-system-commandline",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "C# Language Versions and Preview Features",
+        "slug": "csharp-language-versions-and-preview-features",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Breaking changes in .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/11",
+        "type": "doc"
+      },
+      {
+        "label": "Float to small integer conversions saturate, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/jit/11/fp-to-small-integer",
+        "type": "doc"
+      },
+      {
+        "label": "Math.Round with digits, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/11/math-round-digits",
+        "type": "doc"
+      },
+      {
+        "label": "Decimal and BigInteger floating point conversions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/11/decimal-biginteger-floating-point-conversions",
+        "type": "doc"
+      },
+      {
+        "label": "Environment.GetCommandLineArgs and the apphost, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/11/environment-getcommandlineargs-apphost-invocation-name",
+        "type": "doc"
+      },
+      {
+        "label": "Compiler breaking changes in .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/breaking-changes/compiler%20breaking%20changes%20-%20dotnet%2011",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/upgrading-to-dotnet-11-and-reading-breaking-changes"
   }
 ]
