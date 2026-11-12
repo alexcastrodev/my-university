@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -147,6 +147,23 @@ await fs.CopyToAsync(destination, ct);
 
 `using` and `await using` both work on streams. Prefer `await using` in async
 code, because `DisposeAsync` can flush buffered data without blocking.
+
+### Memory-backed streams in .NET 11
+
+`new MemoryStream(Encoding.UTF8.GetBytes(s))` copies the data. .NET 11 adds
+streams that read straight from what you already have: `ReadOnlyMemoryStream`
+(seekable, not writable), `WritableMemoryStream` (fixed size over your buffer,
+writing past the end throws `NotSupportedException`), `StringStream` (in
+`System.IO`, encodes a string on the fly) and `ReadOnlySequenceStream` (in
+`System.Buffers`, over a `ReadOnlySequence<byte>`).
+
+```csharp
+using var s = new StringStream("héllo", Encoding.UTF8);
+int n = s.Read(buf);   // 6 bytes: "é" takes two in UTF-8
+```
+
+`ReadOnlySequenceStream` is not seekable, and its `Length` throws
+`NotSupportedException`, so it cannot feed code that needs to rewind.
 
 ## Trade-offs
 

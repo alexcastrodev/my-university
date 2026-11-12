@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 title: "Hierarquia de Stream e Decorators"
 summary: Stream como abstração de arquivos, memória e rede, decorators como BufferedStream e GZipStream, leaveOpen e quem faz Dispose, Read que devolve menos bytes que o pedido, Seek e acesso assíncrono a arquivos.
 ---
@@ -152,6 +152,24 @@ await fs.CopyToAsync(destination, ct);
 `using` e `await using` funcionam em streams. Prefira `await using` em código
 assíncrono, porque o `DisposeAsync` consegue descarregar dados em buffer sem
 bloquear.
+
+### Streams sobre memória no .NET 11
+
+`new MemoryStream(Encoding.UTF8.GetBytes(s))` copia os dados. O .NET 11 traz
+streams que leem direto do que você já tem: `ReadOnlyMemoryStream` (com seek,
+sem escrita), `WritableMemoryStream` (tamanho fixo sobre o seu buffer; escrever
+além do fim lança `NotSupportedException`), `StringStream` (em `System.IO`,
+codifica a string na hora) e `ReadOnlySequenceStream` (em `System.Buffers`,
+sobre um `ReadOnlySequence<byte>`).
+
+```csharp
+using var s = new StringStream("héllo", Encoding.UTF8);
+int n = s.Read(buf);   // 6 bytes: "é" ocupa dois em UTF-8
+```
+
+`ReadOnlySequenceStream` não faz seek e seu `Length` lança
+`NotSupportedException`, então ele não serve para código que precisa voltar ao
+início.
 
 ## Trade-offs
 

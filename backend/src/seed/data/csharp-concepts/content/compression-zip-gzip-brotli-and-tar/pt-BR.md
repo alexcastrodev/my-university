@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "Compressão: ZIP, GZip, Brotli e Tar"
 summary: Codecs de stream como decorators, o que CompressionLevel realmente entrega, ZipArchive em memória e em disco com as APIs assíncronas do .NET 10, tar, zip slip e como limitar o tamanho descomprimido.
 ---
@@ -177,6 +177,29 @@ o que você aceita contando enquanto copia:
 while ((n = src.Read(buf)) > 0)
     if ((total += n) > limit) throw new InvalidDataException("too large"); // parou em 10546656 de 10485760 permitidos
 ```
+
+### O que o .NET 11 muda
+
+O .NET 11 traz Zstandard para a biblioteca base: `ZstandardStream` segue o mesmo
+padrão decorator de `GZipStream` e `BrotliStream`. Em um teste, 1000 bytes
+repetidos viraram 18 bytes e voltaram intactos. Dois comportamentos também
+mudaram. Um `GZipStream` que nunca recebeu dados agora grava um arquivo vazio
+válido (20 bytes, e 2 para `DeflateStream`; o .NET 10 gravava 0 nos dois, e o
+Brotli grava 1 byte nas duas versões). E a leitura de uma entrada ZIP agora
+valida o CRC32: inverter um byte de uma entrada `Stored` lança exceção no .NET
+11, onde o .NET 10 devolvia o texto corrompido em silêncio.
+
+```csharp
+using var za = new ZipArchive(new MemoryStream(corrupted), ZipArchiveMode.Read);
+using var r = new StreamReader(za.Entries[0].Open());
+r.ReadToEnd();
+// .NET 11: InvalidDataException: The CRC32 checksum of the extracted data
+//          does not match the expected value from the archive.
+```
+
+Código que envolvia a extração em um catch só de `IOException` agora recebe uma
+`InvalidDataException` para arquivos danificados, então capture-a onde você lê
+ZIPs não confiáveis.
 
 ## Trade-offs
 
