@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -169,7 +169,7 @@ Mach-O binary that runs without `dotnet`, built in under 5 seconds.
 `dotnet project convert` is the exit door. Use it when the script needs a second
 source file, tests, or a place in a solution.
 
-### One file, and outside project folders
+### One file (until SDK 11), and outside project folders
 
 In SDK 10.0.100 the app is exactly one file. A class in a sibling `greeter.cs`
 is not compiled:
@@ -179,8 +179,25 @@ app.cs(1,19): error CS0103: The name 'Greeter' does not exist in the current con
 ```
 
 and `#:include greeter.cs` fails with `error: Unrecognized directive 'include'`.
-The current documentation describes `#:include` for SDK 10.0.300 and later,
-which was not available to test here.
+SDK 11.0.100 lifts the limit: `#:include` pulls other files into the build,
+and a quoted `#:property` value now works (the assembly's `AssemblyCompany`
+came out as `Contoso Tools`):
+
+```csharp
+#!/usr/bin/env dotnet
+#:include greeter.cs
+#:include models/customer.cs
+#:property Company="Contoso Tools"
+Console.WriteLine(Greeter.Hi(new Customer("ana").Name));   // hi ana
+```
+
+Without the shebang line, the build warns `CA2266: File-based program entry
+point should start with '#!'` as soon as the app spans more than one file; a
+single-file app does not get the warning. `dotnet run -e FOO=bar app.cs` also
+passes an environment variable to the program on SDK 11. All of this was run on
+SDK 11.0.100; the [SDK 11 notes](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk)
+list more directives (`#:ref`, metadata such as `Aliases=` on `#:package`),
+which I did not test.
 
 The file also inherits its surroundings: the documentation lists
 `Directory.Build.props`, `Directory.Packages.props`, `nuget.config` and
@@ -203,8 +220,9 @@ can have top-level statements`. Keep scripts in their own folder.
 - **The build cache is fast but keyed on the file.** Changes to inherited build
   files can be missed; the documentation recommends `dotnet clean app.cs` when a
   build looks stale.
-- **One file is a hard limit in SDK 10.0.100.** Shared helpers mean copying code
-  or converting to a project; splitting needs a newer SDK.
+- **One file is a hard limit in SDK 10.0.100, not in SDK 11.** On SDK 10,
+  shared helpers mean copying code or converting to a project; on SDK 11
+  `#:include` splits the app, at the cost of a script that older SDKs reject.
 - **A shebang ties the script to an installed SDK.** The target machine needs
   .NET 10 on `PATH`; for machines without it, publish the native binary instead.
 

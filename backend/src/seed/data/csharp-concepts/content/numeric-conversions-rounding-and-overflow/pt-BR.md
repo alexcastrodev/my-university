@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "Conversões Numéricas, Arredondamento e Overflow"
 summary: Conversões implícitas e explícitas entre tipos numéricos, o que checked e unchecked realmente mudam, Math.Round e MidpointRounding (banker's rounding), Convert versus cast, CheckForOverflowUnderflow e as APIs que escolhem a política de overflow.
 ---
@@ -117,26 +117,52 @@ change diz isso), e nesta máquina arm64 o .NET 10 deu o mesmo:
 ```
 
 Para os tipos pequenos, o resultado no .NET 10 passou por `int` e depois deu a
-volta: `(byte)300.0` é `44`, `(byte)-5.0` é `251`, `(sbyte)1e10` é `-1`. As
-páginas de compatibilidade do Microsoft Learn dizem que o .NET 11 faz as
-conversões para `sbyte`, `byte`, `short`, `ushort` e `char` saturarem também,
-então não dependa dos valores do .NET 10 para esses tipos. Trate casts de ponto
-flutuante fora da faixa como "valide antes ou use `checked`".
+volta. O .NET 11 faz as conversões para `sbyte`, `byte`, `short`, `ushort` e
+`char` saturarem também (confirmado no runtime .NET 11.0.0 GA, com valores lidos
+em tempo de execução, porque o compilador dobra sozinho os casts de constantes):
+
+```csharp
+//                  .NET 10   .NET 11
+(byte)300.0      //    44       255
+(byte)-5.0       //   251         0
+(sbyte)1e10      //    -1       127
+(short)1e10      //    -1     32767
+(ushort)-5.0     // 65531         0
+(byte)double.NaN //     0         0
+```
+
+A mudança está no CoreCLR e no Native AOT (a
+[página de compatibilidade](https://learn.microsoft.com/en-us/dotnet/core/compatibility/jit/11/fp-to-small-integer)
+a lista no JIT), então não dependa de nenhum dos dois conjuntos de valores.
+Trate casts de ponto flutuante fora da faixa como "valide antes ou use
+`checked`".
 
 **`double` para `float`** arredonda para o `float` mais próximo, e vira
 `Infinity` ou `0` quando fora da faixa (`(float)1e40` é `Infinity`,
 `(float)1e-50` é `0`). `(double)(float)0.1` é `0.10000000149011612`: alargar de
 volta não recupera os dígitos.
 
-**De e para `decimal`.** `(decimal)` de um `double` arredonda para cerca de 15
-dígitos significativos, e `NaN`, infinitos e valores acima de cerca de 7,9e28
+**De e para `decimal`.** `NaN`, infinitos e valores acima de cerca de 7,9e28
 lançam `OverflowException`; um valor pequeno demais vira `0`
 (`(decimal)1e-30` é `0`). `(int)` de um `decimal` trunca e lança exceção quando
-não cabe, independentemente do contexto checked. A documentação do .NET 11
-Preview 7 lista uma mudança para que as conversões entre `decimal` e `double`
-sejam arredondadas corretamente (um `double` como `1.23` converteria para o
-valor exato `1.229999999999999982236431606`). Isso não está no .NET 10, então o
-comportamento de 15 dígitos acima é o que um programa .NET 10 vê.
+não cabe, independentemente do contexto checked. O que `(decimal)` de um
+`double` preserva depende do runtime: o .NET 10 arredonda para cerca de 15
+dígitos significativos, enquanto o .NET 11
+[converte o valor binário exato](https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/decimal-biginteger-floating-point-conversions.md),
+até 28 casas decimais (confirmado no runtime GA):
+
+```csharp
+//                                 .NET 10            .NET 11
+(decimal)(0.1 + 0.2)            // 0.3                0.3000000000000000444089209850
+(decimal)1234567890123.456789   // 1234567890123.46   1234567890123.456787109375
+(decimal)0.1f                   // 0.1                0.100000001490116119384765625
+Convert.ToDecimal(1.23)         // 1.23               1.2299999999999999822364316060
+(double)1.23m                   // 1.23               1.23
+```
+
+A mesma mudança silenciosa atinge `Convert.ToDecimal` e `new decimal(double)`.
+A correção é a mesma nas duas versões: escreva o literal como `decimal`
+(`1.23m`) e nunca passe dinheiro por `double`.
 
 ### `checked` e `unchecked`
 
@@ -240,14 +266,19 @@ trunca. `Math.Round(-0.4)` é `-0` (zero negativo), e imprime como `-0`.
 As casas decimais são onde `double` e `decimal` diferem.
 `Math.Round(double, digits)` no código-fonte do .NET 10 multiplica por uma
 potência de dez, arredonda o produto e divide de volta, e aceita de 0 a 15
-dígitos; `decimal` arredonda o valor decimal exato e aceita de 0 a 28. Uma
-quantidade negativa de dígitos lança `ArgumentOutOfRangeException` nos dois.
+dígitos. O .NET 11
+[arredonda o valor exato do `double`](https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/math-round-digits.md)
+e aceita qualquer quantidade não negativa de dígitos (`Math.Round(1.5, 16)`
+lançava exceção no .NET 10 e devolve `1.5` no .NET 11). `decimal` arredonda o
+valor decimal exato e aceita de 0 a 28. Uma quantidade negativa de dígitos
+lança `ArgumentOutOfRangeException` nos dois.
 
 ```csharp
-Math.Round(2.675, 2)                 // 2.68   (2.675 * 100 = 267.5 em double, depois para o par)
+Math.Round(2.675, 2)                 // .NET 10: 2.68 (2.675 * 100 = 267.5 em double, depois para o par)
+                                     // .NET 11: 2.67 (o valor guardado é 2.67499999...)
 Math.Round(2.675m, 2)                // 2.68
 2.675.ToString("F2")                 // 2.67   (a formatação usa o valor exato guardado 2.67499999...)
-Math.Round(1.005, 2)                 // 1      (1.005 * 100 = 100.49999999999999)
+Math.Round(1.005, 2)                 // 1      (guardado como 1.00499999...)
 Math.Round(1.005m, 2)                // 1.00
 Math.Round(1.005m, 2, MidpointRounding.AwayFromZero)  // 1.01
 Math.Round(1.015m, 2)                // 1.02   (101.5 vai para o par 102)
@@ -257,7 +288,11 @@ Math.Round(0.125, 2, MidpointRounding.AwayFromZero)   // 0.13
 ```
 
 Duas conclusões. Primeiro, a mesma chamada em `double` e em `decimal` pode
-diferir porque o literal `double` não é o número que você digitou. Segundo, a
+diferir porque o literal `double` não é o número que você digitou; no .NET 11
+outros casos também mudam (`Math.Round(1.15, 1)` passa de `1.2` para `1.1`,
+`Math.Round(655.925, 2, MidpointRounding.AwayFromZero)` de `655.93` para
+`655.92`, `MathF.Round(2.675f, 2)` de `2.68` para `2.67`), enquanto todas as
+sobrecargas de `decimal` continuam iguais. Segundo, a
 formatação é uma terceira implementação de arredondamento: nesta execução
 `0.5.ToString("F0")` deu `0` e `2.5.ToString("F0")` deu `2` para `double`, mas
 `1` e `3` para `decimal`, e `0.125.ToString("N2")` deu `0.12` contra
@@ -400,7 +435,9 @@ explicitamente, como acima.
   espera de uma auditoria. Use saturação onde o máximo é uma resposta legítima.
 - **Depender de casts de ponto flutuante fora da faixa é depender da versão do
   runtime.** O resultado mudou entre o .NET 8 e o .NET 9, e os tipos inteiros
-  pequenos mudam de novo no .NET 11. Valide a faixa e o `NaN` antes.
+  pequenos mudam de novo no .NET 11, junto com `double` para `decimal` e
+  `Math.Round(double, digits)`. Valide a faixa e o `NaN` antes, e anote ao lado
+  de qualquer número o runtime que o produziu.
 
 ## Lab
 

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-14
+version: 1.1
+updatedAt: 2026-11-12
 title: "O Ciclo de Suporte do .NET e a Escolha do Target"
 summary: LTS e STS, fases ativa e de manutenção, SDK versus runtime, global.json com rollForward, como o host escolhe o runtime e qual target usar no fim de 2026.
 ---
@@ -25,7 +25,8 @@ fim de 2026.
   que só tem runtimes mais novos, ou por que ela se recusa a subir.
 - Escolher uma tag de container que recebe patches sozinha, ou uma que seja
   reproduzível byte a byte.
-- Planejar a migração de serviços `net8.0` e `net9.0` antes do fim do suporte.
+- Planejar a migração de serviços `net8.0` e `net9.0`, cujo suporte terminou em
+  10 de novembro de 2026.
 
 ## Deep Dive
 
@@ -48,16 +49,19 @@ patches são cumulativos, saem mais ou menos todo mês (os de segurança na Patc
 Tuesday, a segunda terça-feira do mês), e uma máquina em `10.0.0` enquanto
 existe `10.0.13` não está num estado suportado.
 
-Estado da página oficial de política de suporte em outubro de 2026:
+Estado em novembro de 2026, depois do lançamento do .NET 11, segundo o
+[índice oficial de releases](https://github.com/dotnet/core/blob/main/release-notes/releases-index.json):
 
-| Versão | Tipo | Lançamento | Fase | Fim do suporte |
-|---|---|---|---|---|
-| .NET 10 | LTS | 11 de novembro de 2025 | Ativa | 14 de novembro de 2028 |
-| .NET 9 | STS | 12 de novembro de 2024 | Manutenção | 10 de novembro de 2026 |
-| .NET 8 | LTS | 14 de novembro de 2023 | Manutenção | 10 de novembro de 2026 |
+| Versão | Tipo | Lançamento | Fase | Fim do suporte | Último patch |
+|---|---|---|---|---|---|
+| .NET 11 | STS | 10 de novembro de 2026 | Ativa | 14 de novembro de 2028 | 11.0.0 |
+| .NET 10 | LTS | 11 de novembro de 2025 | Ativa | 14 de novembro de 2028 | 10.0.15 |
+| .NET 9 | STS | 12 de novembro de 2024 | Fim do suporte | 10 de novembro de 2026 | 9.0.23 (último) |
+| .NET 8 | LTS | 14 de novembro de 2023 | Fim do suporte | 10 de novembro de 2026 | 8.0.34 (último) |
 
-Repare que o .NET 8 (LTS) e o .NET 9 (STS) terminam no mesmo dia. A janela de
-24 meses faz a STS expirar junto com a LTS anterior, então escolher uma STS não
+Repare que o .NET 8 (LTS) e o .NET 9 (STS) terminaram no mesmo dia, e que o
+.NET 11 (STS) termina no mesmo dia que o .NET 10 (LTS). A janela de 24 meses faz
+a STS expirar junto com a LTS anterior, então escolher uma STS não
 significa mais uma vida muito mais curta que a da LTS anterior. As datas mudam
 quando a política muda, então leia a página da política antes de um
 planejamento, não esta tabela.
@@ -202,11 +206,15 @@ fixa ou um digest é reproduzível, mas só recebe patch quando alguém atualiza
 
 ### O que mirar no fim de 2026
 
-- **Serviços e aplicações novos**: `net10.0`. É a única versão em suporte ativo
-  e fica suportada até novembro de 2028.
-- **Código existente em `net8.0` e `net9.0`**: os dois saem do suporte em 10 de
-  novembro de 2026. Migre para `net10.0` agora; ficar significa rodar sem
-  correções de segurança.
+- **Serviços e aplicações novos**: `net10.0` ou `net11.0`. Os dois estão em
+  suporte ativo e os dois terminam em 14 de novembro de 2028, então a escolha é
+  por recursos, não por tempo de suporte: escolha `net11.0` quando quiser as
+  APIs dele (o C# 15 é a versão de linguagem padrão), `net10.0` quando o resto
+  da empresa está nele.
+- **Código existente em `net8.0` e `net9.0`**: os dois saíram do suporte em 10
+  de novembro de 2026, com 8.0.34 e 9.0.23 como últimos patches. Migre para
+  `net10.0` ou `net11.0` agora; ficar significa rodar sem correções de
+  segurança.
 - **Bibliotecas**: mire a versão mais baixa que seus consumidores ainda usam, ou
   use multi-targeting, e compile com o SDK mais novo.
 
@@ -217,7 +225,7 @@ fixa ou um digest é reproduzível, mas só recebe patch quando alguém atualiza
   vez de todo ano.
 - **STS não custa mais muito tempo de suporte, mas impõe um ritmo anual.** Com
   24 meses, o .NET 9 acabou junto com o .NET 8; quem adotou o 9 teve que ir para
-  o 10 na mesma data.
+  o 10 na mesma data. O .NET 11 repete o padrão com o .NET 10.
 - **`global.json` com `disable` ou `latestPatch` deixa o build reproduzível e
   frágil.** Um colega novo com outra band recebe exit code 155 antes de qualquer
   coisa compilar.

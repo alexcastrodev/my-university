@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "Multi-targeting e .NET Standard"
 summary: Como TargetFrameworks gera um pacote com várias pastas lib, como o NuGet escolhe o assembly de cada consumidor, #if e polyfills para cobrir lacunas entre alvos, e o que o C# permite em netstandard2.0.
 ---
@@ -147,6 +147,35 @@ solução ali é uma referência de pacote (`System.Memory`), adicionada de form
 condicional com `Condition="'$(TargetFramework)' == 'netstandard2.0'"`. Não
 rodei esse pacote aqui, então trate como o caminho usual, não como resultado
 medido.
+
+O C# 15 repete o padrão. Com o SDK do .NET 11 e `<LangVersion>15.0</LangVersion>`,
+uma biblioteca com alvos `net11.0;net10.0;netstandard2.0` que declara uma
+`union` e uma classe `closed` compilou só para `net11.0`; os outros alvos
+falharam com `CS0518: Predefined type 'System.Runtime.CompilerServices.IUnion' is not defined or imported`
+e `CS0656: Missing compiler required member '...UnionAttribute..ctor'` (e o
+mesmo para `IsClosedTypeAttribute`). Estes polyfills fizeram o `net10.0`
+compilar:
+
+```csharp
+#if !NET11_0_OR_GREATER
+namespace System.Runtime.CompilerServices
+{
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false)]
+    internal sealed class UnionAttribute : Attribute { }
+
+    internal interface IUnion { object? Value { get; } }
+
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+    internal sealed class IsClosedTypeAttribute : Attribute { }
+}
+#endif
+```
+
+O `netstandard2.0` precisou também de `IsExternalInit` (pelos records) e de
+`CompilerFeatureRequiredAttribute` (pelo `closed`). Restam dois limites: quem
+consome também precisa compilar com C# 15 (um app `net10.0` no C# 14 padrão
+recebeu `CS9327: Feature 'unions' is not available in C# 14.0`), e um `IUnion`
+`internal` fica invisível fora da biblioteca.
 
 ### Mantendo os alvos honestos
 

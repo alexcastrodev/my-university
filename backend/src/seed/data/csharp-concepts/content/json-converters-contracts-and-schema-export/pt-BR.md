@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "JSON: Converters, Contratos Customizados e Exportação de Schema"
 summary: JsonConverter<T> e JsonConverterFactory, nulos e precedência de registro, contract customization com modifiers, o que o JsonSchemaExporter descreve e o que ele não enxerga quando há converter customizado.
 ---
@@ -97,9 +97,12 @@ public override JsonConverter CreateConverter(Type t, JsonSerializerOptions o)
 // Wrapper<int>(5) -> 5     Wrapper<string>("s") -> "s"
 ```
 
-A documentação diz que esse padrão de factory é obrigatório para genéricos abertos
-no .NET 10 e anteriores, e que o .NET 11 deixa `[JsonConverter]` receber um
-converter genérico aberto diretamente. Só executei no .NET 10. Note que `Activator`
+Essa factory é obrigatória para genéricos abertos no .NET 10 e anteriores. No
+.NET 11, `[JsonConverter(typeof(WrapperConverter<>))]` em `record Wrapper<T>`,
+com `WrapperConverter<T> : JsonConverter<Wrapper<T>>`, funciona diretamente
+(confirmado no runtime GA: `{"W":5,"S":"s"}` e a volta), enquanto o .NET 10
+lança `ArgumentException` ("Type.ContainsGenericParameters is true"). Mantenha a
+factory em bibliotecas que também visam o .NET 10 ou anterior. Note que `Activator`
 e `MakeGenericType` são reflexão, então sob Native AOT os tipos fechados precisam
 ser conhecidos em tempo de compilação.
 
@@ -139,6 +142,29 @@ O contrato congela no primeiro uso. Depois de uma chamada de serialização numa
 instância de options, atribuir `TypeInfoResolver` lançou `InvalidOperationException`
 ("read-only or has already been used"), e adicionar a `resolver.Modifiers` depois
 também lançou. Construa o resolver por completo e só então crie as options.
+
+### Unions do C# 15 ganham um `Kind` próprio
+
+No .NET 11 um tipo `union` do C# 15 reporta `JsonTypeInfoKind.Union`, e a
+serialização escreve o próprio valor do caso, sem envelope. A leitura de volta
+funciona quando o token JSON distingue os casos (um número ou uma string para
+`union IdOrName(int, string)`). Quando dois casos são objetos, o padrão lança
+`JsonException` ("JSON value type 'Object' is ambiguous for union type 'Pet'"),
+e `[JsonUnion]` indica um classificador que escolhe o caso:
+
+```csharp
+public record Cat(string Name);
+public record Dog(int Lives);
+[JsonUnion(TypeClassifier = typeof(JsonUnionTypeStructuralClassifier))]
+public union Pet(Cat, Dog);
+
+JsonSerializer.Serialize<Pet>(new Cat("Tom"));          // {"Name":"Tom"}
+JsonSerializer.Deserialize<Pet>("""{"Lives":9}""").Value // Dog { Lives = 9 }
+```
+
+O `JsonUnionTypeStructuralClassifier` embutido decide pelos nomes das
+propriedades; para qualquer outro critério você escreve o seu classificador.
+Confirmado no runtime .NET 11.0.0 GA, sem flags de preview.
 
 ### JsonSchemaExporter
 
