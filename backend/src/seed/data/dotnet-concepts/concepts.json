@@ -5335,6 +5335,11 @@
         "label": "EF Core Migrations Workflow",
         "slug": "ef-core-migrations-workflow",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CQRS, Mediator and Vertical Slices",
+        "slug": "cqrs-mediator-and-vertical-slices",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -5406,6 +5411,11 @@
       {
         "label": "Mapping the Domain with EF Core",
         "slug": "mapping-the-domain-with-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CQRS, Mediator and Vertical Slices",
+        "slug": "cqrs-mediator-and-vertical-slices",
         "feature": "dotnet-concepts"
       }
     ],
@@ -8767,5 +8777,117 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/http-query-method-and-safe-requests-with-a-body"
+  },
+  {
+    "slug": "cqrs-mediator-and-vertical-slices",
+    "id": 830,
+    "category": "Architecture",
+    "title": "CQRS, Mediator and Vertical Slices",
+    "topic": "Application Architecture",
+    "summary": "Commands and queries as separate types without event sourcing, a minimal hand-written mediator, pipeline behaviors for validation, logging and transactions, vertical slices with Minimal APIs, the library situation after MediatR's license change (checked on NuGet and the official site), and when not to use a mediator.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "clean-architecture-in-four-projects"
+    ],
+    "related": [
+      {
+        "label": "Clean Architecture in Four Projects",
+        "slug": "clean-architecture-in-four-projects",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "From CRUD to Modular Monolith",
+        "slug": "from-crud-to-modular-monolith",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Modular Monolith: Drawing Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Result Types versus Exceptions",
+        "slug": "result-types-versus-exceptions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Source Generators and AOT-Friendly Code",
+        "slug": "source-generators-and-aot-friendly-code",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "MediatR license and pricing, MediatR.io",
+        "url": "https://mediatr.io/",
+        "type": "doc"
+      },
+      {
+        "label": "MediatR on NuGet",
+        "url": "https://www.nuget.org/packages/MediatR",
+        "type": "doc"
+      },
+      {
+        "label": "MediatR source and LICENSE.md, GitHub",
+        "url": "https://github.com/jbogard/MediatR",
+        "type": "doc"
+      },
+      {
+        "label": "Mediator (source generator), GitHub",
+        "url": "https://github.com/martinothamar/Mediator",
+        "type": "doc"
+      },
+      {
+        "label": "Wolverine documentation",
+        "url": "https://wolverinefx.net/",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection",
+        "type": "doc"
+      },
+      {
+        "label": "Minimal APIs overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview",
+        "type": "doc"
+      },
+      {
+        "label": "CQRS pattern, Microsoft Azure Architecture Center",
+        "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs",
+        "type": "doc"
+      },
+      {
+        "label": "Vertical Slice Architecture, Jimmy Bogard",
+        "url": "https://www.jimmybogard.com/vertical-slice-architecture/",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/cqrs-mediator-and-vertical-slices"
   }
 ]
