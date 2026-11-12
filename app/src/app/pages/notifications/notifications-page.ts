@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { NotificationItem, NotificationService } from '../../services/notification.service';
 import { SeoService } from '../../services/seo.service';
 
-/** Replies to the reader's comments, newest first. Each row opens the lab tab, the discussion at the end of the concept or the paragraph discussion it came from. */
+/** Replies to the reader's comments and mentions of them, newest first. Each row opens the lab tab, the discussion at the end of the concept or the paragraph discussion it came from. */
 @Component({
   selector: 'app-notifications-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,7 +29,7 @@ export class NotificationsPage implements OnInit {
   ngOnInit(): void {
     this.seo.set({
       title: $localize`:@@notifications.title:Notifications`,
-      description: 'Replies to your comments.',
+      description: 'Replies to your comments and mentions of you.',
       path: '/notifications',
       noindex: true,
     });

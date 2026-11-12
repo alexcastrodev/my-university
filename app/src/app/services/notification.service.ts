@@ -9,6 +9,8 @@ const API = '/api/discussions/notifications';
 
 export interface NotificationItem {
   id: number;
+  /** A reply to the reader's comment, or a comment that mentioned them. */
+  kind: 'reply' | 'mention';
   read: boolean;
   createdAt: string;
   actor: string;
@@ -21,7 +23,7 @@ export interface NotificationItem {
 }
 
 /**
- * Reply notifications of the signed-in reader. The unread count (the sidebar badge) is looked up on
+ * Reply and mention notifications of the signed-in reader. The unread count (the sidebar badge) is looked up on
  * sign-in and after every navigation: no polling timer, a reply shows up on the next page change.
  */
 @Injectable({ providedIn: 'root' })

@@ -9,7 +9,7 @@
 
     @if (!auth.currentUser()) {
       <div class="state">
-        <p i18n="@@notifications.loginPrompt">Sign in to see replies to your comments.</p>
+        <p i18n="@@notifications.loginPrompt">Sign in to see replies to your comments and mentions of you.</p>
         <a routerLink="/login" class="link-btn" i18n="@@reviewQueue.logIn">Log In</a>
       </div>
     } @else if (notifications.loading() && notifications.items().length === 0) {
@@ -20,14 +20,18 @@
         <button type="button" class="link-btn" (click)="notifications.load()" i18n="@@discussions.retry">Try again</button>
       </div>
     } @else if (notifications.items().length === 0) {
-      <p class="state" i18n="@@notifications.empty">No replies yet. When someone answers one of your comments, it shows up here.</p>
+      <p class="state" i18n="@@notifications.empty">Nothing yet. When someone answers one of your comments or mentions you, it shows up here.</p>
     } @else {
       <ul class="list">
         @for (item of notifications.items(); track item.id) {
           <li>
             <a class="item" [class.unread]="!item.read" [routerLink]="item.route" [queryParams]="query(item)" [fragment]="item.general ? 'discussion' : undefined" (click)="notifications.markRead(item)">
               <div class="item-head">
-                <span class="who" i18n="@@notifications.replied">{{ item.actor }} replied to your comment</span>
+                @if (item.kind === 'mention') {
+                  <span class="who" i18n="@@notifications.mentioned">{{ item.actor }} mentioned you</span>
+                } @else {
+                  <span class="who" i18n="@@notifications.replied">{{ item.actor }} replied to your comment</span>
+                }
                 <span class="time">{{ ago(item.createdAt) }}</span>
               </div>
               @if (item.excerpt) {
