@@ -742,6 +742,11 @@
         "label": "The Transactional Outbox Pattern",
         "slug": "outbox-pattern",
         "feature": "system-design"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2301,6 +2306,11 @@
         "label": "DbContext Lifetime and Change Tracking",
         "slug": "dbcontext-lifetime-and-change-tracking",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/domain-events-and-consistency-boundaries",
@@ -2537,6 +2547,11 @@
       {
         "label": "Domain Events and Consistency Boundaries",
         "slug": "domain-events-and-consistency-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
         "feature": "dotnet-concepts"
       }
     ],
@@ -3506,6 +3521,11 @@
         "label": "REST Semantics: Status Codes and Idempotency",
         "slug": "rest-semantics-status-codes-and-idempotency",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -3556,6 +3576,11 @@
       {
         "label": "REST Semantics: Status Codes and Idempotency",
         "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
         "feature": "dotnet-concepts"
       }
     ],
@@ -4618,6 +4643,11 @@
       {
         "label": "HTTP QUERY: Safe Requests With a Body",
         "slug": "http-query-method-and-safe-requests-with-a-body",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
         "feature": "dotnet-concepts"
       }
     ],
@@ -8767,5 +8797,98 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/http-query-method-and-safe-requests-with-a-body"
+  },
+  {
+    "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+    "id": 811,
+    "category": "Concurrency & Background Work",
+    "title": "Transactional Outbox, Inbox and Idempotent Consumers",
+    "topic": "Background Jobs",
+    "summary": "The outbox row written in the same EF Core transaction, a BackgroundService relay with retries, backoff and dead-letter, an inbox with a deduplication key, idempotent consumers and at-least-once delivery, and what happens in each failure, every case driven by a fault-injecting test.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "domain-events-and-consistency-boundaries",
+      "hosted-services-and-backgroundservice"
+    ],
+    "related": [
+      {
+        "label": "Domain Events and Consistency Boundaries",
+        "slug": "domain-events-and-consistency-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Durable Jobs with Hangfire and Quartz.NET",
+        "slug": "durable-jobs-hangfire-and-quartz",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern",
+        "feature": "system-design"
+      },
+      {
+        "label": "Idempotency in Distributed Systems",
+        "slug": "idempotency",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Implementing event-based communication between microservices (integration events), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/integration-event-based-microservice-communications",
+        "type": "doc"
+      },
+      {
+        "label": "Background tasks with hosted services in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services",
+        "type": "doc"
+      },
+      {
+        "label": "Interceptors, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors",
+        "type": "doc"
+      },
+      {
+        "label": "Transactions, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/transactions",
+        "type": "doc"
+      },
+      {
+        "label": "Transactional outbox, microservices.io",
+        "url": "https://microservices.io/patterns/data/transactional-outbox.html",
+        "type": "engineering"
+      },
+      {
+        "label": "Idempotent consumer, microservices.io",
+        "url": "https://microservices.io/patterns/communication-style/idempotent-consumer.html",
+        "type": "engineering"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/transactional-outbox-inbox-and-idempotent-consumers"
   }
 ]
