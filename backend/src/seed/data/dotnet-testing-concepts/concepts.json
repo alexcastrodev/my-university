@@ -1797,5 +1797,81 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "evaluating-ai-features-with-meai-evaluation",
+    "id": 25,
+    "title": "Evaluating AI Features with Microsoft.Extensions.AI.Evaluation",
+    "topic": "AI Testing",
+    "summary": "Score model answers with relevance, coherence and groundedness evaluators judged by a local Ollama, add deterministic evaluators that need no LLM, cache responses to replay offline in MSTest 4, generate the HTML report, write threshold assertions for non-determinism, and know the cost; safety evaluators stay documented only.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "mstest-fundamentals-lifecycle-and-testcontext"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
+        "slug": "meai-ichatclient-and-middleware-pipeline",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "RAG: Ingestion, Chunking and Grounding",
+        "slug": "rag-ingestion-chunking-and-grounding",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Controlling Time in Tests with TimeProvider and FakeTimeProvider",
+        "slug": "controlling-time-with-timeprovider",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Snapshot Testing with Verify",
+        "slug": "snapshot-testing-with-verify",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Test Doubles in .NET: Fakes, Stubs and NSubstitute",
+        "slug": "test-doubles-fakes-stubs-and-nsubstitute",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "The Test Pyramid Strategy",
+        "slug": "test-pyramid-strategy",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/evaluating-ai-features-with-meai-evaluation",
+    "references": [
+      {
+        "label": "The Microsoft.Extensions.AI.Evaluation libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/evaluation/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "Evaluate a model's response, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/evaluation/evaluate-ai-response",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: evaluate a response with response caching and reporting, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/tutorials/evaluate-with-reporting",
+        "type": "doc"
+      },
+      {
+        "label": "Safety evaluations, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/evaluation/evaluate-safety",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Extensions.AI.Evaluation 11.0.0 on NuGet",
+        "url": "https://www.nuget.org/packages/Microsoft.Extensions.AI.Evaluation/11.0.0",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Extensions.AI.Evaluation.Console 11.0.0 on NuGet",
+        "url": "https://www.nuget.org/packages/Microsoft.Extensions.AI.Evaluation.Console/11.0.0",
+        "type": "doc"
+      }
+    ]
   }
 ]

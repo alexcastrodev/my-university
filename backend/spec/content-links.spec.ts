@@ -26,6 +26,7 @@ const FEATURE_ROUTES: Record<string, string> = {
   'dotnet-concepts': '/dotnet-concepts',
   'csharp-concepts': '/csharp-concepts',
   'dotnet-testing-concepts': '/dotnet-testing-concepts',
+  'dotnet-ai-concepts': '/dotnet-ai-concepts',
 };
 /** The system design pages resolve `related` against their own, smaller set of features. */
 const SYSTEM_DESIGN_FEATURES = ['system-design', 'database', 'spring-concepts'];
