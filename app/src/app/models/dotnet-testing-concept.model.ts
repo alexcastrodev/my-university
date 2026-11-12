@@ -43,6 +43,7 @@ export const DOTNET_TESTING_CONCEPT_TOPIC_ORDER: readonly string[] = [
   'Data Access Testing',
   'Blazor',
   'Tooling & CI',
+  'AI Testing',
   'DDD',
   'Application Architecture',
 ];

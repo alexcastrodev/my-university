@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 title: "Task e async/await por Dentro"
 summary: A state machine gerada pelo compilador, SynchronizationContext e ConfigureAwait, deadlock com .Result, async void, as regras do ValueTask e por que Task.Run não torna I/O assíncrono.
 ---
@@ -52,9 +52,27 @@ public async Task<int> CountAsync(HttpClient http, string url, CancellationToken
 Se a operação aguardada já terminou, o `await` continua de forma síncrona e o
 método nunca devolve o controle a quem o chamou nesse intervalo. A state machine é
 uma struct em builds de release e só vai para o heap (boxing) quando o método de
-fato suspende, o que mantém o caminho rápido com poucas alocações. A partir do
-.NET 10, o runtime pode assumir parte desse trabalho como um experimento opt-in, e
-as regras abaixo não mudam.
+fato suspende, o que mantém o caminho rápido com poucas alocações.
+
+### Runtime async no .NET 11
+
+O .NET 10 trouxe um experimento opt-in em que o runtime, e não o compilador,
+suspende e retoma métodos `async`. No .NET 11 as próprias bibliotecas do runtime
+são compiladas assim: contando os métodos marcados com `[AsyncStateMachine]` no
+runtime GA, deu 3 em `System.Private.CoreLib`, 2 em `System.Net.Http` e 0 em
+`System.IO.Compression`, contra 69, 119 e 51 no .NET 10. O seu código opta com
+uma propriedade de projeto, sem `EnablePreviewFeatures` em `net11.0`:
+
+```xml
+<Features>runtime-async=on</Features>
+```
+
+Com ela, o método deixa de ter `AsyncStateMachineAttribute`, e um
+`new StackTrace()` tirado três chamadas `async` abaixo teve 5 frames em vez de
+13, porque os frames de `MoveNext` e do builder somem. As
+[notas de runtime do .NET 11](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/runtime)
+ainda chamam isso de preview para código de usuário. O contrato não muda: as
+regras abaixo valem com ou sem ele.
 
 ### SynchronizationContext e ConfigureAwait
 

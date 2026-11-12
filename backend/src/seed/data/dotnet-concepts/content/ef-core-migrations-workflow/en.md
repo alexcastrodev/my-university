@@ -1,5 +1,5 @@
 ---
-version: 1.1
+version: 1.2
 updatedAt: 2026-11-12
 ---
 ## Objective
@@ -126,6 +126,38 @@ whether the model has changes that no migration captures yet, so a CI step can
 catch a forgotten migration. `context.Database.HasPendingModelChanges()` does the
 same check from code, for example in a unit test. Since EF Core 9, `Migrate()` also throws if there are pending model changes,
 which catches the same mistake at startup in a test environment.
+
+### Defaults and output in EF Core 11
+
+EF Core 11 adds a `.config/dotnet-ef.json` file so you stop repeating
+`--project`, `--startup-project` and `--context` on every command. `dotnet ef`
+walks up from the current directory and uses the first one it finds, and
+relative paths resolve against the parent of `.config`. I put this file at the
+repository root:
+
+```json
+{ "project": "src/App", "context": "Ctx" }
+```
+
+Running `dotnet ef dbcontext info` from the root and from `src/` both found the
+project and the context without any option. Explicit command-line options still
+win, per the [EF Core tools reference](https://learn.microsoft.com/en-us/ef/core/cli/dotnet#configuration-file),
+which also lists `startupProject`, `framework`, `configuration`, `runtime`,
+`verbose`, `noColor` and `prefixOutput`.
+
+Two details that matter in scripts. `migrations add` and `migrations remove`
+write nothing to stdout: `Build started...`, `Done.` and the removal messages all
+go to stderr, so capture stderr if you want to log them. `dbcontext info` and
+`dbcontext script` write their result to stdout and keep the build messages on
+stderr. And `dotnet ef migrations remove --offline` (new in EF Core 11, cannot
+be combined with `--force`) removed the last migration without connecting to the
+database. It deletes the files and rewrites the snapshot, so it only makes sense
+when the migration was never applied.
+
+A related model option: `HasOne(...).HasForeignKey(...).IsConstrained(false)`
+keeps the relationship in the model but leaves the foreign key constraint out of
+the schema. On SQLite the generated script for an `Item.ParentId` relationship
+had the column and `CREATE INDEX "IX_Items_ParentId"`, but no `FOREIGN KEY`.
 
 ## Trade-offs
 

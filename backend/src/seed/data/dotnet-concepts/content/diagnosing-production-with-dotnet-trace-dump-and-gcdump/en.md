@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -129,6 +129,8 @@ snap2:  52,068,624  GC Heap bytes      31,659  GC Heap objects
 
 Read the columns carefully: "Object Bytes" is the size of one instance, not the total, so the 2,001 arrays of 10,024 bytes are 20 MB. A type whose count tracks the request count between two snapshots is the leak. The docs say a gcdump is built from the events of an induced gen 2 collection, so what it shows survived a full GC (it is rooted). The files are small (under 1 MB) because they hold the object graph, not the memory. What a gcdump cannot tell you is the root path in text: its report has only the heapstat view. For that you need a dump.
 
+The warning on the first line comes from the target runtime, not the tool: that app ran on .NET 10. Against a process on the .NET 11.0.0 GA runtime the same `dotnet-gcdump` (10.0.750501) printed no warning, wrote the file and reported the 5,000 arrays it held, because .NET 11 supports the non-lossy (Block) buffering the message asks for.
+
 ### Symptom 2 again: dotnet-dump and SOS
 
 My first `dotnet-dump collect` on macOS failed immediately:
@@ -223,6 +225,8 @@ Two locks, each owned by one thread (`MonitorHeld 3` is one owner plus one waite
 
 I could not run Docker here, so this is from the docs. Tools can run in the same container, on the host or in a sidecar. A sidecar needs a shared process namespace and the target's `/tmp` mounted, because the socket lives there; otherwise it reports the process is "not running compatible .NET runtime". `--diagnostic-port <path>` points a tool at a mapped socket path instead. `dotnet-dump` needs ptrace (`--cap-add=SYS_PTRACE`), and the dump path is resolved in the target's file system. `dotnet-monitor` is the alternative built for this: the docs describe it as a tool to collect dumps, traces, logs and metrics in production, on demand or by rules, through an HTTP API (default `https://localhost:52323`). Tight memory limits matter: the docs note that collecting a dump can make the target page in a lot of memory.
 
+When ptrace is not available at all, .NET 11 can print a crash report from inside the process. With `DOTNET_EnableCrashReportOnly=1`, an app on the GA runtime that died of an unhandled exception wrote to stderr a block starting with `.NET Crash Report v1.0.0`, the runtime build, `ABI: arm64`, `signal 6 (SIGABRT)`, the managed exception and the frames per thread, without writing a dump file. It is enough to see what crashed in a container where you cannot attach anything.
+
 ### Which tool for which symptom
 
 | Symptom | First tool | Then |
@@ -237,7 +241,7 @@ I could not run Docker here, so this is from the docs. Tools can run in the same
 
 - **The tools work on any process, so anyone with the same user can read it.** The diagnostic port and dumps expose memory, including secrets. Disable with `DOTNET_EnableDiagnostics=0` where that matters, and handle dumps like production data.
 - **Thread-time sampling is wall clock, not CPU.** Idle waits fill the top of `topN`; skip `Wait` frames, and on Linux use `collect-linux` (root, kernel 6.4+) for real CPU stacks.
-- **A gcdump is cheap but shallow.** Under 1 MB and no ptrace needed, but no root paths in text and lossy on runtimes before .NET 11. A dump answers everything and weighs hundreds of MB to GB.
+- **A gcdump is cheap but shallow.** Under 1 MB and no ptrace needed, but no root paths in text and lossy on runtimes before .NET 11 (the tool warns when the target is .NET 10 or older). A dump answers everything and weighs hundreds of MB to GB.
 - **Collection is not free.** A gcdump induces a gen 2 collection, a Full dump copied 7.6 GB here (about 24 s with `--diag`), and a trace allocates a buffer in the target (`--buffersize`, 256 MB by default).
 - **Read counter units.** `/ 1 sec` on an up-down counter in `collect` output means a delta per interval, not the current value.
   ```text

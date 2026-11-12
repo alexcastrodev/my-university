@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -88,6 +88,21 @@ var state = db.Entry(order).State; // Unchanged again after the save
 The tracker also gives identity resolution: asking for the same key twice
 returns the same instance, and the second query does not overwrite what you
 already changed in memory.
+
+### Two EF Core 11 details
+
+`ChangeTracker.GetEntriesForState(...)` does not call `DetectChanges`. On EF Core
+11.0.0 and SQLite, after loading an entity and changing a property,
+`GetEntriesForState(modified: true)` returned 0 entries, and 1 after an explicit
+`db.ChangeTracker.DetectChanges()`. Call `DetectChanges()` first if you inspect
+states before `SaveChanges`.
+
+For integration tests that swap the database, EF Core 11 adds
+`services.RemoveDbContext<T>()`. I registered `AddDbContext` for `prod.db`, called
+`RemoveDbContext<Ctx>()`, registered it again for `test.db`, and the resolved
+context used `test.db`. `AddPooledDbContextFactory<T>()` also has an overload
+without parameters that takes the `DbContextOptions<T>` already registered in the
+container.
 
 ### Stop tracking when you only read
 

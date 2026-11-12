@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -109,27 +109,51 @@ machine .NET 10 gave the same:
 (long)1e30                // 9223372036854775807
 ```
 
-For the small types the result in .NET 10 went through `int` and then wrapped:
-`(byte)300.0` is `44`, `(byte)-5.0` is `251`, `(sbyte)1e10` is `-1`. The
-Microsoft Learn compatibility pages say that .NET 11 makes conversions to
-`sbyte`, `byte`, `short`, `ushort` and `char` saturating as well, so do not
-depend on the .NET 10 values for those types. Treat out-of-range
-floating-point casts as "validate first or use `checked`".
+For the small types the result in .NET 10 went through `int` and then wrapped.
+.NET 11 makes conversions to `sbyte`, `byte`, `short`, `ushort` and `char`
+saturating as well (confirmed on the .NET 11.0.0 GA runtime, with values read
+at run time, because the compiler folds constant casts itself):
+
+```csharp
+//                  .NET 10   .NET 11
+(byte)300.0      //    44       255
+(byte)-5.0       //   251         0
+(sbyte)1e10      //    -1       127
+(short)1e10      //    -1     32767
+(ushort)-5.0     // 65531         0
+(byte)double.NaN //     0         0
+```
+
+The change is in CoreCLR and Native AOT (the
+[compatibility page](https://learn.microsoft.com/en-us/dotnet/core/compatibility/jit/11/fp-to-small-integer)
+lists it under the JIT), so do not depend on either set of values. Treat
+out-of-range floating-point casts as "validate first or use `checked`".
 
 **`double` to `float`** rounds to the nearest `float`, and becomes `Infinity`
 or `0` when out of range (`(float)1e40` is `Infinity`, `(float)1e-50` is `0`).
 `(double)(float)0.1` is `0.10000000149011612`: widening back does not recover
 the digits.
 
-**To and from `decimal`.** `(decimal)` of a `double` rounds to about 15
-significant digits, and `NaN`, infinities and values beyond about 7.9e28 throw
-`OverflowException`; a value too small becomes `0` (`(decimal)1e-30` is `0`).
-`(int)` of a `decimal` truncates and throws when it does not fit,
-regardless of the checked context. The documentation for .NET 11 Preview 7
-lists a change so that `decimal` and `double` conversions are correctly rounded
-(a `double` such as `1.23` would convert to its exact value
-`1.229999999999999982236431606`). That is not in .NET 10, so the 15-digit
-behavior above is what a .NET 10 program sees.
+**To and from `decimal`.** `NaN`, infinities and values beyond about 7.9e28
+throw `OverflowException`; a value too small becomes `0` (`(decimal)1e-30` is
+`0`). `(int)` of a `decimal` truncates and throws when it does not fit,
+regardless of the checked context. What `(decimal)` of a `double` keeps depends
+on the runtime: .NET 10 rounds to about 15 significant digits, while .NET 11
+[converts the exact binary value](https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/decimal-biginteger-floating-point-conversions.md),
+up to 28 decimal places (confirmed on the GA runtime):
+
+```csharp
+//                                 .NET 10            .NET 11
+(decimal)(0.1 + 0.2)            // 0.3                0.3000000000000000444089209850
+(decimal)1234567890123.456789   // 1234567890123.46   1234567890123.456787109375
+(decimal)0.1f                   // 0.1                0.100000001490116119384765625
+Convert.ToDecimal(1.23)         // 1.23               1.2299999999999999822364316060
+(double)1.23m                   // 1.23               1.23
+```
+
+The same silent change hits `Convert.ToDecimal` and `new decimal(double)`. The
+fix is the same on both versions: write the literal as `decimal` (`1.23m`) and
+never route money through `double`.
 
 ### `checked` and `unchecked`
 
@@ -232,15 +256,19 @@ truncates. `Math.Round(-0.4)` is `-0` (negative zero), and it prints as `-0`.
 
 Digits are where `double` and `decimal` differ. `Math.Round(double, digits)` in
 the .NET 10 source multiplies by a power of ten, rounds the product, and
-divides back, and it accepts 0 to 15 digits; `decimal` rounds the exact decimal
+divides back, and it accepts 0 to 15 digits. .NET 11
+[rounds the exact value of the `double`](https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/math-round-digits.md)
+instead and accepts any non-negative digit count (`Math.Round(1.5, 16)` threw
+on .NET 10 and returns `1.5` on .NET 11). `decimal` rounds the exact decimal
 value and accepts 0 to 28. A negative digit count throws
 `ArgumentOutOfRangeException` for both.
 
 ```csharp
-Math.Round(2.675, 2)                 // 2.68   (2.675 * 100 = 267.5 in double, then to even)
+Math.Round(2.675, 2)                 // .NET 10: 2.68 (2.675 * 100 = 267.5 in double, then to even)
+                                     // .NET 11: 2.67 (the stored value is 2.67499999...)
 Math.Round(2.675m, 2)                // 2.68
 2.675.ToString("F2")                 // 2.67   (formatting uses the exact stored value 2.67499999...)
-Math.Round(1.005, 2)                 // 1      (1.005 * 100 = 100.49999999999999)
+Math.Round(1.005, 2)                 // 1      (stored as 1.00499999...)
 Math.Round(1.005m, 2)                // 1.00
 Math.Round(1.005m, 2, MidpointRounding.AwayFromZero)  // 1.01
 Math.Round(1.015m, 2)                // 1.02   (101.5 goes to the even 102)
@@ -250,7 +278,11 @@ Math.Round(0.125, 2, MidpointRounding.AwayFromZero)   // 0.13
 ```
 
 Two takeaways. First, the same call on `double` and on `decimal` can differ
-because the `double` literal is not the number you typed. Second, formatting is
+because the `double` literal is not the number you typed; on .NET 11 the other
+cases change too (`Math.Round(1.15, 1)` goes from `1.2` to `1.1`,
+`Math.Round(655.925, 2, MidpointRounding.AwayFromZero)` from `655.93` to
+`655.92`, `MathF.Round(2.675f, 2)` from `2.68` to `2.67`), while every
+`decimal` overload stays the same. Second, formatting is
 a third rounding implementation: in this run `0.5.ToString("F0")` was `0` and
 `2.5.ToString("F0")` was `2` for `double` but `1` and `3` for `decimal`, and
 `0.125.ToString("N2")` was `0.12` against `0.125m.ToString("N2")` giving
@@ -389,7 +421,9 @@ as above.
   an audit. Use saturation where the maximum is a legitimate answer.
 - **Relying on out-of-range floating-point casts is relying on the runtime
   version.** The result changed between .NET 8 and .NET 9, and the small
-  integer types change again in .NET 11. Validate range and `NaN` first.
+  integer types change again in .NET 11, together with `double` to `decimal`
+  and `Math.Round(double, digits)`. Validate range and `NaN` first, and label
+  any number you write down with the runtime that produced it.
 
 ## Lab
 

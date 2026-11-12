@@ -16,6 +16,11 @@
         "label": "Collections Gap Audit: OrderedDictionary and ReadOnlySet",
         "slug": "collections-gap-audit-ordered-and-read-only-sets",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Collection Expressions, Spread and with(...) Arguments in C# 15",
+        "slug": "collection-expressions-spread-and-with-arguments",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -239,6 +244,11 @@
         "label": "Exact Arithmetic with BigDecimal and BigInteger",
         "slug": "exact-arithmetic-with-bigdecimal-and-biginteger",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Decimal Floating Point: Decimal32, Decimal64 and Decimal128",
+        "slug": "decimal-floating-point-decimal32-decimal64-decimal128",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -301,6 +311,11 @@
         "label": "Exact Arithmetic with BigDecimal and BigInteger",
         "slug": "exact-arithmetic-with-bigdecimal-and-biginteger",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Decimal Floating Point: Decimal32, Decimal64 and Decimal128",
+        "slug": "decimal-floating-point-decimal32-decimal64-decimal128",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -460,6 +475,11 @@
         "label": "File-Based Apps: Running a Single .cs File (.NET 10)",
         "slug": "file-based-apps",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -5635,5 +5655,564 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "whats-new-in-csharp-15",
+    "id": 121,
+    "category": "Language",
+    "title": "What's New in C# 15: A Map of the Features",
+    "topic": "Language Basics",
+    "summary": "A navigation map of the C# 15 features that ship with .NET 11: collection expression arguments, union types, closed classes, extension indexers, labeled break and continue, static interface members on older runtimes and the memory safety model that is still preview, each with a compiled snippet, the C# 14 error and a link to the deep concept, plus what did not make it into C# 15.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "csharp-language-versions-and-preview-features",
+      "whats-new-in-csharp-14",
+      "extension-members-and-extension-blocks",
+      "type-constant-and-relational-patterns"
+    ],
+    "related": [
+      {
+        "label": "Union Types in C# 15",
+        "slug": "union-types-in-csharp-15",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Closed Classes and Exhaustive Hierarchies",
+        "slug": "closed-classes-and-exhaustive-hierarchies",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Result Types versus Exceptions",
+        "slug": "result-types-versus-exceptions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Interfaces: Explicit Implementation and Default Methods",
+        "slug": "interfaces-explicit-implementation-and-default-methods",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Unsafe Code, Pointers and Function Pointers",
+        "slug": "unsafe-code-pointers-and-function-pointers",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in C# 15, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15",
+        "type": "doc"
+      },
+      {
+        "label": "C# language versioning, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version",
+        "type": "doc"
+      },
+      {
+        "label": "Union types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/union",
+        "type": "doc"
+      },
+      {
+        "label": "Closed hierarchies, C# 15 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-15.0/closed-hierarchies",
+        "type": "doc"
+      },
+      {
+        "label": "Collection expression arguments, C# 15 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-15.0/collection-expression-arguments",
+        "type": "doc"
+      },
+      {
+        "label": "Roslyn Language Feature Status, dotnet/roslyn",
+        "url": "https://github.com/dotnet/roslyn/blob/main/docs/Language%20Feature%20Status.md",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "union-types-in-csharp-15",
+    "id": 204,
+    "category": "Language",
+    "title": "Union Types in C# 15: Values From a Closed Set of Types",
+    "topic": "Pattern Matching",
+    "summary": "The C# 15 union declaration, what the compiler generates, patterns that test the contents, the default value and CS8509/CS8655, a hand-written union without boxing (measured at zero bytes), System.Text.Json support and what happens on older target frameworks.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "type-constant-and-relational-patterns",
+      "value-types-reference-types-and-boxing"
+    ],
+    "related": [
+      {
+        "label": "Result Types versus Exceptions",
+        "slug": "result-types-versus-exceptions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Closed Classes and Exhaustive Hierarchies",
+        "slug": "closed-classes-and-exhaustive-hierarchies",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Property, Positional and List Patterns",
+        "slug": "property-positional-and-list-patterns",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Nullable Reference Types and Flow Analysis",
+        "slug": "nullable-reference-types-and-flow-analysis",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Union types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/union",
+        "type": "doc"
+      },
+      {
+        "label": "Unions, C# 15 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-15.0/unions",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 15, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15",
+        "type": "doc"
+      },
+      {
+        "label": "Unions and closed hierarchies in ASP.NET Core, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/unions-and-closed-hierarchies-in-aspnetcore/",
+        "type": "doc"
+      },
+      {
+        "label": "Errors and warnings for pattern matching, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/pattern-matching-warnings",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/union-types-in-csharp-15"
+  },
+  {
+    "slug": "closed-classes-and-exhaustive-hierarchies",
+    "id": 205,
+    "category": "Language",
+    "title": "Closed Classes and Exhaustive Hierarchies in C# 15",
+    "topic": "Pattern Matching",
+    "summary": "The C# 15 closed modifier, its rules and real compiler errors, how exhaustiveness is computed over direct subclasses and where it has holes, the metadata the compiler writes, the System.Text.Json default of {} and how closed compares with abstract plus sealed, enum and union.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "type-constant-and-relational-patterns",
+      "inheritance-virtual-override-and-sealed"
+    ],
+    "related": [
+      {
+        "label": "Union Types in C# 15",
+        "slug": "union-types-in-csharp-15",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Records and with Expressions",
+        "slug": "records-and-with-expressions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Enums and Flags Enums",
+        "slug": "enums-and-flags-enums",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Result Types versus Exceptions",
+        "slug": "result-types-versus-exceptions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "JSON Converters, Contract Customization and Schema Export",
+        "slug": "json-converters-contracts-and-schema-export",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "closed modifier, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/closed",
+        "type": "doc"
+      },
+      {
+        "label": "Closed hierarchies, C# 15 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-15.0/closed-hierarchies",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 15, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15",
+        "type": "doc"
+      },
+      {
+        "label": "Unions and closed hierarchies in ASP.NET Core, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/unions-and-closed-hierarchies-in-aspnetcore/",
+        "type": "doc"
+      },
+      {
+        "label": "Closed enums proposal, dotnet/csharplang",
+        "url": "https://github.com/dotnet/csharplang/blob/main/proposals/closed-enums.md",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/closed-classes-and-exhaustive-hierarchies"
+  },
+  {
+    "slug": "running-external-processes-with-process",
+    "id": 602,
+    "category": "Base Class Library",
+    "title": "Running External Processes with Process",
+    "topic": "Files & I/O",
+    "summary": "Process and ProcessStartInfo with ArgumentList, the stdout and stderr deadlock and its fix, timeout with Kill(entireProcessTree), exit codes and signals, and the .NET 11 shortcuts (Run, RunAndCaptureText, ReadAllLines, ProcessExitStatus) with their timeout behavior checked.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "filesystem-apis-and-cross-platform-paths"
+    ],
+    "related": [
+      {
+        "label": "Async I/O and System.IO.Pipelines",
+        "slug": "async-io-and-system-io-pipelines",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Console Apps, Exit Codes and System.CommandLine",
+        "slug": "console-apps-exit-codes-and-system-commandline",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "IDisposable, Finalizers and Deterministic Cleanup",
+        "slug": "idisposable-finalizers-and-deterministic-cleanup",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Process Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process",
+        "type": "doc"
+      },
+      {
+        "label": "ProcessStartInfo.ArgumentList, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo.argumentlist",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET libraries for .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "Process.Kill(Boolean), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.kill",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/running-external-processes-with-process"
+  },
+  {
+    "slug": "collection-expressions-spread-and-with-arguments",
+    "id": 514,
+    "category": "Base Class Library",
+    "title": "Collection Expressions, Spread and with(...) Arguments in C# 15",
+    "topic": "Collections",
+    "summary": "Collection expressions from C# 12 to 15: the concrete type the compiler picks per target, spread, CollectionBuilder, the C# 15 with(...) arguments (capacity, comparer), their real compiler errors, and the silent change of a method named with, checked on the 11.0.100 SDK.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "collection-interfaces-and-choosing-a-collection"
+    ],
+    "related": [
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "List<T> and Array Internals",
+        "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Immutable and Frozen Collections",
+        "slug": "immutable-and-frozen-collections",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Records and with Expressions",
+        "slug": "records-and-with-expressions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Collection expressions, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/collection-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "Collection expression arguments, C# 15 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-15.0/collection-expression-arguments",
+        "type": "doc"
+      },
+      {
+        "label": "CollectionBuilderAttribute Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.collectionbuilderattribute",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 15, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/collection-expressions-spread-and-with-arguments"
+  },
+  {
+    "slug": "control-flow-switch-goto-and-labeled-jumps",
+    "id": 206,
+    "category": "Language",
+    "title": "Control Flow: switch, goto and Labeled Jumps",
+    "topic": "Operators & Control Flow",
+    "summary": "The switch statement and its no-fall-through rule, goto case and goto default, goto with a label, and the C# 15 labeled break and continue (stable on the 11.0.100 SDK), with the real compiler errors and how to choose between a label, a flag and a local function.",
+    "publishedAt": "2026-11-12",
+    "requires": [],
+    "related": [
+      {
+        "label": "foreach, the Enumerator Pattern and ref Iteration",
+        "slug": "foreach-enumerator-pattern-and-ref-iteration",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Exceptions: try, catch, Filters and finally",
+        "slug": "exceptions-try-catch-filters-and-finally",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Local Functions, Lambdas and Closures",
+        "slug": "local-functions-lambdas-and-closures",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Pattern Matching: Type, Constant and Relational Patterns, and switch Expressions",
+        "slug": "type-constant-and-relational-patterns",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Jump statements, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/jump-statements",
+        "type": "doc"
+      },
+      {
+        "label": "The switch statement, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements#the-switch-statement",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 15, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/control-flow-switch-goto-and-labeled-jumps"
+  },
+  {
+    "slug": "decimal-floating-point-decimal32-decimal64-decimal128",
+    "id": 722,
+    "category": "Language",
+    "title": "Decimal Floating Point: Decimal32, Decimal64 and Decimal128",
+    "topic": "Numbers & Conversions",
+    "summary": "The IEEE 754 decimal types of .NET 11 against decimal and double: digits, range, size, BID bits, rounding and silent overflow, conversions, parsing and formatting, System.Text.Json, measured speed in Release, and an honest note that almost nothing uses them yet.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "numeric-types-and-binary-representation",
+      "numeric-conversions-rounding-and-overflow"
+    ],
+    "related": [
+      {
+        "label": "Numeric Types and Binary Representation",
+        "slug": "numeric-types-and-binary-representation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Conversions, Rounding and Overflow",
+        "slug": "numeric-conversions-rounding-and-overflow",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generic Math and static abstract Members",
+        "slug": "generic-math-and-static-abstract-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Parsing: Parse, TryParse and the Try Pattern",
+        "slug": "parsing-tryparse-and-the-try-pattern",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Decimal64 struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.decimal64",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 11 libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "Decimal, double and BigInteger conversions in .NET 11, breaking change, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/11/decimal-biginteger-floating-point-conversions",
+        "type": "doc"
+      },
+      {
+        "label": "IDecimalFloatingPointIeee754<TSelf> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.idecimalfloatingpointieee754-1",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/decimal-floating-point-decimal32-decimal64-decimal128"
+  },
+  {
+    "slug": "benchmarking-with-benchmarkdotnet-and-allocation-profiling",
+    "id": 740,
+    "category": "Memory & Concurrency",
+    "title": "Benchmarking with BenchmarkDotNet and Allocation Profiling",
+    "topic": "Memory & Value Semantics",
+    "summary": "Why a Stopwatch misleads, BenchmarkDotNet with MemoryDiagnoser, baselines, Ratio and parameters, reading the report, the traps (dead code elimination, setup, Debug), .NET 10 against .NET 11, ArrayPool and ObjectPool measured, and dotnet-counters for allocation in a running process, with numbers from one machine.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "garbage-collector-generations-and-the-loh"
+    ],
+    "related": [
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Garbage Collector: Generations and the LOH",
+        "slug": "garbage-collector-generations-and-the-loh",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Building and Searching Strings Efficiently",
+        "slug": "building-and-searching-strings-efficiently",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Diagnosing Production with dotnet-trace, dotnet-dump and dotnet-gcdump",
+        "slug": "diagnosing-production-with-dotnet-trace-dump-and-gcdump",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "BenchmarkDotNet overview",
+        "url": "https://benchmarkdotnet.org/articles/overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "BenchmarkDotNet good practices",
+        "url": "https://benchmarkdotnet.org/articles/guides/good-practices.html",
+        "type": "doc"
+      },
+      {
+        "label": "BenchmarkDotNet baselines",
+        "url": "https://benchmarkdotnet.org/articles/features/baselines.html",
+        "type": "doc"
+      },
+      {
+        "label": "BenchmarkDotNet diagnosers",
+        "url": "https://benchmarkdotnet.org/articles/configs/diagnosers.html",
+        "type": "doc"
+      },
+      {
+        "label": "ArrayPool<T>, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.buffers.arraypool-1",
+        "type": "doc"
+      },
+      {
+        "label": "Object reuse with ObjectPool in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/objectpool",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet-counters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/benchmarking-with-benchmarkdotnet-and-allocation-profiling"
   }
 ]

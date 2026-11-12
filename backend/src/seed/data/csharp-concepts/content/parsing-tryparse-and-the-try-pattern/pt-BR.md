@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "Parsing, TryParse e o Padrão Try"
 summary: Parse versus TryParse, o que os NumberStyles padrão aceitam, a cultura do lado da leitura (com saída real do bug), datas com TryParseExact, armadilhas do Enum.TryParse, IParsable e ISpanParsable, como escrever o próprio método Try e o custo medido da exceção.
 ---
@@ -357,6 +357,20 @@ um Parse com sucesso                5.0 ns
 Um throw custa aqui cerca de 500 vezes mais que um `TryParse` que falha, e um
 `Parse` com sucesso é tão barato quanto um `TryParse`. Por isso a guideline diz
 que um método `Try` serve para o caso que falha na operação normal.
+
+### TryParsePartial no .NET 11
+
+`TryParse` rejeita texto sobrando no final. `TryParsePartial` lê o número do
+início e informa quantos caracteres usou, o que serve para tokenizadores. A
+sobrecarga exige `NumberStyles` e um provider:
+
+```csharp
+int.TryParsePartial("123abc", NumberStyles.Integer, CultureInfo.InvariantCulture,
+    out int v, out int consumed);   // true, v = 123, consumed = 3
+int.TryParsePartial("abc", NumberStyles.Integer, CultureInfo.InvariantCulture,
+    out v, out consumed);           // false, v = 0, consumed = 0
+int.TryParse("123abc", out _);      // false
+```
 
 ## Trade-offs
 

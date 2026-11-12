@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-11
+version: 1.2
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -270,6 +270,8 @@ Kestrel limits (first line, the defaults of `KestrelServerLimits`) protect the c
 Six calls never left the process. With a non-zero `QueueLimit` they would wait instead, usually what you want against a third-party quota.
 
 ## Trade-offs
+
+- **The `ConcurrencyLimiter` middleware is gone in .NET 11.** Not run by me, from the [release notes](https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11): use `AddConcurrencyLimiter` of the rate limiting middleware instead, as in the concurrency section above.
 
 - **Pick the status code on purpose.** The default 503 with an empty body says "server down", and clients and gateways treat that differently from 429.
   ```csharp

@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-11
+version: 1.2
+updatedAt: 2026-11-12
 title: "Rate limiting e timeouts de requisição"
 summary: Os middlewares de rate limiting e de request timeouts do ASP.NET Core medidos com rajadas reais: os quatro algoritmos, o 503 padrão, 429 com Retry-After, filas, políticas global e nomeadas, partições e o risco de DoS, o caso do proxy reverso, métricas e o que o cliente vê quando o tempo estoura.
 ---
@@ -272,6 +272,8 @@ Os limites do Kestrel (primeira linha, os padrões de `KestrelServerLimits`) pro
 Seis chamadas nunca saíram do processo. Com `QueueLimit` diferente de zero elas esperariam, o que costuma ser o desejado diante de uma cota de terceiros.
 
 ## Trade-offs
+
+- **O middleware `ConcurrencyLimiter` foi removido no .NET 11.** Não rodei, vem das [release notes](https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11): use o `AddConcurrencyLimiter` do middleware de rate limiting, como na seção de concurrency acima.
 
 - **Escolha o status code de propósito.** O 503 padrão com corpo vazio diz "servidor fora do ar", e clientes e gateways tratam isso de forma diferente de um 429.
   ```csharp

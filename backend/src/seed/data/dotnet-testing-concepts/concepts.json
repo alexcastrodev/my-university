@@ -314,6 +314,11 @@
         "label": "Testing Modules in Isolation",
         "slug": "testing-modules-in-isolation",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Test Data with Builders, Bogus and AutoFixture",
+        "slug": "test-data-with-builders-bogus-and-autofixture",
+        "feature": "dotnet-testing-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/test-doubles-fakes-stubs-and-nsubstitute",
@@ -624,6 +629,16 @@
         "label": "Testing a REST API with MockMvc",
         "slug": "spring-rest-api-testing-mockmvc",
         "feature": "testing-concepts"
+      },
+      {
+        "label": "Snapshot Testing with Verify",
+        "slug": "snapshot-testing-with-verify",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "End-to-End Testing with Playwright for .NET",
+        "slug": "end-to-end-testing-with-playwright-for-dotnet",
+        "feature": "dotnet-testing-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/integration-testing-with-webapplicationfactory",
@@ -928,6 +943,16 @@
         "label": "The dotnet CLI and the Noun-First Commands",
         "slug": "dotnet-cli-and-noun-first-commands",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Diagnosing Flaky, Crashing and Hanging Tests with Microsoft.Testing.Platform",
+        "slug": "diagnosing-flaky-crashing-and-hanging-tests-with-mtp",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Mutation Testing with Stryker.NET",
+        "slug": "mutation-testing-with-stryker-net",
+        "feature": "dotnet-testing-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/microsoft-testing-platform-and-dotnet-test",
@@ -1009,6 +1034,16 @@
         "label": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
         "slug": "observable-behavior-and-mock-fragility",
         "feature": "testing-concepts"
+      },
+      {
+        "label": "Snapshot Testing with Verify",
+        "slug": "snapshot-testing-with-verify",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "End-to-End Testing with Playwright for .NET",
+        "slug": "end-to-end-testing-with-playwright-for-dotnet",
+        "feature": "dotnet-testing-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-blazor-components-with-bunit",
@@ -1206,6 +1241,635 @@
       {
         "label": "MSTest test lifecycle, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "diagnosing-flaky-crashing-and-hanging-tests-with-mtp",
+    "id": 17,
+    "title": "Diagnosing Flaky, Crashing and Hanging Tests with Microsoft.Testing.Platform",
+    "topic": "Tooling & CI",
+    "summary": "Turn on retry, hang dump, crash dump and the TRX and HTML reports in MSTest.Sdk, read what each prints and writes, see what a retry hides, and compare it with MSTest's [Retry], [Timeout] and the two forms of --timeout, all measured on the .NET 11 GA SDK.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "microsoft-testing-platform-and-dotnet-test"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Testing.Platform, dotnet test and Code Coverage in CI",
+        "slug": "microsoft-testing-platform-and-dotnet-test",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "MSTest Fundamentals: Lifecycle and TestContext",
+        "slug": "mstest-fundamentals-lifecycle-and-testcontext",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing Background Services and Async Code",
+        "slug": "testing-background-services-and-async-code",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Diagnosing Production with dotnet-trace, dotnet-dump and dotnet-gcdump",
+        "slug": "diagnosing-production-with-dotnet-trace-dump-and-gcdump",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/diagnosing-flaky-crashing-and-hanging-tests-with-mtp",
+    "references": [
+      {
+        "label": "Microsoft.Testing.Platform features, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-features",
+        "type": "doc"
+      },
+      {
+        "label": "Retry, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-retry",
+        "type": "doc"
+      },
+      {
+        "label": "Crash and hang dumps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-crash-hang-dumps",
+        "type": "doc"
+      },
+      {
+        "label": "Test reports, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-test-reports",
+        "type": "doc"
+      },
+      {
+        "label": "MTP troubleshooting and exit codes, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-troubleshooting",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest SDK configuration, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-sdk",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet test with Microsoft.Testing.Platform, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-test-mtp",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "assertion-libraries-fluentassertions-awesomeassertions-and-shouldly",
+    "id": 18,
+    "title": "Assertion Libraries: FluentAssertions, AwesomeAssertions and Shouldly",
+    "topic": "Tooling & CI",
+    "summary": "The assertions that ship with MSTest 4.5.3 against AwesomeAssertions 9.6.0 and Shouldly 4.3.0, with real failure messages side by side, what the FluentAssertions 8 license says in the package (non-commercial use), and the culture and case traps that cost a debugging session, all measured on the .NET 11 GA SDK.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "mstest-fundamentals-lifecycle-and-testcontext"
+    ],
+    "related": [
+      {
+        "label": "MSTest 4 Fundamentals: Lifecycle, TestContext and Parallelism",
+        "slug": "mstest-fundamentals-lifecycle-and-testcontext",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Choosing a Test Framework: MSTest, xUnit, NUnit and TUnit",
+        "slug": "choosing-a-test-framework-mstest-xunit-nunit-tunit",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Test Doubles in .NET: Fakes, Stubs and NSubstitute",
+        "slug": "test-doubles-fakes-stubs-and-nsubstitute",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "The Four Pillars of a Good Unit Test",
+        "slug": "four-pillars-of-a-good-unit-test",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/assertion-libraries-fluentassertions-awesomeassertions-and-shouldly",
+    "references": [
+      {
+        "label": "MSTest assertions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-assertions",
+        "type": "doc"
+      },
+      {
+        "label": "FluentAssertions 8.11.0 package page, NuGet",
+        "url": "https://www.nuget.org/packages/FluentAssertions/8.11.0",
+        "type": "doc"
+      },
+      {
+        "label": "FluentAssertions license and pricing, Xceed",
+        "url": "https://xceed.com/products/unit-testing/fluent-assertions/",
+        "type": "doc"
+      },
+      {
+        "label": "AwesomeAssertions, GitHub",
+        "url": "https://github.com/AwesomeAssertions/AwesomeAssertions",
+        "type": "doc"
+      },
+      {
+        "label": "Shouldly documentation",
+        "url": "https://docs.shouldly.org/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "xunit-v3-for-mstest-developers",
+    "id": 19,
+    "title": "xUnit v3 for MSTest Developers",
+    "topic": "Tooling & CI",
+    "summary": "Port an MSTest 4.5.3 suite to xUnit v3 4.0.3 keeping the test names: an equivalence table, the lifecycle proved by a log, class and collection fixtures, parallelism by collection, the Assert.Throws that means exact type, ITestOutputHelper and Microsoft.Testing.Platform, with real output from the .NET 11 GA SDK.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "mstest-fundamentals-lifecycle-and-testcontext"
+    ],
+    "related": [
+      {
+        "label": "Choosing a Test Framework: MSTest, xUnit, NUnit and TUnit",
+        "slug": "choosing-a-test-framework-mstest-xunit-nunit-tunit",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "MSTest 4 Fundamentals: Lifecycle, TestContext and Parallelism",
+        "slug": "mstest-fundamentals-lifecycle-and-testcontext",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Data-Driven Tests in MSTest: DataRow, DynamicData and Custom Sources",
+        "slug": "mstest-data-driven-tests",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Microsoft.Testing.Platform, dotnet test and Code Coverage in CI",
+        "slug": "microsoft-testing-platform-and-dotnet-test",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "JUnit 5 Fundamentals",
+        "slug": "junit-5-fundamentals",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/xunit-v3-for-mstest-developers",
+    "references": [
+      {
+        "label": "Getting started with xUnit.net v3, xunit.net",
+        "url": "https://xunit.net/docs/getting-started/v3/getting-started",
+        "type": "doc"
+      },
+      {
+        "label": "xUnit.net v3 and Microsoft.Testing.Platform, xunit.net",
+        "url": "https://xunit.net/docs/getting-started/v3/microsoft-testing-platform",
+        "type": "doc"
+      },
+      {
+        "label": "Shared context between tests, xunit.net",
+        "url": "https://xunit.net/docs/shared-context",
+        "type": "doc"
+      },
+      {
+        "label": "Running tests in parallel, xunit.net",
+        "url": "https://xunit.net/docs/running-tests-in-parallel",
+        "type": "doc"
+      },
+      {
+        "label": "xUnit.net v3 4.0.0 release notes, xunit.net",
+        "url": "https://xunit.net/releases/v3/4.0.0",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest test lifecycle, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "snapshot-testing-with-verify",
+    "id": 20,
+    "title": "Snapshot Testing with Verify",
+    "topic": "Tooling & CI",
+    "summary": "Record a whole output in .verified files with Verify.MSTest, approve the .received file by reading it, scrub dates, Guids and numbers, see where a snapshot hides a regression, and understand the Verify 33 license (SC021 and how to declare it), all measured on the .NET 11 GA SDK.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "mstest-fundamentals-lifecycle-and-testcontext"
+    ],
+    "related": [
+      {
+        "label": "MSTest 4 Fundamentals: Lifecycle, TestContext and Parallelism",
+        "slug": "mstest-fundamentals-lifecycle-and-testcontext",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Controlling Time in Tests with TimeProvider and FakeTimeProvider",
+        "slug": "controlling-time-with-timeprovider",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Integration Testing ASP.NET Core with WebApplicationFactory",
+        "slug": "integration-testing-with-webapplicationfactory",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing Blazor Components with bUnit and MSTest",
+        "slug": "testing-blazor-components-with-bunit",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Mutation Testing with Stryker.NET",
+        "slug": "mutation-testing-with-stryker-net",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "The Four Pillars of a Good Unit Test",
+        "slug": "four-pillars-of-a-good-unit-test",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
+        "slug": "observable-behavior-and-mock-fragility",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/snapshot-testing-with-verify",
+    "references": [
+      {
+        "label": "Verify, GitHub",
+        "url": "https://github.com/VerifyTests/Verify",
+        "type": "doc"
+      },
+      {
+        "label": "Open Source Maintenance Fee for Verify",
+        "url": "https://github.com/VerifyTests/Verify/blob/main/docs/maintenance-fee.md",
+        "type": "doc"
+      },
+      {
+        "label": "SponsorCheck diagnostic codes (SC021, SC023, SC046)",
+        "url": "https://github.com/SimonCropp/SponsorCheck/blob/main/docs/VerifierDiagnosticCodes.md",
+        "type": "doc"
+      },
+      {
+        "label": "Verify.MSTest on NuGet",
+        "url": "https://www.nuget.org/packages/Verify.MSTest",
+        "type": "doc"
+      },
+      {
+        "label": "Open Source Maintenance Fee, FAQ for consumers",
+        "url": "https://opensourcemaintenancefee.org/consumers/faq/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mutation-testing-with-stryker-net",
+    "id": 21,
+    "title": "Mutation Testing with Stryker.NET",
+    "topic": "Tooling & CI",
+    "summary": "Run Stryker.NET 5 on an MSTest project that uses Microsoft.Testing.Platform (the mtp runner), read the score and the surviving mutants, write the tests that kill them, tell an equivalent mutant from a missing test, and see the measured time cost on the .NET 11 GA SDK.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "microsoft-testing-platform-and-dotnet-test"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Testing.Platform, dotnet test and Code Coverage in CI",
+        "slug": "microsoft-testing-platform-and-dotnet-test",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "MSTest 4 Fundamentals: Lifecycle, TestContext and Parallelism",
+        "slug": "mstest-fundamentals-lifecycle-and-testcontext",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Snapshot Testing with Verify",
+        "slug": "snapshot-testing-with-verify",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "The Four Pillars of a Good Unit Test",
+        "slug": "four-pillars-of-a-good-unit-test",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Test Quality and Testable Code",
+        "slug": "test-quality-and-testable-code",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/mutation-testing-with-stryker-net",
+    "references": [
+      {
+        "label": "Stryker.NET introduction",
+        "url": "https://stryker-mutator.io/docs/stryker-net/introduction/",
+        "type": "doc"
+      },
+      {
+        "label": "Stryker.NET configuration",
+        "url": "https://stryker-mutator.io/docs/stryker-net/configuration/",
+        "type": "doc"
+      },
+      {
+        "label": "Stryker.NET mutations",
+        "url": "https://stryker-mutator.io/docs/stryker-net/mutations/",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet-stryker on NuGet",
+        "url": "https://www.nuget.org/packages/dotnet-stryker",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Testing.Platform overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-intro",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "test-data-with-builders-bogus-and-autofixture",
+    "id": 22,
+    "title": "Test Data with Builders, Bogus and AutoFixture",
+    "topic": "Test Doubles",
+    "summary": "Build test data three ways with MSTest 4: a hand-written Test Data Builder, Bogus with a fixed seed, and AutoFixture with AutoNSubstitute, and learn when each one hides what a test is really about.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "test-doubles-fakes-stubs-and-nsubstitute"
+    ],
+    "related": [
+      {
+        "label": "Test Doubles in .NET: Fakes, Stubs and NSubstitute",
+        "slug": "test-doubles-fakes-stubs-and-nsubstitute",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "MSTest Data-Driven Tests",
+        "slug": "mstest-data-driven-tests",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing with Real Databases using Testcontainers",
+        "slug": "testing-with-real-databases-using-testcontainers",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Reusing Test Fixtures and Parameterized Tests",
+        "slug": "reusing-test-fixtures-and-parameterized-tests",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/test-data-with-builders-bogus-and-autofixture",
+    "references": [
+      {
+        "label": "Bogus on GitHub",
+        "url": "https://github.com/bchavez/Bogus",
+        "type": "doc"
+      },
+      {
+        "label": "AutoFixture on GitHub",
+        "url": "https://github.com/AutoFixture/AutoFixture",
+        "type": "doc"
+      },
+      {
+        "label": "AutoFixture.AutoNSubstitute on NuGet",
+        "url": "https://www.nuget.org/packages/AutoFixture.AutoNSubstitute",
+        "type": "doc"
+      },
+      {
+        "label": "Bogus on NuGet",
+        "url": "https://www.nuget.org/packages/Bogus",
+        "type": "doc"
+      },
+      {
+        "label": "NSubstitute documentation",
+        "url": "https://nsubstitute.github.io/help/getting-started/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "end-to-end-testing-with-playwright-for-dotnet",
+    "id": 23,
+    "title": "End-to-End Testing with Playwright for .NET",
+    "topic": "ASP.NET Core Testing",
+    "summary": "Drive headless Chromium against an ASP.NET Core app on a real Kestrel socket with MSTest 4: locators, auto-wait, trace viewer and Page Objects, and why Microsoft.Playwright.MSTest discovers 0 tests with MSTest 4.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "integration-testing-with-webapplicationfactory"
+    ],
+    "related": [
+      {
+        "label": "Integration Testing ASP.NET Core with WebApplicationFactory",
+        "slug": "integration-testing-with-webapplicationfactory",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing Blazor Components with bUnit",
+        "slug": "testing-blazor-components-with-bunit",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing Authentication and Authorization in ASP.NET Core",
+        "slug": "testing-authentication-and-authorization-in-aspnet-core",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Selenium Browser Testing",
+        "slug": "selenium-browser-testing",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Test Pyramid Strategy",
+        "slug": "test-pyramid-strategy",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/end-to-end-testing-with-playwright-for-dotnet",
+    "references": [
+      {
+        "label": "Playwright for .NET: Getting started",
+        "url": "https://playwright.dev/dotnet/docs/intro",
+        "type": "doc"
+      },
+      {
+        "label": "Playwright for .NET: Test runners",
+        "url": "https://playwright.dev/dotnet/docs/test-runners",
+        "type": "doc"
+      },
+      {
+        "label": "Playwright: Locators",
+        "url": "https://playwright.dev/dotnet/docs/locators",
+        "type": "doc"
+      },
+      {
+        "label": "Playwright: Auto-waiting",
+        "url": "https://playwright.dev/dotnet/docs/actionability",
+        "type": "doc"
+      },
+      {
+        "label": "Playwright: Trace viewer",
+        "url": "https://playwright.dev/dotnet/docs/trace-viewer",
+        "type": "doc"
+      },
+      {
+        "label": "Playwright: Page object models",
+        "url": "https://playwright.dev/dotnet/docs/pom",
+        "type": "doc"
+      },
+      {
+        "label": "WebApplicationFactory<TEntryPoint>.UseKestrel method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.testing.webapplicationfactory-1.usekestrel",
+        "type": "doc"
+      },
+      {
+        "label": "MSTEST0082 analyzer, Microsoft Learn",
+        "url": "https://learn.microsoft.com/dotnet/core/testing/mstest-analyzers/mstest0082",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "property-based-testing-with-fscheck",
+    "id": 24,
+    "title": "Property-Based Testing with FsCheck in MSTest 4",
+    "topic": "Tooling & CI",
+    "summary": "Write properties instead of examples, build generators and shrinkers with Arbitrary, read the shrunk counterexample of a real bug, replay failures by seed, run FsCheck 3.6.0 inside an MSTest 4 TestMethod, and know when a property is not worth it.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "mstest-data-driven-tests"
+    ],
+    "related": [
+      {
+        "label": "MSTest Data-Driven Tests: DataRow, DynamicData and Custom Sources",
+        "slug": "mstest-data-driven-tests",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Test Data with Builders, Bogus and AutoFixture",
+        "slug": "test-data-with-builders-bogus-and-autofixture",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Mutation Testing with Stryker.NET",
+        "slug": "mutation-testing-with-stryker-net",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Three Styles of Unit Testing",
+        "slug": "three-styles-of-unit-testing",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Test Quality and Testable Code",
+        "slug": "test-quality-and-testable-code",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/property-based-testing-with-fscheck",
+    "references": [
+      {
+        "label": "FsCheck documentation",
+        "url": "https://fscheck.github.io/FsCheck/",
+        "type": "doc"
+      },
+      {
+        "label": "FsCheck on GitHub",
+        "url": "https://github.com/fscheck/FsCheck",
+        "type": "doc"
+      },
+      {
+        "label": "FsCheck 3.6.0 on NuGet",
+        "url": "https://www.nuget.org/packages/FsCheck/3.6.0",
+        "type": "doc"
+      },
+      {
+        "label": "AndreasDorfer.FsCheck.MSTest on NuGet",
+        "url": "https://www.nuget.org/packages/AndreasDorfer.FsCheck.MSTest",
+        "type": "doc"
+      },
+      {
+        "label": "Data-driven testing with MSTest, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-data-driven",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "evaluating-ai-features-with-meai-evaluation",
+    "id": 25,
+    "title": "Evaluating AI Features with Microsoft.Extensions.AI.Evaluation",
+    "topic": "AI Testing",
+    "summary": "Score model answers with relevance, coherence and groundedness evaluators judged by a local Ollama, add deterministic evaluators that need no LLM, cache responses to replay offline in MSTest 4, generate the HTML report, write threshold assertions for non-determinism, and know the cost; safety evaluators stay documented only.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "mstest-fundamentals-lifecycle-and-testcontext"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
+        "slug": "meai-ichatclient-and-middleware-pipeline",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "RAG: Ingestion, Chunking and Grounding",
+        "slug": "rag-ingestion-chunking-and-grounding",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Controlling Time in Tests with TimeProvider and FakeTimeProvider",
+        "slug": "controlling-time-with-timeprovider",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Snapshot Testing with Verify",
+        "slug": "snapshot-testing-with-verify",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Test Doubles in .NET: Fakes, Stubs and NSubstitute",
+        "slug": "test-doubles-fakes-stubs-and-nsubstitute",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "The Test Pyramid Strategy",
+        "slug": "test-pyramid-strategy",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/evaluating-ai-features-with-meai-evaluation",
+    "references": [
+      {
+        "label": "The Microsoft.Extensions.AI.Evaluation libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/evaluation/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "Evaluate a model's response, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/evaluation/evaluate-ai-response",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: evaluate a response with response caching and reporting, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/tutorials/evaluate-with-reporting",
+        "type": "doc"
+      },
+      {
+        "label": "Safety evaluations, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/evaluation/evaluate-safety",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Extensions.AI.Evaluation 11.0.0 on NuGet",
+        "url": "https://www.nuget.org/packages/Microsoft.Extensions.AI.Evaluation/11.0.0",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Extensions.AI.Evaluation.Console 11.0.0 on NuGet",
+        "url": "https://www.nuget.org/packages/Microsoft.Extensions.AI.Evaluation.Console/11.0.0",
         "type": "doc"
       }
     ]

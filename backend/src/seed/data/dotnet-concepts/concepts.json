@@ -91,6 +91,11 @@
         "label": "C# Language Versions, the Compiler and Preview Features",
         "slug": "csharp-language-versions-and-preview-features",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in .NET 11: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-11",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -529,6 +534,11 @@
         "label": "JSON Columns and Complex Types",
         "slug": "json-columns-and-complex-types",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 11: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-11",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -732,6 +742,11 @@
         "label": "The Transactional Outbox Pattern",
         "slug": "outbox-pattern",
         "feature": "system-design"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -1019,6 +1034,11 @@
       {
         "label": "Choosing an ASP.NET Core Application Model",
         "slug": "choosing-an-aspnet-core-application-model",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Compiled Models and Startup Time",
+        "slug": "ef-core-compiled-models-and-startup-time",
         "feature": "dotnet-concepts"
       }
     ],
@@ -1822,6 +1842,11 @@
         "label": "LINQ: Sets, Joins, Grouping and Lookups",
         "slug": "linq-sets-joins-grouping-and-lookups",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2281,6 +2306,11 @@
         "label": "DbContext Lifetime and Change Tracking",
         "slug": "dbcontext-lifetime-and-change-tracking",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/domain-events-and-consistency-boundaries",
@@ -2517,6 +2547,11 @@
       {
         "label": "Domain Events and Consistency Boundaries",
         "slug": "domain-events-and-consistency-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
         "feature": "dotnet-concepts"
       }
     ],
@@ -3486,6 +3521,16 @@
         "label": "REST Semantics: Status Codes and Idempotency",
         "slug": "rest-semantics-status-codes-and-idempotency",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Message Brokers: MassTransit, Azure Service Bus and RabbitMQ",
+        "slug": "message-brokers-masstransit-azure-service-bus-and-rabbitmq",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -3536,6 +3581,11 @@
       {
         "label": "REST Semantics: Status Codes and Idempotency",
         "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
         "feature": "dotnet-concepts"
       }
     ],
@@ -3595,6 +3645,11 @@
         "label": "Async Streams with IAsyncEnumerable",
         "slug": "async-streams-iasyncenumerable",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Runtime Async in .NET 11",
+        "slug": "runtime-async-in-dotnet-11",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -4208,6 +4263,11 @@
         "label": "Async Streams with IAsyncEnumerable",
         "slug": "async-streams-iasyncenumerable",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -4584,6 +4644,16 @@
         "label": "In-Memory Queues with Channels",
         "slug": "in-memory-queues-with-channels",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HTTP QUERY: Safe Requests With a Body",
+        "slug": "http-query-method-and-safe-requests-with-a-body",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -4705,6 +4775,11 @@
         "label": "Applying Migrations in Production",
         "slug": "applying-migrations-in-production",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Feature Flags with Microsoft.FeatureManagement",
+        "slug": "feature-flags-with-microsoft-featuremanagement",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -4763,6 +4838,11 @@
         "label": "JSON Converters, Contract Customization and Schema Export",
         "slug": "json-converters-contracts-and-schema-export",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "HTTP QUERY: Safe Requests With a Body",
+        "slug": "http-query-method-and-safe-requests-with-a-body",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -5108,6 +5188,11 @@
         "label": "Blazor WebAssembly Client and API Integration",
         "slug": "blazor-webassembly-client-and-api-integration",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -5290,6 +5375,11 @@
         "label": "EF Core Migrations Workflow",
         "slug": "ef-core-migrations-workflow",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CQRS, Mediator and Vertical Slices",
+        "slug": "cqrs-mediator-and-vertical-slices",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -5361,6 +5451,11 @@
       {
         "label": "Mapping the Domain with EF Core",
         "slug": "mapping-the-domain-with-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CQRS, Mediator and Vertical Slices",
+        "slug": "cqrs-mediator-and-vertical-slices",
         "feature": "dotnet-concepts"
       }
     ],
@@ -5434,6 +5529,11 @@
         "label": "Authentication and Authorization at Scale",
         "slug": "authentication-and-authorization-at-scale",
         "feature": "system-design"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -5749,6 +5849,11 @@
         "label": "Startup, Liveness and Readiness Probes",
         "slug": "startup-liveness-readiness-probes",
         "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "Reverse Proxy and API Gateway with YARP",
+        "slug": "reverse-proxy-and-api-gateway-with-yarp",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -5967,6 +6072,11 @@
         "label": "Rate Limiting and Abuse Protection with rack-attack",
         "slug": "rate-limiting-and-abuse-protection",
         "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Reverse Proxy and API Gateway with YARP",
+        "slug": "reverse-proxy-and-api-gateway-with-yarp",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -6037,6 +6147,11 @@
       {
         "label": "HttpClient and IHttpClientFactory",
         "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Reverse Proxy and API Gateway with YARP",
+        "slug": "reverse-proxy-and-api-gateway-with-yarp",
         "feature": "dotnet-concepts"
       }
     ],
@@ -7385,6 +7500,11 @@
         "label": "Transactions and Optimistic Concurrency in EF Core",
         "slug": "transactions-and-optimistic-concurrency",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Temporal Tables and History Queries in EF Core",
+        "slug": "temporal-tables-and-history-queries",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -7419,5 +7539,1923 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "whats-new-in-ef-core-11",
+    "id": 750,
+    "category": "Data Access",
+    "title": "What's New in EF Core 11: A Map",
+    "topic": "EF Core",
+    "summary": "A map of the EF Core 11 release (STS, .NET 11) with real SQL side by side against EF Core 10: leaner SQL, new translations, JSON path indexes, LastMigrationId, SQL Server 2025 and Cosmos DB.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "whats-new-in-ef-core-10",
+      "query-translation-and-performance",
+      "json-columns-and-complex-types"
+    ],
+    "related": [
+      {
+        "label": "What's New in EF Core 10: A Map",
+        "slug": "whats-new-in-ef-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Upgrading from EF Core 10 to 11: Breaking Changes",
+        "slug": "upgrading-from-ef-core-10-to-11-breaking-changes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Query Translation and Performance in EF Core",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core with NoSQL: Cosmos DB and MongoDB",
+        "slug": "ef-core-nosql-cosmos-db-and-mongodb",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Compiled Models and Startup Time",
+        "slug": "ef-core-compiled-models-and-startup-time",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Temporal Tables and History Queries in EF Core",
+        "slug": "temporal-tables-and-history-queries",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/breaking-changes",
+        "type": "doc"
+      },
+      {
+        "label": "Vector search, SQL Server provider, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/vector-search",
+        "type": "doc"
+      },
+      {
+        "label": "Complex types, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/complex-types",
+        "type": "doc"
+      },
+      {
+        "label": "Migrations overview, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/",
+        "type": "doc"
+      },
+      {
+        "label": ".NET 11 release notes, GitHub",
+        "url": "https://github.com/dotnet/core/tree/main/release-notes/11.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "upgrading-from-ef-core-10-to-11-breaking-changes",
+    "id": 751,
+    "category": "Data Access",
+    "title": "Upgrading from EF Core 10 to 11: Breaking Changes",
+    "topic": "Migrations",
+    "summary": "The silent breaks of the EF Core 10 to 11 upgrade, reproduced on 11.0.0: Migrate() without migrations, Property() on a primitive collection, obsolete OwnsMany().ToJson() and the SQL Server compatibility level.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "whats-new-in-ef-core-11",
+      "ef-core-migrations-workflow"
+    ],
+    "related": [
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Applying Migrations in Production",
+        "slug": "applying-migrations-in-production",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Model Building: Conventions, Annotations and Fluent API",
+        "slug": "ef-core-model-building-conventions-and-fluent-api",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core, ADO.NET, Dapper and Choosing a Data Access Approach",
+        "slug": "ef-core-ado-net-dapper-and-nosql",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Testing EF Core Queries, Concurrency and Migrations",
+        "slug": "testing-ef-core-queries-concurrency-and-migrations",
+        "feature": "dotnet-testing-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Breaking changes in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/breaking-changes",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Complex types, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/complex-types",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.EntityFrameworkCore, NuGet",
+        "url": "https://www.nuget.org/packages/Microsoft.EntityFrameworkCore",
+        "type": "doc"
+      },
+      {
+        "label": "SQL Server provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/",
+        "type": "doc"
+      },
+      {
+        "label": "Applying migrations, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/upgrading-from-ef-core-10-to-11-breaking-changes"
+  },
+  {
+    "slug": "whats-new-in-aspnet-core-11",
+    "id": 321,
+    "category": "ASP.NET Core",
+    "title": "What's New in ASP.NET Core 11: A Map",
+    "topic": "ASP.NET Core Fundamentals",
+    "summary": "A map of the ASP.NET Core 11 release notes grouped into automatic, opt-in, breaking and experimental changes, saying which items were run on the 11.0.100 GA and which come only from the official page, with a link to the concept that goes deep on each one.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "kestrel-iis-and-hosting-models",
+      "input-validation-in-minimal-apis",
+      "openapi-document-generation",
+      "blazor-static-ssr-and-enhanced-navigation"
+    ],
+    "related": [
+      {
+        "label": "What's New in ASP.NET Core 10: A Map",
+        "slug": "whats-new-in-aspnet-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Migrating from ASP.NET Core 10 to 11",
+        "slug": "migrating-from-aspnet-core-10-to-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenAPI Document Generation",
+        "slug": "openapi-document-generation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate from ASP.NET Core 10 to 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/100-to-110",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/11",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "migrating-from-aspnet-core-10-to-11",
+    "id": 322,
+    "category": "ASP.NET Core",
+    "title": "Migrating from ASP.NET Core 10 to 11",
+    "topic": "ASP.NET Core Fundamentals",
+    "summary": "An upgrade checklist from the .NET 10 LTS, with before and after run on both SDKs: the NU1605 restore error from Microsoft.OpenApi 3.x, the OpenAPI 3.2 default, RunAsync throwing when a BackgroundService fails, scope disposal aggregating exceptions, an empty string winning in chained configuration and the automatic CSRF check, plus what comes only from the migration guide.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "whats-new-in-aspnet-core-10",
+      "hosted-services-and-backgroundservice"
+    ],
+    "related": [
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 10: A Map",
+        "slug": "whats-new-in-aspnet-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Central Package Management and Package Source Mapping",
+        "slug": "central-package-management-and-package-source-mapping",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenAPI Document Generation",
+        "slug": "openapi-document-generation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Migrate from ASP.NET Core 10 to 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/100-to-110",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/11",
+        "type": "doc"
+      },
+      {
+        "label": "OpenAPI document version defaults to 3.2, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/openapi-version-default-3-2",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.OpenApi 3.x dependency, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/microsoft-openapi-3x",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+    "id": 408,
+    "category": "ASP.NET Core",
+    "title": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+    "topic": "Security",
+    "summary": "The two CSRF defenses of ASP.NET Core, the antiforgery token and the .NET 11 automatic check by Sec-Fetch-Site and Origin, which one has the final verdict, how to open a webhook or a trusted partner site, what a JSON endpoint does not get and how DisableAntiforgery and DisableCsrfProtection behave, with the status code of each case from tests that send the headers.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "authentication-and-authorization-fundamentals",
+      "cors-for-spa-and-wasm-clients"
+    ],
+    "related": [
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Data Protection: Key Ring and Purposes",
+        "slug": "data-protection-key-ring-and-purposes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery",
+        "type": "doc"
+      },
+      {
+        "label": "Blazor SSR defers antiforgery validation to middleware, breaking change, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/blazor-server-side-rendering-deferred-cross-site-request-forgery-protection",
+        "type": "doc"
+      },
+      {
+        "label": "Enable Cross-Origin Requests (CORS) in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/cors",
+        "type": "doc"
+      },
+      {
+        "label": "Sec-Fetch-Site, MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Sec-Fetch-Site",
+        "type": "doc"
+      },
+      {
+        "label": "Fetch Metadata Request Headers, W3C",
+        "url": "https://www.w3.org/TR/fetch-metadata/",
+        "type": "doc"
+      },
+      {
+        "label": "Cross-Site Request Forgery Prevention Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/csrf-protection-antiforgery-tokens-and-fetch-metadata"
+  },
+  {
+    "slug": "whats-new-in-dotnet-11",
+    "id": 122,
+    "category": "Platform & Tooling",
+    "title": "What's New in .NET 11: A Map of the Platform",
+    "topic": "Runtime & SDK",
+    "summary": "A hub for the .NET 11 release (STS) run on the 11.0.100 SDK: runtime, SDK and CLI, base library, what the 11 runtime changes even for a net10.0 app, and one pointer each to the C# 15, ASP.NET Core 11 and EF Core 11 maps, with what is still preview or doc only marked.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "dotnet-support-lifecycle-and-choosing-a-target",
+      "whats-new-in-dotnet-10"
+    ],
+    "related": [
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Upgrading to .NET 11 and Reading the Breaking Changes",
+        "slug": "upgrading-to-dotnet-11-and-reading-breaking-changes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Migrating from ASP.NET Core 10 to 11",
+        "slug": "migrating-from-aspnet-core-10-to-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Upgrading from EF Core 10 to 11: Breaking Changes",
+        "slug": "upgrading-from-ef-core-10-to-11-breaking-changes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Task, Async/Await Internals and Runtime Async",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "File-Based Apps",
+        "slug": "file-based-apps",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The dotnet CLI and the Noun-First Commands",
+        "slug": "dotnet-cli-and-noun-first-commands",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Compression: ZIP, GZip, Brotli and TAR",
+        "slug": "compression-zip-gzip-brotli-and-tar",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Conversions, Rounding and Overflow",
+        "slug": "numeric-conversions-rounding-and-overflow",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Runtime Async in .NET 11",
+        "slug": "runtime-async-in-dotnet-11",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/overview",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the .NET 11 runtime, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/runtime",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the SDK and tooling for .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the .NET 11 libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries",
+        "type": "doc"
+      },
+      {
+        "label": ".NET 11 release notes, GitHub",
+        "url": "https://github.com/dotnet/core/tree/main/release-notes/11.0",
+        "type": "doc"
+      },
+      {
+        "label": ".NET and .NET Core official support policy",
+        "url": "https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "upgrading-to-dotnet-11-and-reading-breaking-changes",
+    "id": 123,
+    "category": "Platform & Tooling",
+    "title": "Upgrading to .NET 11 and Reading the Breaking Changes",
+    "topic": "Runtime & SDK",
+    "summary": "How to read the breaking changes page and the real 10 to 11 case, with before and after run on SDK 10 and SDK 11: silent numeric, ZIP, GZip and args[0] changes, the Native AOT publish default at GA, and the compiler breaks CS7083, CS8352, CS9380 and with(...) versus @with.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "dotnet-support-lifecycle-and-choosing-a-target",
+      "whats-new-in-dotnet-11"
+    ],
+    "related": [
+      {
+        "label": "What's New in .NET 11: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Porting from .NET Framework to Modern .NET",
+        "slug": "porting-from-net-framework-to-modern-net",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Multi-Targeting and netstandard",
+        "slug": "multi-targeting-and-netstandard",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Migrating from ASP.NET Core 10 to 11",
+        "slug": "migrating-from-aspnet-core-10-to-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Upgrading from EF Core 10 to 11: Breaking Changes",
+        "slug": "upgrading-from-ef-core-10-to-11-breaking-changes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Numeric Conversions, Rounding and Overflow",
+        "slug": "numeric-conversions-rounding-and-overflow",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Compression: ZIP, GZip, Brotli and TAR",
+        "slug": "compression-zip-gzip-brotli-and-tar",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Console Apps, Exit Codes and System.CommandLine",
+        "slug": "console-apps-exit-codes-and-system-commandline",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "C# Language Versions and Preview Features",
+        "slug": "csharp-language-versions-and-preview-features",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Breaking changes in .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/11",
+        "type": "doc"
+      },
+      {
+        "label": "Float to small integer conversions saturate, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/jit/11/fp-to-small-integer",
+        "type": "doc"
+      },
+      {
+        "label": "Math.Round with digits, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/11/math-round-digits",
+        "type": "doc"
+      },
+      {
+        "label": "Decimal and BigInteger floating point conversions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/11/decimal-biginteger-floating-point-conversions",
+        "type": "doc"
+      },
+      {
+        "label": "Environment.GetCommandLineArgs and the apphost, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/11/environment-getcommandlineargs-apphost-invocation-name",
+        "type": "doc"
+      },
+      {
+        "label": "Compiler breaking changes in .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/breaking-changes/compiler%20breaking%20changes%20-%20dotnet%2011",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/upgrading-to-dotnet-11-and-reading-breaking-changes"
+  },
+  {
+    "slug": "nuget-supply-chain-audit-lock-files-and-publish-age",
+    "id": 204,
+    "category": "Platform & Tooling",
+    "title": "NuGet Supply Chain: Audit, Lock Files and Minimum Publish Age",
+    "topic": "NuGet & Packaging",
+    "summary": "Defense in depth for NuGet with real output from the 11.0.100 SDK: NuGetAudit modes and levels, packages.lock.json with --locked-mode (NU1004 versus NU1403), transitive pinning, package signatures and the new minimum publish age (minPublishAgeHours, NU1020).",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "nuget-restore-versions-and-dependency-resolution",
+      "central-package-management-and-package-source-mapping"
+    ],
+    "related": [
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Central Package Management and Package Source Mapping",
+        "slug": "central-package-management-and-package-source-mapping",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Packaging and Publishing a NuGet Library",
+        "slug": "packaging-and-publishing-a-nuget-library",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Analyzers, EditorConfig and Build Quality Gates",
+        "slug": "analyzers-editorconfig-and-build-quality-gates",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The dotnet CLI and Noun-First Commands",
+        "slug": "dotnet-cli-and-noun-first-commands",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Minimum package publish age, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/consume-packages/minimum-package-publish-age",
+        "type": "doc"
+      },
+      {
+        "label": "Auditing packages for security vulnerabilities, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/auditing-packages",
+        "type": "doc"
+      },
+      {
+        "label": "Best practices for a secure software supply chain, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/security-best-practices",
+        "type": "doc"
+      },
+      {
+        "label": "Restore doesn't search the global packages folder for a higher package version, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/11/restore-global-packages-folder-version-search",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/nuget-supply-chain-audit-lock-files-and-publish-age"
+  },
+  {
+    "slug": "async-validation-with-data-annotations",
+    "id": 752,
+    "category": "ASP.NET Core",
+    "title": "Async Validation with Data Annotations",
+    "topic": "Minimal APIs",
+    "summary": "AsyncValidationAttribute and IAsyncValidatableObject in .NET 11 Minimal APIs for rules that query a database or a service, the order in which rules run, the ProblemDetails response, cancellation through the request token, and what was left out because it was not executed.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "input-validation-in-minimal-apis"
+    ],
+    "related": [
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Forms: EditForm and Validation",
+        "slug": "blazor-forms-editform-and-validation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11.0",
+        "type": "doc"
+      },
+      {
+        "label": "Validation in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#validation-support-in-minimal-apis",
+        "type": "doc"
+      },
+      {
+        "label": "AsyncValidationAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.asyncvalidationattribute",
+        "type": "doc"
+      },
+      {
+        "label": "Handle errors in ASP.NET Core APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/async-validation-with-data-annotations"
+  },
+  {
+    "slug": "response-compression-brotli-gzip-and-zstandard",
+    "id": 753,
+    "category": "ASP.NET Core",
+    "title": "Response Compression: Brotli, Gzip and Zstandard",
+    "topic": "Hosting & Pipeline",
+    "summary": "The ASP.NET Core response compression middleware, the zstd, br and gzip providers, Vary: Accept-Encoding on every response in .NET 11, HTTPS and BREACH, when to leave compression to the proxy, and size and time measured on a 371 KB payload.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Static Files and MapStaticAssets",
+        "slug": "static-files-and-mapstaticassets",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HTTPS, HSTS and Secure Defaults",
+        "slug": "https-hsts-and-secure-defaults",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Response compression in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/response-compression",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking change: response compression always emits Vary: Accept-Encoding, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/response-compression-always-vary",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8878: Zstandard Compression and the application/zstd Media Type",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8878",
+        "type": "doc"
+      },
+      {
+        "label": "BREACH (security exploit), Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/BREACH",
+        "type": "doc"
+      },
+      {
+        "label": "Vary header, MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Vary",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/response-compression-brotli-gzip-and-zstandard"
+  },
+  {
+    "slug": "ef-core-compiled-models-and-startup-time",
+    "id": 764,
+    "category": "Data Access",
+    "title": "EF Core Compiled Models and Startup Time",
+    "topic": "EF Core Querying",
+    "summary": "dotnet ef dbcontext optimize, what the compiled model generates and how EF Core finds it, what changes in EF Core 11 (EFOptimizeContext removed), startup measured with and without a compiled model on 60 and 300 entities, the stale model nobody notices, and precompiled queries, still experimental.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "dbcontext-lifetime-and-change-tracking"
+    ],
+    "related": [
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Query Translation and Performance in EF Core",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Model Building: Conventions, Annotations and Fluent API",
+        "slug": "ef-core-model-building-conventions-and-fluent-api",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Global and Named Query Filters (EF Core 10)",
+        "slug": "global-and-named-query-filters",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/ef-core-compiled-models-and-startup-time",
+    "references": [
+      {
+        "label": "Compiled models, advanced performance topics, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/advanced-performance-topics#compiled-models",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/breaking-changes",
+        "type": "doc"
+      },
+      {
+        "label": "NativeAOT support and precompiled queries (experimental), EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/nativeaot-and-precompiled-queries",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet ef dbcontext optimize, EF Core tools reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/cli/dotnet#dotnet-ef-dbcontext-optimize",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "temporal-tables-and-history-queries",
+    "id": 765,
+    "category": "Data Access",
+    "title": "Temporal Tables and History Queries in EF Core",
+    "topic": "EF Core Modeling",
+    "summary": "IsTemporal, TemporalAsOf, TemporalAll, TemporalBetween and the other operators, the DDL and SQL EF Core 11 generates (offline, no server), converting an existing table, restoring a deleted row and period columns as CLR properties, new in EF Core 11. A SQL Server feature, not run against a server.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "ef-core-model-building-conventions-and-fluent-api"
+    ],
+    "related": [
+      {
+        "label": "EF Core Interceptors, Events and Auditing",
+        "slug": "ef-core-interceptors-events-and-auditing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Global and Named Query Filters (EF Core 10)",
+        "slug": "global-and-named-query-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Provider Differences: PostgreSQL, SQL Server and SQLite",
+        "slug": "ef-core-provider-differences-postgresql-sql-server-sqlite",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Temporal tables, SQL Server provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/temporal-tables",
+        "type": "doc"
+      },
+      {
+        "label": "Temporal tables, SQL Server, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/tables/temporal-tables",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Interceptors, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "runtime-async-in-dotnet-11",
+    "id": 766,
+    "category": "Concurrency & Background Work",
+    "title": "Runtime Async in .NET 11",
+    "topic": "Concurrency",
+    "summary": "What changes when the runtime, not the compiler, suspends async methods: how to opt in (still documented as preview for your own code), what the BCL already does, live stack depth, allocation and time measured in Release, and what stays the same for ConfigureAwait, ValueTask, AsyncLocal and exception traces.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "task-and-async-await-internals"
+    ],
+    "related": [
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 11: A Map",
+        "slug": "whats-new-in-dotnet-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Diagnosing Production with dotnet-trace, dump and gcdump",
+        "slug": "diagnosing-production-with-dotnet-trace-dump-and-gcdump",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async Streams with IAsyncEnumerable",
+        "slug": "async-streams-iasyncenumerable",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/runtime-async-in-dotnet-11",
+    "references": [
+      {
+        "label": "What's new in the .NET 11 runtime, Runtime Async, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/runtime",
+        "type": "doc"
+      },
+      {
+        "label": "Runtime-native async, dotnet/runtime issue 109632",
+        "url": "https://github.com/dotnet/runtime/issues/109632",
+        "type": "doc"
+      },
+      {
+        "label": "Asynchronous programming with async and await, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/",
+        "type": "doc"
+      },
+      {
+        "label": "ConfigureAwait FAQ, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/configureawait-faq/",
+        "type": "doc"
+      },
+      {
+        "label": "ValueTask<TResult> struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask-1",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "blazor-ssr-state-tempdata-session-and-cacheview",
+    "id": 504,
+    "category": "Blazor",
+    "title": "Blazor SSR State: TempData, Session and CacheView",
+    "topic": "Blazor Fundamentals",
+    "summary": "Five places to keep state in a static SSR page (query string, posted form, TempData, session, CacheView), the .NET 11 attributes and components, the one-shot trap of the TempData property, the session envelope and the CSRF rule, all run on the 11.0.100 GA.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "blazor-static-ssr-and-enhanced-navigation"
+    ],
+    "related": [
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Data Access and Streaming Rendering",
+        "slug": "blazor-data-access-and-streaming-rendering",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Data Protection: Key Ring and Purposes",
+        "slug": "data-protection-key-ring-and-purposes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in ASP.NET Core 11, Blazor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11?view=aspnetcore-11.0",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor state management, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management/",
+        "type": "doc"
+      },
+      {
+        "label": "Session and state management in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor forms overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/blazor-ssr-state-tempdata-session-and-cacheview"
+  },
+  {
+    "slug": "blazor-quickgrid-and-virtualize",
+    "id": 550,
+    "category": "Blazor",
+    "title": "Blazor QuickGrid and Virtualize",
+    "topic": "Components & Forms",
+    "summary": "QuickGrid with sorting and paging over an IQueryable and over an ItemsProvider, page and sort kept in the URL in .NET 11 (headers and pager as links), Virtualize with ItemsProvider, ItemComparer and the BL0011 warning, tested with WebApplicationFactory and bUnit 2.15.2.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "blazor-data-access-and-streaming-rendering"
+    ],
+    "related": [
+      {
+        "label": "Blazor Data Access and Streaming Rendering",
+        "slug": "blazor-data-access-and-streaming-rendering",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Component Lifecycle and Parameters",
+        "slug": "blazor-component-lifecycle-and-parameters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Blazor QuickGrid component, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/quickgrid",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor component virtualization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11?view=aspnetcore-11.0",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking change: QuickGrid controls render as links, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/quickgrid-controls-render-as-links",
+        "type": "doc"
+      },
+      {
+        "label": "bUnit documentation",
+        "url": "https://bunit.dev/docs/getting-started/",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/blazor-quickgrid-and-virtualize"
+  },
+  {
+    "slug": "http-query-method-and-safe-requests-with-a-body",
+    "id": 790,
+    "category": "ASP.NET Core",
+    "title": "HTTP QUERY: Safe Requests With a Body",
+    "topic": "Minimal APIs",
+    "summary": "The QUERY method (RFC 10008) as a safe and idempotent search with a body: MapMethods and HttpMethod.Query in .NET 11, redirects and retries on HttpClient, why output caching skips it and how to key it by body, the CORS preflight, OpenAPI 3.2 against 3.1, and what was tested against what only the docs claim.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "rest-semantics-status-codes-and-idempotency"
+    ],
+    "related": [
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenAPI Document Generation in ASP.NET Core 10",
+        "slug": "openapi-document-generation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The HTTP QUERY Method, RFC 10008",
+        "url": "https://www.rfc-editor.org/info/rfc10008",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11?view=aspnetcore-11.0",
+        "type": "doc"
+      },
+      {
+        "label": "Output caching middleware, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/output",
+        "type": "doc"
+      },
+      {
+        "label": "Enable CORS in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/cors",
+        "type": "doc"
+      },
+      {
+        "label": "OpenAPI Specification 3.2.0",
+        "url": "https://spec.openapis.org/oas/v3.2.0.html",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/http-query-method-and-safe-requests-with-a-body"
+  },
+  {
+    "slug": "cqrs-mediator-and-vertical-slices",
+    "id": 830,
+    "category": "Architecture",
+    "title": "CQRS, Mediator and Vertical Slices",
+    "topic": "Application Architecture",
+    "summary": "Commands and queries as separate types without event sourcing, a minimal hand-written mediator, pipeline behaviors for validation, logging and transactions, vertical slices with Minimal APIs, the library situation after MediatR's license change (checked on NuGet and the official site), and when not to use a mediator.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "clean-architecture-in-four-projects"
+    ],
+    "related": [
+      {
+        "label": "Clean Architecture in Four Projects",
+        "slug": "clean-architecture-in-four-projects",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "From CRUD to Modular Monolith",
+        "slug": "from-crud-to-modular-monolith",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Modular Monolith: Drawing Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Result Types versus Exceptions",
+        "slug": "result-types-versus-exceptions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Source Generators and AOT-Friendly Code",
+        "slug": "source-generators-and-aot-friendly-code",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "MediatR license and pricing, MediatR.io",
+        "url": "https://mediatr.io/",
+        "type": "doc"
+      },
+      {
+        "label": "MediatR on NuGet",
+        "url": "https://www.nuget.org/packages/MediatR",
+        "type": "doc"
+      },
+      {
+        "label": "MediatR source and LICENSE.md, GitHub",
+        "url": "https://github.com/jbogard/MediatR",
+        "type": "doc"
+      },
+      {
+        "label": "Mediator (source generator), GitHub",
+        "url": "https://github.com/martinothamar/Mediator",
+        "type": "doc"
+      },
+      {
+        "label": "Wolverine documentation",
+        "url": "https://wolverinefx.net/",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection",
+        "type": "doc"
+      },
+      {
+        "label": "Minimal APIs overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview",
+        "type": "doc"
+      },
+      {
+        "label": "CQRS pattern, Microsoft Azure Architecture Center",
+        "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs",
+        "type": "doc"
+      },
+      {
+        "label": "Vertical Slice Architecture, Jimmy Bogard",
+        "url": "https://www.jimmybogard.com/vertical-slice-architecture/",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/cqrs-mediator-and-vertical-slices"
+  },
+  {
+    "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+    "id": 811,
+    "category": "Concurrency & Background Work",
+    "title": "Transactional Outbox, Inbox and Idempotent Consumers",
+    "topic": "Background Jobs",
+    "summary": "The outbox row written in the same EF Core transaction, a BackgroundService relay with retries, backoff and dead-letter, an inbox with a deduplication key, idempotent consumers and at-least-once delivery, and what happens in each failure, every case driven by a fault-injecting test.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "domain-events-and-consistency-boundaries",
+      "hosted-services-and-backgroundservice"
+    ],
+    "related": [
+      {
+        "label": "Domain Events and Consistency Boundaries",
+        "slug": "domain-events-and-consistency-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Durable Jobs with Hangfire and Quartz.NET",
+        "slug": "durable-jobs-hangfire-and-quartz",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern",
+        "feature": "system-design"
+      },
+      {
+        "label": "Idempotency in Distributed Systems",
+        "slug": "idempotency",
+        "feature": "system-design"
+      },
+      {
+        "label": "Message Brokers: MassTransit, Azure Service Bus and RabbitMQ",
+        "slug": "message-brokers-masstransit-azure-service-bus-and-rabbitmq",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Implementing event-based communication between microservices (integration events), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/integration-event-based-microservice-communications",
+        "type": "doc"
+      },
+      {
+        "label": "Background tasks with hosted services in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services",
+        "type": "doc"
+      },
+      {
+        "label": "Interceptors, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors",
+        "type": "doc"
+      },
+      {
+        "label": "Transactions, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/transactions",
+        "type": "doc"
+      },
+      {
+        "label": "Transactional outbox, microservices.io",
+        "url": "https://microservices.io/patterns/data/transactional-outbox.html",
+        "type": "engineering"
+      },
+      {
+        "label": "Idempotent consumer, microservices.io",
+        "url": "https://microservices.io/patterns/communication-style/idempotent-consumer.html",
+        "type": "engineering"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/transactional-outbox-inbox-and-idempotent-consumers"
+  },
+  {
+    "slug": "owasp-secure-aspnet-core-security-headers-and-csp",
+    "id": 845,
+    "category": "ASP.NET Core",
+    "title": "OWASP in ASP.NET Core: Security Headers and CSP",
+    "topic": "Resilience & Protection",
+    "summary": "The OWASP Top 10:2025 mapped to ASP.NET Core (what the framework does and what stays with you), security headers (CSP with a per-request nonce, nosniff, Referrer-Policy, Permissions-Policy, frame-ancestors), a hand-written middleware against the NetEscapades package, CSP with Blazor and inline scripts, mass assignment with a DTO, and user-secrets in development, all run on .NET 10.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "https-hsts-and-secure-defaults"
+    ],
+    "related": [
+      {
+        "label": "HTTPS, HSTS and Secure Defaults",
+        "slug": "https-hsts-and-secure-defaults",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Data Protection: Key Ring and Purposes",
+        "slug": "data-protection-key-ring-and-purposes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "OWASP Top 10:2025",
+        "url": "https://top10.owasp.org/2025",
+        "type": "doc"
+      },
+      {
+        "label": "Enforce a Content Security Policy for ASP.NET Core Blazor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/security/content-security-policy",
+        "type": "doc"
+      },
+      {
+        "label": "Content Security Policy (CSP), MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP",
+        "type": "doc"
+      },
+      {
+        "label": "NetEscapades.AspNetCore.SecurityHeaders, NuGet",
+        "url": "https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders",
+        "type": "doc"
+      },
+      {
+        "label": "Safe storage of app secrets in development in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets",
+        "type": "doc"
+      },
+      {
+        "label": "Mass Assignment Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/owasp-secure-aspnet-core-security-headers-and-csp"
+  },
+  {
+    "slug": "message-brokers-masstransit-azure-service-bus-and-rabbitmq",
+    "id": 872,
+    "category": "Concurrency & Background Work",
+    "title": "Message Brokers: MassTransit, Azure Service Bus and RabbitMQ",
+    "topic": "Background Jobs",
+    "summary": "Queues, topics, competing consumers, at-least-once and dead-letter, MassTransit on the in-memory transport and test harness (publish versus send, retry and fault, an inbox check, the consumer outbox), what changes with RabbitMQ and Azure Service Bus, the MassTransit v9 commercial license (the lab pins the Apache-2.0 8.5.12) and alternatives.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "in-memory-queues-with-channels"
+    ],
+    "related": [
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Testing BackgroundService, Channels and Async Code",
+        "slug": "testing-background-services-and-async-code",
+        "feature": "dotnet-testing-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "MassTransit documentation",
+        "url": "https://masstransit.massient.com/",
+        "type": "doc"
+      },
+      {
+        "label": "MassTransit v9 license, Massient",
+        "url": "https://massient.com/license",
+        "type": "doc"
+      },
+      {
+        "label": "MassTransit 8.5.12, NuGet",
+        "url": "https://www.nuget.org/packages/MassTransit/8.5.12",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Service Bus queues, topics and subscriptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions",
+        "type": "doc"
+      },
+      {
+        "label": "Service Bus dead-letter queues, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues",
+        "type": "doc"
+      },
+      {
+        "label": "RabbitMQ tutorials and concepts",
+        "url": "https://www.rabbitmq.com/tutorials",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/message-brokers-masstransit-azure-service-bus-and-rabbitmq"
+  },
+  {
+    "slug": "structured-logging-with-serilog-and-log-sinks",
+    "id": 877,
+    "category": "ASP.NET Core",
+    "title": "Structured Logging with Serilog and Log Sinks",
+    "topic": "Observability",
+    "summary": "Serilog behind ILogger in ASP.NET Core, run on .NET 10: message templates against interpolation, destructuring with masking, UseSerilog and the bootstrap logger, Console JSON and rolling File sinks configured in appsettings, LogContext, scopes and enrichers, request logging, redaction of sensitive data, an in-memory sink for tests, and Serilog against OpenTelemetry Logs.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "ilogger-categories-levels-filtering-and-scopes"
+    ],
+    "related": [
+      {
+        "label": "ILogger: Categories, Levels, Filtering and Scopes",
+        "slug": "ilogger-categories-levels-filtering-and-scopes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HTTP Logging and Request Diagnostics",
+        "slug": "http-logging-and-request-diagnostics",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Structured Data, Serilog wiki",
+        "url": "https://github.com/serilog/serilog/wiki/Structured-Data",
+        "type": "doc"
+      },
+      {
+        "label": "serilog-aspnetcore, GitHub",
+        "url": "https://github.com/serilog/serilog-aspnetcore",
+        "type": "doc"
+      },
+      {
+        "label": "serilog-settings-configuration, GitHub",
+        "url": "https://github.com/serilog/serilog-settings-configuration",
+        "type": "doc"
+      },
+      {
+        "label": "serilog-sinks-file, GitHub",
+        "url": "https://github.com/serilog/serilog-sinks-file",
+        "type": "doc"
+      },
+      {
+        "label": "serilog-formatting-compact, GitHub",
+        "url": "https://github.com/serilog/serilog-formatting-compact",
+        "type": "doc"
+      },
+      {
+        "label": "serilog-sinks-opentelemetry, GitHub",
+        "url": "https://github.com/serilog/serilog-sinks-opentelemetry",
+        "type": "doc"
+      },
+      {
+        "label": "Logging in C# and .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logging/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Data redaction in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/data-redaction",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/structured-logging-with-serilog-and-log-sinks"
+  },
+  {
+    "slug": "reverse-proxy-and-api-gateway-with-yarp",
+    "id": 884,
+    "category": "ASP.NET Core",
+    "title": "Reverse Proxy and API Gateway with YARP",
+    "topic": "Remote APIs",
+    "summary": "A YARP gateway in front of two real Kestrel backends, measured end to end: routes and clusters, transforms, six load balancing policies, passive and active health checks, rate limiting and authentication at the edge, timeouts and status codes, hot reload, gateway versus BFF, and YARP against managed gateways, Ocelot and Envoy, all run on .NET 10.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "kestrel-iis-and-hosting-models"
+    ],
+    "related": [
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Health Checks: Liveness and Readiness",
+        "slug": "health-checks-liveness-and-readiness",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Aspire: AppHost, ServiceDefaults and Deployment",
+        "slug": "aspire-apphost-servicedefaults-and-deployment",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "YARP documentation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/yarp-overview?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP configuration files",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/config-files?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP request and response transforms",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/transforms?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP load balancing",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/load-balancing?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP destination health checks",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/dests-health-checks?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP rate limiting",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/rate-limiting?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP authentication and authorization",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/authn-authz?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP direct forwarding",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/direct-forwarding?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet/yarp, GitHub",
+        "url": "https://github.com/dotnet/yarp",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/reverse-proxy-and-api-gateway-with-yarp"
+  },
+  {
+    "slug": "feature-flags-with-microsoft-featuremanagement",
+    "id": 885,
+    "category": "ASP.NET Core",
+    "title": "Feature Flags with Microsoft.FeatureManagement",
+    "topic": "Operations",
+    "summary": "Feature flags on .NET 10 measured for real: flags in configuration, the percentage, time window and targeting filters, FeatureGate on controllers and Minimal APIs, variants, reload and snapshots, per-flag tests with WebApplicationFactory, the debt of old flags, and what an external flag service adds.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "configuration-and-the-options-pattern"
+    ],
+    "related": [
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MVC Controllers, Filters and Model Binding",
+        "slug": "mvc-controllers-filters-and-model-binding",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Health Checks: Liveness and Readiness",
+        "slug": "health-checks-liveness-and-readiness",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Feature management overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/feature-management-overview",
+        "type": "doc"
+      },
+      {
+        "label": ".NET feature management reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/feature-management-dotnet-reference",
+        "type": "doc"
+      },
+      {
+        "label": "Quickstart: add feature flags to an ASP.NET Core app, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/use-feature-flags-dotnet-core",
+        "type": "doc"
+      },
+      {
+        "label": "Use variant feature flags in an ASP.NET Core app, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/use-variant-feature-flags-aspnet-core",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.FeatureManagement.AspNetCore, NuGet",
+        "url": "https://www.nuget.org/packages/Microsoft.FeatureManagement.AspNetCore",
+        "type": "doc"
+      },
+      {
+        "label": "Feature Toggles, Martin Fowler",
+        "url": "https://martinfowler.com/articles/feature-toggles.html",
+        "type": "doc"
+      },
+      {
+        "label": "OpenFeature",
+        "url": "https://openfeature.dev/",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/feature-flags-with-microsoft-featuremanagement"
   }
 ]

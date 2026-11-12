@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -283,12 +283,21 @@ multiplication adds the scales, and the result is not normalized.
 So `decimal` is exact for decimal fractions, not for every rational number. The
 range is about +/-7.9 x 10^28, and going past it throws, unlike `double`:
 `decimal.MaxValue + 1m` throws `OverflowException`. Casting a `double` to
-`decimal` keeps about 15 significant digits, so
-`(decimal)(0.1 + 0.2)` is `0.3`, `(decimal)1234567890123.456789` is
-`1234567890123.46`, and `NaN`, infinities and values beyond the range throw
-`OverflowException` (a constant such as `(decimal)double.NaN` is a compile
-error, CS0031). That conversion hides the double error; it does not repair a
-calculation that already lost precision.
+`decimal` depends on the runtime. On .NET 10 it keeps about 15 significant
+digits, so `(decimal)(0.1 + 0.2)` is `0.3` and `(decimal)1234567890123.456789`
+is `1234567890123.46`. On .NET 11 it keeps the exact binary value, so the same
+casts give `0.3000000000000000444089209850` and `1234567890123.456787109375`
+(confirmed on the GA runtime). On both, `NaN`, infinities and values beyond the
+range throw `OverflowException` (a constant such as `(decimal)double.NaN` is a
+compile error, CS0031). The .NET 10 rounding only hid the double error, and
+.NET 11 shows it: neither repairs a calculation that already lost precision, so
+write `decimal` literals (`0.1m`) instead of converting.
+
+.NET 11 also adds the IEEE 754 decimal types `System.Numerics.Decimal32`,
+`Decimal64` and `Decimal128`. They exist for interop with databases, formats
+and languages that store decimal32/64/128, and they have a much wider exponent
+range than `System.Decimal`; `(Decimal32)0.1m + (Decimal32)0.2m` prints `0.3`.
+For money in C# code, `decimal` is still the answer.
 
 The cost is speed and size: 16 bytes, and arithmetic implemented in software.
 A loop of 50 million additions took 37 ms with `double` and 447 ms with

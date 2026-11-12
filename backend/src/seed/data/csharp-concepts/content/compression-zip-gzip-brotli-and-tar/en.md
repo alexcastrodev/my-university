@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -168,6 +168,29 @@ accept by counting while you copy:
 while ((n = src.Read(buf)) > 0)
     if ((total += n) > limit) throw new InvalidDataException("too large"); // stopped at 10546656 of 10485760 allowed
 ```
+
+### What .NET 11 changes
+
+.NET 11 adds Zstandard to the base library: `ZstandardStream` follows the same
+decorator pattern as `GZipStream` and `BrotliStream`. In a test run, 1000
+repeated bytes compressed to 18 bytes and round-tripped intact. Two behaviors
+also changed. A `GZipStream` that never received data now writes a valid empty
+file (20 bytes, and 2 for `DeflateStream`; .NET 10 wrote 0 for both, and Brotli
+writes 1 byte on both versions). And reading a ZIP entry now validates the
+CRC32: flipping one byte of a `Stored` entry throws on .NET 11, where .NET 10
+returned the corrupted text silently.
+
+```csharp
+using var za = new ZipArchive(new MemoryStream(corrupted), ZipArchiveMode.Read);
+using var r = new StreamReader(za.Entries[0].Open());
+r.ReadToEnd();
+// .NET 11: InvalidDataException: The CRC32 checksum of the extracted data
+//          does not match the expected value from the archive.
+```
+
+Code that wrapped extraction in a catch for `IOException` only will now see an
+`InvalidDataException` for damaged archives, so catch it where you read
+untrusted ZIPs.
 
 ## Trade-offs
 

@@ -1,5 +1,5 @@
 ---
-version: 1.1
+version: 1.2
 updatedAt: 2026-11-12
 title: "Workflow de Migrations do EF Core"
 summary: Model snapshot, revisão do SQL gerado (rename que vira drop + add), migrationBuilder.Sql, conflito de snapshot entre branches e checagem do modelo no CI.
@@ -131,6 +131,38 @@ CI consegue pegar uma migration esquecida. `context.Database.HasPendingModelChan
 faz a mesma checagem por código, por exemplo num teste unitário. Desde o EF
 Core 9, `Migrate()` também lança exceção se houver mudanças de modelo pendentes,
 o que pega o mesmo erro na inicialização num ambiente de teste.
+
+### Padrões e saída no EF Core 11
+
+O EF Core 11 adiciona o arquivo `.config/dotnet-ef.json` para você parar de
+repetir `--project`, `--startup-project` e `--context` em todo comando. O
+`dotnet ef` sobe a partir do diretório atual e usa o primeiro que encontrar, e
+caminhos relativos são resolvidos a partir do pai de `.config`. Coloquei o
+arquivo na raiz do repositório:
+
+```json
+{ "project": "src/App", "context": "Ctx" }
+```
+
+Rodar `dotnet ef dbcontext info` da raiz e de dentro de `src/` encontrou o
+projeto e o contexto sem nenhuma opção. Opções explícitas na linha de comando
+continuam valendo mais, segundo a [referência das ferramentas do EF Core](https://learn.microsoft.com/en-us/ef/core/cli/dotnet#configuration-file),
+que também lista `startupProject`, `framework`, `configuration`, `runtime`,
+`verbose`, `noColor` e `prefixOutput`.
+
+Dois detalhes que importam em scripts. `migrations add` e `migrations remove`
+não escrevem nada no stdout: `Build started...`, `Done.` e as mensagens de
+remoção vão para o stderr, então capture o stderr se quiser registrá-las.
+`dbcontext info` e `dbcontext script` escrevem o resultado no stdout e deixam as
+mensagens de build no stderr. E `dotnet ef migrations remove --offline` (novo no
+EF Core 11, não combina com `--force`) removeu a última migration sem conectar ao
+banco. Ele apaga os arquivos e reescreve o snapshot, então só faz sentido quando
+a migration nunca foi aplicada.
+
+Uma opção de modelo relacionada: `HasOne(...).HasForeignKey(...).IsConstrained(false)`
+mantém o relacionamento no modelo mas deixa a constraint de chave estrangeira
+fora do esquema. No SQLite, o script gerado para um relacionamento `Item.ParentId`
+tinha a coluna e o `CREATE INDEX "IX_Items_ParentId"`, mas nenhum `FOREIGN KEY`.
 
 ## Trade-offs
 

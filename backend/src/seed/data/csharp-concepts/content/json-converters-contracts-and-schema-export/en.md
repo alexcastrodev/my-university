@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -90,9 +90,12 @@ public override JsonConverter CreateConverter(Type t, JsonSerializerOptions o)
 // Wrapper<int>(5) -> 5     Wrapper<string>("s") -> "s"
 ```
 
-The docs say this factory pattern is required for open generics in .NET 10 and
-earlier, and that .NET 11 lets `[JsonConverter]` take an open generic converter
-directly. I only ran .NET 10. Note that `Activator` and `MakeGenericType` are
+This factory is required for open generics in .NET 10 and earlier. On .NET 11
+`[JsonConverter(typeof(WrapperConverter<>))]` on `record Wrapper<T>`, with
+`WrapperConverter<T> : JsonConverter<Wrapper<T>>`, works directly (confirmed on
+the GA runtime: `{"W":5,"S":"s"}` and back), while .NET 10 throws
+`ArgumentException` ("Type.ContainsGenericParameters is true"). Keep the
+factory in libraries that also target .NET 10 or earlier. Note that `Activator` and `MakeGenericType` are
 reflection, so under Native AOT the closed types must be known at compile time.
 
 For dictionary keys, `Dictionary<Point, int>` threw `NotSupportedException` ("The
@@ -129,6 +132,29 @@ The contract freezes on first use. After one serialize call on an options instan
 assigning `TypeInfoResolver` threw `InvalidOperationException` ("read-only or has
 already been used"), and adding to `resolver.Modifiers` afterwards threw as well.
 Build the resolver completely, then create the options.
+
+### C# 15 unions get their own `Kind`
+
+On .NET 11 a C# 15 `union` type reports `JsonTypeInfoKind.Union`, and
+serialization writes the case value itself, with no wrapper. Reading back works
+when the JSON token tells the cases apart (a number or a string for
+`union IdOrName(int, string)`). When two cases are both objects, the default
+throws `JsonException` ("JSON value type 'Object' is ambiguous for union type
+'Pet'"), and `[JsonUnion]` names a classifier that picks the case:
+
+```csharp
+public record Cat(string Name);
+public record Dog(int Lives);
+[JsonUnion(TypeClassifier = typeof(JsonUnionTypeStructuralClassifier))]
+public union Pet(Cat, Dog);
+
+JsonSerializer.Serialize<Pet>(new Cat("Tom"));          // {"Name":"Tom"}
+JsonSerializer.Deserialize<Pet>("""{"Lives":9}""").Value // Dog { Lives = 9 }
+```
+
+The built-in `JsonUnionTypeStructuralClassifier` matches by property names; for
+anything else you write your own classifier. Confirmed on the .NET 11.0.0 GA
+runtime, without preview flags.
 
 ### JsonSchemaExporter
 
