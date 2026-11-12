@@ -42,6 +42,11 @@
         "label": "Async Streams with IAsyncEnumerable",
         "slug": "async-streams-iasyncenumerable",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Evaluating AI Features with Microsoft.Extensions.AI.Evaluation",
+        "slug": "evaluating-ai-features-with-meai-evaluation",
+        "feature": "dotnet-testing-concepts"
       }
     ],
     "references": [
@@ -172,6 +177,11 @@
         "label": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
         "slug": "meai-ichatclient-and-middleware-pipeline",
         "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Evaluating AI Features with Microsoft.Extensions.AI.Evaluation",
+        "slug": "evaluating-ai-features-with-meai-evaluation",
+        "feature": "dotnet-testing-concepts"
       }
     ],
     "references": [
