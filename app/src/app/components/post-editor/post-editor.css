@@ -177,3 +177,54 @@
     display: block;
   }
 }
+
+/* Suggestions after `@`: in the flow under the textarea, so a narrow panel never clips them. */
+.mentions {
+  margin: 0;
+  padding: 0.3rem;
+  list-style: none;
+  border-top: 1px solid var(--mu-line);
+}
+
+.mentions[hidden] {
+  display: none;
+}
+
+.mention-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 5px;
+  color: var(--mu-ink);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.mention-option.active {
+  background: var(--mu-bg-alt);
+}
+
+.mention-avatar {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+}
+
+.mention-name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mention-handle {
+  color: var(--mu-muted);
+}
+
+.mention-limit {
+  margin: 0;
+  padding: 0.4rem 0.85rem;
+  color: var(--mu-danger);
+  font-size: 0.8rem;
+}

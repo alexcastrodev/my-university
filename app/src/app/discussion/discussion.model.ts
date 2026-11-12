@@ -25,6 +25,8 @@ export interface CommentView {
   votes: number;
   votedByMe: boolean;
   mine: boolean;
+  /** Handles in the body that are a public profile: only these render as links. */
+  mentions?: string[];
 }
 
 export interface ThreadView {

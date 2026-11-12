@@ -1317,6 +1317,16 @@ pre.dz-block .dz-marker {
   color: var(--mu-accent);
 }
 
+/* An @mention in a post: a link to the public profile, read as a name rather than a URL. */
+.md a.mention {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.md a.mention:hover {
+  text-decoration: underline;
+}
+
 .md code {
   background: var(--mu-bg-alt);
   border-radius: 4px;

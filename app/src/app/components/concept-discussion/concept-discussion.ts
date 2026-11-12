@@ -143,8 +143,8 @@ export class ConceptDiscussion {
     this.replyingTo.set(this.replyingTo() === thread.root.id ? null : thread.root.id);
   }
 
-  protected html(markdown: string): string {
-    return renderPostMarkdown(markdown);
+  protected html(markdown: string, mentions?: string[]): string {
+    return renderPostMarkdown(markdown, mentions);
   }
 
   protected name(comment: CommentView): string {
