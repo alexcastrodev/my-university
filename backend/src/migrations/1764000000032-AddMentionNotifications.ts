@@ -16,7 +16,9 @@ export class AddMentionNotifications1764000000032 implements MigrationInterface 
     await queryRunner.query(
       `ALTER TABLE "notification" ADD COLUMN IF NOT EXISTS "kind" character varying(8) NOT NULL DEFAULT 'reply'`,
     );
-    await queryRunner.query(`ALTER TABLE "notification" DROP CONSTRAINT IF EXISTS "CHK_notification_kind"`);
+    await queryRunner.query(
+      `ALTER TABLE "notification" DROP CONSTRAINT IF EXISTS "CHK_notification_kind"`,
+    );
     await queryRunner.query(
       `ALTER TABLE "notification" ADD CONSTRAINT "CHK_notification_kind" CHECK ("kind" IN ('reply', 'mention'))`,
     );
@@ -31,8 +33,14 @@ export class AddMentionNotifications1764000000032 implements MigrationInterface 
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP INDEX IF EXISTS "UQ_notification_user_comment"`);
-    await queryRunner.query(`ALTER TABLE "notification" DROP CONSTRAINT IF EXISTS "CHK_notification_kind"`);
-    await queryRunner.query(`ALTER TABLE "notification" DROP COLUMN IF EXISTS "kind"`);
+    await queryRunner.query(
+      `DROP INDEX IF EXISTS "UQ_notification_user_comment"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "notification" DROP CONSTRAINT IF EXISTS "CHK_notification_kind"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "notification" DROP COLUMN IF EXISTS "kind"`,
+    );
   }
 }

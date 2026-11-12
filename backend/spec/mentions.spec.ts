@@ -15,13 +15,21 @@ let seq = 0;
 const person = async (prefix: string) => {
   const user = await login(`${prefix}-${Date.now()}`);
   const handle = `${prefix}-${Date.now().toString(36)}${++seq}`;
-  const res = await put('/auth/profile-slug', { slug: handle }, { Cookie: user.cookie });
+  const res = await put(
+    '/auth/profile-slug',
+    { slug: handle },
+    { Cookie: user.cookie },
+  );
   expect(res.status).toBe(200);
   return { ...user, handle };
 };
 
 const general = async (cookie: string, body: string) =>
-  post('/discussions/general', { module: MODULE, slug, lang: 'en', body }, { Cookie: cookie });
+  post(
+    '/discussions/general',
+    { module: MODULE, slug, lang: 'en', body },
+    { Cookie: cookie },
+  );
 
 const postGeneral = async (cookie: string, body: string) => {
   const res = await general(cookie, body);
@@ -44,14 +52,25 @@ describe('mention notifications', () => {
     );
     const box = await inbox(ana.cookie);
     expect(box.unread).toBe(1);
-    expect(box.items[0]).toMatchObject({ kind: 'mention', markerId, general: true });
+    expect(box.items[0]).toMatchObject({
+      kind: 'mention',
+      markerId,
+      general: true,
+    });
   });
 
   it('never notifies the author, an unknown handle or a private profile', async () => {
     const ana = await person('men-self');
     const hidden = await person('men-priv');
-    await put('/auth/settings', { profilePublic: false }, { Cookie: hidden.cookie });
-    await postGeneral(ana.cookie, `@${ana.handle} @nobody-here-xyz @${hidden.handle}`);
+    await put(
+      '/auth/settings',
+      { profilePublic: false },
+      { Cookie: hidden.cookie },
+    );
+    await postGeneral(
+      ana.cookie,
+      `@${ana.handle} @nobody-here-xyz @${hidden.handle}`,
+    );
     expect((await inbox(ana.cookie)).unread).toBe(0);
     expect((await inbox(hidden.cookie)).unread).toBe(0);
   });
@@ -88,14 +107,20 @@ describe('mention notifications', () => {
   it('creates nothing for someone who turned notifications off', async () => {
     const ana = await person('men-off-a');
     const bia = await person('men-off-b');
-    await put('/auth/settings', { notifyReplies: false }, { Cookie: ana.cookie });
+    await put(
+      '/auth/settings',
+      { notifyReplies: false },
+      { Cookie: ana.cookie },
+    );
     await postGeneral(bia.cookie, `@${ana.handle}`);
     expect((await inbox(ana.cookie)).unread).toBe(0);
   });
 
   it('refuses a comment that mentions more than ten people', async () => {
     const bia = await person('men-many');
-    const body = Array.from({ length: 11 }, (_, i) => `@someone-${i}`).join(' ');
+    const body = Array.from({ length: 11 }, (_, i) => `@someone-${i}`).join(
+      ' ',
+    );
     expect((await general(bia.cookie, body)).status).toBe(400);
   });
 
@@ -106,7 +131,9 @@ describe('mention notifications', () => {
     const detail = await json<any>(
       await get(`/discussions/general?module=${MODULE}&slug=${slug}&lang=en`),
     );
-    const mine = detail.threads.find((t: any) => t.root.body.includes(ana.handle));
+    const mine = detail.threads.find((t: any) =>
+      t.root.body.includes(ana.handle),
+    );
     expect(mine.root.mentions).toEqual([ana.handle]);
   });
 });
@@ -116,7 +143,9 @@ describe('mention suggestions', () => {
     const ana = await person('sug-a');
     const bia = await person('sug-b');
     const found = await json<any[]>(
-      await get(`/discussions/mentions?q=${ana.handle.slice(0, 8)}`, { Cookie: bia.cookie }),
+      await get(`/discussions/mentions?q=${ana.handle.slice(0, 8)}`, {
+        Cookie: bia.cookie,
+      }),
     );
     expect(found.map((u) => u.handle)).toContain(ana.handle);
     expect(found[0]).toEqual({
@@ -125,14 +154,18 @@ describe('mention suggestions', () => {
       avatarUrl: expect.any(String),
     });
     const self = await json<any[]>(
-      await get(`/discussions/mentions?q=${bia.handle}`, { Cookie: bia.cookie }),
+      await get(`/discussions/mentions?q=${bia.handle}`, {
+        Cookie: bia.cookie,
+      }),
     );
     expect(self.map((u) => u.handle)).not.toContain(bia.handle);
   });
 
   it('treats LIKE wildcards as text', async () => {
     const bia = await person('sug-w');
-    const res = await get('/discussions/mentions?q=%25', { Cookie: bia.cookie });
+    const res = await get('/discussions/mentions?q=%25', {
+      Cookie: bia.cookie,
+    });
     expect(res.status).toBe(200);
     expect(await json<any[]>(res)).toEqual([]);
   });
@@ -140,7 +173,15 @@ describe('mention suggestions', () => {
   it('needs a session and a bounded query', async () => {
     expect((await get('/discussions/mentions?q=ana')).status).toBe(401);
     const bia = await person('sug-q');
-    expect((await get(`/discussions/mentions?q=${'a'.repeat(31)}`, { Cookie: bia.cookie })).status).toBe(400);
-    expect((await get('/discussions/mentions', { Cookie: bia.cookie })).status).toBe(400);
+    expect(
+      (
+        await get(`/discussions/mentions?q=${'a'.repeat(31)}`, {
+          Cookie: bia.cookie,
+        })
+      ).status,
+    ).toBe(400);
+    expect(
+      (await get('/discussions/mentions', { Cookie: bia.cookie })).status,
+    ).toBe(400);
   });
 });
