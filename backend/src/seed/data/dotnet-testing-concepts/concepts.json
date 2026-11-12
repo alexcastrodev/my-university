@@ -624,6 +624,11 @@
         "label": "Testing a REST API with MockMvc",
         "slug": "spring-rest-api-testing-mockmvc",
         "feature": "testing-concepts"
+      },
+      {
+        "label": "Snapshot Testing with Verify",
+        "slug": "snapshot-testing-with-verify",
+        "feature": "dotnet-testing-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/integration-testing-with-webapplicationfactory",
@@ -933,6 +938,11 @@
         "label": "Diagnosing Flaky, Crashing and Hanging Tests with Microsoft.Testing.Platform",
         "slug": "diagnosing-flaky-crashing-and-hanging-tests-with-mtp",
         "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Mutation Testing with Stryker.NET",
+        "slug": "mutation-testing-with-stryker-net",
+        "feature": "dotnet-testing-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/microsoft-testing-platform-and-dotnet-test",
@@ -1014,6 +1024,11 @@
         "label": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
         "slug": "observable-behavior-and-mock-fragility",
         "feature": "testing-concepts"
+      },
+      {
+        "label": "Snapshot Testing with Verify",
+        "slug": "snapshot-testing-with-verify",
+        "feature": "dotnet-testing-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-blazor-components-with-bunit",
@@ -1282,6 +1297,148 @@
       {
         "label": "dotnet test with Microsoft.Testing.Platform, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-test-mtp",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "snapshot-testing-with-verify",
+    "id": 20,
+    "title": "Snapshot Testing with Verify",
+    "topic": "Tooling & CI",
+    "summary": "Record a whole output in .verified files with Verify.MSTest, approve the .received file by reading it, scrub dates, Guids and numbers, see where a snapshot hides a regression, and understand the Verify 33 license (SC021 and how to declare it), all measured on the .NET 11 GA SDK.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "mstest-fundamentals-lifecycle-and-testcontext"
+    ],
+    "related": [
+      {
+        "label": "MSTest 4 Fundamentals: Lifecycle, TestContext and Parallelism",
+        "slug": "mstest-fundamentals-lifecycle-and-testcontext",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Controlling Time in Tests with TimeProvider and FakeTimeProvider",
+        "slug": "controlling-time-with-timeprovider",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Integration Testing ASP.NET Core with WebApplicationFactory",
+        "slug": "integration-testing-with-webapplicationfactory",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing Blazor Components with bUnit and MSTest",
+        "slug": "testing-blazor-components-with-bunit",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Mutation Testing with Stryker.NET",
+        "slug": "mutation-testing-with-stryker-net",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "The Four Pillars of a Good Unit Test",
+        "slug": "four-pillars-of-a-good-unit-test",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
+        "slug": "observable-behavior-and-mock-fragility",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/snapshot-testing-with-verify",
+    "references": [
+      {
+        "label": "Verify, GitHub",
+        "url": "https://github.com/VerifyTests/Verify",
+        "type": "doc"
+      },
+      {
+        "label": "Open Source Maintenance Fee for Verify",
+        "url": "https://github.com/VerifyTests/Verify/blob/main/docs/maintenance-fee.md",
+        "type": "doc"
+      },
+      {
+        "label": "SponsorCheck diagnostic codes (SC021, SC023, SC046)",
+        "url": "https://github.com/SimonCropp/SponsorCheck/blob/main/docs/VerifierDiagnosticCodes.md",
+        "type": "doc"
+      },
+      {
+        "label": "Verify.MSTest on NuGet",
+        "url": "https://www.nuget.org/packages/Verify.MSTest",
+        "type": "doc"
+      },
+      {
+        "label": "Open Source Maintenance Fee, FAQ for consumers",
+        "url": "https://opensourcemaintenancefee.org/consumers/faq/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mutation-testing-with-stryker-net",
+    "id": 21,
+    "title": "Mutation Testing with Stryker.NET",
+    "topic": "Tooling & CI",
+    "summary": "Run Stryker.NET 5 on an MSTest project that uses Microsoft.Testing.Platform (the mtp runner), read the score and the surviving mutants, write the tests that kill them, tell an equivalent mutant from a missing test, and see the measured time cost on the .NET 11 GA SDK.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "microsoft-testing-platform-and-dotnet-test"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Testing.Platform, dotnet test and Code Coverage in CI",
+        "slug": "microsoft-testing-platform-and-dotnet-test",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "MSTest 4 Fundamentals: Lifecycle, TestContext and Parallelism",
+        "slug": "mstest-fundamentals-lifecycle-and-testcontext",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Snapshot Testing with Verify",
+        "slug": "snapshot-testing-with-verify",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "The Four Pillars of a Good Unit Test",
+        "slug": "four-pillars-of-a-good-unit-test",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Test Quality and Testable Code",
+        "slug": "test-quality-and-testable-code",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/mutation-testing-with-stryker-net",
+    "references": [
+      {
+        "label": "Stryker.NET introduction",
+        "url": "https://stryker-mutator.io/docs/stryker-net/introduction/",
+        "type": "doc"
+      },
+      {
+        "label": "Stryker.NET configuration",
+        "url": "https://stryker-mutator.io/docs/stryker-net/configuration/",
+        "type": "doc"
+      },
+      {
+        "label": "Stryker.NET mutations",
+        "url": "https://stryker-mutator.io/docs/stryker-net/mutations/",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet-stryker on NuGet",
+        "url": "https://www.nuget.org/packages/dotnet-stryker",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Testing.Platform overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-intro",
         "type": "doc"
       }
     ]
