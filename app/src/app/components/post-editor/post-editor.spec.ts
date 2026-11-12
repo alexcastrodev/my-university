@@ -230,6 +230,7 @@ describe('PostEditor', () => {
       type('mail ana@bob');
       jasmine.clock().tick(250);
       http.expectNone('/api/discussions/mentions');
+      expect(options().length).toBe(0);
     });
 
     it('drops a late answer for a query the reader already typed past', async () => {
