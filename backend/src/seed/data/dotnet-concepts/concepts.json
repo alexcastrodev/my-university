@@ -3615,6 +3615,11 @@
         "label": "Async Streams with IAsyncEnumerable",
         "slug": "async-streams-iasyncenumerable",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Runtime Async in .NET 11",
+        "slug": "runtime-async-in-dotnet-11",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -7977,6 +7982,11 @@
         "label": "Numeric Conversions, Rounding and Overflow",
         "slug": "numeric-conversions-rounding-and-overflow",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Runtime Async in .NET 11",
+        "slug": "runtime-async-in-dotnet-11",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -8454,5 +8464,221 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "runtime-async-in-dotnet-11",
+    "id": 766,
+    "category": "Concurrency & Background Work",
+    "title": "Runtime Async in .NET 11",
+    "topic": "Concurrency",
+    "summary": "What changes when the runtime, not the compiler, suspends async methods: how to opt in (still documented as preview for your own code), what the BCL already does, live stack depth, allocation and time measured in Release, and what stays the same for ConfigureAwait, ValueTask, AsyncLocal and exception traces.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "task-and-async-await-internals"
+    ],
+    "related": [
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 11: A Map",
+        "slug": "whats-new-in-dotnet-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Diagnosing Production with dotnet-trace, dump and gcdump",
+        "slug": "diagnosing-production-with-dotnet-trace-dump-and-gcdump",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async Streams with IAsyncEnumerable",
+        "slug": "async-streams-iasyncenumerable",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/runtime-async-in-dotnet-11",
+    "references": [
+      {
+        "label": "What's new in the .NET 11 runtime, Runtime Async, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/runtime",
+        "type": "doc"
+      },
+      {
+        "label": "Runtime-native async, dotnet/runtime issue 109632",
+        "url": "https://github.com/dotnet/runtime/issues/109632",
+        "type": "doc"
+      },
+      {
+        "label": "Asynchronous programming with async and await, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/",
+        "type": "doc"
+      },
+      {
+        "label": "ConfigureAwait FAQ, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/configureawait-faq/",
+        "type": "doc"
+      },
+      {
+        "label": "ValueTask<TResult> struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask-1",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "blazor-ssr-state-tempdata-session-and-cacheview",
+    "id": 504,
+    "category": "Blazor",
+    "title": "Blazor SSR State: TempData, Session and CacheView",
+    "topic": "Blazor Fundamentals",
+    "summary": "Five places to keep state in a static SSR page (query string, posted form, TempData, session, CacheView), the .NET 11 attributes and components, the one-shot trap of the TempData property, the session envelope and the CSRF rule, all run on the 11.0.100 GA.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "blazor-static-ssr-and-enhanced-navigation"
+    ],
+    "related": [
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Data Access and Streaming Rendering",
+        "slug": "blazor-data-access-and-streaming-rendering",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Data Protection: Key Ring and Purposes",
+        "slug": "data-protection-key-ring-and-purposes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in ASP.NET Core 11, Blazor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11?view=aspnetcore-11.0",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor state management, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management/",
+        "type": "doc"
+      },
+      {
+        "label": "Session and state management in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor forms overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/blazor-ssr-state-tempdata-session-and-cacheview"
+  },
+  {
+    "slug": "blazor-quickgrid-and-virtualize",
+    "id": 550,
+    "category": "Blazor",
+    "title": "Blazor QuickGrid and Virtualize",
+    "topic": "Components & Forms",
+    "summary": "QuickGrid with sorting and paging over an IQueryable and over an ItemsProvider, page and sort kept in the URL in .NET 11 (headers and pager as links), Virtualize with ItemsProvider, ItemComparer and the BL0011 warning, tested with WebApplicationFactory and bUnit 2.15.2.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "blazor-data-access-and-streaming-rendering"
+    ],
+    "related": [
+      {
+        "label": "Blazor Data Access and Streaming Rendering",
+        "slug": "blazor-data-access-and-streaming-rendering",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Component Lifecycle and Parameters",
+        "slug": "blazor-component-lifecycle-and-parameters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Blazor QuickGrid component, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/quickgrid",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor component virtualization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11?view=aspnetcore-11.0",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking change: QuickGrid controls render as links, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/quickgrid-controls-render-as-links",
+        "type": "doc"
+      },
+      {
+        "label": "bUnit documentation",
+        "url": "https://bunit.dev/docs/getting-started/",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/blazor-quickgrid-and-virtualize"
   }
 ]
