@@ -516,5 +516,66 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "agent-framework-workflows-and-orchestration",
+    "id": 8,
+    "title": "Microsoft Agent Framework: Workflows and Orchestration",
+    "topic": "Agents & Tools",
+    "summary": "WorkflowBuilder, executors and supersteps, conditional edges and switch (and what is dropped silently), fan-out with a barrier, shared executors and IResettableExecutor, checkpoints and resuming in another process, and the sequential, concurrent, handoff and group chat patterns run with qwen3 on Ollama, with Magentic from the docs only.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "agent-framework-agents-sessions-and-tools"
+    ],
+    "related": [
+      {
+        "label": "Microsoft Agent Framework: Agents, Sessions and Tools",
+        "slug": "agent-framework-agents-sessions-and-tools",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tool Calling with AIFunction",
+        "slug": "tool-calling-with-aifunction",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
+        "slug": "meai-ichatclient-and-middleware-pipeline",
+        "feature": "dotnet-ai-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Workflow concepts, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/concepts/workflows/",
+        "type": "doc"
+      },
+      {
+        "label": "Executors, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/concepts/workflows/executors",
+        "type": "doc"
+      },
+      {
+        "label": "Edges, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/concepts/workflows/edges",
+        "type": "doc"
+      },
+      {
+        "label": "Checkpoints and resuming, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/workflows/checkpoints",
+        "type": "doc"
+      },
+      {
+        "label": "Workflow orchestrations, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/",
+        "type": "doc"
+      },
+      {
+        "label": "Magentic orchestration, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/magentic",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-ai-concepts/agent-framework-workflows-and-orchestration"
   }
 ]
