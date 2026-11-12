@@ -16,6 +16,11 @@
         "label": "Collections Gap Audit: OrderedDictionary and ReadOnlySet",
         "slug": "collections-gap-audit-ordered-and-read-only-sets",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Collection Expressions, Spread and with(...) Arguments in C# 15",
+        "slug": "collection-expressions-spread-and-with-arguments",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -5927,5 +5932,132 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/running-external-processes-with-process"
+  },
+  {
+    "slug": "collection-expressions-spread-and-with-arguments",
+    "id": 514,
+    "category": "Base Class Library",
+    "title": "Collection Expressions, Spread and with(...) Arguments in C# 15",
+    "topic": "Collections",
+    "summary": "Collection expressions from C# 12 to 15: the concrete type the compiler picks per target, spread, CollectionBuilder, the C# 15 with(...) arguments (capacity, comparer), their real compiler errors, and the silent change of a method named with, checked on the 11.0.100 SDK.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "collection-interfaces-and-choosing-a-collection"
+    ],
+    "related": [
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "List<T> and Array Internals",
+        "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Immutable and Frozen Collections",
+        "slug": "immutable-and-frozen-collections",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Records and with Expressions",
+        "slug": "records-and-with-expressions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Collection expressions, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/collection-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "Collection expression arguments, C# 15 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-15.0/collection-expression-arguments",
+        "type": "doc"
+      },
+      {
+        "label": "CollectionBuilderAttribute Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.collectionbuilderattribute",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 15, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/collection-expressions-spread-and-with-arguments"
+  },
+  {
+    "slug": "control-flow-switch-goto-and-labeled-jumps",
+    "id": 206,
+    "category": "Language",
+    "title": "Control Flow: switch, goto and Labeled Jumps",
+    "topic": "Operators & Control Flow",
+    "summary": "The switch statement and its no-fall-through rule, goto case and goto default, goto with a label, and the C# 15 labeled break and continue (stable on the 11.0.100 SDK), with the real compiler errors and how to choose between a label, a flag and a local function.",
+    "publishedAt": "2026-11-12",
+    "requires": [],
+    "related": [
+      {
+        "label": "foreach, the Enumerator Pattern and ref Iteration",
+        "slug": "foreach-enumerator-pattern-and-ref-iteration",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Exceptions: try, catch, Filters and finally",
+        "slug": "exceptions-try-catch-filters-and-finally",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Local Functions, Lambdas and Closures",
+        "slug": "local-functions-lambdas-and-closures",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Pattern Matching: Type, Constant and Relational Patterns, and switch Expressions",
+        "slug": "type-constant-and-relational-patterns",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Jump statements, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/jump-statements",
+        "type": "doc"
+      },
+      {
+        "label": "The switch statement, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements#the-switch-statement",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 15, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/control-flow-switch-goto-and-labeled-jumps"
   }
 ]
