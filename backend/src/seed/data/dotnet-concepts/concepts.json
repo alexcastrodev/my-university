@@ -7864,5 +7864,68 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/csrf-protection-antiforgery-tokens-and-fetch-metadata"
+  },
+  {
+    "slug": "nuget-supply-chain-audit-lock-files-and-publish-age",
+    "id": 204,
+    "category": "Platform & Tooling",
+    "title": "NuGet Supply Chain: Audit, Lock Files and Minimum Publish Age",
+    "topic": "NuGet & Packaging",
+    "summary": "Defense in depth for NuGet with real output from the 11.0.100 SDK: NuGetAudit modes and levels, packages.lock.json with --locked-mode (NU1004 versus NU1403), transitive pinning, package signatures and the new minimum publish age (minPublishAgeHours, NU1020).",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "nuget-restore-versions-and-dependency-resolution",
+      "central-package-management-and-package-source-mapping"
+    ],
+    "related": [
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Central Package Management and Package Source Mapping",
+        "slug": "central-package-management-and-package-source-mapping",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Packaging and Publishing a NuGet Library",
+        "slug": "packaging-and-publishing-a-nuget-library",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Analyzers, EditorConfig and Build Quality Gates",
+        "slug": "analyzers-editorconfig-and-build-quality-gates",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The dotnet CLI and Noun-First Commands",
+        "slug": "dotnet-cli-and-noun-first-commands",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Minimum package publish age, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/consume-packages/minimum-package-publish-age",
+        "type": "doc"
+      },
+      {
+        "label": "Auditing packages for security vulnerabilities, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/auditing-packages",
+        "type": "doc"
+      },
+      {
+        "label": "Best practices for a secure software supply chain, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/security-best-practices",
+        "type": "doc"
+      },
+      {
+        "label": "Restore doesn't search the global packages folder for a higher package version, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/11/restore-global-packages-folder-version-search",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/nuget-supply-chain-audit-lock-files-and-publish-age"
   }
 ]
