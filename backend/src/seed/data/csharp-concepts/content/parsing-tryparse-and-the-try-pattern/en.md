@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -350,6 +350,20 @@ one successful Parse                5.0 ns
 A throw costs roughly 500 times more than a failed `TryParse` here, and a
 successful `Parse` is as cheap as a `TryParse`. That is why the guideline says
 a `Try` method is for the case that fails in normal operation.
+
+### TryParsePartial in .NET 11
+
+`TryParse` rejects trailing text. `TryParsePartial` parses the leading number
+and reports how many characters it used, which suits tokenizers. The overload
+requires `NumberStyles` and a provider:
+
+```csharp
+int.TryParsePartial("123abc", NumberStyles.Integer, CultureInfo.InvariantCulture,
+    out int v, out int consumed);   // true, v = 123, consumed = 3
+int.TryParsePartial("abc", NumberStyles.Integer, CultureInfo.InvariantCulture,
+    out v, out consumed);           // false, v = 0, consumed = 0
+int.TryParse("123abc", out _);      // false
+```
 
 ## Trade-offs
 

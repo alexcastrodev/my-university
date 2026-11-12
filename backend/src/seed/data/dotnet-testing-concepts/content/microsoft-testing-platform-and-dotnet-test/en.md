@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-11
+version: 1.3
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -184,6 +184,7 @@ The exit code is what CI reads, and MTP is strict about it:
 | --- | --- |
 | 0 | every selected test ran and passed |
 | 2 | at least one test failed |
+| 3 | the test session was aborted (for example by `--timeout` or Ctrl+C) |
 | 5 | invalid command-line arguments (often an option from an extension the project does not have) |
 | 8 | zero tests ran |
 | 9 | fewer tests ran than `--minimum-expected-tests` |
@@ -199,7 +200,13 @@ dotnet test --filter "TestCategory=Shiping"; echo $?
 
 A green job that ran nothing is worse than a red one. `--minimum-expected-tests`
 goes further and also catches a suite that lost tests. In the lab, asking for 21
-tests when 20 exist exits with code 9. If a run with zero tests is legitimate
+tests when 20 exist exits with code 9. A test host that dies on its own does not get a code of its own: a test calling
+`Environment.Exit(42)` made `dotnet test` exit with 42, printing "The exit code
+is not recognized". With `--timeout 3s` on a test that slept 20 seconds, the
+run still waited for it, finished with "Test run summary: Aborted" and exit code
+3, so do not count on `--timeout` to cut a hung test short.
+
+If a run with zero tests is legitimate
 (an empty slice in a matrix), say so with `--ignore-exit-code 8`.
 
 ### Collecting coverage

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "Unicode, Runes e Encodings de Texto"
 summary: char, Rune e grafemas (StringInfo), UTF-8/16/32, bytes inválidos e BOM, code pages legadas e as codificações binário-para-texto Base64, Base64Url (.NET 9) e hexadecimal.
 ---
@@ -154,6 +154,21 @@ e `/` por `-` e `_`. `Convert.ToHexString` escreve em maiúsculas e
 `ToLower` e sua alocação quando um protocolo, como muitas representações de hash,
 espera minúsculas. Base64 e hex são codificações, não criptografia: qualquer um as
 reverte.
+
+### Sobrecargas de Rune em string no .NET 11
+
+Procurar um caractere fora do BMP não exige mais montar uma string antes. A
+`string` agora tem sobrecargas com `Rune`:
+
+```csharp
+var r = new Rune(0x1F600);
+"a😀b".Contains(r);      // True
+"a😀b".IndexOf(r);       // 1
+"😀b".StartsWith(r);     // True
+```
+
+O índice continua sendo uma posição UTF-16 (1 aqui, porque o emoji começa
+depois de um `char`), não uma contagem de runes.
 
 ## Trade-offs
 

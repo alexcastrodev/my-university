@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-11
+version: 1.3
+updatedAt: 2026-11-12
 title: "Microsoft.Testing.Platform, dotnet test e Code Coverage no CI"
 summary: Migre uma suíte MSTest do VSTest para o Microsoft.Testing.Platform com MSTest.Sdk e global.json, entenda os novos comandos e exit codes do dotnet test no .NET 10, colete cobertura com um gate no CI e veja, por mutação, por que cobertura alta não prova nada.
 ---
@@ -190,6 +190,7 @@ O exit code é o que o CI lê, e o MTP é rigoroso com ele:
 | --- | --- |
 | 0 | todo teste selecionado rodou e passou |
 | 2 | pelo menos um teste falhou |
+| 3 | a sessão de testes foi abortada (por exemplo por `--timeout` ou Ctrl+C) |
 | 5 | argumentos de linha de comando inválidos (muitas vezes uma opção de uma extensão que o projeto não tem) |
 | 8 | zero testes rodaram |
 | 9 | rodaram menos testes do que `--minimum-expected-tests` |
@@ -205,7 +206,13 @@ dotnet test --filter "TestCategory=Shiping"; echo $?
 
 Um job verde que não rodou nada é pior que um vermelho. `--minimum-expected-tests`
 vai além e pega também uma suíte que perdeu testes. No lab, pedir 21 testes
-quando existem 20 sai com o código 9. Se uma execução com zero testes é legítima
+quando existem 20 sai com o código 9. Um test host que morre sozinho não ganha um código próprio: um teste que chamou
+`Environment.Exit(42)` fez o `dotnet test` sair com 42, imprimindo "The exit
+code is not recognized". Com `--timeout 3s` em um teste que dormia 20 segundos,
+a execução ainda esperou por ele, terminou com "Test run summary: Aborted" e
+código 3, então não conte com `--timeout` para interromper um teste travado.
+
+Se uma execução com zero testes é legítima
 (uma fatia vazia numa matriz), diga isso com `--ignore-exit-code 8`.
 
 ### Coletando cobertura

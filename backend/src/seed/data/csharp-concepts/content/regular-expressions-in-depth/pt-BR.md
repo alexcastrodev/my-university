@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "Expressões Regulares em Profundidade"
 summary: Os dois motores de regex do .NET (backtracking e NonBacktracking), opções que mudam o significado do padrão, grupos nomeados, lookaround, quantificadores gananciosos e preguiçosos, EnumerateMatches e timeouts.
 ---
@@ -158,6 +158,20 @@ mostra um timeout salvando um serviço de um padrão catastrófico.
 Métodos estáticos como `Regex.IsMatch(input, pattern)` usam um cache de objetos
 `Regex` recentes cujo `Regex.CacheSize` padrão é 15. Um padrão em caminho quente
 pertence a um campo `static readonly Regex`, ou a um regex gerado.
+
+### RegexOptions.AnyNewLine no .NET 11
+
+Por padrão, `^` e `$` com `Multiline` tratam só `\n` como quebra de linha.
+`RegexOptions.AnyNewLine` faz com que reconheçam também as outras quebras de
+linha Unicode, como NEL (`\u0085`):
+
+```csharp
+var s = "a\u0085b\u0085c";
+Regex.IsMatch(s, "^b$", RegexOptions.Multiline);                           // False
+Regex.IsMatch(s, "^b$", RegexOptions.Multiline | RegexOptions.AnyNewLine); // True
+```
+
+Use para texto que vem de exportações de mainframe ou de sistemas legados.
 
 ## Trade-offs
 

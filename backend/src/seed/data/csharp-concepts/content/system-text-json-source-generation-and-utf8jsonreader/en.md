@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -173,6 +173,25 @@ end. It reads from a `Stream` or a `PipeReader` (.NET 10). It expects an array: 
 single top-level object failed with a "could not be converted" error. Passing
 `topLevelValues: true` instead reads a sequence of whitespace-separated values
 (2 objects in my test). The endpoint side of this is in the async streams concept.
+
+### What .NET 11 adds
+
+With source generation, `[JsonInclude]` on a private or internal member now
+works: a class with `[JsonInclude] private int Secret = 7` and
+`[JsonInclude] internal int Inner = 8` serialized to `{"Secret":7,"Inner":8}`
+through the generated context (the .NET 10 generator reported SYSLIB1038 for
+this). The context also exposes a typed lookup, `options.GetTypeInfo<T>()`.
+
+For JSON Lines (one value per line, no outer array), pass `topLevelValues: true`:
+
+```csharp
+await JsonSerializer.SerializeAsyncEnumerable(stream, items, topLevelValues: true);
+// {"N":0,"S":"x0"}
+// {"N":1,"S":"x1"}
+```
+
+Each element is written followed by a newline, which is the format log
+pipelines and `jq` expect.
 
 ## Trade-offs
 
