@@ -9203,6 +9203,83 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/message-brokers-masstransit-azure-service-bus-and-rabbitmq"
   },
   {
+    "slug": "structured-logging-with-serilog-and-log-sinks",
+    "id": 877,
+    "category": "ASP.NET Core",
+    "title": "Structured Logging with Serilog and Log Sinks",
+    "topic": "Observability",
+    "summary": "Serilog behind ILogger in ASP.NET Core, run on .NET 10: message templates against interpolation, destructuring with masking, UseSerilog and the bootstrap logger, Console JSON and rolling File sinks configured in appsettings, LogContext, scopes and enrichers, request logging, redaction of sensitive data, an in-memory sink for tests, and Serilog against OpenTelemetry Logs.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "ilogger-categories-levels-filtering-and-scopes"
+    ],
+    "related": [
+      {
+        "label": "ILogger: Categories, Levels, Filtering and Scopes",
+        "slug": "ilogger-categories-levels-filtering-and-scopes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HTTP Logging and Request Diagnostics",
+        "slug": "http-logging-and-request-diagnostics",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Structured Data, Serilog wiki",
+        "url": "https://github.com/serilog/serilog/wiki/Structured-Data",
+        "type": "doc"
+      },
+      {
+        "label": "serilog-aspnetcore, GitHub",
+        "url": "https://github.com/serilog/serilog-aspnetcore",
+        "type": "doc"
+      },
+      {
+        "label": "serilog-settings-configuration, GitHub",
+        "url": "https://github.com/serilog/serilog-settings-configuration",
+        "type": "doc"
+      },
+      {
+        "label": "serilog-sinks-file, GitHub",
+        "url": "https://github.com/serilog/serilog-sinks-file",
+        "type": "doc"
+      },
+      {
+        "label": "serilog-formatting-compact, GitHub",
+        "url": "https://github.com/serilog/serilog-formatting-compact",
+        "type": "doc"
+      },
+      {
+        "label": "serilog-sinks-opentelemetry, GitHub",
+        "url": "https://github.com/serilog/serilog-sinks-opentelemetry",
+        "type": "doc"
+      },
+      {
+        "label": "Logging in C# and .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logging/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Data redaction in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/data-redaction",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/structured-logging-with-serilog-and-log-sinks"
+  },
+  {
     "slug": "reverse-proxy-and-api-gateway-with-yarp",
     "id": 884,
     "category": "ASP.NET Core",
