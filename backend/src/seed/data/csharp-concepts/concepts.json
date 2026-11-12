@@ -460,6 +460,11 @@
         "label": "File-Based Apps: Running a Single .cs File (.NET 10)",
         "slug": "file-based-apps",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -5635,5 +5640,230 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "whats-new-in-csharp-15",
+    "id": 121,
+    "category": "Language",
+    "title": "What's New in C# 15: A Map of the Features",
+    "topic": "Language Basics",
+    "summary": "A navigation map of the C# 15 features that ship with .NET 11: collection expression arguments, union types, closed classes, extension indexers, labeled break and continue, static interface members on older runtimes and the memory safety model that is still preview, each with a compiled snippet, the C# 14 error and a link to the deep concept, plus what did not make it into C# 15.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "csharp-language-versions-and-preview-features",
+      "whats-new-in-csharp-14",
+      "extension-members-and-extension-blocks",
+      "type-constant-and-relational-patterns"
+    ],
+    "related": [
+      {
+        "label": "Union Types in C# 15",
+        "slug": "union-types-in-csharp-15",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Closed Classes and Exhaustive Hierarchies",
+        "slug": "closed-classes-and-exhaustive-hierarchies",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Result Types versus Exceptions",
+        "slug": "result-types-versus-exceptions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Interfaces: Explicit Implementation and Default Methods",
+        "slug": "interfaces-explicit-implementation-and-default-methods",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Unsafe Code, Pointers and Function Pointers",
+        "slug": "unsafe-code-pointers-and-function-pointers",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in C# 15, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15",
+        "type": "doc"
+      },
+      {
+        "label": "C# language versioning, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version",
+        "type": "doc"
+      },
+      {
+        "label": "Union types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/union",
+        "type": "doc"
+      },
+      {
+        "label": "Closed hierarchies, C# 15 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-15.0/closed-hierarchies",
+        "type": "doc"
+      },
+      {
+        "label": "Collection expression arguments, C# 15 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-15.0/collection-expression-arguments",
+        "type": "doc"
+      },
+      {
+        "label": "Roslyn Language Feature Status, dotnet/roslyn",
+        "url": "https://github.com/dotnet/roslyn/blob/main/docs/Language%20Feature%20Status.md",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "union-types-in-csharp-15",
+    "id": 204,
+    "category": "Language",
+    "title": "Union Types in C# 15: Values From a Closed Set of Types",
+    "topic": "Pattern Matching",
+    "summary": "The C# 15 union declaration, what the compiler generates, patterns that test the contents, the default value and CS8509/CS8655, a hand-written union without boxing (measured at zero bytes), System.Text.Json support and what happens on older target frameworks.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "type-constant-and-relational-patterns",
+      "value-types-reference-types-and-boxing"
+    ],
+    "related": [
+      {
+        "label": "Result Types versus Exceptions",
+        "slug": "result-types-versus-exceptions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Closed Classes and Exhaustive Hierarchies",
+        "slug": "closed-classes-and-exhaustive-hierarchies",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Property, Positional and List Patterns",
+        "slug": "property-positional-and-list-patterns",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Nullable Reference Types and Flow Analysis",
+        "slug": "nullable-reference-types-and-flow-analysis",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Union types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/union",
+        "type": "doc"
+      },
+      {
+        "label": "Unions, C# 15 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-15.0/unions",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 15, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15",
+        "type": "doc"
+      },
+      {
+        "label": "Unions and closed hierarchies in ASP.NET Core, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/unions-and-closed-hierarchies-in-aspnetcore/",
+        "type": "doc"
+      },
+      {
+        "label": "Errors and warnings for pattern matching, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/pattern-matching-warnings",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/union-types-in-csharp-15"
+  },
+  {
+    "slug": "closed-classes-and-exhaustive-hierarchies",
+    "id": 205,
+    "category": "Language",
+    "title": "Closed Classes and Exhaustive Hierarchies in C# 15",
+    "topic": "Pattern Matching",
+    "summary": "The C# 15 closed modifier, its rules and real compiler errors, how exhaustiveness is computed over direct subclasses and where it has holes, the metadata the compiler writes, the System.Text.Json default of {} and how closed compares with abstract plus sealed, enum and union.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "type-constant-and-relational-patterns",
+      "inheritance-virtual-override-and-sealed"
+    ],
+    "related": [
+      {
+        "label": "Union Types in C# 15",
+        "slug": "union-types-in-csharp-15",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Records and with Expressions",
+        "slug": "records-and-with-expressions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Enums and Flags Enums",
+        "slug": "enums-and-flags-enums",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Result Types versus Exceptions",
+        "slug": "result-types-versus-exceptions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "JSON Converters, Contract Customization and Schema Export",
+        "slug": "json-converters-contracts-and-schema-export",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "closed modifier, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/closed",
+        "type": "doc"
+      },
+      {
+        "label": "Closed hierarchies, C# 15 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-15.0/closed-hierarchies",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 15, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15",
+        "type": "doc"
+      },
+      {
+        "label": "Unions and closed hierarchies in ASP.NET Core, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/unions-and-closed-hierarchies-in-aspnetcore/",
+        "type": "doc"
+      },
+      {
+        "label": "Closed enums proposal, dotnet/csharplang",
+        "url": "https://github.com/dotnet/csharplang/blob/main/proposals/closed-enums.md",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/closed-classes-and-exhaustive-hierarchies"
   }
 ]
