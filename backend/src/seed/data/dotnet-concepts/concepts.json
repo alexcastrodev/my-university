@@ -4614,6 +4614,11 @@
         "label": "In-Memory Queues with Channels",
         "slug": "in-memory-queues-with-channels",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HTTP QUERY: Safe Requests With a Body",
+        "slug": "http-query-method-and-safe-requests-with-a-body",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -4793,6 +4798,11 @@
         "label": "JSON Converters, Contract Customization and Schema Export",
         "slug": "json-converters-contracts-and-schema-export",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "HTTP QUERY: Safe Requests With a Body",
+        "slug": "http-query-method-and-safe-requests-with-a-body",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -8680,5 +8690,82 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/blazor-quickgrid-and-virtualize"
+  },
+  {
+    "slug": "http-query-method-and-safe-requests-with-a-body",
+    "id": 790,
+    "category": "ASP.NET Core",
+    "title": "HTTP QUERY: Safe Requests With a Body",
+    "topic": "Minimal APIs",
+    "summary": "The QUERY method (RFC 10008) as a safe and idempotent search with a body: MapMethods and HttpMethod.Query in .NET 11, redirects and retries on HttpClient, why output caching skips it and how to key it by body, the CORS preflight, OpenAPI 3.2 against 3.1, and what was tested against what only the docs claim.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "rest-semantics-status-codes-and-idempotency"
+    ],
+    "related": [
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenAPI Document Generation in ASP.NET Core 10",
+        "slug": "openapi-document-generation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The HTTP QUERY Method, RFC 10008",
+        "url": "https://www.rfc-editor.org/info/rfc10008",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11?view=aspnetcore-11.0",
+        "type": "doc"
+      },
+      {
+        "label": "Output caching middleware, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/output",
+        "type": "doc"
+      },
+      {
+        "label": "Enable CORS in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/cors",
+        "type": "doc"
+      },
+      {
+        "label": "OpenAPI Specification 3.2.0",
+        "url": "https://spec.openapis.org/oas/v3.2.0.html",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/http-query-method-and-safe-requests-with-a-body"
   }
 ]
