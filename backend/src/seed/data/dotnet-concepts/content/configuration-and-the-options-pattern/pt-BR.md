@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-07
+version: 1.2
+updatedAt: 2026-11-12
 title: "Configuração e o Options Pattern"
 summary: Fontes de configuração e sua precedência, override por ambiente sem tocar no código, settings tipados com ValidateOnStart e como manter segredos fora do repositório.
 ---
@@ -135,6 +135,8 @@ Uma connection string do SQLite pode ficar no `appsettings.json` só porque não
 carrega credenciais; uma de PostgreSQL com senha não pode.
 
 ## Trade-offs
+
+- **String vazia agora sobrescreve no .NET 11.** Empilhei uma fonte JSON com `Timeout` = `"30"` e uma fonte em memória com `Timeout` = `""`. No .NET 11.0.100 `configuration["Timeout"]` devolveu `''`: o valor vazio vence o anterior e `GetValue<int?>` não enxerga mais o `30`. Trate vazio numa fonte de override como intencional, ou omita a chave.
 
 - **Surpresas de precedência.** Uma variável de ambiente esquecida na sua
   máquina pode vencer o arquivo JSON em silêncio, e a app parece ignorar a sua
