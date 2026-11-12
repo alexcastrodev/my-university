@@ -1302,6 +1302,138 @@
     ]
   },
   {
+    "slug": "assertion-libraries-fluentassertions-awesomeassertions-and-shouldly",
+    "id": 18,
+    "title": "Assertion Libraries: FluentAssertions, AwesomeAssertions and Shouldly",
+    "topic": "Tooling & CI",
+    "summary": "The assertions that ship with MSTest 4.5.3 against AwesomeAssertions 9.6.0 and Shouldly 4.3.0, with real failure messages side by side, what the FluentAssertions 8 license says in the package (non-commercial use), and the culture and case traps that cost a debugging session, all measured on the .NET 11 GA SDK.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "mstest-fundamentals-lifecycle-and-testcontext"
+    ],
+    "related": [
+      {
+        "label": "MSTest 4 Fundamentals: Lifecycle, TestContext and Parallelism",
+        "slug": "mstest-fundamentals-lifecycle-and-testcontext",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Choosing a Test Framework: MSTest, xUnit, NUnit and TUnit",
+        "slug": "choosing-a-test-framework-mstest-xunit-nunit-tunit",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Test Doubles in .NET: Fakes, Stubs and NSubstitute",
+        "slug": "test-doubles-fakes-stubs-and-nsubstitute",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "The Four Pillars of a Good Unit Test",
+        "slug": "four-pillars-of-a-good-unit-test",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/assertion-libraries-fluentassertions-awesomeassertions-and-shouldly",
+    "references": [
+      {
+        "label": "MSTest assertions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-assertions",
+        "type": "doc"
+      },
+      {
+        "label": "FluentAssertions 8.11.0 package page, NuGet",
+        "url": "https://www.nuget.org/packages/FluentAssertions/8.11.0",
+        "type": "doc"
+      },
+      {
+        "label": "FluentAssertions license and pricing, Xceed",
+        "url": "https://xceed.com/products/unit-testing/fluent-assertions/",
+        "type": "doc"
+      },
+      {
+        "label": "AwesomeAssertions, GitHub",
+        "url": "https://github.com/AwesomeAssertions/AwesomeAssertions",
+        "type": "doc"
+      },
+      {
+        "label": "Shouldly documentation",
+        "url": "https://docs.shouldly.org/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "xunit-v3-for-mstest-developers",
+    "id": 19,
+    "title": "xUnit v3 for MSTest Developers",
+    "topic": "Tooling & CI",
+    "summary": "Port an MSTest 4.5.3 suite to xUnit v3 4.0.3 keeping the test names: an equivalence table, the lifecycle proved by a log, class and collection fixtures, parallelism by collection, the Assert.Throws that means exact type, ITestOutputHelper and Microsoft.Testing.Platform, with real output from the .NET 11 GA SDK.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "mstest-fundamentals-lifecycle-and-testcontext"
+    ],
+    "related": [
+      {
+        "label": "Choosing a Test Framework: MSTest, xUnit, NUnit and TUnit",
+        "slug": "choosing-a-test-framework-mstest-xunit-nunit-tunit",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "MSTest 4 Fundamentals: Lifecycle, TestContext and Parallelism",
+        "slug": "mstest-fundamentals-lifecycle-and-testcontext",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Data-Driven Tests in MSTest: DataRow, DynamicData and Custom Sources",
+        "slug": "mstest-data-driven-tests",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Microsoft.Testing.Platform, dotnet test and Code Coverage in CI",
+        "slug": "microsoft-testing-platform-and-dotnet-test",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "JUnit 5 Fundamentals",
+        "slug": "junit-5-fundamentals",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/xunit-v3-for-mstest-developers",
+    "references": [
+      {
+        "label": "Getting started with xUnit.net v3, xunit.net",
+        "url": "https://xunit.net/docs/getting-started/v3/getting-started",
+        "type": "doc"
+      },
+      {
+        "label": "xUnit.net v3 and Microsoft.Testing.Platform, xunit.net",
+        "url": "https://xunit.net/docs/getting-started/v3/microsoft-testing-platform",
+        "type": "doc"
+      },
+      {
+        "label": "Shared context between tests, xunit.net",
+        "url": "https://xunit.net/docs/shared-context",
+        "type": "doc"
+      },
+      {
+        "label": "Running tests in parallel, xunit.net",
+        "url": "https://xunit.net/docs/running-tests-in-parallel",
+        "type": "doc"
+      },
+      {
+        "label": "xUnit.net v3 4.0.0 release notes, xunit.net",
+        "url": "https://xunit.net/releases/v3/4.0.0",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest test lifecycle, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "snapshot-testing-with-verify",
     "id": 20,
     "title": "Snapshot Testing with Verify",

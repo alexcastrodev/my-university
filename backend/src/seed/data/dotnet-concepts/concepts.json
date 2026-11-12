@@ -8099,5 +8099,207 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/upgrading-to-dotnet-11-and-reading-breaking-changes"
+  },
+  {
+    "slug": "nuget-supply-chain-audit-lock-files-and-publish-age",
+    "id": 204,
+    "category": "Platform & Tooling",
+    "title": "NuGet Supply Chain: Audit, Lock Files and Minimum Publish Age",
+    "topic": "NuGet & Packaging",
+    "summary": "Defense in depth for NuGet with real output from the 11.0.100 SDK: NuGetAudit modes and levels, packages.lock.json with --locked-mode (NU1004 versus NU1403), transitive pinning, package signatures and the new minimum publish age (minPublishAgeHours, NU1020).",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "nuget-restore-versions-and-dependency-resolution",
+      "central-package-management-and-package-source-mapping"
+    ],
+    "related": [
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Central Package Management and Package Source Mapping",
+        "slug": "central-package-management-and-package-source-mapping",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Packaging and Publishing a NuGet Library",
+        "slug": "packaging-and-publishing-a-nuget-library",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Analyzers, EditorConfig and Build Quality Gates",
+        "slug": "analyzers-editorconfig-and-build-quality-gates",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The dotnet CLI and Noun-First Commands",
+        "slug": "dotnet-cli-and-noun-first-commands",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Minimum package publish age, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/consume-packages/minimum-package-publish-age",
+        "type": "doc"
+      },
+      {
+        "label": "Auditing packages for security vulnerabilities, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/auditing-packages",
+        "type": "doc"
+      },
+      {
+        "label": "Best practices for a secure software supply chain, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/security-best-practices",
+        "type": "doc"
+      },
+      {
+        "label": "Restore doesn't search the global packages folder for a higher package version, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/11/restore-global-packages-folder-version-search",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/nuget-supply-chain-audit-lock-files-and-publish-age"
+  },
+  {
+    "slug": "async-validation-with-data-annotations",
+    "id": 752,
+    "category": "ASP.NET Core",
+    "title": "Async Validation with Data Annotations",
+    "topic": "Minimal APIs",
+    "summary": "AsyncValidationAttribute and IAsyncValidatableObject in .NET 11 Minimal APIs for rules that query a database or a service, the order in which rules run, the ProblemDetails response, cancellation through the request token, and what was left out because it was not executed.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "input-validation-in-minimal-apis"
+    ],
+    "related": [
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Forms: EditForm and Validation",
+        "slug": "blazor-forms-editform-and-validation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11.0",
+        "type": "doc"
+      },
+      {
+        "label": "Validation in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#validation-support-in-minimal-apis",
+        "type": "doc"
+      },
+      {
+        "label": "AsyncValidationAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.asyncvalidationattribute",
+        "type": "doc"
+      },
+      {
+        "label": "Handle errors in ASP.NET Core APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/async-validation-with-data-annotations"
+  },
+  {
+    "slug": "response-compression-brotli-gzip-and-zstandard",
+    "id": 753,
+    "category": "ASP.NET Core",
+    "title": "Response Compression: Brotli, Gzip and Zstandard",
+    "topic": "Hosting & Pipeline",
+    "summary": "The ASP.NET Core response compression middleware, the zstd, br and gzip providers, Vary: Accept-Encoding on every response in .NET 11, HTTPS and BREACH, when to leave compression to the proxy, and size and time measured on a 371 KB payload.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Static Files and MapStaticAssets",
+        "slug": "static-files-and-mapstaticassets",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HTTPS, HSTS and Secure Defaults",
+        "slug": "https-hsts-and-secure-defaults",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Response compression in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/response-compression",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking change: response compression always emits Vary: Accept-Encoding, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/response-compression-always-vary",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8878: Zstandard Compression and the application/zstd Media Type",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8878",
+        "type": "doc"
+      },
+      {
+        "label": "BREACH (security exploit), Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/BREACH",
+        "type": "doc"
+      },
+      {
+        "label": "Vary header, MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Vary",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/response-compression-brotli-gzip-and-zstandard"
   }
 ]
