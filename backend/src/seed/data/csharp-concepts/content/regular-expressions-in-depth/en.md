@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -153,6 +153,20 @@ timeout saving a service from a catastrophic pattern.
 Static methods such as `Regex.IsMatch(input, pattern)` use a cache of recently
 built `Regex` objects whose default `Regex.CacheSize` is 15. A pattern used in a
 hot path belongs in a `static readonly Regex` field, or in a generated regex.
+
+### RegexOptions.AnyNewLine in .NET 11
+
+By default `^` and `$` with `Multiline` treat only `\n` as a line break.
+`RegexOptions.AnyNewLine` makes them also recognize the other Unicode line
+breaks, such as NEL (`\u0085`):
+
+```csharp
+var s = "a\u0085b\u0085c";
+Regex.IsMatch(s, "^b$", RegexOptions.Multiline);                           // False
+Regex.IsMatch(s, "^b$", RegexOptions.Multiline | RegexOptions.AnyNewLine); // True
+```
+
+Use it for text that comes from mainframe or legacy exports.
 
 ## Trade-offs
 

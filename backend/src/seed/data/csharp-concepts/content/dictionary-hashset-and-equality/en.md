@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -162,6 +162,20 @@ count++;
 `GetValueRefOrAddDefault` returns a reference to the value stored inside the
 dictionary, so the update needs no second lookup. The reference is only valid
 until the dictionary is next modified.
+
+### A comparer from a key selector
+
+.NET 11 adds `EqualityComparer<T>.Create` with a key selector, so a comparer by
+one property no longer needs its own class:
+
+```csharp
+var byId = EqualityComparer<Person>.Create(p => p.Id);
+var set = new HashSet<Person>(byId) { new(1, "a") };
+set.Add(new(1, "b"));   // false: same Id, Count stays 1
+```
+
+The same caveat as any custom comparer applies: the selected key must be stable
+while the item is in the collection.
 
 ## Trade-offs
 

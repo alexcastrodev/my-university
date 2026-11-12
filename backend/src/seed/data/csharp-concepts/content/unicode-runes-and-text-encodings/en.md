@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -150,6 +150,21 @@ and `/` with `-` and `_`. `Convert.ToHexString` writes uppercase and
 call and its allocation when a protocol, such as many hash representations,
 expects lowercase. Base64 and hex are encodings, not encryption: anyone can
 reverse them.
+
+### Rune overloads on string in .NET 11
+
+Searching for a character outside the BMP no longer means building a string
+first. `string` now has `Rune` overloads:
+
+```csharp
+var r = new Rune(0x1F600);
+"a😀b".Contains(r);      // True
+"a😀b".IndexOf(r);       // 1
+"😀b".StartsWith(r);     // True
+```
+
+The index is still a UTF-16 position (1 here, as the emoji starts after one
+`char`), not a rune count.
 
 ## Trade-offs
 
