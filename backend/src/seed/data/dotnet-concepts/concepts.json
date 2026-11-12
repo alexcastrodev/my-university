@@ -4213,6 +4213,11 @@
         "label": "Async Streams with IAsyncEnumerable",
         "slug": "async-streams-iasyncenumerable",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -5113,6 +5118,11 @@
         "label": "Blazor WebAssembly Client and API Integration",
         "slug": "blazor-webassembly-client-and-api-integration",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -5439,6 +5449,11 @@
         "label": "Authentication and Authorization at Scale",
         "slug": "authentication-and-authorization-at-scale",
         "feature": "system-design"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -7595,5 +7610,259 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/upgrading-from-ef-core-10-to-11-breaking-changes"
+  },
+  {
+    "slug": "whats-new-in-aspnet-core-11",
+    "id": 321,
+    "category": "ASP.NET Core",
+    "title": "What's New in ASP.NET Core 11: A Map",
+    "topic": "ASP.NET Core Fundamentals",
+    "summary": "A map of the ASP.NET Core 11 release notes grouped into automatic, opt-in, breaking and experimental changes, saying which items were run on the 11.0.100 GA and which come only from the official page, with a link to the concept that goes deep on each one.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "kestrel-iis-and-hosting-models",
+      "input-validation-in-minimal-apis",
+      "openapi-document-generation",
+      "blazor-static-ssr-and-enhanced-navigation"
+    ],
+    "related": [
+      {
+        "label": "What's New in ASP.NET Core 10: A Map",
+        "slug": "whats-new-in-aspnet-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Migrating from ASP.NET Core 10 to 11",
+        "slug": "migrating-from-aspnet-core-10-to-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenAPI Document Generation",
+        "slug": "openapi-document-generation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate from ASP.NET Core 10 to 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/100-to-110",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/11",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "migrating-from-aspnet-core-10-to-11",
+    "id": 322,
+    "category": "ASP.NET Core",
+    "title": "Migrating from ASP.NET Core 10 to 11",
+    "topic": "ASP.NET Core Fundamentals",
+    "summary": "An upgrade checklist from the .NET 10 LTS, with before and after run on both SDKs: the NU1605 restore error from Microsoft.OpenApi 3.x, the OpenAPI 3.2 default, RunAsync throwing when a BackgroundService fails, scope disposal aggregating exceptions, an empty string winning in chained configuration and the automatic CSRF check, plus what comes only from the migration guide.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "whats-new-in-aspnet-core-10",
+      "hosted-services-and-backgroundservice"
+    ],
+    "related": [
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 10: A Map",
+        "slug": "whats-new-in-aspnet-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Central Package Management and Package Source Mapping",
+        "slug": "central-package-management-and-package-source-mapping",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenAPI Document Generation",
+        "slug": "openapi-document-generation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Migrate from ASP.NET Core 10 to 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/100-to-110",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/11",
+        "type": "doc"
+      },
+      {
+        "label": "OpenAPI document version defaults to 3.2, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/openapi-version-default-3-2",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.OpenApi 3.x dependency, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/microsoft-openapi-3x",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+    "id": 408,
+    "category": "ASP.NET Core",
+    "title": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+    "topic": "Security",
+    "summary": "The two CSRF defenses of ASP.NET Core, the antiforgery token and the .NET 11 automatic check by Sec-Fetch-Site and Origin, which one has the final verdict, how to open a webhook or a trusted partner site, what a JSON endpoint does not get and how DisableAntiforgery and DisableCsrfProtection behave, with the status code of each case from tests that send the headers.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "authentication-and-authorization-fundamentals",
+      "cors-for-spa-and-wasm-clients"
+    ],
+    "related": [
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Data Protection: Key Ring and Purposes",
+        "slug": "data-protection-key-ring-and-purposes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery",
+        "type": "doc"
+      },
+      {
+        "label": "Blazor SSR defers antiforgery validation to middleware, breaking change, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/blazor-server-side-rendering-deferred-cross-site-request-forgery-protection",
+        "type": "doc"
+      },
+      {
+        "label": "Enable Cross-Origin Requests (CORS) in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/cors",
+        "type": "doc"
+      },
+      {
+        "label": "Sec-Fetch-Site, MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Sec-Fetch-Site",
+        "type": "doc"
+      },
+      {
+        "label": "Fetch Metadata Request Headers, W3C",
+        "url": "https://www.w3.org/TR/fetch-metadata/",
+        "type": "doc"
+      },
+      {
+        "label": "Cross-Site Request Forgery Prevention Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/csrf-protection-antiforgery-tokens-and-fetch-metadata"
   }
 ]
