@@ -1030,6 +1030,11 @@
         "label": "Choosing an ASP.NET Core Application Model",
         "slug": "choosing-an-aspnet-core-application-model",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Compiled Models and Startup Time",
+        "slug": "ef-core-compiled-models-and-startup-time",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -7415,6 +7420,11 @@
         "label": "Transactions and Optimistic Concurrency in EF Core",
         "slug": "transactions-and-optimistic-concurrency",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Temporal Tables and History Queries in EF Core",
+        "slug": "temporal-tables-and-history-queries",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -7502,6 +7512,16 @@
       {
         "label": "The .NET Support Lifecycle and Choosing a Target",
         "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Compiled Models and Startup Time",
+        "slug": "ef-core-compiled-models-and-startup-time",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Temporal Tables and History Queries in EF Core",
+        "slug": "temporal-tables-and-history-queries",
         "feature": "dotnet-concepts"
       }
     ],
@@ -8301,5 +8321,138 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/response-compression-brotli-gzip-and-zstandard"
+  },
+  {
+    "slug": "ef-core-compiled-models-and-startup-time",
+    "id": 764,
+    "category": "Data Access",
+    "title": "EF Core Compiled Models and Startup Time",
+    "topic": "EF Core Querying",
+    "summary": "dotnet ef dbcontext optimize, what the compiled model generates and how EF Core finds it, what changes in EF Core 11 (EFOptimizeContext removed), startup measured with and without a compiled model on 60 and 300 entities, the stale model nobody notices, and precompiled queries, still experimental.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "dbcontext-lifetime-and-change-tracking"
+    ],
+    "related": [
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Query Translation and Performance in EF Core",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Model Building: Conventions, Annotations and Fluent API",
+        "slug": "ef-core-model-building-conventions-and-fluent-api",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Global and Named Query Filters (EF Core 10)",
+        "slug": "global-and-named-query-filters",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/ef-core-compiled-models-and-startup-time",
+    "references": [
+      {
+        "label": "Compiled models, advanced performance topics, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/advanced-performance-topics#compiled-models",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/breaking-changes",
+        "type": "doc"
+      },
+      {
+        "label": "NativeAOT support and precompiled queries (experimental), EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/nativeaot-and-precompiled-queries",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet ef dbcontext optimize, EF Core tools reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/cli/dotnet#dotnet-ef-dbcontext-optimize",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "temporal-tables-and-history-queries",
+    "id": 765,
+    "category": "Data Access",
+    "title": "Temporal Tables and History Queries in EF Core",
+    "topic": "EF Core Modeling",
+    "summary": "IsTemporal, TemporalAsOf, TemporalAll, TemporalBetween and the other operators, the DDL and SQL EF Core 11 generates (offline, no server), converting an existing table, restoring a deleted row and period columns as CLR properties, new in EF Core 11. A SQL Server feature, not run against a server.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "ef-core-model-building-conventions-and-fluent-api"
+    ],
+    "related": [
+      {
+        "label": "EF Core Interceptors, Events and Auditing",
+        "slug": "ef-core-interceptors-events-and-auditing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Global and Named Query Filters (EF Core 10)",
+        "slug": "global-and-named-query-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Provider Differences: PostgreSQL, SQL Server and SQLite",
+        "slug": "ef-core-provider-differences-postgresql-sql-server-sqlite",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Temporal tables, SQL Server provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/temporal-tables",
+        "type": "doc"
+      },
+      {
+        "label": "Temporal tables, SQL Server, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/tables/temporal-tables",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Interceptors, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors",
+        "type": "doc"
+      }
+    ]
   }
 ]
