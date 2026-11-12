@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "Tipos Numéricos e Representação Binária"
 summary: Complemento de dois, deslocamentos (incluindo >>>), IEEE 754 e por que 0.1 + 0.2 != 0.3, NaN e Infinity, comparação com tolerância, a escala do decimal, float versus decimal para dinheiro e os tipos Half, Int128 e nint.
 ---
@@ -288,12 +288,22 @@ multiplicação soma as escalas, e o resultado não é normalizado.
 Ou seja, `decimal` é exato para frações decimais, não para qualquer número
 racional. A faixa é de cerca de +/-7,9 x 10^28, e passar dela lança exceção,
 diferente do `double`: `decimal.MaxValue + 1m` lança `OverflowException`.
-Converter `double` para `decimal` mantém cerca de 15 dígitos significativos,
-então `(decimal)(0.1 + 0.2)` é `0.3`, `(decimal)1234567890123.456789` é
-`1234567890123.46`, e `NaN`, infinitos e valores fora da faixa lançam
-`OverflowException` (uma constante como `(decimal)double.NaN` é erro de
-compilação, CS0031). Essa conversão esconde o erro do double; ela não conserta
-um cálculo que já perdeu precisão.
+Converter `double` para `decimal` depende do runtime. No .NET 10 mantém cerca
+de 15 dígitos significativos, então `(decimal)(0.1 + 0.2)` é `0.3` e
+`(decimal)1234567890123.456789` é `1234567890123.46`. No .NET 11 mantém o valor
+binário exato, então os mesmos casts dão `0.3000000000000000444089209850` e
+`1234567890123.456787109375` (confirmado no runtime GA). Nos dois, `NaN`,
+infinitos e valores fora da faixa lançam `OverflowException` (uma constante
+como `(decimal)double.NaN` é erro de compilação, CS0031). O arredondamento do
+.NET 10 só escondia o erro do double, e o .NET 11 o mostra: nenhum dos dois
+conserta um cálculo que já perdeu precisão, então escreva literais `decimal`
+(`0.1m`) em vez de converter.
+
+O .NET 11 também traz os tipos decimais IEEE 754 `System.Numerics.Decimal32`,
+`Decimal64` e `Decimal128`. Eles existem para interoperar com bancos, formatos
+e linguagens que guardam decimal32/64/128, e têm uma faixa de expoente muito
+maior que a do `System.Decimal`; `(Decimal32)0.1m + (Decimal32)0.2m` imprime
+`0.3`. Para dinheiro em código C#, `decimal` continua sendo a resposta.
 
 O custo é velocidade e tamanho: 16 bytes e aritmética implementada em software.
 Um laço de 50 milhões de somas levou 37 ms com `double` e 447 ms com `decimal`

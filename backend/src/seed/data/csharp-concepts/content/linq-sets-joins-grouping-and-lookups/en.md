@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -122,8 +122,24 @@ customers.RightJoin(orders, c => c.Id, o => o.CustomerId,
 ```
 
 There is no query-syntax keyword for them yet, so they are written as method
-calls, and there is still no `FullJoin`; a full outer join is a left join
-concatenated with the unmatched rows of a right join.
+calls. Up to .NET 10 there is no `FullJoin`; a full outer join is a left join
+concatenated with the unmatched rows of a right join. .NET 11 adds `FullJoin`,
+and the missing side arrives as `default` (`null` for a reference type, a zeroed
+value for a value tuple). Overloads without a result selector return
+`(TOuter, TInner)` tuples, and `Join` gained the same tuple overload. Confirmed
+on the .NET 11.0.0 GA runtime:
+
+```csharp
+var l = new[] { (K: 1, N: "a"), (K: 2, N: "b") };
+var r = new[] { (K: 2, M: "x"), (K: 3, M: "y") };
+l.FullJoin(r, x => x.K, y => y.K, (x, y) => $"{x.N ?? "null"}/{y.M ?? "null"}");
+// a/null, b/x, null/y
+l.FullJoin(r, x => x.K, y => y.K);   // tuples: ((1, a), (0, )), ((2, b), (2, x)), ((0, ), (3, y))
+```
+
+The [docs](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries)
+also list `FullJoin` on `Queryable`; whether EF Core translates it depends on
+the provider version, which I did not test.
 
 ### Null keys never match
 

@@ -1822,6 +1822,11 @@
         "label": "LINQ: Sets, Joins, Grouping and Lookups",
         "slug": "linq-sets-joins-grouping-and-lookups",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -7434,6 +7439,177 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "whats-new-in-ef-core-11",
+    "id": 750,
+    "category": "Data Access",
+    "title": "What's New in EF Core 11: A Map",
+    "topic": "EF Core",
+    "summary": "A map of the EF Core 11 release (STS, .NET 11) with real SQL side by side against EF Core 10: leaner SQL, new translations, JSON path indexes, LastMigrationId, SQL Server 2025 and Cosmos DB.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "whats-new-in-ef-core-10",
+      "query-translation-and-performance",
+      "json-columns-and-complex-types"
+    ],
+    "related": [
+      {
+        "label": "What's New in EF Core 10: A Map",
+        "slug": "whats-new-in-ef-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Upgrading from EF Core 10 to 11: Breaking Changes",
+        "slug": "upgrading-from-ef-core-10-to-11-breaking-changes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Query Translation and Performance in EF Core",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core with NoSQL: Cosmos DB and MongoDB",
+        "slug": "ef-core-nosql-cosmos-db-and-mongodb",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/breaking-changes",
+        "type": "doc"
+      },
+      {
+        "label": "Vector search, SQL Server provider, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/vector-search",
+        "type": "doc"
+      },
+      {
+        "label": "Complex types, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/complex-types",
+        "type": "doc"
+      },
+      {
+        "label": "Migrations overview, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/",
+        "type": "doc"
+      },
+      {
+        "label": ".NET 11 release notes, GitHub",
+        "url": "https://github.com/dotnet/core/tree/main/release-notes/11.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "upgrading-from-ef-core-10-to-11-breaking-changes",
+    "id": 751,
+    "category": "Data Access",
+    "title": "Upgrading from EF Core 10 to 11: Breaking Changes",
+    "topic": "Migrations",
+    "summary": "The silent breaks of the EF Core 10 to 11 upgrade, reproduced on 11.0.0: Migrate() without migrations, Property() on a primitive collection, obsolete OwnsMany().ToJson() and the SQL Server compatibility level.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "whats-new-in-ef-core-11",
+      "ef-core-migrations-workflow"
+    ],
+    "related": [
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Applying Migrations in Production",
+        "slug": "applying-migrations-in-production",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Model Building: Conventions, Annotations and Fluent API",
+        "slug": "ef-core-model-building-conventions-and-fluent-api",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core, ADO.NET, Dapper and Choosing a Data Access Approach",
+        "slug": "ef-core-ado-net-dapper-and-nosql",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Testing EF Core Queries, Concurrency and Migrations",
+        "slug": "testing-ef-core-queries-concurrency-and-migrations",
+        "feature": "dotnet-testing-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Breaking changes in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/breaking-changes",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Complex types, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/complex-types",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.EntityFrameworkCore, NuGet",
+        "url": "https://www.nuget.org/packages/Microsoft.EntityFrameworkCore",
+        "type": "doc"
+      },
+      {
+        "label": "SQL Server provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/",
+        "type": "doc"
+      },
+      {
+        "label": "Applying migrations, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/upgrading-from-ef-core-10-to-11-breaking-changes"
   },
   {
     "slug": "whats-new-in-aspnet-core-11",

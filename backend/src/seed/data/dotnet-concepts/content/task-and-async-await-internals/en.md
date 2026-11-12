@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -49,9 +49,28 @@ public async Task<int> CountAsync(HttpClient http, string url, CancellationToken
 If the awaited operation has already completed, `await` continues synchronously
 and the method never returns to its caller in between. The state machine is a
 struct in release builds and is boxed to the heap only when the method really
-suspends, which keeps the fast path allocation-light. Starting in .NET 10, the
-runtime can take over part of this work as an opt-in experiment, and the rules
-below do not change.
+suspends, which keeps the fast path allocation-light.
+
+### Runtime async in .NET 11
+
+.NET 10 shipped an opt-in experiment in which the runtime, not the compiler,
+suspends and resumes `async` methods. In .NET 11 the runtime libraries
+themselves are compiled that way: counting methods marked
+`[AsyncStateMachine]` on the GA runtime gave 3 in `System.Private.CoreLib`, 2 in
+`System.Net.Http` and 0 in `System.IO.Compression`, against 69, 119 and 51 on
+.NET 10. Your own code opts in with one project property, with no
+`EnablePreviewFeatures` on `net11.0`:
+
+```xml
+<Features>runtime-async=on</Features>
+```
+
+With it, the method no longer carries `AsyncStateMachineAttribute`, and a
+`new StackTrace()` taken three `async` calls deep had 5 frames instead of 13,
+because the `MoveNext` and builder frames are gone. The
+[.NET 11 runtime notes](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/runtime)
+still call it a preview for user code. The contract does not change: the rules
+below hold with or without it.
 
 ### SynchronizationContext and ConfigureAwait
 

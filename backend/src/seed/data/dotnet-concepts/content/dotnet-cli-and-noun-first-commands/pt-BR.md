@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "A CLI do dotnet e os Comandos Noun-First"
 summary: Anatomia da CLI, os comandos noun-first do .NET 10 (e um bug visto no SDK 10.0.100), -p: e onde ele quebra, tools locais com manifesto, dotnet tool exec e dnx, dotnet watch com hot reload, --cli-schema e completions, tudo medido no SDK 10.0.100.
 ---
@@ -77,10 +77,11 @@ $ dotnet reference list        # aqui não precisou de --project
 ../lib/lib.csproj
 ```
 
-O `dotnet package add` achou o projeto da pasta atual sem `--project`. Só
-reproduzi isso no 10.0.100; confira num SDK mais novo antes de assumir que
-continua assim. É um bom motivo para manter os scripts de CI em uma versão de
-SDK fixa.
+O `dotnet package add` achou o projeto da pasta atual sem `--project`. O SDK
+11.0.100 corrigiu isso: dentro da pasta do projeto, `dotnet reference add
+../lib/lib.csproj`, `dotnet reference list` e `dotnet reference remove`
+funcionaram sem `--project`. Um bug que existe numa só faixa do SDK é um bom
+motivo para manter os scripts de CI em uma versão de SDK fixa.
 
 Em file-based apps os mesmos comandos aceitam `--file`: `dotnet package add
 Humanizer.Core@2.14.1 --file s.cs` inseriu `#:package Humanizer.Core@2.14.1` no
@@ -128,9 +129,13 @@ Tool package download needs confirmation. Run in interactive mode or use the "--
 $ dotnet tool exec --yes dotnetsay@2.1.7 -- hello      # roda
 ```
 
-A página de referência diz que o `--yes` existe a partir do .NET 11, mas ele
-funcionou e aparece no help do SDK 10.0.100; confie no help instalado mais que
-na página. O `dnx` é um shell script ao lado do `dotnet` que só executa
+O SDK 11 removeu essa pergunta: no SDK 11.0.100, `dotnet tool exec
+dotnetsay@2.1.7 -- hi < /dev/null` baixou e rodou a tool com código de saída
+`0`, e as [notas do SDK 11](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk)
+dizem que `tool exec` e `dnx` "no longer prompt". O `--yes` continua aceito, mas
+não aparece mais no help, que agora mostra `dotnet tool execute` como nome
+canônico. No CI isso significa que código baixado roda sem confirmação nenhuma,
+então fixe `pacote@versão` ou use um manifesto. O `dnx` é um shell script ao lado do `dotnet` que só executa
 `dotnet dnx "$@"`, um alias de `tool exec`, então `dnx dotnetsay@2.1.7 --yes --
 hi` é a forma curta. Se houver um manifesto perto da pasta atual, a versão
 fixada vence: com o `dotnetsay` fixado em 2.1.7 num manifesto, `dotnet tool exec
@@ -166,17 +171,17 @@ diz que os comandos são interativos por padrão em terminais interativos; passe
 
 ## Trade-offs
 
-- **Noun-first lê melhor, verb-first é mais seguro hoje.** As duas funcionam,
-  mas a falha do `reference add` no 10.0.100 mostra que superfície nova traz
-  bugs novos.
+- **Noun-first lê melhor, verb-first é a alternativa segura.** As duas
+  funcionam, mas a falha do `reference add` no 10.0.100 (corrigida no SDK 11)
+  mostra que superfície nova traz bugs novos.
   ```text
   dotnet add reference ../lib/lib.csproj    # funcionou onde dotnet reference add falhou
   ```
 - **`-p:` é rápido e fácil de usar errado.** Ele sobrescreve o arquivo em
   silêncio, e tudo que muda o restore precisa de um restore próprio.
 - **`tool exec` troca reprodutibilidade por conveniência.** Sem manifesto ele
-  pega a última versão do momento; fixe a versão (`pkg@1.2.3`) ou use um
-  manifesto no CI.
+  pega a última versão do momento e, desde o SDK 11, não pergunta antes de
+  rodá-la; fixe a versão (`pkg@1.2.3`) ou use um manifesto no CI.
 - **Hot reload esconde reinícios.** Mudanças de estado que exigem restart
   parecem boas até você reiniciar; mantenha uma execução limpa no seu ciclo de
   testes.
