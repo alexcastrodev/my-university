@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -30,8 +30,14 @@ micro-framework where public methods become commands (neither tested here).
 
 `Main` returns `void`, `int`, `Task` or `Task<int>`, with or without
 `string[] args`; a top-level program gets the `int` form once it contains
-`return n;`. `args` never holds the program name, while
-`Environment.GetCommandLineArgs()[0]` is the assembly path. Under `dotnet run`,
+`return n;`. `args` never holds the program name. What
+`Environment.GetCommandLineArgs()[0]` holds depends on how the program started:
+with `dotnet app.dll` it is the `.dll` path; through the apphost it was also the
+`.dll` path up to .NET 10, but on .NET 11 it is the name used to invoke it
+(`./app`, or `./alias` for a symlink), as the
+[compatibility page](https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/environment-getcommandlineargs-apphost-invocation-name.md)
+says and the GA runtime confirmed. For the executable path use
+`Environment.ProcessPath`. Under `dotnet run`,
 everything after `--` goes to the program; without it the SDK keeps the options
 it recognizes:
 

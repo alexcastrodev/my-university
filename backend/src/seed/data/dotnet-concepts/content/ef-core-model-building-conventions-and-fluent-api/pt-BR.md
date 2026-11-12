@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "Construção do Modelo no EF Core: Convenções, Annotations e Fluent API"
 summary: Quem vence entre convenção, data annotation e Fluent API (conferido no modelo e na migration reais), defaults com ConfigureConventions, IEntityTypeConfiguration, HasData na migration e modelos compilados.
 ---
@@ -61,6 +61,13 @@ Optional     -          False     -
 
 `Both` vale 100: a Fluent API venceu o atributo. A anotação de nulidade do tipo C#
 (`string?`) decidiu `Optional`, que é a convenção em ação.
+
+O método da Fluent API que você escolhe também decide que tipo de membro você ganha.
+Desde o EF Core 11, `Property(c => c.Tags)` sobre um `List<string>` sempre configura
+uma propriedade escalar, não mais uma coleção primitiva, então no meu teste
+`Tags.Contains("a")` falhou com `could not be translated` no SQLite e no SQL Server.
+Deixe a convenção descobrir a coleção, ou configure com
+`PrimitiveCollection(c => c.Tags)`, e a mesma consulta volta a traduzir.
 
 ### Um default para muitas propriedades, sem perder a precedência
 

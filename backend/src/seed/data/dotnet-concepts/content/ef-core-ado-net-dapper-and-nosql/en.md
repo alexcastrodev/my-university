@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -153,6 +153,13 @@ not run on earlier .NET versions or on .NET Framework. Entity Framework 6 is
 stable but no longer actively developed; the guidance is to keep it when the
 data code is stable and port to EF Core when the code is evolving.
 
+That lag was visible when EF Core 11.0.0 shipped on November 10, 2026. On NuGet two
+days later, the Microsoft providers (SqlServer, Sqlite, Cosmos) had 11.0.0, Npgsql's
+EF Core 11 provider was still at 11.0.0-rc.3, Oracle's `MySql.EntityFrameworkCore` had
+10.0.x stable and an 11.0.0 preview, MongoDB's provider was at 10.0.5, and the
+community Pomelo MySQL provider had stopped at 9.0.0, with no build for EF Core 10 or
+11. Check the provider's own feed before planning an EF upgrade.
+
 ### Native AOT changes the choice
 
 A file-based app (`dotnet run app.cs`) enables Native AOT publishing by default
@@ -161,7 +168,9 @@ in the .NET 10 SDK. My first run of the Dapper code failed immediately with
 this platform`, because Dapper generates its row mappers at runtime; the fix was
 `#:property PublishAot=false`. Dapper has a separate build-time generator,
 Dapper.AOT, for that case. EF Core's Native AOT and precompiled queries support
-is still documented as experimental and not recommended for production, so for a
+is still documented as experimental and not recommended for production (EF Core 11
+did not change that; it only removed the `EFOptimizeContext` MSBuild property in favor
+of `EFScaffoldModelStage` and `EFPrecompileQueriesStage`), so for a
 Native AOT service plain ADO.NET is the option with no caveats.
 
 ## Trade-offs

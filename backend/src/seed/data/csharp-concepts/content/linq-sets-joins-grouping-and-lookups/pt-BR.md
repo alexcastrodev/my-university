@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "LINQ: Conjuntos, Joins, Agrupamento e Lookups"
 summary: Semântica de conjunto e as variantes By, Join, GroupJoin e os novos LeftJoin e RightJoin do .NET 10, chaves nulas, GroupBy versus ToLookup e o SQL que o EF Core gera para cada um.
 ---
@@ -126,8 +126,24 @@ customers.RightJoin(orders, c => c.Id, o => o.CustomerId,
 ```
 
 Ainda não existe palavra-chave de sintaxe de query para eles, então são escritos
-como chamada de método, e continua não existindo `FullJoin`; um full outer join
-é um left join concatenado com as linhas sem par de um right join.
+como chamada de método. Até o .NET 10 não existe `FullJoin`; um full outer join
+é um left join concatenado com as linhas sem par de um right join. O .NET 11
+acrescenta `FullJoin`, e o lado ausente chega como `default` (`null` para tipo
+de referência, um valor zerado para uma tupla de valor). As sobrecargas sem
+seletor de resultado devolvem tuplas `(TOuter, TInner)`, e `Join` ganhou a mesma
+sobrecarga de tupla. Confirmado no runtime .NET 11.0.0 GA:
+
+```csharp
+var l = new[] { (K: 1, N: "a"), (K: 2, N: "b") };
+var r = new[] { (K: 2, M: "x"), (K: 3, M: "y") };
+l.FullJoin(r, x => x.K, y => y.K, (x, y) => $"{x.N ?? "null"}/{y.M ?? "null"}");
+// a/null, b/x, null/y
+l.FullJoin(r, x => x.K, y => y.K);   // tuplas: ((1, a), (0, )), ((2, b), (2, x)), ((0, ), (3, y))
+```
+
+A [documentação](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries)
+também lista `FullJoin` em `Queryable`; se o EF Core o traduz depende da versão
+do provedor, o que eu não testei.
 
 ### Chaves nulas nunca casam
 

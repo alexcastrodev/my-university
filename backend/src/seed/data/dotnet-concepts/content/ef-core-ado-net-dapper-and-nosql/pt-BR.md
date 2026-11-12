@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "EF Core, ADO.NET, Dapper e a Escolha da Abordagem de Acesso a Dados"
 summary: Três camadas sobre a mesma conexão, a mesma consulta nas três formas com tempos medidos, como misturá-las numa transação, providers do EF Core e o efeito do Native AOT.
 ---
@@ -156,6 +156,14 @@ roda em versões anteriores do .NET nem no .NET Framework. O Entity Framework 6 
 estável, mas não recebe mais desenvolvimento ativo; a orientação é mantê-lo
 quando o código de dados é estável e portar para o EF Core quando ele evolui.
 
+Esse atraso ficou visível quando o EF Core 11.0.0 saiu, em 10 de novembro de 2026.
+No NuGet, dois dias depois, os providers da Microsoft (SqlServer, Sqlite, Cosmos) já
+tinham a 11.0.0, o provider EF Core 11 do Npgsql ainda estava em 11.0.0-rc.3, o
+`MySql.EntityFrameworkCore` da Oracle tinha 10.0.x estável e uma 11.0.0 preview, o da
+MongoDB estava na 10.0.5, e o provider comunitário Pomelo para MySQL tinha parado na
+9.0.0, sem build para EF Core 10 nem 11. Confira o feed do provider antes de planejar
+um upgrade do EF.
+
 ### O Native AOT muda a escolha
 
 Um file-based app (`dotnet run app.cs`) habilita publicação Native AOT por padrão
@@ -165,7 +173,9 @@ this platform`, porque o Dapper gera os mapeadores de linha em tempo de execuç�
 a correção foi `#:property PublishAot=false`. O Dapper tem um gerador separado,
 em tempo de build, o Dapper.AOT, para esse caso. O suporte do EF Core a Native
 AOT e a consultas pré-compiladas continua documentado como experimental e não
-recomendado para produção, então num serviço Native AOT o ADO.NET puro é a opção
+recomendado para produção (o EF Core 11 não mudou isso; só removeu a propriedade
+MSBuild `EFOptimizeContext` em favor de `EFScaffoldModelStage` e
+`EFPrecompileQueriesStage`), então num serviço Native AOT o ADO.NET puro é a opção
 sem ressalvas.
 
 ## Trade-offs

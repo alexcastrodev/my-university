@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "File-Based Apps: Rodando um Único Arquivo .cs (.NET 10)"
 summary: dotnet run app.cs com as diretivas #:package, #:sdk e #:property, o projeto virtual e o cache, o padrão Native AOT que quebra Dapper e EF Core no dotnet run, shebang, publish e dotnet project convert.
 ---
@@ -176,7 +176,7 @@ arm64 de 1,4 MB que roda sem `dotnet`, gerado em menos de 5 segundos.
 O `dotnet project convert` é a porta de saída. Use quando o script precisar de
 um segundo arquivo de código, de testes ou de um lugar numa solution.
 
-### Um arquivo só, e fora de pastas de projeto
+### Um arquivo só (até o SDK 11), e fora de pastas de projeto
 
 No SDK 10.0.100 a aplicação é exatamente um arquivo. Uma classe num `greeter.cs`
 vizinho não é compilada:
@@ -185,9 +185,26 @@ vizinho não é compilada:
 app.cs(1,19): error CS0103: The name 'Greeter' does not exist in the current context
 ```
 
-e `#:include greeter.cs` falha com `error: Unrecognized directive 'include'`. A
-documentação atual descreve o `#:include` para o SDK 10.0.300 em diante, que não
-estava disponível para teste aqui.
+e `#:include greeter.cs` falha com `error: Unrecognized directive 'include'`. O
+SDK 11.0.100 remove o limite: `#:include` traz outros arquivos para o build, e
+um valor entre aspas em `#:property` agora funciona (o `AssemblyCompany` do
+assembly saiu como `Contoso Tools`):
+
+```csharp
+#!/usr/bin/env dotnet
+#:include greeter.cs
+#:include models/customer.cs
+#:property Company="Contoso Tools"
+Console.WriteLine(Greeter.Hi(new Customer("ana").Name));   // hi ana
+```
+
+Sem a linha de shebang, o build avisa `CA2266: File-based program entry point
+should start with '#!'` assim que o app passa a ter mais de um arquivo; um app
+de arquivo único não recebe o aviso. `dotnet run -e FOO=bar app.cs` também
+passa uma variável de ambiente ao programa no SDK 11. Tudo isso rodou no SDK
+11.0.100; as [notas do SDK 11](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk)
+listam mais diretivas (`#:ref`, metadados como `Aliases=` em `#:package`), que
+eu não testei.
 
 O arquivo também herda o que está em volta: a documentação lista
 `Directory.Build.props`, `Directory.Packages.props`, `nuget.config` e
@@ -210,9 +227,10 @@ top-level statements`. Mantenha scripts numa pasta própria.
 - **O cache de build é rápido, mas indexado pelo arquivo.** Mudanças em arquivos
   de build herdados podem passar despercebidas; a documentação recomenda
   `dotnet clean app.cs` quando um build parece desatualizado.
-- **Um arquivo só é um limite rígido no SDK 10.0.100.** Helpers compartilhados
-  significam copiar código ou converter para projeto; dividir exige um SDK mais
-  novo.
+- **Um arquivo só é um limite rígido no SDK 10.0.100, não no SDK 11.** No SDK
+  10, helpers compartilhados significam copiar código ou converter para
+  projeto; no SDK 11 o `#:include` divide o app, ao custo de um script que SDKs
+  antigos rejeitam.
 - **Um shebang amarra o script a um SDK instalado.** A máquina de destino precisa
   do .NET 10 no `PATH`; para máquinas sem ele, publique o binário nativo.
 

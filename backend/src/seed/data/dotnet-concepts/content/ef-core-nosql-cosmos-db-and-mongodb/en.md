@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-16
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -106,15 +106,24 @@ vocabulary: `EF.Functions.Random()` becomes `RAND()`, `Contains`, `StartsWith` a
 of preview. Paging should use `ToPageAsync` with a continuation token rather than
 `Skip`/`Take`, which the documentation says is much more expensive.
 
-All I/O is async. A synchronous `ToList()` throws immediately with the
-`SyncNotSupported` warning turned into an error.
+All I/O is async. A synchronous `ToList()` throws immediately; on EF Core 11.0.0 the
+message is `InvalidOperationException: Azure Cosmos DB does not support synchronous
+I/O`, a hard error, not a warning you can downgrade.
 
 ### Cosmos DB: writes and concurrency
 
 In EF Core 10 `SaveChangesAsync` sends one request per document, sequentially. There
 is no atomic multi-document save: if the third of five writes fails, the first two
-stay. Transactional batches (single partition, up to 100 operations) are documented
-as arriving with EF Core 11, which is in preview, so do not design around them yet.
+stay. EF Core 11 changes the default: the provider groups the writes into
+[transactional batches](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew#transactional-batches)
+per container and partition (Cosmos caps a batch at 100 operations), runs the batches
+in order and stops at the first one that fails. Atomicity holds inside a batch, not
+across partitions. On 11.0.0, `db.Database.AutoTransactionBehavior` read
+`WhenNeeded` by default; `Never` restores the one-request-per-document behavior and
+`Always` throws if the save does not fit in one batch. Bulk execution for high
+throughput is opt-in with `BulkExecutionAllowed()` in the `UseCosmos` options (the
+what's new page calls it `BulkExecutionEnabled()`, but that name does not compile). I
+checked the API and the default offline; I did not run a save against Cosmos.
 For optimistic concurrency, `UseETagConcurrency()` maps the document `_etag` to a
 shadow concurrency token. `HasShadowId()` and `HasDefaultTimeToLive()` also work; in
 my run, a shadow id moved the key to a separate `__id` property mapped to JSON `id`,
@@ -126,6 +135,10 @@ and now fills a default for a new required property when an older document lacks
 `MongoDB.EntityFrameworkCore` is published by MongoDB, not Microsoft, and the
 providers page lists it for EF Core 8, 9 and 10. The version that restored for me was
 10.0.4, matching EF Core 10, and providers generally do not work across EF majors.
+That lag is concrete: when EF Core 11.0.0 shipped, the newest
+[`MongoDB.EntityFrameworkCore`](https://www.nuget.org/packages/MongoDB.EntityFrameworkCore)
+on NuGet was still 10.0.5, with no build for EF Core 11, so a MongoDB service stays on
+EF Core 10 until MongoDB publishes one.
 
 ```csharp
 modelBuilder.Entity<Order>(e =>

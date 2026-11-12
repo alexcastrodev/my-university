@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 title: "Workflow de Migrations do EF Core"
 summary: Model snapshot, revisão do SQL gerado (rename que vira drop + add), migrationBuilder.Sql, conflito de snapshot entre branches e checagem do modelo no CI.
 ---
@@ -104,8 +104,12 @@ uma migration também carrega o modelo como ele era naquele ponto. Se as duas
 forem mescladas, o snapshot da migration posterior não inclui as mudanças da
 outra branch, o que pode corromper migrations futuras. O EF Core 10 e anteriores
 não registram a última migration no snapshot, então o controle de versão pode
-mesclá-lo sem nenhum conflito, mesmo com as árvores de migrations divergentes. A
-correção documentada é recriar a sua migration por cima da do colega:
+mesclá-lo sem nenhum conflito, mesmo com as árvores de migrations divergentes. O EF Core 11 fecha essa brecha: o
+snapshot gerado pelo `dotnet ef migrations add` 11.0.0 agora começa com um comentário gerado sobre conflitos de merge e a linha
+`public override string LastMigrationId => "20261112000107_Initial";`, então duas
+branches que adicionam migration mudam a mesma linha e o merge para com um conflito
+de texto. Esse conflito é o aviso que você quer, não algo para resolver escolhendo um
+lado. A correção documentada é recriar a sua migration por cima da do colega:
 
 ```bash
 # Antes de mesclar, enquanto a sua branch ainda está coerente:

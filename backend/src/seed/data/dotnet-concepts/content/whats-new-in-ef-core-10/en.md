@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -27,7 +27,9 @@ ones are optional features, and where to read next.
 
 The official page states that EF Core 10 requires the .NET 10 SDK to build and
 the .NET 10 runtime to run, and that it will not run on earlier .NET versions or
-on .NET Framework. It is an LTS release supported until November 10, 2028. The
+on .NET Framework. It is an LTS release supported until November 10, 2028. EF Core
+11.0.0 shipped with .NET 11 on November 10, 2026 as a standard-term (STS) release, so
+EF Core 10 is still the long-term choice. The
 support model and how to choose a target is in
 `dotnet-support-lifecycle-and-choosing-a-target`.
 
@@ -43,7 +45,9 @@ Existing owned-type mappings are advised to move over.
 On SQL Server 2025 and Azure SQL the native `json` type becomes the default when
 you configure `UseAzureSql` or compatibility level 170 or higher. Existing
 `nvarchar` JSON columns change to `json` in the next migration unless you opt
-out. Read `json-columns-and-complex-types` for the details, and
+out. Moving to EF Core 11 also raises the SQL Server provider's default to
+compatibility level 160 (SQL Server 2022), which enables `GREATEST`/`LEAST`, but the
+`json` type still needs 170. Read `json-columns-and-complex-types` for the details, and
 `mapping-the-domain-with-ef-core` for value objects in general.
 
 ### Updates: ExecuteUpdate

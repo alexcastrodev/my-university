@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -59,6 +59,13 @@ Optional     -          False     -
 
 `Both` is 100: the Fluent API beat the attribute. The nullable annotation of the
 C# type (`string?`) decided `Optional`, which is the convention at work.
+
+The Fluent API method you pick also decides what kind of member you get. Since EF Core
+11, `Property(c => c.Tags)` on a `List<string>` always configures a scalar property,
+no longer a primitive collection, so in my run `Tags.Contains("a")` failed with
+`could not be translated` on both SQLite and SQL Server. Let the convention discover
+the collection, or configure it with `PrimitiveCollection(c => c.Tags)`, and the same
+query translates again.
 
 ### A default for many properties, without losing precedence
 
