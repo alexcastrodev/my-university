@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "Native AOT e Seus Limites"
 summary: O que o PublishAot faz (ILC, linker nativo, sem cross-OS), quanto rende em startup, memória e tamanho medidos num console e numa minimal API, o que quebra e por quê (Reflection.Emit, dynamic, generics sobre structs, LoadFrom, expressões interpretadas), a falha de JSON sem aviso, e onde ASP.NET Core e EF Core estão no .NET 10.
 ---
@@ -239,7 +239,8 @@ suporte**: controllers MVC, Blazor Server, outros esquemas de autenticação,
 session, SPA e OData.
 
 O EF Core é a grande lacuna. A documentação dele marca NativeAOT e queries
-pré-compiladas como **experimentais** e desaconselha uso em produção: as
+pré-compiladas como **experimentais** e desaconselha uso em produção, o que
+continua valendo no EF Core 11: as
 queries viram interceptors C# gerados na publicação, queries LINQ compostas
 dinamicamente não são suportadas, e a publicação ainda reporta avisos de trim e
 AOT. Sem essa configuração, o contexto falha no primeiro uso com `Model building

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -234,7 +234,8 @@ limiting, static files and WebSockets, among others. **Partial**: minimal APIs
 Blazor Server, other authentication schemes, session, SPA and OData.
 
 EF Core is the large gap. Its documentation labels NativeAOT and precompiled
-queries **experimental** and recommends against production use: queries are
+queries **experimental** and recommends against production use, and that is
+still true for EF Core 11: queries are
 precompiled into C# interceptors at publish time, dynamically composed LINQ
 queries are not supported, and publishing still reports trim and AOT warnings.
 Without that setup, the context fails at first use with `Model building is not

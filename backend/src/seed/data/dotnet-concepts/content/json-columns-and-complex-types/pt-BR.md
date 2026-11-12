@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "Colunas JSON e Complex Types"
 summary: ToJson em complex e owned types, coleções em uma coluna JSON, o SQL real gerado para consultar e atualizar dentro do documento (conferido em SQLite), o que não traduz, ExecuteUpdate sobre JSON e o que mudou no EF Core 10.
 ---
@@ -73,7 +73,11 @@ vira um array JSON por convenção. O tipo da coluna é escolha do provider. Seg
 What's new do EF Core 10, o SQL Server usa o tipo nativo `json` quando você chama
 `UseAzureSql` ou define o compatibility level 170 (SQL Server 2025), e colunas JSON
 existentes em `nvarchar` são convertidas pela próxima migration, a menos que você
-fixe o tipo da coluna. A documentação do Npgsql diz que `ToJson` é suportado desde
+fixe o tipo da coluna. Não confunda isso com o padrão do provider: no EF Core 11 o
+`UseSqlServer` assume compatibility level 160 (SQL Server 2022), o que liga
+`GREATEST`/`LEAST` (`Math.Max(a, b)` virou `SELECT GREATEST(...)` no meu teste e
+voltou a ser avaliado no cliente com `UseCompatibilityLevel(150)`), mas o tipo `json`
+continua exigindo 170. A documentação do Npgsql diz que `ToJson` é suportado desde
 o provider 8.0, recomenda `jsonb` em vez de `json` e recomenda complex types em vez
 de owned types a partir do EF Core 10.
 
@@ -95,6 +99,22 @@ A orientação oficial é preferir complex types a owned types tanto para JSON q
 para table splitting, porque o owned type carrega uma chave escondida: a mesma
 instância não pode ser atribuída duas vezes, a comparação é por identidade e, como
 se vê adiante, o `ExecuteUpdate` não funciona com ele.
+
+### O que o EF Core 11 acrescenta
+
+O EF Core 11.0.0 segue na mesma direção, e conferi três mudanças no SQLite:
+
+- `OwnsMany(x => x.Notes, n => n.ToJson())` sem chave explícita agora registra
+  `OwnedEntityMappedToJsonCollectionWarning`: "Mapping owned entity collections to
+  JSON is obsolete; map it as a complex type collection or configure a non-shadow
+  key instead".
+- `Property(c => c.Tags)` sobre um `List<string>` deixou de configurar coleção
+  primitiva, e `Tags.Contains("a")` falha com `could not be translated`. Deixe para a
+  convenção ou chame `PrimitiveCollection(c => c.Tags)`; aí a consulta usa
+  `json_each` como antes.
+- Complex types e colunas JSON funcionam em hierarquias TPT e TPC (o EF Core 10 só
+  permitia em TPH): `UseTptMappingStrategy()` com
+  `ComplexProperty(a => a.Details, d => d.ToJson())` criou as tabelas.
 
 ### Consultando dentro do documento
 
@@ -196,11 +216,16 @@ JSON, então filtre pela coleção antes (`Where(c => c.Shipping.Count > 0)`).
   .ExecuteUpdateAsync(s => s.SetProperty(c => c.Shipping[0].City, "X")); // [] virou [{"City":"X"}]
   ```
 - **Consultar dentro do JSON é mais difícil de indexar.** Um filtro em
-  `Address ->> 'City'` não usa um índice comum de coluna. A página de complex types
-  lista índices sobre caminhos dentro de complex types como recurso do EF Core 11;
-  no EF Core 10, um índice de expressão precisa ser criado na migration com SQL
-  bruto, se o banco suportar. Se você filtra muito por um campo, ele provavelmente
-  quer ser uma coluna de verdade.
+  `Address ->> 'City'` não usa um índice comum de coluna. No EF Core 10, um índice
+  de expressão precisa ser criado na migration com SQL bruto. O EF Core 11 gera o
+  índice a partir de `HasIndex("Contact.City")`: no SQLite saiu
+  `CREATE INDEX "IX_Customers_Contact_City" ON "Customers" ("Contact" ->> 'City')`, a
+  mesma expressão que o filtro usa, e no SQL Server (coluna do tipo `json`,
+  compatibility level 170) o script gerado traz `CREATE JSON INDEX ... FOR (N'$.City')`. O SQLite recusa
+  um caminho sobre todos os elementos do array (`Items[].Sku`: "does not support
+  indexes over all elements of a JSON array") e só aceita uma posição fixa, como
+  `Items[0].Sku`. Se você filtra muito por um campo, ele provavelmente continua
+  querendo ser uma coluna de verdade.
 - **A escrita pode ser maior que a mudança.** Na execução em SQLite, mudar uma
   cidade regravou o array `Shipping` inteiro. Documentos grandes que mudam com
   frequência custam mais do que os mesmos dados em linhas.

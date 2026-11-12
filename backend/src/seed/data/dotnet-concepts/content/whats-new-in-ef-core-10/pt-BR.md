@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "O que há de novo no EF Core 10"
 summary: Mapa das novidades do EF Core 10 (LTS, .NET 10): complex types e JSON, ExecuteUpdate, filtros nomeados, coleções parametrizadas, LeftJoin, segurança, SQL Server e Cosmos DB, cada uma com o conceito que aprofunda.
 ---
@@ -30,7 +30,8 @@ recursos opcionais e onde ler em seguida.
 A página oficial informa que o EF Core 10 exige o SDK do .NET 10 para compilar e
 o runtime do .NET 10 para executar, e que não roda em versões anteriores do .NET
 nem no .NET Framework. É uma release LTS com suporte até 10 de novembro de 2028.
-O modelo de suporte e como escolher o target está em
+O EF Core 11.0.0 saiu com o .NET 11 em 10 de novembro de 2026 como release de suporte
+padrão (STS), então o EF Core 10 continua sendo a escolha de longo prazo. O modelo de suporte e como escolher o target está em
 `dotnet-support-lifecycle-and-choosing-a-target`.
 
 ### Modelagem: complex types e JSON
@@ -45,7 +46,9 @@ copia. Quem usa owned types nesses casos é aconselhado a migrar.
 No SQL Server 2025 e no Azure SQL, o tipo nativo `json` vira o padrão quando você
 configura `UseAzureSql` ou compatibility level 170 ou maior. Colunas JSON em
 `nvarchar` já existentes passam a `json` na próxima migration, a menos que você
-opte por não mudar. Veja `json-columns-and-complex-types` para os detalhes e
+opte por não mudar. Ao subir para o EF Core 11, o padrão do provider do SQL Server
+também passa a compatibility level 160 (SQL Server 2022), o que liga
+`GREATEST`/`LEAST`, mas o tipo `json` continua exigindo 170. Veja `json-columns-and-complex-types` para os detalhes e
 `mapping-the-domain-with-ef-core` para value objects em geral.
 
 ### Atualizações: ExecuteUpdate

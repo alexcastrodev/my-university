@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -54,6 +54,35 @@ var vips = db.Customers
     .Where(IsVip)                     // in memory
     .ToList();
 ```
+
+### Leaner SQL in EF Core 11
+
+Upgrading the package changes the SQL for the same LINQ, so compare `ToQueryString()`
+before and after. Running the same queries against EF Core 10 and 11.0.0 (SQL Server
+SQL generated offline, plus SQLite) showed:
+
+```sql
+-- Include(b => b.Owner).Include(b => b.Posts): the reference key left ORDER BY
+-- EF Core 10: ORDER BY [b].[Id], [p].[PersonId]
+-- EF Core 11: ORDER BY [b].[Id]
+
+-- GroupBy with MAX over a reference navigation: a join, not a correlated subquery
+SELECT [p].[BlogId] AS [Key], MAX([b].[Name]) AS [Top]
+FROM [Posts] AS [p]
+INNER JOIN [Blogs] AS [b] ON [p].[BlogId] = [b].[Id]
+GROUP BY [p].[BlogId]
+
+-- value-converted column with EF.Functions.Like: the no-op CAST is gone
+-- EF Core 10: WHERE CAST([u].[Name] AS nvarchar(max)) LIKE N'Name%'
+-- EF Core 11: WHERE [u].[Name] LIKE N'Name%'
+```
+
+The second command of a split query also stopped joining reference navigations it
+does not need. Some LINQ that threw `could not be translated` on EF Core 10 now runs in
+the database: `FullJoin` (`FULL JOIN`), `MaxBy`/`MinBy`, `List<T>.Exists` (`EXISTS`)
+and `byte[].Any()` (`DATALENGTH(...) > 0` on SQL Server). On SQL Server, `Math.Max` and
+`Math.Min` become `GREATEST`/`LEAST` because the provider now assumes compatibility
+level 160.
 
 ### Compiled queries
 

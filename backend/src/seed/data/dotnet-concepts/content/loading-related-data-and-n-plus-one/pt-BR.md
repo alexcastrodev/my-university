@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 title: "Carregando Dados Relacionados e o Problema N+1"
 summary: Include e ThenInclude, explosão cartesiana e AsSplitQuery, N+1 com lazy loading, projeções e como ler o SQL gerado com ToQueryString.
 ---
@@ -69,7 +69,14 @@ várias idas ao banco que podem enxergar dados diferentes se linhas mudarem no
 intervalo. Envolva numa transação serializable ou snapshot quando isso importar
 (o que pode custar performance), ou configure
 `UseQuerySplittingBehavior` uma vez para o contexto inteiro e sobrescreva com
-`AsSingleQuery` onde uma query única for melhor.
+`AsSingleQuery` onde uma query única for melhor. Até o EF Core 10, quando uma
+mudança concorrente deixava linhas filhas sem como casar com os pais, o EF devolvia
+uma coleção vazia em silêncio. O EF Core 11
+[lança `DbQueryConcurrencyException` no lugar](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/breaking-changes#split-queries-now-throw-when-concurrent-modifications-are-detected)
+("The results of a split query could not be correlated because the data was modified
+concurrently..."), e a correção documentada é repetir a query, envolvê-la numa
+transação serializable ou snapshot, ou usar uma query única. Não consegui reproduzir a
+corrida no SQLite, então isso se apoia na documentação.
 
 ### N+1 e lazy loading
 
