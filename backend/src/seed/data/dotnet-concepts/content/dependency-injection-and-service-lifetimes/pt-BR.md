@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-05
+version: 1.1
+updatedAt: 2026-11-12
 title: "Injeção de Dependência e Ciclos de Vida de Serviços"
 summary: O que o container faz, transient, scoped e singleton, por que o DbContext é scoped, captive dependencies, criar um escopo à mão e keyed services.
 ---
@@ -165,6 +165,8 @@ app.MapPost("/pay", ([FromKeyedServices("stripe")] IPaymentGateway gateway) => .
 ```
 
 ## Trade-offs
+
+- **O descarte de escopo tenta todos os serviços no .NET 11.** Resolvi dois `IDisposable` scoped em que o último lança em `Dispose`. No .NET 11.0.100 os dois `Dispose` rodaram (`D2 disposed`, depois `D1 disposed`) e a exceção apareceu no fim. Só rodei o caso de uma falha, que relançou a `InvalidOperationException` original; com vários serviços falhando espere um `AggregateException`. De qualquer forma, `Dispose` não deve lançar.
 
 - **Uma interface para tudo é ruído.** O container registra uma classe concreta
   diretamente. Crie uma interface quando houver uma segunda implementação ou uma

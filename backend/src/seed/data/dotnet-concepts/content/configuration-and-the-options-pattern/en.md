@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-07
+version: 1.2
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -131,6 +131,8 @@ SQLite connection string can live in `appsettings.json` only because it carries
 no credentials; a PostgreSQL one with a password cannot.
 
 ## Trade-offs
+
+- **An empty string now overrides in .NET 11.** I stacked a JSON source with `Timeout` = `"30"` and an in-memory source with `Timeout` = `""`. On .NET 11.0.100 `configuration["Timeout"]` returned `''`, so the empty value wins over the earlier one and `GetValue<int?>` no longer sees `30`. Treat empty values in an override source as intentional, or leave the key out.
 
 - **Precedence surprises.** A leftover environment variable on your machine can
   silently win over the JSON file, and the app seems to ignore your edit. When a

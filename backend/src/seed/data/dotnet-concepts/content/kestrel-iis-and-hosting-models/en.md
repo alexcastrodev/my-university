@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-14
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -170,6 +170,8 @@ release notes' claim. A practical effect: a container that spiked once no
 longer holds that memory just because the spike happened.
 
 ## Trade-offs
+
+- **Stricter protocol compliance in .NET 11.** Not run by me, from the [breaking change](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/kestrel-strict-protocol-compliance): HTTP/2 and HTTP/3 reject `Proxy-Connection`, `Keep-Alive`, `Transfer-Encoding` and `Upgrade`, and HTTP/1.1 closes the connection after a request with both `Content-Length` and `Transfer-Encoding` (request smuggling defense). A legacy client or proxy that sends these headers may start failing after the upgrade.
 
 - **Kestrel alone is simple, a proxy is more to run.** Direct exposure removes a
   hop and a config file, but you own certificate renewal, request filtering,

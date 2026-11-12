@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-05
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -160,6 +160,8 @@ app.MapPost("/pay", ([FromKeyedServices("stripe")] IPaymentGateway gateway) => .
 ```
 
 ## Trade-offs
+
+- **Scope disposal tries every service in .NET 11.** I resolved two scoped `IDisposable`s where the later one throws in `Dispose`. On .NET 11.0.100 both `Dispose` methods ran (`D2 disposed`, then `D1 disposed`) and the exception surfaced after. I only ran the single-failure case, which rethrew the original `InvalidOperationException`; with several failing services expect an `AggregateException`. Either way, `Dispose` should not throw.
 
 - **An interface for everything is noise.** The container can register a
   concrete class directly. Create an interface when there is a second

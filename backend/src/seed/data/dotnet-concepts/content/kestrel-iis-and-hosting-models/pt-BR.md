@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-14
+version: 1.1
+updatedAt: 2026-11-12
 title: "Kestrel, IIS e Modelos de Hospedagem"
 summary: Kestrel sozinho ou atrás de reverse proxy, forwarded headers e a lista de proxies confiáveis, limites do servidor, IIS in-process versus out-of-process e a liberação de memória do ASP.NET Core 10.
 ---
@@ -173,6 +173,8 @@ release notes. Efeito prático: um container que teve um pico uma vez não segur
 essa memória só porque o pico aconteceu.
 
 ## Trade-offs
+
+- **Conformidade de protocolo mais estrita no .NET 11.** Não rodei, vem da [breaking change](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/kestrel-strict-protocol-compliance): HTTP/2 e HTTP/3 rejeitam `Proxy-Connection`, `Keep-Alive`, `Transfer-Encoding` e `Upgrade`, e o HTTP/1.1 fecha a conexão depois de um request com `Content-Length` e `Transfer-Encoding` juntos (defesa contra request smuggling). Um cliente ou proxy legado que envie esses cabeçalhos pode passar a falhar depois da atualização.
 
 - **Kestrel sozinho é simples, um proxy é mais coisa para operar.** Expor direto
   remove um salto e um arquivo de configuração, mas você cuida da renovação do
