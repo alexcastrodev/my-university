@@ -3526,6 +3526,11 @@
         "label": "Transactional Outbox, Inbox and Idempotent Consumers",
         "slug": "transactional-outbox-inbox-and-idempotent-consumers",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Message Brokers: MassTransit, Azure Service Bus and RabbitMQ",
+        "slug": "message-brokers-masstransit-azure-service-bus-and-rabbitmq",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -8977,6 +8982,11 @@
         "label": "Idempotency in Distributed Systems",
         "slug": "idempotency",
         "feature": "system-design"
+      },
+      {
+        "label": "Message Brokers: MassTransit, Azure Service Bus and RabbitMQ",
+        "slug": "message-brokers-masstransit-azure-service-bus-and-rabbitmq",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -9094,6 +9104,83 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/owasp-secure-aspnet-core-security-headers-and-csp"
+  },
+  {
+    "slug": "message-brokers-masstransit-azure-service-bus-and-rabbitmq",
+    "id": 872,
+    "category": "Concurrency & Background Work",
+    "title": "Message Brokers: MassTransit, Azure Service Bus and RabbitMQ",
+    "topic": "Background Jobs",
+    "summary": "Queues, topics, competing consumers, at-least-once and dead-letter, MassTransit on the in-memory transport and test harness (publish versus send, retry and fault, an inbox check, the consumer outbox), what changes with RabbitMQ and Azure Service Bus, the MassTransit v9 commercial license (the lab pins the Apache-2.0 8.5.12) and alternatives.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "in-memory-queues-with-channels"
+    ],
+    "related": [
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Testing BackgroundService, Channels and Async Code",
+        "slug": "testing-background-services-and-async-code",
+        "feature": "dotnet-testing-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "MassTransit documentation",
+        "url": "https://masstransit.massient.com/",
+        "type": "doc"
+      },
+      {
+        "label": "MassTransit v9 license, Massient",
+        "url": "https://massient.com/license",
+        "type": "doc"
+      },
+      {
+        "label": "MassTransit 8.5.12, NuGet",
+        "url": "https://www.nuget.org/packages/MassTransit/8.5.12",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Service Bus queues, topics and subscriptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions",
+        "type": "doc"
+      },
+      {
+        "label": "Service Bus dead-letter queues, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues",
+        "type": "doc"
+      },
+      {
+        "label": "RabbitMQ tutorials and concepts",
+        "url": "https://www.rabbitmq.com/tutorials",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/message-brokers-masstransit-azure-service-bus-and-rabbitmq"
   },
   {
     "slug": "structured-logging-with-serilog-and-log-sinks",
