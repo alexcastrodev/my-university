@@ -24,6 +24,9 @@
       <button type="button" class="tool wide" i18n-title="@@editor.numbered" title="Numbered list" i18n-aria-label="@@editor.numbered" aria-label="Numbered list" (mousedown)="$event.preventDefault()" (click)="list('number')">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 6h11M10 12h11M10 18h11"/><path d="M3 5l1.5-1v4M3 14h3l-3 3h3"/></svg>
       </button>
+      <button type="button" class="tool" data-testid="mention-tool" i18n-title="@@editor.mention" title="Mention someone" i18n-aria-label="@@editor.mention" aria-label="Mention someone" (mousedown)="$event.preventDefault()" (click)="startMention()">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></svg>
+      </button>
       <button type="button" class="tool wide" i18n-title="@@editor.link" title="Link" i18n-aria-label="@@editor.link" aria-label="Link" (mousedown)="$event.preventDefault()" (click)="link()">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg>
       </button>
@@ -57,12 +60,43 @@
   <textarea
     #area
     class="area"
+    role="combobox"
+    aria-autocomplete="list"
+    aria-haspopup="listbox"
+    [attr.aria-expanded]="suggestions().length > 0"
+    [attr.aria-controls]="listId"
+    [attr.aria-activedescendant]="suggestions().length ? listId + '-' + activeIndex() : null"
     [hidden]="previewing()"
     [rows]="minRows()"
     [value]="value()"
     [maxLength]="maxLength()"
     [placeholder]="placeholder()"
     (input)="onInput()"
+    (click)="lookForMention()"
+    (blur)="closeMentions()"
     (keydown)="onKeydown($event)"
   ></textarea>
+  <ul class="mentions" role="listbox" [id]="listId" i18n-aria-label="@@editor.mentionList" aria-label="People to mention" [hidden]="!suggestions().length">
+    @for (person of suggestions(); track person.handle; let i = $index) {
+      <li
+        role="option"
+        class="mention-option"
+        [id]="listId + '-' + i"
+        [class.active]="i === activeIndex()"
+        [attr.aria-selected]="i === activeIndex()"
+        (mousedown)="$event.preventDefault()"
+        (mouseenter)="activeIndex.set(i)"
+        (click)="pickMention(person)"
+      >
+        @if (person.avatarUrl) {
+          <img class="mention-avatar" [src]="person.avatarUrl" alt="" />
+        }
+        <span class="mention-name">{{ person.name }}</span>
+        <span class="mention-handle">&#64;{{ person.handle }}</span>
+      </li>
+    }
+  </ul>
+  @if (tooManyMentions()) {
+    <p class="mention-limit" role="alert" i18n="@@editor.tooManyMentions">A post can mention at most 10 people.</p>
+  }
 </div>

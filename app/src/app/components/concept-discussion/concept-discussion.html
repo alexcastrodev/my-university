@@ -25,7 +25,7 @@
       @if (isReply) {
         <blockquote class="quote">
           <strong class="quote-by" i18n="@@lab.quoteBy">{{ name(thread.root) }} said:</strong>
-          <div class="md" [innerHTML]="html(excerpt(thread.root))"></div>
+          <div class="md" [innerHTML]="html(excerpt(thread.root), thread.root.mentions)"></div>
         </blockquote>
       }
       @if (editingId() === c.id) {
@@ -35,7 +35,7 @@
           <button type="button" class="send" [disabled]="!canSend(editDraft())" (click)="saveEdit(c)" i18n="@@lab.save">Save</button>
         </div>
       } @else {
-        <div class="post-body md" [innerHTML]="html(c.body)"></div>
+        <div class="post-body md" [innerHTML]="html(c.body, c.mentions)"></div>
         <footer class="post-actions">
           <button
             type="button"

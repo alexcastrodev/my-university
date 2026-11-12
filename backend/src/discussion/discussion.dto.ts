@@ -85,6 +85,15 @@ export class CommentBodyDto {
   body: string;
 }
 
+/** What follows the `@` the reader is typing: a handle prefix or part of a name. */
+export class MentionQueryDto {
+  @Transform(trim)
+  @IsString()
+  @MinLength(1)
+  @MaxLength(30)
+  q: string;
+}
+
 export class ReplyDto extends CommentBodyDto {
   @IsInt()
   @Min(1)

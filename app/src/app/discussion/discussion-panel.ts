@@ -115,8 +115,8 @@ export class DiscussionPanel {
     this.replyingTo.set({ rootId: thread.root.id, name: this.displayName(comment) });
   }
 
-  protected html(markdown: string): string {
-    return renderPostMarkdown(markdown);
+  protected html(markdown: string, mentions?: string[]): string {
+    return renderPostMarkdown(markdown, mentions);
   }
 
   protected startEdit(comment: CommentView): void {

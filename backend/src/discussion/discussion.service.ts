@@ -7,7 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, MoreThan, Repository } from 'typeorm';
+import { In, IsNull, MoreThan, Repository } from 'typeorm';
 import { User } from '../auth/user.entity';
 import {
   CONCEPT_MODULES,
@@ -38,11 +38,13 @@ import {
   assembleThreads,
   CommentRow,
   decodeFeedCursor,
+  extractMentions,
   FeedScope,
   feedPage,
   POSTS_PER_MINUTE,
   GENERAL_ANCHOR,
   LAB_ANCHOR,
+  MAX_MENTIONS,
   PAGE_ANCHORS_SQL,
   quoteAppearsIn,
   ThreadView,
@@ -79,6 +81,15 @@ export interface FeedItem {
   startedByMe: boolean;
   participatedByMe: boolean;
 }
+
+export interface MentionSuggestion {
+  handle: string;
+  name: string;
+  avatarUrl: string;
+}
+
+const MENTION_SUGGESTIONS = 8;
+const escapeLike = (text: string) => text.replace(/[\\%_]/g, '\\$&');
 
 export interface FeedPage {
   items: FeedItem[];
@@ -330,7 +341,12 @@ export class DiscussionService {
       id: marker.id,
       quote: marker.quote,
       commentCount: rows.filter((r) => r.deletedAt === null).length,
-      threads: assembleThreads(rows, votes, viewerId),
+      threads: assembleThreads(
+        rows,
+        votes,
+        viewerId,
+        await this.publicHandles(rows.flatMap((r) => extractMentions(r.body))),
+      ),
     };
   }
 
@@ -409,6 +425,7 @@ export class DiscussionService {
     quote: string,
     body: string,
   ): Promise<{ markerId: number; commentId: number }> {
+    const mentions = this.mentionsOf(body);
     // Two readers commenting on a fresh paragraph at once must end up on the same marker.
     await this.markers
       .createQueryBuilder()
@@ -431,6 +448,7 @@ export class DiscussionService {
         body,
       }),
     );
+    await this.notifications.notifyMentions(comment, mentions);
     return { markerId: marker.id, commentId: comment.id };
   }
 
@@ -449,6 +467,7 @@ export class DiscussionService {
       if (!parent || parent.deletedAt) throw new NotFoundException();
     }
     await this.assertCanPost(userId);
+    const mentions = this.mentionsOf(body);
     const comment = await this.comments.save(
       this.comments.create({
         markerId,
@@ -458,14 +477,19 @@ export class DiscussionService {
       }),
     );
     // Whoever the reply answered, and the thread's owner when that is someone else.
+    // The reply notification goes first, so someone both answered and mentioned keeps that one.
     await this.notifications.notifyReply(comment, [addressed, parent.authorId]);
+    await this.notifications.notifyMentions(comment, mentions);
     return { commentId: comment.id };
   }
 
   async edit(userId: number, commentId: number, body: string): Promise<void> {
     const comment = await this.liveComment(commentId);
     if (comment.authorId !== userId) throw new ForbiddenException();
+    const mentions = this.mentionsOf(body);
     await this.comments.update(commentId, { body, editedAt: new Date() });
+    // Only people not yet notified for this comment get one: the unique index skips the rest.
+    await this.notifications.notifyMentions(comment, mentions);
   }
 
   /** Soft delete by the author (or a moderator): the text is blanked, replies stay. */
@@ -554,6 +578,52 @@ export class DiscussionService {
       createdAt: c.createdAt,
       acceptedReplyId: c.acceptedReplyId,
     }));
+  }
+
+  /**
+   * People the composer can suggest after `@`: public profiles with a link name, matched by the start of
+   * the handle or anywhere in the name. Never the asker.
+   */
+  async mentionSuggestions(
+    userId: number,
+    query: string,
+  ): Promise<MentionSuggestion[]> {
+    const q = escapeLike(query.trim().toLowerCase());
+    if (!q) return [];
+    return this.users.query(
+      `SELECT "profileSlug" AS "handle",
+              COALESCE(NULLIF(TRIM("displayNameOverride"), ''), "displayName") AS "name",
+              "avatarUrl"
+         FROM "user"
+        WHERE "profilePublic" AND "profileSlug" IS NOT NULL AND "id" <> $1
+          AND ("profileSlug" LIKE $2 || '%'
+               OR COALESCE(NULLIF(TRIM("displayNameOverride"), ''), "displayName") ILIKE '%' || $2 || '%')
+        ORDER BY ("profileSlug" LIKE $2 || '%') DESC, "profileSlug"
+        LIMIT $3`,
+      [userId, q, MENTION_SUGGESTIONS],
+    );
+  }
+
+  /** The handles a body mentions, or 400 past the limit. */
+  private mentionsOf(body: string): string[] {
+    const mentions = extractMentions(body);
+    if (mentions.length > MAX_MENTIONS) {
+      throw new BadRequestException({
+        code: 'too-many-mentions',
+        message: `A comment can mention at most ${MAX_MENTIONS} people`,
+      });
+    }
+    return mentions;
+  }
+
+  /** Which of these handles are a public profile link right now. */
+  private async publicHandles(handles: string[]): Promise<Set<string>> {
+    if (!handles.length) return new Set();
+    const users = await this.users.find({
+      where: { profileSlug: In([...new Set(handles)]), profilePublic: true },
+      select: { profileSlug: true },
+    });
+    return new Set(users.map((u) => u.profileSlug as string));
   }
 
   private async isModerator(userId: number): Promise<boolean> {

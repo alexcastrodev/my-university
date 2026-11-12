@@ -155,4 +155,35 @@ describe('post markdown security (XSS corpus through the real Angular sanitizer)
       expect(performance.now() - start).toBeLessThan(250);
     });
   }
+
+  describe('mentions', () => {
+    it('links only the handles the server resolved, to the public profile', () => {
+      const html = renderPostMarkdown('thanks @Ana-Dev and @ghost', ['ana-dev']);
+      expect(html).toContain('<a class="mention" href="/u/ana-dev">@ana-dev</a>');
+      expect(html).toContain('@ghost');
+      expect(html).not.toContain('href="/u/ghost"');
+    });
+
+    it('leaves e-mail addresses, code and posts without resolved mentions alone', () => {
+      expect(renderPostMarkdown('mail ana@ana-dev.com', ['ana-dev'])).not.toContain('class="mention"');
+      expect(renderPostMarkdown('`@ana-dev`', ['ana-dev'])).not.toContain('class="mention"');
+      expect(renderPostMarkdown('```\n@ana-dev\n```', ['ana-dev'])).not.toContain('class="mention"');
+      expect(renderPostMarkdown('hi @ana-dev')).not.toContain('class="mention"');
+    });
+
+    it('does not keep the mentions of one post for the next one', () => {
+      renderPostMarkdown('@ana-dev', ['ana-dev']);
+      expect(renderPostMarkdown('@ana-dev')).not.toContain('class="mention"');
+    });
+
+    it('cannot smuggle markup through a mention, whatever list it is given', () => {
+      for (const [name, payload] of Object.entries(PAYLOADS)) {
+        // The raw renderer output, before Angular's sanitizer: the mention path must be safe on its own.
+        const root = document.createElement('div');
+        root.innerHTML = renderPostMarkdown(`@ana-dev ${payload} @ana-dev"onclick=alert(1)`, ['ana-dev', '"><img src=x onerror=alert(1)>']);
+        expect(violations(root)).withContext(name).toEqual([]);
+      }
+      expect(w.__xss).toBeUndefined();
+    });
+  });
 });

@@ -47,7 +47,7 @@
             <button type="button" class="send" [disabled]="!canSaveEdit()" (click)="saveEdit(c)" i18n="@@discussion.save">Save</button>
           </div>
         } @else if (!c.deleted) {
-          <div class="body md" [innerHTML]="html(c.body)"></div>
+          <div class="body md" [innerHTML]="html(c.body, c.mentions)"></div>
           <div class="actions">
             <button
               type="button"

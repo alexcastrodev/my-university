@@ -11,7 +11,9 @@ import {
   CommentRow,
   decodeFeedCursor,
   encodeFeedCursor,
+  extractMentions,
   feedPage,
+  MAX_MENTIONS,
   normalizeForMatch,
   quoteAppearsIn,
   VoteInfo,
@@ -159,6 +161,65 @@ describe('assembleThreads', () => {
     );
     expect(thread.root.author).toBeNull();
     expect(thread.root.body).toBe('body 1');
+  });
+
+  it('lists only the mentions that are a public profile, and none on a removed comment', () => {
+    const rows = [
+      row({ id: 1, body: 'cc @ana-dev and @ghost', deletedAt: at(30) }),
+      row({ id: 2, parentId: 1, body: 'thanks @Ana-Dev, @ghost' }),
+    ];
+    const [thread] = assembleThreads(rows, votes, null, new Set(['ana-dev']));
+    expect(thread.root.mentions).toEqual([]);
+    expect(thread.replies[0].mentions).toEqual(['ana-dev']);
+  });
+});
+
+describe('extractMentions', () => {
+  it('finds each handle once, lowercase, in the order written', () => {
+    expect(extractMentions('@Ana-Dev hi @bob1, ping @ana-dev again (@cai)')).toEqual([
+      'ana-dev',
+      'bob1',
+      'cai',
+    ]);
+  });
+
+  it('works at the start, after punctuation and at the end of a sentence', () => {
+    expect(extractMentions('@ana.\n>@bob! and "@cai"?')).toEqual(['ana', 'bob', 'cai']);
+  });
+
+  it('ignores e-mail addresses, URL paths and handles glued to a word', () => {
+    expect(
+      extractMentions('mail ana@bob.com, see https://x.dev/@cai and foo@dee or a-@eve'),
+    ).toEqual([]);
+  });
+
+  it('skips handles too short or too long to be a profile link', () => {
+    expect(extractMentions(`@ab @${'a'.repeat(31)} @${'b'.repeat(30)}`)).toEqual([
+      'b'.repeat(30),
+    ]);
+  });
+
+  it('stops at a trailing or doubled hyphen, like a profile link does', () => {
+    expect(extractMentions('@ana- @bob--x')).toEqual(['ana', 'bob']);
+  });
+
+  it('ignores mentions inside inline code and fenced blocks', () => {
+    expect(
+      extractMentions('`@ana` then\n```java\n@Override\n@bob\n```\n and @cai'),
+    ).toEqual(['cai']);
+  });
+
+  it('cannot carry markup: only letters, digits and hyphens are taken', () => {
+    expect(extractMentions('@ana<img src=x onerror=alert(1)> @bob"onclick')).toEqual([
+      'ana',
+      'bob',
+    ]);
+  });
+
+  it('counts distinct people, which is what the limit applies to', () => {
+    const many = Array.from({ length: MAX_MENTIONS + 1 }, (_, i) => `@user${i}`).join(' ');
+    expect(extractMentions(many)).toHaveLength(MAX_MENTIONS + 1);
+    expect(extractMentions('@ana '.repeat(50))).toHaveLength(1);
   });
 });
 
