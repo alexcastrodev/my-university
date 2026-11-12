@@ -518,6 +518,92 @@
     ]
   },
   {
+    "slug": "tokens-cost-and-telemetry-for-llm-calls",
+    "id": 8,
+    "title": "Tokens, Cost and Telemetry for LLM Calls",
+    "topic": "Operations",
+    "summary": "UsageDetails on the ChatResponse, counting tokens with Microsoft.ML.Tokenizers and how far it lands from the model's own count, cost as a decimal calculation with prices in configuration, UseOpenTelemetry with the real gen_ai.* metric and span names, what UseDistributedCache does to the tokens you meter and bill, and the context window on a local Ollama.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "meai-ichatclient-and-middleware-pipeline"
+    ],
+    "related": [
+      {
+        "label": "Microsoft.Extensions.AI: IChatClient and the Middleware Pipeline",
+        "slug": "meai-ichatclient-and-middleware-pipeline",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tool Calling with AIFunction",
+        "slug": "tool-calling-with-aifunction",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Embeddings and Vector Search with Microsoft.Extensions.VectorData",
+        "slug": "embeddings-and-vector-search-with-vectordata",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "RAG: Ingestion, Chunking and Grounding",
+        "slug": "rag-ingestion-chunking-and-grounding",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Caching: IMemoryCache, HybridCache and Distributed",
+        "slug": "caching-imemorycache-hybridcache-and-distributed",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ILogger: Categories, Levels, Filtering and Scopes",
+        "slug": "ilogger-categories-levels-filtering-and-scopes",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Use the IChatClient interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/ichatclient",
+        "type": "doc"
+      },
+      {
+        "label": "UsageDetails class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.ai.usagedetails",
+        "type": "doc"
+      },
+      {
+        "label": "Understanding tokens, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/conceptual/understanding-tokens",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.ML.Tokenizers, NuGet",
+        "url": "https://www.nuget.org/packages/Microsoft.ML.Tokenizers",
+        "type": "doc"
+      },
+      {
+        "label": "Semantic conventions for generative AI metrics, OpenTelemetry",
+        "url": "https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-metrics/",
+        "type": "doc"
+      },
+      {
+        "label": "Semantic conventions for generative AI spans, OpenTelemetry",
+        "url": "https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/",
+        "type": "doc"
+      },
+      {
+        "label": "Collect metrics, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/metrics-collection",
+        "type": "doc"
+      },
+      {
+        "label": "Context length, Ollama docs",
+        "url": "https://docs.ollama.com/context-length",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-ai-concepts/tokens-cost-and-telemetry-for-llm-calls"
+  },
+  {
     "slug": "agent-framework-workflows-and-orchestration",
     "id": 8,
     "title": "Microsoft Agent Framework: Workflows and Orchestration",
