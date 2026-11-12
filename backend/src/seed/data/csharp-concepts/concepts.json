@@ -244,6 +244,11 @@
         "label": "Exact Arithmetic with BigDecimal and BigInteger",
         "slug": "exact-arithmetic-with-bigdecimal-and-biginteger",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Decimal Floating Point: Decimal32, Decimal64 and Decimal128",
+        "slug": "decimal-floating-point-decimal32-decimal64-decimal128",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -306,6 +311,11 @@
         "label": "Exact Arithmetic with BigDecimal and BigInteger",
         "slug": "exact-arithmetic-with-bigdecimal-and-biginteger",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Decimal Floating Point: Decimal32, Decimal64 and Decimal128",
+        "slug": "decimal-floating-point-decimal32-decimal64-decimal128",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -6059,5 +6069,68 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/control-flow-switch-goto-and-labeled-jumps"
+  },
+  {
+    "slug": "decimal-floating-point-decimal32-decimal64-decimal128",
+    "id": 722,
+    "category": "Language",
+    "title": "Decimal Floating Point: Decimal32, Decimal64 and Decimal128",
+    "topic": "Numbers & Conversions",
+    "summary": "The IEEE 754 decimal types of .NET 11 against decimal and double: digits, range, size, BID bits, rounding and silent overflow, conversions, parsing and formatting, System.Text.Json, measured speed in Release, and an honest note that almost nothing uses them yet.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "numeric-types-and-binary-representation",
+      "numeric-conversions-rounding-and-overflow"
+    ],
+    "related": [
+      {
+        "label": "Numeric Types and Binary Representation",
+        "slug": "numeric-types-and-binary-representation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Conversions, Rounding and Overflow",
+        "slug": "numeric-conversions-rounding-and-overflow",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generic Math and static abstract Members",
+        "slug": "generic-math-and-static-abstract-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Parsing: Parse, TryParse and the Try Pattern",
+        "slug": "parsing-tryparse-and-the-try-pattern",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Decimal64 struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.decimal64",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 11 libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "Decimal, double and BigInteger conversions in .NET 11, breaking change, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/11/decimal-biginteger-floating-point-conversions",
+        "type": "doc"
+      },
+      {
+        "label": "IDecimalFloatingPointIeee754<TSelf> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.idecimalfloatingpointieee754-1",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/decimal-floating-point-decimal32-decimal64-decimal128"
   }
 ]
