@@ -1,5 +1,5 @@
 ---
-version: 1.1
+version: 1.2
 updatedAt: 2026-11-12
 ---
 ## Objective
@@ -108,6 +108,9 @@ relational and document stores is in `ef-core-ado-net-dapper-and-nosql`.
 EF Core 10 stops wrapping all pending migrations in one transaction, reverting a
 change from EF Core 9. See `applying-migrations-in-production` and
 `ef-core-migrations-workflow`. SQLite also lets you disable AUTOINCREMENT.
+
+EF Core 10 remains the LTS release. For what EF Core 11 changes on top of it, read
+`whats-new-in-ef-core-11`.
 
 ## Trade-offs
 
