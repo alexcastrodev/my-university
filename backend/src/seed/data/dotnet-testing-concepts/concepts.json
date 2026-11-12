@@ -1731,5 +1731,71 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "property-based-testing-with-fscheck",
+    "id": 24,
+    "title": "Property-Based Testing with FsCheck in MSTest 4",
+    "topic": "Tooling & CI",
+    "summary": "Write properties instead of examples, build generators and shrinkers with Arbitrary, read the shrunk counterexample of a real bug, replay failures by seed, run FsCheck 3.6.0 inside an MSTest 4 TestMethod, and know when a property is not worth it.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "mstest-data-driven-tests"
+    ],
+    "related": [
+      {
+        "label": "MSTest Data-Driven Tests: DataRow, DynamicData and Custom Sources",
+        "slug": "mstest-data-driven-tests",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Test Data with Builders, Bogus and AutoFixture",
+        "slug": "test-data-with-builders-bogus-and-autofixture",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Mutation Testing with Stryker.NET",
+        "slug": "mutation-testing-with-stryker-net",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Three Styles of Unit Testing",
+        "slug": "three-styles-of-unit-testing",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Test Quality and Testable Code",
+        "slug": "test-quality-and-testable-code",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/property-based-testing-with-fscheck",
+    "references": [
+      {
+        "label": "FsCheck documentation",
+        "url": "https://fscheck.github.io/FsCheck/",
+        "type": "doc"
+      },
+      {
+        "label": "FsCheck on GitHub",
+        "url": "https://github.com/fscheck/FsCheck",
+        "type": "doc"
+      },
+      {
+        "label": "FsCheck 3.6.0 on NuGet",
+        "url": "https://www.nuget.org/packages/FsCheck/3.6.0",
+        "type": "doc"
+      },
+      {
+        "label": "AndreasDorfer.FsCheck.MSTest on NuGet",
+        "url": "https://www.nuget.org/packages/AndreasDorfer.FsCheck.MSTest",
+        "type": "doc"
+      },
+      {
+        "label": "Data-driven testing with MSTest, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-data-driven",
+        "type": "doc"
+      }
+    ]
   }
 ]
