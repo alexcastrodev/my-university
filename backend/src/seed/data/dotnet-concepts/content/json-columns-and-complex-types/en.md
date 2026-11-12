@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -71,7 +71,11 @@ mapped to a JSON array by convention. The column type is the provider's choice.
 According to What's new in EF Core 10, SQL Server uses the native `json` type when
 you call `UseAzureSql` or set compatibility level 170 (SQL Server 2025), and
 existing `nvarchar` JSON columns are converted by the next migration unless you
-pin the column type. The Npgsql documentation says `ToJson` has been supported
+pin the column type. Do not confuse that with the provider default: on EF Core 11
+`UseSqlServer` assumes compatibility level 160 (SQL Server 2022), which turns on
+`GREATEST`/`LEAST` (`Math.Max(a, b)` became `SELECT GREATEST(...)` in my run, and
+went back to client evaluation with `UseCompatibilityLevel(150)`), but the `json`
+type still needs 170. The Npgsql documentation says `ToJson` has been supported
 since provider 8.0, recommends `jsonb` over `json`, and recommends complex types
 over owned types from EF Core 10 on.
 
@@ -93,6 +97,22 @@ The official guidance is to prefer complex types over owned types for JSON and
 for table splitting, because owned types carry a hidden key: the same instance
 cannot be assigned twice, comparisons are by identity, and, as shown below,
 `ExecuteUpdate` does not work on them.
+
+### What EF Core 11 adds
+
+EF Core 11.0.0 pushes the same direction, and I checked three changes on SQLite:
+
+- `OwnsMany(x => x.Notes, n => n.ToJson())` without an explicit key now logs
+  `OwnedEntityMappedToJsonCollectionWarning`: "Mapping owned entity collections to
+  JSON is obsolete; map it as a complex type collection or configure a non-shadow
+  key instead".
+- `Property(c => c.Tags)` on a `List<string>` no longer configures a primitive
+  collection, so `Tags.Contains("a")` fails with `could not be translated`. Leave it
+  to the convention or call `PrimitiveCollection(c => c.Tags)`; then the query uses
+  `json_each` as before.
+- Complex types and JSON columns work on TPT and TPC hierarchies (EF Core 10 only
+  allowed them with TPH): `UseTptMappingStrategy()` plus
+  `ComplexProperty(a => a.Details, d => d.ToJson())` created the tables.
 
 ### Querying inside the document
 
@@ -195,10 +215,15 @@ collection first (`Where(c => c.Shipping.Count > 0)`).
   .ExecuteUpdateAsync(s => s.SetProperty(c => c.Shipping[0].City, "X")); // [] became [{"City":"X"}]
   ```
 - **Querying inside JSON is slower to index.** A filter on `Address ->> 'City'`
-  cannot use a normal column index. The complex types page lists indexes on paths
-  inside complex types as an EF Core 11 feature, so on EF Core 10 an expression
-  index has to be created in a migration with raw SQL, if the database supports
-  one. If you filter on a field often, it probably wants to be a real column.
+  cannot use a normal column index. On EF Core 10 an expression index has to be
+  created in a migration with raw SQL. EF Core 11 generates it from
+  `HasIndex("Contact.City")`: on SQLite I got
+  `CREATE INDEX "IX_Customers_Contact_City" ON "Customers" ("Contact" ->> 'City')`,
+  the same expression the filter uses, and on SQL Server (column type `json`,
+  compatibility level 170) the generated script has `CREATE JSON INDEX ... FOR (N'$.City')`. SQLite rejects a
+  path over all array elements (`Items[].Sku`: "does not support indexes over all
+  elements of a JSON array") and only accepts a fixed position such as `Items[0].Sku`.
+  If you filter on a field often, it probably still wants to be a real column.
 - **Writes can be bigger than the change.** In the SQLite run, changing one city
   rewrote the whole `Shipping` array. Large documents that change often cost more
   than the same data in rows.

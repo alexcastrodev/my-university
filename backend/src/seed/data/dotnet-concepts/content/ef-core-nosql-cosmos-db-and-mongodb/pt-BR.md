@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-16
+version: 1.1
+updatedAt: 2026-11-12
 title: "EF Core com NoSQL: Cosmos DB e MongoDB"
 summary: O que o EF Core mantém e o que perde contra bancos de documentos, partition key e point reads no Cosmos DB, documentos embutidos e transações no provider do MongoDB, e quando preferir o driver nativo.
 ---
@@ -109,16 +109,25 @@ full-text (`FullTextContains`, `FullTextScore`), busca híbrida com `Rrf` e a bu
 vetorial saiu de preview. Para paginar, use `ToPageAsync` com continuation token em
 vez de `Skip`/`Take`, que segundo a documentação é bem mais caro.
 
-Todo I/O é assíncrono. Um `ToList()` síncrono lança exceção na hora, com o warning
-`SyncNotSupported` convertido em erro.
+Todo I/O é assíncrono. Um `ToList()` síncrono lança exceção na hora; no EF Core
+11.0.0 a mensagem é `InvalidOperationException: Azure Cosmos DB does not support
+synchronous I/O`, um erro de verdade, não um warning que dá para rebaixar.
 
 ### Cosmos DB: escrita e concorrência
 
 No EF Core 10, `SaveChangesAsync` envia uma requisição por documento, em sequência.
 Não existe save atômico de vários documentos: se a terceira de cinco escritas falha,
-as duas primeiras ficam gravadas. Transactional batches (uma partição, até 100
-operações) estão documentados como novidade do EF Core 11, que está em preview, então
-não projete em cima deles ainda. Para concorrência otimista, `UseETagConcurrency()`
+as duas primeiras ficam gravadas. O EF Core 11 muda o padrão: o provider agrupa as
+escritas em
+[transactional batches](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew#transactional-batches)
+por container e partição (o Cosmos limita um batch a 100 operações), executa os
+batches em ordem e para no primeiro que falhar. A atomicidade vale dentro de um batch,
+não entre partições. No 11.0.0, `db.Database.AutoTransactionBehavior` veio como
+`WhenNeeded` por padrão; `Never` volta ao comportamento de uma requisição por
+documento e `Always` lança exceção se o save não couber em um batch só. Bulk execution,
+para throughput alto, é opcional, com `BulkExecutionAllowed()` nas opções do
+`UseCosmos` (a página de novidades chama de `BulkExecutionEnabled()`, mas esse nome não
+compila). Conferi a API e o padrão offline; não rodei um save contra o Cosmos. Para concorrência otimista, `UseETagConcurrency()`
 mapeia o `_etag` do documento para um concurrency token em shadow property.
 `HasShadowId()` e `HasDefaultTimeToLive()` também funcionam; no meu teste, o shadow id
 levou a chave para uma propriedade separada `__id` mapeada ao `id` do JSON, enquanto
@@ -131,7 +140,10 @@ um documento antigo não a tem.
 `MongoDB.EntityFrameworkCore` é publicado pela MongoDB, não pela Microsoft, e a página
 de providers o lista para EF Core 8, 9 e 10. A versão que restaurou aqui foi a
 10.0.4, que casa com o EF Core 10, e providers em geral não funcionam entre majors do
-EF.
+EF. Esse atraso é concreto: quando o EF Core 11.0.0 saiu, a versão mais nova do
+[`MongoDB.EntityFrameworkCore`](https://www.nuget.org/packages/MongoDB.EntityFrameworkCore)
+no NuGet ainda era a 10.0.5, sem build para o EF Core 11, então um serviço com MongoDB
+fica no EF Core 10 até a MongoDB publicar uma.
 
 ```csharp
 modelBuilder.Entity<Order>(e =>

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -66,7 +66,14 @@ gives several round trips that can each see different data if rows change in
 between. Wrap it in a serializable or snapshot transaction when that matters
 (which can cost performance of its own), or set
 `UseQuerySplittingBehavior` once for the whole context and override with
-`AsSingleQuery` where a single query is better.
+`AsSingleQuery` where a single query is better. Up to EF Core 10, when a concurrent
+change left child rows that could not be matched to their parents, EF silently
+returned an empty collection. EF Core 11
+[throws `DbQueryConcurrencyException` instead](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/breaking-changes#split-queries-now-throw-when-concurrent-modifications-are-detected)
+("The results of a split query could not be correlated because the data was modified
+concurrently..."), and the documented fix is to retry the query, wrap it in a
+serializable or snapshot transaction, or use a single query. I could not reproduce the
+race on SQLite, so this rests on the documentation.
 
 ### N+1 and lazy loading
 

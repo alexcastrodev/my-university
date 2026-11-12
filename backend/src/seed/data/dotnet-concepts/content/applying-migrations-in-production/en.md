@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -56,7 +56,12 @@ remain:
 
 Since EF Core 9, `Migrate()` also throws when the model has pending changes with
 no migration, so a forgotten `migrations add` fails at startup instead of
-leaving the schema out of date. Wrapping `Migrate` in your own transaction or
+leaving the schema out of date. EF Core 11 adds a second case: `Migrate()` on a
+context whose assembly has no migrations at all now throws `InvalidOperationException`
+for `RelationalEventId.MigrationsNotFound` ("No migrations were found in assembly
+..."), where EF Core 10 logged and returned. A service whose schema came from
+`EnsureCreated()` or from scripts managed elsewhere has to drop the `Migrate()` call or
+downgrade that event with `ConfigureWarnings`. Wrapping `Migrate` in your own transaction or
 execution strategy throws too, because an outer transaction prevents the lock
 from being acquired.
 

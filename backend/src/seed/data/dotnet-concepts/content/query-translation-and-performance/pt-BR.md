@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 title: "Tradução de Queries e Performance no EF Core"
 summary: Onde a tradução LINQ para SQL para, compiled queries, ExecuteUpdate e ExecuteDelete, FromSql vs FromSqlRaw e paginação por keyset.
 ---
@@ -58,7 +58,34 @@ var vips = db.Customers
     .ToList();
 ```
 
-### Compiled queries
+### SQL mais enxuto no EF Core 11
+
+Subir o pacote muda o SQL do mesmo LINQ, então compare o `ToQueryString()` antes e
+depois. Rodando as mesmas consultas no EF Core 10 e no 11.0.0 (SQL do SQL Server
+gerado offline, mais SQLite), saiu:
+
+```sql
+-- Include(b => b.Owner).Include(b => b.Posts): a chave da referência saiu do ORDER BY
+-- EF Core 10: ORDER BY [b].[Id], [p].[PersonId]
+-- EF Core 11: ORDER BY [b].[Id]
+
+-- GroupBy com MAX sobre navegação de referência: join, não subconsulta correlacionada
+SELECT [p].[BlogId] AS [Key], MAX([b].[Name]) AS [Top]
+FROM [Posts] AS [p]
+INNER JOIN [Blogs] AS [b] ON [p].[BlogId] = [b].[Id]
+GROUP BY [p].[BlogId]
+
+-- coluna com value converter e EF.Functions.Like: o CAST inútil sumiu
+-- EF Core 10: WHERE CAST([u].[Name] AS nvarchar(max)) LIKE N'Name%'
+-- EF Core 11: WHERE [u].[Name] LIKE N'Name%'
+```
+
+O segundo comando de uma split query também parou de fazer join com navegações de
+referência de que não precisa. Parte do LINQ que lançava `could not be translated` no
+EF Core 10 agora roda no banco: `FullJoin` (`FULL JOIN`), `MaxBy`/`MinBy`,
+`List<T>.Exists` (`EXISTS`) e `byte[].Any()` (`DATALENGTH(...) > 0` no SQL Server). No
+SQL Server, `Math.Max` e `Math.Min` viram `GREATEST`/`LEAST` porque o provider agora
+assume compatibility level 160.
 
 O EF Core faz cache da tradução de cada formato de query, mas toda execução
 ainda percorre a árvore de expressão para achar os parâmetros e a entrada do

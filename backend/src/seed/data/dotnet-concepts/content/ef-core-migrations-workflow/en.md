@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 ---
 ## Objective
 
@@ -99,7 +99,12 @@ migration also carries the model as it was at that point. If both are merged,
 the later migration's snapshot does not include the other branch's changes, which
 can corrupt later migrations. EF Core 10 and earlier do not record the latest
 migration in the snapshot, so source control can merge it without any conflict
-even though the migration trees diverged. The documented fix is to re-create your
+even though the migration trees diverged. EF Core 11 closes that gap: the snapshot
+written by `dotnet ef migrations add` 11.0.0 now starts with a generated comment about merge conflicts and the line
+`public override string LastMigrationId => "20261112000107_Initial";`, so two
+branches that each add a migration change the same line and the merge stops with a
+text conflict. That conflict is the warning you want, not something to resolve by
+picking a side. The documented fix is to re-create your
 migration on top of your teammate's:
 
 ```bash

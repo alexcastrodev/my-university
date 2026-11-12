@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 title: "Aplicando Migrations em Produção"
 summary: Riscos do Migrate() no startup com várias réplicas, scripts idempotentes, migration bundles, expand/contract e índices concorrentes no PostgreSQL.
 ---
@@ -59,7 +59,13 @@ problemas continuam:
 
 Desde o EF Core 9, o `Migrate()` também lança exceção quando o modelo tem
 mudanças pendentes sem migration, então um `migrations add` esquecido falha na
-inicialização em vez de deixar o schema desatualizado. Envolver o `Migrate` numa
+inicialização em vez de deixar o schema desatualizado. O EF Core 11 acrescenta um
+segundo caso: `Migrate()` num contexto cujo assembly não tem nenhuma migration agora
+lança `InvalidOperationException` pelo `RelationalEventId.MigrationsNotFound` ("No
+migrations were found in assembly ..."), onde o EF Core 10 registrava em log e
+retornava. Um serviço cujo schema veio de `EnsureCreated()` ou de scripts mantidos em
+outro lugar precisa remover a chamada a `Migrate()` ou rebaixar esse evento com
+`ConfigureWarnings`. Envolver o `Migrate` numa
 transação ou execution strategy sua também lança exceção, porque uma transação
 externa impede que o lock seja adquirido.
 
