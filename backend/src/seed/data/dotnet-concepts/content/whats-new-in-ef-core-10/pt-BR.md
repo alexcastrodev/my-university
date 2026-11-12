@@ -1,5 +1,5 @@
 ---
-version: 1.1
+version: 1.2
 updatedAt: 2026-11-12
 title: "O que há de novo no EF Core 10"
 summary: Mapa das novidades do EF Core 10 (LTS, .NET 10): complex types e JSON, ExecuteUpdate, filtros nomeados, coleções parametrizadas, LeftJoin, segurança, SQL Server e Cosmos DB, cada uma com o conceito que aprofunda.
@@ -112,6 +112,9 @@ O EF Core 10 deixa de envolver todas as migrations pendentes em uma única
 transação, revertendo uma mudança do EF Core 9. Veja
 `applying-migrations-in-production` e `ef-core-migrations-workflow`. O SQLite
 também permite desligar o AUTOINCREMENT.
+
+O EF Core 10 continua sendo a versão LTS. Para o que o EF Core 11 muda por cima
+dele, leia `whats-new-in-ef-core-11`.
 
 ## Trade-offs
 

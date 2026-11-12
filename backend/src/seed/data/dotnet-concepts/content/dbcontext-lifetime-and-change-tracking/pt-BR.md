@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 title: "Ciclo de Vida do DbContext e Change Tracking"
 summary: Um contexto por unidade de trabalho, pooling e IDbContextFactory, os estados das entidades no change tracker e quando usar AsNoTracking.
 ---
@@ -93,6 +93,21 @@ var state = db.Entry(order).State; // Unchanged de novo depois do save
 O tracker também faz identity resolution: pedir a mesma chave duas vezes devolve
 a mesma instância, e a segunda query não sobrescreve o que você já mudou em
 memória.
+
+### Dois detalhes do EF Core 11
+
+`ChangeTracker.GetEntriesForState(...)` não chama `DetectChanges`. No EF Core
+11.0.0 com SQLite, depois de carregar uma entidade e mudar uma propriedade,
+`GetEntriesForState(modified: true)` devolveu 0 entradas, e 1 depois de um
+`db.ChangeTracker.DetectChanges()` explícito. Chame `DetectChanges()` antes se
+for inspecionar estados antes do `SaveChanges`.
+
+Em testes de integração que trocam o banco, o EF Core 11 adiciona
+`services.RemoveDbContext<T>()`. Registrei `AddDbContext` para `prod.db`, chamei
+`RemoveDbContext<Ctx>()`, registrei de novo para `test.db`, e o contexto
+resolvido usou `test.db`. `AddPooledDbContextFactory<T>()` também ganhou uma
+sobrecarga sem parâmetros que usa o `DbContextOptions<T>` já registrado no
+container.
 
 ### Pare de rastrear quando só lê
 
