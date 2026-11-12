@@ -1,3 +1,5 @@
+import { SLUG_MAX, SLUG_MIN } from '../auth/profile-slug';
+
 export const MAX_BODY_LENGTH = 2000;
 export const MAX_QUOTE_LENGTH = 240;
 /** Comments one user may post per minute, across every thread. */
@@ -67,6 +69,8 @@ export interface CommentView {
   votes: number;
   votedByMe: boolean;
   mine: boolean;
+  /** Handles in the body that are someone's public profile right now: the app links only these. */
+  mentions: string[];
 }
 
 export interface ThreadView {
@@ -85,6 +89,7 @@ export function assembleThreads(
   rows: CommentRow[],
   votes: Map<number, VoteInfo>,
   viewerId: number | null,
+  publicHandles: ReadonlySet<string> = new Set(),
 ): ThreadView[] {
   const view = (row: CommentRow): CommentView => {
     const deleted = row.deletedAt !== null;
@@ -106,6 +111,9 @@ export function assembleThreads(
       votes: deleted ? 0 : (vote?.count ?? 0),
       votedByMe: !deleted && (vote?.mine ?? false),
       mine: !deleted && viewerId !== null && row.authorId === viewerId,
+      mentions: deleted
+        ? []
+        : extractMentions(row.body).filter((h) => publicHandles.has(h)),
     };
   };
 
@@ -239,3 +247,29 @@ export const LAB_ANCHOR = 'lab';
 export const GENERAL_ANCHOR = 'general';
 /** SQL list of the anchors above: markers that are not a paragraph's, so they stay out of the badges and the feed. */
 export const PAGE_ANCHORS_SQL = `'${LAB_ANCHOR}', '${GENERAL_ANCHOR}'`;
+
+/** Distinct people one comment may mention; past this the post is refused, so a comment cannot page a crowd. */
+export const MAX_MENTIONS = 10;
+
+/**
+ * `@handle`, where the handle is a public profile link (`/u/<slug>`, rules in `profile-slug.ts`). Not right
+ * after a letter, digit, `@`, `.`, `/` or `-`, so an e-mail address or a URL path is not a mention.
+ */
+const MENTION = /(?<![\p{L}\p{N}_@./-])@([a-z0-9]+(?:-[a-z0-9]+)*)/giu;
+/** Fenced blocks and inline code: an `@` in code is code, the same rule the app's renderer follows. */
+const CODE = /```[\s\S]*?(?:```|$)|`[^`\n]*`/g;
+
+/**
+ * The handles a comment mentions, lowercase, each once, in the order written. Only the shape is checked
+ * here; whether a handle belongs to someone is the database's call.
+ * ponytail: code is stripped with a regex, not a markdown parse; `~~~` fences and indented code still count.
+ */
+export function extractMentions(body: string): string[] {
+  const seen = new Set<string>();
+  for (const match of body.replace(CODE, ' ').matchAll(MENTION)) {
+    const handle = match[1].toLowerCase();
+    if (handle.length >= SLUG_MIN && handle.length <= SLUG_MAX)
+      seen.add(handle);
+  }
+  return [...seen];
+}

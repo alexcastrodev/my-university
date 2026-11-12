@@ -22,6 +22,7 @@ import {
   CreateThreadDto,
   FeedAreasDto,
   FeedDto,
+  MentionQueryDto,
   ReplyDto,
   TopicDto,
 } from './discussion.dto';
@@ -71,6 +72,13 @@ export class DiscussionController {
     @OptionalUserId() userId: number | null,
   ) {
     return this.service.feedAreas(dto, viewerFor(dto.scope, userId));
+  }
+
+  /** Who the composer can suggest after `@`. Signed-in only: it lists people, however public their profile. */
+  @Get('mentions')
+  @Header('Cache-Control', 'no-store')
+  mentions(@CurrentUserId() userId: number, @Query() dto: MentionQueryDto) {
+    return this.service.mentionSuggestions(userId, dto.q);
   }
 
   @Get('markers/:id')

@@ -13,13 +13,14 @@ import { Language } from '../shared/language';
 import { DiscussionComment } from './discussion-comment.entity';
 import { DiscussionMarker } from './discussion-marker.entity';
 import { GENERAL_ANCHOR, LAB_ANCHOR } from './discussion.logic';
-import { Notification } from './notification.entity';
+import { Notification, NotificationKind } from './notification.entity';
 import { paperSlugOfTopicKey } from './paper-topic';
 
 const PAGE = 30;
 
 export interface NotificationView {
   id: number;
+  kind: NotificationKind;
   read: boolean;
   createdAt: Date;
   actor: string;
@@ -59,14 +60,55 @@ export class NotificationService {
       where: { id: In(ids), notifyReplies: true },
       select: { id: true },
     });
-    if (!recipients.length) return;
-    await this.repo.insert(
-      recipients.map((u) => ({
-        userId: u.id,
-        commentId: reply.id,
-        markerId: reply.markerId,
-      })),
+    await this.insert(reply, 'reply', recipients);
+  }
+
+  /**
+   * Tells the people `handles` names that the comment mentioned them. A handle reaches someone only
+   * through a public profile link, so a private profile cannot be pinged. Never the author, never someone
+   * who turned notifications off. Whoever already has a notification for this comment (the reply one,
+   * or this mention before an edit) keeps that one: the unique index drops the second.
+   */
+  async notifyMentions(
+    comment: DiscussionComment,
+    handles: string[],
+  ): Promise<void> {
+    if (!handles.length) return;
+    const recipients = await this.users.find({
+      where: {
+        profileSlug: In(handles),
+        profilePublic: true,
+        notifyReplies: true,
+      },
+      select: { id: true },
+    });
+    await this.insert(
+      comment,
+      'mention',
+      recipients.filter((u) => u.id !== comment.authorId),
     );
+  }
+
+  private async insert(
+    comment: DiscussionComment,
+    kind: NotificationKind,
+    recipients: { id: number }[],
+  ): Promise<void> {
+    if (!recipients.length) return;
+    await this.repo
+      .createQueryBuilder()
+      .insert()
+      .into(Notification)
+      .values(
+        recipients.map((u) => ({
+          userId: u.id,
+          commentId: comment.id,
+          markerId: comment.markerId,
+          kind,
+        })),
+      )
+      .orIgnore()
+      .execute();
   }
 
   unreadCount(userId: number): Promise<number> {
@@ -99,6 +141,7 @@ export class NotificationService {
           if (!comment || !marker || !detail) return [];
           return {
             id: n.id,
+            kind: n.kind,
             read: n.readAt !== null,
             createdAt: n.createdAt,
             actor:
