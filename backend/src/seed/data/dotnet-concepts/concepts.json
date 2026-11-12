@@ -4775,6 +4775,11 @@
         "label": "Applying Migrations in Production",
         "slug": "applying-migrations-in-production",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Feature Flags with Microsoft.FeatureManagement",
+        "slug": "feature-flags-with-microsoft-featuremanagement",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -5844,6 +5849,11 @@
         "label": "Startup, Liveness and Readiness Probes",
         "slug": "startup-liveness-readiness-probes",
         "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "Reverse Proxy and API Gateway with YARP",
+        "slug": "reverse-proxy-and-api-gateway-with-yarp",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -6062,6 +6072,11 @@
         "label": "Rate Limiting and Abuse Protection with rack-attack",
         "slug": "rate-limiting-and-abuse-protection",
         "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Reverse Proxy and API Gateway with YARP",
+        "slug": "reverse-proxy-and-api-gateway-with-yarp",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -6132,6 +6147,11 @@
       {
         "label": "HttpClient and IHttpClientFactory",
         "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Reverse Proxy and API Gateway with YARP",
+        "slug": "reverse-proxy-and-api-gateway-with-yarp",
         "feature": "dotnet-concepts"
       }
     ],
@@ -9258,5 +9278,184 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/structured-logging-with-serilog-and-log-sinks"
+  },
+  {
+    "slug": "reverse-proxy-and-api-gateway-with-yarp",
+    "id": 884,
+    "category": "ASP.NET Core",
+    "title": "Reverse Proxy and API Gateway with YARP",
+    "topic": "Remote APIs",
+    "summary": "A YARP gateway in front of two real Kestrel backends, measured end to end: routes and clusters, transforms, six load balancing policies, passive and active health checks, rate limiting and authentication at the edge, timeouts and status codes, hot reload, gateway versus BFF, and YARP against managed gateways, Ocelot and Envoy, all run on .NET 10.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "kestrel-iis-and-hosting-models"
+    ],
+    "related": [
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Health Checks: Liveness and Readiness",
+        "slug": "health-checks-liveness-and-readiness",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Aspire: AppHost, ServiceDefaults and Deployment",
+        "slug": "aspire-apphost-servicedefaults-and-deployment",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "YARP documentation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/yarp-overview?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP configuration files",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/config-files?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP request and response transforms",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/transforms?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP load balancing",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/load-balancing?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP destination health checks",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/dests-health-checks?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP rate limiting",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/rate-limiting?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP authentication and authorization",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/authn-authz?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "YARP direct forwarding",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/direct-forwarding?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet/yarp, GitHub",
+        "url": "https://github.com/dotnet/yarp",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/reverse-proxy-and-api-gateway-with-yarp"
+  },
+  {
+    "slug": "feature-flags-with-microsoft-featuremanagement",
+    "id": 885,
+    "category": "ASP.NET Core",
+    "title": "Feature Flags with Microsoft.FeatureManagement",
+    "topic": "Operations",
+    "summary": "Feature flags on .NET 10 measured for real: flags in configuration, the percentage, time window and targeting filters, FeatureGate on controllers and Minimal APIs, variants, reload and snapshots, per-flag tests with WebApplicationFactory, the debt of old flags, and what an external flag service adds.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "configuration-and-the-options-pattern"
+    ],
+    "related": [
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MVC Controllers, Filters and Model Binding",
+        "slug": "mvc-controllers-filters-and-model-binding",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Health Checks: Liveness and Readiness",
+        "slug": "health-checks-liveness-and-readiness",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Feature management overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/feature-management-overview",
+        "type": "doc"
+      },
+      {
+        "label": ".NET feature management reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/feature-management-dotnet-reference",
+        "type": "doc"
+      },
+      {
+        "label": "Quickstart: add feature flags to an ASP.NET Core app, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/use-feature-flags-dotnet-core",
+        "type": "doc"
+      },
+      {
+        "label": "Use variant feature flags in an ASP.NET Core app, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/use-variant-feature-flags-aspnet-core",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.FeatureManagement.AspNetCore, NuGet",
+        "url": "https://www.nuget.org/packages/Microsoft.FeatureManagement.AspNetCore",
+        "type": "doc"
+      },
+      {
+        "label": "Feature Toggles, Martin Fowler",
+        "url": "https://martinfowler.com/articles/feature-toggles.html",
+        "type": "doc"
+      },
+      {
+        "label": "OpenFeature",
+        "url": "https://openfeature.dev/",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/feature-flags-with-microsoft-featuremanagement"
   }
 ]
