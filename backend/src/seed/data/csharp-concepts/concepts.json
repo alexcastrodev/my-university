@@ -6132,5 +6132,87 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/decimal-floating-point-decimal32-decimal64-decimal128"
+  },
+  {
+    "slug": "benchmarking-with-benchmarkdotnet-and-allocation-profiling",
+    "id": 740,
+    "category": "Memory & Concurrency",
+    "title": "Benchmarking with BenchmarkDotNet and Allocation Profiling",
+    "topic": "Memory & Value Semantics",
+    "summary": "Why a Stopwatch misleads, BenchmarkDotNet with MemoryDiagnoser, baselines, Ratio and parameters, reading the report, the traps (dead code elimination, setup, Debug), .NET 10 against .NET 11, ArrayPool and ObjectPool measured, and dotnet-counters for allocation in a running process, with numbers from one machine.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "garbage-collector-generations-and-the-loh"
+    ],
+    "related": [
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Garbage Collector: Generations and the LOH",
+        "slug": "garbage-collector-generations-and-the-loh",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Building and Searching Strings Efficiently",
+        "slug": "building-and-searching-strings-efficiently",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Diagnosing Production with dotnet-trace, dotnet-dump and dotnet-gcdump",
+        "slug": "diagnosing-production-with-dotnet-trace-dump-and-gcdump",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "BenchmarkDotNet overview",
+        "url": "https://benchmarkdotnet.org/articles/overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "BenchmarkDotNet good practices",
+        "url": "https://benchmarkdotnet.org/articles/guides/good-practices.html",
+        "type": "doc"
+      },
+      {
+        "label": "BenchmarkDotNet baselines",
+        "url": "https://benchmarkdotnet.org/articles/features/baselines.html",
+        "type": "doc"
+      },
+      {
+        "label": "BenchmarkDotNet diagnosers",
+        "url": "https://benchmarkdotnet.org/articles/configs/diagnosers.html",
+        "type": "doc"
+      },
+      {
+        "label": "ArrayPool<T>, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.buffers.arraypool-1",
+        "type": "doc"
+      },
+      {
+        "label": "Object reuse with ObjectPool in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/objectpool",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet-counters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/benchmarking-with-benchmarkdotnet-and-allocation-profiling"
   }
 ]
