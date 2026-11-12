@@ -8889,5 +8889,87 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/cqrs-mediator-and-vertical-slices"
+  },
+  {
+    "slug": "owasp-secure-aspnet-core-security-headers-and-csp",
+    "id": 845,
+    "category": "ASP.NET Core",
+    "title": "OWASP in ASP.NET Core: Security Headers and CSP",
+    "topic": "Resilience & Protection",
+    "summary": "The OWASP Top 10:2025 mapped to ASP.NET Core (what the framework does and what stays with you), security headers (CSP with a per-request nonce, nosniff, Referrer-Policy, Permissions-Policy, frame-ancestors), a hand-written middleware against the NetEscapades package, CSP with Blazor and inline scripts, mass assignment with a DTO, and user-secrets in development, all run on .NET 10.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "https-hsts-and-secure-defaults"
+    ],
+    "related": [
+      {
+        "label": "HTTPS, HSTS and Secure Defaults",
+        "slug": "https-hsts-and-secure-defaults",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Data Protection: Key Ring and Purposes",
+        "slug": "data-protection-key-ring-and-purposes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "OWASP Top 10:2025",
+        "url": "https://top10.owasp.org/2025",
+        "type": "doc"
+      },
+      {
+        "label": "Enforce a Content Security Policy for ASP.NET Core Blazor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/security/content-security-policy",
+        "type": "doc"
+      },
+      {
+        "label": "Content Security Policy (CSP), MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP",
+        "type": "doc"
+      },
+      {
+        "label": "NetEscapades.AspNetCore.SecurityHeaders, NuGet",
+        "url": "https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders",
+        "type": "doc"
+      },
+      {
+        "label": "Safe storage of app secrets in development in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets",
+        "type": "doc"
+      },
+      {
+        "label": "Mass Assignment Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/owasp-secure-aspnet-core-security-headers-and-csp"
   }
 ]
