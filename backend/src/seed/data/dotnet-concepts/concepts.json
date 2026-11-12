@@ -7864,5 +7864,144 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/csrf-protection-antiforgery-tokens-and-fetch-metadata"
+  },
+  {
+    "slug": "async-validation-with-data-annotations",
+    "id": 752,
+    "category": "ASP.NET Core",
+    "title": "Async Validation with Data Annotations",
+    "topic": "Minimal APIs",
+    "summary": "AsyncValidationAttribute and IAsyncValidatableObject in .NET 11 Minimal APIs for rules that query a database or a service, the order in which rules run, the ProblemDetails response, cancellation through the request token, and what was left out because it was not executed.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "input-validation-in-minimal-apis"
+    ],
+    "related": [
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Forms: EditForm and Validation",
+        "slug": "blazor-forms-editform-and-validation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in ASP.NET Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11.0",
+        "type": "doc"
+      },
+      {
+        "label": "Validation in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#validation-support-in-minimal-apis",
+        "type": "doc"
+      },
+      {
+        "label": "AsyncValidationAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.asyncvalidationattribute",
+        "type": "doc"
+      },
+      {
+        "label": "Handle errors in ASP.NET Core APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/async-validation-with-data-annotations"
+  },
+  {
+    "slug": "response-compression-brotli-gzip-and-zstandard",
+    "id": 753,
+    "category": "ASP.NET Core",
+    "title": "Response Compression: Brotli, Gzip and Zstandard",
+    "topic": "Hosting & Pipeline",
+    "summary": "The ASP.NET Core response compression middleware, the zstd, br and gzip providers, Vary: Accept-Encoding on every response in .NET 11, HTTPS and BREACH, when to leave compression to the proxy, and size and time measured on a 371 KB payload.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Static Files and MapStaticAssets",
+        "slug": "static-files-and-mapstaticassets",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 11: A Map",
+        "slug": "whats-new-in-aspnet-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HTTPS, HSTS and Secure Defaults",
+        "slug": "https-hsts-and-secure-defaults",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Response compression in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/response-compression",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking change: response compression always emits Vary: Accept-Encoding, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/11/response-compression-always-vary",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8878: Zstandard Compression and the application/zstd Media Type",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8878",
+        "type": "doc"
+      },
+      {
+        "label": "BREACH (security exploit), Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/BREACH",
+        "type": "doc"
+      },
+      {
+        "label": "Vary header, MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Vary",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/response-compression-brotli-gzip-and-zstandard"
   }
 ]
