@@ -605,7 +605,7 @@
   },
   {
     "slug": "agent-framework-workflows-and-orchestration",
-    "id": 8,
+    "id": 9,
     "title": "Microsoft Agent Framework: Workflows and Orchestration",
     "topic": "Agents & Tools",
     "summary": "WorkflowBuilder, executors and supersteps, conditional edges and switch (and what is dropped silently), fan-out with a barrier, shared executors and IResettableExecutor, checkpoints and resuming in another process, and the sequential, concurrent, handoff and group chat patterns run with qwen3 on Ollama, with Magentic from the docs only.",
