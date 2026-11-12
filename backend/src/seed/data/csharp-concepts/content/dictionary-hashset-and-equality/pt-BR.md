@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-12
 title: "Dictionary, HashSet e Igualdade"
 summary: Buckets e entries, o contrato Equals/GetHashCode, o bug da chave mutável, IEqualityComparer e StringComparer, records como chave e APIs de lookup sem hash duplo.
 ---
@@ -168,6 +168,20 @@ count++;
 `GetValueRefOrAddDefault` devolve uma referência ao valor guardado dentro do
 dicionário, então a atualização não precisa de uma segunda busca. A referência
 só é válida até a próxima modificação do dicionário.
+
+### Um comparer a partir de um seletor de chave
+
+O .NET 11 adiciona `EqualityComparer<T>.Create` com um seletor de chave, então
+um comparer por uma propriedade não precisa mais de uma classe própria:
+
+```csharp
+var byId = EqualityComparer<Person>.Create(p => p.Id);
+var set = new HashSet<Person>(byId) { new(1, "a") };
+set.Add(new(1, "b"));   // false: mesmo Id, Count continua 1
+```
+
+Vale o mesmo cuidado de qualquer comparer customizado: a chave selecionada
+precisa ficar estável enquanto o item está na coleção.
 
 ## Trade-offs
 

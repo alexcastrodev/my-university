@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-12
 title: "System.Text.Json: Source Generation, JsonNode e Utf8JsonReader"
 summary: JsonSerializerContext e [JsonSerializable], o que muda sob trimming e AOT (avisos reais, sem publicar AOT), JsonDocument versus JsonNode versus POCO medidos, Utf8JsonReader e Utf8JsonWriter e streaming com DeserializeAsyncEnumerable.
 ---
@@ -186,6 +186,27 @@ um único objeto de nível superior falhou com erro de "could not be converted".
 Passar `topLevelValues: true` lê em vez disso uma sequência de valores separados
 por espaço (2 objetos no meu teste). O lado do endpoint disso está no conceito de
 async streams.
+
+### O que o .NET 11 acrescenta
+
+Com source generation, `[JsonInclude]` em membro privado ou interno agora
+funciona: uma classe com `[JsonInclude] private int Secret = 7` e
+`[JsonInclude] internal int Inner = 8` foi serializada como
+`{"Secret":7,"Inner":8}` pelo contexto gerado (o gerador do .NET 10 emitia
+SYSLIB1038 para isso). As opções também oferecem a busca tipada
+`options.GetTypeInfo<T>()`.
+
+Para JSON Lines (um valor por linha, sem array externo), passe
+`topLevelValues: true`:
+
+```csharp
+await JsonSerializer.SerializeAsyncEnumerable(stream, items, topLevelValues: true);
+// {"N":0,"S":"x0"}
+// {"N":1,"S":"x1"}
+```
+
+Cada elemento é escrito seguido de uma quebra de linha, que é o formato que
+pipelines de log e o `jq` esperam.
 
 ## Trade-offs
 
