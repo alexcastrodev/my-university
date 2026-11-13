@@ -1,1 +1,282 @@
-[]
+[
+  {
+    "slug": "memory-model-and-sync-atomic",
+    "id": 5,
+    "category": "Language",
+    "title": "The Go Memory Model and sync/atomic",
+    "topic": "Concurrency",
+    "summary": "The Go memory model as revised in 2022, with happens-before and the synchronized-before edges of channels, mutexes, sync.Once, WaitGroup and atomics; DRF-SC; store buffering and message passing litmus tests showing real reordering on arm64; the compiler deleting writes from a racy loop; what a racy program still guarantees (word-sized values, no out-of-thin-air) and what it does not (a torn interface up to SIGSEGV); sequentially consistent typed atomics (atomic.Int64, atomic.Pointer[T]); vet warnings; and broken double-checked init against sync.OnceValue and atomic.Pointer, with real -race reports.",
+    "publishedAt": "2026-11-12",
+    "requires": [],
+    "related": [
+      {
+        "label": "Advanced Concurrency Patterns in Go",
+        "slug": "advanced-concurrency-patterns",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Concurrency Bugs: Races and Deadlocks in Real Go Code",
+        "slug": "concurrency-bugs-races-and-deadlocks",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "The Java Memory Model: Happens-Before and Reordering",
+        "slug": "java-memory-model-and-happens-before",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Memory Model, volatile, and Thread-Local State",
+        "slug": "memory-model-volatile-and-thread-local-state",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The Go Memory Model, go.dev",
+        "url": "https://go.dev/ref/mem",
+        "type": "doc"
+      },
+      {
+        "label": "Package sync/atomic, pkg.go.dev",
+        "url": "https://pkg.go.dev/sync/atomic",
+        "type": "doc"
+      },
+      {
+        "label": "Package sync (Once, OnceValue, WaitGroup, Mutex), pkg.go.dev",
+        "url": "https://pkg.go.dev/sync",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.19 Release Notes: memory model revision and atomic types, go.dev",
+        "url": "https://go.dev/doc/go1.19",
+        "type": "doc"
+      },
+      {
+        "label": "Data Race Detector, go.dev",
+        "url": "https://go.dev/doc/articles/race_detector",
+        "type": "doc"
+      },
+      {
+        "label": "Adve and Boehm, Memory Models: A Case for Rethinking Parallel Languages and Hardware, CACM 2010",
+        "url": "https://doi.org/10.1145/1787234.1787255",
+        "type": "paper"
+      },
+      {
+        "label": "Russ Cox, Updating the Go Memory Model, research.swtch.com (complement to the Go Memory Model)",
+        "url": "https://research.swtch.com/gomm",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "advanced-concurrency-patterns",
+    "id": 9,
+    "category": "Language",
+    "title": "Advanced Concurrency Patterns in Go",
+    "topic": "Concurrency",
+    "summary": "Pipelines with context cancellation (adapted from the Go blog's pipelines article), fan-out and fan-in and the order they lose, bounded parallelism with errgroup.SetLimit against a semaphore and a buffered channel measuring peak tasks and goroutines, weighted semaphores and their FIFO queue, fail-fast with errgroup.WithContext and context.Cause, singleflight with 100 callers and one execution, the first caller's context leaking to all of them and context.WithoutCancel, and sync.WaitGroup.Go (Go 1.25) with the vet waitgroup analyzer and go fix.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "memory-model-and-sync-atomic"
+    ],
+    "related": [
+      {
+        "label": "Context: Cancellation Trees, Deadlines and Causes",
+        "slug": "context-cancellation-and-deadlines",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "The Go Memory Model and sync/atomic",
+        "slug": "memory-model-and-sync-atomic",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Structured Concurrency: StructuredTaskScope",
+        "slug": "structured-concurrency",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Go Concurrency Patterns: Pipelines and cancellation, The Go Blog",
+        "url": "https://go.dev/blog/pipelines",
+        "type": "doc"
+      },
+      {
+        "label": "Package context (WithCancelCause, Cause, WithoutCancel), pkg.go.dev",
+        "url": "https://pkg.go.dev/context",
+        "type": "doc"
+      },
+      {
+        "label": "Package errgroup, golang.org/x/sync",
+        "url": "https://pkg.go.dev/golang.org/x/sync/errgroup",
+        "type": "doc"
+      },
+      {
+        "label": "Package semaphore, golang.org/x/sync",
+        "url": "https://pkg.go.dev/golang.org/x/sync/semaphore",
+        "type": "doc"
+      },
+      {
+        "label": "Package singleflight, golang.org/x/sync",
+        "url": "https://pkg.go.dev/golang.org/x/sync/singleflight",
+        "type": "doc"
+      },
+      {
+        "label": "sync.WaitGroup.Go, pkg.go.dev",
+        "url": "https://pkg.go.dev/sync#WaitGroup.Go",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.25 Release Notes: WaitGroup.Go and the waitgroup vet analyzer, go.dev",
+        "url": "https://go.dev/doc/go1.25",
+        "type": "doc"
+      },
+      {
+        "label": "Katherine Cox-Buday, Concurrency in Go, O'Reilly 2017",
+        "url": "https://www.oreilly.com/library/view/concurrency-in-go/9781491941294/",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "context-cancellation-and-deadlines",
+    "id": 10,
+    "category": "Language",
+    "title": "Context: Cancellation Trees, Deadlines and Causes",
+    "topic": "Concurrency",
+    "summary": "The context tree and synchronous cancellation measured up to 100,000 children, the goroutine per child under a custom Context, DeadlineExceeded versus Canceled, WithCancelCause, WithTimeoutCause and context.Cause, AfterFunc and its stop function unblocking a net.Conn read, WithoutCancel for work after the response, key collisions in WithValue and the linear cost of lookup, go vet lostcancel messages and the heap a forgotten cancel holds, what the server sees when an HTTP client deadline expires, and why a context should not live inside a struct.",
+    "publishedAt": "2026-11-12",
+    "requires": [],
+    "related": [
+      {
+        "label": "Advanced Concurrency Patterns in Go",
+        "slug": "advanced-concurrency-patterns",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Cancellation Safety and Graceful Shutdown",
+        "slug": "cancellation-safety-and-graceful-shutdown",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Task Cancellation: Interruption Done Right",
+        "slug": "task-cancellation-and-interruption",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Package context",
+        "url": "https://pkg.go.dev/context",
+        "type": "doc"
+      },
+      {
+        "label": "Go Concurrency Patterns: Context, The Go Blog",
+        "url": "https://go.dev/blog/context",
+        "type": "doc"
+      },
+      {
+        "label": "Contexts and structs, The Go Blog",
+        "url": "https://go.dev/blog/context-and-structs",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.21 Release Notes: AfterFunc, WithoutCancel, WithDeadlineCause",
+        "url": "https://go.dev/doc/go1.21",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.20 Release Notes: WithCancelCause and Cause",
+        "url": "https://go.dev/doc/go1.20",
+        "type": "doc"
+      },
+      {
+        "label": "lostcancel analyzer, golang.org/x/tools",
+        "url": "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/lostcancel",
+        "type": "doc"
+      },
+      {
+        "label": "net/http: Request.Context",
+        "url": "https://pkg.go.dev/net/http#Request.Context",
+        "type": "doc"
+      },
+      {
+        "label": "100 Go Mistakes and How to Avoid Them, Teiva Harsanyi (Manning)",
+        "url": "https://www.manning.com/books/100-go-mistakes-and-how-to-avoid-them",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "concurrency-bugs-races-and-deadlocks",
+    "id": 11,
+    "category": "Language",
+    "title": "Concurrency Bugs: Races and Deadlocks in Real Go Code",
+    "topic": "Concurrency",
+    "summary": "The blocking versus non-blocking and shared memory versus message passing taxonomy of 171 real bugs (ASPLOS 2019) and the causes of 1,011 races fixed at Uber (PLDI 2022), reproduced with real -race reports, runtime fatal errors and go vet messages: loop variable capture with go 1.21 versus go 1.22, concurrent map writes, append to a slice without a lock, WaitGroup.Add inside the goroutine and WaitGroup.Go, a send nobody receives and the leak the runtime never reports, a mutex copied by value, the measured cost of the race detector, and GCatch and GFix as static detection.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "memory-model-and-sync-atomic"
+    ],
+    "related": [
+      {
+        "label": "The Go Memory Model and sync/atomic",
+        "slug": "memory-model-and-sync-atomic",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Deadlock: Lock Ordering, Open Calls, and How to Avoid It",
+        "slug": "deadlock-lock-ordering-and-avoidance",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Data Race Detector, Go documentation",
+        "url": "https://go.dev/doc/articles/race_detector",
+        "type": "doc"
+      },
+      {
+        "label": "Understanding Real-World Concurrency Bugs in Go, Tu et al., ASPLOS 2019",
+        "url": "https://songlh.github.io/paper/go-study.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "A Study of Real-World Data Races in Golang, Chabbi and Ramanathan, PLDI 2022",
+        "url": "https://arxiv.org/abs/2204.00764",
+        "type": "paper"
+      },
+      {
+        "label": "Automatically Detecting and Fixing Concurrency Bugs in Go Software Systems (GCatch and GFix), ASPLOS 2021",
+        "url": "https://doi.org/10.1145/3445814.3446756",
+        "type": "paper"
+      },
+      {
+        "label": "Fixing For Loops in Go 1.22, The Go Blog",
+        "url": "https://go.dev/blog/loopvar-preview",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.25 Release Notes: waitgroup analyzer and WaitGroup.Go",
+        "url": "https://go.dev/doc/go1.25",
+        "type": "doc"
+      },
+      {
+        "label": "copylock analyzer, golang.org/x/tools",
+        "url": "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/copylock",
+        "type": "doc"
+      },
+      {
+        "label": "The Go Memory Model",
+        "url": "https://go.dev/ref/mem",
+        "type": "doc"
+      }
+    ]
+  }
+]
