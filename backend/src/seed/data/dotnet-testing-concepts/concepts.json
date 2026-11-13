@@ -1,150 +1,5 @@
 [
   {
-    "slug": "testing-domain-events-with-mstest",
-    "id": 1,
-    "title": "Testing Domain Events with MSTest",
-    "topic": "DDD",
-    "summary": "Test the aggregate with no infrastructure, the SaveChanges interceptor and the outbox on SQLite in memory, and an idempotent consumer, with MSTest 4, hand-written fakes and a mutation check.",
-    "publishedAt": "2026-10-07",
-    "requires": [],
-    "related": [
-      {
-        "label": "Domain Events and Consistency Boundaries",
-        "slug": "domain-events-and-consistency-boundaries",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "Testing Modules in Isolation",
-        "slug": "testing-modules-in-isolation",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
-        "slug": "observable-behavior-and-mock-fragility",
-        "feature": "testing-concepts"
-      },
-      {
-        "label": "JUnit 5 Fundamentals",
-        "slug": "junit-5-fundamentals",
-        "feature": "testing-concepts"
-      }
-    ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-domain-events-with-mstest",
-    "references": [
-      {
-        "label": "MSTest test lifecycle, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
-        "type": "doc"
-      },
-      {
-        "label": "MSTest assertions, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-assertions",
-        "type": "doc"
-      },
-      {
-        "label": "Data-driven testing in MSTest, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-data-driven",
-        "type": "doc"
-      },
-      {
-        "label": "MSTest TestContext, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-testcontext",
-        "type": "doc"
-      },
-      {
-        "label": "Test execution and control in MSTest (parallelization), Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-controlling-execution",
-        "type": "doc"
-      },
-      {
-        "label": "Testing with FakeTimeProvider, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/timeprovider-testing",
-        "type": "doc"
-      },
-      {
-        "label": "Choosing a testing strategy, EF Core, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/ef/core/testing/choosing-a-testing-strategy",
-        "type": "doc"
-      },
-      {
-        "label": "In-memory databases, Microsoft.Data.Sqlite, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/in-memory-databases",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "testing-clean-architecture-with-mstest",
-    "id": 2,
-    "title": "Testing Clean Architecture with MSTest",
-    "topic": "Application Architecture",
-    "summary": "One MSTest project per layer: domain tables with DataRow, use cases against a fake port, the HTTP contract with WebApplicationFactory, and a test for the dependency rule itself.",
-    "publishedAt": "2026-10-07",
-    "requires": [
-      "testing-domain-events-with-mstest"
-    ],
-    "related": [
-      {
-        "label": "Clean Architecture in Four Projects",
-        "slug": "clean-architecture-in-four-projects",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "Module Communication and Architecture Tests",
-        "slug": "module-communication-and-architecture-tests",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "REST Semantics: Status Codes and Idempotency",
-        "slug": "rest-semantics-status-codes-and-idempotency",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "Test Doubles: Stubs and Mocking",
-        "slug": "test-doubles-stubs-and-mocking",
-        "feature": "testing-concepts"
-      }
-    ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-clean-architecture-with-mstest",
-    "references": [
-      {
-        "label": "Data-driven testing in MSTest, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-data-driven",
-        "type": "doc"
-      },
-      {
-        "label": "MSTest assertions, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-assertions",
-        "type": "doc"
-      },
-      {
-        "label": "MSTest TestContext, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-testcontext",
-        "type": "doc"
-      },
-      {
-        "label": "MSTest test lifecycle, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
-        "type": "doc"
-      },
-      {
-        "label": "Integration tests in ASP.NET Core, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests",
-        "type": "doc"
-      },
-      {
-        "label": "Choosing a testing strategy, EF Core, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/ef/core/testing/choosing-a-testing-strategy",
-        "type": "doc"
-      },
-      {
-        "label": "Connection strings, Microsoft.Data.Sqlite, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/connection-strings",
-        "type": "doc"
-      }
-    ]
-  },
-  {
     "slug": "mstest-fundamentals-lifecycle-and-testcontext",
     "id": 3,
     "title": "MSTest 4 Fundamentals: Lifecycle, TestContext and Parallelism",
@@ -371,6 +226,144 @@
     ]
   },
   {
+    "slug": "testing-httpclient-and-resilience-pipelines",
+    "id": 8,
+    "title": "Testing HttpClient Code and Resilience Pipelines",
+    "topic": "Test Doubles",
+    "summary": "A hand-written HttpMessageHandler fake as the last hop of the real chain, a typed client in a test ServiceCollection, and the Microsoft.Extensions.Http.Resilience pipeline on a FakeTimeProvider, counting attempts and what each one sent.",
+    "publishedAt": "2026-10-18",
+    "requires": [
+      "test-doubles-fakes-stubs-and-nsubstitute",
+      "controlling-time-with-timeprovider"
+    ],
+    "related": [
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Test Doubles: Stubs and Mocking",
+        "slug": "test-doubles-stubs-and-mocking",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
+        "slug": "observable-behavior-and-mock-fragility",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-httpclient-and-resilience-pipelines",
+    "references": [
+      {
+        "label": "Build resilient HTTP apps, Microsoft.Extensions.Http.Resilience, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience",
+        "type": "doc"
+      },
+      {
+        "label": "IHttpClientFactory with .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory",
+        "type": "doc"
+      },
+      {
+        "label": "Testing with FakeTimeProvider, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/timeprovider-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Polly: dependency injection, Polly docs",
+        "url": "https://www.pollydocs.org/advanced/dependency-injection.html",
+        "type": "doc"
+      },
+      {
+        "label": "Polly: testing, Polly docs",
+        "url": "https://www.pollydocs.org/advanced/testing.html",
+        "type": "doc"
+      },
+      {
+        "label": "HttpContent.LoadIntoBufferAsync, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.loadintobufferasync",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest assertions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-assertions",
+        "type": "doc"
+      },
+      {
+        "label": "WireMock.Net, GitHub",
+        "url": "https://github.com/wiremock/WireMock.Net",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "test-data-with-builders-bogus-and-autofixture",
+    "id": 22,
+    "title": "Test Data with Builders, Bogus and AutoFixture",
+    "topic": "Test Doubles",
+    "summary": "Build test data three ways with MSTest 4: a hand-written Test Data Builder, Bogus with a fixed seed, and AutoFixture with AutoNSubstitute, and learn when each one hides what a test is really about.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "test-doubles-fakes-stubs-and-nsubstitute"
+    ],
+    "related": [
+      {
+        "label": "Test Doubles in .NET: Fakes, Stubs and NSubstitute",
+        "slug": "test-doubles-fakes-stubs-and-nsubstitute",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "MSTest Data-Driven Tests",
+        "slug": "mstest-data-driven-tests",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing with Real Databases using Testcontainers",
+        "slug": "testing-with-real-databases-using-testcontainers",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Reusing Test Fixtures and Parameterized Tests",
+        "slug": "reusing-test-fixtures-and-parameterized-tests",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/test-data-with-builders-bogus-and-autofixture",
+    "references": [
+      {
+        "label": "Bogus on GitHub",
+        "url": "https://github.com/bchavez/Bogus",
+        "type": "doc"
+      },
+      {
+        "label": "AutoFixture on GitHub",
+        "url": "https://github.com/AutoFixture/AutoFixture",
+        "type": "doc"
+      },
+      {
+        "label": "AutoFixture.AutoNSubstitute on NuGet",
+        "url": "https://www.nuget.org/packages/AutoFixture.AutoNSubstitute",
+        "type": "doc"
+      },
+      {
+        "label": "Bogus on NuGet",
+        "url": "https://www.nuget.org/packages/Bogus",
+        "type": "doc"
+      },
+      {
+        "label": "NSubstitute documentation",
+        "url": "https://nsubstitute.github.io/help/getting-started/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "controlling-time-with-timeprovider",
     "id": 6,
     "title": "Controlling Time in Tests with TimeProvider and FakeTimeProvider",
@@ -518,83 +511,6 @@
     ]
   },
   {
-    "slug": "testing-httpclient-and-resilience-pipelines",
-    "id": 8,
-    "title": "Testing HttpClient Code and Resilience Pipelines",
-    "topic": "Test Doubles",
-    "summary": "A hand-written HttpMessageHandler fake as the last hop of the real chain, a typed client in a test ServiceCollection, and the Microsoft.Extensions.Http.Resilience pipeline on a FakeTimeProvider, counting attempts and what each one sent.",
-    "publishedAt": "2026-10-18",
-    "requires": [
-      "test-doubles-fakes-stubs-and-nsubstitute",
-      "controlling-time-with-timeprovider"
-    ],
-    "related": [
-      {
-        "label": "HttpClient and IHttpClientFactory",
-        "slug": "httpclient-and-ihttpclientfactory",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
-        "slug": "resilience-retries-timeouts-and-circuit-breakers",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "Test Doubles: Stubs and Mocking",
-        "slug": "test-doubles-stubs-and-mocking",
-        "feature": "testing-concepts"
-      },
-      {
-        "label": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
-        "slug": "observable-behavior-and-mock-fragility",
-        "feature": "testing-concepts"
-      }
-    ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-httpclient-and-resilience-pipelines",
-    "references": [
-      {
-        "label": "Build resilient HTTP apps, Microsoft.Extensions.Http.Resilience, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience",
-        "type": "doc"
-      },
-      {
-        "label": "IHttpClientFactory with .NET, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory",
-        "type": "doc"
-      },
-      {
-        "label": "Testing with FakeTimeProvider, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/timeprovider-testing",
-        "type": "doc"
-      },
-      {
-        "label": "Polly: dependency injection, Polly docs",
-        "url": "https://www.pollydocs.org/advanced/dependency-injection.html",
-        "type": "doc"
-      },
-      {
-        "label": "Polly: testing, Polly docs",
-        "url": "https://www.pollydocs.org/advanced/testing.html",
-        "type": "doc"
-      },
-      {
-        "label": "HttpContent.LoadIntoBufferAsync, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.loadintobufferasync",
-        "type": "doc"
-      },
-      {
-        "label": "MSTest assertions, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-assertions",
-        "type": "doc"
-      },
-      {
-        "label": "WireMock.Net, GitHub",
-        "url": "https://github.com/wiremock/WireMock.Net",
-        "type": "doc"
-      }
-    ]
-  },
-  {
     "slug": "integration-testing-with-webapplicationfactory",
     "id": 9,
     "title": "Integration Testing ASP.NET Core with WebApplicationFactory",
@@ -737,6 +653,162 @@
       {
         "label": "What's new in ASP.NET Core in .NET 10, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "testing-distributed-apps-with-aspire",
+    "id": 16,
+    "title": "Testing Distributed Apps with Aspire",
+    "topic": "ASP.NET Core Testing",
+    "summary": "Run the real Aspire 13.6 AppHost from MSTest with DistributedApplicationTestingBuilder: random ports and parallel runs, waiting for Running vs healthy with a timeout, failing in about a second when a resource crashes, which configuration overrides arrive, removing resources, the dashboard switch, asserting on a resource log, shared vs per-test app timings, cleanup, and a measured comparison with WebApplicationFactory.",
+    "publishedAt": "2026-10-29",
+    "requires": [
+      "integration-testing-with-webapplicationfactory"
+    ],
+    "related": [
+      {
+        "label": "Integration Testing ASP.NET Core with WebApplicationFactory",
+        "slug": "integration-testing-with-webapplicationfactory",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing Against a Real Database with Testcontainers",
+        "slug": "testing-with-real-databases-using-testcontainers",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Microsoft.Testing.Platform, dotnet test and Code Coverage in CI",
+        "slug": "microsoft-testing-platform-and-dotnet-test",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Aspire: AppHost, ServiceDefaults and Deployment",
+        "slug": "aspire-apphost-servicedefaults-and-deployment",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Health Checks: Liveness and Readiness",
+        "slug": "health-checks-liveness-and-readiness",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Testing overview, aspire.dev",
+        "url": "https://aspire.dev/testing/overview/",
+        "type": "doc"
+      },
+      {
+        "label": "Write your first test, aspire.dev",
+        "url": "https://aspire.dev/testing/write-your-first-test/",
+        "type": "doc"
+      },
+      {
+        "label": "Manage the AppHost in tests, aspire.dev",
+        "url": "https://aspire.dev/testing/manage-app-host/",
+        "type": "doc"
+      },
+      {
+        "label": "Access resources in tests, aspire.dev",
+        "url": "https://aspire.dev/testing/accessing-resources/",
+        "type": "doc"
+      },
+      {
+        "label": "Testing in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest test lifecycle, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "end-to-end-testing-with-playwright-for-dotnet",
+    "id": 23,
+    "title": "End-to-End Testing with Playwright for .NET",
+    "topic": "ASP.NET Core Testing",
+    "summary": "Drive headless Chromium against an ASP.NET Core app on a real Kestrel socket with MSTest 4: locators, auto-wait, trace viewer and Page Objects, and why Microsoft.Playwright.MSTest discovers 0 tests with MSTest 4.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "integration-testing-with-webapplicationfactory"
+    ],
+    "related": [
+      {
+        "label": "Integration Testing ASP.NET Core with WebApplicationFactory",
+        "slug": "integration-testing-with-webapplicationfactory",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing Blazor Components with bUnit",
+        "slug": "testing-blazor-components-with-bunit",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing Authentication and Authorization in ASP.NET Core",
+        "slug": "testing-authentication-and-authorization-in-aspnet-core",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Selenium Browser Testing",
+        "slug": "selenium-browser-testing",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Test Pyramid Strategy",
+        "slug": "test-pyramid-strategy",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/end-to-end-testing-with-playwright-for-dotnet",
+    "references": [
+      {
+        "label": "Playwright for .NET: Getting started",
+        "url": "https://playwright.dev/dotnet/docs/intro",
+        "type": "doc"
+      },
+      {
+        "label": "Playwright for .NET: Test runners",
+        "url": "https://playwright.dev/dotnet/docs/test-runners",
+        "type": "doc"
+      },
+      {
+        "label": "Playwright: Locators",
+        "url": "https://playwright.dev/dotnet/docs/locators",
+        "type": "doc"
+      },
+      {
+        "label": "Playwright: Auto-waiting",
+        "url": "https://playwright.dev/dotnet/docs/actionability",
+        "type": "doc"
+      },
+      {
+        "label": "Playwright: Trace viewer",
+        "url": "https://playwright.dev/dotnet/docs/trace-viewer",
+        "type": "doc"
+      },
+      {
+        "label": "Playwright: Page object models",
+        "url": "https://playwright.dev/dotnet/docs/pom",
+        "type": "doc"
+      },
+      {
+        "label": "WebApplicationFactory<TEntryPoint>.UseKestrel method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.testing.webapplicationfactory-1.usekestrel",
+        "type": "doc"
+      },
+      {
+        "label": "MSTEST0082 analyzer, Microsoft Learn",
+        "url": "https://learn.microsoft.com/dotnet/core/testing/mstest-analyzers/mstest0082",
         "type": "doc"
       }
     ]
@@ -914,6 +986,92 @@
     ]
   },
   {
+    "slug": "testing-blazor-components-with-bunit",
+    "id": 14,
+    "title": "Testing Blazor Components with bUnit and MSTest",
+    "topic": "Blazor",
+    "summary": "Render Blazor components in memory with bUnit 2 inside MSTest: parameters, forms, fake services, strict JSInterop, cascading values, authorization and asynchronous rendering, and avoid the tests that pass for the wrong reason.",
+    "publishedAt": "2026-10-18",
+    "requires": [
+      "mstest-fundamentals-lifecycle-and-testcontext"
+    ],
+    "related": [
+      {
+        "label": "Blazor Component Lifecycle and Parameters",
+        "slug": "blazor-component-lifecycle-and-parameters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Forms: EditForm and Validation",
+        "slug": "blazor-forms-editform-and-validation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Data Access and Streaming Rendering",
+        "slug": "blazor-data-access-and-streaming-rendering",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
+        "slug": "observable-behavior-and-mock-fragility",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Snapshot Testing with Verify",
+        "slug": "snapshot-testing-with-verify",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "End-to-End Testing with Playwright for .NET",
+        "slug": "end-to-end-testing-with-playwright-for-dotnet",
+        "feature": "dotnet-testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-blazor-components-with-bunit",
+    "references": [
+      {
+        "label": "bUnit: writing tests",
+        "url": "https://bunit.dev/docs/getting-started/writing-tests.html",
+        "type": "doc"
+      },
+      {
+        "label": "bUnit: migrating from 1.x to 2.x",
+        "url": "https://bunit.dev/docs/migrations/1to2.html",
+        "type": "doc"
+      },
+      {
+        "label": "bUnit: verifying markup",
+        "url": "https://bunit.dev/docs/verification/verify-markup.html",
+        "type": "doc"
+      },
+      {
+        "label": "bUnit: asynchronous assertions",
+        "url": "https://bunit.dev/docs/verification/async-assertion.html",
+        "type": "doc"
+      },
+      {
+        "label": "bUnit: emulating IJSRuntime",
+        "url": "https://bunit.dev/docs/test-doubles/emulating-ijsruntime.html",
+        "type": "doc"
+      },
+      {
+        "label": "bUnit: faking authentication and authorization",
+        "url": "https://bunit.dev/docs/test-doubles/auth.html",
+        "type": "doc"
+      },
+      {
+        "label": "bUnit: render modes and RendererInfo",
+        "url": "https://bunit.dev/docs/interaction/render-modes.html",
+        "type": "doc"
+      },
+      {
+        "label": "Test Razor components in ASP.NET Core Blazor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/test",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "microsoft-testing-platform-and-dotnet-test",
     "id": 13,
     "title": "Microsoft.Testing.Platform, dotnet test and Code Coverage in CI",
@@ -1005,92 +1163,6 @@
     ]
   },
   {
-    "slug": "testing-blazor-components-with-bunit",
-    "id": 14,
-    "title": "Testing Blazor Components with bUnit and MSTest",
-    "topic": "Blazor",
-    "summary": "Render Blazor components in memory with bUnit 2 inside MSTest: parameters, forms, fake services, strict JSInterop, cascading values, authorization and asynchronous rendering, and avoid the tests that pass for the wrong reason.",
-    "publishedAt": "2026-10-18",
-    "requires": [
-      "mstest-fundamentals-lifecycle-and-testcontext"
-    ],
-    "related": [
-      {
-        "label": "Blazor Component Lifecycle and Parameters",
-        "slug": "blazor-component-lifecycle-and-parameters",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "Blazor Forms: EditForm and Validation",
-        "slug": "blazor-forms-editform-and-validation",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "Blazor Data Access and Streaming Rendering",
-        "slug": "blazor-data-access-and-streaming-rendering",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
-        "slug": "observable-behavior-and-mock-fragility",
-        "feature": "testing-concepts"
-      },
-      {
-        "label": "Snapshot Testing with Verify",
-        "slug": "snapshot-testing-with-verify",
-        "feature": "dotnet-testing-concepts"
-      },
-      {
-        "label": "End-to-End Testing with Playwright for .NET",
-        "slug": "end-to-end-testing-with-playwright-for-dotnet",
-        "feature": "dotnet-testing-concepts"
-      }
-    ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-blazor-components-with-bunit",
-    "references": [
-      {
-        "label": "bUnit: writing tests",
-        "url": "https://bunit.dev/docs/getting-started/writing-tests.html",
-        "type": "doc"
-      },
-      {
-        "label": "bUnit: migrating from 1.x to 2.x",
-        "url": "https://bunit.dev/docs/migrations/1to2.html",
-        "type": "doc"
-      },
-      {
-        "label": "bUnit: verifying markup",
-        "url": "https://bunit.dev/docs/verification/verify-markup.html",
-        "type": "doc"
-      },
-      {
-        "label": "bUnit: asynchronous assertions",
-        "url": "https://bunit.dev/docs/verification/async-assertion.html",
-        "type": "doc"
-      },
-      {
-        "label": "bUnit: emulating IJSRuntime",
-        "url": "https://bunit.dev/docs/test-doubles/emulating-ijsruntime.html",
-        "type": "doc"
-      },
-      {
-        "label": "bUnit: faking authentication and authorization",
-        "url": "https://bunit.dev/docs/test-doubles/auth.html",
-        "type": "doc"
-      },
-      {
-        "label": "bUnit: render modes and RendererInfo",
-        "url": "https://bunit.dev/docs/interaction/render-modes.html",
-        "type": "doc"
-      },
-      {
-        "label": "Test Razor components in ASP.NET Core Blazor, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/test",
-        "type": "doc"
-      }
-    ]
-  },
-  {
     "slug": "choosing-a-test-framework-mstest-xunit-nunit-tunit",
     "id": 15,
     "title": "Choosing a Test Framework: MSTest, xUnit, NUnit and TUnit",
@@ -1166,81 +1238,6 @@
       {
         "label": "TUnit introduction, tunit.dev",
         "url": "https://tunit.dev/docs/intro/",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "testing-distributed-apps-with-aspire",
-    "id": 16,
-    "title": "Testing Distributed Apps with Aspire",
-    "topic": "ASP.NET Core Testing",
-    "summary": "Run the real Aspire 13.6 AppHost from MSTest with DistributedApplicationTestingBuilder: random ports and parallel runs, waiting for Running vs healthy with a timeout, failing in about a second when a resource crashes, which configuration overrides arrive, removing resources, the dashboard switch, asserting on a resource log, shared vs per-test app timings, cleanup, and a measured comparison with WebApplicationFactory.",
-    "publishedAt": "2026-10-29",
-    "requires": [
-      "integration-testing-with-webapplicationfactory"
-    ],
-    "related": [
-      {
-        "label": "Integration Testing ASP.NET Core with WebApplicationFactory",
-        "slug": "integration-testing-with-webapplicationfactory",
-        "feature": "dotnet-testing-concepts"
-      },
-      {
-        "label": "Testing Against a Real Database with Testcontainers",
-        "slug": "testing-with-real-databases-using-testcontainers",
-        "feature": "dotnet-testing-concepts"
-      },
-      {
-        "label": "Microsoft.Testing.Platform, dotnet test and Code Coverage in CI",
-        "slug": "microsoft-testing-platform-and-dotnet-test",
-        "feature": "dotnet-testing-concepts"
-      },
-      {
-        "label": "Aspire: AppHost, ServiceDefaults and Deployment",
-        "slug": "aspire-apphost-servicedefaults-and-deployment",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "Health Checks: Liveness and Readiness",
-        "slug": "health-checks-liveness-and-readiness",
-        "feature": "dotnet-concepts"
-      },
-      {
-        "label": "OpenTelemetry: Logs, Metrics and Traces",
-        "slug": "opentelemetry-logs-metrics-and-traces",
-        "feature": "dotnet-concepts"
-      }
-    ],
-    "references": [
-      {
-        "label": "Testing overview, aspire.dev",
-        "url": "https://aspire.dev/testing/overview/",
-        "type": "doc"
-      },
-      {
-        "label": "Write your first test, aspire.dev",
-        "url": "https://aspire.dev/testing/write-your-first-test/",
-        "type": "doc"
-      },
-      {
-        "label": "Manage the AppHost in tests, aspire.dev",
-        "url": "https://aspire.dev/testing/manage-app-host/",
-        "type": "doc"
-      },
-      {
-        "label": "Access resources in tests, aspire.dev",
-        "url": "https://aspire.dev/testing/accessing-resources/",
-        "type": "doc"
-      },
-      {
-        "label": "Testing in .NET, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/",
-        "type": "doc"
-      },
-      {
-        "label": "MSTest test lifecycle, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
         "type": "doc"
       }
     ]
@@ -1591,148 +1588,6 @@
     ]
   },
   {
-    "slug": "test-data-with-builders-bogus-and-autofixture",
-    "id": 22,
-    "title": "Test Data with Builders, Bogus and AutoFixture",
-    "topic": "Test Doubles",
-    "summary": "Build test data three ways with MSTest 4: a hand-written Test Data Builder, Bogus with a fixed seed, and AutoFixture with AutoNSubstitute, and learn when each one hides what a test is really about.",
-    "publishedAt": "2026-11-12",
-    "requires": [
-      "test-doubles-fakes-stubs-and-nsubstitute"
-    ],
-    "related": [
-      {
-        "label": "Test Doubles in .NET: Fakes, Stubs and NSubstitute",
-        "slug": "test-doubles-fakes-stubs-and-nsubstitute",
-        "feature": "dotnet-testing-concepts"
-      },
-      {
-        "label": "MSTest Data-Driven Tests",
-        "slug": "mstest-data-driven-tests",
-        "feature": "dotnet-testing-concepts"
-      },
-      {
-        "label": "Testing with Real Databases using Testcontainers",
-        "slug": "testing-with-real-databases-using-testcontainers",
-        "feature": "dotnet-testing-concepts"
-      },
-      {
-        "label": "Reusing Test Fixtures and Parameterized Tests",
-        "slug": "reusing-test-fixtures-and-parameterized-tests",
-        "feature": "testing-concepts"
-      }
-    ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/test-data-with-builders-bogus-and-autofixture",
-    "references": [
-      {
-        "label": "Bogus on GitHub",
-        "url": "https://github.com/bchavez/Bogus",
-        "type": "doc"
-      },
-      {
-        "label": "AutoFixture on GitHub",
-        "url": "https://github.com/AutoFixture/AutoFixture",
-        "type": "doc"
-      },
-      {
-        "label": "AutoFixture.AutoNSubstitute on NuGet",
-        "url": "https://www.nuget.org/packages/AutoFixture.AutoNSubstitute",
-        "type": "doc"
-      },
-      {
-        "label": "Bogus on NuGet",
-        "url": "https://www.nuget.org/packages/Bogus",
-        "type": "doc"
-      },
-      {
-        "label": "NSubstitute documentation",
-        "url": "https://nsubstitute.github.io/help/getting-started/",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "end-to-end-testing-with-playwright-for-dotnet",
-    "id": 23,
-    "title": "End-to-End Testing with Playwright for .NET",
-    "topic": "ASP.NET Core Testing",
-    "summary": "Drive headless Chromium against an ASP.NET Core app on a real Kestrel socket with MSTest 4: locators, auto-wait, trace viewer and Page Objects, and why Microsoft.Playwright.MSTest discovers 0 tests with MSTest 4.",
-    "publishedAt": "2026-11-12",
-    "requires": [
-      "integration-testing-with-webapplicationfactory"
-    ],
-    "related": [
-      {
-        "label": "Integration Testing ASP.NET Core with WebApplicationFactory",
-        "slug": "integration-testing-with-webapplicationfactory",
-        "feature": "dotnet-testing-concepts"
-      },
-      {
-        "label": "Testing Blazor Components with bUnit",
-        "slug": "testing-blazor-components-with-bunit",
-        "feature": "dotnet-testing-concepts"
-      },
-      {
-        "label": "Testing Authentication and Authorization in ASP.NET Core",
-        "slug": "testing-authentication-and-authorization-in-aspnet-core",
-        "feature": "dotnet-testing-concepts"
-      },
-      {
-        "label": "Selenium Browser Testing",
-        "slug": "selenium-browser-testing",
-        "feature": "testing-concepts"
-      },
-      {
-        "label": "Test Pyramid Strategy",
-        "slug": "test-pyramid-strategy",
-        "feature": "testing-concepts"
-      }
-    ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/end-to-end-testing-with-playwright-for-dotnet",
-    "references": [
-      {
-        "label": "Playwright for .NET: Getting started",
-        "url": "https://playwright.dev/dotnet/docs/intro",
-        "type": "doc"
-      },
-      {
-        "label": "Playwright for .NET: Test runners",
-        "url": "https://playwright.dev/dotnet/docs/test-runners",
-        "type": "doc"
-      },
-      {
-        "label": "Playwright: Locators",
-        "url": "https://playwright.dev/dotnet/docs/locators",
-        "type": "doc"
-      },
-      {
-        "label": "Playwright: Auto-waiting",
-        "url": "https://playwright.dev/dotnet/docs/actionability",
-        "type": "doc"
-      },
-      {
-        "label": "Playwright: Trace viewer",
-        "url": "https://playwright.dev/dotnet/docs/trace-viewer",
-        "type": "doc"
-      },
-      {
-        "label": "Playwright: Page object models",
-        "url": "https://playwright.dev/dotnet/docs/pom",
-        "type": "doc"
-      },
-      {
-        "label": "WebApplicationFactory<TEntryPoint>.UseKestrel method, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.testing.webapplicationfactory-1.usekestrel",
-        "type": "doc"
-      },
-      {
-        "label": "MSTEST0082 analyzer, Microsoft Learn",
-        "url": "https://learn.microsoft.com/dotnet/core/testing/mstest-analyzers/mstest0082",
-        "type": "doc"
-      }
-    ]
-  },
-  {
     "slug": "property-based-testing-with-fscheck",
     "id": 24,
     "title": "Property-Based Testing with FsCheck in MSTest 4",
@@ -1870,6 +1725,151 @@
       {
         "label": "Microsoft.Extensions.AI.Evaluation.Console 11.0.0 on NuGet",
         "url": "https://www.nuget.org/packages/Microsoft.Extensions.AI.Evaluation.Console/11.0.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "testing-domain-events-with-mstest",
+    "id": 1,
+    "title": "Testing Domain Events with MSTest",
+    "topic": "DDD",
+    "summary": "Test the aggregate with no infrastructure, the SaveChanges interceptor and the outbox on SQLite in memory, and an idempotent consumer, with MSTest 4, hand-written fakes and a mutation check.",
+    "publishedAt": "2026-10-07",
+    "requires": [],
+    "related": [
+      {
+        "label": "Domain Events and Consistency Boundaries",
+        "slug": "domain-events-and-consistency-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Testing Modules in Isolation",
+        "slug": "testing-modules-in-isolation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
+        "slug": "observable-behavior-and-mock-fragility",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "JUnit 5 Fundamentals",
+        "slug": "junit-5-fundamentals",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-domain-events-with-mstest",
+    "references": [
+      {
+        "label": "MSTest test lifecycle, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest assertions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-assertions",
+        "type": "doc"
+      },
+      {
+        "label": "Data-driven testing in MSTest, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-data-driven",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest TestContext, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-testcontext",
+        "type": "doc"
+      },
+      {
+        "label": "Test execution and control in MSTest (parallelization), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-controlling-execution",
+        "type": "doc"
+      },
+      {
+        "label": "Testing with FakeTimeProvider, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/timeprovider-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Choosing a testing strategy, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/testing/choosing-a-testing-strategy",
+        "type": "doc"
+      },
+      {
+        "label": "In-memory databases, Microsoft.Data.Sqlite, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/in-memory-databases",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "testing-clean-architecture-with-mstest",
+    "id": 2,
+    "title": "Testing Clean Architecture with MSTest",
+    "topic": "Application Architecture",
+    "summary": "One MSTest project per layer: domain tables with DataRow, use cases against a fake port, the HTTP contract with WebApplicationFactory, and a test for the dependency rule itself.",
+    "publishedAt": "2026-10-07",
+    "requires": [
+      "testing-domain-events-with-mstest"
+    ],
+    "related": [
+      {
+        "label": "Clean Architecture in Four Projects",
+        "slug": "clean-architecture-in-four-projects",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Test Doubles: Stubs and Mocking",
+        "slug": "test-doubles-stubs-and-mocking",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-clean-architecture-with-mstest",
+    "references": [
+      {
+        "label": "Data-driven testing in MSTest, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-data-driven",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest assertions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-assertions",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest TestContext, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-testcontext",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest test lifecycle, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
+        "type": "doc"
+      },
+      {
+        "label": "Integration tests in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests",
+        "type": "doc"
+      },
+      {
+        "label": "Choosing a testing strategy, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/testing/choosing-a-testing-strategy",
+        "type": "doc"
+      },
+      {
+        "label": "Connection strings, Microsoft.Data.Sqlite, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/connection-strings",
         "type": "doc"
       }
     ]

@@ -9,19 +9,20 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = join(ROOT, 'backend/src/seed/data');
 
-// Category -> topics, in display order. Frozen by Wave 0 of the C# / .NET backlog;
+// Category -> topics, in display order. Frozen by Wave 0 of the C# / .NET backlog (the release
+// overview topic, shown last in the app, is shared by the categories that have one);
 // the only other copy is TOPIC_ORDER / CATEGORY_OPTIONS in the app list pages.
 const TAXONOMY = {
   'dotnet-concepts': {
-    'Platform & Tooling': ['Runtime & SDK', 'Project System', 'NuGet & Packaging', 'Publishing & Native AOT', 'Diagnostics'],
-    'ASP.NET Core': ['ASP.NET Core Fundamentals', 'Hosting & Pipeline', 'Minimal APIs', 'MVC & Razor Pages', 'API Documentation', 'HTTP Clients', 'Security', 'Resilience & Protection', 'Caching & Performance', 'Observability', 'Operations', 'Real-Time', 'Remote APIs', 'Web API Design', 'Cloud-Native', 'Globalization'],
+    'Platform & Tooling': ['Runtime & SDK', 'Project System', 'NuGet & Packaging', 'Publishing & Native AOT', 'Diagnostics', "What's New & Migration"],
+    'ASP.NET Core': ['ASP.NET Core Fundamentals', 'Hosting & Pipeline', 'Minimal APIs', 'MVC & Razor Pages', 'API Documentation', 'HTTP Clients', 'Security', 'Resilience & Protection', 'Caching & Performance', 'Observability', 'Operations', 'Real-Time', 'Remote APIs', 'Web API Design', 'Cloud-Native', 'Globalization', "What's New & Migration"],
     Blazor: ['Blazor Fundamentals', 'Components & Forms'],
-    'Data Access': ['Data Access Choices', 'EF Core', 'EF Core Modeling', 'EF Core Querying', 'Migrations'],
+    'Data Access': ['Data Access Choices', 'EF Core', 'EF Core Modeling', 'EF Core Querying', 'Migrations', "What's New & Migration"],
     Architecture: ['Application Architecture', 'Modular Architecture', 'DDD'],
     'Concurrency & Background Work': ['Background Jobs', 'Concurrency'],
   },
   'csharp-concepts': {
-    Language: ['Language Basics', 'Strings & Formatting', 'Numbers & Conversions', 'Operators & Control Flow', 'Pattern Matching', 'Exceptions', 'Methods & Lambdas'],
+    Language: ['Language Basics', 'Strings & Formatting', 'Numbers & Conversions', 'Operators & Control Flow', 'Pattern Matching', 'Exceptions', 'Methods & Lambdas', "What's New"],
     'Type Design': ['Classes & Members', 'Properties & Initialization', 'Records & Equality', 'Inheritance & Polymorphism', 'Interfaces & Generics', 'Delegates & Events', 'Nullability', 'Extension Members'],
     'Base Class Library': ['Text & Regex', 'Common Types', 'Collections', 'Files & I/O', 'Streams', 'Serialization', 'Reflection & Attributes'],
     LINQ: ['LINQ'],
@@ -145,6 +146,30 @@ for (const track of Object.keys(TAXONOMY)) {
         if (DASHES.test(line)) fail(`${relative(ROOT, path)}:${i + 1}`, 'contains an em-dash (U+2014) or en-dash (U+2013)');
       });
   }
+}
+
+// Study order, for every concepts track: concepts.json is the reading order the app shows (the
+// services no longer sort). A topic's concepts sit together, and a prerequisite from the same
+// topic comes first. Prerequisites in other topics are not checked: topic order lives in the app.
+for (const track of readdirSync(DATA).filter((d) => existsSync(join(DATA, d, 'concepts.json')))) {
+  const concepts = JSON.parse(readFileSync(join(DATA, track, 'concepts.json'), 'utf8'));
+  const topicOf = (c) => c.topic ?? c.session; // algorithms and testing call it session
+  const closedTopics = new Set();
+  const seen = new Set();
+  concepts.forEach((c, index) => {
+    const where = `${track}/concepts.json[${index}] ${c.slug}`;
+    const topic = topicOf(c);
+    if (index > 0 && topicOf(concepts[index - 1]) !== topic) closedTopics.add(topicOf(concepts[index - 1]));
+    if (closedTopics.has(topic)) fail(where, `study order: topic "${topic}" is split, keep its concepts together`);
+    for (const slug of c.requires ?? []) {
+      const required = concepts.find((other) => other.slug === slug);
+      if (required && topicOf(required) === topic && !seen.has(slug)) {
+        fail(where, `study order: must come after its prerequisite "${slug}"`);
+      }
+    }
+    seen.add(c.slug);
+  });
+  if (!conceptsByTrack[track]) console.log(`${track}: ${concepts.length} concepts, study order checked`);
 }
 
 for (const [track, concepts] of Object.entries(conceptsByTrack)) {

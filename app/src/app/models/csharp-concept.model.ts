@@ -75,4 +75,6 @@ export const CSHARP_CONCEPT_TOPIC_ORDER: readonly string[] = [
   'Memory & Value Semantics',
   'Interop & Unsafe',
   'Threads',
+  // Release overviews: they assume the rest of the track
+  "What's New",
 ];

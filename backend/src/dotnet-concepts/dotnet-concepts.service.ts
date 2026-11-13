@@ -6,7 +6,6 @@ import {
   ConceptSection,
 } from '../shared/concept-content';
 import { ConceptLinkRef, ConceptReference } from '../shared/concept-types';
-import { sortByPrerequisites } from '../shared/concept-order';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -45,7 +44,7 @@ export interface DotNetConceptDetail extends DotNetConceptSummary {
 }
 
 interface ConceptMeta extends DotNetConceptSummary {
-  /** Slugs (within this same track) that should be understood first, see `../shared/concept-order`. */
+  /** Slugs (within this same track) that should be understood first. concepts.json is kept in study order (scripts/check-concepts.mjs). */
   requires?: string[];
   references: ConceptReference[];
   related: ConceptLinkRef[];
@@ -61,9 +60,9 @@ const FRONTMATTER_FIELDS = [
 
 @Injectable()
 export class DotNetConceptsService {
-  private readonly conceptsMeta: ConceptMeta[] = sortByPrerequisites(
-    require(join(DATA_DIR, 'concepts.json')) as ConceptMeta[],
-  );
+  private readonly conceptsMeta: ConceptMeta[] = require(
+    join(DATA_DIR, 'concepts.json'),
+  ) as ConceptMeta[];
 
   findAll(lang: Language = DEFAULT_LANGUAGE): DotNetConceptSummary[] {
     const language = normalizeLanguage(lang);

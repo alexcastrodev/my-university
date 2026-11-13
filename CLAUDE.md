@@ -12,6 +12,12 @@ Hífen normal (-) em palavras compostas (ex: "guess-and-check", "grid-world") co
 
 Toda edição no markdown de um concept que já foi commitado (qualquer track: java, jvm, spring, dotnet, csharp, kubernetes etc.) precisa atualizar o frontmatter: subir `version` um passo menor (`1.0` vira `1.1`, `1.1` vira `1.2`) e colocar em `updatedAt` a data da edição (`YYYY-MM-DD`). Arquivo novo começa em `version: 1.0` com `updatedAt` igual à data de criação. Quando o concept tem `en.md` e `pt-BR.md`, os dois ficam com a mesma `version` e `updatedAt`, então revise e suba os dois juntos. Se a data for a mesma que já está no arquivo, a `version` sobe do mesmo jeito.
 
+## Concepts: a ordem do `concepts.json` é a ordem de estudo
+
+O `concepts.json` de cada track é a ordem de leitura que o app mostra (o backend não reordena mais). Dentro do arquivo, os concepts de um mesmo tópico ficam juntos, na sequência dos tópicos definida em `*_CONCEPT_TOPIC_ORDER` do model do app, e dentro do tópico vão do mais básico para o mais avançado, com todo `requires` do mesmo tópico antes de quem depende dele.
+
+Concept novo entra na posição certa dentro do tópico, não no fim do arquivo. O `id` é só identificador: não indica posição e não deve ser renumerado. Rode `node scripts/check-concepts.mjs` depois de mexer, ele reprova tópico partido e pré-requisito fora de ordem.
+
 <!-- ai-memory:start -->
 ## Long-term memory (ai-memory)
 

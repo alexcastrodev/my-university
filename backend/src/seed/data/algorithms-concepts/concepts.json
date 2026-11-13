@@ -21,6 +21,90 @@
     ]
   },
   {
+    "slug": "amortized-analysis",
+    "category": "Fundamentals",
+    "title": "Amortized Analysis: Aggregate, Accounting, and Potential Methods",
+    "summary": "Learn to prove a rigorous worst-case bound on an operation's average cost across any sequence of operations, even when a single operation is expensive — the aggregate, accounting, and potential methods used to justify claims like ArrayList.add being O(1) amortized, and why amortized is a stronger, different guarantee than average-case.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 16 \"Amortized Analysis,\" Sections 16.1-16.3",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Oracle Java SE Documentation — ArrayList",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html",
+        "type": "doc"
+      }
+    ],
+    "id": 33,
+    "session": "Analyzing Algorithms"
+  },
+  {
+    "slug": "multithreaded-algorithms-work-span-analysis",
+    "category": "Fundamentals",
+    "title": "Fork-Join Parallelism: Work, Span, and the Limits of Speedup",
+    "summary": "The formal cost-analysis framework behind fork-join parallelism: model a computation as a DAG of strands, measure its work (T1) and span (T∞), and use the work law and span law to derive the provable ceiling TP >= max(T1/P, T∞) on how much speedup adding processors can ever buy.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition (MIT Press, 2022), Chapter 26 \"Parallel Algorithms\", Section 26.1 \"The basics of fork-join parallelism\", pp. 748-770",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 37,
+    "session": "Analyzing Algorithms"
+  },
+  {
+    "slug": "online-algorithms-caching-and-competitive-ratio",
+    "category": "Fundamentals",
+    "title": "Online Algorithms: Competitive Ratio, Move-to-Front, and Caching",
+    "summary": "How to evaluate an algorithm that must commit before seeing the rest of its input — the competitive ratio, defined against an algorithm that knows the future, applied to the elevator-versus-stairs decision, the 4-competitive MOVE-TO-FRONT list heuristic, and online caching, where LRU and FIFO are Theta(k), LIFO and LFU are unbounded, every deterministic policy is stuck at Omega(k), and RANDOMIZED-MARKING reaches O(lg k) against an oblivious adversary.",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 27 \"Online Algorithms\", Sections 27.1-27.3, pp. 792-815",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 27.3 \"Online caching\" (deterministic bounds, RANDOMIZED-MARKING), pp. 802-814",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 46,
+    "session": "Analyzing Algorithms"
+  },
+  {
+    "slug": "recursion-and-recurrence-analysis",
+    "category": "Fundamentals",
+    "title": "Recursion and Recurrence Relations: Analyzing Self-Referential Algorithms",
+    "summary": "Recursion is a function defined in terms of itself via a base case and a recursive step; the shape of the resulting recurrence — subtracting a constant from n versus dividing n — is what decides whether the running time is linear, exponential, or logarithmic, as concretely shown by factorial, naive Fibonacci, Towers of Hanoi, and binary search. This is the prerequisite the sibling algorithm-analysis-order-of-growth and dynamic-programming-fundamentals concepts both build on without re-deriving.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 4 \"Divide-and-Conquer\", Sections 4.3-4.5, pp. 90-106",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "book"
+      },
+      {
+        "label": "Robert Sedgewick, Kevin Wayne — Algorithms, 4th Edition, Section 2.2 \"Mergesort\" (recurrence analysis of the mergesort running time)",
+        "url": "https://algs4.cs.princeton.edu/22mergesort/",
+        "type": "doc"
+      },
+      {
+        "label": "Fibonacci number — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Fibonacci_sequence",
+        "type": "doc"
+      }
+    ],
+    "id": 59,
+    "session": "Analyzing Algorithms"
+  },
+  {
     "slug": "quicksort",
     "id": 2,
     "session": "Sorting",
@@ -36,27 +120,6 @@
       },
       {
         "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 7 \"Quicksort\", pp. 182-204",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "binary-search",
-    "id": 3,
-    "session": "Searching Techniques and Number Theory",
-    "category": "Fundamentals",
-    "title": "Binary Search: O(log n) Lookup on a Sorted Array",
-    "summary": "How repeatedly halving a sorted array's search range finds a target in O(log n) comparisons, Sedgewick's overflow-safe midpoint formula, and CLRS's loop-invariant correctness argument.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 1.1 \"Basic Programming Model\", pp. 8-9",
-        "url": "https://algs4.cs.princeton.edu/11model/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 2 \"Getting Started\", Exercise 2.3-6, p. 45",
         "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
         "type": "doc"
       }
@@ -82,6 +145,195 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "elementary-sorts-selection-insertion-shellsort",
+    "category": "Sorting",
+    "title": "Elementary Sorts: Selection, Insertion, and Shellsort",
+    "summary": "Compares the three elementary array sorts that ground the rest of this module: selection sort (minimal data movement but blind to input order), insertion sort (adaptive to nearly-sorted input, and CLRS's own running example for loop-invariant correctness proofs), and shellsort (insertion sort extended with a shrinking gap sequence, with a worst-case complexity that's still an open problem for many practical gap sequences).",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 2.1 \"Elementary Sorts\", pp. 244-265",
+        "url": "https://algs4.cs.princeton.edu/21elementary/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Section 2.1 \"Insertion sort\", pp. 17-24",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+        "type": "doc"
+      }
+    ],
+    "id": 28,
+    "session": "Sorting"
+  },
+  {
+    "slug": "quickselect-and-order-statistics",
+    "category": "Sorting",
+    "title": "Quickselect: Finding the k-th Smallest Element in Linear Time",
+    "summary": "How to find the k-th smallest element of an unsorted array in expected linear time by reusing quicksort's own partition step and recursing into only the one side that contains the target rank, plus Cormen's median-of-medians algorithm that guarantees O(n) even in the worst case.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 2.5 \"Applications\" (following priority queues), select(), pp. 346-347",
+        "url": "https://algs4.cs.princeton.edu/23quicksort/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 9 \"Medians and Order Statistics\", Sections 9.1-9.3, pp. 229-241",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "PriorityQueue — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/PriorityQueue.html",
+        "type": "doc"
+      }
+    ],
+    "id": 34,
+    "session": "Sorting"
+  },
+  {
+    "slug": "counting-sort",
+    "category": "Sorting",
+    "title": "Counting Sort: Breaking the Comparison-Sort Lower Bound",
+    "summary": "Counting sort assumes every input element is a nonnegative integer in a bounded range 0 to k, and sorts in Theta(n + k) time — Theta(n) when k = O(n) — by counting and prefix-summing rather than comparing, which is exactly how it beats the Omega(n lg n) bound that applies only to comparison sorts.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Introduction to Algorithms, 4th Edition — Cormen, Leiserson, Rivest, Stein — Section 8.2 \"Counting sort\", pp. 209-211",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 38,
+    "session": "Sorting"
+  },
+  {
+    "slug": "bucket-sort",
+    "category": "Sorting",
+    "title": "Bucket Sort: Distribution-Based Sorting",
+    "summary": "A non-comparison sort that scatters n keys — assumed uniformly distributed over a known interval [0, K) — into n equal-width buckets, sorts each bucket individually, and concatenates them; under uniformity each bucket holds O(1) elements on average, giving expected O(n) time, a different structural assumption from the sibling counting-sort (bounded integer range) and radix-sort (fixed-width keys) concepts.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Introduction to Algorithms, 4th Edition — Cormen, Leiserson, Rivest, Stein — Chapter 8 \"Sorting in Linear Time\", Section 8.4 \"Bucket sort\"",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Bucket sort — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Bucket_sort",
+        "type": "doc"
+      }
+    ],
+    "id": 58,
+    "session": "Sorting"
+  },
+  {
+    "slug": "binary-search",
+    "id": 3,
+    "session": "Searching Techniques and Number Theory",
+    "category": "Fundamentals",
+    "title": "Binary Search: O(log n) Lookup on a Sorted Array",
+    "summary": "How repeatedly halving a sorted array's search range finds a target in O(log n) comparisons, Sedgewick's overflow-safe midpoint formula, and CLRS's loop-invariant correctness argument.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 1.1 \"Basic Programming Model\", pp. 8-9",
+        "url": "https://algs4.cs.princeton.edu/11model/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 2 \"Getting Started\", Exercise 2.3-6, p. 45",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "number-theoretic-algorithms-gcd-modular-exponentiation",
+    "category": "Fundamentals",
+    "title": "GCD, Modular Arithmetic, and Fast Modular Exponentiation",
+    "summary": "Euclid's algorithm for the GCD and its extended form for computing Bezout coefficients and modular multiplicative inverses, the congruence properties that keep modular arithmetic bounded, and modular exponentiation via repeated squaring — the O(β) recursion, versus a naive O(2^β), that both RSA and Diffie-Hellman run to raise large numbers to large powers mod a large prime.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 31 \"Number-Theoretic Algorithms\", Sections 31.2, 31.3, and 31.6 (repeated squaring), pp. 911-924, 932-936",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Java Platform SE — BigInteger.modPow(BigInteger, BigInteger)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigInteger.html#modPow(java.math.BigInteger,java.math.BigInteger)",
+        "type": "doc"
+      }
+    ],
+    "id": 36,
+    "session": "Searching Techniques and Number Theory"
+  },
+  {
+    "slug": "fast-fourier-transform-and-polynomial-multiplication",
+    "category": "Fundamentals",
+    "title": "The FFT and Polynomial Multiplication in Θ(n lg n)",
+    "summary": "Why multiplying polynomials in coefficient form costs Θ(n²) but only Θ(n) in point-value form, and how the FFT's even/odd divide-and-conquer split over the complex roots of unity makes converting between the two representations — and therefore the whole multiplication — Θ(n lg n).",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 30 \"Polynomials and the FFT\", Sections 30.1-30.3, pp. 879-898",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 49,
+    "session": "Searching Techniques and Number Theory"
+  },
+  {
+    "slug": "two-pointers",
+    "category": "Fundamentals",
+    "title": "Two Pointers: Converging and Fast/Slow Scans",
+    "summary": "Two indices walking a structure instead of one — converging from opposite ends on sorted input, or moving at different speeds to detect cycles and find midpoints — turning an O(n²) nested scan into a single O(n) pass, proved correct by an exchange argument specific to each problem.",
+    "publishedAt": "2026-09-01",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, Algorithms, 4th Edition (Addison-Wesley, 2011) — Section 2.2 \"Mergesort,\" the merge() method",
+        "url": "https://algs4.cs.princeton.edu/22mergesort/",
+        "type": "book"
+      },
+      {
+        "label": "Donald E. Knuth, The Art of Computer Programming, Volume 2: Seminumerical Algorithms, 3rd Edition (Addison-Wesley, 1997) — Section 3.1, Exercise 6",
+        "url": "https://www-cs-faculty.stanford.edu/~knuth/taocp.html",
+        "type": "book"
+      }
+    ],
+    "id": 60,
+    "session": "Searching Techniques and Number Theory"
+  },
+  {
+    "slug": "sliding-window",
+    "category": "Fundamentals",
+    "title": "Sliding Window: Contiguous Ranges in O(n) Amortized",
+    "summary": "Maintaining a contiguous window over an array or string with two forward-only pointers — expanding to absorb new elements, contracting to drop invalid ones — turns a recompute-every-window scan into a single O(n) amortized pass, via the same aggregate-analysis argument that makes ArrayList.add O(1) amortized.",
+    "publishedAt": "2026-09-01",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 16 \"Amortized Analysis,\" Section 16.1",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "book"
+      },
+      {
+        "label": "Jon Bentley, Programming Pearls, 2nd Edition (Addison-Wesley, 2000) — Column 8, \"Algorithm Design Techniques\"",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/programming-pearls/P200000000127/9780134498034",
+        "type": "book"
+      }
+    ],
+    "id": 61,
+    "session": "Searching Techniques and Number Theory"
   },
   {
     "slug": "binary-search-trees",
@@ -124,148 +376,6 @@
         "type": "doc"
       }
     ]
-  },
-  {
-    "slug": "breadth-first-search",
-    "id": 7,
-    "session": "Graph Traversal and Orderings",
-    "category": "Graphs",
-    "title": "Breadth-First Search",
-    "summary": "How BFS visits vertices in order of distance from a source using a queue instead of DFS's stack, guaranteeing shortest paths in an unweighted graph, traced against Sedgewick's own worked example graph.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 4.1 \"Undirected Graphs\", pp. 538-541",
-        "url": "https://algs4.cs.princeton.edu/41graph/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 20 \"Elementary Graph Algorithms\", Section 20.2, pp. 554-561",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "string-sorts-lsd-msd-radix",
-    "category": "Strings",
-    "title": "String Sorting: LSD and MSD Radix Sort",
-    "summary": "Explains LSD and MSD radix sort, two character-indexed string-sorting methods built on key-indexed counting that achieve linear time by sidestepping comparisons entirely, plus the insertion-sort cutoff and 3-way radix quicksort as its large-alphabet alternative.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.1 \"String Sorts\", pp. 702-725",
-        "url": "https://algs4.cs.princeton.edu/51radix/",
-        "type": "doc"
-      },
-      {
-        "label": "String#compareTo — Java SE 25 API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#compareTo(java.lang.String)",
-        "type": "doc"
-      }
-    ],
-    "id": 8,
-    "session": "Strings"
-  },
-  {
-    "slug": "tries-and-prefix-search",
-    "category": "Strings",
-    "title": "Tries: String Keys as Paths, Not Comparisons",
-    "summary": "A trie stores string keys implicitly as the path from root to node, giving search/insert cost proportional to key length rather than key count (unlike a BST, whose cost depends on N via tree height); the ternary search trie (TST) trims the R-way trie space cost by using 3 links per node instead of an R-slot array, and both structures uniquely support prefix queries such as autocomplete and longest-prefix matching.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.2 \"Tries\", pp. 730-753",
-        "url": "https://algs4.cs.princeton.edu/52trie/",
-        "type": "doc"
-      }
-    ],
-    "id": 9,
-    "session": "Strings"
-  },
-  {
-    "slug": "substring-search-kmp",
-    "category": "Strings",
-    "title": "Substring Search: From Brute Force to Knuth-Morris-Pratt",
-    "summary": "How brute-force substring search's O(NM) worst case on self-repetitive input motivates Knuth-Morris-Pratt's key insight: a mismatch already tells you enough about the text to build a small automaton from the pattern and scan the text once, with no backup, in O(N).",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.3 \"Substring Search\", pp. 758-786",
-        "url": "https://algs4.cs.princeton.edu/53substring/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 32 \"String Matching\", pp. 957-1002",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 10,
-    "session": "Strings"
-  },
-  {
-    "slug": "dynamic-programming-fundamentals",
-    "category": "Dynamic Programming & Greedy",
-    "title": "Dynamic Programming: Memoization, Tabulation, and Rod Cutting",
-    "summary": "See why dynamic programming beats plain recursion only when subproblems overlap, using CLRS's rod-cutting problem: the naive exponential CUT-ROD recursion, the memoized cache that makes each subproblem size computed exactly once, the bottom-up table fill that builds the same answer iteratively, and the two hallmarks — optimal substructure and overlapping subproblems — that determine whether DP applies at all.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 14 \"Dynamic Programming\" (opening) and Section 14.1 \"Rod cutting\", pp. 361-372",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Section 14.3 \"Elements of dynamic programming\", pp. 382-390",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Arrays — Java SE 25 API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
-        "type": "doc"
-      }
-    ],
-    "id": 11,
-    "session": "Dynamic Programming, Greedy and Search"
-  },
-  {
-    "slug": "longest-common-subsequence",
-    "category": "Dynamic Programming & Greedy",
-    "title": "Longest Common Subsequence: The 2D DP Table",
-    "summary": "How to derive the c[i][j] recurrence for LCS by comparing two sequences' last characters, fill the resulting 2D table bottom-up in O(mn) time, and trace a path backward through the finished table to reconstruct the actual subsequence, not just its length.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 14 \"Dynamic Programming\", Section 14.4 \"Longest common subsequence\", pp. 393-399",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "GNU diffutils manual — How diff Works",
-        "url": "https://www.gnu.org/software/diffutils/manual/html_node/Comparison-Style.html",
-        "type": "doc"
-      }
-    ],
-    "id": 12,
-    "session": "Dynamic Programming, Greedy and Search"
-  },
-  {
-    "slug": "greedy-algorithms-activity-selection",
-    "category": "Dynamic Programming & Greedy",
-    "title": "Greedy Algorithms: Activity Selection and Why the Right Greedy Choice Matters",
-    "summary": "Solves the activity-selection problem (scheduling the maximum number of non-overlapping activities on a shared resource) with the greedy earliest-finish-time rule, proves why that specific rule is optimal, and shows a verified counterexample where a plausible-sounding alternative rule (shortest duration first) fails — contrasted with the dynamic-programming formulation of the same problem.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 15 \"Greedy Algorithms\", Sections 15.1 \"An activity-selection problem\" and 15.2 \"Elements of the greedy strategy\", pp. 415-430",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 13,
-    "session": "Dynamic Programming, Greedy and Search"
   },
   {
     "slug": "union-find-disjoint-sets",
@@ -315,367 +425,6 @@
     "session": "Data Structures"
   },
   {
-    "slug": "depth-first-search",
-    "category": "Graphs",
-    "title": "Depth-First Search: Recursive Traversal, Components, and Edge Classification",
-    "summary": "Understand depth-first search (DFS): a graph traversal that pushes as deep as possible along one branch before backtracking, typically using the recursive call stack itself instead of BFS's explicit queue. Covers the recursive formulation, finding connected components via repeated DFS, discovery/finish-time timestamping and the parenthesis structure, and edge classification (tree, back, forward, cross) — including how back edges reveal cycles and how reverse finish-time order underlies topological sort.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Sedgewick, Wayne, Algorithms 4th Ed. — Section 4.1, Depth-First Search and Connected Components (pp. 530-537, 543-547)",
-        "url": "https://algs4.cs.princeton.edu/41graph/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms 4th Ed. — Section 20.3, Depth-First Search (pp. 563-572)",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 16,
-    "session": "Graph Traversal and Orderings"
-  },
-  {
-    "slug": "minimum-spanning-trees",
-    "category": "Graphs",
-    "title": "Minimum Spanning Trees: The Cut Property, Prim's, and Kruskal's",
-    "summary": "How Prim's and Kruskal's algorithms both exploit the cut property to greedily build a minimum spanning tree -- Prim's growing one tree via a priority queue, Kruskal's sorting all edges and using union-find to skip cycle-closing ones -- traced on a hand-verified 6-vertex example and contrasted for dense vs. sparse graphs.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 4.3 \"Minimum Spanning Trees\", pp. 604-629",
-        "url": "https://algs4.cs.princeton.edu/43mst/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 21 \"Minimum Spanning Trees\", pp. 585-601",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 17,
-    "session": "Graph Traversal and Orderings"
-  },
-  {
-    "slug": "dijkstra-shortest-paths",
-    "category": "Graphs",
-    "title": "Dijkstra's Algorithm: BFS Generalized to Weighted Graphs",
-    "summary": "Dijkstra's algorithm finds shortest paths in a weighted graph with non-negative edges by replacing BFS's FIFO queue with a priority queue ordered by cumulative distance, repeatedly finalizing the closest unprocessed vertex via edge relaxation.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Princeton Algorithms, 4th Ed. — Shortest Paths (companion site)",
-        "url": "https://algs4.cs.princeton.edu/44sp/",
-        "type": "doc"
-      },
-      {
-        "label": "Introduction to Algorithms, 4th Edition (MIT Press)",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 18,
-    "session": "Shortest Paths"
-  },
-  {
-    "slug": "topological-sort",
-    "category": "Graphs",
-    "title": "Topological Sort: Ordering a DAG via DFS Finish Times",
-    "summary": "Order the vertices of a directed acyclic graph so every edge points forward, by running DFS and reading vertices off in reverse order of finish time -- the same O(V+E) traversal the sibling DFS concept already builds, with one push per vertex added.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Sedgewick & Wayne, Algorithms 4th Ed. -- Section 4.2 Directed Graphs, Topological Sort, pp. 575-584",
-        "url": "https://algs4.cs.princeton.edu/42digraph/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen et al., Introduction to Algorithms 4th Ed. -- Section 20.4 Topological Sort, pp. 573-576",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Princeton Algorithms 4th Ed. -- Topological.java (companion site)",
-        "url": "https://algs4.cs.princeton.edu/42digraph/Topological.java.html",
-        "type": "doc"
-      }
-    ],
-    "id": 19,
-    "session": "Graph Traversal and Orderings"
-  },
-  {
-    "slug": "dag-shortest-paths",
-    "category": "Graphs",
-    "title": "Shortest Paths in a DAG: Topological Order Beats a Priority Queue",
-    "summary": "On a directed acyclic graph, relaxing every vertex's outgoing edges once in topological order finds shortest paths in O(V + E) — faster than Dijkstra's priority queue and correct even with negative edge weights, since a DAG can never contain the negative cycle that would make shortest paths ill-defined.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Princeton Algorithms, 4th Ed. — Shortest Paths (companion site)",
-        "url": "https://algs4.cs.princeton.edu/44sp/",
-        "type": "doc"
-      },
-      {
-        "label": "Introduction to Algorithms, 4th Edition (MIT Press)",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 20,
-    "session": "Shortest Paths"
-  },
-  {
-    "slug": "bellman-ford-shortest-paths",
-    "category": "Graphs",
-    "title": "Bellman-Ford: Shortest Paths with Negative Edges and Cycle Detection",
-    "summary": "Bellman-Ford solves the fully general single-source shortest-path problem — any graph, any mix of positive and negative edge weights — by relaxing every edge V-1 times instead of relying on Dijkstra's priority-queue ordering, and gets negative-cycle detection for free with one extra relaxation pass.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Princeton Algorithms, 4th Ed. — Shortest Paths (companion site)",
-        "url": "https://algs4.cs.princeton.edu/44sp/",
-        "type": "doc"
-      },
-      {
-        "label": "Introduction to Algorithms, 4th Edition (MIT Press)",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 21,
-    "session": "Shortest Paths"
-  },
-  {
-    "slug": "floyd-warshall-all-pairs-shortest-paths",
-    "category": "Graphs",
-    "title": "Floyd-Warshall: All-Pairs Shortest Paths as Dynamic Programming",
-    "summary": "Learn the all-pairs shortest-paths problem and the Floyd-Warshall dynamic-programming algorithm that solves it in Θ(V³) time by restricting each shortest path's intermediate vertices to a growing set {1, ..., k}, rather than repeating a single-source algorithm once per vertex.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Cormen et al., Introduction to Algorithms, 4th Edition — Chapter 23, Sections 23.1-23.2 (All-Pairs Shortest Paths / The Floyd-Warshall Algorithm)",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Arrays — Java SE 25 API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
-        "type": "doc"
-      }
-    ],
-    "id": 22,
-    "session": "Shortest Paths"
-  },
-  {
-    "slug": "strongly-connected-components",
-    "category": "Graphs",
-    "title": "Strongly Connected Components: Two DFS Passes with Kosaraju's Algorithm",
-    "summary": "Understand strongly connected components (SCCs) -- the directed-graph generalization of the sibling DFS concept's single-pass undirected connected components, needed because directed reachability is asymmetric. Covers the graph transpose and why it preserves SCCs, Kosaraju's algorithm (DFS on the reverse graph to get reverse postorder, then DFS on the original graph in that order, with each resulting DFS tree exactly one SCC), a hand-verified two-cycle example traced with the graph viz engine, why the algorithm is correct, and its O(V+E) running time.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Sedgewick & Wayne, Algorithms 4th Ed. -- Section 4.2 Directed Graphs, Strong Components (Kosaraju's algorithm), pp. 586-591",
-        "url": "https://algs4.cs.princeton.edu/42digraph/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen et al., Introduction to Algorithms 4th Ed. -- Section 20.5 Strongly Connected Components, pp. 577-580",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Princeton Algorithms 4th Ed. -- KosarajuSCC.java (companion site)",
-        "url": "https://algs4.cs.princeton.edu/42digraph/KosarajuSCC.java.html",
-        "type": "doc"
-      }
-    ],
-    "id": 23,
-    "session": "Graph Traversal and Orderings"
-  },
-  {
-    "slug": "knapsack-01-vs-fractional",
-    "category": "Dynamic Programming & Greedy",
-    "title": "0-1 vs. Fractional Knapsack: Why the Same Structure Needs Different Techniques",
-    "summary": "Contrasts the fractional knapsack problem, which has the greedy-choice property and is solved by a single O(n log n) sort-and-take-greedily pass, with the 0-1 knapsack problem, where the identical-looking greedy rule provably fails (reproducing CLRS's own $220-vs-$160 counterexample) despite both problems sharing optimal substructure — then works out the 0-1 DP recurrence, a hand-verified table, and the O(nW) pseudo-polynomial running time that CLRS leaves as an exercise rather than solving in its main text.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 15 \"Greedy Algorithms\", Section 15.2 \"Elements of the greedy strategy\" (knapsack problem setup, optimal-substructure argument for both variants, and Figure 15.3's counterexample), pp. 428-431",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Comparator — Java SE 25 API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html",
-        "type": "doc"
-      }
-    ],
-    "id": 24,
-    "session": "Dynamic Programming, Greedy and Search"
-  },
-  {
-    "slug": "edit-distance-levenshtein",
-    "category": "Dynamic Programming & Greedy",
-    "title": "Edit Distance: The Levenshtein DP and Sequence Alignment",
-    "summary": "Compute the minimum number of insert, delete, and substitute operations to transform one string into another using a 2D DP table that extends the LCS table-filling technique with a third predecessor cell for substitution, then backtrack through the table to recover the actual edit sequence.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 14 \"Dynamic Programming\", Problem 14-5 \"Edit distance\", pp. 409-411",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "NIST Dictionary of Algorithms and Data Structures — Levenshtein distance",
-        "url": "https://xlinux.nist.gov/dads/HTML/Levenshtein.html",
-        "type": "doc"
-      }
-    ],
-    "id": 25,
-    "session": "Dynamic Programming, Greedy and Search"
-  },
-  {
-    "slug": "max-flow-min-cut-ford-fulkerson",
-    "category": "Graphs",
-    "title": "Max-Flow Min-Cut: Augmenting Paths and Ford-Fulkerson",
-    "summary": "How Ford-Fulkerson finds the maximum flow through a capacitated network by repeatedly pushing flow along augmenting paths in a residual graph, and why the max-flow min-cut theorem guarantees the algorithm's stopping point is provably optimal.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, Algorithms, 4th Edition — \"Network-Flow Algorithms\" (Ford-Fulkerson algorithm, residual networks, maxflow-mincut theorem), pp. 888-899",
-        "url": "https://algs4.cs.princeton.edu/64maxflow/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms, 4th Edition — Chapter 24 \"Maximum Flow,\" Section 24.2 \"The Ford-Fulkerson method,\" pp. 676-696",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Princeton Algorithms, 4th Ed. — Maximum Flow (companion site)",
-        "url": "https://algs4.cs.princeton.edu/64maxflow/",
-        "type": "doc"
-      }
-    ],
-    "id": 26,
-    "session": "Flow and Matching"
-  },
-  {
-    "slug": "p-vs-np-and-reducibility",
-    "category": "Fundamentals",
-    "title": "P vs. NP: Recognizing When a Problem Is Probably Hard",
-    "summary": "What P, NP, and NP-completeness precisely mean — the verification-vs-solving asymmetry, why a fast algorithm for one NP-complete problem would solve all of NP, and how to recognize an NP-hard problem in disguise so you reach for approximation, heuristics, or a tractable special case instead.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Chapter 6 \"Context\" — Intractability, pp. 911-919",
-        "url": "https://algs4.cs.princeton.edu/65reductions/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 34 \"NP-Completeness\", Sections 34.1-34.3, pp. 1048-1071",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Clay Mathematics Institute — P vs NP Problem (Millennium Prize Problems)",
-        "url": "https://www.claymath.org/millennium/p-vs-np/",
-        "type": "doc"
-      }
-    ],
-    "id": 27,
-    "session": "Hardness and Approximation"
-  },
-  {
-    "slug": "elementary-sorts-selection-insertion-shellsort",
-    "category": "Sorting",
-    "title": "Elementary Sorts: Selection, Insertion, and Shellsort",
-    "summary": "Compares the three elementary array sorts that ground the rest of this module: selection sort (minimal data movement but blind to input order), insertion sort (adaptive to nearly-sorted input, and CLRS's own running example for loop-invariant correctness proofs), and shellsort (insertion sort extended with a shrinking gap sequence, with a worst-case complexity that's still an open problem for many practical gap sequences).",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 2.1 \"Elementary Sorts\", pp. 244-265",
-        "url": "https://algs4.cs.princeton.edu/21elementary/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Section 2.1 \"Insertion sort\", pp. 17-24",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Arrays — Java SE 25 API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
-        "type": "doc"
-      }
-    ],
-    "id": 28,
-    "session": "Sorting"
-  },
-  {
-    "slug": "boyer-moore-substring-search",
-    "category": "Strings",
-    "title": "Boyer-Moore: Right-to-Left Scanning and Sublinear Substring Search",
-    "summary": "How scanning the pattern right to left and precomputing a mismatched-character skip table lets Boyer-Moore slide past several text characters on a single mismatch — often sublinear in practice (~N/M compares per Sedgewick and Wayne's Property O) — at the cost of KMP's unconditional O(N+M) worst-case guarantee.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.3 \"Substring Search\", Boyer-Moore (mismatched-character heuristic), pp. 769-774",
-        "url": "https://algs4.cs.princeton.edu/53substring/",
-        "type": "doc"
-      }
-    ],
-    "id": 29,
-    "session": "Strings"
-  },
-  {
-    "slug": "rabin-karp-rolling-hash",
-    "category": "Strings",
-    "title": "Rabin-Karp: Rolling Hashes and Fingerprint Search",
-    "summary": "A hashing-based substring search: fingerprint the pattern once, then slide a window across the text updating its hash in O(1) per step via a rolling-hash recurrence, falling back to character comparison only on a hash match — covers the collision subtlety, the Las Vegas/Monte Carlo correctness trade-off, and the multi-pattern plagiarism-detection use case KMP and Boyer-Moore don't generalize to as naturally.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Sedgewick & Wayne, Algorithms 4th Ed. — Section 5.3, \"Rabin-Karp fingerprint search,\" pp. 774-779",
-        "url": "https://algs4.cs.princeton.edu/53substring/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Ed., Section 32.2, \"The Rabin-Karp Algorithm,\" pp. 962-966",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "HashSet — Java SE 25 API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/HashSet.html",
-        "type": "doc"
-      }
-    ],
-    "id": 30,
-    "session": "Strings"
-  },
-  {
-    "slug": "johnsons-algorithm-sparse-all-pairs",
-    "category": "Graphs",
-    "title": "Johnson's Algorithm: All-Pairs Shortest Paths for Sparse Graphs",
-    "summary": "Solve all-pairs shortest paths in O(V^2 lg V + VE) time by reweighting every edge to be nonnegative via one auxiliary Bellman-Ford run, then running Dijkstra once from every vertex — a composition that beats Floyd-Warshall's O(V^3) on sparse graphs.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms, 4th Edition (MIT Press, 2022) — Chapter 23, Section 23.3 \"Johnson's algorithm for sparse graphs\", pp. 662-667",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Arrays — Java SE 25 API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
-        "type": "doc"
-      }
-    ],
-    "id": 31,
-    "session": "Shortest Paths"
-  },
-  {
     "slug": "hash-tables-chaining-and-open-addressing",
     "category": "Data Structures",
     "title": "Hash Tables: Chaining, Open Addressing, and Load Factor",
@@ -707,53 +456,6 @@
     "session": "Data Structures"
   },
   {
-    "slug": "amortized-analysis",
-    "category": "Fundamentals",
-    "title": "Amortized Analysis: Aggregate, Accounting, and Potential Methods",
-    "summary": "Learn to prove a rigorous worst-case bound on an operation's average cost across any sequence of operations, even when a single operation is expensive — the aggregate, accounting, and potential methods used to justify claims like ArrayList.add being O(1) amortized, and why amortized is a stronger, different guarantee than average-case.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 16 \"Amortized Analysis,\" Sections 16.1-16.3",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Oracle Java SE Documentation — ArrayList",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html",
-        "type": "doc"
-      }
-    ],
-    "id": 33,
-    "session": "Analyzing Algorithms"
-  },
-  {
-    "slug": "quickselect-and-order-statistics",
-    "category": "Sorting",
-    "title": "Quickselect: Finding the k-th Smallest Element in Linear Time",
-    "summary": "How to find the k-th smallest element of an unsorted array in expected linear time by reusing quicksort's own partition step and recursing into only the one side that contains the target rank, plus Cormen's median-of-medians algorithm that guarantees O(n) even in the worst case.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 2.5 \"Applications\" (following priority queues), select(), pp. 346-347",
-        "url": "https://algs4.cs.princeton.edu/23quicksort/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 9 \"Medians and Order Statistics\", Sections 9.1-9.3, pp. 229-241",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "PriorityQueue — Java SE 25 API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/PriorityQueue.html",
-        "type": "doc"
-      }
-    ],
-    "id": 34,
-    "session": "Sorting"
-  },
-  {
     "slug": "b-trees-disk-based-search",
     "category": "Data Structures",
     "title": "B-Trees: Balancing for Disk, Not Memory",
@@ -778,303 +480,6 @@
     ],
     "id": 35,
     "session": "Data Structures"
-  },
-  {
-    "slug": "number-theoretic-algorithms-gcd-modular-exponentiation",
-    "category": "Fundamentals",
-    "title": "GCD, Modular Arithmetic, and Fast Modular Exponentiation",
-    "summary": "Euclid's algorithm for the GCD and its extended form for computing Bezout coefficients and modular multiplicative inverses, the congruence properties that keep modular arithmetic bounded, and modular exponentiation via repeated squaring — the O(β) recursion, versus a naive O(2^β), that both RSA and Diffie-Hellman run to raise large numbers to large powers mod a large prime.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 31 \"Number-Theoretic Algorithms\", Sections 31.2, 31.3, and 31.6 (repeated squaring), pp. 911-924, 932-936",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Java Platform SE — BigInteger.modPow(BigInteger, BigInteger)",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigInteger.html#modPow(java.math.BigInteger,java.math.BigInteger)",
-        "type": "doc"
-      }
-    ],
-    "id": 36,
-    "session": "Searching Techniques and Number Theory"
-  },
-  {
-    "slug": "multithreaded-algorithms-work-span-analysis",
-    "category": "Fundamentals",
-    "title": "Fork-Join Parallelism: Work, Span, and the Limits of Speedup",
-    "summary": "The formal cost-analysis framework behind fork-join parallelism: model a computation as a DAG of strands, measure its work (T1) and span (T∞), and use the work law and span law to derive the provable ceiling TP >= max(T1/P, T∞) on how much speedup adding processors can ever buy.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition (MIT Press, 2022), Chapter 26 \"Parallel Algorithms\", Section 26.1 \"The basics of fork-join parallelism\", pp. 748-770",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 37,
-    "session": "Analyzing Algorithms"
-  },
-  {
-    "slug": "counting-sort",
-    "category": "Sorting",
-    "title": "Counting Sort: Breaking the Comparison-Sort Lower Bound",
-    "summary": "Counting sort assumes every input element is a nonnegative integer in a bounded range 0 to k, and sorts in Theta(n + k) time — Theta(n) when k = O(n) — by counting and prefix-summing rather than comparing, which is exactly how it beats the Omega(n lg n) bound that applies only to comparison sorts.",
-    "publishedAt": "2026-08-14",
-    "references": [
-      {
-        "label": "Introduction to Algorithms, 4th Edition — Cormen, Leiserson, Rivest, Stein — Section 8.2 \"Counting sort\", pp. 209-211",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 38,
-    "session": "Sorting"
-  },
-  {
-    "slug": "regular-expressions-nfa-simulation",
-    "category": "Strings",
-    "title": "Regular Expressions via NFA Simulation",
-    "summary": "How Sedgewick and Wayne turn a regular expression into a nondeterministic finite-state automaton and simulate it by tracking the entire set of reachable states rather than backtracking, guaranteeing O(NM) worst-case matching time — a stronger guarantee than the backtracking approach java.util.regex.Pattern actually uses.",
-    "publishedAt": "2026-08-14",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne — Algorithms, 4th Edition, Section 5.4 \"Regular Expressions\", pp. 788-809",
-        "url": "https://algs4.cs.princeton.edu/54regexp/",
-        "type": "doc"
-      },
-      {
-        "label": "Pattern — Java SE 25 API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html",
-        "type": "doc"
-      }
-    ],
-    "id": 39,
-    "session": "Strings"
-  },
-  {
-    "slug": "matrix-chain-multiplication",
-    "category": "Dynamic Programming & Greedy",
-    "title": "Matrix-Chain Multiplication: Finding the Cheapest Parenthesization",
-    "summary": "CLRS's second worked dynamic-programming example: find the parenthesization of a chain of matrices that minimizes total scalar multiplications, filling a Theta(n^2) table of subproblems indexed by matrix range in O(n^3) time rather than enumerating the exponentially many possible parenthesizations.",
-    "publishedAt": "2026-08-14",
-    "references": [
-      {
-        "label": "Introduction to Algorithms, 4th Edition — Cormen, Leiserson, Rivest, Stein — Section 14.2 \"Matrix-chain multiplication\", pp. 373-381",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 40,
-    "session": "Dynamic Programming, Greedy and Search"
-  },
-  {
-    "slug": "stable-marriage-gale-shapley",
-    "category": "Graphs",
-    "title": "The Stable-Marriage Problem and the Gale-Shapley Algorithm",
-    "summary": "Given a complete bipartite graph where every vertex ranks the vertices on the other side, the Gale-Shapley algorithm always finds a matching with no blocking pair — and provably gives every proposer their best achievable partner across all stable matchings, at the cost of giving every proposed-to vertex their worst.",
-    "publishedAt": "2026-08-14",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 25.2 \"The stable-marriage problem\", pp. 716-723",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 41,
-    "session": "Flow and Matching"
-  },
-  {
-    "slug": "k-means-clustering",
-    "category": "Fundamentals",
-    "title": "K-Means Clustering and Lloyd's Procedure",
-    "summary": "K-means clustering is NP-hard, so Lloyd's procedure settles for a provably-terminating local-search heuristic — alternately assigning points to their nearest center and recomputing each center as its cluster's centroid — until the assignment stops changing.",
-    "publishedAt": "2026-08-14",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 33.1 \"Clustering\", pp. 1005-1014",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 42,
-    "session": "Optimization and Machine Learning"
-  },
-  {
-    "slug": "gradient-descent",
-    "category": "Fundamentals",
-    "title": "Gradient Descent",
-    "summary": "A general iterative method for finding a local minimum of a continuous function by repeatedly stepping opposite the gradient, with a provable convergence bound on convex functions that trades exact answers (like Gaussian elimination's Theta(n^3)) for a faster approximate one.",
-    "publishedAt": "2026-08-14",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 33.3 \"Gradient descent\", pp. 1023-1037",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 43,
-    "session": "Optimization and Machine Learning"
-  },
-  {
-    "slug": "approximation-algorithms-vertex-cover",
-    "category": "Fundamentals",
-    "title": "Approximation Algorithms: Vertex Cover & TSP",
-    "summary": "Covers APPROX-VERTEX-COVER, a polynomial-time 2-approximation for the NP-complete vertex-cover problem, and APPROX-TSP-TOUR, a 2-approximation for the traveling-salesperson problem under the triangle inequality, plus why no constant-ratio approximation exists without it.",
-    "publishedAt": "2026-08-14",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 35 \"Approximation Algorithms\", Sections 35.1-35.2, pp. 1106-1114",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 44,
-    "session": "Hardness and Approximation"
-  },
-  {
-    "slug": "huffman-coding",
-    "category": "Dynamic Programming & Greedy",
-    "title": "Huffman Coding",
-    "summary": "The greedy algorithm that builds an optimal prefix-free binary code by repeatedly merging the two least-frequent symbols into a trie, proven optimal via an exchange argument and optimal substructure.",
-    "publishedAt": "2026-08-14",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 15.3 \"Huffman codes\", pp. 431-439",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Robert Sedgewick, Kevin Wayne — Algorithms, 4th Edition, Section 5.5 \"Data Compression\" (Huffman coding), pp. 826-839",
-        "url": "https://algs4.cs.princeton.edu/55compression/",
-        "type": "doc"
-      },
-      {
-        "label": "java.util.zip.Deflater — Java's DEFLATE-based compressor, which uses Huffman coding as one of its two internal compression stages (alongside LZ77 duplicate-string elimination)",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/zip/Deflater.html",
-        "type": "doc"
-      }
-    ],
-    "id": 45,
-    "session": "Dynamic Programming, Greedy and Search"
-  },
-  {
-    "slug": "online-algorithms-caching-and-competitive-ratio",
-    "category": "Fundamentals",
-    "title": "Online Algorithms: Competitive Ratio, Move-to-Front, and Caching",
-    "summary": "How to evaluate an algorithm that must commit before seeing the rest of its input — the competitive ratio, defined against an algorithm that knows the future, applied to the elevator-versus-stairs decision, the 4-competitive MOVE-TO-FRONT list heuristic, and online caching, where LRU and FIFO are Theta(k), LIFO and LFU are unbounded, every deterministic policy is stuck at Omega(k), and RANDOMIZED-MARKING reaches O(lg k) against an oblivious adversary.",
-    "publishedAt": "2026-08-17",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 27 \"Online Algorithms\", Sections 27.1-27.3, pp. 792-815",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 27.3 \"Online caching\" (deterministic bounds, RANDOMIZED-MARKING), pp. 802-814",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 46,
-    "session": "Analyzing Algorithms"
-  },
-  {
-    "slug": "np-completeness-proofs-and-problem-catalog",
-    "category": "Fundamentals",
-    "title": "Proving NP-Completeness: Reductions and the Problem Catalog",
-    "summary": "How new problems are actually proven NP-complete: Lemma 34.8's four-step recipe for reducing from a single known NP-complete language instead of all of NP, then the worked catalog of reductions building CIRCUIT-SAT down through SAT, 3-CNF-SAT, CLIQUE, VERTEX-COVER, HAM-CYCLE, TSP, and SUBSET-SUM — plus the gadget technique and the reduction strategies and pitfalls that generalize.",
-    "publishedAt": "2026-08-17",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 34 \"NP-Completeness\", Sections 34.4-34.5, pp. 1072-1098",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 47,
-    "session": "Hardness and Approximation"
-  },
-  {
-    "slug": "bipartite-matching-and-assignment-problem",
-    "category": "Graphs",
-    "title": "Maximum Bipartite Matching and the Hungarian Algorithm",
-    "summary": "How M-augmenting paths and symmetric difference solve maximum bipartite matching directly — no max-flow reduction — with Hopcroft-Karp reaching O(√V·E), and how adding edge weights turns it into the assignment problem, which the Hungarian algorithm solves by repeatedly relabeling vertices so that some perfect matching appears inside an equality subgraph.",
-    "publishedAt": "2026-08-17",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 25.1 \"Maximum bipartite matching (revisited)\" and Section 25.3 \"The Hungarian algorithm for the assignment problem\", pp. 705-716, 723-739",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 48,
-    "session": "Flow and Matching"
-  },
-  {
-    "slug": "fast-fourier-transform-and-polynomial-multiplication",
-    "category": "Fundamentals",
-    "title": "The FFT and Polynomial Multiplication in Θ(n lg n)",
-    "summary": "Why multiplying polynomials in coefficient form costs Θ(n²) but only Θ(n) in point-value form, and how the FFT's even/odd divide-and-conquer split over the complex roots of unity makes converting between the two representations — and therefore the whole multiplication — Θ(n lg n).",
-    "publishedAt": "2026-08-17",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 30 \"Polynomials and the FFT\", Sections 30.1-30.3, pp. 879-898",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 49,
-    "session": "Searching Techniques and Number Theory"
-  },
-  {
-    "slug": "linear-programming-formulation-and-duality",
-    "category": "Fundamentals",
-    "title": "Linear Programming: Formulating Problems and Duality",
-    "summary": "How to model a problem as a linear program in standard form — shortest paths, max-flow, minimum-cost flow, and multicommodity flow — why an optimal solution always sits at a vertex of the feasible region, and how duality turns a maximization LP into a minimization LP whose matching objective value certifies optimality.",
-    "publishedAt": "2026-08-18",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 29 \"Linear Programming\", Sections 29.1-29.3, pp. 853-876",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 50,
-    "session": "Optimization and Machine Learning"
-  },
-  {
-    "slug": "set-covering-and-lp-rounding",
-    "category": "Fundamentals",
-    "title": "Set Covering, Randomization & LP Rounding",
-    "summary": "GREEDY-SET-COVER repeatedly takes whichever set covers the most still-uncovered elements, giving a logarithmic rather than constant approximation ratio; Section 35.4 then adds two more techniques — a randomized 8/7-approximation for MAX-3-CNF that is pure coin-flipping, and a 2-approximation for weighted vertex cover obtained by relaxing a 0-1 integer program into a linear program and rounding the fractional answer at 1/2.",
-    "publishedAt": "2026-08-18",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 35 \"Approximation Algorithms\", Section 35.3 \"The set-covering problem\" and Section 35.4 \"Randomization and linear programming\", pp. 1115-1124",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 51,
-    "session": "Hardness and Approximation"
-  },
-  {
-    "slug": "subset-sum-approximation-scheme",
-    "category": "Fundamentals",
-    "title": "Subset Sum: A Fully Polynomial-Time Approximation Scheme",
-    "summary": "The exact algorithm for subset sum builds the list of every achievable subset sum and is exponential because that list can double each iteration; trimming it — discarding any value another surviving value already approximates within a factor of 1 + ε/2n — collapses it to polynomial length and turns the algorithm into a fully polynomial-time approximation scheme whose running time is polynomial in both the input size and 1/ε.",
-    "publishedAt": "2026-08-18",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 35 \"Approximation Algorithms\", Section 35.5 \"The subset-sum problem\", pp. 1124-1130",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      }
-    ],
-    "id": 52,
-    "session": "Hardness and Approximation"
   },
   {
     "slug": "avl-trees",
@@ -1145,6 +550,753 @@
     "session": "Data Structures"
   },
   {
+    "slug": "monotonic-stack",
+    "category": "Data Structures",
+    "title": "Monotonic Stack: Nearest Greater/Smaller in O(n)",
+    "summary": "A stack kept strictly increasing or decreasing by popping violators before every push — turns \"nearest larger/smaller element\" from an O(n²) backward scan per element into O(n) total, using the exact aggregate-analysis argument CLRS proves for a stack with a MULTIPOP operation.",
+    "publishedAt": "2026-09-01",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 16 \"Amortized Analysis,\" Section 16.1 (the stack-with-MULTIPOP example)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "book"
+      },
+      {
+        "label": "Robert Sedgewick, Kevin Wayne — Algorithms, 4th Edition (Addison-Wesley, 2011) — Section 1.3, \"Bags, Queues, and Stacks\"",
+        "url": "https://algs4.cs.princeton.edu/13stacks/",
+        "type": "book"
+      }
+    ],
+    "id": 62,
+    "session": "Data Structures"
+  },
+  {
+    "slug": "string-sorts-lsd-msd-radix",
+    "category": "Strings",
+    "title": "String Sorting: LSD and MSD Radix Sort",
+    "summary": "Explains LSD and MSD radix sort, two character-indexed string-sorting methods built on key-indexed counting that achieve linear time by sidestepping comparisons entirely, plus the insertion-sort cutoff and 3-way radix quicksort as its large-alphabet alternative.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.1 \"String Sorts\", pp. 702-725",
+        "url": "https://algs4.cs.princeton.edu/51radix/",
+        "type": "doc"
+      },
+      {
+        "label": "String#compareTo — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#compareTo(java.lang.String)",
+        "type": "doc"
+      }
+    ],
+    "id": 8,
+    "session": "Strings"
+  },
+  {
+    "slug": "tries-and-prefix-search",
+    "category": "Strings",
+    "title": "Tries: String Keys as Paths, Not Comparisons",
+    "summary": "A trie stores string keys implicitly as the path from root to node, giving search/insert cost proportional to key length rather than key count (unlike a BST, whose cost depends on N via tree height); the ternary search trie (TST) trims the R-way trie space cost by using 3 links per node instead of an R-slot array, and both structures uniquely support prefix queries such as autocomplete and longest-prefix matching.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.2 \"Tries\", pp. 730-753",
+        "url": "https://algs4.cs.princeton.edu/52trie/",
+        "type": "doc"
+      }
+    ],
+    "id": 9,
+    "session": "Strings"
+  },
+  {
+    "slug": "substring-search-kmp",
+    "category": "Strings",
+    "title": "Substring Search: From Brute Force to Knuth-Morris-Pratt",
+    "summary": "How brute-force substring search's O(NM) worst case on self-repetitive input motivates Knuth-Morris-Pratt's key insight: a mismatch already tells you enough about the text to build a small automaton from the pattern and scan the text once, with no backup, in O(N).",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.3 \"Substring Search\", pp. 758-786",
+        "url": "https://algs4.cs.princeton.edu/53substring/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 32 \"String Matching\", pp. 957-1002",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 10,
+    "session": "Strings"
+  },
+  {
+    "slug": "boyer-moore-substring-search",
+    "category": "Strings",
+    "title": "Boyer-Moore: Right-to-Left Scanning and Sublinear Substring Search",
+    "summary": "How scanning the pattern right to left and precomputing a mismatched-character skip table lets Boyer-Moore slide past several text characters on a single mismatch — often sublinear in practice (~N/M compares per Sedgewick and Wayne's Property O) — at the cost of KMP's unconditional O(N+M) worst-case guarantee.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.3 \"Substring Search\", Boyer-Moore (mismatched-character heuristic), pp. 769-774",
+        "url": "https://algs4.cs.princeton.edu/53substring/",
+        "type": "doc"
+      }
+    ],
+    "id": 29,
+    "session": "Strings"
+  },
+  {
+    "slug": "rabin-karp-rolling-hash",
+    "category": "Strings",
+    "title": "Rabin-Karp: Rolling Hashes and Fingerprint Search",
+    "summary": "A hashing-based substring search: fingerprint the pattern once, then slide a window across the text updating its hash in O(1) per step via a rolling-hash recurrence, falling back to character comparison only on a hash match — covers the collision subtlety, the Las Vegas/Monte Carlo correctness trade-off, and the multi-pattern plagiarism-detection use case KMP and Boyer-Moore don't generalize to as naturally.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Sedgewick & Wayne, Algorithms 4th Ed. — Section 5.3, \"Rabin-Karp fingerprint search,\" pp. 774-779",
+        "url": "https://algs4.cs.princeton.edu/53substring/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Ed., Section 32.2, \"The Rabin-Karp Algorithm,\" pp. 962-966",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "HashSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/HashSet.html",
+        "type": "doc"
+      }
+    ],
+    "id": 30,
+    "session": "Strings"
+  },
+  {
+    "slug": "regular-expressions-nfa-simulation",
+    "category": "Strings",
+    "title": "Regular Expressions via NFA Simulation",
+    "summary": "How Sedgewick and Wayne turn a regular expression into a nondeterministic finite-state automaton and simulate it by tracking the entire set of reachable states rather than backtracking, guaranteeing O(NM) worst-case matching time — a stronger guarantee than the backtracking approach java.util.regex.Pattern actually uses.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne — Algorithms, 4th Edition, Section 5.4 \"Regular Expressions\", pp. 788-809",
+        "url": "https://algs4.cs.princeton.edu/54regexp/",
+        "type": "doc"
+      },
+      {
+        "label": "Pattern — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html",
+        "type": "doc"
+      }
+    ],
+    "id": 39,
+    "session": "Strings"
+  },
+  {
+    "slug": "breadth-first-search",
+    "id": 7,
+    "session": "Graph Traversal and Orderings",
+    "category": "Graphs",
+    "title": "Breadth-First Search",
+    "summary": "How BFS visits vertices in order of distance from a source using a queue instead of DFS's stack, guaranteeing shortest paths in an unweighted graph, traced against Sedgewick's own worked example graph.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 4.1 \"Undirected Graphs\", pp. 538-541",
+        "url": "https://algs4.cs.princeton.edu/41graph/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 20 \"Elementary Graph Algorithms\", Section 20.2, pp. 554-561",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "depth-first-search",
+    "category": "Graphs",
+    "title": "Depth-First Search: Recursive Traversal, Components, and Edge Classification",
+    "summary": "Understand depth-first search (DFS): a graph traversal that pushes as deep as possible along one branch before backtracking, typically using the recursive call stack itself instead of BFS's explicit queue. Covers the recursive formulation, finding connected components via repeated DFS, discovery/finish-time timestamping and the parenthesis structure, and edge classification (tree, back, forward, cross) — including how back edges reveal cycles and how reverse finish-time order underlies topological sort.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Sedgewick, Wayne, Algorithms 4th Ed. — Section 4.1, Depth-First Search and Connected Components (pp. 530-537, 543-547)",
+        "url": "https://algs4.cs.princeton.edu/41graph/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms 4th Ed. — Section 20.3, Depth-First Search (pp. 563-572)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 16,
+    "session": "Graph Traversal and Orderings"
+  },
+  {
+    "slug": "minimum-spanning-trees",
+    "category": "Graphs",
+    "title": "Minimum Spanning Trees: The Cut Property, Prim's, and Kruskal's",
+    "summary": "How Prim's and Kruskal's algorithms both exploit the cut property to greedily build a minimum spanning tree -- Prim's growing one tree via a priority queue, Kruskal's sorting all edges and using union-find to skip cycle-closing ones -- traced on a hand-verified 6-vertex example and contrasted for dense vs. sparse graphs.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 4.3 \"Minimum Spanning Trees\", pp. 604-629",
+        "url": "https://algs4.cs.princeton.edu/43mst/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 21 \"Minimum Spanning Trees\", pp. 585-601",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 17,
+    "session": "Graph Traversal and Orderings"
+  },
+  {
+    "slug": "topological-sort",
+    "category": "Graphs",
+    "title": "Topological Sort: Ordering a DAG via DFS Finish Times",
+    "summary": "Order the vertices of a directed acyclic graph so every edge points forward, by running DFS and reading vertices off in reverse order of finish time -- the same O(V+E) traversal the sibling DFS concept already builds, with one push per vertex added.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Sedgewick & Wayne, Algorithms 4th Ed. -- Section 4.2 Directed Graphs, Topological Sort, pp. 575-584",
+        "url": "https://algs4.cs.princeton.edu/42digraph/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen et al., Introduction to Algorithms 4th Ed. -- Section 20.4 Topological Sort, pp. 573-576",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Princeton Algorithms 4th Ed. -- Topological.java (companion site)",
+        "url": "https://algs4.cs.princeton.edu/42digraph/Topological.java.html",
+        "type": "doc"
+      }
+    ],
+    "id": 19,
+    "session": "Graph Traversal and Orderings"
+  },
+  {
+    "slug": "strongly-connected-components",
+    "category": "Graphs",
+    "title": "Strongly Connected Components: Two DFS Passes with Kosaraju's Algorithm",
+    "summary": "Understand strongly connected components (SCCs) -- the directed-graph generalization of the sibling DFS concept's single-pass undirected connected components, needed because directed reachability is asymmetric. Covers the graph transpose and why it preserves SCCs, Kosaraju's algorithm (DFS on the reverse graph to get reverse postorder, then DFS on the original graph in that order, with each resulting DFS tree exactly one SCC), a hand-verified two-cycle example traced with the graph viz engine, why the algorithm is correct, and its O(V+E) running time.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Sedgewick & Wayne, Algorithms 4th Ed. -- Section 4.2 Directed Graphs, Strong Components (Kosaraju's algorithm), pp. 586-591",
+        "url": "https://algs4.cs.princeton.edu/42digraph/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen et al., Introduction to Algorithms 4th Ed. -- Section 20.5 Strongly Connected Components, pp. 577-580",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Princeton Algorithms 4th Ed. -- KosarajuSCC.java (companion site)",
+        "url": "https://algs4.cs.princeton.edu/42digraph/KosarajuSCC.java.html",
+        "type": "doc"
+      }
+    ],
+    "id": 23,
+    "session": "Graph Traversal and Orderings"
+  },
+  {
+    "slug": "dijkstra-shortest-paths",
+    "category": "Graphs",
+    "title": "Dijkstra's Algorithm: BFS Generalized to Weighted Graphs",
+    "summary": "Dijkstra's algorithm finds shortest paths in a weighted graph with non-negative edges by replacing BFS's FIFO queue with a priority queue ordered by cumulative distance, repeatedly finalizing the closest unprocessed vertex via edge relaxation.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Princeton Algorithms, 4th Ed. — Shortest Paths (companion site)",
+        "url": "https://algs4.cs.princeton.edu/44sp/",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to Algorithms, 4th Edition (MIT Press)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 18,
+    "session": "Shortest Paths"
+  },
+  {
+    "slug": "dag-shortest-paths",
+    "category": "Graphs",
+    "title": "Shortest Paths in a DAG: Topological Order Beats a Priority Queue",
+    "summary": "On a directed acyclic graph, relaxing every vertex's outgoing edges once in topological order finds shortest paths in O(V + E) — faster than Dijkstra's priority queue and correct even with negative edge weights, since a DAG can never contain the negative cycle that would make shortest paths ill-defined.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Princeton Algorithms, 4th Ed. — Shortest Paths (companion site)",
+        "url": "https://algs4.cs.princeton.edu/44sp/",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to Algorithms, 4th Edition (MIT Press)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 20,
+    "session": "Shortest Paths"
+  },
+  {
+    "slug": "bellman-ford-shortest-paths",
+    "category": "Graphs",
+    "title": "Bellman-Ford: Shortest Paths with Negative Edges and Cycle Detection",
+    "summary": "Bellman-Ford solves the fully general single-source shortest-path problem — any graph, any mix of positive and negative edge weights — by relaxing every edge V-1 times instead of relying on Dijkstra's priority-queue ordering, and gets negative-cycle detection for free with one extra relaxation pass.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Princeton Algorithms, 4th Ed. — Shortest Paths (companion site)",
+        "url": "https://algs4.cs.princeton.edu/44sp/",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to Algorithms, 4th Edition (MIT Press)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 21,
+    "session": "Shortest Paths"
+  },
+  {
+    "slug": "floyd-warshall-all-pairs-shortest-paths",
+    "category": "Graphs",
+    "title": "Floyd-Warshall: All-Pairs Shortest Paths as Dynamic Programming",
+    "summary": "Learn the all-pairs shortest-paths problem and the Floyd-Warshall dynamic-programming algorithm that solves it in Θ(V³) time by restricting each shortest path's intermediate vertices to a growing set {1, ..., k}, rather than repeating a single-source algorithm once per vertex.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen et al., Introduction to Algorithms, 4th Edition — Chapter 23, Sections 23.1-23.2 (All-Pairs Shortest Paths / The Floyd-Warshall Algorithm)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+        "type": "doc"
+      }
+    ],
+    "id": 22,
+    "session": "Shortest Paths"
+  },
+  {
+    "slug": "johnsons-algorithm-sparse-all-pairs",
+    "category": "Graphs",
+    "title": "Johnson's Algorithm: All-Pairs Shortest Paths for Sparse Graphs",
+    "summary": "Solve all-pairs shortest paths in O(V^2 lg V + VE) time by reweighting every edge to be nonnegative via one auxiliary Bellman-Ford run, then running Dijkstra once from every vertex — a composition that beats Floyd-Warshall's O(V^3) on sparse graphs.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms, 4th Edition (MIT Press, 2022) — Chapter 23, Section 23.3 \"Johnson's algorithm for sparse graphs\", pp. 662-667",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+        "type": "doc"
+      }
+    ],
+    "id": 31,
+    "session": "Shortest Paths"
+  },
+  {
+    "slug": "max-flow-min-cut-ford-fulkerson",
+    "category": "Graphs",
+    "title": "Max-Flow Min-Cut: Augmenting Paths and Ford-Fulkerson",
+    "summary": "How Ford-Fulkerson finds the maximum flow through a capacitated network by repeatedly pushing flow along augmenting paths in a residual graph, and why the max-flow min-cut theorem guarantees the algorithm's stopping point is provably optimal.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, Algorithms, 4th Edition — \"Network-Flow Algorithms\" (Ford-Fulkerson algorithm, residual networks, maxflow-mincut theorem), pp. 888-899",
+        "url": "https://algs4.cs.princeton.edu/64maxflow/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms, 4th Edition — Chapter 24 \"Maximum Flow,\" Section 24.2 \"The Ford-Fulkerson method,\" pp. 676-696",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Princeton Algorithms, 4th Ed. — Maximum Flow (companion site)",
+        "url": "https://algs4.cs.princeton.edu/64maxflow/",
+        "type": "doc"
+      }
+    ],
+    "id": 26,
+    "session": "Flow and Matching"
+  },
+  {
+    "slug": "stable-marriage-gale-shapley",
+    "category": "Graphs",
+    "title": "The Stable-Marriage Problem and the Gale-Shapley Algorithm",
+    "summary": "Given a complete bipartite graph where every vertex ranks the vertices on the other side, the Gale-Shapley algorithm always finds a matching with no blocking pair — and provably gives every proposer their best achievable partner across all stable matchings, at the cost of giving every proposed-to vertex their worst.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 25.2 \"The stable-marriage problem\", pp. 716-723",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 41,
+    "session": "Flow and Matching"
+  },
+  {
+    "slug": "bipartite-matching-and-assignment-problem",
+    "category": "Graphs",
+    "title": "Maximum Bipartite Matching and the Hungarian Algorithm",
+    "summary": "How M-augmenting paths and symmetric difference solve maximum bipartite matching directly — no max-flow reduction — with Hopcroft-Karp reaching O(√V·E), and how adding edge weights turns it into the assignment problem, which the Hungarian algorithm solves by repeatedly relabeling vertices so that some perfect matching appears inside an equality subgraph.",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 25.1 \"Maximum bipartite matching (revisited)\" and Section 25.3 \"The Hungarian algorithm for the assignment problem\", pp. 705-716, 723-739",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 48,
+    "session": "Flow and Matching"
+  },
+  {
+    "slug": "dynamic-programming-fundamentals",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Dynamic Programming: Memoization, Tabulation, and Rod Cutting",
+    "summary": "See why dynamic programming beats plain recursion only when subproblems overlap, using CLRS's rod-cutting problem: the naive exponential CUT-ROD recursion, the memoized cache that makes each subproblem size computed exactly once, the bottom-up table fill that builds the same answer iteratively, and the two hallmarks — optimal substructure and overlapping subproblems — that determine whether DP applies at all.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 14 \"Dynamic Programming\" (opening) and Section 14.1 \"Rod cutting\", pp. 361-372",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Section 14.3 \"Elements of dynamic programming\", pp. 382-390",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+        "type": "doc"
+      }
+    ],
+    "id": 11,
+    "session": "Dynamic Programming, Greedy and Search"
+  },
+  {
+    "slug": "longest-common-subsequence",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Longest Common Subsequence: The 2D DP Table",
+    "summary": "How to derive the c[i][j] recurrence for LCS by comparing two sequences' last characters, fill the resulting 2D table bottom-up in O(mn) time, and trace a path backward through the finished table to reconstruct the actual subsequence, not just its length.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 14 \"Dynamic Programming\", Section 14.4 \"Longest common subsequence\", pp. 393-399",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "GNU diffutils manual — How diff Works",
+        "url": "https://www.gnu.org/software/diffutils/manual/html_node/Comparison-Style.html",
+        "type": "doc"
+      }
+    ],
+    "id": 12,
+    "session": "Dynamic Programming, Greedy and Search"
+  },
+  {
+    "slug": "greedy-algorithms-activity-selection",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Greedy Algorithms: Activity Selection and Why the Right Greedy Choice Matters",
+    "summary": "Solves the activity-selection problem (scheduling the maximum number of non-overlapping activities on a shared resource) with the greedy earliest-finish-time rule, proves why that specific rule is optimal, and shows a verified counterexample where a plausible-sounding alternative rule (shortest duration first) fails — contrasted with the dynamic-programming formulation of the same problem.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 15 \"Greedy Algorithms\", Sections 15.1 \"An activity-selection problem\" and 15.2 \"Elements of the greedy strategy\", pp. 415-430",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 13,
+    "session": "Dynamic Programming, Greedy and Search"
+  },
+  {
+    "slug": "knapsack-01-vs-fractional",
+    "category": "Dynamic Programming & Greedy",
+    "title": "0-1 vs. Fractional Knapsack: Why the Same Structure Needs Different Techniques",
+    "summary": "Contrasts the fractional knapsack problem, which has the greedy-choice property and is solved by a single O(n log n) sort-and-take-greedily pass, with the 0-1 knapsack problem, where the identical-looking greedy rule provably fails (reproducing CLRS's own $220-vs-$160 counterexample) despite both problems sharing optimal substructure — then works out the 0-1 DP recurrence, a hand-verified table, and the O(nW) pseudo-polynomial running time that CLRS leaves as an exercise rather than solving in its main text.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 15 \"Greedy Algorithms\", Section 15.2 \"Elements of the greedy strategy\" (knapsack problem setup, optimal-substructure argument for both variants, and Figure 15.3's counterexample), pp. 428-431",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Comparator — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html",
+        "type": "doc"
+      }
+    ],
+    "id": 24,
+    "session": "Dynamic Programming, Greedy and Search"
+  },
+  {
+    "slug": "edit-distance-levenshtein",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Edit Distance: The Levenshtein DP and Sequence Alignment",
+    "summary": "Compute the minimum number of insert, delete, and substitute operations to transform one string into another using a 2D DP table that extends the LCS table-filling technique with a third predecessor cell for substitution, then backtrack through the table to recover the actual edit sequence.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 14 \"Dynamic Programming\", Problem 14-5 \"Edit distance\", pp. 409-411",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "NIST Dictionary of Algorithms and Data Structures — Levenshtein distance",
+        "url": "https://xlinux.nist.gov/dads/HTML/Levenshtein.html",
+        "type": "doc"
+      }
+    ],
+    "id": 25,
+    "session": "Dynamic Programming, Greedy and Search"
+  },
+  {
+    "slug": "matrix-chain-multiplication",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Matrix-Chain Multiplication: Finding the Cheapest Parenthesization",
+    "summary": "CLRS's second worked dynamic-programming example: find the parenthesization of a chain of matrices that minimizes total scalar multiplications, filling a Theta(n^2) table of subproblems indexed by matrix range in O(n^3) time rather than enumerating the exponentially many possible parenthesizations.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Introduction to Algorithms, 4th Edition — Cormen, Leiserson, Rivest, Stein — Section 14.2 \"Matrix-chain multiplication\", pp. 373-381",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 40,
+    "session": "Dynamic Programming, Greedy and Search"
+  },
+  {
+    "slug": "huffman-coding",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Huffman Coding",
+    "summary": "The greedy algorithm that builds an optimal prefix-free binary code by repeatedly merging the two least-frequent symbols into a trie, proven optimal via an exchange argument and optimal substructure.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 15.3 \"Huffman codes\", pp. 431-439",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Robert Sedgewick, Kevin Wayne — Algorithms, 4th Edition, Section 5.5 \"Data Compression\" (Huffman coding), pp. 826-839",
+        "url": "https://algs4.cs.princeton.edu/55compression/",
+        "type": "doc"
+      },
+      {
+        "label": "java.util.zip.Deflater — Java's DEFLATE-based compressor, which uses Huffman coding as one of its two internal compression stages (alongside LZ77 duplicate-string elimination)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/zip/Deflater.html",
+        "type": "doc"
+      }
+    ],
+    "id": 45,
+    "session": "Dynamic Programming, Greedy and Search"
+  },
+  {
+    "slug": "branch-and-bound",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Branch and Bound: Pruning the Search Tree for Integer and Combinatorial Optimization",
+    "summary": "Branch and Bound solves integer and combinatorial optimization problems exactly by organizing the search space as a tree of subproblems, using each subproblem's LP-relaxation value as an upper bound to prune entire branches that cannot beat the best integer solution found so far. Traced by hand on a real 2-variable integer program (root relaxation, one infeasible branch, one bound-pruned integer solution, and the branch that becomes the final incumbent) to make the pruning concrete rather than abstract.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Hamdy A. Taha, \"Operations Research: An Introduction\", 10th Edition (Pearson, 2017) — Chapter on Integer Linear Programming (Branch and Bound and 0-1 implicit enumeration)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/operations-research-an-introduction/P200000003528/9780137526567",
+        "type": "book"
+      },
+      {
+        "label": "Branch and bound — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Branch_and_bound",
+        "type": "doc"
+      }
+    ],
+    "id": 57,
+    "session": "Dynamic Programming, Greedy and Search"
+  },
+  {
+    "slug": "backtracking",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Backtracking: Choose, Recurse, Un-choose",
+    "summary": "A general recursive search technique for enumerating every valid configuration of a combinatorial problem — choose an option, recurse, undo the choice — with pruning that abandons a branch the instant it's provably invalid instead of building it out and checking afterward.",
+    "publishedAt": "2026-09-01",
+    "references": [
+      {
+        "label": "Steven S. Skiena, The Algorithm Design Manual, 3rd Edition (Springer, 2020) — Chapter 9, \"Combinatorial Search,\" Section 9.1 \"Backtracking\"",
+        "url": "https://www.algorist.com/",
+        "type": "book"
+      },
+      {
+        "label": "Donald E. Knuth, \"Dancing Links\" (2000)",
+        "url": "https://arxiv.org/abs/cs/0011047",
+        "type": "doc"
+      }
+    ],
+    "id": 63,
+    "session": "Dynamic Programming, Greedy and Search"
+  },
+  {
+    "slug": "p-vs-np-and-reducibility",
+    "category": "Fundamentals",
+    "title": "P vs. NP: Recognizing When a Problem Is Probably Hard",
+    "summary": "What P, NP, and NP-completeness precisely mean — the verification-vs-solving asymmetry, why a fast algorithm for one NP-complete problem would solve all of NP, and how to recognize an NP-hard problem in disguise so you reach for approximation, heuristics, or a tractable special case instead.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Chapter 6 \"Context\" — Intractability, pp. 911-919",
+        "url": "https://algs4.cs.princeton.edu/65reductions/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 34 \"NP-Completeness\", Sections 34.1-34.3, pp. 1048-1071",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Clay Mathematics Institute — P vs NP Problem (Millennium Prize Problems)",
+        "url": "https://www.claymath.org/millennium/p-vs-np/",
+        "type": "doc"
+      }
+    ],
+    "id": 27,
+    "session": "Hardness and Approximation"
+  },
+  {
+    "slug": "approximation-algorithms-vertex-cover",
+    "category": "Fundamentals",
+    "title": "Approximation Algorithms: Vertex Cover & TSP",
+    "summary": "Covers APPROX-VERTEX-COVER, a polynomial-time 2-approximation for the NP-complete vertex-cover problem, and APPROX-TSP-TOUR, a 2-approximation for the traveling-salesperson problem under the triangle inequality, plus why no constant-ratio approximation exists without it.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 35 \"Approximation Algorithms\", Sections 35.1-35.2, pp. 1106-1114",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 44,
+    "session": "Hardness and Approximation"
+  },
+  {
+    "slug": "np-completeness-proofs-and-problem-catalog",
+    "category": "Fundamentals",
+    "title": "Proving NP-Completeness: Reductions and the Problem Catalog",
+    "summary": "How new problems are actually proven NP-complete: Lemma 34.8's four-step recipe for reducing from a single known NP-complete language instead of all of NP, then the worked catalog of reductions building CIRCUIT-SAT down through SAT, 3-CNF-SAT, CLIQUE, VERTEX-COVER, HAM-CYCLE, TSP, and SUBSET-SUM — plus the gadget technique and the reduction strategies and pitfalls that generalize.",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 34 \"NP-Completeness\", Sections 34.4-34.5, pp. 1072-1098",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 47,
+    "session": "Hardness and Approximation"
+  },
+  {
+    "slug": "set-covering-and-lp-rounding",
+    "category": "Fundamentals",
+    "title": "Set Covering, Randomization & LP Rounding",
+    "summary": "GREEDY-SET-COVER repeatedly takes whichever set covers the most still-uncovered elements, giving a logarithmic rather than constant approximation ratio; Section 35.4 then adds two more techniques — a randomized 8/7-approximation for MAX-3-CNF that is pure coin-flipping, and a 2-approximation for weighted vertex cover obtained by relaxing a 0-1 integer program into a linear program and rounding the fractional answer at 1/2.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 35 \"Approximation Algorithms\", Section 35.3 \"The set-covering problem\" and Section 35.4 \"Randomization and linear programming\", pp. 1115-1124",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 51,
+    "session": "Hardness and Approximation"
+  },
+  {
+    "slug": "subset-sum-approximation-scheme",
+    "category": "Fundamentals",
+    "title": "Subset Sum: A Fully Polynomial-Time Approximation Scheme",
+    "summary": "The exact algorithm for subset sum builds the list of every achievable subset sum and is exponential because that list can double each iteration; trimming it — discarding any value another surviving value already approximates within a factor of 1 + ε/2n — collapses it to polynomial length and turns the algorithm into a fully polynomial-time approximation scheme whose running time is polynomial in both the input size and 1/ε.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 35 \"Approximation Algorithms\", Section 35.5 \"The subset-sum problem\", pp. 1124-1130",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 52,
+    "session": "Hardness and Approximation"
+  },
+  {
+    "slug": "k-means-clustering",
+    "category": "Fundamentals",
+    "title": "K-Means Clustering and Lloyd's Procedure",
+    "summary": "K-means clustering is NP-hard, so Lloyd's procedure settles for a provably-terminating local-search heuristic — alternately assigning points to their nearest center and recomputing each center as its cluster's centroid — until the assignment stops changing.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 33.1 \"Clustering\", pp. 1005-1014",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 42,
+    "session": "Optimization and Machine Learning"
+  },
+  {
+    "slug": "gradient-descent",
+    "category": "Fundamentals",
+    "title": "Gradient Descent",
+    "summary": "A general iterative method for finding a local minimum of a continuous function by repeatedly stepping opposite the gradient, with a provable convergence bound on convex functions that trades exact answers (like Gaussian elimination's Theta(n^3)) for a faster approximate one.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 33.3 \"Gradient descent\", pp. 1023-1037",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 43,
+    "session": "Optimization and Machine Learning"
+  },
+  {
+    "slug": "linear-programming-formulation-and-duality",
+    "category": "Fundamentals",
+    "title": "Linear Programming: Formulating Problems and Duality",
+    "summary": "How to model a problem as a linear program in standard form — shortest paths, max-flow, minimum-cost flow, and multicommodity flow — why an optimal solution always sits at a vertex of the feasible region, and how duality turns a maximization LP into a minimization LP whose matching objective value certifies optimality.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 29 \"Linear Programming\", Sections 29.1-29.3, pp. 853-876",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 50,
+    "session": "Optimization and Machine Learning"
+  },
+  {
     "slug": "simplex-tabular-method",
     "category": "Fundamentals",
     "title": "The Simplex Method: Solving Linear Programs by Pivoting",
@@ -1174,157 +1326,5 @@
     ],
     "id": 56,
     "session": "Optimization and Machine Learning"
-  },
-  {
-    "slug": "branch-and-bound",
-    "category": "Dynamic Programming & Greedy",
-    "title": "Branch and Bound: Pruning the Search Tree for Integer and Combinatorial Optimization",
-    "summary": "Branch and Bound solves integer and combinatorial optimization problems exactly by organizing the search space as a tree of subproblems, using each subproblem's LP-relaxation value as an upper bound to prune entire branches that cannot beat the best integer solution found so far. Traced by hand on a real 2-variable integer program (root relaxation, one infeasible branch, one bound-pruned integer solution, and the branch that becomes the final incumbent) to make the pruning concrete rather than abstract.",
-    "publishedAt": "2026-08-18",
-    "references": [
-      {
-        "label": "Hamdy A. Taha, \"Operations Research: An Introduction\", 10th Edition (Pearson, 2017) — Chapter on Integer Linear Programming (Branch and Bound and 0-1 implicit enumeration)",
-        "url": "https://www.pearson.com/en-us/subject-catalog/p/operations-research-an-introduction/P200000003528/9780137526567",
-        "type": "book"
-      },
-      {
-        "label": "Branch and bound — Wikipedia",
-        "url": "https://en.wikipedia.org/wiki/Branch_and_bound",
-        "type": "doc"
-      }
-    ],
-    "id": 57,
-    "session": "Dynamic Programming, Greedy and Search"
-  },
-  {
-    "slug": "bucket-sort",
-    "category": "Sorting",
-    "title": "Bucket Sort: Distribution-Based Sorting",
-    "summary": "A non-comparison sort that scatters n keys — assumed uniformly distributed over a known interval [0, K) — into n equal-width buckets, sorts each bucket individually, and concatenates them; under uniformity each bucket holds O(1) elements on average, giving expected O(n) time, a different structural assumption from the sibling counting-sort (bounded integer range) and radix-sort (fixed-width keys) concepts.",
-    "publishedAt": "2026-08-18",
-    "references": [
-      {
-        "label": "Introduction to Algorithms, 4th Edition — Cormen, Leiserson, Rivest, Stein — Chapter 8 \"Sorting in Linear Time\", Section 8.4 \"Bucket sort\"",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "doc"
-      },
-      {
-        "label": "Bucket sort — Wikipedia",
-        "url": "https://en.wikipedia.org/wiki/Bucket_sort",
-        "type": "doc"
-      }
-    ],
-    "id": 58,
-    "session": "Sorting"
-  },
-  {
-    "slug": "recursion-and-recurrence-analysis",
-    "category": "Fundamentals",
-    "title": "Recursion and Recurrence Relations: Analyzing Self-Referential Algorithms",
-    "summary": "Recursion is a function defined in terms of itself via a base case and a recursive step; the shape of the resulting recurrence — subtracting a constant from n versus dividing n — is what decides whether the running time is linear, exponential, or logarithmic, as concretely shown by factorial, naive Fibonacci, Towers of Hanoi, and binary search. This is the prerequisite the sibling algorithm-analysis-order-of-growth and dynamic-programming-fundamentals concepts both build on without re-deriving.",
-    "publishedAt": "2026-08-18",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 4 \"Divide-and-Conquer\", Sections 4.3-4.5, pp. 90-106",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "book"
-      },
-      {
-        "label": "Robert Sedgewick, Kevin Wayne — Algorithms, 4th Edition, Section 2.2 \"Mergesort\" (recurrence analysis of the mergesort running time)",
-        "url": "https://algs4.cs.princeton.edu/22mergesort/",
-        "type": "doc"
-      },
-      {
-        "label": "Fibonacci number — Wikipedia",
-        "url": "https://en.wikipedia.org/wiki/Fibonacci_sequence",
-        "type": "doc"
-      }
-    ],
-    "id": 59,
-    "session": "Analyzing Algorithms"
-  },
-  {
-    "slug": "two-pointers",
-    "category": "Fundamentals",
-    "title": "Two Pointers: Converging and Fast/Slow Scans",
-    "summary": "Two indices walking a structure instead of one — converging from opposite ends on sorted input, or moving at different speeds to detect cycles and find midpoints — turning an O(n²) nested scan into a single O(n) pass, proved correct by an exchange argument specific to each problem.",
-    "publishedAt": "2026-09-01",
-    "references": [
-      {
-        "label": "Robert Sedgewick, Kevin Wayne, Algorithms, 4th Edition (Addison-Wesley, 2011) — Section 2.2 \"Mergesort,\" the merge() method",
-        "url": "https://algs4.cs.princeton.edu/22mergesort/",
-        "type": "book"
-      },
-      {
-        "label": "Donald E. Knuth, The Art of Computer Programming, Volume 2: Seminumerical Algorithms, 3rd Edition (Addison-Wesley, 1997) — Section 3.1, Exercise 6",
-        "url": "https://www-cs-faculty.stanford.edu/~knuth/taocp.html",
-        "type": "book"
-      }
-    ],
-    "id": 60,
-    "session": "Searching Techniques and Number Theory"
-  },
-  {
-    "slug": "sliding-window",
-    "category": "Fundamentals",
-    "title": "Sliding Window: Contiguous Ranges in O(n) Amortized",
-    "summary": "Maintaining a contiguous window over an array or string with two forward-only pointers — expanding to absorb new elements, contracting to drop invalid ones — turns a recompute-every-window scan into a single O(n) amortized pass, via the same aggregate-analysis argument that makes ArrayList.add O(1) amortized.",
-    "publishedAt": "2026-09-01",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 16 \"Amortized Analysis,\" Section 16.1",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "book"
-      },
-      {
-        "label": "Jon Bentley, Programming Pearls, 2nd Edition (Addison-Wesley, 2000) — Column 8, \"Algorithm Design Techniques\"",
-        "url": "https://www.pearson.com/en-us/subject-catalog/p/programming-pearls/P200000000127/9780134498034",
-        "type": "book"
-      }
-    ],
-    "id": 61,
-    "session": "Searching Techniques and Number Theory"
-  },
-  {
-    "slug": "monotonic-stack",
-    "category": "Data Structures",
-    "title": "Monotonic Stack: Nearest Greater/Smaller in O(n)",
-    "summary": "A stack kept strictly increasing or decreasing by popping violators before every push — turns \"nearest larger/smaller element\" from an O(n²) backward scan per element into O(n) total, using the exact aggregate-analysis argument CLRS proves for a stack with a MULTIPOP operation.",
-    "publishedAt": "2026-09-01",
-    "references": [
-      {
-        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 16 \"Amortized Analysis,\" Section 16.1 (the stack-with-MULTIPOP example)",
-        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
-        "type": "book"
-      },
-      {
-        "label": "Robert Sedgewick, Kevin Wayne — Algorithms, 4th Edition (Addison-Wesley, 2011) — Section 1.3, \"Bags, Queues, and Stacks\"",
-        "url": "https://algs4.cs.princeton.edu/13stacks/",
-        "type": "book"
-      }
-    ],
-    "id": 62,
-    "session": "Data Structures"
-  },
-  {
-    "slug": "backtracking",
-    "category": "Dynamic Programming & Greedy",
-    "title": "Backtracking: Choose, Recurse, Un-choose",
-    "summary": "A general recursive search technique for enumerating every valid configuration of a combinatorial problem — choose an option, recurse, undo the choice — with pruning that abandons a branch the instant it's provably invalid instead of building it out and checking afterward.",
-    "publishedAt": "2026-09-01",
-    "references": [
-      {
-        "label": "Steven S. Skiena, The Algorithm Design Manual, 3rd Edition (Springer, 2020) — Chapter 9, \"Combinatorial Search,\" Section 9.1 \"Backtracking\"",
-        "url": "https://www.algorist.com/",
-        "type": "book"
-      },
-      {
-        "label": "Donald E. Knuth, \"Dancing Links\" (2000)",
-        "url": "https://arxiv.org/abs/cs/0011047",
-        "type": "doc"
-      }
-    ],
-    "id": 63,
-    "session": "Dynamic Programming, Greedy and Search"
   }
 ]

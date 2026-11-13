@@ -1,137 +1,5 @@
 [
   {
-    "slug": "kubernetes-secrets-fundamentals",
-    "id": 1,
-    "category": "Secrets & Configuration",
-    "title": "Kubernetes Secrets Fundamentals",
-    "topic": "Secrets & Configuration",
-    "related": [
-      {
-        "label": "Projected Volumes: Combining Multiple Secrets",
-        "slug": "projected-volumes-combining-multiple-secrets"
-      },
-      {
-        "label": "Secrets as Environment Variables vs Mounted Files",
-        "slug": "secrets-as-env-vars-vs-mounted-files"
-      }
-    ],
-    "summary": "What a Secret actually is, how kubectl builds one from an env file (and what it rejects), why base64 is not encryption, and who can really read it.",
-    "publishedAt": "2026-09-25",
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/kubernetes-secrets-fundamentals",
-    "references": [
-      {
-        "label": "Kubernetes docs: Secrets",
-        "url": "https://kubernetes.io/docs/concepts/configuration/secret/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: Managing Secrets using kubectl",
-        "url": "https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/",
-        "type": "doc"
-      },
-      {
-        "label": "kubectl create secret generic reference",
-        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: Good practices for Kubernetes Secrets",
-        "url": "https://kubernetes.io/docs/concepts/security/secrets-good-practices/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: Encrypting Confidential Data at Rest",
-        "url": "https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "projected-volumes-combining-multiple-secrets",
-    "id": 2,
-    "requires": [
-      "kubernetes-secrets-fundamentals"
-    ],
-    "category": "Secrets & Configuration",
-    "title": "Projected Volumes: Combining Multiple Secrets",
-    "topic": "Secrets & Configuration",
-    "related": [
-      {
-        "label": "Kubernetes Secrets Fundamentals",
-        "slug": "kubernetes-secrets-fundamentals"
-      },
-      {
-        "label": "Secrets as Environment Variables vs Mounted Files",
-        "slug": "secrets-as-env-vars-vs-mounted-files"
-      }
-    ],
-    "summary": "Mounting several Secrets into one directory with a projected volume, the silent last-source-wins key collision that comes with it, and how items/path keeps tenants apart.",
-    "publishedAt": "2026-09-25",
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/projected-volumes-combining-multiple-secrets",
-    "references": [
-      {
-        "label": "Kubernetes docs: Projected Volumes",
-        "url": "https://kubernetes.io/docs/concepts/storage/projected-volumes/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: Secrets (using Secrets as files from a Pod)",
-        "url": "https://kubernetes.io/docs/concepts/configuration/secret/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: Configure a Pod to Use a Projected Volume for Storage",
-        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "secrets-as-env-vars-vs-mounted-files",
-    "id": 3,
-    "requires": [
-      "kubernetes-secrets-fundamentals"
-    ],
-    "category": "Secrets & Configuration",
-    "title": "Secrets as Environment Variables vs Mounted Files",
-    "topic": "Secrets & Configuration",
-    "related": [
-      {
-        "label": "Kubernetes Secrets Fundamentals",
-        "slug": "kubernetes-secrets-fundamentals"
-      },
-      {
-        "label": "Projected Volumes: Combining Multiple Secrets",
-        "slug": "projected-volumes-combining-multiple-secrets"
-      }
-    ],
-    "summary": "Why a rotated Secret reaches mounted files after about a minute but never reaches environment variables or subPath mounts, and why files leak less than env vars.",
-    "publishedAt": "2026-09-25",
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/secrets-as-env-vars-vs-mounted-files",
-    "references": [
-      {
-        "label": "Kubernetes docs: Distribute Credentials Securely Using Secrets",
-        "url": "https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: Secrets (mounted Secrets are updated automatically)",
-        "url": "https://kubernetes.io/docs/concepts/configuration/secret/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: Volumes (subPath)",
-        "url": "https://kubernetes.io/docs/concepts/storage/volumes/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: Good practices for Kubernetes Secrets",
-        "url": "https://kubernetes.io/docs/concepts/security/secrets-good-practices/",
-        "type": "doc"
-      }
-    ]
-  },
-  {
     "slug": "microk8s-installation-and-diagnostics",
     "id": 4,
     "category": "MicroK8s Cluster",
@@ -640,6 +508,188 @@
       {
         "label": "Kubernetes docs: Resource Quotas",
         "url": "https://kubernetes.io/docs/concepts/policy/resource-quotas/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "managed-runtime-memory-in-containers",
+    "id": 49,
+    "requires": [
+      "resource-requests-limits-and-qos"
+    ],
+    "category": "Workloads",
+    "title": "Managed Runtime Memory in Containers",
+    "topic": "Workloads",
+    "related": [
+      {
+        "label": "Requests, Limits, QoS Classes and OOMKilled",
+        "slug": "resource-requests-limits-and-qos"
+      },
+      {
+        "label": "metrics-server and kubectl top",
+        "slug": "metrics-server-and-kubectl-top"
+      }
+    ],
+    "summary": "How the JVM, Node.js, .NET and Go size their heap under a container limit, what lives outside the heap, and a sizing rule that avoids OOMKilled.",
+    "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/managed-runtime-memory-in-containers",
+    "references": [
+      {
+        "label": "Kubernetes docs: Assign Memory Resources to Containers",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/",
+        "type": "doc"
+      },
+      {
+        "label": "Java SE docs: the java command",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html",
+        "type": "doc"
+      },
+      {
+        "label": "Node.js docs: --max-old-space-size",
+        "url": "https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-mib",
+        "type": "doc"
+      },
+      {
+        "label": ".NET docs: GC heap hard limit",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/garbage-collector#heap-hard-limit",
+        "type": "doc"
+      },
+      {
+        "label": "Go docs: A Guide to the Go Garbage Collector (memory limit)",
+        "url": "https://go.dev/doc/gc-guide#Memory_limit",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kubernetes-secrets-fundamentals",
+    "id": 1,
+    "category": "Secrets & Configuration",
+    "title": "Kubernetes Secrets Fundamentals",
+    "topic": "Secrets & Configuration",
+    "related": [
+      {
+        "label": "Projected Volumes: Combining Multiple Secrets",
+        "slug": "projected-volumes-combining-multiple-secrets"
+      },
+      {
+        "label": "Secrets as Environment Variables vs Mounted Files",
+        "slug": "secrets-as-env-vars-vs-mounted-files"
+      }
+    ],
+    "summary": "What a Secret actually is, how kubectl builds one from an env file (and what it rejects), why base64 is not encryption, and who can really read it.",
+    "publishedAt": "2026-09-25",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/kubernetes-secrets-fundamentals",
+    "references": [
+      {
+        "label": "Kubernetes docs: Secrets",
+        "url": "https://kubernetes.io/docs/concepts/configuration/secret/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Managing Secrets using kubectl",
+        "url": "https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl create secret generic reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Good practices for Kubernetes Secrets",
+        "url": "https://kubernetes.io/docs/concepts/security/secrets-good-practices/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Encrypting Confidential Data at Rest",
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "projected-volumes-combining-multiple-secrets",
+    "id": 2,
+    "requires": [
+      "kubernetes-secrets-fundamentals"
+    ],
+    "category": "Secrets & Configuration",
+    "title": "Projected Volumes: Combining Multiple Secrets",
+    "topic": "Secrets & Configuration",
+    "related": [
+      {
+        "label": "Kubernetes Secrets Fundamentals",
+        "slug": "kubernetes-secrets-fundamentals"
+      },
+      {
+        "label": "Secrets as Environment Variables vs Mounted Files",
+        "slug": "secrets-as-env-vars-vs-mounted-files"
+      }
+    ],
+    "summary": "Mounting several Secrets into one directory with a projected volume, the silent last-source-wins key collision that comes with it, and how items/path keeps tenants apart.",
+    "publishedAt": "2026-09-25",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/projected-volumes-combining-multiple-secrets",
+    "references": [
+      {
+        "label": "Kubernetes docs: Projected Volumes",
+        "url": "https://kubernetes.io/docs/concepts/storage/projected-volumes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Secrets (using Secrets as files from a Pod)",
+        "url": "https://kubernetes.io/docs/concepts/configuration/secret/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Configure a Pod to Use a Projected Volume for Storage",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "secrets-as-env-vars-vs-mounted-files",
+    "id": 3,
+    "requires": [
+      "kubernetes-secrets-fundamentals"
+    ],
+    "category": "Secrets & Configuration",
+    "title": "Secrets as Environment Variables vs Mounted Files",
+    "topic": "Secrets & Configuration",
+    "related": [
+      {
+        "label": "Kubernetes Secrets Fundamentals",
+        "slug": "kubernetes-secrets-fundamentals"
+      },
+      {
+        "label": "Projected Volumes: Combining Multiple Secrets",
+        "slug": "projected-volumes-combining-multiple-secrets"
+      }
+    ],
+    "summary": "Why a rotated Secret reaches mounted files after about a minute but never reaches environment variables or subPath mounts, and why files leak less than env vars.",
+    "publishedAt": "2026-09-25",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/secrets-as-env-vars-vs-mounted-files",
+    "references": [
+      {
+        "label": "Kubernetes docs: Distribute Credentials Securely Using Secrets",
+        "url": "https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Secrets (mounted Secrets are updated automatically)",
+        "url": "https://kubernetes.io/docs/concepts/configuration/secret/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Volumes (subPath)",
+        "url": "https://kubernetes.io/docs/concepts/storage/volumes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Good practices for Kubernetes Secrets",
+        "url": "https://kubernetes.io/docs/concepts/security/secrets-good-practices/",
         "type": "doc"
       }
     ]
@@ -1169,6 +1219,56 @@
       {
         "label": "restic documentation",
         "url": "https://restic.readthedocs.io/en/stable/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "logical-database-backups-with-kubectl-exec-and-cronjobs",
+    "id": 50,
+    "requires": [
+      "jobs-and-restart-policy"
+    ],
+    "category": "Storage & Backups",
+    "title": "Logical Database Backups with kubectl exec and CronJobs",
+    "topic": "Storage & Backups",
+    "related": [
+      {
+        "label": "Volume Backups, Velero and Restore Drills",
+        "slug": "volume-backups-velero-and-restore-drills"
+      },
+      {
+        "label": "Jobs, CronJobs and restartPolicy",
+        "slug": "jobs-and-restart-policy"
+      }
+    ],
+    "summary": "Streaming a dump off the cluster with kubectl exec, restoring it, and a backup CronJob that really fails when the dump fails (the sh -e pipe trap).",
+    "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/logical-database-backups-with-kubectl-exec-and-cronjobs",
+    "references": [
+      {
+        "label": "kubectl exec reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl cp reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_cp/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: CronJob",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/",
+        "type": "doc"
+      },
+      {
+        "label": "MariaDB docs: mariadb-dump",
+        "url": "https://mariadb.com/kb/en/mariadb-dump/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL docs: pg_dump",
+        "url": "https://www.postgresql.org/docs/current/app-pgdump.html",
         "type": "doc"
       }
     ]
@@ -2134,51 +2234,6 @@
     ]
   },
   {
-    "slug": "pod-security-admission",
-    "id": 47,
-    "requires": [
-      "securitycontext-hardening"
-    ],
-    "category": "Security",
-    "title": "Pod Security Standards and Admission",
-    "topic": "Security",
-    "related": [
-      {
-        "label": "securityContext Hardening",
-        "slug": "securitycontext-hardening"
-      },
-      {
-        "label": "RBAC and Least Privilege",
-        "slug": "rbac-least-privilege"
-      }
-    ],
-    "summary": "The privileged, baseline and restricted levels, enforce, warn and audit modes, Deployments accepted while their Pods are rejected, and a safe rollout.",
-    "publishedAt": "2026-09-26",
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/pod-security-admission",
-    "references": [
-      {
-        "label": "Kubernetes docs: Pod Security Standards",
-        "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: Pod Security Admission",
-        "url": "https://kubernetes.io/docs/concepts/security/pod-security-admission/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: Enforce Pod Security Standards with Namespace Labels",
-        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-namespace-labels/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: Migrate from PodSecurityPolicy",
-        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/",
-        "type": "doc"
-      }
-    ]
-  },
-  {
     "slug": "securitycontext-hardening",
     "id": 48,
     "requires": [
@@ -2229,101 +2284,46 @@
     ]
   },
   {
-    "slug": "managed-runtime-memory-in-containers",
-    "id": 49,
+    "slug": "pod-security-admission",
+    "id": 47,
     "requires": [
-      "resource-requests-limits-and-qos"
+      "securitycontext-hardening"
     ],
-    "category": "Workloads",
-    "title": "Managed Runtime Memory in Containers",
-    "topic": "Workloads",
+    "category": "Security",
+    "title": "Pod Security Standards and Admission",
+    "topic": "Security",
     "related": [
       {
-        "label": "Requests, Limits, QoS Classes and OOMKilled",
-        "slug": "resource-requests-limits-and-qos"
+        "label": "securityContext Hardening",
+        "slug": "securitycontext-hardening"
       },
       {
-        "label": "metrics-server and kubectl top",
-        "slug": "metrics-server-and-kubectl-top"
+        "label": "RBAC and Least Privilege",
+        "slug": "rbac-least-privilege"
       }
     ],
-    "summary": "How the JVM, Node.js, .NET and Go size their heap under a container limit, what lives outside the heap, and a sizing rule that avoids OOMKilled.",
+    "summary": "The privileged, baseline and restricted levels, enforce, warn and audit modes, Deployments accepted while their Pods are rejected, and a safe rollout.",
     "publishedAt": "2026-09-26",
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/managed-runtime-memory-in-containers",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/pod-security-admission",
     "references": [
       {
-        "label": "Kubernetes docs: Assign Memory Resources to Containers",
-        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/",
+        "label": "Kubernetes docs: Pod Security Standards",
+        "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/",
         "type": "doc"
       },
       {
-        "label": "Java SE docs: the java command",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html",
+        "label": "Kubernetes docs: Pod Security Admission",
+        "url": "https://kubernetes.io/docs/concepts/security/pod-security-admission/",
         "type": "doc"
       },
       {
-        "label": "Node.js docs: --max-old-space-size",
-        "url": "https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-mib",
+        "label": "Kubernetes docs: Enforce Pod Security Standards with Namespace Labels",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-namespace-labels/",
         "type": "doc"
       },
       {
-        "label": ".NET docs: GC heap hard limit",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/garbage-collector#heap-hard-limit",
-        "type": "doc"
-      },
-      {
-        "label": "Go docs: A Guide to the Go Garbage Collector (memory limit)",
-        "url": "https://go.dev/doc/gc-guide#Memory_limit",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "logical-database-backups-with-kubectl-exec-and-cronjobs",
-    "id": 50,
-    "requires": [
-      "jobs-and-restart-policy"
-    ],
-    "category": "Storage & Backups",
-    "title": "Logical Database Backups with kubectl exec and CronJobs",
-    "topic": "Storage & Backups",
-    "related": [
-      {
-        "label": "Volume Backups, Velero and Restore Drills",
-        "slug": "volume-backups-velero-and-restore-drills"
-      },
-      {
-        "label": "Jobs, CronJobs and restartPolicy",
-        "slug": "jobs-and-restart-policy"
-      }
-    ],
-    "summary": "Streaming a dump off the cluster with kubectl exec, restoring it, and a backup CronJob that really fails when the dump fails (the sh -e pipe trap).",
-    "publishedAt": "2026-09-26",
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/kubernetes-concepts/logical-database-backups-with-kubectl-exec-and-cronjobs",
-    "references": [
-      {
-        "label": "kubectl exec reference",
-        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/",
-        "type": "doc"
-      },
-      {
-        "label": "kubectl cp reference",
-        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_cp/",
-        "type": "doc"
-      },
-      {
-        "label": "Kubernetes docs: CronJob",
-        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/",
-        "type": "doc"
-      },
-      {
-        "label": "MariaDB docs: mariadb-dump",
-        "url": "https://mariadb.com/kb/en/mariadb-dump/",
-        "type": "doc"
-      },
-      {
-        "label": "PostgreSQL docs: pg_dump",
-        "url": "https://www.postgresql.org/docs/current/app-pgdump.html",
+        "label": "Kubernetes docs: Migrate from PodSecurityPolicy",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/",
         "type": "doc"
       }
     ]

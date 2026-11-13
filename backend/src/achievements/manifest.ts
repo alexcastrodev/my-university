@@ -327,7 +327,7 @@ export const MANIFEST: TrackManifest[] = [
     status: 'active',
     source: { kind: 'concepts', module: 'dotnet-concepts', groupBy: 'topic', category: 'Platform & Tooling' },
     sessions: [
-      { sessionId: '01a14507-ff5a-7080-a4ca-0bba4614b2bb', title: 'Runtime & SDK', label: 'Runtime & SDK' },
+      { sessionId: '01a14507-ff5a-7080-a4ca-0bba4614b2bb', title: 'Runtime & SDK', label: ['Runtime & SDK', "What's New & Migration"] },
       { sessionId: '01a14507-ff5a-7083-915f-3714d30e9c41', title: 'Project System', label: 'Project System' },
       { sessionId: '01a14507-ff5a-7085-b12c-df6c42461320', title: 'NuGet & Packaging', label: 'NuGet & Packaging' },
       { sessionId: '01a14507-ff5a-7088-a730-416f32647d1d', title: 'Publishing, Native AOT & Diagnostics', label: ['Publishing & Native AOT', 'Diagnostics'] },
@@ -339,7 +339,7 @@ export const MANIFEST: TrackManifest[] = [
     status: 'active',
     source: { kind: 'concepts', module: 'dotnet-concepts', groupBy: 'topic', category: 'ASP.NET Core' },
     sessions: [
-      { sessionId: '01a14507-ff5a-708c-a524-d3bf8e8defaf', title: 'ASP.NET Core Fundamentals', label: 'ASP.NET Core Fundamentals' },
+      { sessionId: '01a14507-ff5a-708c-a524-d3bf8e8defaf', title: 'ASP.NET Core Fundamentals', label: ['ASP.NET Core Fundamentals', "What's New & Migration"] },
       { sessionId: '01a14507-ff5a-708f-ac9c-a326e69f2d0a', title: 'Hosting, Pipeline & Security', label: ['Hosting & Pipeline', 'Security'] },
       { sessionId: '01a14507-ff5a-7091-b7b6-d301f7ba6aa8', title: 'Minimal APIs', label: 'Minimal APIs' },
       { sessionId: '01a14507-ff5a-7094-8fa8-0ce25286f2c6', title: 'API Documentation & HTTP Clients', label: ['API Documentation', 'HTTP Clients'] },
@@ -363,7 +363,7 @@ export const MANIFEST: TrackManifest[] = [
     status: 'active',
     source: { kind: 'concepts', module: 'dotnet-concepts', groupBy: 'topic', category: 'Data Access' },
     sessions: [
-      { sessionId: '01a14507-ff5a-709f-99e7-c62547aaa327', title: 'Data Access Choices & EF Core', label: ['Data Access Choices', 'EF Core'] },
+      { sessionId: '01a14507-ff5a-709f-99e7-c62547aaa327', title: 'Data Access Choices & EF Core', label: ['Data Access Choices', 'EF Core', "What's New & Migration"] },
       { sessionId: '01a14507-ff5a-70a1-b037-ad42703dda25', title: 'EF Core Modeling', label: 'EF Core Modeling' },
       { sessionId: '01a14507-ff5a-70a3-b4de-a0eb9245f615', title: 'EF Core Querying & Migrations', label: ['EF Core Querying', 'Migrations'] },
     ],
@@ -394,7 +394,7 @@ export const MANIFEST: TrackManifest[] = [
     status: 'active',
     source: { kind: 'concepts', module: 'csharp-concepts', groupBy: 'topic', category: 'Language' },
     sessions: [
-      { sessionId: '01a14507-ff5a-70b5-bc3c-1f7add4c167c', title: 'Language Basics', label: 'Language Basics' },
+      { sessionId: '01a14507-ff5a-70b5-bc3c-1f7add4c167c', title: 'Language Basics', label: ['Language Basics', "What's New"] },
       { sessionId: '01a14507-ff5a-70b7-9953-ba0e90db48d6', title: 'Strings & Numbers', label: ['Strings & Formatting', 'Numbers & Conversions'] },
       { sessionId: '01a14507-ff5a-70ba-a57f-3a6efa6406d0', title: 'Control Flow & Pattern Matching', label: ['Operators & Control Flow', 'Pattern Matching'] },
       { sessionId: '01a14507-ff5a-70bc-82a7-20e5bf671213', title: 'Exceptions, Methods & Lambdas', label: ['Exceptions', 'Methods & Lambdas'] },
