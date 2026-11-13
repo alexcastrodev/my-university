@@ -1,5 +1,5 @@
 ---
-version: 1.0
+version: 1.1
 updatedAt: 2026-11-13
 ---
 ## Objective
@@ -8,7 +8,7 @@ From Go 1.5 through 1.24, `GOMAXPROCS` defaulted to the machine's core count, so
 pod limited to 2 CPUs on a 64-core node ran 64 Ps. Go 1.25 made the default
 container-aware on Linux and added periodic updates on every OS. This lesson separates
 what was measured from what comes from the documentation. Measured with Go 1.27.0
-(`GOTOOLCHAIN=go1.27.0`) on an Apple M4 Max (14 cores, arm64), macOS 27.0.1, 3 runs per
+(`GOTOOLCHAIN=go1.27.0`, module line `go 1.27` unless noted) on an Apple M4 Max (14 cores, arm64), macOS 27.0.1, 3 runs per
 program: the default and its overrides, `runtime.SetDefaultGOMAXPROCS`, the runtime
 goroutine that applies updates, how the `go` line in `go.mod` switches all of it off,
 and an open-loop CPU-bound load at `GOMAXPROCS` 1 to 56. Not measured, because macOS
@@ -68,7 +68,8 @@ From the 1.27 source and docs (not measured here):
   and a process migrated to another cgroup "will not notice".
 - In Kubernetes, the limit "defines a hard ceiling on how much CPU time the container can
   use" per scheduling interval, while "the CPU request typically defines a weighting"
-  (Kubernetes docs). Only the ceiling becomes `cpu.max`, which is why Go follows the limit.
+  (Kubernetes docs). The `runtime` doc: quota/period "usually corresponds to the 'CPU
+  limit' option, not 'CPU request'".
 
 ### Periodic updates: sysmon and the updater goroutine
 
@@ -183,10 +184,10 @@ GOMAXPROCS=56   3999 req/s  CPU  2.9 cores  p50=800µs    p99=800µs    max=1.1m
 
 Repeated in 3 runs: with 1 and 2 Ps throughput stopped at 1.3k to 1.5k and about 2.85k
 req/s, and the queue grew for the whole run (p50 from 0.5 to 3.6 s, `sched p99` is the
-`/sched/latencies` bucket bound). From 3 Ps up the load fit and p50 stayed at 0.7 to
-0.8 ms; 14 and 56 Ps showed no repeatable difference. Tails were noisy: this host ran
-other jobs (load average 8 to 13), and one run of 4 Ps fell to 3781 req/s with p50 108
-ms. An oversubscribed `GOMAXPROCS` costs nothing measurable when CPU is free; its cost
+`/sched/latencies` bucket bound). From 3 Ps up, 11 of 12 runs kept the offered rate
+(3965 to 3999 req/s) with p50 at 0.7 to 0.8 ms; 14 and 56 Ps showed no repeatable
+difference. Tails were noisy: this host ran other jobs (load average 8 to 13), and one
+run of 4 Ps fell to 3781 req/s with p50 108 ms. An oversubscribed `GOMAXPROCS` costs nothing measurable when CPU is free; its cost
 in a container is throttling, which needs a real cgroup to measure.
 
 ## Trade-offs
@@ -197,13 +198,14 @@ in a container is throttling, which needs a real cgroup to measure.
   CPUs running on a 128 core machine" as the case to fix with a limit or an explicit value.
 - **Rounding up and the floor of 2**: by the doc's rule a `500m` limit gets 2 Ps. By
   arithmetic, two busy threads spend 50 ms of quota in 25 ms of wall time and the
-  cgroup is throttled for the remaining 75 ms of the period. Small limits and Go
-  services do not mix well; `2500m` gets 3 Ps, which can also exceed 2.5.
+  cgroup is throttled for the remaining 75 ms of the period. A limit below 2 CPUs always
+  starts with more Ps than quota; `2500m` gets 3 Ps, which can also exceed 2.5.
 - **Explicit settings freeze the value**: the env var or a `runtime.GOMAXPROCS(n)` call
   with `n > 0` (which is what `automaxprocs` does) disables automatic updates, so a resized pod
   keeps the old value. `SetDefaultGOMAXPROCS` hands control back (measured above).
 - **Each change stops the world**: measured as one non-GC pause per effective change.
-  The runtime checks at most once per second, so updates are rare and cheap, but not free.
+  The runtime checks at most once per second, so updates are rare, but each one pauses
+  every goroutine.
 - **The go line is the switch**: upgrading the toolchain alone keeps the old defaults
   (measured with `go 1.24`); raise the `go` line or use a `godebug` block.
 
@@ -212,7 +214,7 @@ in a container is throttling, which needs a real cgroup to measure.
 - [Container-aware GOMAXPROCS, The Go Blog (Michael Pratt and Carlos Amedee, 2025)](https://go.dev/blog/container-aware-gomaxprocs): doc
 - [Go 1.25 Release Notes: container-aware GOMAXPROCS, SetDefaultGOMAXPROCS, go.dev](https://go.dev/doc/go1.25): doc
 - [runtime.GOMAXPROCS and SetDefaultGOMAXPROCS, pkg.go.dev](https://pkg.go.dev/runtime#GOMAXPROCS): doc
-- [Go, Debug and GODEBUG: containermaxprocs, updatemaxprocs and godebug blocks, go.dev](https://go.dev/doc/godebug): doc
+- [Go, Backwards Compatibility, and GODEBUG (containermaxprocs, updatemaxprocs, godebug blocks), go.dev](https://go.dev/doc/godebug): doc
 - [runtime/cgroup_linux.go at go1.27.0, go.googlesource.com](https://go.googlesource.com/go/+/refs/tags/go1.27.0/src/runtime/cgroup_linux.go): doc
 - [Go issue 73193: runtime: CPU limit-aware GOMAXPROCS default (proposal discussion)](https://go.dev/issue/73193): doc
 - [Kubernetes: Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/): doc

@@ -1,5 +1,320 @@
 [
   {
+    "slug": "goroutine-scheduler-gmp",
+    "id": 1,
+    "category": "Runtime",
+    "title": "The Goroutine Scheduler: G, M and P",
+    "topic": "Scheduler & GC",
+    "summary": "The Go scheduler from the header of runtime/proc.go and Vyukov's design doc, checked with Go 1.27 programs: G, M and P; the runnext slot running the newest goroutine first (and -race shuffling it); local and global run queues and work stealing in GODEBUG=schedtrace; asynchronous preemption by SIGURG against asyncpreemptoff=1 (a 1 ms sleep becoming 302 ms, a GC stop waiting for the loop); the P handed off 32 to 54 µs after a blocking read(2); 100 blocking reads costing 100 threads while the netpoller costs none; and the /sched/* metrics, including the name from the 1.26 release notes that does not exist.",
+    "publishedAt": "2026-11-13",
+    "requires": [],
+    "related": [
+      {
+        "label": "GOMAXPROCS in Containers",
+        "slug": "gomaxprocs-and-containers",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "The Go Garbage Collector: GOGC and GOMEMLIMIT",
+        "slug": "garbage-collector-gogc-and-gomemlimit",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Concurrency Bugs: Races and Deadlocks in Real Go Code",
+        "slug": "concurrency-bugs-races-and-deadlocks",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Thread Model: Legacy Control vs. Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Tokio Runtime Internals",
+        "slug": "tokio-runtime-internals",
+        "feature": "rust-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "runtime/proc.go at go1.27.0 (scheduler header comment and code), go.googlesource.com",
+        "url": "https://go.googlesource.com/go/+/refs/tags/go1.27.0/src/runtime/proc.go",
+        "type": "doc"
+      },
+      {
+        "label": "Dmitry Vyukov, Scalable Go Scheduler Design Doc (2012), golang.org/s/go11sched",
+        "url": "https://golang.org/s/go11sched",
+        "type": "doc"
+      },
+      {
+        "label": "Proposal 24543: Non-cooperative goroutine preemption, Austin Clements",
+        "url": "https://go.googlesource.com/proposal/+/refs/heads/master/design/24543-non-cooperative-preemption.md",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.14 Release Notes: asynchronous preemption, go.dev",
+        "url": "https://go.dev/doc/go1.14",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.26 Release Notes: new /sched metrics, go.dev",
+        "url": "https://go.dev/doc/go1.26",
+        "type": "doc"
+      },
+      {
+        "label": "Package runtime/metrics, pkg.go.dev",
+        "url": "https://pkg.go.dev/runtime/metrics",
+        "type": "doc"
+      },
+      {
+        "label": "Package runtime: GODEBUG schedtrace, scheddetail, asyncpreemptoff, pkg.go.dev",
+        "url": "https://pkg.go.dev/runtime",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "gomaxprocs-and-containers",
+    "id": 2,
+    "category": "Runtime",
+    "title": "GOMAXPROCS in Containers",
+    "topic": "Scheduler & GC",
+    "summary": "Go 1.25's container-aware GOMAXPROCS, separating what was measured on macOS with Go 1.27 from what comes from the docs and the runtime source: the rule (minimum of CPUs, affinity and the rounded-up cgroup limit, floor of 2, request ignored), the cpu.max and cfs quota files read only from the leaf cgroup, periodic updates by sysmon and the GOMAXPROCS updater goroutine, overrides and SetDefaultGOMAXPROCS with their stop-the-world pauses, the go line in go.mod turning it all off (and a godebug block turning it back on), a godebug counter that never moves, and an open-loop CPU-bound load showing capped throughput and seconds of latency below the needed parallelism, with throttling left to the documentation.",
+    "publishedAt": "2026-11-13",
+    "requires": [
+      "goroutine-scheduler-gmp"
+    ],
+    "related": [
+      {
+        "label": "The Goroutine Scheduler: G, M and P",
+        "slug": "goroutine-scheduler-gmp",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "The Go Garbage Collector: GOGC and GOMEMLIMIT",
+        "slug": "garbage-collector-gogc-and-gomemlimit",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Requests, Limits, QoS Classes and OOMKilled",
+        "slug": "resource-requests-limits-and-qos",
+        "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "Managed Runtime Memory in Containers",
+        "slug": "managed-runtime-memory-in-containers",
+        "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "Thread Pool Sizing: CPU-Bound vs. I/O-Bound Workloads",
+        "slug": "thread-pool-sizing",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Container-aware GOMAXPROCS, The Go Blog (Michael Pratt and Carlos Amedee, 2025)",
+        "url": "https://go.dev/blog/container-aware-gomaxprocs",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.25 Release Notes: container-aware GOMAXPROCS, SetDefaultGOMAXPROCS, go.dev",
+        "url": "https://go.dev/doc/go1.25",
+        "type": "doc"
+      },
+      {
+        "label": "runtime.GOMAXPROCS and SetDefaultGOMAXPROCS, pkg.go.dev",
+        "url": "https://pkg.go.dev/runtime#GOMAXPROCS",
+        "type": "doc"
+      },
+      {
+        "label": "Go, Backwards Compatibility, and GODEBUG (containermaxprocs, updatemaxprocs, godebug blocks), go.dev",
+        "url": "https://go.dev/doc/godebug",
+        "type": "doc"
+      },
+      {
+        "label": "runtime/cgroup_linux.go at go1.27.0, go.googlesource.com",
+        "url": "https://go.googlesource.com/go/+/refs/tags/go1.27.0/src/runtime/cgroup_linux.go",
+        "type": "doc"
+      },
+      {
+        "label": "Go issue 73193: runtime: CPU limit-aware GOMAXPROCS default (proposal discussion)",
+        "url": "https://go.dev/issue/73193",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes: Resource Management for Pods and Containers",
+        "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+        "type": "doc"
+      },
+      {
+        "label": "Linux kernel docs: Control Group v2 (cpu.max)",
+        "url": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "garbage-collector-gogc-and-gomemlimit",
+    "id": 3,
+    "category": "Runtime",
+    "title": "The Go Garbage Collector: GOGC and GOMEMLIMIT",
+    "topic": "Scheduler & GC",
+    "summary": "Go's concurrent, non-moving tricolor mark-sweep collector from the hybrid write barrier proposal and the ISMM 2018 keynote; a GODEBUG=gctrace=1 line read field by field; one fixed workload measured in Go 1.27 under GOGC 50, 100, 200 and off, where each doubling halves cycles and GC CPU and doubles memory headroom; GOMEMLIMIT as a soft ceiling with GOGC=off (11 cycles instead of 62 to 64) and the suffixes it rejects; the death spiral with the live heap near and above the limit (30 times the GC CPU, memory passing the limit, a 6x slowdown the 50% CPU limiter does not prevent); and the knobs in runtime/metrics and runtime/debug.",
+    "publishedAt": "2026-11-13",
+    "requires": [],
+    "related": [
+      {
+        "label": "Green Tea GC",
+        "slug": "green-tea-gc",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "GOMAXPROCS in Containers",
+        "slug": "gomaxprocs-and-containers",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Moving Garbage Collectors and the RAM/CPU Trade-off",
+        "slug": "gc-ram-cpu-tradeoff",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Managed Runtime Memory in Containers",
+        "slug": "managed-runtime-memory-in-containers",
+        "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "Requests, Limits, QoS Classes and OOMKilled",
+        "slug": "resource-requests-limits-and-qos",
+        "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "Diagnosing Production with dotnet-trace, dotnet-dump and dotnet-gcdump",
+        "slug": "diagnosing-production-with-dotnet-trace-dump-and-gcdump",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "A Guide to the Go Garbage Collector, go.dev",
+        "url": "https://go.dev/doc/gc-guide",
+        "type": "doc"
+      },
+      {
+        "label": "Proposal: Eliminate STW stack re-scanning (hybrid write barrier), Clements and Hudson, 2016",
+        "url": "https://go.googlesource.com/proposal/+/master/design/17503-eliminate-rescan.md",
+        "type": "doc"
+      },
+      {
+        "label": "Proposal: Soft memory limit, Knyszek, 2021",
+        "url": "https://go.googlesource.com/proposal/+/master/design/48409-soft-memory-limit.md",
+        "type": "doc"
+      },
+      {
+        "label": "Getting to Go: The Journey of Go's Garbage Collector (ISMM 2018 keynote), The Go Blog",
+        "url": "https://go.dev/blog/ismmkeynote",
+        "type": "doc"
+      },
+      {
+        "label": "Package runtime/metrics, pkg.go.dev",
+        "url": "https://pkg.go.dev/runtime/metrics",
+        "type": "doc"
+      },
+      {
+        "label": "Package runtime/debug (SetGCPercent, SetMemoryLimit), pkg.go.dev",
+        "url": "https://pkg.go.dev/runtime/debug",
+        "type": "doc"
+      },
+      {
+        "label": "Package runtime (GODEBUG gctrace format), pkg.go.dev",
+        "url": "https://pkg.go.dev/runtime",
+        "type": "doc"
+      },
+      {
+        "label": "runtime/mgclimit.go at go1.27.0 (GC CPU limiter), Go source",
+        "url": "https://go.googlesource.com/go/+/refs/tags/go1.27.0/src/runtime/mgclimit.go",
+        "type": "doc"
+      },
+      {
+        "label": "Dijkstra, Lamport, Martin, Scholten and Steffens, On-the-fly garbage collection, CACM 1978",
+        "url": "https://doi.org/10.1145/359642.359655",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "green-tea-gc",
+    "id": 4,
+    "category": "Runtime",
+    "title": "Green Tea GC",
+    "topic": "Scheduler & GC",
+    "summary": "Green Tea, the default mark algorithm since Go 1.26, which queues spans instead of objects and scans the marked objects of each span in one pass; the two bit sets per span and the 16 to 512 byte window read from the runtime source; the GOEXPERIMENT=nogreenteagc opt-out, which still builds in Go 1.27.0 despite the 1.26 notes; GC CPU per cycle measured on arm64 with and without Green Tea on three heap shapes (50 to 58% less on a graph of small objects, a tie on one long chain, 26 to 38% more on 2 KiB objects) and on an allocation-driven loop (about 50% less); and the comparison with the 10 to 40% in the release notes.",
+    "publishedAt": "2026-11-13",
+    "requires": [
+      "garbage-collector-gogc-and-gomemlimit"
+    ],
+    "related": [
+      {
+        "label": "The Go Garbage Collector: GOGC and GOMEMLIMIT",
+        "slug": "garbage-collector-gogc-and-gomemlimit",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Choosing a Garbage Collector: Serial, Parallel, G1, ZGC, and Shenandoah",
+        "slug": "choosing-a-garbage-collector",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "The Garbage Collector: Generations and the LOH",
+        "slug": "garbage-collector-generations-and-the-loh",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The Green Tea Garbage Collector, The Go Blog (Knyszek and Clements, 2025)",
+        "url": "https://go.dev/blog/greenteagc",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.26 Release Notes: new garbage collector, go.dev",
+        "url": "https://go.dev/doc/go1.26",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.27 Release Notes, go.dev",
+        "url": "https://go.dev/doc/go1.27",
+        "type": "doc"
+      },
+      {
+        "label": "runtime: green tea garbage collector, golang/go issue 73581",
+        "url": "https://github.com/golang/go/issues/73581",
+        "type": "doc"
+      },
+      {
+        "label": "runtime/mgcmark_greenteagc.go at go1.27.0, Go source",
+        "url": "https://go.googlesource.com/go/+/refs/tags/go1.27.0/src/runtime/mgcmark_greenteagc.go",
+        "type": "doc"
+      },
+      {
+        "label": "internal/buildcfg/exp.go at go1.27.0 (GOEXPERIMENT baseline), Go source",
+        "url": "https://go.googlesource.com/go/+/refs/tags/go1.27.0/src/internal/buildcfg/exp.go",
+        "type": "doc"
+      },
+      {
+        "label": "A Guide to the Go Garbage Collector, go.dev",
+        "url": "https://go.dev/doc/gc-guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "memory-model-and-sync-atomic",
     "id": 5,
     "category": "Language",

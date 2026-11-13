@@ -1,5 +1,5 @@
 ---
-version: 1.0
+version: 1.1
 updatedAt: 2026-11-13
 ---
 ## Objective
@@ -69,15 +69,15 @@ run order: [10 1 2 3 4 5 6 7 8 9]
 
 `go` puts the new G in `runnext` and kicks the previous occupant to the tail of the
 local queue (`runqput` with `next=true`), so the last goroutine created runs first and
-the rest run FIFO. The source explains the trade: a goroutine run from `runnext`
-inherits the current time slice, which helps producer/consumer pairs, and sysmon must
-preempt the pair if it ping-pongs forever. Under `-race` the runtime sets
+the rest run FIFO. The source spells out the price: a goroutine run from `runnext`
+shares the current time slice, so two goroutines readying each other could starve the
+rest, and the runtime relies on sysmon to preempt such a pair. Under `-race` it sets
 `randomizeScheduler` and skips `runnext` half the time:
 
 ```text
-run order: [5 1 2 4 3 6 7 8 9 10]
-run order: [9 1 3 2 5 6 4 8 7 10]
-run order: [9 2 3 4 5 1 7 6 8 10]
+run order: [9 1 3 2 4 5 7 8 6 10]
+run order: [10 2 1 3 4 5 6 7 9 8]
+run order: [9 1 2 4 3 5 7 8 6 10]
 ```
 
 ### Local and global queues, work stealing
@@ -120,9 +120,20 @@ func spin(n int) {
 }
 
 runtime.GOMAXPROCS(1)
+// Phase 1, one P: can a sleeping goroutine get the CPU back from a tight loop?
+done := make(chan struct{})
 go func() { spin(1_000_000_000); close(done) }()
-time.Sleep(time.Millisecond) // phase 1: can main get the only P back?
-// phase 2: GOMAXPROCS(2), spinner on the other P, then runtime.GC() must stop it
+t1 := time.Now()
+time.Sleep(time.Millisecond)
+<-done
+
+// Phase 2, two Ps: the GC must stop a tight loop running on the other P.
+runtime.GOMAXPROCS(2)
+done = make(chan struct{})
+go func() { spin(1_000_000_000); close(done) }()
+time.Sleep(20 * time.Millisecond) // let the spinner get going on the other P
+t2 := time.Now()
+runtime.GC()
 ```
 
 ```text
@@ -146,8 +157,8 @@ calls `preemptone` when a P has been on the same schedtick for
 `stackPreempt` (the cooperative check at the next call) and calls `preemptM`, which
 sends `SIGURG`; the handler injects a call at a safe point. The spread fits: the
 spinner started from `runnext` and inherited main's slice (3 ms), and an idle sysmon
-checks less often (23 ms). The proposal rejected
-compiler checks on loop back-edges because they cost 7.8% geomean on a benchmark suite.
+checks less often (23 ms). The proposal rejected cooperative loop preemption: its
+cheapest variant (fault-based) still cost 7.8% geomean on a large benchmark suite.
 The Go 1.14 notes list the cost of signals: more `EINTR` from slow syscalls made through
 `syscall` or `x/sys/unix`. Per the runtime docs, `asyncpreemptoff=1` also disables
 conservative scanning of asynchronously preempted stacks, which is why it is a GC
@@ -217,17 +228,19 @@ the thread metric `/sched/threads:threads`; reading that name returned `KindBad`
 
 ## Trade-offs
 
-- **Async preemption is not free**: it bounds a tight loop at about 10 ms, but the
-  process receives a `SIGURG` per preemption, and raw syscalls must retry on `EINTR`.
+- **Async preemption is not free**: it bounds a tight loop at roughly 10 ms (3 to 23 ms
+  above), but each preemption arrives as a `SIGURG`, and raw syscalls must retry on `EINTR`.
   `asyncpreemptoff=1` is a debugging switch: above it turned a 1 ms sleep into 302 ms.
-- **Blocking syscalls and cgo cost a thread each**: 100 blocked `read(2)` calls made 102
-  threads, which were kept after returning. Sockets, pipes and timers go through the
+- **Blocking syscalls cost a thread each**: 100 blocked `read(2)` calls made 102 threads,
+  which were kept after returning; cgo calls take the same `entersyscall` path
+  (`cgocall.go`). Sockets, pipes and timers go through the
   netpoller; per the `os` source, regular files and directories are never registered
   with kqueue, so their reads hold a thread too.
 - **runnext trades order for locality**: the newest goroutine runs first and shares the
   time slice. Tests that assume FIFO start order break, and `-race` makes that visible.
-- **Spinning trades CPU for wake-up latency**: up to half the busy Ps' worth of Ms may
-  spin before parking, which shows up as CPU use on an idle service.
+- **Spinning trades CPU for wake-up latency**: the design doc chose to "burn CPU cycles"
+  looking for work instead of parking threads at once; the source caps spinning Ms at
+  half the busy Ps, so some CPU goes to searching rather than to your code.
 - **Design doc versus today**: the 2012 doc describes P and stealing as they still work,
   but not `runnext`, async preemption, the netpoller loop or the 1.27 syscall path;
   read the header and code of `proc.go` for the current behavior.
