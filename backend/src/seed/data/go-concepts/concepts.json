@@ -86,6 +86,11 @@
         "feature": "go-concepts"
       },
       {
+        "label": "Goroutine Leak Detection: the goroutineleak Profile and goleak",
+        "slug": "goroutine-leak-detection",
+        "feature": "go-concepts"
+      },
+      {
         "label": "The Go Memory Model and sync/atomic",
         "slug": "memory-model-and-sync-atomic",
         "feature": "go-concepts"
@@ -160,6 +165,11 @@
         "feature": "go-concepts"
       },
       {
+        "label": "Goroutine Leak Detection: the goroutineleak Profile and goleak",
+        "slug": "goroutine-leak-detection",
+        "feature": "go-concepts"
+      },
+      {
         "label": "Cancellation Safety and Graceful Shutdown",
         "slug": "cancellation-safety-and-graceful-shutdown",
         "feature": "rust-concepts"
@@ -231,6 +241,16 @@
         "feature": "go-concepts"
       },
       {
+        "label": "Goroutine Leak Detection: the goroutineleak Profile and goleak",
+        "slug": "goroutine-leak-detection",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Deterministic Tests with testing/synctest",
+        "slug": "deterministic-tests-with-synctest",
+        "feature": "go-concepts"
+      },
+      {
         "label": "Deadlock: Lock Ordering, Open Calls, and How to Avoid It",
         "slug": "deadlock-lock-ordering-and-avoidance",
         "feature": "java-concepts"
@@ -275,6 +295,144 @@
       {
         "label": "The Go Memory Model",
         "url": "https://go.dev/ref/mem",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "goroutine-leak-detection",
+    "id": 12,
+    "category": "Language",
+    "title": "Goroutine Leak Detection: the goroutineleak Profile and goleak",
+    "topic": "Concurrency",
+    "summary": "The goroutineleak profile, generally available in Go 1.27 in runtime/pprof and at /debug/pprof/goroutineleak, how the GC proves by reachability that a blocked goroutine can never wake up (Golf, ASPLOS 2025), the blind spots measured with primitives reachable from globals, from sleeping goroutines and from a closure-captured variable, a comparison with the goroutine profile and with go.uber.org/goleak in tests, and the measured cost of one detection cycle, including the chained worst case.",
+    "publishedAt": "2026-11-13",
+    "requires": [],
+    "related": [
+      {
+        "label": "Concurrency Bugs: Races and Deadlocks in Real Go Code",
+        "slug": "concurrency-bugs-races-and-deadlocks",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Context: Cancellation Trees, Deadlines and Causes",
+        "slug": "context-cancellation-and-deadlines",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Deterministic Tests with testing/synctest",
+        "slug": "deterministic-tests-with-synctest",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "ThreadLocal: Per-Thread State, Leaks, and InheritableThreadLocal",
+        "slug": "threadlocal-and-inheritable-threadlocal",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Goroutine Leak Profiles, The Go Blog",
+        "url": "https://go.dev/blog/goroutine-leak-profiles",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.27 Release Notes: Goroutine leak profile",
+        "url": "https://go.dev/doc/go1.27",
+        "type": "doc"
+      },
+      {
+        "label": "Proposal 74609: Goroutine leak detection via garbage collection",
+        "url": "https://go.googlesource.com/proposal/+/HEAD/design/74609-goroutine-leak-detection-gc.md",
+        "type": "doc"
+      },
+      {
+        "label": "runtime/pprof package documentation",
+        "url": "https://pkg.go.dev/runtime/pprof",
+        "type": "doc"
+      },
+      {
+        "label": "net/http/pprof package documentation",
+        "url": "https://pkg.go.dev/net/http/pprof",
+        "type": "doc"
+      },
+      {
+        "label": "go.uber.org/goleak package documentation",
+        "url": "https://pkg.go.dev/go.uber.org/goleak",
+        "type": "doc"
+      },
+      {
+        "label": "Dynamic Partial Deadlock Detection and Recovery via Garbage Collection, ASPLOS 2025",
+        "url": "https://doi.org/10.1145/3676641.3715990",
+        "type": "paper"
+      },
+      {
+        "label": "Unveiling and Vanquishing Goroutine Leaks in Enterprise Microservices, CGO 2024",
+        "url": "https://arxiv.org/abs/2312.12002",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "deterministic-tests-with-synctest",
+    "id": 13,
+    "category": "Language",
+    "title": "Deterministic Tests with testing/synctest",
+    "topic": "Concurrency",
+    "summary": "testing/synctest bubbles (generally available in Go 1.25) with a fake clock that only advances when every goroutine is durably blocked, what counts as durably blocked and why mutexes and I/O freeze the clock, synctest.Wait as a synchronization point for the race detector, a retry, a deadline and 23 fake minutes of cache expiry measured in microseconds, the same-instant timer flake fixed by synctest.Sleep (Go 1.27), httptest.NewTestServer (Go 1.27) with in-memory networking, and the panics and fatal errors measured when each rule is broken.",
+    "publishedAt": "2026-11-13",
+    "requires": [],
+    "related": [
+      {
+        "label": "Concurrency Bugs: Races and Deadlocks in Real Go Code",
+        "slug": "concurrency-bugs-races-and-deadlocks",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Goroutine Leak Detection: the goroutineleak Profile and goleak",
+        "slug": "goroutine-leak-detection",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Context: Cancellation Trees, Deadlines and Causes",
+        "slug": "context-cancellation-and-deadlines",
+        "feature": "go-concepts"
+      },
+      {
+        "label": "Dates, Times and Time Zones",
+        "slug": "dates-times-and-time-zones",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "testing/synctest package documentation",
+        "url": "https://pkg.go.dev/testing/synctest",
+        "type": "doc"
+      },
+      {
+        "label": "Testing concurrent code with testing/synctest, The Go Blog",
+        "url": "https://go.dev/blog/synctest",
+        "type": "doc"
+      },
+      {
+        "label": "Testing Time (and other asynchronicities), The Go Blog",
+        "url": "https://go.dev/blog/testing-time",
+        "type": "doc"
+      },
+      {
+        "label": "Go 1.27 Release Notes: synctest.Sleep and httptest.NewTestServer",
+        "url": "https://go.dev/doc/go1.27",
+        "type": "doc"
+      },
+      {
+        "label": "net/http/httptest package documentation",
+        "url": "https://pkg.go.dev/net/http/httptest",
+        "type": "doc"
+      },
+      {
+        "label": "Data Race Detector, Go documentation",
+        "url": "https://go.dev/doc/articles/race_detector",
         "type": "doc"
       }
     ]
