@@ -44,7 +44,7 @@
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   color: var(--mu-white);
   border: 1px solid transparent;
 }

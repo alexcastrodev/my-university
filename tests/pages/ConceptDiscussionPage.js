@@ -3,7 +3,7 @@ export class ConceptDiscussionPage {
   constructor(page) {
     this.page = page;
     this.root = page.locator('app-concept-detail-layout app-concept-discussion');
-    this.composer = this.root.locator('.discussion > .composer textarea[role="combobox"]');
+    this.composer = this.root.locator('.discussion > .composer textarea[aria-autocomplete="list"]');
     this.postButton = this.root.locator('.discussion > .composer button.send');
     this.suggestions = this.root.getByRole('listbox');
     this.options = this.suggestions.getByRole('option');

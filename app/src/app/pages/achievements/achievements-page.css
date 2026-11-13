@@ -31,7 +31,7 @@
   border: 1px solid transparent;
 }
 .retry-btn { background: var(--mu-surface); color: var(--mu-ink); border-color: var(--mu-line); }
-.btn-small { background: var(--mu-accent); color: var(--mu-white); padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+.btn-small { background: var(--mu-accent-fill); color: var(--mu-white); padding: 0.4rem 0.9rem; font-size: 0.8rem; }
 
 .section-title { font-size: 0.95rem; font-weight: 700; color: var(--mu-ink); margin: 0 0 0.9rem; }
 
@@ -42,7 +42,7 @@
 .progress-head { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
 .progress-title { font-size: 0.9rem; font-weight: 600; color: var(--mu-ink); }
 .progress-bar { height: 8px; background: var(--mu-bg-alt); border-radius: 4px; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--mu-accent); border-radius: 4px; transition: width .3s ease; }
+.progress-fill { height: 100%; background: var(--mu-accent-fill); border-radius: 4px; transition: width .3s ease; }
 .progress-meta { font-size: 0.75rem; color: var(--mu-faint); }
 
 .cards {

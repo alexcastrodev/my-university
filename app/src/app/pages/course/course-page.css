@@ -86,7 +86,7 @@
 }
 
 .quiz-btn {
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   color: var(--mu-white);
   border: none;
   border-radius: 6px;

@@ -93,7 +93,7 @@
 
 .progress-fill {
   height: 100%;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   border-radius: 3px;
   transition: width .3s ease;
 }
@@ -181,7 +181,7 @@
 }
 
 .btn.submit {
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   color: var(--mu-white);
 }
 

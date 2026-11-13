@@ -127,7 +127,7 @@
   font-weight: 600;
   text-decoration: none;
 }
-.action-btn.primary { background: var(--mu-accent); color: var(--mu-surface); }
+.action-btn.primary { background: var(--mu-accent-fill); color: var(--mu-white); }
 
 @media (max-width: 768px) {
   .page-hero { padding: 2rem 1rem 1.75rem; }

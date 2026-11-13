@@ -17,7 +17,7 @@
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   color: var(--mu-white);
   border: 1px solid transparent;
 }

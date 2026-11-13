@@ -203,4 +203,4 @@
 
 .action-btn:hover { opacity: .85; }
 .action-btn.secondary { background: var(--mu-surface); color: var(--mu-ink-soft); border: 1px solid var(--mu-divider); }
-.action-btn.primary { background: var(--mu-accent); color: var(--mu-surface); }
+.action-btn.primary { background: var(--mu-accent-fill); color: var(--mu-white); }

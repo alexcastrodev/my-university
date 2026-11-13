@@ -21,7 +21,7 @@
   font: inherit;
   font-weight: 600;
   color: var(--mu-white);
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   border: 0;
   border-radius: 8px;
   cursor: pointer;

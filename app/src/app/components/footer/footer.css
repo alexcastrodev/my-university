@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   background: #1a1a1a;
-  color: var(--mu-divider);
+  color: #9ca3af; /* the footer is dark in both themes, so no theme token */
   padding: 1rem 1.25rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }

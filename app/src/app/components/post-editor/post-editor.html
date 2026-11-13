@@ -60,10 +60,7 @@
   <textarea
     #area
     class="area"
-    role="combobox"
     aria-autocomplete="list"
-    aria-haspopup="listbox"
-    [attr.aria-expanded]="suggestions().length > 0"
     [attr.aria-controls]="listId"
     [attr.aria-activedescendant]="suggestions().length ? listId + '-' + activeIndex() : null"
     [hidden]="previewing()"

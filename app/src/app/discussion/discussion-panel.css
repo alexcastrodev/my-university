@@ -291,7 +291,7 @@
   padding: 0.35rem 0.9rem;
   border: none;
   border-radius: 6px;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   color: var(--mu-white);
   font-family: inherit;
   font-size: 0.8rem;

@@ -72,7 +72,7 @@
 }
 
 .action-btn:hover { opacity: .85; }
-.action-btn.primary { background: var(--mu-accent); color: var(--mu-surface); }
+.action-btn.primary { background: var(--mu-accent-fill); color: var(--mu-white); }
 
 .attempts-list {
   max-width: 720px;

@@ -28,7 +28,7 @@
 }
 .btn:hover { opacity: 0.88; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-primary { background: var(--mu-accent); color: var(--mu-white); }
+.btn-primary { background: var(--mu-accent-fill); color: var(--mu-white); }
 .btn-quiet { background: var(--mu-bg-alt); color: var(--mu-ink-soft); border-color: var(--mu-line); }
 .github-btn { background: #24292f; color: var(--mu-white); }
 

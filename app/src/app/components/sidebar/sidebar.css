@@ -171,7 +171,7 @@
   min-width: 18px;
   padding: 0 5px;
   border-radius: 999px;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   color: var(--mu-white);
   font-size: 0.7rem;
   font-weight: 700;
@@ -446,7 +446,7 @@ span.icon {
   min-width: 18px;
   padding: 0 0.35rem;
   border-radius: 9px;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   color: var(--mu-white);
   font-size: 0.68rem;
   font-weight: 700;
@@ -498,7 +498,7 @@ span.icon {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .bookmarks-item {
@@ -517,7 +517,7 @@ span.icon {
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.03em;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .bookmarks-area,

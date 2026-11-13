@@ -50,7 +50,7 @@
 
 .library-button-primary {
   color: var(--mu-white);
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   border-color: var(--mu-accent);
 }
 
