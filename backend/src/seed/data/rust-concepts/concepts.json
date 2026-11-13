@@ -1,5 +1,180 @@
 [
   {
+    "slug": "send-sync-and-interior-mutability",
+    "id": 14,
+    "category": "Concurrency & Async",
+    "title": "Send, Sync and Interior Mutability",
+    "topic": "Threads & Atomics",
+    "summary": "Send and Sync as auto traits, with a compiled table of which std types implement them, the real E0277 errors for Rc, RefCell and Cell across threads, a measured refcount corruption from a false unsafe impl Send on Rc, UnsafeCell as the only legal door to interior mutability and the assembly it changes, Cell and RefCell sizes and the RefCell re-entrancy panic, OnceLock and LazyLock (1.80) racing, poisoning and re-entrant deadlock, and hand-written unsafe impl Send and Sync with the edition 2021 disjoint-capture gotcha, on Rust 1.100.0.",
+    "publishedAt": "2026-11-13",
+    "related": [
+      {
+        "label": "Atomics and Memory Ordering",
+        "slug": "atomics-and-memory-ordering",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Visibility and Safe Publication Across Threads",
+        "slug": "visibility-and-safe-publication",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Locks, Monitor, and Interlocked",
+        "slug": "locks-monitor-and-interlocked",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Concurrency Bugs: Races and Deadlocks in Real Go Code",
+        "slug": "concurrency-bugs-races-and-deadlocks",
+        "feature": "go-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The Rustonomicon: Send and Sync",
+        "url": "https://doc.rust-lang.org/nomicon/send-and-sync.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::cell module: interior mutability",
+        "url": "https://doc.rust-lang.org/std/cell/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::cell::UnsafeCell",
+        "url": "https://doc.rust-lang.org/std/cell/struct.UnsafeCell.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::sync::OnceLock",
+        "url": "https://doc.rust-lang.org/std/sync/struct.OnceLock.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::sync::LazyLock",
+        "url": "https://doc.rust-lang.org/std/sync/struct.LazyLock.html",
+        "type": "doc"
+      },
+      {
+        "label": "The Rust Reference: interior mutability",
+        "url": "https://doc.rust-lang.org/reference/interior-mutability.html",
+        "type": "doc"
+      },
+      {
+        "label": "Announcing Rust 1.80.0 (LazyCell and LazyLock), Rust Blog",
+        "url": "https://blog.rust-lang.org/2024/07/25/Rust-1.80.0/",
+        "type": "doc"
+      },
+      {
+        "label": "Rust Atomics and Locks, chapter 1: Basics of Rust Concurrency (Mara Bos, O'Reilly 2023)",
+        "url": "https://marabos.nl/atomics/basics.html",
+        "type": "book"
+      }
+    ],
+    "requires": []
+  },
+  {
+    "slug": "atomics-and-memory-ordering",
+    "id": 15,
+    "category": "Concurrency & Async",
+    "title": "Atomics and Memory Ordering",
+    "topic": "Threads & Atomics",
+    "summary": "Rust's memory model, inherited from C++20, measured on arm64, with the instruction each ordering compiles to (ldapr for Acquire, ldar for SeqCst, ldadd, casal, dmb), store buffering litmus tests where Release/Acquire still shows the forbidden outcome tens of thousands of times per 10 million rounds while SeqCst or a SeqCst fence shows zero, message passing where Relaxed fails rarely and Release/Acquire or fences never do, lost updates from a load followed by a store, spurious failures of compare_exchange_weak only on LL/SC builds, and update/try_update (1.95) with fetch_update deprecated in 1.99, on Rust 1.100.0.",
+    "publishedAt": "2026-11-13",
+    "requires": [
+      "send-sync-and-interior-mutability"
+    ],
+    "related": [
+      {
+        "label": "Send, Sync and Interior Mutability",
+        "slug": "send-sync-and-interior-mutability",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "The Java Memory Model: Happens-Before and Reordering",
+        "slug": "java-memory-model-and-happens-before",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "VarHandle: Lock-Free Access to Ordinary Fields",
+        "slug": "varhandle-lock-free-field-access",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Memory Model, volatile, and Thread-Local State",
+        "slug": "memory-model-volatile-and-thread-local-state",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Locks, Monitor, and Interlocked",
+        "slug": "locks-monitor-and-interlocked",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Go Memory Model and sync/atomic",
+        "slug": "memory-model-and-sync-atomic",
+        "feature": "go-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "std::sync::atomic module: memory model for atomic accesses",
+        "url": "https://doc.rust-lang.org/std/sync/atomic/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::sync::atomic::Ordering",
+        "url": "https://doc.rust-lang.org/std/sync/atomic/enum.Ordering.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::sync::atomic::fence",
+        "url": "https://doc.rust-lang.org/std/sync/atomic/fn.fence.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::sync::atomic::Atomic: update, try_update and compare_exchange_weak",
+        "url": "https://doc.rust-lang.org/std/sync/atomic/struct.Atomic.html",
+        "type": "doc"
+      },
+      {
+        "label": "The Rustonomicon: Atomics",
+        "url": "https://doc.rust-lang.org/nomicon/atomics.html",
+        "type": "doc"
+      },
+      {
+        "label": "Announcing Rust 1.95.0 (atomic update and try_update), Rust Blog",
+        "url": "https://blog.rust-lang.org/2026/04/16/Rust-1.95.0/",
+        "type": "doc"
+      },
+      {
+        "label": "Rust Atomics and Locks, chapter 2: Atomics (Mara Bos, O'Reilly 2023)",
+        "url": "https://marabos.nl/atomics/atomics.html",
+        "type": "book"
+      },
+      {
+        "label": "Rust Atomics and Locks, chapter 3: Memory Ordering (Mara Bos, O'Reilly 2023)",
+        "url": "https://marabos.nl/atomics/memory-ordering.html",
+        "type": "book"
+      },
+      {
+        "label": "Rust Atomics and Locks, chapter 7: Understanding the Processor (Mara Bos, O'Reilly 2023)",
+        "url": "https://marabos.nl/atomics/hardware.html",
+        "type": "book"
+      },
+      {
+        "label": "Alglave, Maranget and Tautschnig, Herding Cats: Modelling, Simulation, Testing, and Data Mining for Weak Memory, ACM TOPLAS 2014",
+        "url": "https://doi.org/10.1145/2627752",
+        "type": "paper"
+      },
+      {
+        "label": "Batty et al., Mathematizing C++ Concurrency, POPL 2011",
+        "url": "https://doi.org/10.1145/1926385.1926394",
+        "type": "paper"
+      }
+    ]
+  },
+  {
     "slug": "futures-wakers-and-the-poll-model",
     "id": 18,
     "category": "Concurrency & Async",
