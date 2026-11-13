@@ -243,7 +243,7 @@
 
 .new-badge {
   font-size: 0.65rem;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   color: var(--mu-white);
   border-radius: 4px;
   padding: 0.1rem 0.35rem;

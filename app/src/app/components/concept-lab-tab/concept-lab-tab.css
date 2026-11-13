@@ -37,7 +37,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   color: var(--mu-white);
   border-radius: 8px;
   padding: 0.7rem 1.4rem;

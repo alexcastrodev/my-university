@@ -54,7 +54,7 @@
   font-weight: 600;
   color: var(--mu-white);
   text-decoration: none;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   border: 0;
   border-radius: 8px;
   cursor: pointer;
@@ -312,7 +312,7 @@
   right: 1.25rem;
   width: 14px;
   height: 28px;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
 }
 
@@ -456,7 +456,7 @@
 
 .btn-primary {
   color: var(--mu-white);
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   border-color: var(--mu-accent);
 }
 

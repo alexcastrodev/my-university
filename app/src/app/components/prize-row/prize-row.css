@@ -18,7 +18,7 @@ summary.row:focus-visible { outline: 2px solid var(--mu-accent); outline-offset:
 .when { font-size: 0.75rem; color: var(--mu-faint); }
 .progress { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.3rem; }
 .bar { flex: 1; max-width: 12rem; height: 6px; background: var(--mu-bg-alt); border-radius: 3px; overflow: hidden; }
-.fill { display: block; height: 100%; background: var(--mu-accent); border-radius: 3px; }
+.fill { display: block; height: 100%; background: var(--mu-accent-fill); border-radius: 3px; }
 .count { font-size: 0.75rem; color: var(--mu-faint); white-space: nowrap; }
 
 .side { flex: none; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.3rem; max-width: 10rem; }

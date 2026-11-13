@@ -36,7 +36,7 @@
   font-weight: 600;
   cursor: pointer;
 }
-.filter[aria-pressed='true'] { background: var(--mu-accent); border-color: var(--mu-accent); color: var(--mu-white); }
+.filter[aria-pressed='true'] { background: var(--mu-accent-fill); border-color: var(--mu-accent); color: var(--mu-white); }
 
 .tracks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
 .track { background: var(--mu-surface); border: 1px solid var(--mu-line); border-radius: 12px; }
@@ -47,7 +47,7 @@
 .track-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.4rem; }
 .track-title { font-size: 0.92rem; font-weight: 700; color: var(--mu-ink); overflow-wrap: anywhere; }
 .track-bar { height: 6px; max-width: 16rem; background: var(--mu-bg-alt); border-radius: 3px; overflow: hidden; }
-.track-fill { display: block; height: 100%; background: var(--mu-accent); border-radius: 3px; }
+.track-fill { display: block; height: 100%; background: var(--mu-accent-fill); border-radius: 3px; }
 .track-meta { flex: none; font-size: 0.78rem; color: var(--mu-faint); white-space: nowrap; }
 .chevron { flex: none; color: var(--mu-muted); transition: transform 0.15s ease; }
 details[open] > .track-head .chevron { transform: rotate(180deg); }

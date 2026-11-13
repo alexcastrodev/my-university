@@ -44,7 +44,7 @@
   font-weight: 600;
   color: var(--mu-white);
   text-decoration: none;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   border-radius: 6px;
 }
 

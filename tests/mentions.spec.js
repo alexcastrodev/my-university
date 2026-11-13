@@ -34,7 +34,7 @@ test('mentions someone picked from the suggestions, who then gets a notification
   await discussion.goto(CONCEPT);
   await discussion.type(`Thanks @ana-${token.slice(0, 3)}`);
   await expect(discussion.option(handle)).toBeVisible();
-  await expect(discussion.composer).toHaveAttribute('aria-expanded', 'true');
+  await expect(discussion.composer).toHaveAttribute('aria-activedescendant', /.+/);
   await discussion.press('Enter');
   await expect(discussion.suggestions).toBeHidden();
   await expect(discussion.composer).toHaveValue(`Thanks @${handle} `);

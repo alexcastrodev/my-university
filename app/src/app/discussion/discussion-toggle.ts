@@ -55,7 +55,7 @@ import { DiscussionService } from './discussion.service';
       background: var(--mu-white);
       transition: transform 0.15s;
     }
-    .toggle[aria-checked='true'] .track { background: var(--mu-accent); }
+    .toggle[aria-checked='true'] .track { background: var(--mu-accent-fill); }
     .toggle[aria-checked='true'] .track i { transform: translateX(14px); }
   `,
 })

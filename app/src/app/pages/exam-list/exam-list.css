@@ -85,7 +85,7 @@
   font-size: 0.7rem;
   font-weight: 700;
   color: var(--mu-white);
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   border-radius: 12px;
   padding: 0.15rem 0.55rem;
 }

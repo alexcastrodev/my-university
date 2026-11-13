@@ -180,13 +180,14 @@ describe('PostEditor', () => {
       ]);
     });
 
-    it('wires the textarea as a combobox of the listbox', async () => {
-      expect(area.getAttribute('role')).toBe('combobox');
-      expect(area.getAttribute('aria-expanded')).toBe('false');
+    // A textarea may not take role="combobox" (axe aria-allowed-role), so it stays a textbox with list autocomplete.
+    it('wires the textarea to the listbox as a textbox with list autocomplete', async () => {
+      expect(area.getAttribute('role')).toBeNull();
+      expect(area.getAttribute('aria-autocomplete')).toBe('list');
+      expect(area.getAttribute('aria-activedescendant')).toBeNull();
       type('@an');
       await answer('an', [ANA, BIA]);
       const list = el.querySelector('[role="listbox"]')!;
-      expect(area.getAttribute('aria-expanded')).toBe('true');
       expect(area.getAttribute('aria-controls')).toBe(list.id);
       expect(area.getAttribute('aria-activedescendant')).toBe(options()[0].id);
       expect(options()[0].getAttribute('aria-selected')).toBe('true');

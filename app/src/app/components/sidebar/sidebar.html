@@ -213,7 +213,7 @@
         >
           <span class="avatar" [class.has-avatar]="!!user.avatarUrl">
             @if (user.avatarUrl) {
-              <img class="avatar-img" [src]="user.avatarUrl" [alt]="user.displayName" />
+              <img class="avatar-img" [src]="user.avatarUrl" alt="" />
             } @else {
               {{ userInitials() }}
             }

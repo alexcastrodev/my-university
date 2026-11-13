@@ -117,7 +117,7 @@ textarea.input {
   color: var(--mu-white);
   text-decoration: none;
   white-space: nowrap;
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   border: 0;
   border-radius: 8px;
   cursor: pointer;

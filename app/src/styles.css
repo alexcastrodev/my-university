@@ -9,7 +9,7 @@
   --mu-ink: #111827;          /* primary text */
   --mu-ink-soft: #374151;
   --mu-muted: #6b7280;
-  --mu-faint: #9ca3af;
+  --mu-faint: #6b7280;        /* same as --mu-muted: anything lighter fails 4.5:1 on --mu-bg */
   --mu-line: #e5e7eb;
   --mu-line-soft: #f3f4f6;
   --mu-surface: #ffffff;
@@ -19,6 +19,7 @@
   --mu-white: #ffffff;        /* text-on-accent / text-on-dark-surface — theme-invariant */
   --mu-accent: #c74634;       /* terracotta */
   --mu-accent-strong: #b23c2b;
+  --mu-accent-fill: #c74634;  /* accent as a background under --mu-white text: 4.5:1 in both themes */
   --mu-accent-soft: #fff1ef;
   --mu-accent-soft-strong: #fde3de;
   --mu-accent-border: #f3c9c1;
@@ -99,7 +100,7 @@
   --mu-ink: #f3f4f6;
   --mu-ink-soft: #d1d5db;
   --mu-muted: #9ca3af;
-  --mu-faint: #6b7280;
+  --mu-faint: #8c94a2;
   --mu-line: #2a3444;
   --mu-line-soft: #232d3d;
   --mu-surface: #17212f;
@@ -108,6 +109,7 @@
   --mu-bg-alt: #131b28;
   --mu-accent: #e2574a;
   --mu-accent-strong: #ff8f7f;
+  --mu-accent-fill: #c0392b;  /* --mu-accent is tuned for text on dark, too light under white text */
   --mu-accent-soft: #3a221e;
   --mu-accent-soft-strong: #4a2b25;
   --mu-accent-border: #5c3129;
@@ -229,6 +231,16 @@ html, body {
 @media (prefers-reduced-motion: reduce) {
   .mu-skeleton {
     animation: none;
+  }
+}
+
+/* Pinch zoom stays on (accessibility), so iOS Safari would zoom into any field under 16px on focus.
+   !important beats the component styles, which carry the higher-specificity _ngcontent selector. */
+@supports (-webkit-touch-callout: none) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
   }
 }
 
@@ -727,7 +739,7 @@ app-concept-actions {
   font-size: 0.72rem;
   font-weight: 600;
   color: var(--mu-white);
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   border-radius: 5px;
   padding: 0.15rem 0.4rem;
   white-space: nowrap;
@@ -813,7 +825,7 @@ app-concept-actions {
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--mu-white);
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   border-radius: 6px;
   box-shadow: 0 2px 5px rgba(199, 70, 52, 0.35);
   will-change: transform;
@@ -829,12 +841,12 @@ app-concept-actions {
 }
 
 @keyframes concept-viz-token-flash-in {
-  from { background: var(--mu-accent); box-shadow: 0 2px 5px rgba(199, 70, 52, 0.35); }
+  from { background: var(--mu-accent-fill); box-shadow: 0 2px 5px rgba(199, 70, 52, 0.35); }
   to { background: var(--mu-purple); box-shadow: 0 2px 8px rgba(139, 92, 246, 0.45); }
 }
 
 @keyframes concept-viz-token-pointer-in {
-  from { background: var(--mu-accent); box-shadow: 0 2px 5px rgba(199, 70, 52, 0.35); }
+  from { background: var(--mu-accent-fill); box-shadow: 0 2px 5px rgba(199, 70, 52, 0.35); }
   to { background: var(--mu-info); box-shadow: 0 2px 8px rgba(59, 130, 246, 0.45); }
 }
 
@@ -1240,7 +1252,7 @@ pre.dz-block .dz-marker {
 }
 
 .dz-marker.is-active {
-  background: var(--mu-accent);
+  background: var(--mu-accent-fill);
   border-color: var(--mu-accent);
   color: var(--mu-white);
 }
