@@ -1,5 +1,166 @@
 [
   {
+    "slug": "software-testing-principles",
+    "id": 3,
+    "session": "Principles, Strategy and End-to-End",
+    "category": "Java",
+    "title": "Software Testing Principles",
+    "summary": "Unit vs. integration vs. system vs. acceptance testing, and black-box vs. white-box testing — the vocabulary behind how a test suite is organized, from JUnit in Action, Third Edition, Ch. 5.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "JUnit 5 User Guide",
+        "url": "https://docs.junit.org/current/user-guide/",
+        "type": "doc"
+      },
+      {
+        "label": "Selenium — official site",
+        "url": "https://www.selenium.dev",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 5, \"Software testing principles,\" pp. 87–98 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "selenium-browser-testing",
+    "id": 7,
+    "session": "Principles, Strategy and End-to-End",
+    "category": "Java",
+    "title": "Selenium Browser Testing",
+    "summary": "Driving a real browser through the WebDriver interface — element lookup, cross-browser parameterized tests, and the Page Object model — with notes on what changed from the book's Selenium 3 to today's Selenium 4, from JUnit in Action, Third Edition, Ch. 15.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Selenium WebDriver — official documentation",
+        "url": "https://www.selenium.dev/documentation/webdriver/",
+        "type": "doc"
+      },
+      {
+        "label": "Selenium Manager — automatic driver management",
+        "url": "https://www.selenium.dev/documentation/selenium_manager/",
+        "type": "doc"
+      },
+      {
+        "label": "The Page Object Models — Selenium docs",
+        "url": "https://www.selenium.dev/documentation/test_practices/encouraged/page_object_models/",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 15.4–15.6, \"Presentation-layer testing\" (Selenium), pp. 294–309 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "test-driven-development",
+    "id": 13,
+    "session": "Principles, Strategy and End-to-End",
+    "category": "Java",
+    "title": "Test-Driven Development",
+    "summary": "The red-green-refactor cycle — write a failing test first, add the smallest code to pass, then refactor safely — driving design with JUnit 5, from JUnit in Action, Third Edition, Ch. 20.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Test-Driven Development — Martin Fowler",
+        "url": "https://martinfowler.com/bliki/TestDrivenDevelopment.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide — Writing Tests",
+        "url": "https://docs.junit.org/current/user-guide/#writing-tests",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 20, \"Test-driven development with JUnit 5,\" pp. 405–436 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "bdd-with-cucumber",
+    "id": 14,
+    "session": "Principles, Strategy and End-to-End",
+    "category": "Java",
+    "title": "BDD with Cucumber",
+    "summary": "Writing behavior specifications in business-readable Gherkin (Given/When/Then) and binding them to Java step definitions with Cucumber — with today's io.cucumber + JUnit 5 Platform setup replacing the book's obsolete info.cukes/@RunWith(Cucumber.class), from JUnit in Action, Third Edition, Ch. 21.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cucumber — official documentation",
+        "url": "https://cucumber.io/docs/cucumber/",
+        "type": "doc"
+      },
+      {
+        "label": "Gherkin reference — Cucumber docs",
+        "url": "https://cucumber.io/docs/gherkin/reference/",
+        "type": "doc"
+      },
+      {
+        "label": "cucumber-junit-platform-engine (JUnit 5 integration) — GitHub",
+        "url": "https://github.com/cucumber/cucumber-jvm/blob/main/cucumber-junit-platform-engine/README.md",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 21, \"Behavior-driven development with JUnit 5,\" pp. 437–470 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "test-pyramid-strategy",
+    "id": 15,
+    "session": "Principles, Strategy and End-to-End",
+    "category": "Java",
+    "title": "The Test Pyramid Strategy",
+    "summary": "How to distribute tests across levels — many fast unit tests at the base, fewer integration/system/acceptance tests toward the top — what to test at each level, and which tool fits each, from JUnit in Action, Third Edition, Ch. 22.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "The Practical Test Pyramid — Martin Fowler / Ham Vocke",
+        "url": "https://martinfowler.com/articles/practical-test-pyramid.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide",
+        "url": "https://docs.junit.org/current/user-guide/",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 22, \"Implementing a test pyramid strategy with JUnit 5,\" pp. 471–491 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "testing-by-code-type",
+    "id": 17,
+    "session": "Principles, Strategy and End-to-End",
+    "category": "Java",
+    "title": "Testing by Code Type: The Four Quadrants",
+    "summary": "A map of production code by complexity/domain significance and collaborator count — where unit testing pays off best, where it's a waste, and how the Humble Object pattern fixes the code that's genuinely hard to test.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 7 \"Refactoring Toward Valuable Unit Tests\", pp. 152-155",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Gerard Meszaros, \"xUnit Test Patterns: Refactoring Test Code\" (Addison-Wesley, 2007)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/xunit-test-patterns-refactoring-test-code/P200000009432",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "junit-5-fundamentals",
     "id": 1,
     "session": "JUnit 5",
@@ -58,30 +219,57 @@
     ]
   },
   {
-    "slug": "software-testing-principles",
-    "id": 3,
-    "session": "Principles, Strategy and End-to-End",
+    "slug": "junit-5-extension-model",
+    "id": 6,
+    "session": "JUnit 5",
     "category": "Java",
-    "title": "Software Testing Principles",
-    "summary": "Unit vs. integration vs. system vs. acceptance testing, and black-box vs. white-box testing — the vocabulary behind how a test suite is organized, from JUnit in Action, Third Edition, Ch. 5.",
+    "title": "JUnit 5 Extension Model",
+    "summary": "The five extension points (conditional execution, lifecycle callbacks, parameter resolution, exception handling, instance postprocessing) behind @ExtendWith — the same mechanism MockitoExtension and SpringExtension use — from JUnit in Action, Third Edition, Ch. 14.",
     "publishedAt": "2026-08-06",
     "references": [
       {
-        "label": "JUnit 5 User Guide",
-        "url": "https://docs.junit.org/current/user-guide/",
+        "label": "JUnit 5 User Guide — Extension Model",
+        "url": "https://docs.junit.org/current/user-guide/#extensions",
         "type": "doc"
       },
       {
-        "label": "Selenium — official site",
-        "url": "https://www.selenium.dev",
+        "label": "JUnit 5 Jupiter API — Extension",
+        "url": "https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/extension/Extension.html",
         "type": "doc"
       },
       {
-        "label": "JUnit in Action, 3rd Ed. — Ch. 5, \"Software testing principles,\" pp. 87–98 (Manning)",
+        "label": "JUnit in Action, 3rd Ed. — Ch. 14, \"JUnit 5 extension model,\" pp. 263–280 (Manning)",
         "url": "https://www.manning.com/books/junit-in-action-third-edition",
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "reusing-test-fixtures-and-parameterized-tests",
+    "category": "Java",
+    "title": "Reusing Test Fixtures, Parameterized Tests, and Assertion Libraries",
+    "summary": "Why constructor/@BeforeEach-based fixture reuse couples tests to each other and hurts readability, why private factory methods (Object Mother) are the better default, when to reach for @ParameterizedTest and @MethodSource, and how AssertJ's fluent style avoids the expected/actual argument-order trap.",
+    "publishedAt": "2026-08-17",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/testing-concepts/reusing-test-fixtures-and-parameterized-tests",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 3 \"The anatomy of a unit test\", Sections 3.3, 3.5-3.6, pp. 50-63",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide — Parameterized Tests",
+        "url": "https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests",
+        "type": "doc"
+      },
+      {
+        "label": "AssertJ — Fluent assertions for Java",
+        "url": "https://assertj.github.io/doc/",
+        "type": "doc"
+      }
+    ],
+    "id": 26,
+    "session": "JUnit 5"
   },
   {
     "slug": "test-quality-and-testable-code",
@@ -110,61 +298,126 @@
     ]
   },
   {
-    "slug": "selenium-browser-testing",
-    "id": 7,
-    "session": "Principles, Strategy and End-to-End",
+    "slug": "four-pillars-of-a-good-unit-test",
+    "id": 16,
+    "session": "Writing Good Unit Tests",
     "category": "Java",
-    "title": "Selenium Browser Testing",
-    "summary": "Driving a real browser through the WebDriver interface — element lookup, cross-browser parameterized tests, and the Page Object model — with notes on what changed from the book's Selenium 3 to today's Selenium 4, from JUnit in Action, Third Edition, Ch. 15.",
-    "publishedAt": "2026-08-06",
+    "title": "The Four Pillars of a Good Unit Test",
+    "summary": "Protection against regressions, resistance to refactoring, fast feedback, and maintainability — the four attributes that judge any automated test, and why no test can maximize all four at once.",
+    "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/testing-concepts/four-pillars-of-a-good-unit-test",
     "references": [
       {
-        "label": "Selenium WebDriver — official documentation",
-        "url": "https://www.selenium.dev/documentation/webdriver/",
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 4 \"The Four Pillars of a Good Unit Test\", pp. 67-86",
+        "url": "https://www.manning.com/books/unit-testing",
         "type": "doc"
       },
       {
-        "label": "Selenium Manager — automatic driver management",
-        "url": "https://www.selenium.dev/documentation/selenium_manager/",
-        "type": "doc"
-      },
-      {
-        "label": "The Page Object Models — Selenium docs",
-        "url": "https://www.selenium.dev/documentation/test_practices/encouraged/page_object_models/",
-        "type": "doc"
-      },
-      {
-        "label": "JUnit in Action, 3rd Ed. — Ch. 15.4–15.6, \"Presentation-layer testing\" (Selenium), pp. 294–309 (Manning)",
-        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "label": "JUnit 5 User Guide",
+        "url": "https://docs.junit.org/current/user-guide/",
         "type": "doc"
       }
     ]
   },
   {
-    "slug": "junit-5-extension-model",
-    "id": 6,
-    "session": "JUnit 5",
+    "slug": "three-styles-of-unit-testing",
     "category": "Java",
-    "title": "JUnit 5 Extension Model",
-    "summary": "The five extension points (conditional execution, lifecycle callbacks, parameter resolution, exception handling, instance postprocessing) behind @ExtendWith — the same mechanism MockitoExtension and SpringExtension use — from JUnit in Action, Third Edition, Ch. 14.",
-    "publishedAt": "2026-08-06",
+    "title": "Output-Based, State-Based, and Communication-Based Testing",
+    "summary": "The three ways a unit test can verify behavior — checking a returned output, checking resulting state, or checking a call made to a collaborator — and why output-based testing produces the highest-quality tests but only works for side-effect-free code, leaving state-based testing as the reasonable default and communication-based testing (mocks) as the rare exception.",
+    "publishedAt": "2026-08-13",
     "references": [
       {
-        "label": "JUnit 5 User Guide — Extension Model",
-        "url": "https://docs.junit.org/current/user-guide/#extensions",
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 6 \"Styles of Unit Testing\", pp. 119-128",
+        "url": "https://www.manning.com/books/unit-testing",
         "type": "doc"
       },
       {
-        "label": "JUnit 5 Jupiter API — Extension",
-        "url": "https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/extension/Extension.html",
+        "label": "JUnit 5 User Guide",
+        "url": "https://docs.junit.org/current/user-guide/",
         "type": "doc"
       },
       {
-        "label": "JUnit in Action, 3rd Ed. — Ch. 14, \"JUnit 5 extension model,\" pp. 263–280 (Manning)",
-        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "label": "java.util.List (Java SE 25 & JDK 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html",
         "type": "doc"
       }
-    ]
+    ],
+    "id": 21,
+    "session": "Writing Good Unit Tests"
+  },
+  {
+    "slug": "functional-architecture-and-testability",
+    "category": "Java",
+    "title": "Functional Architecture: Separating Decisions from Side Effects for Testability",
+    "summary": "Learn the functional-core/imperative-shell pattern for pulling business decisions out of side-effect-laden code so the decision logic becomes trivially output-based testable with zero mocks, and understand the real costs — a shell that still needs integration tests, allocation overhead from immutability in hot paths, and domain logic that can't always be cleanly separated this way.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 6 \"Styles of Unit Testing\", Sections 6.3-6.5 \"Understanding functional architecture\" / \"Transitioning to functional architecture and output-based testing\" / \"Understanding the drawbacks of functional architecture\", pp. 128-149",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Javadoc — java.util.Optional",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html",
+        "type": "doc"
+      }
+    ],
+    "id": 22,
+    "session": "Writing Good Unit Tests"
+  },
+  {
+    "slug": "unit-testing-anti-patterns",
+    "category": "Java",
+    "title": "Unit Testing Anti-Patterns: Private Methods, Leaked Domain Knowledge, and Time",
+    "summary": "Why testing private methods, exposing private state, reimplementing the SUT's logic in a test, polluting production code with test-only switches, mocking concrete classes, and calling the system clock directly all trace back to the same root cause — from Khorikov, Chapter 11 \"Unit testing anti-patterns\".",
+    "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/testing-concepts/unit-testing-anti-patterns",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 11 \"Unit testing anti-patterns\", pp. 259-273",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "java.time.Clock — Java SE Platform API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Clock.html",
+        "type": "doc"
+      },
+      {
+        "label": "Mockito API — CALLS_REAL_METHODS / partial mocking",
+        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html",
+        "type": "doc"
+      }
+    ],
+    "id": 23,
+    "session": "Writing Good Unit Tests"
+  },
+  {
+    "slug": "unit-test-structure-aaa-and-naming",
+    "category": "Java",
+    "title": "Structuring and Naming Unit Tests: AAA and Plain-English Names",
+    "summary": "The AAA pattern's real rules beyond \"use three sections\": never write multiple act sections or an if statement in a test, treat a multi-line act section as a production-code smell not a test problem, and reject rigid MethodUnderTest_Scenario_Result naming for plain-English test names.",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 3 \"The anatomy of a unit test\", Sections 3.1, 3.4, pp. 41-48, 54-58",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide — Writing Tests",
+        "url": "https://junit.org/junit5/docs/current/user-guide/#writing-tests",
+        "type": "doc"
+      },
+      {
+        "label": "AssertJ — Fluent assertions for Java",
+        "url": "https://assertj.github.io/doc/",
+        "type": "doc"
+      }
+    ],
+    "id": 25,
+    "session": "Writing Good Unit Tests"
   },
   {
     "slug": "test-doubles-stubs-and-mocking",
@@ -197,6 +450,96 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "classical-vs-london-schools",
+    "id": 18,
+    "session": "Test Doubles and Mocking",
+    "category": "Java",
+    "title": "Classical vs. London Schools of Unit Testing",
+    "summary": "Two genuinely different definitions of test \"isolation\" — mock every collaborator (London) vs. mock only shared/volatile dependencies (classical) — and why they disagree about what a unit even is.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 2 \"What Is a Unit Test?\", pp. 20-36",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Kent Beck, \"Test-Driven Development: By Example\" (Addison-Wesley, 2002)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/test-driven-development-by-example/P200000009429",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "managed-vs-unmanaged-dependencies",
+    "id": 19,
+    "session": "Test Doubles and Mocking",
+    "category": "Java",
+    "title": "Managed vs. Unmanaged Dependencies in Integration Tests",
+    "summary": "Why an integration test should hit a real database (a managed dependency) but mock an SMTP server or message bus (an unmanaged dependency) — and why mocking a managed dependency quietly breaks resistance to refactoring.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 8 \"Why Integration Testing?\", pp. 190-193",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "observable-behavior-and-mock-fragility",
+    "category": "Java",
+    "title": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
+    "summary": "A mock (outgoing command) and a stub (incoming query) answer different questions, and asserting interactions with a stub is a classic overspecification mistake. The deeper principle: mocking itself doesn't cause fragile tests — mocking an interaction that's an implementation detail (intra-system, no client goal behind it) rather than observable behavior (a call that crosses the application boundary and stays visible outside it) does. The fix isn't avoiding mocks, it's mocking only at true system boundaries.",
+    "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/testing-concepts/observable-behavior-and-mock-fragility",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 5 \"Mocks and Test Fragility\", sections 5.1-5.4, pp. 92-118",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Mockito API — Mockito class",
+        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide",
+        "url": "https://docs.junit.org/current/user-guide/",
+        "type": "doc"
+      }
+    ],
+    "id": 20,
+    "session": "Test Doubles and Mocking"
+  },
+  {
+    "slug": "mocking-best-practices",
+    "category": "Java",
+    "title": "Mocking Best Practices: Integration Tests Only, Spies, and Types You Own",
+    "summary": "Concrete, sometimes counter-intuitive rules for using mocks well beyond the mock-vs-stub distinction: mocks belong only in integration tests, never unit tests on pure domain logic; hand-written spies often beat a generic mock's verify(); assertions must check call count, not just occurrence; and you should only ever mock types your own codebase defines.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 9 \"Mocking Best Practices\", Sections 9.1-9.2, pp. 217-228",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Mockito API — Mockito class",
+        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html",
+        "type": "doc"
+      },
+      {
+        "label": "Mockito API — Times verification mode",
+        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/verification/Times.html",
+        "type": "doc"
+      }
+    ],
+    "id": 24,
+    "session": "Test Doubles and Mocking"
   },
   {
     "slug": "spring-testcontext-and-springextension",
@@ -362,349 +705,6 @@
         "type": "doc"
       }
     ]
-  },
-  {
-    "slug": "test-driven-development",
-    "id": 13,
-    "session": "Principles, Strategy and End-to-End",
-    "category": "Java",
-    "title": "Test-Driven Development",
-    "summary": "The red-green-refactor cycle — write a failing test first, add the smallest code to pass, then refactor safely — driving design with JUnit 5, from JUnit in Action, Third Edition, Ch. 20.",
-    "publishedAt": "2026-08-06",
-    "references": [
-      {
-        "label": "Test-Driven Development — Martin Fowler",
-        "url": "https://martinfowler.com/bliki/TestDrivenDevelopment.html",
-        "type": "doc"
-      },
-      {
-        "label": "JUnit 5 User Guide — Writing Tests",
-        "url": "https://docs.junit.org/current/user-guide/#writing-tests",
-        "type": "doc"
-      },
-      {
-        "label": "JUnit in Action, 3rd Ed. — Ch. 20, \"Test-driven development with JUnit 5,\" pp. 405–436 (Manning)",
-        "url": "https://www.manning.com/books/junit-in-action-third-edition",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "bdd-with-cucumber",
-    "id": 14,
-    "session": "Principles, Strategy and End-to-End",
-    "category": "Java",
-    "title": "BDD with Cucumber",
-    "summary": "Writing behavior specifications in business-readable Gherkin (Given/When/Then) and binding them to Java step definitions with Cucumber — with today's io.cucumber + JUnit 5 Platform setup replacing the book's obsolete info.cukes/@RunWith(Cucumber.class), from JUnit in Action, Third Edition, Ch. 21.",
-    "publishedAt": "2026-08-06",
-    "references": [
-      {
-        "label": "Cucumber — official documentation",
-        "url": "https://cucumber.io/docs/cucumber/",
-        "type": "doc"
-      },
-      {
-        "label": "Gherkin reference — Cucumber docs",
-        "url": "https://cucumber.io/docs/gherkin/reference/",
-        "type": "doc"
-      },
-      {
-        "label": "cucumber-junit-platform-engine (JUnit 5 integration) — GitHub",
-        "url": "https://github.com/cucumber/cucumber-jvm/blob/main/cucumber-junit-platform-engine/README.md",
-        "type": "doc"
-      },
-      {
-        "label": "JUnit in Action, 3rd Ed. — Ch. 21, \"Behavior-driven development with JUnit 5,\" pp. 437–470 (Manning)",
-        "url": "https://www.manning.com/books/junit-in-action-third-edition",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "test-pyramid-strategy",
-    "id": 15,
-    "session": "Principles, Strategy and End-to-End",
-    "category": "Java",
-    "title": "The Test Pyramid Strategy",
-    "summary": "How to distribute tests across levels — many fast unit tests at the base, fewer integration/system/acceptance tests toward the top — what to test at each level, and which tool fits each, from JUnit in Action, Third Edition, Ch. 22.",
-    "publishedAt": "2026-08-06",
-    "references": [
-      {
-        "label": "The Practical Test Pyramid — Martin Fowler / Ham Vocke",
-        "url": "https://martinfowler.com/articles/practical-test-pyramid.html",
-        "type": "doc"
-      },
-      {
-        "label": "JUnit 5 User Guide",
-        "url": "https://docs.junit.org/current/user-guide/",
-        "type": "doc"
-      },
-      {
-        "label": "JUnit in Action, 3rd Ed. — Ch. 22, \"Implementing a test pyramid strategy with JUnit 5,\" pp. 471–491 (Manning)",
-        "url": "https://www.manning.com/books/junit-in-action-third-edition",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "four-pillars-of-a-good-unit-test",
-    "id": 16,
-    "session": "Writing Good Unit Tests",
-    "category": "Java",
-    "title": "The Four Pillars of a Good Unit Test",
-    "summary": "Protection against regressions, resistance to refactoring, fast feedback, and maintainability — the four attributes that judge any automated test, and why no test can maximize all four at once.",
-    "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/testing-concepts/four-pillars-of-a-good-unit-test",
-    "references": [
-      {
-        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 4 \"The Four Pillars of a Good Unit Test\", pp. 67-86",
-        "url": "https://www.manning.com/books/unit-testing",
-        "type": "doc"
-      },
-      {
-        "label": "JUnit 5 User Guide",
-        "url": "https://docs.junit.org/current/user-guide/",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "testing-by-code-type",
-    "id": 17,
-    "session": "Principles, Strategy and End-to-End",
-    "category": "Java",
-    "title": "Testing by Code Type: The Four Quadrants",
-    "summary": "A map of production code by complexity/domain significance and collaborator count — where unit testing pays off best, where it's a waste, and how the Humble Object pattern fixes the code that's genuinely hard to test.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 7 \"Refactoring Toward Valuable Unit Tests\", pp. 152-155",
-        "url": "https://www.manning.com/books/unit-testing",
-        "type": "doc"
-      },
-      {
-        "label": "Gerard Meszaros, \"xUnit Test Patterns: Refactoring Test Code\" (Addison-Wesley, 2007)",
-        "url": "https://www.pearson.com/en-us/subject-catalog/p/xunit-test-patterns-refactoring-test-code/P200000009432",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "classical-vs-london-schools",
-    "id": 18,
-    "session": "Test Doubles and Mocking",
-    "category": "Java",
-    "title": "Classical vs. London Schools of Unit Testing",
-    "summary": "Two genuinely different definitions of test \"isolation\" — mock every collaborator (London) vs. mock only shared/volatile dependencies (classical) — and why they disagree about what a unit even is.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 2 \"What Is a Unit Test?\", pp. 20-36",
-        "url": "https://www.manning.com/books/unit-testing",
-        "type": "doc"
-      },
-      {
-        "label": "Kent Beck, \"Test-Driven Development: By Example\" (Addison-Wesley, 2002)",
-        "url": "https://www.pearson.com/en-us/subject-catalog/p/test-driven-development-by-example/P200000009429",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "managed-vs-unmanaged-dependencies",
-    "id": 19,
-    "session": "Test Doubles and Mocking",
-    "category": "Java",
-    "title": "Managed vs. Unmanaged Dependencies in Integration Tests",
-    "summary": "Why an integration test should hit a real database (a managed dependency) but mock an SMTP server or message bus (an unmanaged dependency) — and why mocking a managed dependency quietly breaks resistance to refactoring.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 8 \"Why Integration Testing?\", pp. 190-193",
-        "url": "https://www.manning.com/books/unit-testing",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "observable-behavior-and-mock-fragility",
-    "category": "Java",
-    "title": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
-    "summary": "A mock (outgoing command) and a stub (incoming query) answer different questions, and asserting interactions with a stub is a classic overspecification mistake. The deeper principle: mocking itself doesn't cause fragile tests — mocking an interaction that's an implementation detail (intra-system, no client goal behind it) rather than observable behavior (a call that crosses the application boundary and stays visible outside it) does. The fix isn't avoiding mocks, it's mocking only at true system boundaries.",
-    "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/testing-concepts/observable-behavior-and-mock-fragility",
-    "references": [
-      {
-        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 5 \"Mocks and Test Fragility\", sections 5.1-5.4, pp. 92-118",
-        "url": "https://www.manning.com/books/unit-testing",
-        "type": "doc"
-      },
-      {
-        "label": "Mockito API — Mockito class",
-        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html",
-        "type": "doc"
-      },
-      {
-        "label": "JUnit 5 User Guide",
-        "url": "https://docs.junit.org/current/user-guide/",
-        "type": "doc"
-      }
-    ],
-    "id": 20,
-    "session": "Test Doubles and Mocking"
-  },
-  {
-    "slug": "three-styles-of-unit-testing",
-    "category": "Java",
-    "title": "Output-Based, State-Based, and Communication-Based Testing",
-    "summary": "The three ways a unit test can verify behavior — checking a returned output, checking resulting state, or checking a call made to a collaborator — and why output-based testing produces the highest-quality tests but only works for side-effect-free code, leaving state-based testing as the reasonable default and communication-based testing (mocks) as the rare exception.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 6 \"Styles of Unit Testing\", pp. 119-128",
-        "url": "https://www.manning.com/books/unit-testing",
-        "type": "doc"
-      },
-      {
-        "label": "JUnit 5 User Guide",
-        "url": "https://docs.junit.org/current/user-guide/",
-        "type": "doc"
-      },
-      {
-        "label": "java.util.List (Java SE 25 & JDK 25)",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html",
-        "type": "doc"
-      }
-    ],
-    "id": 21,
-    "session": "Writing Good Unit Tests"
-  },
-  {
-    "slug": "functional-architecture-and-testability",
-    "category": "Java",
-    "title": "Functional Architecture: Separating Decisions from Side Effects for Testability",
-    "summary": "Learn the functional-core/imperative-shell pattern for pulling business decisions out of side-effect-laden code so the decision logic becomes trivially output-based testable with zero mocks, and understand the real costs — a shell that still needs integration tests, allocation overhead from immutability in hot paths, and domain logic that can't always be cleanly separated this way.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 6 \"Styles of Unit Testing\", Sections 6.3-6.5 \"Understanding functional architecture\" / \"Transitioning to functional architecture and output-based testing\" / \"Understanding the drawbacks of functional architecture\", pp. 128-149",
-        "url": "https://www.manning.com/books/unit-testing",
-        "type": "doc"
-      },
-      {
-        "label": "Javadoc — java.util.Optional",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html",
-        "type": "doc"
-      }
-    ],
-    "id": 22,
-    "session": "Writing Good Unit Tests"
-  },
-  {
-    "slug": "unit-testing-anti-patterns",
-    "category": "Java",
-    "title": "Unit Testing Anti-Patterns: Private Methods, Leaked Domain Knowledge, and Time",
-    "summary": "Why testing private methods, exposing private state, reimplementing the SUT's logic in a test, polluting production code with test-only switches, mocking concrete classes, and calling the system clock directly all trace back to the same root cause — from Khorikov, Chapter 11 \"Unit testing anti-patterns\".",
-    "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/testing-concepts/unit-testing-anti-patterns",
-    "references": [
-      {
-        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 11 \"Unit testing anti-patterns\", pp. 259-273",
-        "url": "https://www.manning.com/books/unit-testing",
-        "type": "doc"
-      },
-      {
-        "label": "java.time.Clock — Java SE Platform API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Clock.html",
-        "type": "doc"
-      },
-      {
-        "label": "Mockito API — CALLS_REAL_METHODS / partial mocking",
-        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html",
-        "type": "doc"
-      }
-    ],
-    "id": 23,
-    "session": "Writing Good Unit Tests"
-  },
-  {
-    "slug": "mocking-best-practices",
-    "category": "Java",
-    "title": "Mocking Best Practices: Integration Tests Only, Spies, and Types You Own",
-    "summary": "Concrete, sometimes counter-intuitive rules for using mocks well beyond the mock-vs-stub distinction: mocks belong only in integration tests, never unit tests on pure domain logic; hand-written spies often beat a generic mock's verify(); assertions must check call count, not just occurrence; and you should only ever mock types your own codebase defines.",
-    "publishedAt": "2026-08-13",
-    "references": [
-      {
-        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 9 \"Mocking Best Practices\", Sections 9.1-9.2, pp. 217-228",
-        "url": "https://www.manning.com/books/unit-testing",
-        "type": "doc"
-      },
-      {
-        "label": "Mockito API — Mockito class",
-        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html",
-        "type": "doc"
-      },
-      {
-        "label": "Mockito API — Times verification mode",
-        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/verification/Times.html",
-        "type": "doc"
-      }
-    ],
-    "id": 24,
-    "session": "Test Doubles and Mocking"
-  },
-  {
-    "slug": "unit-test-structure-aaa-and-naming",
-    "category": "Java",
-    "title": "Structuring and Naming Unit Tests: AAA and Plain-English Names",
-    "summary": "The AAA pattern's real rules beyond \"use three sections\": never write multiple act sections or an if statement in a test, treat a multi-line act section as a production-code smell not a test problem, and reject rigid MethodUnderTest_Scenario_Result naming for plain-English test names.",
-    "publishedAt": "2026-08-17",
-    "references": [
-      {
-        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 3 \"The anatomy of a unit test\", Sections 3.1, 3.4, pp. 41-48, 54-58",
-        "url": "https://www.manning.com/books/unit-testing",
-        "type": "doc"
-      },
-      {
-        "label": "JUnit 5 User Guide — Writing Tests",
-        "url": "https://junit.org/junit5/docs/current/user-guide/#writing-tests",
-        "type": "doc"
-      },
-      {
-        "label": "AssertJ — Fluent assertions for Java",
-        "url": "https://assertj.github.io/doc/",
-        "type": "doc"
-      }
-    ],
-    "id": 25,
-    "session": "Writing Good Unit Tests"
-  },
-  {
-    "slug": "reusing-test-fixtures-and-parameterized-tests",
-    "category": "Java",
-    "title": "Reusing Test Fixtures, Parameterized Tests, and Assertion Libraries",
-    "summary": "Why constructor/@BeforeEach-based fixture reuse couples tests to each other and hurts readability, why private factory methods (Object Mother) are the better default, when to reach for @ParameterizedTest and @MethodSource, and how AssertJ's fluent style avoids the expected/actual argument-order trap.",
-    "publishedAt": "2026-08-17",
-    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/testing-concepts/reusing-test-fixtures-and-parameterized-tests",
-    "references": [
-      {
-        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 3 \"The anatomy of a unit test\", Sections 3.3, 3.5-3.6, pp. 50-63",
-        "url": "https://www.manning.com/books/unit-testing",
-        "type": "doc"
-      },
-      {
-        "label": "JUnit 5 User Guide — Parameterized Tests",
-        "url": "https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests",
-        "type": "doc"
-      },
-      {
-        "label": "AssertJ — Fluent assertions for Java",
-        "url": "https://assertj.github.io/doc/",
-        "type": "doc"
-      }
-    ],
-    "id": 26,
-    "session": "JUnit 5"
   },
   {
     "slug": "database-testing-prerequisites-and-transactions",

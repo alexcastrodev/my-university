@@ -13,7 +13,6 @@ export interface RustConceptReference {
   url: string;
   type: 'doc' | 'book' | 'paper' | 'video';
 }
-import { sortByPrerequisites } from '../shared/concept-order';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -43,7 +42,7 @@ export interface RustConceptDetail extends RustConceptSummary {
 }
 
 interface ConceptMeta extends RustConceptSummary {
-  /** Slugs (within this same track) that should be understood first, see `../shared/concept-order`. */
+  /** Slugs (within this same track) that should be understood first. concepts.json is kept in study order (scripts/check-concepts.mjs). */
   requires?: string[];
   references: RustConceptReference[];
   related: ConceptLinkRef[];
@@ -59,9 +58,9 @@ const FRONTMATTER_FIELDS = [
 
 @Injectable()
 export class RustConceptsService {
-  private readonly conceptsMeta: ConceptMeta[] = sortByPrerequisites(
-    require(join(DATA_DIR, 'concepts.json')) as ConceptMeta[],
-  );
+  private readonly conceptsMeta: ConceptMeta[] = require(
+    join(DATA_DIR, 'concepts.json'),
+  ) as ConceptMeta[];
 
   findAll(lang: Language = DEFAULT_LANGUAGE): RustConceptSummary[] {
     const language = normalizeLanguage(lang);

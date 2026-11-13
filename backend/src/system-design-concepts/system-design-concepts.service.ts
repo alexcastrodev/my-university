@@ -5,7 +5,6 @@ import {
   splitSections,
   ConceptSection,
 } from '../shared/concept-content';
-import { sortByPrerequisites } from '../shared/concept-order';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -52,7 +51,7 @@ export interface SystemDesignConceptDetail extends SystemDesignConceptSummary {
 }
 
 interface ConceptMeta extends SystemDesignConceptSummary {
-  /** Slugs (within this same track) that should be understood first — see `../shared/concept-order`. */
+  /** Slugs (within this same track) that should be understood first. concepts.json is kept in study order (scripts/check-concepts.mjs). */
   requires?: string[];
   references: SystemDesignConceptReference[];
 }
@@ -62,9 +61,9 @@ const FRONTMATTER_FIELDS = ['title', 'description'] as const;
 
 @Injectable()
 export class SystemDesignConceptsService {
-  private readonly conceptsMeta: ConceptMeta[] = sortByPrerequisites(
-    require(join(DATA_DIR, 'concepts.json')) as ConceptMeta[],
-  );
+  private readonly conceptsMeta: ConceptMeta[] = require(
+    join(DATA_DIR, 'concepts.json'),
+  ) as ConceptMeta[];
 
   findAll(lang: Language = DEFAULT_LANGUAGE): SystemDesignConceptSummary[] {
     const language = normalizeLanguage(lang);

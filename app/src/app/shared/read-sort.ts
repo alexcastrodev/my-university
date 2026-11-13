@@ -11,7 +11,7 @@ export const READ_SORT_OPTIONS: { label: string; value: ReadSortOrder }[] = [
  *
  * Also stamps each item with its 1-based `sequence` position in the array as given,
  * i.e. the curriculum's actual prerequisite order, since callers always pass the
- * backend's `sortByPrerequisites` order in (topic-grouped lists call it once per topic,
+ * backend's study order (the order of concepts.json) in (topic-grouped lists call it once per topic,
  * so each topic is numbered 1, 2, 3...) before any read-status re-sort is applied.
  * Stamping happens before reordering so a concept's sequence number stays tied to
  * where it really sits in the curriculum even when "unread first"/"read first"

@@ -84,4 +84,6 @@ export const DOTNET_CONCEPT_TOPIC_ORDER: readonly string[] = [
   // Concurrency & Background Work
   'Background Jobs',
   'Concurrency',
+  // Release overviews and upgrades, from every category: they assume the rest of the track
+  "What's New & Migration",
 ];
