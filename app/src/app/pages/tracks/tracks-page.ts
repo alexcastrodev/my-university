@@ -9,7 +9,7 @@ import {
   ComplementaryStudiesService,
 } from '../computer-science/complementary-studies.service';
 
-type Group = 'java' | 'ruby' | 'dotnet' | 'fundamentals';
+type Group = 'java' | 'ruby' | 'dotnet' | 'rust' | 'go' | 'fundamentals';
 type Kind = 'language' | 'framework' | 'platform' | 'theory' | 'quick';
 
 interface TrackMeta {
@@ -32,6 +32,8 @@ const META: Record<string, TrackMeta> = {
   'dotnet-ai-concepts': { group: 'dotnet', kind: 'framework' },
   'csharp-concepts': { group: 'dotnet', kind: 'language' },
   'csharp-minute': { group: 'dotnet', kind: 'quick' },
+  'rust-concepts': { group: 'rust', kind: 'language' },
+  'go-concepts': { group: 'go', kind: 'language' },
   'database-concepts': { group: 'fundamentals', kind: 'theory' },
   'system-design-concepts': { group: 'fundamentals', kind: 'theory' },
   'kubernetes-concepts': { group: 'fundamentals', kind: 'platform' },
@@ -76,7 +78,7 @@ export class TracksPage implements OnInit {
   private seo = inject(SeoService);
   private studies = inject(ComplementaryStudiesService);
 
-  protected readonly groups: Group[] = ['java', 'ruby', 'dotnet', 'fundamentals'];
+  protected readonly groups: Group[] = ['java', 'ruby', 'dotnet', 'rust', 'go', 'fundamentals'];
   protected readonly query = signal('');
   protected readonly group = signal<Group | 'all'>('all');
   protected readonly progress = signal<ComplementaryAreaProgress[]>([]);

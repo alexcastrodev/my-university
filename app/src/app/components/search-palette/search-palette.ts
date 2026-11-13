@@ -46,6 +46,8 @@ const TYPE_LABELS: Record<SearchResultType, string> = {
   'csharp-concept': $localize`:@@search.type.csharpConcept:C#`,
   'dotnet-testing-concept': $localize`:@@search.type.dotnetTestingConcept:.NET Testing`,
   'dotnet-ai-concept': $localize`:@@search.type.dotnetAiConcept:AI in .NET`,
+  'rust-concept': $localize`:@@search.type.rustConcept:Rust`,
+  'go-concept': $localize`:@@search.type.goConcept:Go`,
   paper: $localize`:@@search.type.paper:Papers`,
   course: $localize`:@@search.type.course:Exams`,
   lesson: $localize`:@@search.type.lesson:Lessons`,

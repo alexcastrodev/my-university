@@ -1,7 +1,7 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { parseMarkdown } from './markdown';
 
-export function getReferenceIcon(type: 'video' | 'doc'): string {
+export function getReferenceIcon(type: string): string {
   return type === 'video' ? '🎬' : '📄';
 }
 

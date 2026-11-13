@@ -5,10 +5,14 @@ import hljs from 'highlight.js/lib/core';
 import java from 'highlight.js/lib/languages/java';
 import csharp from 'highlight.js/lib/languages/csharp';
 import plaintext from 'highlight.js/lib/languages/plaintext';
+import rust from 'highlight.js/lib/languages/rust';
+import go from 'highlight.js/lib/languages/go';
 
 hljs.registerLanguage('java', java);
 hljs.registerLanguage('csharp', csharp);
 hljs.registerLanguage('plaintext', plaintext);
+hljs.registerLanguage('rust', rust);
+hljs.registerLanguage('go', go);
 
 const SHORT_CELL_CHARS = 32;
 

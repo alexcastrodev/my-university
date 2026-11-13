@@ -17,6 +17,8 @@ import { DotNetConceptsService } from '../dotnet-concepts/dotnet-concepts.servic
 import { CSharpConceptsService } from '../csharp-concepts/csharp-concepts.service';
 import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-testing-concepts.service';
 import { DotNetAiConceptsService } from '../dotnet-ai-concepts/dotnet-ai-concepts.service';
+import { RustConceptsService } from '../rust-concepts/rust-concepts.service';
+import { GoConceptsService } from '../go-concepts/go-concepts.service';
 import { curriculumSourceId, fromSourceId, parseCurriculumSourceId, ResolvedCurriculum, ResolvedSource, ConceptSourceType, toSourceId } from './concept-lookup.constants';
 import { XpService } from '../xp/xp.service';
 import { CurriculumService } from '../curriculum/curriculum.service';
@@ -53,6 +55,8 @@ export class ConceptLookupService {
     private cSharpConcepts: CSharpConceptsService,
     private dotNetTestingConcepts: DotNetTestingConceptsService,
     private dotNetAiConcepts: DotNetAiConceptsService,
+    private rustConcepts: RustConceptsService,
+    private goConcepts: GoConceptsService,
     private quarkusConcepts: QuarkusConceptsService,
     private kubernetesConcepts: KubernetesConceptsService,
     private curriculum: CurriculumService,
@@ -77,6 +81,8 @@ export class ConceptLookupService {
       'csharp-concepts': new Map(this.cSharpConcepts.findAll().map((c) => [c.slug, c.title])),
       'dotnet-testing-concepts': new Map(this.dotNetTestingConcepts.findAll().map((c) => [c.slug, c.title])),
       'dotnet-ai-concepts': new Map(this.dotNetAiConcepts.findAll().map((c) => [c.slug, c.title])),
+      'rust-concepts': new Map(this.rustConcepts.findAll().map((c) => [c.slug, c.title])),
+      'go-concepts': new Map(this.goConcepts.findAll().map((c) => [c.slug, c.title])),
       'quarkus-concepts': new Map(this.quarkusConcepts.findAll().map((c) => [c.slug, c.title])),
       'kubernetes-concepts': new Map(this.kubernetesConcepts.findAll().map((c) => [c.slug, c.title])),
     };
@@ -152,6 +158,14 @@ export class ConceptLookupService {
       }
       case 'dotnet-ai-concepts': {
         const d = this.dotNetAiConcepts.findBySlug(slug, lang);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'rust-concepts': {
+        const d = this.rustConcepts.findBySlug(slug, lang);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'go-concepts': {
+        const d = this.goConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'quarkus-concepts': {

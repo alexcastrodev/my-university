@@ -182,6 +182,22 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'rust-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'rust-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'go-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'go-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'databases/database-concepts',
     renderMode: RenderMode.Server,
   },

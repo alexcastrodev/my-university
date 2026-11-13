@@ -19,6 +19,8 @@ export type SearchResultType =
   | 'csharp-concept'
   | 'dotnet-testing-concept'
   | 'dotnet-ai-concept'
+  | 'rust-concept'
+  | 'go-concept'
   | 'paper';
 
 export interface SearchResult {

@@ -17,6 +17,8 @@ import { DotNetConceptsService } from '../dotnet-concepts/dotnet-concepts.servic
 import { CSharpConceptsService } from '../csharp-concepts/csharp-concepts.service';
 import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-testing-concepts.service';
 import { DotNetAiConceptsService } from '../dotnet-ai-concepts/dotnet-ai-concepts.service';
+import { RustConceptsService } from '../rust-concepts/rust-concepts.service';
+import { GoConceptsService } from '../go-concepts/go-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
@@ -60,6 +62,8 @@ export class SitemapService {
     private readonly cSharpConcepts: CSharpConceptsService,
     private readonly dotNetTestingConcepts: DotNetTestingConceptsService,
     private readonly dotNetAiConcepts: DotNetAiConceptsService,
+    private readonly rustConcepts: RustConceptsService,
+    private readonly goConcepts: GoConceptsService,
     private readonly quarkusConcepts: QuarkusConceptsService,
     private readonly kubernetesConcepts: KubernetesConceptsService,
     private readonly papers: PapersCatalogService,
@@ -103,6 +107,8 @@ export class SitemapService {
       ['/csharp-concepts', this.cSharpConcepts.findAll()],
       ['/dotnet-testing-concepts', this.dotNetTestingConcepts.findAll()],
       ['/dotnet-ai-concepts', this.dotNetAiConcepts.findAll()],
+      ['/rust-concepts', this.rustConcepts.findAll()],
+      ['/go-concepts', this.goConcepts.findAll()],
       ['/csharp-minute', this.cSharpMinute.findAll()],
       ['/quarkus-concepts', this.quarkusConcepts.findAll()],
       ['/kubernetes-concepts', this.kubernetesConcepts.findAll()],

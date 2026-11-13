@@ -1,0 +1,431 @@
+[
+  {
+    "slug": "futures-wakers-and-the-poll-model",
+    "id": 18,
+    "category": "Concurrency & Async",
+    "title": "Futures, Wakers and the Poll Model",
+    "topic": "Async",
+    "summary": "The Future trait with Poll, Context and Waker, the enum state machine the compiler generates for an async fn (measured with size_of_val and -Zprint-type-sizes), why future size grows with what is held across .await and where Box::pin helps, a minimal std-only block_on executor built on Wake and thread park, and the silent hang of a Pending without a wake, including how it disguises itself as latency under tokio::time::timeout.",
+    "publishedAt": "2026-11-12",
+    "requires": [],
+    "related": [
+      {
+        "label": "Pin and Self-Referential Futures",
+        "slug": "pin-and-self-referential-futures",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Tokio Runtime Internals",
+        "slug": "tokio-runtime-internals",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Cancellation Safety and Graceful Shutdown",
+        "slug": "cancellation-safety-and-graceful-shutdown",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Thread Model: Legacy Control vs. Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "std::future::Future, Rust standard library",
+        "url": "https://doc.rust-lang.org/std/future/trait.Future.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::task::Waker, Rust standard library",
+        "url": "https://doc.rust-lang.org/std/task/struct.Waker.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::task::Wake (block_on example), Rust standard library",
+        "url": "https://doc.rust-lang.org/std/task/trait.Wake.html",
+        "type": "doc"
+      },
+      {
+        "label": "Await expressions, The Rust Reference",
+        "url": "https://doc.rust-lang.org/reference/expressions/await-expr.html",
+        "type": "doc"
+      },
+      {
+        "label": "Task Wakeups with Waker, Asynchronous Programming in Rust",
+        "url": "https://rust-lang.github.io/async-book/02_execution/03_wakeups.html",
+        "type": "doc"
+      },
+      {
+        "label": "Applied: Build an Executor, Asynchronous Programming in Rust",
+        "url": "https://rust-lang.github.io/async-book/02_execution/04_executor.html",
+        "type": "doc"
+      },
+      {
+        "label": "tokio::time::timeout, tokio docs",
+        "url": "https://docs.rs/tokio/latest/tokio/time/fn.timeout.html",
+        "type": "doc"
+      },
+      {
+        "label": "Clippy lints (large_futures), Clippy 1.100.0",
+        "url": "https://clippy.rust-lang.org/rust-1.100.0/index.html#large_futures",
+        "type": "doc"
+      },
+      {
+        "label": "Rust for Rustaceans (Jon Gjengset, No Starch Press 2021), chapter 8: Asynchronous Programming",
+        "url": "https://nostarch.com/rust-rustaceans",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "pin-and-self-referential-futures",
+    "id": 19,
+    "category": "Concurrency & Async",
+    "title": "Pin and Self-Referential Futures",
+    "topic": "Async",
+    "summary": "Why an async fn state machine can point into itself (measured in memory), the Pin guarantee and the Unpin auto trait, the real compiler errors when polling an unpinned future, pin! versus Box::pin, structural pinning and projection with pin-project-lite (including its Drop ban and PinnedDrop), and what happens natively and under Miri when unsafe code moves a pinned future, with the RFC 2349 rationale.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "futures-wakers-and-the-poll-model"
+    ],
+    "related": [
+      {
+        "label": "Futures, Wakers and the Poll Model",
+        "slug": "futures-wakers-and-the-poll-model",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Async Traits and Async Closures",
+        "slug": "async-traits-and-async-closures",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Cancellation Safety and Graceful Shutdown",
+        "slug": "cancellation-safety-and-graceful-shutdown",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Tokio Runtime Internals",
+        "slug": "tokio-runtime-internals",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Unsafe Code, Pointers and Function Pointers",
+        "slug": "unsafe-code-pointers-and-function-pointers",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Module std::pin, Rust standard library",
+        "url": "https://doc.rust-lang.org/std/pin/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::pin::Pin, Rust standard library",
+        "url": "https://doc.rust-lang.org/std/pin/struct.Pin.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::pin::pin! macro, Rust standard library",
+        "url": "https://doc.rust-lang.org/std/pin/macro.pin.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::marker::Unpin, Rust standard library",
+        "url": "https://doc.rust-lang.org/std/marker/trait.Unpin.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 2349: Pin, The Rust RFC Book",
+        "url": "https://rust-lang.github.io/rfcs/2349-pin.html",
+        "type": "doc"
+      },
+      {
+        "label": "Pinning, Asynchronous Programming in Rust",
+        "url": "https://rust-lang.github.io/async-book/part-reference/pinning.html",
+        "type": "doc"
+      },
+      {
+        "label": "pin-project-lite 0.2.17, docs.rs",
+        "url": "https://docs.rs/pin-project-lite/latest/pin_project_lite/",
+        "type": "doc"
+      },
+      {
+        "label": "Miri, rust-lang/miri",
+        "url": "https://github.com/rust-lang/miri",
+        "type": "doc"
+      },
+      {
+        "label": "Rust for Rustaceans (Jon Gjengset, No Starch Press 2021), chapter 8: Asynchronous Programming",
+        "url": "https://nostarch.com/rust-rustaceans",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "tokio-runtime-internals",
+    "id": 20,
+    "category": "Concurrency & Async",
+    "title": "Tokio Runtime Internals",
+    "topic": "Async",
+    "summary": "The current_thread and multi_thread schedulers and the drivers a hand-built Builder leaves off, worker local queues, the global queue and work stealing measured with tokio_unstable steal counters, the LIFO slot measured on a ping-pong, the 128-unit cooperative budget with consume_budget and yield_now, the mio I/O driver over kqueue and epoll and the millisecond timer wheel, and a measured 300 ms stall from std::thread::sleep inside a task fixed with spawn_blocking or block_in_place, on tokio 1.54.1.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "futures-wakers-and-the-poll-model"
+    ],
+    "related": [
+      {
+        "label": "Futures, Wakers and the Poll Model",
+        "slug": "futures-wakers-and-the-poll-model",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Cancellation Safety and Graceful Shutdown",
+        "slug": "cancellation-safety-and-graceful-shutdown",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Async Traits and Async Closures",
+        "slug": "async-traits-and-async-closures",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Fork/Join Framework",
+        "slug": "fork-join-framework",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Tokio runtime module: detailed runtime behavior, tokio docs",
+        "url": "https://docs.rs/tokio/latest/tokio/runtime/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "tokio::runtime::Builder, tokio docs",
+        "url": "https://docs.rs/tokio/latest/tokio/runtime/struct.Builder.html",
+        "type": "doc"
+      },
+      {
+        "label": "tokio::task::coop: cooperative scheduling, tokio docs",
+        "url": "https://docs.rs/tokio/latest/tokio/task/coop/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "tokio::task::spawn_blocking, tokio docs",
+        "url": "https://docs.rs/tokio/latest/tokio/task/fn.spawn_blocking.html",
+        "type": "doc"
+      },
+      {
+        "label": "tokio::task::block_in_place, tokio docs",
+        "url": "https://docs.rs/tokio/latest/tokio/task/fn.block_in_place.html",
+        "type": "doc"
+      },
+      {
+        "label": "tokio::runtime::RuntimeMetrics, tokio docs",
+        "url": "https://docs.rs/tokio/latest/tokio/runtime/struct.RuntimeMetrics.html",
+        "type": "doc"
+      },
+      {
+        "label": "mio::Poll: the OS selector per platform, mio docs",
+        "url": "https://docs.rs/mio/latest/mio/struct.Poll.html",
+        "type": "doc"
+      },
+      {
+        "label": "Tokio tutorial, tokio.rs",
+        "url": "https://tokio.rs/tokio/tutorial",
+        "type": "doc"
+      },
+      {
+        "label": "Bridging with sync code, Tokio topics",
+        "url": "https://tokio.rs/tokio/topics/bridging",
+        "type": "doc"
+      },
+      {
+        "label": "Making the Tokio scheduler 10x faster, Tokio blog (complement)",
+        "url": "https://tokio.rs/blog/2019-10-scheduler",
+        "type": "doc"
+      },
+      {
+        "label": "Hashed and hierarchical timing wheels (Varghese and Lauck, IEEE/ACM Transactions on Networking 1997)",
+        "url": "https://doi.org/10.1109/90.650142",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "async-traits-and-async-closures",
+    "id": 21,
+    "category": "Concurrency & Async",
+    "title": "Async Traits and Async Closures",
+    "topic": "Async",
+    "summary": "async fn in traits and RPITIT since 1.75, the future cannot be sent between threads safely error when spawning generically and its fixes with an explicit -> impl Future + Send desugaring or trait_variant::make, return type notation still unstable in 1.100, why traits with async methods are not dyn compatible and what boxing with async-trait or Pin<Box<dyn Future>> costs in allocations per call, and async closures with AsyncFn, AsyncFnMut and AsyncFnOnce (1.85) versus closures returning futures, including the Send gap of AsyncFn.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "futures-wakers-and-the-poll-model"
+    ],
+    "related": [
+      {
+        "label": "Pin and Self-Referential Futures",
+        "slug": "pin-and-self-referential-futures",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Tokio Runtime Internals",
+        "slug": "tokio-runtime-internals",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Cancellation Safety and Graceful Shutdown",
+        "slug": "cancellation-safety-and-graceful-shutdown",
+        "feature": "rust-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Announcing async fn and return-position impl Trait in traits, Rust Blog",
+        "url": "https://blog.rust-lang.org/2023/12/21/async-fn-rpit-in-traits/",
+        "type": "doc"
+      },
+      {
+        "label": "Announcing Rust 1.85.0 and Rust 2024 (async closures), Rust Blog",
+        "url": "https://blog.rust-lang.org/2025/02/20/Rust-1.85.0/",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 3668: async closures, Rust RFC Book",
+        "url": "https://rust-lang.github.io/rfcs/3668-async-closures.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 3425: return position impl Trait in traits, Rust RFC Book",
+        "url": "https://rust-lang.github.io/rfcs/3425-return-position-impl-trait-in-traits.html",
+        "type": "doc"
+      },
+      {
+        "label": "Traits and dyn compatibility, The Rust Reference",
+        "url": "https://doc.rust-lang.org/reference/items/traits.html",
+        "type": "doc"
+      },
+      {
+        "label": "std::ops::AsyncFn, Rust standard library",
+        "url": "https://doc.rust-lang.org/std/ops/trait.AsyncFn.html",
+        "type": "doc"
+      },
+      {
+        "label": "trait-variant crate docs",
+        "url": "https://docs.rs/trait-variant/latest/trait_variant/",
+        "type": "doc"
+      },
+      {
+        "label": "async-trait crate docs",
+        "url": "https://docs.rs/async-trait/latest/async_trait/",
+        "type": "doc"
+      },
+      {
+        "label": "Tracking issue for return type notation, rust-lang/rust #109417",
+        "url": "https://github.com/rust-lang/rust/issues/109417",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "cancellation-safety-and-graceful-shutdown",
+    "id": 22,
+    "category": "Concurrency & Async",
+    "title": "Cancellation Safety and Graceful Shutdown",
+    "topic": "Async",
+    "summary": "Dropping a future as cancellation, what tokio::select! does to the losing branches, JoinHandle detach versus abort, the Tokio cancel-safety lists, a measured data loss with read_exact in a select! loop fixed with a persistent buffer and read_buf, JoinSet, CancellationToken and child tokens, and a graceful shutdown with signal handling, broadcast cancellation, TaskTracker and a deadline, including the SIGTERM that ctrl_c alone does not catch.",
+    "publishedAt": "2026-11-12",
+    "requires": [
+      "futures-wakers-and-the-poll-model",
+      "tokio-runtime-internals"
+    ],
+    "related": [
+      {
+        "label": "Tokio Runtime Internals",
+        "slug": "tokio-runtime-internals",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Pin and Self-Referential Futures",
+        "slug": "pin-and-self-referential-futures",
+        "feature": "rust-concepts"
+      },
+      {
+        "label": "Task Cancellation: Interruption Done Right",
+        "slug": "task-cancellation-and-interruption",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Shutting Down an ExecutorService, and How the JVM Decides to Exit",
+        "slug": "executor-shutdown-and-jvm-exit",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Structured Concurrency: StructuredTaskScope",
+        "slug": "structured-concurrency",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "tokio::select!: cancellation safety, tokio docs",
+        "url": "https://docs.rs/tokio/latest/tokio/macro.select.html",
+        "type": "doc"
+      },
+      {
+        "label": "Graceful Shutdown, Tokio topics",
+        "url": "https://tokio.rs/tokio/topics/shutdown",
+        "type": "doc"
+      },
+      {
+        "label": "tokio::task module: cancellation, tokio docs",
+        "url": "https://docs.rs/tokio/latest/tokio/task/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "tokio::task::JoinSet, tokio docs",
+        "url": "https://docs.rs/tokio/latest/tokio/task/struct.JoinSet.html",
+        "type": "doc"
+      },
+      {
+        "label": "tokio_util::sync::CancellationToken, tokio-util docs",
+        "url": "https://docs.rs/tokio-util/latest/tokio_util/sync/struct.CancellationToken.html",
+        "type": "doc"
+      },
+      {
+        "label": "tokio_util::task::TaskTracker, tokio-util docs",
+        "url": "https://docs.rs/tokio-util/latest/tokio_util/task/struct.TaskTracker.html",
+        "type": "doc"
+      },
+      {
+        "label": "tokio::signal::ctrl_c, tokio docs",
+        "url": "https://docs.rs/tokio/latest/tokio/signal/fn.ctrl_c.html",
+        "type": "doc"
+      },
+      {
+        "label": "Pod Lifecycle: termination of Pods, Kubernetes docs",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/",
+        "type": "doc"
+      }
+    ]
+  }
+]

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Validates the dotnet-concepts and csharp-concepts tracks: concepts.json shape,
+// Validates the dotnet-concepts, csharp-concepts, rust-concepts and go-concepts tracks: concepts.json shape,
 // taxonomy, links between concepts, content files and the no-dash rule.
 // Usage: node scripts/check-concepts.mjs   (exit code 1 when anything fails)
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
@@ -27,7 +27,19 @@ const TAXONOMY = {
     LINQ: ['LINQ'],
     'Memory & Concurrency': ['Memory & Value Semantics', 'Interop & Unsafe', 'Threads'],
   },
+  'rust-concepts': {
+    Language: ['Type System', 'Unsafe & Memory', 'Systems Programming'],
+    'Concurrency & Async': ['Threads & Atomics', 'Async'],
+    Production: ['Services', 'Tooling & Quality'],
+  },
+  'go-concepts': {
+    Runtime: ['Scheduler & GC', 'Memory & Compiler'],
+    Language: ['Concurrency', 'Type System'],
+    Operations: ['Diagnostics', 'Production & Tooling'],
+  },
 };
+// Tracks that also cite books and papers (their services widen the reference type).
+const BOOK_AND_PAPER_TRACKS = new Set(['rust-concepts', 'go-concepts']);
 
 const REQUIRED_FIELDS = ['slug', 'id', 'category', 'title', 'topic', 'summary', 'publishedAt', 'references', 'related'];
 const FRONTMATTER = { 'en.md': ['version', 'updatedAt'], 'pt-BR.md': ['version', 'updatedAt', 'title', 'summary'] };
@@ -87,7 +99,8 @@ for (const [track, concepts] of Object.entries(conceptsByTrack)) {
     if (refs.length < 3) fail(where, `needs at least 3 references, has ${refs.length}`);
     for (const ref of refs) {
       if (!/^https:\/\//.test(ref.url ?? '')) fail(where, `reference url is not https: ${ref.url}`);
-      if (ref.type !== 'doc' && ref.type !== 'video') fail(where, `reference type must be doc or video: ${ref.type}`);
+      const allowed = BOOK_AND_PAPER_TRACKS.has(track) ? ['doc', 'video', 'book', 'paper'] : ['doc', 'video'];
+      if (!allowed.includes(ref.type)) fail(where, `reference type must be ${allowed.join(' or ')}: ${ref.type}`);
     }
 
     for (const [file, fields] of Object.entries(FRONTMATTER)) {

@@ -19,6 +19,8 @@ import { DotNetConceptsService } from '../dotnet-concepts/dotnet-concepts.servic
 import { CSharpConceptsService } from '../csharp-concepts/csharp-concepts.service';
 import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-testing-concepts.service';
 import { DotNetAiConceptsService } from '../dotnet-ai-concepts/dotnet-ai-concepts.service';
+import { RustConceptsService } from '../rust-concepts/rust-concepts.service';
+import { GoConceptsService } from '../go-concepts/go-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
@@ -56,6 +58,8 @@ export const SEARCH_RESULT_TYPES = [
   'csharp-concept',
   'dotnet-testing-concept',
   'dotnet-ai-concept',
+  'rust-concept',
+  'go-concept',
   'paper',
 ] as const;
 
@@ -162,6 +166,8 @@ export class SearchService implements OnApplicationBootstrap {
     private cSharpConceptsService: CSharpConceptsService,
     private dotNetTestingConceptsService: DotNetTestingConceptsService,
     private dotNetAiConceptsService: DotNetAiConceptsService,
+    private rustConceptsService: RustConceptsService,
+    private goConceptsService: GoConceptsService,
     private quarkusConceptsService: QuarkusConceptsService,
     private kubernetesConceptsService: KubernetesConceptsService,
     private papersCatalog: PapersCatalogService,
@@ -300,6 +306,12 @@ export class SearchService implements OnApplicationBootstrap {
       ),
       concepts('dotnet-ai-concept', 'AI in .NET Concepts', '/dotnet-ai-concepts', (l) =>
         this.dotNetAiConceptsService.findAllDetailed(l),
+      ),
+      concepts('rust-concept', 'Rust Concepts', '/rust-concepts', (l) =>
+        this.rustConceptsService.findAllDetailed(l),
+      ),
+      concepts('go-concept', 'Go Concepts', '/go-concepts', (l) =>
+        this.goConceptsService.findAllDetailed(l),
       ),
     ];
 

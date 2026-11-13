@@ -9,6 +9,8 @@ import { CurriculumService } from '../src/curriculum/curriculum.service';
 import { DatabaseConceptsService } from '../src/database-concepts/database-concepts.service';
 import { DotNetConceptsService } from '../src/dotnet-concepts/dotnet-concepts.service';
 import { DotNetAiConceptsService } from '../src/dotnet-ai-concepts/dotnet-ai-concepts.service';
+import { RustConceptsService } from '../src/rust-concepts/rust-concepts.service';
+import { GoConceptsService } from '../src/go-concepts/go-concepts.service';
 import { DotNetTestingConceptsService } from '../src/dotnet-testing-concepts/dotnet-testing-concepts.service';
 import { ExamService } from '../src/exam/exam.service';
 import { JavaConceptsService } from '../src/java-concepts/java-concepts.service';
@@ -68,6 +70,8 @@ export const sitemap = new SitemapService(
   new CSharpConceptsService(),
   new DotNetTestingConceptsService(),
   new DotNetAiConceptsService(),
+  new RustConceptsService(),
+  new GoConceptsService(),
   new QuarkusConceptsService(),
   new KubernetesConceptsService(),
   {

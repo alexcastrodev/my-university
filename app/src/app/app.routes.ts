@@ -241,6 +241,22 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/dotnet-ai-concepts/dotnet-ai-concepts-detail').then((m) => m.DotNetAiConceptsDetailPage),
   },
   {
+    path: 'rust-concepts',
+    loadComponent: () => import('./pages/rust-concepts/rust-concepts-list').then((m) => m.RustConceptsListPage),
+  },
+  {
+    path: 'rust-concepts/:slug',
+    loadComponent: () => import('./pages/rust-concepts/rust-concepts-detail').then((m) => m.RustConceptsDetailPage),
+  },
+  {
+    path: 'go-concepts',
+    loadComponent: () => import('./pages/go-concepts/go-concepts-list').then((m) => m.GoConceptsListPage),
+  },
+  {
+    path: 'go-concepts/:slug',
+    loadComponent: () => import('./pages/go-concepts/go-concepts-detail').then((m) => m.GoConceptsDetailPage),
+  },
+  {
     path: 'java/exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },
