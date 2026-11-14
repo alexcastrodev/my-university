@@ -55,8 +55,9 @@
     height: 22px;
   }
 
+  /* --mu-accent on the dark bar is 4.39:1 at this font size; the strong variant clears 4.5:1 in both themes. */
   .tab.active {
-    color: var(--mu-accent);
+    color: var(--mu-accent-strong);
   }
 
   .tab-soon {
