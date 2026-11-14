@@ -74,9 +74,10 @@ export class AuthController {
     return { ok: true };
   }
 
+  /** Empty 200 for a visitor without a session: a 401 here is logged as a console error on every anonymous page view. */
   @Get('me')
-  me(@CurrentUserId() userId: number) {
-    return this.service.findById(userId);
+  me(@OptionalUserId() userId: number | null) {
+    return userId === null ? null : this.service.findById(userId);
   }
 
   /** Sets or clears (empty/whitespace body) the caller's display name override, and/or their preferred content language, and/or whether their profile is public. */

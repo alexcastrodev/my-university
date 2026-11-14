@@ -1,5 +1,5 @@
-@if (ready()) {
-  <div class="library-action">
+<div class="library-action">
+  @if (ready()) {
     @if (!signedIn()) {
       <a class="library-link" routerLink="/login" i18n="@@papers.library.signIn">Sign in to save this paper to your library</a>
     } @else if (loadFailed()) {
@@ -20,5 +20,5 @@
     @if (saveFailed()) {
       <span class="library-error" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</span>
     }
-  </div>
-}
+  }
+</div>
