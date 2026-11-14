@@ -1,6 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/nestjs';
 import { createHash } from 'crypto';
+import { DataSource } from 'typeorm';
+import { REINDEX_LOCK_KEY, withBootLock } from '../shared/boot-lock';
 
 const HOST = process.env.MEILI_HOST ?? 'http://127.0.0.1:7700';
 const API_KEY = process.env.MEILI_MASTER_KEY;
@@ -106,6 +108,8 @@ interface MeiliMultiSearchResponse {
 export class MeilisearchClient {
   private readonly log = new Logger(MeilisearchClient.name);
 
+  constructor(@Inject(DataSource) private readonly dataSource: DataSource) {}
+
   private headers(): Record<string, string> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -151,9 +155,11 @@ export class MeilisearchClient {
    * instead of dropping it. Small tasks finish in a few ms, while the full document upload takes
    * many seconds, so the poll starts tight and backs off to 1s. The polls themselves stay out of
    * Sentry (one `GET /tasks/:id` span per poll used to be the API's biggest source of spans); the
-   * wait shows up as a single span instead.
+   * wait shows up as a single span instead. The timeout counts from enqueue and Meilisearch runs
+   * tasks one at a time, so it also covers the other replicas' uploads queued ahead of this one
+   * (each takes over a minute): 120s was not enough with two replicas rebuilding together.
    */
-  private waitForTask(taskUid: number, timeoutMs = 120_000): Promise<void> {
+  private waitForTask(taskUid: number, timeoutMs = 600_000): Promise<void> {
     return Sentry.startSpan({ name: `wait for Meilisearch task ${taskUid}`, op: 'queue.process' }, async () => {
       const deadline = Date.now() + timeoutMs;
       let delayMs = 25;
@@ -209,8 +215,25 @@ export class MeilisearchClient {
    * adds or updates, so a page that was removed or renamed would stay searchable forever;
    * instead everything goes into a fresh index that is then atomically swapped in, so search
    * keeps answering from the old index until the new one is complete.
+   *
+   * One replica at a time (a Postgres advisory lock): Meilisearch runs tasks one by one and an
+   * upload takes over a minute, so two replicas rebuilding together doubled the wait and the
+   * second one's upload was pure waste. Taking the lock first means the replica that waits finds
+   * the index already current in `isCurrent` and skips the upload.
    */
-  async rebuild({
+  rebuild(args: {
+    index: string;
+    settings: object;
+    documents: object[];
+  }): Promise<void> {
+    return withBootLock(
+      this.dataSource,
+      () => this.build(args),
+      REINDEX_LOCK_KEY,
+    );
+  }
+
+  private async build({
     index,
     settings,
     documents,
