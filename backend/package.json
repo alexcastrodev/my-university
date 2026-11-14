@@ -19,7 +19,8 @@
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/data-source.ts",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/data-source.ts",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/data-source.ts",
-    "achievements": "ts-node --transpile-only src/achievements/cli.ts"
+    "achievements": "ts-node --transpile-only src/achievements/cli.ts",
+    "roles": "ts-node --transpile-only src/auth/cli.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1160.0",

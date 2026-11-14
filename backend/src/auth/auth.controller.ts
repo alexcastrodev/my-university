@@ -15,6 +15,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify';
 import { AuthService } from './auth.service';
 import { assertDevAuth, devAuthEnabled } from './dev-auth';
 import { GithubOauthService } from './github-oauth.service';
+import { PermissionsService } from './permissions.service';
 import {
   clearOauthState,
   clearSession,
@@ -32,6 +33,7 @@ export class AuthController {
   constructor(
     private service: AuthService,
     private github: GithubOauthService,
+    private permissions: PermissionsService,
   ) {}
 
   @Get('github')
@@ -61,7 +63,7 @@ export class AuthController {
       const token = await this.github.exchangeCode(code);
       const profile = await this.github.fetchProfile(token);
       const user = await this.service.upsertFromGithub(profile);
-      setSession(reply, user.id);
+      setSession(reply, user.id, await this.service.sessionEpoch(user.id));
       reply.redirect(`${frontendBase}/dashboard`, 302);
     } catch {
       reply.redirect(`${frontendBase}/login?error=oauth_failed`, 302);
@@ -74,10 +76,23 @@ export class AuthController {
     return { ok: true };
   }
 
-  /** Empty 200 for a visitor without a session: a 401 here is logged as a console error on every anonymous page view. */
+  /** Signs the caller out of every browser and device: the epoch rises, so every cookie issued before stops working. */
+  @Post('logout-all')
+  async logoutAll(@CurrentUserId() userId: number, @Res({ passthrough: true }) reply: FastifyReply) {
+    await this.permissions.bumpEpoch(userId);
+    clearSession(reply);
+    return { ok: true };
+  }
+
+  /**
+   * Empty 200 for a visitor without a session: a 401 here is logged as a console error on every anonymous page view.
+   * `permissions` is for the app to hide what the caller may not use; the backend checks every route again.
+   */
   @Get('me')
-  me(@OptionalUserId() userId: number | null) {
-    return userId === null ? null : this.service.findById(userId);
+  async me(@OptionalUserId() userId: number | null) {
+    if (userId === null) return null;
+    const [user, permissions] = await Promise.all([this.service.findById(userId), this.permissions.permissionsOf(userId)]);
+    return { ...user, permissions };
   }
 
   /** Sets or clears (empty/whitespace body) the caller's display name override, and/or their preferred content language, and/or whether their profile is public. */
@@ -135,21 +150,23 @@ export class AuthController {
   async devLogin(@Res({ passthrough: true }) reply: FastifyReply) {
     assertDevAuth();
     const user = await this.service.upsertDevUser();
-    setSession(reply, user.id);
+    setSession(reply, user.id, await this.service.sessionEpoch(user.id));
     return user;
   }
 
-  /** Test-only: bypasses the GitHub OAuth flow so specs can log in as an arbitrary user. */
+  /** Test-only: bypasses the GitHub OAuth flow so specs can log in as an arbitrary user, optionally holding one more role (`role`, by name). */
   @Post('_test/login')
   async testLogin(
     @Body('displayName') displayName: string,
+    @Body('role') role: string | undefined,
     @Res({ passthrough: true }) reply: FastifyReply,
   ) {
     assertDevAuth();
     const user = await this.service.createTestUser(
       displayName || `test-${Date.now()}`,
+      role,
     );
-    setSession(reply, user.id);
+    setSession(reply, user.id, await this.service.sessionEpoch(user.id));
     return { id: user.id };
   }
 
