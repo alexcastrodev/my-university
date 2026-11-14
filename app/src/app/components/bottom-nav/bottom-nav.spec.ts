@@ -61,26 +61,26 @@ describe('BottomNav', () => {
     expect(homeTab(fixture)?.getAttribute('href')).toBe('/');
   });
 
-  it('renders the tabs, with Papers and Library for a signed-in reader', async () => {
+  it('renders the tabs, with Library for a signed-in reader and no Papers or Track', async () => {
     const { fixture } = await setup('/dashboard');
 
     const tabs = fixture.nativeElement.querySelectorAll('.tab');
-    expect(tabs.length).toBe(6);
+    expect(tabs.length).toBe(5);
     const text = fixture.nativeElement.textContent;
     expect(text).toContain('Home');
     expect(text).not.toContain('Daily');
-    expect(text).toContain('Track');
+    expect(text).toContain('Study');
+    expect(text).not.toContain('Track');
     expect(text).toContain('Discussions');
-    expect(text).toContain('Papers');
+    expect(text).not.toContain('Papers');
     expect(text).toContain('Library');
     expect(text).toContain('Settings');
   });
 
-  it('leaves Library out for a visitor, who still gets Papers', async () => {
+  it('leaves Library out for a visitor', async () => {
     const { fixture } = await setup('/', null);
 
-    expect(fixture.nativeElement.querySelectorAll('.tab').length).toBe(5);
-    expect(tabLink(fixture, 'Papers')?.getAttribute('href')).toBe('/papers');
+    expect(fixture.nativeElement.querySelectorAll('.tab').length).toBe(4);
     expect(tabLink(fixture, 'Library')).toBeUndefined();
   });
 
@@ -93,10 +93,34 @@ describe('BottomNav', () => {
     expect(tabLink(fixture, 'Library')?.getAttribute('href')).toBe('/library');
   });
 
-  it('links Papers to the catalog and Library to the reader\'s shelf', async () => {
+  it('links Study to the hub of study areas', async () => {
     const { fixture } = await setup('/dashboard');
 
-    expect(tabLink(fixture, 'Papers')?.getAttribute('href')).toBe('/papers');
+    expect(tabLink(fixture, 'Study')?.getAttribute('href')).toBe('/studies');
+  });
+
+  for (const url of ['/studies', '/tracks', '/exams', '/exam/3/result/9', '/papers', '/papers/12', '/computer-science', '/computer-science/foundations/x']) {
+    it(`keeps Study active on ${url}`, async () => {
+      const { fixture } = await setup(url);
+
+      expect(tabLink(fixture, 'Study')?.classList).toContain('active');
+    });
+  }
+
+  it('moves the Study highlight away when the reader leaves the study area', async () => {
+    const { fixture, router } = await setup('/papers');
+    expect(tabLink(fixture, 'Study')?.classList).toContain('active');
+
+    await router.navigateByUrl('/discussions');
+    fixture.detectChanges();
+
+    expect(tabLink(fixture, 'Study')?.classList).not.toContain('active');
+    expect(tabLink(fixture, 'Discussions')?.classList).toContain('active');
+  });
+
+  it('links Library to the reader\'s shelf', async () => {
+    const { fixture } = await setup('/dashboard');
+
     expect(tabLink(fixture, 'Library')?.getAttribute('href')).toBe('/library');
   });
 

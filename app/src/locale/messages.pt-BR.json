@@ -3,7 +3,6 @@
   "translations": {
     "bottomNav.aria": "Principal",
     "bottomNav.home": "Início",
-    "bottomNav.track": "Trilha",
     "map.title": "Mapa do Currículo",
     "map.subtitle": "O currículo de Ciência da Computação como grafo, não como tabela. Uma aresta significa \"constrói em cima de\" — nada aqui é travado, pule pra onde quiser.",
     "map.backToOverview": "← Voltar pra visão geral",
@@ -57,7 +56,6 @@
     "tracks.group.rust": "Rust",
     "tracks.group.go": "Go",
     "tracks.group.fundamentals": "Fundamentos",
-    "tracks.group.exams": "Provas",
     "tracks.empty": "Nenhuma trilha corresponde ao filtro.",
     "tracks.concepts": "conceitos",
     "tracks.kind.language": "Linguagem",
@@ -1347,7 +1345,6 @@
     "papers.reader.memory": "Este PDF é grande demais para este dispositivo abrir.",
     "papers.reader.failed": "Não foi possível abrir o PDF.",
     "papers.reader.download": "Baixar o arquivo",
-    "bottomNav.papers": "Papers",
     "bottomNav.library": "Biblioteca",
     "papers.filter.stage": "Situação da publicação",
     "papers.stage.preprint": "Preprint: ainda não revisado",
@@ -1585,6 +1582,16 @@
     "bookmarks.remove": "Remover marcador",
     "home.bookmarks": "Marcadores",
     "home.bookmarksHint": "Onde você parou em cada módulo",
-    "profile.source.labs": "Labs"
+    "profile.source.labs": "Labs",
+    "header.nav.certifications": "Certificações",
+    "bottomNav.studies": "Estudos",
+    "studies.seo.title": "Estudos",
+    "studies.seo.description": "Trilhas, certificações, papers e o currículo de Ciência da Computação em um só lugar.",
+    "studies.title": "Estudos",
+    "studies.subtitle": "Escolha por onde continuar.",
+    "studies.tracks.desc": "Java, Spring, .NET, Ruby e mais, conceito por conceito.",
+    "studies.certifications.desc": "Simulados de Oracle Java e Microsoft Azure.",
+    "studies.papers.desc": "Artigos científicos para ler e discutir.",
+    "studies.computerScience.desc": "O currículo completo, da base à especialização."
   }
 }

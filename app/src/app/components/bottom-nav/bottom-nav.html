@@ -15,16 +15,16 @@
   </a>
 
   <a
-    routerLink="/computer-science"
-    routerLinkActive="active"
+    routerLink="/studies"
+    [class.active]="inStudies()"
     class="tab"
-    i18n-aria-label="@@bottomNav.track"
-    aria-label="Track"
+    i18n-aria-label="@@bottomNav.studies"
+    aria-label="Study"
   >
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M5 19V9M12 19V5M19 19v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </svg>
-    <span i18n="@@bottomNav.track">Track</span>
+    <span i18n="@@bottomNav.studies">Study</span>
   </a>
 
   <a
@@ -39,20 +39,6 @@
       <path d="M8 9.5h8M8 12.5h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </svg>
     <span i18n="@@bottomNav.discussions">Discussions</span>
-  </a>
-
-  <a
-    routerLink="/papers"
-    routerLinkActive="active"
-    class="tab"
-    i18n-aria-label="@@bottomNav.papers"
-    aria-label="Papers"
-  >
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M7 3h7l5 5v13H7V3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-      <path d="M14 3v5h5M10 13h6M10 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <span i18n="@@bottomNav.papers">Papers</span>
   </a>
 
   @if (signedIn()) {

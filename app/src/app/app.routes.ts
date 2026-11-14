@@ -209,6 +209,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/tracks/tracks-page').then((m) => m.TracksPage),
   },
   {
+    path: 'studies',
+    loadComponent: () => import('./pages/studies/studies-page').then((m) => m.StudiesPage),
+  },
+  {
     path: 'csharp-concepts',
     loadComponent: () => import('./pages/csharp-concepts/csharp-concepts-list').then((m) => m.CSharpConceptsListPage),
   },
