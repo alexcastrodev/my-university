@@ -189,7 +189,7 @@ describe('the seeded roles', () => {
         `SELECT rp.permission FROM role_permission rp JOIN role r ON r.id = rp."roleId" WHERE r.name = $1 ORDER BY 1`,
         [role],
       );
-      return rows.map((r) => r.permission);
+      return rows.map((r) => r.permission).sort();
     };
     expect(await perms('admin')).toEqual([...PERMISSIONS].sort());
     expect(await perms('student')).toEqual(['ai.use']);
