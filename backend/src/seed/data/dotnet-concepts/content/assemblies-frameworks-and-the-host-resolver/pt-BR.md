@@ -1,22 +1,16 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-14
 title: "Assemblies, Frameworks e Como o Host os Resolve"
 summary: Identidade de assembly, assembly de referência versus de implementação, deps.json e runtimeconfig.json lidos de verdade, a resolução do host (DOTNET_ROOT, roll-forward), type forwarding e AssemblyLoadContext, tudo medido no SDK 10.0.100.
 ---
 ## Objective
 
-Um programa .NET é uma pasta de assemblies mais dois arquivos JSON pequenos, e
-um runtime instalado em outro lugar da máquina. Quando ele inicia, um host
-nativo lê esses arquivos, escolhe um runtime, monta uma lista de assemblies
-confiáveis e só então o seu `Main` roda. A maioria dos erros "could not load
-file or assembly", a maioria das surpresas de versão e todo sistema de plugins
-se resumem a essa cadeia. Este conceito a percorre com arquivos e traces reais
-no SDK 10.0.100: a identidade do assembly, o assembly de referência que o
-compilador viu versus o de implementação que o runtime carrega, o que dizem
-`*.deps.json` e `*.runtimeconfig.json`, como o host encontra o runtime, como o
-type forwarding deixa um tipo mudar de assembly, e como o `AssemblyLoadContext`
-isola cópias do mesmo assembly.
+Um programa .NET é composto por uma pasta de assemblies, dois pequenos arquivos JSON e um runtime que fica instalado separadamente na máquina. Quando a aplicação inicia, um host nativo lê esses arquivos, identifica qual runtime deve ser utilizado, define quais assemblies podem ser carregados e só então executa o `Main`.
+
+Boa parte dos problemas de *could not load file or assembly*, das incompatibilidades entre versões e dos desafios na implementação de sistemas de plugins tem origem nessa sequência de etapas.
+
+Neste material, vamos percorrer esse processo na prática, usando arquivos e traces reais do SDK 10.0.100. Vamos entender como funciona a identidade dos assemblies, a diferença entre os assemblies de referência usados pelo compilador e os assemblies de implementação carregados pelo runtime, o papel dos arquivos `*.deps.json` e `*.runtimeconfig.json`, como o host localiza o runtime, como o *type forwarding* permite que um tipo seja movido entre assemblies e, por fim, como o `AssemblyLoadContext` permite isolar diferentes cópias do mesmo assembly.
 
 ## Use Cases
 
