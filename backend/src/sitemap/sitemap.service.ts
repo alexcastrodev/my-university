@@ -126,9 +126,9 @@ export class SitemapService {
       urls.push(...this.localizedSectionUrls(base, items));
     }
 
-    urls.push({ path: '/java/exams', lastmod: null });
+    urls.push({ path: '/exams', lastmod: null });
     for (const exam of await this.exam.listExams()) {
-      urls.push({ path: `/java/exam/${exam.id}`, lastmod: null });
+      urls.push({ path: `/exam/${exam.id}`, lastmod: null });
     }
     // The lessons are server-rendered, indexable pages, but the course page links to them from the browser only.
     // A skill check is left out: its questions are drawn in the browser, so the page has no text of its own.
@@ -138,7 +138,7 @@ export class SitemapService {
           (l) => l.type !== 'skill-check',
         )) {
           urls.push({
-            path: `/java/exam/${course.id}/lesson/${lesson.id}`,
+            path: `/exam/${course.id}/lesson/${lesson.id}`,
             lastmod: null,
           });
         }

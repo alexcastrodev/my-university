@@ -11,24 +11,29 @@
         <ng-container i18n="@@examList.loading">Loading exams…</ng-container>
       </div>
     } @else {
-      <div class="cards-grid">
-        @for (exam of exams(); track exam.id) {
-          <a [routerLink]="['/java/exam', exam.id]" class="exam-card">
-            <div class="card-header">
-              <span class="card-version">v{{ exam.version }}</span>
-            </div>
-            <h3 class="card-title">{{ exam.title }}</h3>
-            <div class="card-meta">
-              <span i18n="@@examList.card.questions">{{ exam.questionCount }} questions</span>
-              <span i18n="@@examList.card.minutes">{{ exam.durationMinutes }} minutes</span>
-              <span i18n="@@examList.card.passPercent">{{ exam.passingScore }}% pass</span>
-            </div>
-            <div class="card-footer">
-              <span class="card-cta" i18n="@@examList.card.cta">Start Practice →</span>
-            </div>
-          </a>
-        }
-      </div>
+      @for (group of groups(); track group.provider.key) {
+        <section class="provider" [attr.aria-labelledby]="'provider-' + group.provider.key">
+          <h2 class="provider-name" [id]="'provider-' + group.provider.key">{{ group.provider.name }}</h2>
+          <div class="cards-grid">
+            @for (exam of group.exams; track exam.id) {
+              <a [routerLink]="['/exam', exam.id]" class="exam-card">
+                <div class="card-header">
+                  <span class="card-version">{{ group.provider.badge(exam) }}</span>
+                </div>
+                <h3 class="card-title">{{ exam.title }}</h3>
+                <div class="card-meta">
+                  <span i18n="@@examList.card.questions">{{ exam.questionCount }} questions</span>
+                  <span i18n="@@examList.card.minutes">{{ exam.durationMinutes }} minutes</span>
+                  <span i18n="@@examList.card.passPercent">{{ exam.passingScore }}% pass</span>
+                </div>
+                <div class="card-footer">
+                  <span class="card-cta" i18n="@@examList.card.cta">Start Practice →</span>
+                </div>
+              </a>
+            }
+          </div>
+        </section>
+      }
     }
   </div>
 </div>

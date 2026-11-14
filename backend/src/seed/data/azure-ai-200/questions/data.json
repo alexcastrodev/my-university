@@ -1,0 +1,927 @@
+[
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "Which operation is the cheapest and fastest way to read one known item from Azure Cosmos DB for NoSQL?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A change feed read"
+      },
+      {
+        "key": "B",
+        "text": "A SELECT * query without a partition key"
+      },
+      {
+        "key": "C",
+        "text": "A cross-partition query with enable_cross_partition_query"
+      },
+      {
+        "key": "D",
+        "text": "A point read with the item id and partition key value"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "A point read by id and partition key costs about 1 RU for a 1 KB item, less than any query."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "A Cosmos DB request returns HTTP 429. What does it mean?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The item was not found"
+      },
+      {
+        "key": "B",
+        "text": "The consistency level is too strong"
+      },
+      {
+        "key": "C",
+        "text": "The request rate exceeded the provisioned RUs; retry after the hinted delay or raise throughput"
+      },
+      {
+        "key": "D",
+        "text": "The partition key is missing"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "429 is request rate too large. The SDK retries a limited number of times; persistent 429s call for more throughput, a better partition key or cheaper queries."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "A query with ORDER BY c.status, c.createdAt fails in Cosmos DB for NoSQL. What is required?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Disabling the index"
+      },
+      {
+        "key": "B",
+        "text": "Switching to Strong consistency"
+      },
+      {
+        "key": "C",
+        "text": "A larger partition key"
+      },
+      {
+        "key": "D",
+        "text": "A composite index on /status and /createdAt"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "ORDER BY on multiple properties needs a composite index covering them in the same order."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "What is the default consistency level for a new Azure Cosmos DB account?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Session"
+      },
+      {
+        "key": "B",
+        "text": "Eventual"
+      },
+      {
+        "key": "C",
+        "text": "Bounded staleness"
+      },
+      {
+        "key": "D",
+        "text": "Strong"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Session is the default and the most widely used level: read-your-writes within a client session."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "Compared with Session consistency, what does reading at Strong or Bounded staleness cost in RUs?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "About the same"
+      },
+      {
+        "key": "B",
+        "text": "About twice as much"
+      },
+      {
+        "key": "C",
+        "text": "Ten times as much"
+      },
+      {
+        "key": "D",
+        "text": "About half"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Strong and bounded staleness reads use two replicas (a local minority quorum), so the RU cost of a read is about double. Write RU cost is the same for all levels."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "Your account uses multiple write regions. Which consistency level can you NOT use?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Session"
+      },
+      {
+        "key": "B",
+        "text": "Strong"
+      },
+      {
+        "key": "C",
+        "text": "Eventual"
+      },
+      {
+        "key": "D",
+        "text": "Consistent prefix"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Strong consistency is not available with multiple write regions."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "The account default is Session. For one read your code needs Strong consistency. What can it do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Nothing stronger than the account default can be requested; a request can only relax to a weaker level"
+      },
+      {
+        "key": "B",
+        "text": "Restart the SDK"
+      },
+      {
+        "key": "C",
+        "text": "Set a header to override quorum"
+      },
+      {
+        "key": "D",
+        "text": "Request Strong on that read"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "A client or request can use a level weaker than the account default but not a stronger one."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "For a single-region account, what is the minimum bounded staleness setting?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "100,000 operations or 300 seconds"
+      },
+      {
+        "key": "B",
+        "text": "100 operations or 60 seconds"
+      },
+      {
+        "key": "C",
+        "text": "1 operation or 1 second"
+      },
+      {
+        "key": "D",
+        "text": "10 write operations or 5 seconds"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Single-region accounts: minimum K and T of 10 write operations or 5 seconds. Multi-region accounts: 100,000 operations or 300 seconds."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "multi",
+    "text": "Which actions reduce RU consumption? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Exclude never-queried paths from the indexing policy"
+      },
+      {
+        "key": "B",
+        "text": "Filter queries by the partition key"
+      },
+      {
+        "key": "C",
+        "text": "Use point reads instead of queries where possible"
+      },
+      {
+        "key": "D",
+        "text": "Always SELECT * to avoid projection work"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "Point reads, partition-scoped queries and a lean indexing policy lower RU cost. SELECT * returns more data and costs more than projecting only the needed properties."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "You changed the account default consistency level. What should the application do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Nothing, it applies instantly to open clients"
+      },
+      {
+        "key": "B",
+        "text": "Recreate the SDK client, for example by restarting the app"
+      },
+      {
+        "key": "C",
+        "text": "Delete the lease container"
+      },
+      {
+        "key": "D",
+        "text": "Re-create the container"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Recreate any SDK instance after changing the default consistency level so it uses the new default."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "A vector query in Azure Cosmos DB for NoSQL is slow and expensive. The query sorts by VectorDistance but has no limit clause. What should you add?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A GROUP BY"
+      },
+      {
+        "key": "B",
+        "text": "An OFFSET of zero"
+      },
+      {
+        "key": "C",
+        "text": "A TOP N clause in the SELECT"
+      },
+      {
+        "key": "D",
+        "text": "A LIMIT clause"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Always use TOP N so the vector search returns only the needed results; without it the query tries to return many more and costs more RUs and latency."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "multi",
+    "text": "Your embedding model produces 1536-dimension vectors. Which Cosmos DB vector index types can store and index them? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "flat"
+      },
+      {
+        "key": "B",
+        "text": "diskANN"
+      },
+      {
+        "key": "C",
+        "text": "quantizedFlat"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "C"
+    ],
+    "explanation": "flat is limited to 505 dimensions. quantizedFlat and diskANN support up to 4096."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "You need to change the dimensions of an existing Cosmos DB vector embedding policy. What is the correct procedure?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Drop the existing vector policy and index and add it back with the new configuration"
+      },
+      {
+        "key": "B",
+        "text": "Enable shared throughput"
+      },
+      {
+        "key": "C",
+        "text": "Disable vector search on the account"
+      },
+      {
+        "key": "D",
+        "text": "Edit the policy in place"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Vector embedding policy and vector index settings cannot be changed directly. You add or remove path configurations, or drop and re-add."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "A container has 300 vectors and a diskANN vector index. What is true?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Searches use the diskANN graph"
+      },
+      {
+        "key": "B",
+        "text": "The container rejects further inserts"
+      },
+      {
+        "key": "C",
+        "text": "quantizedFlat and diskANN need at least 1,000 vectors; with fewer, a full scan runs and RU charges can be higher"
+      },
+      {
+        "key": "D",
+        "text": "Queries return an error"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Quantization needs at least 1,000 indexed vectors for accuracy. Below that the engine falls back to a full scan."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "Which account capability must be enabled for vector search on Azure Cosmos DB for NoSQL?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "EnableGremlin"
+      },
+      {
+        "key": "B",
+        "text": "EnableNoSQLVectorSearch"
+      },
+      {
+        "key": "C",
+        "text": "EnableAnalyticalStorage"
+      },
+      {
+        "key": "D",
+        "text": "EnableServerless"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Vector search is enabled with the EnableNoSQLVectorSearch capability, which can take about 15 minutes to take effect."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "Which of the following is NOT a supported distance function in a Cosmos DB vector embedding policy?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "dotproduct"
+      },
+      {
+        "key": "B",
+        "text": "hamming"
+      },
+      {
+        "key": "C",
+        "text": "euclidean"
+      },
+      {
+        "key": "D",
+        "text": "cosine"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Supported distance functions are cosine (default), dotproduct and euclidean."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "You need exact nearest neighbor results with 100% recall on a small, filtered set of 400-dimension vectors. Which index type fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "diskANN"
+      },
+      {
+        "key": "B",
+        "text": "flat"
+      },
+      {
+        "key": "C",
+        "text": "quantizedFlat with 100 lists"
+      },
+      {
+        "key": "D",
+        "text": "No index with a TOP 1000 clause"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "A flat index is a brute-force search with 100% recall, limited to 505 dimensions. diskANN is approximate."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "A Python application must process the Cosmos DB change feed with checkpointing handled for it. Which statement is correct?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Use the query_items API with a timestamp filter"
+      },
+      {
+        "key": "B",
+        "text": "Use the change feed processor library in the Python SDK"
+      },
+      {
+        "key": "C",
+        "text": "The processor library exists only for .NET and Java; in Python use the pull model with your own checkpoints, or an Azure Functions Cosmos DB trigger"
+      },
+      {
+        "key": "D",
+        "text": "Python cannot read the change feed"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "The change feed processor is available in the .NET and Java SDKs. Python and Node.js use the pull model, or the Functions Cosmos DB trigger that hosts the processor for you."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "The delegate of a change feed processor throws an unhandled exception for a batch. What happens?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The lease container is deleted"
+      },
+      {
+        "key": "B",
+        "text": "The batch is skipped permanently"
+      },
+      {
+        "key": "C",
+        "text": "The processor retries the same batch from the last checkpoint, giving at-least-once delivery"
+      },
+      {
+        "key": "D",
+        "text": "The processor stops forever"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "The thread stops and a new one restarts from the last saved lease state, resending the batch. That is why handlers must be idempotent."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "multi",
+    "text": "You want to scale out a change feed processor across more compute instances. What must be true? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "All instances use the same processor name"
+      },
+      {
+        "key": "B",
+        "text": "Each instance uses a different monitored container"
+      },
+      {
+        "key": "C",
+        "text": "Each instance has a different instance name"
+      },
+      {
+        "key": "D",
+        "text": "All instances use the same lease container"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C",
+      "D"
+    ],
+    "explanation": "Instances of one deployment unit share processor name and lease container and need unique instance names. Leases are then distributed equally."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "In the default latest version change feed mode, which statement is true?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "It shows the latest state of changed items and does not include deletes; all versions and deletes mode is separate"
+      },
+      {
+        "key": "B",
+        "text": "It shows every intermediate version"
+      },
+      {
+        "key": "C",
+        "text": "It only works on single-partition containers"
+      },
+      {
+        "key": "D",
+        "text": "Deletes appear in the feed"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Latest version mode shows inserts and updates. To see deletes and intermediate versions you use all versions and deletes mode (preview)."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "On Azure Database for PostgreSQL, what is the name of the extension you allowlist and create for pgvector?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "vector"
+      },
+      {
+        "key": "B",
+        "text": "pg_vector"
+      },
+      {
+        "key": "C",
+        "text": "embedding"
+      },
+      {
+        "key": "D",
+        "text": "pgvector"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "The community project is called pgvector but the extension and binary are named vector. Allowlist it with azure.extensions and run CREATE EXTENSION vector in each database."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "You index with USING hnsw (embedding vector_cosine_ops). Which query can use that index?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "ORDER BY embedding + :q LIMIT 5"
+      },
+      {
+        "key": "B",
+        "text": "ORDER BY embedding <#> :q LIMIT 5"
+      },
+      {
+        "key": "C",
+        "text": "ORDER BY embedding <-> :q LIMIT 5"
+      },
+      {
+        "key": "D",
+        "text": "ORDER BY embedding <=> :q LIMIT 5"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "The operator must match the operator class: <=> is cosine distance and pairs with vector_cosine_ops. <-> pairs with vector_l2_ops and <#> with vector_ip_ops."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "An IVFFlat index built on a nearly empty table gives poor recall. What should you do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Use vector_l2_ops"
+      },
+      {
+        "key": "B",
+        "text": "Set m to 64"
+      },
+      {
+        "key": "C",
+        "text": "Increase hnsw.ef_search"
+      },
+      {
+        "key": "D",
+        "text": "Create the IVFFlat index after loading representative data"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "IVFFlat clusters existing vectors into lists, so the index should be created after the table has data."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "A RAG query filters with WHERE tenant_id = 7 and orders by vector distance using an HNSW index, but returns fewer rows than the LIMIT. Why?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "LIMIT is ignored with HNSW"
+      },
+      {
+        "key": "B",
+        "text": "The vector column is too wide"
+      },
+      {
+        "key": "C",
+        "text": "tenant_id must be a jsonb column"
+      },
+      {
+        "key": "D",
+        "text": "With approximate indexes the filter is applied after the index scan, so fewer matching rows can remain"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Approximate index scans return a bounded candidate set, then the filter removes rows. Raise ef_search, use iterative scans (pgvector 0.8.0 and later), or index and filter the selective column."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "Your embedding model produces 3072-dimension vectors stored in a vector column. What is true about indexing them with HNSW?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Only IVFFlat supports it"
+      },
+      {
+        "key": "B",
+        "text": "Dimensions do not matter for indexing"
+      },
+      {
+        "key": "C",
+        "text": "It works, vector indexes support 16,000 dimensions"
+      },
+      {
+        "key": "D",
+        "text": "A vector column can be indexed up to 2,000 dimensions; use halfvec (up to 4,000), fewer dimensions or no ANN index"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "vector storage reaches 16,000 dimensions but the index limit is 2,000. halfvec can be indexed up to 4,000 dimensions."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "Many short-lived app instances overwhelm an Azure Database for PostgreSQL flexible server with connections. Which feature helps?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The built-in PgBouncer connection pooler (port 6432)"
+      },
+      {
+        "key": "B",
+        "text": "More read replicas for writes"
+      },
+      {
+        "key": "C",
+        "text": "Increasing shared_buffers to zero"
+      },
+      {
+        "key": "D",
+        "text": "Disabling TLS"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Flexible server offers a built-in PgBouncer that you enable with the pgbouncer.enabled parameter and connect to on port 6432."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "Which setting makes building an HNSW index significantly faster when the graph fits in it?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "max_connections"
+      },
+      {
+        "key": "B",
+        "text": "maintenance_work_mem"
+      },
+      {
+        "key": "C",
+        "text": "idle_in_transaction_session_timeout"
+      },
+      {
+        "key": "D",
+        "text": "statement_timeout"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "HNSW builds are much faster when the graph fits in maintenance_work_mem, without setting it so high that memory is exhausted."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "You created an Azure Managed Redis instance and now want vector search. The RediSearch module was not enabled at creation. What do you do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Create a new instance with RediSearch enabled; modules cannot be added after creation"
+      },
+      {
+        "key": "B",
+        "text": "Run MODULE LOAD redisearch"
+      },
+      {
+        "key": "C",
+        "text": "Switch to Flash Optimized"
+      },
+      {
+        "key": "D",
+        "text": "Enable the module from the portal Modules blade"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "RediSearch must be enabled when the instance is created. You cannot add or load modules afterward, and Flash Optimized does not support RediSearch."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "Which Azure Managed Redis clustering policy is NOT supported with RediSearch?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "OSSCluster"
+      },
+      {
+        "key": "B",
+        "text": "EnterpriseCluster"
+      },
+      {
+        "key": "C",
+        "text": "NoCluster"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Use Enterprise or Non-clustered. RediSearch is not supported with the OSS clustering policy."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "A cached product price must never be more than 5 minutes stale and must update promptly when an admin edits the product. Which is the best design?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Cache with no TTL and never invalidate"
+      },
+      {
+        "key": "B",
+        "text": "Cache-aside with a 300 second TTL and delete the key when the product is updated"
+      },
+      {
+        "key": "C",
+        "text": "Write only to the cache"
+      },
+      {
+        "key": "D",
+        "text": "Use the KEYS command to find and refresh entries"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "A TTL bounds staleness and a delete on write invalidates immediately. The database stays the source of truth. KEYS blocks the server and is not for production."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "data",
+    "type": "single",
+    "text": "You need exact nearest neighbor search on a small dataset in Azure Managed Redis, and approximate search with lower latency on a large dataset. Which index types?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "FLAT for the small set and HNSW for the large one"
+      },
+      {
+        "key": "B",
+        "text": "HNSW for the small set and FLAT for the large one"
+      },
+      {
+        "key": "C",
+        "text": "Both use FLAT"
+      },
+      {
+        "key": "D",
+        "text": "Both use HNSW"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "FLAT is an exact brute-force index suited to smaller sets. HNSW is an approximate graph index for larger sets where latency matters more than exhaustive precision."
+  }
+]

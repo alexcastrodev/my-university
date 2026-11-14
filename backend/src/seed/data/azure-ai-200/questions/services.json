@@ -1,0 +1,702 @@
+[
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "A Service Bus message is delivered 10 times and abandoned each time. Where does it end up, and with what reason?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "It is deleted silently"
+      },
+      {
+        "key": "B",
+        "text": "The dead-letter queue, reason MaxDeliveryCountExceeded"
+      },
+      {
+        "key": "C",
+        "text": "The transfer dead-letter queue, reason TTLExpiredException"
+      },
+      {
+        "key": "D",
+        "text": "A new topic subscription"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "When the delivery count exceeds the maximum (default 10) the message is moved to the dead-letter queue with the reason MaxDeliveryCountExceeded. This cannot be disabled, only raised."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "What is the default Max delivery count of a Service Bus queue or subscription?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "10"
+      },
+      {
+        "key": "C",
+        "text": "100"
+      },
+      {
+        "key": "D",
+        "text": "5"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "The default is 10."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "A message handler needs 7 minutes. What should you do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Renew the message lock while processing, because the maximum lock duration is 5 minutes"
+      },
+      {
+        "key": "B",
+        "text": "Set the lock duration to 7 minutes"
+      },
+      {
+        "key": "C",
+        "text": "Use receive-and-delete"
+      },
+      {
+        "key": "D",
+        "text": "Increase the max delivery count to 7"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "The default lock duration is 1 minute and the maximum is 5 minutes, so longer work requires renewing the lock (for example with AutoLockRenewer)."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "What is the main risk of receive-and-delete mode in Service Bus?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Sessions stop working"
+      },
+      {
+        "key": "B",
+        "text": "The lock expires too early"
+      },
+      {
+        "key": "C",
+        "text": "If the receiver crashes after the broker sends the message, the message is lost"
+      },
+      {
+        "key": "D",
+        "text": "Messages are delivered twice"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "In receive-and-delete the message is considered settled when sent. A failed transfer or crash loses it. Peek-lock settles explicitly."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "A receiver calls abandon_message for a message. What happens?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The message is deferred"
+      },
+      {
+        "key": "B",
+        "text": "The lock is released immediately, the message is redelivered and its delivery count increases"
+      },
+      {
+        "key": "C",
+        "text": "The message is deleted"
+      },
+      {
+        "key": "D",
+        "text": "The message moves to the DLQ at once"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Abandon releases the lock so the message can be redelivered, incrementing the delivery count."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "Messages for each customer must be processed in order, one customer at a time per receiver. What do you enable?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Duplicate detection"
+      },
+      {
+        "key": "B",
+        "text": "Partitioning only"
+      },
+      {
+        "key": "C",
+        "text": "Auto-forwarding"
+      },
+      {
+        "key": "D",
+        "text": "Sessions, using the customer id as the session id"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Sessions provide ordered, FIFO handling per session id, and a receiver locks a whole session."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "Where is the dead-letter queue of a topic subscription addressed?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$deadletter/<subscription>"
+      },
+      {
+        "key": "B",
+        "text": "A separate queue you must create"
+      },
+      {
+        "key": "C",
+        "text": "<topic>/$deadletterqueue"
+      },
+      {
+        "key": "D",
+        "text": "<topic>/Subscriptions/<subscription>/$deadletterqueue"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Each subscription has its own DLQ. Topics themselves have none, because messages are forwarded to subscriptions within milliseconds."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "Your code completes a message after closing the receiver. What is the result?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The message is completed"
+      },
+      {
+        "key": "B",
+        "text": "The settlement fails; the lock expires, the message is redelivered and eventually dead-lettered if this repeats"
+      },
+      {
+        "key": "C",
+        "text": "Nothing, the SDK reopens the receiver"
+      },
+      {
+        "key": "D",
+        "text": "The message moves to the transfer DLQ"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Settle before closing the receiver or connection. After closing, settlement does not reach the service and repeated redelivery ends in MaxDeliveryCountExceeded."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "multi",
+    "text": "Which are dead-letter reasons set by Service Bus itself? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "LockRenewed"
+      },
+      {
+        "key": "B",
+        "text": "MaxTransferHopCountExceeded"
+      },
+      {
+        "key": "C",
+        "text": "TTLExpiredException"
+      },
+      {
+        "key": "D",
+        "text": "MaxDeliveryCountExceeded"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "The system sets reasons such as MaxDeliveryCountExceeded, TTLExpiredException (when dead-lettering on expiration is on), HeaderSizeExceeded and MaxTransferHopCountExceeded. LockRenewed is not a reason."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "How long do messages remain in a dead-letter queue?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Until their original TTL"
+      },
+      {
+        "key": "B",
+        "text": "24 hours"
+      },
+      {
+        "key": "C",
+        "text": "7 days"
+      },
+      {
+        "key": "D",
+        "text": "Until you explicitly receive them from the DLQ and complete them"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "There is no automatic cleanup of the DLQ and time to live is not observed there."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "A job message may be delivered twice. How do you make processing safe?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Disable the lock"
+      },
+      {
+        "key": "B",
+        "text": "Make the handler idempotent, for example by tracking processed message_id values"
+      },
+      {
+        "key": "C",
+        "text": "Set max delivery count to 1"
+      },
+      {
+        "key": "D",
+        "text": "Use receive-and-delete"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Delivery is at-least-once under peek-lock, so handlers must be idempotent. A unique message_id is the usual deduplication key."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "What is the default retry policy of Azure Event Grid event subscriptions?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "30 maximum attempts and a 1440 minute (24 hour) time to live"
+      },
+      {
+        "key": "B",
+        "text": "10 attempts, 10 minute TTL"
+      },
+      {
+        "key": "C",
+        "text": "3 attempts, 1 hour TTL"
+      },
+      {
+        "key": "D",
+        "text": "No retries"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "The default maximum number of attempts is 30 and the default event time-to-live is 1440 minutes. Delivery stops when either limit is reached first."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "An Event Grid webhook endpoint responds with HTTP 400 for an event. What does Event Grid do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Does not retry; it dead-letters the event if configured, otherwise drops it"
+      },
+      {
+        "key": "B",
+        "text": "Retries 30 times"
+      },
+      {
+        "key": "C",
+        "text": "Retries after 12 hours"
+      },
+      {
+        "key": "D",
+        "text": "Switches to batching"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "400 (Bad Request) and 413 (Request Entity Too Large) mean delivery can never succeed, so the event is scheduled for dead-lettering immediately."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "You must keep events that Event Grid could not deliver. What do you configure on the event subscription?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A Service Bus topic as the retry store"
+      },
+      {
+        "key": "B",
+        "text": "A Blob Storage container as the dead-letter destination"
+      },
+      {
+        "key": "C",
+        "text": "Nothing, dead-lettering is on by default"
+      },
+      {
+        "key": "D",
+        "text": "A longer TTL only"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Dead-lettering is off by default and undeliverable events are dropped. Enable it by specifying a storage account container."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "multi",
+    "text": "Which HTTP status codes does Event Grid treat as successful delivery? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "202 Accepted"
+      },
+      {
+        "key": "B",
+        "text": "204 No Content"
+      },
+      {
+        "key": "C",
+        "text": "200 OK"
+      },
+      {
+        "key": "D",
+        "text": "301 Moved Permanently"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "Only 200, 201, 202, 203 and 204 are success. All other codes, including 3xx, are failures."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "A handler must receive only OrderPlaced events where data.total is greater than 100. How do you do this with the least code?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Use Service Bus sessions"
+      },
+      {
+        "key": "B",
+        "text": "Create one topic per amount"
+      },
+      {
+        "key": "C",
+        "text": "Filter inside the handler"
+      },
+      {
+        "key": "D",
+        "text": "Event type filter plus an advanced filter on data.total (NumberGreaterThan 100) on the subscription"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Subscription filters (event types, subject filters and advanced filters on data fields) run in Event Grid so the handler only receives matching events."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "What is true about Event Grid batch delivery?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Partial success is supported"
+      },
+      {
+        "key": "B",
+        "text": "It is off by default; when enabled it is all or none per batch, with up to 5,000 events per batch"
+      },
+      {
+        "key": "C",
+        "text": "Batches are always 1 MB"
+      },
+      {
+        "key": "D",
+        "text": "It is on by default"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "By default one event is sent per request. Batching is optional, supports 1 to 5,000 events and has all-or-none semantics."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "Which statement about Event Grid delivery guarantees is correct?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Exactly once, in order"
+      },
+      {
+        "key": "B",
+        "text": "At most once"
+      },
+      {
+        "key": "C",
+        "text": "At least once, with no ordering guarantee"
+      },
+      {
+        "key": "D",
+        "text": "Ordered per subject"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Event Grid delivers at least once and does not guarantee order, so subscribers must tolerate duplicates and reordering."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "How many triggers can one Azure Function have?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Up to two"
+      },
+      {
+        "key": "B",
+        "text": "Exactly one"
+      },
+      {
+        "key": "C",
+        "text": "Zero or more"
+      },
+      {
+        "key": "D",
+        "text": "One per binding"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "A function has exactly one trigger. It can have several input and output bindings."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "A function app must read from Service Bus using its managed identity and no connection string. Which app setting do you add?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "ServiceBusConnection__key=managed"
+      },
+      {
+        "key": "B",
+        "text": "ServiceBusConnection=<connection string>"
+      },
+      {
+        "key": "C",
+        "text": "ServiceBusConnection__fullyQualifiedNamespace=shop-bus.servicebus.windows.net, plus a data role assignment for the identity"
+      },
+      {
+        "key": "D",
+        "text": "AzureWebJobsStorage=none"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "For identity-based connections the setting named by the binding's connection property gets a __fullyQualifiedNamespace suffix, and the identity needs the appropriate Service Bus data role."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "Which file configures a Function app for local development only and is NOT deployed to Azure?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "local.settings.json"
+      },
+      {
+        "key": "B",
+        "text": "host.json"
+      },
+      {
+        "key": "C",
+        "text": "requirements.txt"
+      },
+      {
+        "key": "D",
+        "text": "function_app.py"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "local.settings.json holds local settings and is not published. In Azure the values come from application settings."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "A Cosmos DB trigger Function needs which extra resource to work?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "An Event Grid subscription"
+      },
+      {
+        "key": "B",
+        "text": "A lease container, because the trigger runs the change feed processor"
+      },
+      {
+        "key": "C",
+        "text": "A Service Bus topic"
+      },
+      {
+        "key": "D",
+        "text": "A Redis cache"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "The Cosmos DB trigger uses the change feed processor, which stores progress in a lease container."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "An HTTP-triggered function uses authorization level FUNCTION. What must callers send?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The master key only"
+      },
+      {
+        "key": "B",
+        "text": "A function key"
+      },
+      {
+        "key": "C",
+        "text": "A Microsoft Entra token only"
+      },
+      {
+        "key": "D",
+        "text": "Nothing"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "FUNCTION requires a function-specific key. ADMIN requires the master key and ANONYMOUS requires none."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "services",
+    "type": "single",
+    "text": "You need an event-driven serverless Function plan that scales to zero and supports virtual network integration. Which plan?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Premium only"
+      },
+      {
+        "key": "B",
+        "text": "Flex Consumption"
+      },
+      {
+        "key": "C",
+        "text": "A single always-on VM"
+      },
+      {
+        "key": "D",
+        "text": "Dedicated (App Service plan)"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Flex Consumption is the serverless plan that scales per function, scales to zero and supports virtual networks. Premium keeps pre-warmed instances and does not scale to zero."
+  }
+]

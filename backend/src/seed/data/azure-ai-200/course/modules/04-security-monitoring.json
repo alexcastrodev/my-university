@@ -1,0 +1,31 @@
+{
+  "id": 4,
+  "title": "Secure, Monitor, and Troubleshoot Azure Solutions",
+  "lessons": [
+    {
+      "id": "az200-4-1",
+      "title": "Key Vault and App Configuration",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/4-1-key-vault-and-app-configuration.md"
+    },
+    {
+      "id": "az200-4-2",
+      "title": "OpenTelemetry Tracing and KQL",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/4-2-opentelemetry-tracing-and-kql.md"
+    },
+    {
+      "id": "az200-4-check",
+      "title": "Skill Check: Secure, Monitor, and Troubleshoot Azure Solutions",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null,
+      "topic": "security-monitoring"
+    }
+  ]
+}

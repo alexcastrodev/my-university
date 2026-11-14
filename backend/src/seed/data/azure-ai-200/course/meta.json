@@ -1,0 +1,19 @@
+{
+  "id": "azure-ai-200",
+  "title": "Azure AI Cloud Developer Associate (AI-200) Complete",
+  "tag": "Course",
+  "audience": "All Users",
+  "moduleCount": 4,
+  "duration": "3h 24m",
+  "description": "Prepares you for Microsoft Exam AI-200 (Developing AI Cloud Solutions on Azure) and the Microsoft Certified: Azure AI Cloud Developer Associate certification. Follows the four skill domains of the official study guide, with Python-first examples, vector search on Cosmos DB, PostgreSQL and Redis, and links to the official Microsoft Learn documentation.",
+  "benefits": [
+    "Build, version and run container images with Azure Container Registry, ACR Tasks and App Service",
+    "Deploy to Azure Container Apps with revisions and KEDA event-driven scaling, and to AKS with manifest files",
+    "Query Azure Cosmos DB for NoSQL, tune RUs with indexing policies and choose a consistency level",
+    "Store embeddings and run vector similarity search on Cosmos DB, Azure Database for PostgreSQL (pgvector) and Azure Managed Redis",
+    "Implement a change feed processor, RAG retrieval with metadata filters, and cache-aside with expiration",
+    "Process messages with Service Bus (dead-letter queues, topics) and react to events with Event Grid (filters, retries)",
+    "Build serverless APIs with Azure Functions triggers and bindings, and deploy function apps",
+    "Secure secrets with Key Vault rotation and App Configuration, and trace and analyze systems with OpenTelemetry and KQL"
+  ]
+}

@@ -7,12 +7,26 @@ import csharp from 'highlight.js/lib/languages/csharp';
 import plaintext from 'highlight.js/lib/languages/plaintext';
 import rust from 'highlight.js/lib/languages/rust';
 import go from 'highlight.js/lib/languages/go';
+import python from 'highlight.js/lib/languages/python';
+import bash from 'highlight.js/lib/languages/bash';
+import yaml from 'highlight.js/lib/languages/yaml';
+import json from 'highlight.js/lib/languages/json';
+import sql from 'highlight.js/lib/languages/sql';
+import dockerfile from 'highlight.js/lib/languages/dockerfile';
 
 hljs.registerLanguage('java', java);
 hljs.registerLanguage('csharp', csharp);
 hljs.registerLanguage('plaintext', plaintext);
 hljs.registerLanguage('rust', rust);
 hljs.registerLanguage('go', go);
+// Azure exam lessons (AI-200): Python SDK code, az CLI, Kubernetes/Container Apps YAML, JSON payloads, SQL/pgvector, Dockerfiles.
+// KQL has no highlight.js grammar, so those fences fall back to plaintext.
+hljs.registerLanguage('python', python);
+hljs.registerLanguage('bash', bash);
+hljs.registerLanguage('yaml', yaml);
+hljs.registerLanguage('json', json);
+hljs.registerLanguage('sql', sql);
+hljs.registerLanguage('dockerfile', dockerfile);
 
 const SHORT_CELL_CHARS = 32;
 

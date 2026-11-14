@@ -9,7 +9,7 @@ import {
   ComplementaryStudiesService,
 } from '../computer-science/complementary-studies.service';
 
-type Group = 'java' | 'ruby' | 'dotnet' | 'rust' | 'go' | 'fundamentals';
+type Group = 'java' | 'ruby' | 'dotnet' | 'rust' | 'go' | 'fundamentals' | 'exams';
 type Kind = 'language' | 'framework' | 'platform' | 'theory' | 'quick';
 
 interface TrackMeta {
@@ -48,13 +48,13 @@ interface TrackCard {
   routerLink: string;
 }
 
-/** The OCP exams are not a Complementary Studies area, so they get a card of their own. */
+/** The certification exams (Oracle Java, Microsoft Azure) are not a Complementary Studies area, so they get a card of their own. */
 const EXAMS_CARD: TrackCard = {
   slug: 'java-exams',
-  title: 'OCP Java 25 Exams',
-  group: 'java',
+  title: 'Certification Exams',
+  group: 'exams',
   kind: 'quick',
-  routerLink: '/java/exams',
+  routerLink: '/exams',
 };
 
 const CARDS: TrackCard[] = [
@@ -78,7 +78,7 @@ export class TracksPage implements OnInit {
   private seo = inject(SeoService);
   private studies = inject(ComplementaryStudiesService);
 
-  protected readonly groups: Group[] = ['java', 'ruby', 'dotnet', 'rust', 'go', 'fundamentals'];
+  protected readonly groups: Group[] = ['java', 'ruby', 'dotnet', 'rust', 'go', 'fundamentals', 'exams'];
   protected readonly query = signal('');
   protected readonly group = signal<Group | 'all'>('all');
   protected readonly progress = signal<ComplementaryAreaProgress[]>([]);

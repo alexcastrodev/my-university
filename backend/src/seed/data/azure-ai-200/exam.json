@@ -1,0 +1,10 @@
+{
+  "id": "azure-ai-200",
+  "title": "Azure AI Cloud Developer Associate (AI-200)",
+  "version": "AI-200",
+  "delivery": "Proctored Online",
+  "format": "Multiple Choice",
+  "durationMinutes": 120,
+  "questionCount": 50,
+  "passingScore": 70
+}

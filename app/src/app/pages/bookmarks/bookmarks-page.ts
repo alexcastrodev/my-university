@@ -33,7 +33,7 @@ export class BookmarksPage implements OnInit {
     return {
       title: point.courseTitle,
       lesson: point.lessonTitle,
-      route: point.lessonId ? ['/java/exam', point.courseId, 'lesson', point.lessonId] : ['/java/exam', point.courseId],
+      route: point.lessonId ? ['/exam', point.courseId, 'lesson', point.lessonId] : ['/exam', point.courseId],
     };
   });
 

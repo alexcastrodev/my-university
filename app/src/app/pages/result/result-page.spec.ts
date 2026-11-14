@@ -117,7 +117,7 @@ describe('ResultPage', () => {
     await fixture.componentInstance.copyShareLink();
     fixture.detectChanges();
 
-    expect(writeText).toHaveBeenCalledWith(`${location.origin}/java/exam/java-21/share/7`);
+    expect(writeText).toHaveBeenCalledWith(`${location.origin}/exam/java-21/share/7`);
     expect(fixture.componentInstance.copied()).toBe(true);
     expect(button.textContent).toContain('Copied!');
   });

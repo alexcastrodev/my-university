@@ -63,9 +63,9 @@
             </div>
             <div class="quiz-banner-actions">
               @if (auth.currentUser()) {
-                <a [routerLink]="['/java/exam', examId(), 'attempts']" class="attempts-link" i18n="@@coursePage.quizBanner.viewPastAttempts">View past attempts</a>
+                <a [routerLink]="['/exam', examId(), 'attempts']" class="attempts-link" i18n="@@coursePage.quizBanner.viewPastAttempts">View past attempts</a>
               }
-              <a [routerLink]="['/java/exam', examId(), 'quiz']" class="quiz-btn" i18n="@@exam.startPractice">Start Practice Exam →</a>
+              <a [routerLink]="['/exam', examId(), 'quiz']" class="quiz-btn" i18n="@@exam.startPractice">Start Practice Exam →</a>
             </div>
           </div>
         </app-course-view>

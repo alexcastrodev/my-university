@@ -92,7 +92,7 @@ export class QuizPage implements OnInit, OnDestroy {
   confirmExit(): void {
     if (confirm($localize`:@@quizPage.confirmExit:Exit the exam? Your progress will be lost.`)) {
       this.stopTimer();
-      this.router.navigate(['/java/exam', this.examId()]);
+      this.router.navigate(['/exam', this.examId()]);
     }
   }
 
@@ -109,7 +109,7 @@ export class QuizPage implements OnInit, OnDestroy {
       next: (result) => {
         this.submitted.set(true);
         this.submitting.set(false);
-        this.router.navigate(['/java/exam', this.examId(), 'result', result.id]);
+        this.router.navigate(['/exam', this.examId(), 'result', result.id]);
       },
       error: () => this.submitting.set(false),
     });
