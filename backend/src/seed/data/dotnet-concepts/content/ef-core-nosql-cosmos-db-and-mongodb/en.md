@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-14
 ---
 ## Objective
 
@@ -130,6 +130,54 @@ my run, a shadow id moved the key to a separate `__id` property mapped to JSON `
 while `Id` kept its own name in the document. EF Core 10 also added trigger support
 and now fills a default for a new required property when an older document lacks it.
 
+### Cosmos DB: what EF Core 11 added beyond batching
+
+I checked that these APIs exist in 11.0.0 by reflecting over the package and, for
+complex types, by building a model. The behavior is from the documentation, because
+there was no emulator to run against. The breaking changes of the same release
+(unmapped properties, `id` escaping, `undefined` projections, sync I/O) are in
+`upgrading-from-ef-core-10-to-11-breaking-changes`.
+
+- **Batch limits.** A transactional batch stays inside one partition, holds up to 100
+  operations and 2 MB, and cannot contain a document write that has a pre or post
+  trigger. Entities configured with triggers are saved separately, before the
+  batches, which can change the order of a mixed save. With `Always`, 101 new
+  entities throw `InvalidOperationException` because they do not fit in one batch.
+- **Bulk execution is the other route.** It runs document operations in parallel, also
+  across `DbContext` instances, and suits data loads. The documentation presents it
+  as an alternative to batching, and 11.0.0 has a log event called
+  `BulkExecutionWithTransactionalBatch`, which by its name reports the combination. I
+  did not trigger it, so read the log output when you turn both on. There is also an
+  `ExecutedTransactionalBatch` event with the request charge, the container, the
+  partition key and the document ids, which is where to look for the cost of a save.
+- **Session tokens.** Cosmos tracks read-your-writes consistency with a session token,
+  and the SDK keeps it automatically inside one `CosmosClient`. Behind a round-robin
+  load balancer without session affinity, a read can land on an instance that has not
+  seen your write. `SessionTokenManagementMode(...)` in the `UseCosmos` options takes
+  four values, and the methods are `GetSessionToken`/`GetSessionTokens`,
+  `UseSessionToken`/`UseSessionTokens` and `AppendSessionToken`/`AppendSessionTokens`
+  on `db.Database`.
+
+  | Mode | Meaning, from the docs |
+  |---|---|
+  | `FullyAutomatic` | The default. The SDK manages tokens, and the get/use methods throw. |
+  | `SemiAutomatic` | You can override per container with `UseSessionTokens`, and the SDK covers the rest. EF tracks tokens so you can read them. |
+  | `Manual` | Only tokens you set or that EF tracked are used. |
+  | `EnforcedManual` | Like `Manual`, and it throws if you did not set a token for the container first. |
+
+  The usual flow is to return `GetSessionToken()` to the client after a write (a
+  header), and call `UseSessionToken(token)` before the read that must see it. The
+  documentation warns that manual management can break session consistency when done
+  wrong, so use it only when you have the load balancer problem.
+- **Complex types.** `ComplexProperty` builds a Cosmos model on 11.0.0 and embeds a
+  nested JSON object (or an array, for a collection). The documentation prefers it to
+  an owned type for JSON because it has value semantics and no identity.
+  `ToJsonProperty("name")` renames the JSON property of a complex type member.
+- **Indexing policy.** `HasAutomaticIndexing(false)` and
+  `HasAutomaticIndexing().Except("/InternalNotes/?")` exist, and the documentation
+  adds explicit single, composite, vector and full-text indexes with `HasIndex`. This
+  matters for write cost, because the default policy indexes every path.
+
 ### MongoDB: the provider owned by MongoDB
 
 `MongoDB.EntityFrameworkCore` is published by MongoDB, not Microsoft, and the
@@ -188,9 +236,10 @@ Search, which the provider does not support, drop to the driver for that query.
   ```csharp
   e.OwnsMany(x => x.Lines);   // fine for 20 lines, risky for 20,000
   ```
-- **No cross-document atomicity on Cosmos in EF Core 10.** A multi-entity
-  `SaveChangesAsync` is not all-or-nothing, so model one business invariant per
-  document or accept compensating logic.
+- **No cross-document atomicity on Cosmos in EF Core 10, and only inside a batch in 11.**
+  A multi-entity `SaveChangesAsync` is not all-or-nothing across partitions, or past
+  100 operations or 2 MB, so model one business invariant per document or accept
+  compensating logic.
 - **A third-party provider lags EF Core.** The Mongo provider ships on MongoDB's
   schedule, so an EF Core upgrade can wait for it.
 - **You lose the relational toolbox.** No `Migrate()` and no scaffolding, so schema

@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-14
 ---
 ## Objective
 
@@ -100,7 +100,8 @@ cannot be assigned twice, comparisons are by identity, and, as shown below,
 
 ### What EF Core 11 adds
 
-EF Core 11.0.0 pushes the same direction, and I checked three changes on SQLite:
+EF Core 11.0.0 pushes the same direction, and I checked five changes, on SQLite and
+with SQL Server scripts generated offline:
 
 - `OwnsMany(x => x.Notes, n => n.ToJson())` without an explicit key now logs
   `OwnedEntityMappedToJsonCollectionWarning`: "Mapping owned entity collections to
@@ -113,6 +114,24 @@ EF Core 11.0.0 pushes the same direction, and I checked three changes on SQLite:
 - Complex types and JSON columns work on TPT and TPC hierarchies (EF Core 10 only
   allowed them with TPH): `UseTptMappingStrategy()` plus
   `ComplexProperty(a => a.Details, d => d.ToJson())` created the tables.
+- Keys and indexes can use a property inside a complex type. This is about complex
+  types that are table-split into columns, not JSON (the JSON index is in the
+  trade-offs below). With `ComplexProperty(c => c.Address)`, both
+  `HasIndex(c => c.Address.PostalCode)` and `HasIndex("Address.PostalCode")` produced
+  `CREATE INDEX "IX_Customers_Address_PostalCode" ON "Customers" ("Address_PostalCode")`,
+  and `HasAlternateKey(c => c.Address.PostalCode)` produced
+  `CONSTRAINT "AK_Customers_Address_PostalCode" UNIQUE ("Address_PostalCode")`. On EF
+  Core 10.0.14 the lambda forms throw `ArgumentException: ... is not a valid member
+  access expression`, and the name form throws `InvalidOperationException` because
+  there is no CLR property called `Address.PostalCode`. On SQL Server, the offline
+  script made the indexed column `nvarchar(450)` and left the others `nvarchar(max)`,
+  the usual limit on an index key, so a long postal code or a free text field there
+  needs a decision. The documentation also shows a primary key over a nested property,
+  which I did not run.
+- A property of a complex type can be configured by chaining the member access:
+  `Property(c => c.Details.Description).HasMaxLength(500)` set the maximum length to
+  500, where EF Core 10.0.14 throws the same `ArgumentException`. The older form,
+  `ComplexProperty(c => c.Details).Property(d => d.Description)`, still works on both.
 
 ### Querying inside the document
 

@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-14
 title: "Colunas JSON e Complex Types"
 summary: ToJson em complex e owned types, coleções em uma coluna JSON, o SQL real gerado para consultar e atualizar dentro do documento (conferido em SQLite), o que não traduz, ExecuteUpdate sobre JSON e o que mudou no EF Core 10.
 ---
@@ -102,7 +102,8 @@ se vê adiante, o `ExecuteUpdate` não funciona com ele.
 
 ### O que o EF Core 11 acrescenta
 
-O EF Core 11.0.0 segue na mesma direção, e conferi três mudanças no SQLite:
+O EF Core 11.0.0 segue na mesma direção, e conferi cinco mudanças, no SQLite e com
+scripts do SQL Server gerados offline:
 
 - `OwnsMany(x => x.Notes, n => n.ToJson())` sem chave explícita agora registra
   `OwnedEntityMappedToJsonCollectionWarning`: "Mapping owned entity collections to
@@ -115,6 +116,26 @@ O EF Core 11.0.0 segue na mesma direção, e conferi três mudanças no SQLite:
 - Complex types e colunas JSON funcionam em hierarquias TPT e TPC (o EF Core 10 só
   permitia em TPH): `UseTptMappingStrategy()` com
   `ComplexProperty(a => a.Details, d => d.ToJson())` criou as tabelas.
+- Chaves e índices podem usar uma propriedade dentro de um complex type. Isso vale
+  para complex types com table splitting em colunas, não para JSON (o índice JSON está
+  nos trade-offs abaixo). Com `ComplexProperty(c => c.Address)`, tanto
+  `HasIndex(c => c.Address.PostalCode)` quanto `HasIndex("Address.PostalCode")`
+  produziram
+  `CREATE INDEX "IX_Customers_Address_PostalCode" ON "Customers" ("Address_PostalCode")`,
+  e `HasAlternateKey(c => c.Address.PostalCode)` produziu
+  `CONSTRAINT "AK_Customers_Address_PostalCode" UNIQUE ("Address_PostalCode")`. No EF
+  Core 10.0.14 as formas com lambda lançam `ArgumentException: ... is not a valid
+  member access expression`, e a forma por nome lança `InvalidOperationException`
+  porque não existe propriedade CLR chamada `Address.PostalCode`. No SQL Server, o
+  script offline fez a coluna indexada `nvarchar(450)` e deixou as outras
+  `nvarchar(max)`, o limite usual de uma chave de índice, então um CEP longo ou um
+  campo de texto livre ali exige uma decisão. A documentação também mostra uma chave
+  primária sobre uma propriedade aninhada, que eu não executei.
+- Uma propriedade de complex type pode ser configurada encadeando o acesso ao membro:
+  `Property(c => c.Details.Description).HasMaxLength(500)` definiu o tamanho máximo em
+  500, onde o EF Core 10.0.14 lança o mesmo `ArgumentException`. A forma antiga,
+  `ComplexProperty(c => c.Details).Property(d => d.Description)`, continua funcionando
+  nas duas versões.
 
 ### Consultando dentro do documento
 

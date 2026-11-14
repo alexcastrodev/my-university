@@ -1,8 +1,8 @@
 ---
-version: 1.0
-updatedAt: 2026-11-12
+version: 1.1
+updatedAt: 2026-11-14
 title: "Do EF Core 10 para o 11: breaking changes"
-summary: Roteiro de upgrade do EF Core 10 para o 11 com as quebras silenciosas reproduzidas no GA: Migrate() sem migrations, Property() sobre coleção primitiva, OwnsMany().ToJson() obsoleto e o compatibility level do SQL Server.
+summary: Roteiro de upgrade do EF Core 10 para o 11 com as quebras silenciosas reproduzidas no GA: Migrate() sem migrations, Property() sobre coleção primitiva, OwnsMany().ToJson() obsoleto e o compatibility level do SQL Server. Inclui as mudanças de pacotes (SqlClient 7, Tools, Sqlite) e as do provider Cosmos DB.
 ---
 ## Objective
 
@@ -188,6 +188,62 @@ até existir um. `ef-core-ado-net-dapper-and-nosql` discute a escolha de provide
 Mais uma nota de ferramenta: mantenha o `dotnet ef` na mesma versão maior dos
 pacotes e fixe-o em um tool manifest, para a CLI não ficar mais antiga que o projeto.
 
+### 7. Mudanças de pacote que passam despercebidas
+
+Estas vêm dos arquivos `.nuspec` no NuGet (10.0.14 contra 11.0.0) e da página de
+breaking changes. Nenhum servidor nem tenant foi usado, então o que elas fazem em
+tempo de execução fica para você confirmar.
+
+- **Autenticação no SQL Server.** O `Microsoft.EntityFrameworkCore.SqlServer` 11.0.0
+  depende do `Microsoft.Data.SqlClient` 7.1.1 (o 10.0.14 dependia do 6.1.7). O
+  SqlClient 6.1.7 listava `Azure.Core` e `Azure.Identity` como dependências, e o
+  7.1.1 não lista. A documentação diz que, se você usa um modo Entra ID como
+  `ActiveDirectoryDefault`, `ActiveDirectoryManagedIdentity` ou
+  `ActiveDirectoryServicePrincipal`, agora precisa adicionar você mesmo o
+  `Microsoft.Data.SqlClient.Extensions.Azure`. Esse pacote existe e traz
+  `Azure.Identity` e `Microsoft.Identity.Client`. `ActiveDirectoryPassword` ficou
+  obsoleto. O build não avisa: a falha é uma conexão que não consegue autenticar.
+- **`dotnet ef` e Package Manager Console.** O `Microsoft.EntityFrameworkCore.Tools`
+  10.0.14 dependia do `Microsoft.EntityFrameworkCore.Design` em cada target
+  framework. O 11.0.0 não tem dependência nenhuma. Se um projeto só referenciava o
+  `Tools` e recebia o `Design` de graça, adicione-o explicitamente com
+  `PrivateAssets="all"`.
+- **Microsoft.Data.Sqlite.** O `Microsoft.Data.Sqlite.Core` 10.0.14 tinha como alvo
+  `netstandard2.0` e `net8.0`, e o 11.0.0 tem só `net10.0`, então não dá mais para
+  usá-lo no .NET Framework. O provider SQLite do EF Core passou o `SQLitePCLRaw` de
+  2.1.13 para 3.0.5. A documentação acrescenta que os bundles `bundle_green`,
+  `bundle_e_sqlcipher`, `bundle_sqlite3`, `bundle_winsqlite3` e `bundle_e_sqlite3mc`
+  não são compatíveis com o `SQLitePCLRaw.Core` 3, o que importa se você referencia
+  um deles diretamente para criptografia.
+
+### 8. Provider do Azure Cosmos DB
+
+O provider do Cosmos tem o maior número de breaking changes desta release. Para
+comparar, montei o mesmo modelo Cosmos (uma chave de partição e um endereço owned ou
+complexo) no 10.0.14 e no 11.0.0 e inspecionei o modelo, sem conectar a banco nenhum.
+O que isso mostrou está marcado "conferido". O resto é a documentação.
+
+| Mudança | Situação |
+|---|---|
+| I/O síncrono acabou de vez. `CosmosEventId.SyncNotSupported` existe no 10.0.14 e não existe no 11.0.0, então um opt-in via `ConfigureWarnings` deixa de compilar. Um `ToList()` síncrono lança `InvalidOperationException: Azure Cosmos DB does not support synchronous I/O`. | conferido |
+| `__jObject` foi removido. O modelo do 10.0.14 tinha as shadow properties `$type` e `__jObject`. O do 11.0.0 tem só `Discriminator`. | conferido |
+| O discriminator se chama `Discriminator` no modelo, e o nome no JSON continua `$type` (`GetJsonPropertyName()` nas duas versões), então os documentos armazenados são iguais. Código que usava `EF.Property<string>(e, "$type")` precisa usar `"Discriminator"`. | conferido, o conselho de código vem da doc |
+| Propriedades JSON sem mapeamento não são mais preservadas. Elas passavam pelo `__jObject` na ida e na volta, e agora um documento lido e salvo perde qualquer propriedade que o modelo não mapeia. É o único item de impacto High da página. | só documentação |
+| Caracteres ilegais de `id` (`/`, `\`, `?`, `#`) não são mais escapados em ids compostos. Documentos existentes com ids no estilo `^2F` deixam de ser encontrados. `AppContext.SetSwitch("Microsoft.EntityFrameworkCore.EscapeIllegalCosmosIdCharacters", true)` restaura o comportamento antigo, e essa string está no assembly 11.0.0. | nome do switch conferido, comportamento da doc |
+| Uma projeção que resulta em `undefined` agora lança `InvalidOperationException`, tanto para uma propriedade quanto para várias. Use `EF.Functions.IsDefined` para filtrar, ou `CoalesceUndefined` para dar um padrão. | só documentação |
+| Coleções owned vazias são materializadas vazias, não `null`. | só documentação |
+| Um valor de ponto flutuante materializado em `int`, `long` ou `decimal` é truncado em vez de arredondado, então `0.75` vira `0`. | só documentação |
+
+Duas dessas podem perder ou esconder dados sem erro: as propriedades sem mapeamento e
+o escape de id. Antes do upgrade, liste as propriedades que existem nos seus
+documentos e não no modelo (outro serviço ou um script pode gravá-las) e confira se
+algum valor de chave composta contém um dos quatro caracteres.
+
+A documentação também diz que o provider não depende mais do `Newtonsoft.Json`. O
+`.nuspec` da 11.0.0 ainda lista o `Newtonsoft.Json` 13.0.4 como dependência,
+provavelmente por causa do SDK do Cosmos, e não investiguei. Não remova a sua própria
+referência ao `Newtonsoft.Json` só por isso.
+
 ### O que não quebrou
 
 Coisas conferidas que funcionaram na 11.0.0: complex types mapeados para JSON, e
@@ -227,3 +283,5 @@ linha `LastMigrationId` descrita lá.
 - [Microsoft.EntityFrameworkCore, NuGet](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore) (doc)
 - [SQL Server provider, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/providers/sql-server/) (doc)
 - [Applying migrations, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying) (doc)
+- [Azure Cosmos DB provider, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/providers/cosmos/) (doc)
+- [Microsoft.Data.SqlClient.Extensions.Azure, NuGet](https://www.nuget.org/packages/Microsoft.Data.SqlClient.Extensions.Azure) (doc)

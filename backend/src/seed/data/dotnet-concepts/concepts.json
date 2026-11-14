@@ -5726,6 +5726,11 @@
         "label": "DTOs and the API Contract",
         "slug": "dtos-and-the-api-contract",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Join Pruning and Foreign Keys Without Constraints in EF Core 11",
+        "slug": "join-pruning-and-foreign-keys-without-constraints",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -6103,6 +6108,11 @@
         "label": "Persisting Data with Spring Data JPA Repositories",
         "slug": "spring-data-jpa-repositories",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "Join Pruning and Foreign Keys Without Constraints in EF Core 11",
+        "slug": "join-pruning-and-foreign-keys-without-constraints",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -6143,6 +6153,72 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/relationships-keys-and-delete-behavior"
+  },
+  {
+    "slug": "join-pruning-and-foreign-keys-without-constraints",
+    "id": 770,
+    "category": "Data Access",
+    "title": "Join Pruning and Foreign Keys Without Constraints in EF Core 11",
+    "topic": "EF Core Modeling",
+    "summary": "EF Core 11 removes joins whose columns are never used, trusting the model to do it. ExcludeForeignKeyFromMigrations against IsConstrained(false), and a SQLite run with an orphan row where the same table answers 2 or 1 rows depending on the query. EF Core 10 against 11 with offline SQL.",
+    "publishedAt": "2026-11-14",
+    "requires": [
+      "relationships-keys-and-delete-behavior"
+    ],
+    "related": [
+      {
+        "label": "Relationships, Keys and Delete Behavior",
+        "slug": "relationships-keys-and-delete-behavior",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Query Translation and Performance in EF Core",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Upgrading from EF Core 10 to 11: Breaking Changes",
+        "slug": "upgrading-from-ef-core-10-to-11-breaking-changes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Reverse-Engineering an Existing Database",
+        "slug": "reverse-engineering-an-existing-database",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Foreign and principal keys in relationships, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/relationships/foreign-and-principal-keys",
+        "type": "doc"
+      },
+      {
+        "label": "Relationships, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/relationships",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/breaking-changes",
+        "type": "doc"
+      }
+    ]
   },
   {
     "slug": "generated-values-defaults-and-computed-columns",
@@ -6496,6 +6572,11 @@
         "label": "Records and with Expressions",
         "slug": "records-and-with-expressions",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "SQL Server 2025 JSON Queries: JSON_CONTAINS and JSON_PATH_EXISTS in EF Core 11",
+        "slug": "sql-server-json-contains-and-path-exists-in-ef-core",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -6920,6 +7001,21 @@
         "label": "Strings: Comparison, Culture and Ordering",
         "slug": "strings-comparison-culture-and-ordering",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Full-Text Search with EF Core: SQL Server, PostgreSQL and SQLite",
+        "slug": "full-text-search-with-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SQL Server 2025 JSON Queries: JSON_CONTAINS and JSON_PATH_EXISTS in EF Core 11",
+        "slug": "sql-server-json-contains-and-path-exists-in-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Vector Search with EF Core 11 and SQL Server 2025: Exact, Approximate and Hybrid",
+        "slug": "ef-core-vector-search-with-sql-server-2025",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -6966,6 +7062,235 @@
       {
         "label": "Translations, Npgsql Entity Framework Core provider",
         "url": "https://www.npgsql.org/efcore/mapping/translations.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-server-json-contains-and-path-exists-in-ef-core",
+    "id": 769,
+    "category": "Data Access",
+    "title": "SQL Server 2025 JSON Queries: JSON_CONTAINS and JSON_PATH_EXISTS in EF Core 11",
+    "topic": "EF Core Querying",
+    "summary": "When Contains over a JSON collection becomes JSON_CONTAINS (compatibility level 170) and when it stays OPENJSON, EF.Functions.JsonContains (experimental, EF9106) and JsonPathExists, with the table of variations that decides the parameter case. SQL generated offline, no server.",
+    "publishedAt": "2026-11-14",
+    "requires": [
+      "json-columns-and-complex-types",
+      "ef-core-functions-and-database-specific-translation"
+    ],
+    "related": [
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF.Functions and Database-Specific Translation",
+        "slug": "ef-core-functions-and-database-specific-translation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Upgrading from EF Core 10 to 11: Breaking Changes",
+        "slug": "upgrading-from-ef-core-10-to-11-breaking-changes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Query Translation and Performance in EF Core",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Provider Differences: PostgreSQL, SQL Server and SQLite",
+        "slug": "ef-core-provider-differences-postgresql-sql-server-sqlite",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "JSON_CONTAINS, Transact-SQL, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/json-contains-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "JSON_PATH_EXISTS, Transact-SQL, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/json-path-exists-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "CREATE JSON INDEX, Transact-SQL, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-json-index-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Complex types, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/complex-types",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "full-text-search-with-ef-core",
+    "id": 768,
+    "category": "Data Access",
+    "title": "Full-Text Search with EF Core: SQL Server, PostgreSQL and SQLite",
+    "topic": "EF Core Querying",
+    "summary": "When LIKE '%x%' stops being enough. Full-text catalog and index in the model (EF Core 11), FreeText and Contains, FreeTextTable and ContainsTable with a rank, tsvector and GIN on PostgreSQL, and SQLite FTS5 actually run, with bm25, triggers and the user input that breaks MATCH.",
+    "publishedAt": "2026-11-14",
+    "requires": [
+      "ef-core-functions-and-database-specific-translation"
+    ],
+    "related": [
+      {
+        "label": "Vector Search with EF Core 11 and SQL Server 2025: Exact, Approximate and Hybrid",
+        "slug": "ef-core-vector-search-with-sql-server-2025",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF.Functions and Database-Specific Translation",
+        "slug": "ef-core-functions-and-database-specific-translation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Provider Differences: PostgreSQL, SQL Server and SQLite",
+        "slug": "ef-core-provider-differences-postgresql-sql-server-sqlite",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Raw SQL, Unmapped Types and Views",
+        "slug": "raw-sql-unmapped-types-and-views",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Full-Text Search and Vector Embedding Indexes",
+        "slug": "full-text-and-vector-search-indexes",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Full-text search, SQL Server provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/full-text-search",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "FREETEXTTABLE, Transact-SQL, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/system-functions/freetexttable-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "CONTAINSTABLE, Transact-SQL, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/system-functions/containstable-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Full-text search, Npgsql Entity Framework Core provider",
+        "url": "https://www.npgsql.org/efcore/mapping/full-text-search.html",
+        "type": "doc"
+      },
+      {
+        "label": "SQLite FTS5 extension",
+        "url": "https://www.sqlite.org/fts5.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ef-core-vector-search-with-sql-server-2025",
+    "id": 767,
+    "category": "Data Access",
+    "title": "Vector Search with EF Core 11 and SQL Server 2025: Exact, Approximate and Hybrid",
+    "topic": "EF Core Querying",
+    "summary": "SqlVector<float> columns, CREATE VECTOR INDEX from migrations, VectorDistance for exact search, VectorSearch().Take().WithApproximate() for the index, the warning for forgetting it, the T-SQL EF Core 11 generates, hybrid search with full-text and FullJoin, and the vector column no longer loaded with the entity. Offline SQL, not run against a server.",
+    "publishedAt": "2026-11-14",
+    "requires": [
+      "ef-core-functions-and-database-specific-translation"
+    ],
+    "related": [
+      {
+        "label": "Full-Text Search with EF Core: SQL Server, PostgreSQL and SQLite",
+        "slug": "full-text-search-with-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Embeddings and Vector Search with Microsoft.Extensions.VectorData",
+        "slug": "embeddings-and-vector-search-with-vectordata",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "What's New in EF Core 11: A Map",
+        "slug": "whats-new-in-ef-core-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 10: A Map",
+        "slug": "whats-new-in-ef-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF.Functions and Database-Specific Translation",
+        "slug": "ef-core-functions-and-database-specific-translation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Provider Differences: PostgreSQL, SQL Server and SQLite",
+        "slug": "ef-core-provider-differences-postgresql-sql-server-sqlite",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Full-Text Search and Vector Embedding Indexes",
+        "slug": "full-text-and-vector-search-indexes",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Vector search, SQL Server provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/vector-search",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "VECTOR_SEARCH, Transact-SQL, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/vector-search-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "CREATE VECTOR INDEX, Transact-SQL, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-vector-index-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "FREETEXTTABLE, Transact-SQL, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/system-functions/freetexttable-transact-sql",
         "type": "doc"
       }
     ]
@@ -7284,6 +7609,11 @@
         "label": "Testing EF Core Queries, Concurrency and Migrations",
         "slug": "testing-ef-core-queries-concurrency-and-migrations",
         "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Join Pruning and Foreign Keys Without Constraints in EF Core 11",
+        "slug": "join-pruning-and-foreign-keys-without-constraints",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -9422,6 +9752,26 @@
       {
         "label": "Temporal Tables and History Queries in EF Core",
         "slug": "temporal-tables-and-history-queries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Vector Search with EF Core 11 and SQL Server 2025: Exact, Approximate and Hybrid",
+        "slug": "ef-core-vector-search-with-sql-server-2025",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Full-Text Search with EF Core: SQL Server, PostgreSQL and SQLite",
+        "slug": "full-text-search-with-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SQL Server 2025 JSON Queries: JSON_CONTAINS and JSON_PATH_EXISTS in EF Core 11",
+        "slug": "sql-server-json-contains-and-path-exists-in-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Join Pruning and Foreign Keys Without Constraints in EF Core 11",
+        "slug": "join-pruning-and-foreign-keys-without-constraints",
         "feature": "dotnet-concepts"
       }
     ],

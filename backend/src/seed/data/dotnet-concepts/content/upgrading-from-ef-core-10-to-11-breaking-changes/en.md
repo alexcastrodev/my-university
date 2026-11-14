@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-12
+version: 1.1
+updatedAt: 2026-11-14
 ---
 ## Objective
 
@@ -187,6 +187,61 @@ there is one. `ef-core-ado-net-dapper-and-nosql` discusses choosing providers.
 One more tooling note: keep the `dotnet ef` tool on the same major version as the
 packages, and pin it in a tool manifest so the CLI is not older than the project.
 
+### 7. Package changes you can miss
+
+These come from the `.nuspec` files on NuGet (10.0.14 against 11.0.0) and from the
+breaking changes page. No server or tenant was involved, so what they do at run time
+is for you to confirm.
+
+- **SQL Server authentication.** `Microsoft.EntityFrameworkCore.SqlServer` 11.0.0
+  depends on `Microsoft.Data.SqlClient` 7.1.1 (10.0.14 depended on 6.1.7). SqlClient
+  6.1.7 listed `Azure.Core` and `Azure.Identity` as dependencies, and 7.1.1 does not.
+  The documentation says that if you use an Entra ID mode such as
+  `ActiveDirectoryDefault`, `ActiveDirectoryManagedIdentity` or
+  `ActiveDirectoryServicePrincipal`, you now add `Microsoft.Data.SqlClient.Extensions.Azure`
+  yourself. That package exists and carries `Azure.Identity` and `Microsoft.Identity.Client`.
+  `ActiveDirectoryPassword` is marked obsolete. The build will not warn you: the
+  failure is a connection that cannot authenticate.
+- **`dotnet ef` and Package Manager Console.** `Microsoft.EntityFrameworkCore.Tools`
+  10.0.14 depended on `Microsoft.EntityFrameworkCore.Design` for each target
+  framework. 11.0.0 has no dependency at all. If a project only referenced `Tools`
+  and got `Design` for free, add it explicitly with `PrivateAssets="all"`.
+- **Microsoft.Data.Sqlite.** `Microsoft.Data.Sqlite.Core` 10.0.14 targeted
+  `netstandard2.0` and `net8.0`, and 11.0.0 targets `net10.0` only, so it cannot be
+  used from .NET Framework. The EF Core SQLite provider moved `SQLitePCLRaw` from
+  2.1.13 to 3.0.5. The documentation adds that the bundles `bundle_green`,
+  `bundle_e_sqlcipher`, `bundle_sqlite3`, `bundle_winsqlite3` and `bundle_e_sqlite3mc`
+  are not compatible with `SQLitePCLRaw.Core` 3, which matters if you reference one
+  directly for encryption.
+
+### 8. Azure Cosmos DB provider
+
+The Cosmos provider has the most breaking changes in this release. To compare, I built
+the same Cosmos model (a partition key and one owned or complex address) on 10.0.14
+and on 11.0.0 and inspected it, without connecting to a database. What that showed is
+marked "checked". The rest is the documentation.
+
+| Change | Status |
+|---|---|
+| Sync I/O is gone for good. `CosmosEventId.SyncNotSupported` exists in 10.0.14 and is not in 11.0.0, so a `ConfigureWarnings` opt-in stops compiling. A sync `ToList()` throws `InvalidOperationException: Azure Cosmos DB does not support synchronous I/O`. | checked |
+| `__jObject` is removed. The 10.0.14 model had the shadow properties `$type` and `__jObject`. The 11.0.0 model has only `Discriminator`. | checked |
+| The discriminator is named `Discriminator` in the model, and its JSON name is still `$type` (`GetJsonPropertyName()` in both versions), so stored documents are the same. Code that used `EF.Property<string>(e, "$type")` must use `"Discriminator"`. | checked, the code advice is from the docs |
+| Unmapped JSON properties are no longer preserved. They were round-tripped through `__jObject`, and now a document read and saved loses any property the model does not map. This is the only High impact item on the page. | docs only |
+| Illegal `id` characters (`/`, `\`, `?`, `#`) are no longer escaped in composite ids. Existing documents with `^2F` style ids are no longer found. `AppContext.SetSwitch("Microsoft.EntityFrameworkCore.EscapeIllegalCosmosIdCharacters", true)` restores the old behavior, and that string is in the 11.0.0 assembly. | switch name checked, behavior from the docs |
+| A projection that evaluates to `undefined` now throws `InvalidOperationException` for single and multi-property projections. Use `EF.Functions.IsDefined` to filter, or `CoalesceUndefined` to default. | docs only |
+| Empty owned collections materialize as empty, not `null`. | docs only |
+| A floating-point value materialized into `int`, `long` or `decimal` is truncated instead of rounded, so `0.75` becomes `0`. | docs only |
+
+Two of these can lose or hide data without an error: the unmapped properties and the
+id escaping. Before the upgrade, list the properties that exist in your documents and
+not in the model (another service or a script may write them), and check whether any
+composite key value contains one of the four characters.
+
+The documentation also says the provider no longer depends on `Newtonsoft.Json`. The
+11.0.0 `.nuspec` still lists `Newtonsoft.Json` 13.0.4 as a dependency, probably
+because of the Cosmos SDK, and I did not look into it. Do not remove your own
+`Newtonsoft.Json` reference on that basis alone.
+
 ### What did not break
 
 Things that were checked and worked on 11.0.0: complex types mapped to JSON, and
@@ -226,3 +281,5 @@ gains the `LastMigrationId` line described there.
 - [Microsoft.EntityFrameworkCore, NuGet](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore) (doc)
 - [SQL Server provider, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/providers/sql-server/) (doc)
 - [Applying migrations, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying) (doc)
+- [Azure Cosmos DB provider, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/providers/cosmos/) (doc)
+- [Microsoft.Data.SqlClient.Extensions.Azure, NuGet](https://www.nuget.org/packages/Microsoft.Data.SqlClient.Extensions.Azure) (doc)
