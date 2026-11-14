@@ -6,6 +6,7 @@ export class SidebarPage {
     this.sidebar     = page.locator('aside.sidebar');
     this.brandLink   = page.getByRole('link', { name: 'My University Home' });
     this.tracksLink  = page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Tracks' });
+    this.certificationsLink = page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Certifications', exact: true });
     // Papers is the public catalog; "My library" is the signed-in reader's own shelf, so it sits next to it.
     this.papersLink  = page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Papers', exact: true });
     this.libraryLink = page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'My library', exact: true });

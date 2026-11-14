@@ -15,6 +15,9 @@ test.describe('Exam List Page', () => {
       await expect(header.sidebar).toBeVisible();
       await expect(header.brandLink).toBeVisible();
       await expect(header.tracksLink).toBeVisible();
+      // The exams live on their own page, so the sidebar links straight to it and it is highlighted here.
+      await expect(header.certificationsLink).toBeVisible();
+      await expect(header.certificationsLink).toHaveClass(/active/);
       const vp = page.viewportSize();
       if (!vp || vp.width >= 768) {
         await expect(header.searchInput).toBeVisible();

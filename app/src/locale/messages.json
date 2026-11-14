@@ -3,7 +3,6 @@
   "translations": {
     "bottomNav.aria": "Primary",
     "bottomNav.home": "Home",
-    "bottomNav.track": "Track",
     "bottomNav.map": "Map",
     "bottomNav.mapSoon": "Map — coming soon",
     "breadcrumbs.ariaLabel": "Breadcrumb",
@@ -41,7 +40,6 @@
     "tracks.group.rust": "Rust",
     "tracks.group.go": "Go",
     "tracks.group.fundamentals": "Fundamentals",
-    "tracks.group.exams": "Exams",
     "tracks.empty": "No track matches your filter.",
     "tracks.concepts": "concepts",
     "tracks.kind.language": "Language",
@@ -689,6 +687,16 @@
     "bookmarks.remove": "Remove bookmark",
     "home.bookmarks": "Bookmarks",
     "home.bookmarksHint": "Where you left off in each module",
-    "profile.source.labs": "Labs"
+    "profile.source.labs": "Labs",
+    "header.nav.certifications": "Certifications",
+    "bottomNav.studies": "Study",
+    "studies.seo.title": "Study",
+    "studies.seo.description": "Tracks, certifications, papers and the Computer Science curriculum in one place.",
+    "studies.title": "Study",
+    "studies.subtitle": "Choose where to go next.",
+    "studies.tracks.desc": "Java, Spring, .NET, Ruby and more, concept by concept.",
+    "studies.certifications.desc": "Practice exams for Oracle Java and Microsoft Azure.",
+    "studies.papers.desc": "Research papers to read and discuss.",
+    "studies.computerScience.desc": "The full curriculum, from foundations to specialization."
   }
 }

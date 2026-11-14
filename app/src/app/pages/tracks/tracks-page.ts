@@ -9,7 +9,7 @@ import {
   ComplementaryStudiesService,
 } from '../computer-science/complementary-studies.service';
 
-type Group = 'java' | 'ruby' | 'dotnet' | 'rust' | 'go' | 'fundamentals' | 'exams';
+type Group = 'java' | 'ruby' | 'dotnet' | 'rust' | 'go' | 'fundamentals';
 type Kind = 'language' | 'framework' | 'platform' | 'theory' | 'quick';
 
 interface TrackMeta {
@@ -48,24 +48,12 @@ interface TrackCard {
   routerLink: string;
 }
 
-/** The certification exams (Oracle Java, Microsoft Azure) are not a Complementary Studies area, so they get a card of their own. */
-const EXAMS_CARD: TrackCard = {
-  slug: 'java-exams',
-  title: 'Certification Exams',
-  group: 'exams',
-  kind: 'quick',
-  routerLink: '/exams',
-};
-
-const CARDS: TrackCard[] = [
-  EXAMS_CARD,
-  ...COMPLEMENTARY_AREAS.map((a) => ({
-    slug: a.slug,
-    title: a.title,
-    routerLink: a.routerLink,
-    ...(META[a.slug] ?? { group: 'fundamentals' as Group, kind: 'theory' as Kind }),
-  })),
-];
+const CARDS: TrackCard[] = COMPLEMENTARY_AREAS.map((a) => ({
+  slug: a.slug,
+  title: a.title,
+  routerLink: a.routerLink,
+  ...(META[a.slug] ?? { group: 'fundamentals' as Group, kind: 'theory' as Kind }),
+}));
 
 @Component({
   selector: 'app-tracks-page',
@@ -78,7 +66,7 @@ export class TracksPage implements OnInit {
   private seo = inject(SeoService);
   private studies = inject(ComplementaryStudiesService);
 
-  protected readonly groups: Group[] = ['java', 'ruby', 'dotnet', 'rust', 'go', 'fundamentals', 'exams'];
+  protected readonly groups: Group[] = ['java', 'ruby', 'dotnet', 'rust', 'go', 'fundamentals'];
   protected readonly query = signal('');
   protected readonly group = signal<Group | 'all'>('all');
   protected readonly progress = signal<ComplementaryAreaProgress[]>([]);

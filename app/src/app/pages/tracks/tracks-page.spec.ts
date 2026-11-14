@@ -33,8 +33,10 @@ describe('TracksPage', () => {
   const cards = (f: ReturnType<typeof render>) =>
     Array.from<HTMLElement>(f.nativeElement.querySelectorAll('.card'));
 
-  it('shows the exams card plus one card per complementary area', () => {
-    expect(cards(render()).length).toBe(COMPLEMENTARY_AREAS.length + 1);
+  it('shows one card per complementary area and no exams card', () => {
+    const found = cards(render());
+    expect(found.length).toBe(COMPLEMENTARY_AREAS.length);
+    expect(found.some((c) => c.getAttribute('href') === '/exams')).toBe(false);
   });
 
   it('renders an svg icon on every card and no emoji', () => {
@@ -45,7 +47,7 @@ describe('TracksPage', () => {
   });
 
   it('keeps a space between the concept count and its label', () => {
-    const meta = cards(render())[1].querySelector('.meta')!;
+    const meta = cards(render())[0].querySelector('.meta')!;
     expect(meta.textContent).toMatch(/^\s*\d+\s+\S+/);
   });
 
