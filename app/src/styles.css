@@ -8,8 +8,8 @@
   --mu-navy-deep: #0e1a2e;
   --mu-ink: #111827;          /* primary text */
   --mu-ink-soft: #374151;
-  --mu-muted: #6b7280;
-  --mu-faint: #6b7280;        /* same as --mu-muted: anything lighter fails 4.5:1 on --mu-bg */
+  --mu-muted: #646d7b;        /* 4.75:1 on --mu-bg-alt; #6b7280 gave 4.39 there */
+  --mu-faint: #646d7b;        /* same as --mu-muted: anything lighter fails 4.5:1 on --mu-bg-alt */
   --mu-line: #e5e7eb;
   --mu-line-soft: #f3f4f6;
   --mu-surface: #ffffff;
@@ -77,17 +77,19 @@
 
 /* Left sidebar width. Expanded by default, icons only below 1200px or when the reader collapsed
    it (data-sidebar on <html>, set by the inline script in index.html and by the Sidebar itself).
-   Phones have no sidebar. Order matters: later rules win. */
+   Phones have no sidebar. Order matters: later rules win.
+   The defaults are bare :root on purpose: the critical CSS inlined in the SSR page (Beasties)
+   drops every :root[...] and :root:not(...) rule, so anything written that way only applies once
+   the full stylesheet loads, and the margin animates into place (CLS 0.45 on phones). */
 :root { --mu-sidebar-w: 216px; }
 :root[data-sidebar='collapsed'] { --mu-sidebar-w: 56px; }
 @media (max-width: 1199px) {
-  :root:not([data-sidebar='expanded']) { --mu-sidebar-w: 56px; }
+  :root { --mu-sidebar-w: 56px; }
+  :root[data-sidebar='expanded'] { --mu-sidebar-w: 216px; }
 }
 @media (max-width: 768px) {
-  /* Both selectors match the specificity of the narrow rule above, so they win with or
-     without a saved data-sidebar (a bare :root would lose to it on a fresh visit). */
-  :root:not([data-sidebar='expanded']),
-  :root[data-sidebar] { --mu-sidebar-w: 0px; }
+  /* !important: a bare :root has to beat the attribute rules above. */
+  :root { --mu-sidebar-w: 0px !important; }
 }
 
 

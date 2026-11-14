@@ -17,8 +17,8 @@ export class AuthService {
   bootstrap(): void {
     if (typeof localStorage === 'undefined') return;
 
-    this.http.get<User>('/api/auth/me').subscribe({
-      next: (user) => this.setUser(user),
+    this.http.get<User | null>('/api/auth/me').subscribe({
+      next: (user) => (user ? this.setUser(user) : this.clearUser()),
       error: () => this.clearUser(),
     });
   }

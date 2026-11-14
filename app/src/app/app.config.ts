@@ -6,7 +6,7 @@ import { routes } from './app.routes';
 import { awardsInterceptor } from './interceptors/awards.interceptor';
 import { credentialsInterceptor } from './interceptors/credentials.interceptor';
 import { absoluteUrlInterceptor } from './interceptors/ssr-absolute-url.interceptor';
-import { provideClientHydration, withEventReplay, withHttpTransferCacheOptions, withNoIncrementalHydration } from '@angular/platform-browser';
+import { provideClientHydration, withEventReplay, withHttpTransferCacheOptions, withI18nSupport, withNoIncrementalHydration } from '@angular/platform-browser';
 import { STORED_USER_KEY } from './services/auth.service';
 import { ChunkLoadErrorHandler, recoverFromChunkLoadError } from './chunk-load-recovery';
 
@@ -23,6 +23,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([credentialsInterceptor, absoluteUrlInterceptor, awardsInterceptor])),
     provideClientHydration(
       withEventReplay(),
+      // Without it every component with i18n markup is skipped and re-rendered from scratch on the client (CLS ~0.45 on mobile).
+      withI18nSupport(),
       withNoIncrementalHydration(),
       withHttpTransferCacheOptions({
         includeRequestsWithCredentials: true,
