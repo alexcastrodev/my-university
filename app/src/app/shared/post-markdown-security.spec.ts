@@ -138,7 +138,7 @@ describe('post markdown security (XSS corpus through the real Angular sanitizer)
   it('keeps the text of a link it refused, and still links web, mail and relative URLs', () => {
     expect(renderPostMarkdown('[docs](javascript:alert(1))')).toContain('docs');
     expect(renderPostMarkdown('[docs](javascript:alert(1))')).not.toContain('<a');
-    for (const url of ['https://a.b/c?d=1&e=2', 'http://a.b', 'mailto:a@b.c', '/java/exams', '#top']) {
+    for (const url of ['https://a.b/c?d=1&e=2', 'http://a.b', 'mailto:a@b.c', '/exams', '#top']) {
       expect(renderPostMarkdown(`[x](${url})`)).withContext(url).toContain('<a href=');
     }
   });

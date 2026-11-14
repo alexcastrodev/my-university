@@ -1,0 +1,39 @@
+{
+  "id": 3,
+  "title": "Connect to and Consume Azure Services",
+  "lessons": [
+    {
+      "id": "az200-3-1",
+      "title": "Service Bus: Queues, Topics, Settlement and Dead-Letter Queues",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/3-1-service-bus-queues-topics-and-dead-letters.md"
+    },
+    {
+      "id": "az200-3-2",
+      "title": "Event Grid: Filters, Custom Events and Retries",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/3-2-event-grid-filters-custom-events-and-retries.md"
+    },
+    {
+      "id": "az200-3-3",
+      "title": "Azure Functions: Triggers, Bindings and Deployment",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/3-3-azure-functions-triggers-bindings-and-deployment.md"
+    },
+    {
+      "id": "az200-3-check",
+      "title": "Skill Check: Connect to and Consume Azure Services",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null,
+      "topic": "services"
+    }
+  ]
+}

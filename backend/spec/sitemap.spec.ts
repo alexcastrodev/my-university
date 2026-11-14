@@ -25,7 +25,7 @@ describe('GET /sitemap.xml', () => {
     const body = await (await get('/sitemap.xml')).text();
     expect(body).toContain('<loc>https://university.kurz.fyi/tracks</loc>');
     expect(body).toContain(
-      '<loc>https://university.kurz.fyi/java/exam/java-25/lesson/j25-0-1</loc>',
+      '<loc>https://university.kurz.fyi/exam/java-25/lesson/j25-0-1</loc>',
     );
     expect(body).toContain(
       '<loc>https://university.kurz.fyi/pt-BR/kubernetes-concepts/kubernetes-core-objects</loc>',

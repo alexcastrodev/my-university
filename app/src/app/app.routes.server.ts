@@ -29,7 +29,7 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
-    path: 'java/exams',
+    path: 'exams',
     renderMode: RenderMode.Server,
   },
   {
@@ -283,31 +283,31 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
-    path: 'java/exam/:examId/lesson/:lessonId',
+    path: 'exam/:examId/lesson/:lessonId',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'java/exam/:examId/quiz',
+    path: 'exam/:examId/quiz',
     renderMode: RenderMode.Client,
   },
   {
-    path: 'java/exam/:examId/result/:attemptId',
+    path: 'exam/:examId/result/:attemptId',
     renderMode: RenderMode.Client,
   },
   {
-    path: 'java/exam/:examId/review/:attemptId',
+    path: 'exam/:examId/review/:attemptId',
     renderMode: RenderMode.Client,
   },
   {
-    path: 'java/exam/:examId/attempts',
+    path: 'exam/:examId/attempts',
     renderMode: RenderMode.Client,
   },
   {
-    path: 'java/exam/:examId/share/:attemptId',
+    path: 'exam/:examId/share/:attemptId',
     renderMode: RenderMode.Client,
   },
   {
-    path: 'java/exam/:examId',
+    path: 'exam/:examId',
     renderMode: RenderMode.Server,
   },
   {

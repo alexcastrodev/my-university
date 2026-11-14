@@ -1,0 +1,582 @@
+[
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "Which role should an application's managed identity receive to read secret values from a Key Vault that uses Azure RBAC?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Reader"
+      },
+      {
+        "key": "B",
+        "text": "Key Vault Secrets User"
+      },
+      {
+        "key": "C",
+        "text": "Key Vault Crypto Officer"
+      },
+      {
+        "key": "D",
+        "text": "Key Vault Contributor"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Key Vault Secrets User reads secret contents. Contributor manages the vault resource and does not grant data access, and Crypto Officer is for keys."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "In the Python SDK, what does SecretClient.get_secret('db-password') return?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The first version ever created"
+      },
+      {
+        "key": "B",
+        "text": "The latest version of the secret"
+      },
+      {
+        "key": "C",
+        "text": "All versions"
+      },
+      {
+        "key": "D",
+        "text": "The secret's metadata only"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Without a version, get_secret returns the latest version. Pass a version as the second argument to read a specific one."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "You call set_secret on an existing secret name with a new value. What happens?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A new version is created and older versions remain"
+      },
+      {
+        "key": "B",
+        "text": "An error because the secret exists"
+      },
+      {
+        "key": "C",
+        "text": "The old version is overwritten"
+      },
+      {
+        "key": "D",
+        "text": "The secret is soft deleted"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Secrets are versioned. Each set creates a new version, and a reference without a version resolves to the latest."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "A database password must be rotated before it expires, using Azure services only for orchestration. Which design is typical?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A Service Bus session"
+      },
+      {
+        "key": "B",
+        "text": "Key Vault rotates every secret automatically with no setup"
+      },
+      {
+        "key": "C",
+        "text": "A timer trigger that deletes the secret"
+      },
+      {
+        "key": "D",
+        "text": "An Event Grid SecretNearExpiry event triggers a Function that creates the new credential and stores a new secret version"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Key Vault emits SecretNearExpiry events through Event Grid. A Function subscribed to it rotates the credential and writes a new secret version. Automatic rotation policies exist for keys, not arbitrary secrets."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "What is the minimum key rotation interval allowed in a Key Vault key rotation policy?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "1 day"
+      },
+      {
+        "key": "B",
+        "text": "30 days"
+      },
+      {
+        "key": "C",
+        "text": "7 days from creation and from expiry"
+      },
+      {
+        "key": "D",
+        "text": "1 year"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "The minimum value is seven days from creation and seven days from the expiration time."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "An App Service setting uses a Key Vault reference with no version. A new secret version is created. What happens?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The app breaks permanently"
+      },
+      {
+        "key": "B",
+        "text": "The app picks up the latest version automatically after a rotation"
+      },
+      {
+        "key": "C",
+        "text": "The reference becomes read only"
+      },
+      {
+        "key": "D",
+        "text": "Nothing until you edit the setting"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "A versionless reference follows the latest version. A reference that pins a version never changes."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "What does purge protection on a Key Vault do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Prevents anyone from permanently purging a deleted vault or object until the retention period ends"
+      },
+      {
+        "key": "B",
+        "text": "Disables soft delete"
+      },
+      {
+        "key": "C",
+        "text": "Blocks all deletes"
+      },
+      {
+        "key": "D",
+        "text": "Encrypts the vault"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Soft delete keeps deleted items recoverable for the retention period (7 to 90 days, default 90). Purge protection stops early permanent deletion."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "The same App Configuration key, Shop:DbEndpoint, needs different values for Test, Staging and Production. What do you use?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Three App Configuration stores only"
+      },
+      {
+        "key": "B",
+        "text": "Content types"
+      },
+      {
+        "key": "C",
+        "text": "Labels on the key-value"
+      },
+      {
+        "key": "D",
+        "text": "Different key casing"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "A label distinguishes key-values that share a key. A key and a label identify one key-value, and no label is the null label."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "An application needs a database password through App Configuration. What is the correct approach?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Use a feature flag"
+      },
+      {
+        "key": "B",
+        "text": "Store the password as a normal key-value"
+      },
+      {
+        "key": "C",
+        "text": "Base64 encode the password"
+      },
+      {
+        "key": "D",
+        "text": "Store a Key Vault reference key-value; the app resolves it from Key Vault with its identity"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "App Configuration is not for secrets. A Key Vault reference stores only the secret URI, and the provider reads the secret from Key Vault."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "You change ten related settings and want the application to reload them together, not one by one. Which App Configuration pattern helps?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A snapshot per key"
+      },
+      {
+        "key": "B",
+        "text": "Ten labels"
+      },
+      {
+        "key": "C",
+        "text": "A sentinel key watched with refresh_on, updated last"
+      },
+      {
+        "key": "D",
+        "text": "A feature flag per setting"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "With a sentinel key, the app refreshes the whole selected set only when the sentinel changes, so you update it after the other settings."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "Which role lets someone manage the key rotation policy of keys in a Key Vault using Azure RBAC?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Key Vault Crypto Officer"
+      },
+      {
+        "key": "B",
+        "text": "Contributor on the subscription"
+      },
+      {
+        "key": "C",
+        "text": "Key Vault Secrets User"
+      },
+      {
+        "key": "D",
+        "text": "Key Vault Reader"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Key Vault Crypto Officer manages keys, including the rotation policy and on-demand rotation."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "What is the combined size limit of an Azure App Configuration key-value, including key, value and attributes?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "1 MB"
+      },
+      {
+        "key": "B",
+        "text": "10 KB"
+      },
+      {
+        "key": "C",
+        "text": "256 KB"
+      },
+      {
+        "key": "D",
+        "text": "1 KB"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "There is a combined size limit of 10 KB on a key-value."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "Which HTTP header carries the W3C trace context across services?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "x-ms-client-id"
+      },
+      {
+        "key": "B",
+        "text": "authorization"
+      },
+      {
+        "key": "C",
+        "text": "x-request-id"
+      },
+      {
+        "key": "D",
+        "text": "traceparent"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "The W3C Trace Context standard uses the traceparent header with the trace id, parent span id and flags."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "Where should the Application Insights connection string be set for a production workload using the OpenTelemetry distro?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The APPLICATIONINSIGHTS_CONNECTION_STRING environment variable"
+      },
+      {
+        "key": "B",
+        "text": "A comment in the Dockerfile"
+      },
+      {
+        "key": "C",
+        "text": "A public App Configuration key"
+      },
+      {
+        "key": "D",
+        "text": "Hard-coded in source"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "The environment variable is recommended for production. Setting the connection string in code is for local development and test."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "Three microservices send telemetry to one Application Insights resource and show up as a single node on the Application Map. What fixes it?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Create three Log Analytics workspaces"
+      },
+      {
+        "key": "B",
+        "text": "Use KQL join"
+      },
+      {
+        "key": "C",
+        "text": "Set a distinct cloud role name for each service (the OpenTelemetry service.name)"
+      },
+      {
+        "key": "D",
+        "text": "Increase the sampling rate"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "With multiple services in one resource you must set cloud role names so the map and queries can tell them apart."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "Which KQL query counts requests in 10 minute buckets over the last hour?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "requests | take 10"
+      },
+      {
+        "key": "B",
+        "text": "requests | project bin(timestamp, 10m)"
+      },
+      {
+        "key": "C",
+        "text": "requests | where timestamp > ago(1h) | summarize count() by bin(timestamp, 10m)"
+      },
+      {
+        "key": "D",
+        "text": "requests | count by 10m"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "summarize with bin(timestamp, 10m) aggregates per time bucket, and ago(1h) restricts the time range."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "Which KQL query finds the targets of failing outgoing calls?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "dependencies | where success == false | summarize count() by target"
+      },
+      {
+        "key": "B",
+        "text": "exceptions | summarize count() by target"
+      },
+      {
+        "key": "C",
+        "text": "traces | where success == false"
+      },
+      {
+        "key": "D",
+        "text": "requests | summarize count() by target"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "The dependencies table holds outgoing calls such as HTTP, database and Service Bus calls, with a success column and a target."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "How can you correlate a request with the database call and the exception it caused?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Match the timestamp to the second"
+      },
+      {
+        "key": "B",
+        "text": "Match the client IP"
+      },
+      {
+        "key": "C",
+        "text": "Match the operation_Id, which equals the trace id"
+      },
+      {
+        "key": "D",
+        "text": "They cannot be correlated"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "All telemetry of one transaction shares the operation_Id (the trace id), so you can filter or join on it."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "In a custom span you caught an exception and want the trace to show the failure. Which calls do you make on the span?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "span.end() only"
+      },
+      {
+        "key": "B",
+        "text": "span.record_exception(exc) and span.set_status(Status(StatusCode.ERROR))"
+      },
+      {
+        "key": "C",
+        "text": "span.set_attribute('error', True) only"
+      },
+      {
+        "key": "D",
+        "text": "print(exc)"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "record_exception attaches the exception to the span and set_status marks the span as an error."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "security-monitoring",
+    "type": "single",
+    "text": "Which KQL operator returns the 10 slowest operations ordered by a computed percentile column named p95?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "take 10"
+      },
+      {
+        "key": "B",
+        "text": "top 10 by p95 desc"
+      },
+      {
+        "key": "C",
+        "text": "limit p95"
+      },
+      {
+        "key": "D",
+        "text": "project 10"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "top n by column sorts and returns the first n rows. take n returns any n rows with no ordering."
+  }
+]

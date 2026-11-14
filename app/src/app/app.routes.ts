@@ -60,7 +60,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'java/exams',
+    path: 'exams',
     loadComponent: () => import('./pages/exam-list/exam-list').then((m) => m.ExamListPage),
   },
   {
@@ -257,31 +257,31 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/go-concepts/go-concepts-detail').then((m) => m.GoConceptsDetailPage),
   },
   {
-    path: 'java/exam/:examId/lesson/:lessonId',
+    path: 'exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },
   {
-    path: 'java/exam/:examId/quiz',
+    path: 'exam/:examId/quiz',
     loadComponent: () => import('./pages/quiz/quiz-page').then((m) => m.QuizPage),
   },
   {
-    path: 'java/exam/:examId/result/:attemptId',
+    path: 'exam/:examId/result/:attemptId',
     loadComponent: () => import('./pages/result/result-page').then((m) => m.ResultPage),
   },
   {
-    path: 'java/exam/:examId/review/:attemptId',
+    path: 'exam/:examId/review/:attemptId',
     loadComponent: () => import('./pages/review/review-page').then((m) => m.ReviewPage),
   },
   {
-    path: 'java/exam/:examId/attempts',
+    path: 'exam/:examId/attempts',
     loadComponent: () => import('./pages/attempts/attempts-page').then((m) => m.AttemptsPage),
   },
   {
-    path: 'java/exam/:examId/share/:attemptId',
+    path: 'exam/:examId/share/:attemptId',
     loadComponent: () => import('./pages/share-result/share-result-page').then((m) => m.ShareResultPage),
   },
   {
-    path: 'java/exam/:examId',
+    path: 'exam/:examId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },
   {

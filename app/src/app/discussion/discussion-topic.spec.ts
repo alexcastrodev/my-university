@@ -28,7 +28,7 @@ describe('topicFromUrl', () => {
   it('is null for pages without discussions', () => {
     expect(topicFromUrl('/dotnet-concepts')).toBeNull();
     expect(topicFromUrl('/dashboard')).toBeNull();
-    expect(topicFromUrl('/java/exam/ocp-25/lesson/l1')).toBeNull();
+    expect(topicFromUrl('/exam/ocp-25/lesson/l1')).toBeNull();
     expect(topicFromUrl('/computer-science/foundations/discrete-math')).toBeNull();
     expect(topicFromUrl('/dotnet-concepts/a/b')).toBeNull();
   });

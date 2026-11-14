@@ -1,0 +1,39 @@
+{
+  "id": 1,
+  "title": "Develop Containerized Solutions on Azure",
+  "lessons": [
+    {
+      "id": "az200-1-1",
+      "title": "Container Hosting: Azure Container Registry, ACR Tasks and App Service",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/1-1-container-hosting-acr-and-app-service.md"
+    },
+    {
+      "id": "az200-1-2",
+      "title": "Container Apps: Revisions and Event-Driven Scaling with KEDA",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/1-2-container-apps-revisions-and-keda-scaling.md"
+    },
+    {
+      "id": "az200-1-3",
+      "title": "AKS Manifests, Monitoring and Troubleshooting",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/1-3-aks-manifests-and-troubleshooting.md"
+    },
+    {
+      "id": "az200-1-check",
+      "title": "Skill Check: Develop Containerized Solutions on Azure",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null,
+      "topic": "containers"
+    }
+  ]
+}

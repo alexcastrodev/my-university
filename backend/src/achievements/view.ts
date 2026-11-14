@@ -43,7 +43,7 @@ export function iconSlugOf(track: CatalogTrack): string {
 export function nextRouteOf(track: CatalogTrack, unit: Unit | null): string[] | null {
   if (!unit) return null;
   if (unit.sourceType === 'lesson') {
-    return track.source.kind === 'course' ? ['/java/exam', track.source.courseId, 'lesson', unit.sourceId] : null;
+    return track.source.kind === 'course' ? ['/exam', track.source.courseId, 'lesson', unit.sourceId] : null;
   }
   return parseCurriculumSourceId(unit.sourceId)?.route ?? fromSourceId('concept-read', unit.sourceId)?.route ?? null;
 }

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { gotoExamList } from './BaseTest.js';
+import { BASE_URL, gotoExamList } from './BaseTest.js';
 import { ExamListPage } from './pages/ExamListPage.js';
 import { SidebarPage } from './pages/SidebarPage.js';
 
@@ -51,10 +51,44 @@ test.describe('Exam List Page', () => {
       await expect(card.getByText('Start Practice →')).toBeVisible();
     });
 
+    test('should render the Azure AI-200 exam card', async ({ page }) => {
+      const examList = new ExamListPage(page);
+      const card = examList.examCard('Azure AI Cloud Developer Associate');
+      await expect(card).toBeVisible();
+      await expect(card.getByText('Start Practice →')).toBeVisible();
+    });
+
     test('should navigate to course page when clicking exam card', async ({ page }) => {
       const examList = new ExamListPage(page);
       await examList.examCard('OCP Java SE 21 Developer').click();
-      await expect(page).toHaveURL(/\/exam\/java-21/);
+      await expect(page).toHaveURL(/\/exam\/java-21$/);
+    });
+  });
+
+  test.describe('Providers', () => {
+    test('should group the Java exams under Oracle and the Azure exam under Microsoft', async ({ page }) => {
+      const examList = new ExamListPage(page);
+      await expect(examList.provider('Oracle Java').locator('.exam-card')).toHaveCount(2);
+      await expect(examList.provider('Microsoft Azure').locator('.exam-card')).toHaveCount(1);
+    });
+
+    test('should list the newest Java release first', async ({ page }) => {
+      const examList = new ExamListPage(page);
+      const titles = examList.provider('Oracle Java').locator('.card-title');
+      await expect(titles.first()).toContainText('OCP Java SE 25');
+    });
+  });
+
+  test.describe('Legacy URLs', () => {
+    // nginx answers these with a permanent redirect, so the old /java/... links keep working.
+    test('should redirect /java/exams to /exams', async ({ page }) => {
+      await page.goto(`${BASE_URL}/java/exams`);
+      await expect(page).toHaveURL(/\/exams$/);
+    });
+
+    test('should redirect a legacy /java/exam/<id> course link', async ({ page }) => {
+      await page.goto(`${BASE_URL}/java/exam/java-25`);
+      await expect(page).toHaveURL(/\/exam\/java-25$/);
     });
   });
 });

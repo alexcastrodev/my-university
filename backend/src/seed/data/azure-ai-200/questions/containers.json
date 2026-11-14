@@ -1,0 +1,707 @@
+[
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "An ACR task must rebuild your image automatically when the python:3.12-slim image named in its FROM line receives a patch. Which trigger do you configure?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A timer trigger that runs every night"
+      },
+      {
+        "key": "B",
+        "text": "A base image update trigger"
+      },
+      {
+        "key": "C",
+        "text": "A manual az acr build in the release pipeline"
+      },
+      {
+        "key": "D",
+        "text": "A source code update trigger on the Git repository"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "A base image update trigger rebuilds the dependent image when the base image it tracks changes. A timer or a commit trigger would not fire at the moment the base image is patched, and a manual build needs a person."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "You must build a container image and push it to Azure Container Registry from a build agent that has no Docker daemon. Which command does that?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "az acr import --name myregistry --source shop/api:1.0"
+      },
+      {
+        "key": "B",
+        "text": "docker build and docker push"
+      },
+      {
+        "key": "C",
+        "text": "az acr build --registry myregistry --image shop/api:1.0 ."
+      },
+      {
+        "key": "D",
+        "text": "az acr login --name myregistry"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "az acr build is an ACR Tasks quick task: it sends the build context to Azure, builds there and pushes the result. az acr import only copies an existing image into a registry, and az acr login only authenticates."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "An App Service Web App for Containers, a Container App and an AKS cluster must pull images from ACR with the least privilege and no stored credentials. What do you use?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Enable the ACR admin user and put its password in app settings"
+      },
+      {
+        "key": "B",
+        "text": "Allow anonymous pull on the registry"
+      },
+      {
+        "key": "C",
+        "text": "A service principal with the Owner role on the subscription"
+      },
+      {
+        "key": "D",
+        "text": "A managed identity with the AcrPull role on the registry"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "A managed identity has no credential to store, and AcrPull grants only the ability to pull. The admin user is a shared credential, Owner is far more than needed, and anonymous pull exposes your images."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "You must guarantee that the image shop/api:1.4.2 can never be overwritten or deleted. What do you do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Nothing, tags are immutable in ACR"
+      },
+      {
+        "key": "B",
+        "text": "Move the image to a Basic registry"
+      },
+      {
+        "key": "C",
+        "text": "Delete the tag and push it again"
+      },
+      {
+        "key": "D",
+        "text": "Run az acr repository update with --write-enabled false and --delete-enabled false on that image"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Tags are mutable pointers, so pushing the same tag again replaces the image. Locking the image with write-enabled and delete-enabled set to false protects it. A digest reference also pins content, but only the lock stops the tag from being changed."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "multi",
+    "text": "Which of the following are valid ways to trigger an ACR task automatically? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A timer schedule"
+      },
+      {
+        "key": "B",
+        "text": "A commit to the task's source repository"
+      },
+      {
+        "key": "C",
+        "text": "A new blob in a storage account"
+      },
+      {
+        "key": "D",
+        "text": "An update to a tracked base image"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "ACR tasks support source code update, base image update and timer triggers. A blob event is not a built-in ACR Tasks trigger; you would route it through Event Grid and a Function or pipeline."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "Your container listens on port 8000 in Azure App Service but the site returns errors because App Service probes the default port. Which app setting fixes it?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "WEBSITE_HTTPLOGGING_ENABLED=8000"
+      },
+      {
+        "key": "B",
+        "text": "WEBSITES_PORT=8000"
+      },
+      {
+        "key": "C",
+        "text": "SCM_DO_BUILD_DURING_DEPLOYMENT=8000"
+      },
+      {
+        "key": "D",
+        "text": "PORT_OVERRIDE=8000"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "WEBSITES_PORT tells App Service which port the container listens on. The other names are not used for this purpose."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "A container in App Service needs a database password. The password must not be stored as plain text in the app settings. What is the best approach?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Store it in a deployment slot setting"
+      },
+      {
+        "key": "B",
+        "text": "Bake the password into the image with ENV"
+      },
+      {
+        "key": "C",
+        "text": "Use an app setting holding a Key Vault reference, resolved with the web app's managed identity"
+      },
+      {
+        "key": "D",
+        "text": "Pass it on the container command line"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "A Key Vault reference keeps the secret in Key Vault and the app setting only holds the pointer. The web app needs a managed identity with permission to read the secret. An image ENV or a command line leaks the value."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "During a slot swap, a connection string must stay with the staging slot instead of moving to production. What do you configure?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Disable auto swap"
+      },
+      {
+        "key": "B",
+        "text": "Use a longer slot name"
+      },
+      {
+        "key": "C",
+        "text": "Mark the setting as a deployment slot setting"
+      },
+      {
+        "key": "D",
+        "text": "Put the setting in host.json"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Settings marked as deployment slot settings are sticky: they stay with the slot during a swap. Normal app settings move with the app."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "You need geo-replication of a container registry and private endpoint access. Which ACR tier do you select?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Basic"
+      },
+      {
+        "key": "B",
+        "text": "Any tier, they are the same"
+      },
+      {
+        "key": "C",
+        "text": "Premium"
+      },
+      {
+        "key": "D",
+        "text": "Standard"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Geo-replication, private endpoints and customer-managed keys are Premium features."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "A Container App is in single revision mode. You deploy a new revision whose replicas fail the readiness probe. What happens to traffic?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Ingress is disabled until you fix it"
+      },
+      {
+        "key": "B",
+        "text": "Traffic is split 50/50"
+      },
+      {
+        "key": "C",
+        "text": "All traffic moves to the failing revision"
+      },
+      {
+        "key": "D",
+        "text": "The old revision keeps serving all traffic"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "In single revision mode traffic only moves when the new revision is ready: provisioned, scaled to the previous replica count and all replicas pass startup and readiness probes. Otherwise the old revision continues."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "multi",
+    "text": "Which changes create a new revision of a container app? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Changing the traffic-splitting percentages"
+      },
+      {
+        "key": "B",
+        "text": "Deploying a new container image tag"
+      },
+      {
+        "key": "C",
+        "text": "Adding a scale rule"
+      },
+      {
+        "key": "D",
+        "text": "Changing the value of a secret"
+      },
+      {
+        "key": "E",
+        "text": "Setting a new revision suffix"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "C",
+      "E"
+    ],
+    "explanation": "Revision-scope changes (the properties.template section) create revisions: image and container configuration, scale rules and the revision suffix. Secrets and ingress or traffic rules are application-scope changes that apply to all revisions."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "A Container App has no scale rules configured. What are its default minimum and maximum replica counts?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "1 and 1"
+      },
+      {
+        "key": "B",
+        "text": "0 and 10"
+      },
+      {
+        "key": "C",
+        "text": "1 and 10"
+      },
+      {
+        "key": "D",
+        "text": "0 and 1000"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "The defaults are a minimum of 0 and a maximum of 10, with a default HTTP scale rule. 1,000 is the largest configurable value, not the default."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "A background worker Container App has ingress disabled, minReplicas not set and no custom scale rule. What happens?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Deployment is rejected"
+      },
+      {
+        "key": "B",
+        "text": "It runs one replica forever"
+      },
+      {
+        "key": "C",
+        "text": "It scales to 10 replicas"
+      },
+      {
+        "key": "D",
+        "text": "It scales to zero and has no way to start again"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "With ingress disabled and no min replicas or custom rule, nothing can trigger a replica, so the app scales to zero and stays there. Set minReplicas to 1 or add an event-driven rule."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "A KEDA Service Bus rule has messageCount set to 5, the queue holds 50 messages and maxReplicas is 20. What is the desired replica count from the scaling formula, before the scale-up step limit?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "50"
+      },
+      {
+        "key": "B",
+        "text": "5"
+      },
+      {
+        "key": "C",
+        "text": "20"
+      },
+      {
+        "key": "D",
+        "text": "10"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "desiredReplicas = ceil(currentMetricValue / targetMetricValue) = ceil(50 / 5) = 10. The actual step taken can be smaller because scale up proceeds in steps of 1, 4, 8, 16 and so on."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "A Container Apps custom scale rule for Azure Service Bus must authenticate without storing a connection string. What do you use?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A managed identity on the scale rule"
+      },
+      {
+        "key": "B",
+        "text": "An account key in an environment variable"
+      },
+      {
+        "key": "C",
+        "text": "Anonymous access"
+      },
+      {
+        "key": "D",
+        "text": "A shared access signature in the image"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Scale rules for Azure resources such as Service Bus, Event Hubs and Queue Storage support managed identity. Where possible, prefer it to secrets."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "What is the default value of concurrentRequests in a Container Apps HTTP scale rule?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "1000"
+      },
+      {
+        "key": "B",
+        "text": "100"
+      },
+      {
+        "key": "C",
+        "text": "10"
+      },
+      {
+        "key": "D",
+        "text": "1"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "The HTTP rule adds a replica when concurrent requests per replica exceed the threshold, which defaults to 10."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "A container app has two scale rules, an HTTP rule and a Service Bus rule. When does it scale out?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "As soon as the condition of any one rule is met"
+      },
+      {
+        "key": "B",
+        "text": "Rules cannot be combined"
+      },
+      {
+        "key": "C",
+        "text": "Only when both rules are satisfied"
+      },
+      {
+        "key": "D",
+        "text": "Only the first rule in the list is used"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "With several rules, scaling starts when the first condition of any rule is met."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "You want 80 percent of traffic on revision v1 and 20 percent on revision v2 of a container app. What do you configure?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A scale rule per revision"
+      },
+      {
+        "key": "B",
+        "text": "Multiple revision mode with traffic weights on the revisions"
+      },
+      {
+        "key": "C",
+        "text": "Single revision mode and a label"
+      },
+      {
+        "key": "D",
+        "text": "Two environments"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Traffic splitting needs multiple revision mode, where several revisions are active and you assign a percentage to each."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "You updated a secret in a container app, but the running container still reads the old value. What do you do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Wait for the cool down period"
+      },
+      {
+        "key": "B",
+        "text": "Add a new scale rule"
+      },
+      {
+        "key": "C",
+        "text": "Delete the environment"
+      },
+      {
+        "key": "D",
+        "text": "Restart the revision"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Secret values are application-scope settings. Revisions must be restarted before a container recognizes new secret values."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "multi",
+    "text": "A Kubernetes Service exists but kubectl get endpoints shows no endpoints. Which are likely causes? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The Service selector does not match the pod labels"
+      },
+      {
+        "key": "B",
+        "text": "The Deployment has too many replicas"
+      },
+      {
+        "key": "C",
+        "text": "No pod matching the selector is ready"
+      },
+      {
+        "key": "D",
+        "text": "The image tag uses lowercase letters"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C"
+    ],
+    "explanation": "A Service only gets endpoints from ready pods whose labels match its selector. The replica count and tag casing are unrelated."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "Pods in AKS show ImagePullBackOff when pulling from your Azure Container Registry. Which command gives the cluster pull access without a secret?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "az aks scale --node-count 5"
+      },
+      {
+        "key": "B",
+        "text": "az acr build --registry myregistry ."
+      },
+      {
+        "key": "C",
+        "text": "az aks update --name aks-shop --resource-group rg --attach-acr myregistry"
+      },
+      {
+        "key": "D",
+        "text": "kubectl rollout undo deployment/api"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "attach-acr grants the cluster's kubelet identity the AcrPull role on the registry. The other commands do not change pull permissions."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "A pod is in CrashLoopBackOff. How do you read the output of the container instance that just crashed?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "kubectl port-forward <pod> 8080:80"
+      },
+      {
+        "key": "B",
+        "text": "kubectl get endpoints"
+      },
+      {
+        "key": "C",
+        "text": "kubectl logs <pod> --previous"
+      },
+      {
+        "key": "D",
+        "text": "kubectl get pods -o wide"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "logs --previous returns the logs of the previous, terminated container instance, which usually holds the crash reason."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "kubectl describe pod shows the last state OOMKilled with exit code 137. What is the cause and the fix?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The container exceeded its memory limit; raise the limit or fix the memory use"
+      },
+      {
+        "key": "B",
+        "text": "The readiness probe path is wrong"
+      },
+      {
+        "key": "C",
+        "text": "The image is missing; fix the tag"
+      },
+      {
+        "key": "D",
+        "text": "The node has no public IP"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "OOMKilled with exit code 137 means the container was killed for exceeding its memory limit."
+  },
+  {
+    "examId": "azure-ai-200",
+    "topic": "containers",
+    "type": "single",
+    "text": "A pod fails its readiness probe but passes its liveness probe. What is the effect?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The pod is removed from the Service endpoints and receives no traffic"
+      },
+      {
+        "key": "B",
+        "text": "The Deployment is deleted"
+      },
+      {
+        "key": "C",
+        "text": "The container is restarted"
+      },
+      {
+        "key": "D",
+        "text": "The node is cordoned"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "A failing readiness probe removes the pod from the Service endpoints. A failing liveness probe is what makes the kubelet restart the container."
+  }
+]

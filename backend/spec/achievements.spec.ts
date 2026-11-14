@@ -165,7 +165,7 @@ describe('POST /xp/achievements/sync: badges', () => {
     expect(awards[0]).toMatchObject({ type: 'badge', id: session.sessionId, exp: session.units.length * AWARD_XP.badgePerUnit, passed: true });
     const progress = (await achievements(cookie)).progress.find((p) => p.trackId === j25.trackId)!;
     expect(progress).toMatchObject({ done: session.units.length, awarded: false });
-    expect(progress.nextRoute).toEqual(['/java/exam', 'java-25', 'lesson', j25.sessions[1].units[0].sourceId]);
+    expect(progress.nextRoute).toEqual(['/exam', 'java-25', 'lesson', j25.sessions[1].units[0].sourceId]);
   });
 });
 
@@ -292,7 +292,7 @@ describe('GET /xp/achievements/catalog/:trackId', () => {
   it('links the lessons of an OCP track to the course', async () => {
     const body = await json<Requirements>(await requirements(await user('req-ocp'), j25.trackId));
     const lesson = j25.sessions[0].units[0];
-    expect(body.sessions[0].units[0].route).toEqual(['/java/exam', 'java-25', 'lesson', lesson.sourceId]);
+    expect(body.sessions[0].units[0].route).toEqual(['/exam', 'java-25', 'lesson', lesson.sourceId]);
     expect(body.sessions[0].units[0].title).not.toBe(lesson.sourceId);
   });
 

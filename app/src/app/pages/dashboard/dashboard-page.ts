@@ -232,7 +232,7 @@ export class DashboardPage implements OnInit {
     const point = this.resumePoint();
     if (!point) return [];
     return point.lessonId
-      ? ['/java/exam', point.courseId, 'lesson', point.lessonId]
-      : ['/java/exam', point.courseId];
+      ? ['/exam', point.courseId, 'lesson', point.lessonId]
+      : ['/exam', point.courseId];
   }
 }

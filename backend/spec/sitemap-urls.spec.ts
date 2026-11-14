@@ -64,18 +64,18 @@ describe('sitemap URLs (pure, no API)', () => {
         '/pt-BR/tracks',
         '/pt-BR/computer-science',
         '/pt-BR/faq',
-        '/java/exams',
-        '/java/exam/java-25',
-        '/java/exam/java-25/lesson/j25-0-1',
-        '/java/exam/java-25/lesson/j25-0-2',
+        '/exams',
+        '/exam/java-25',
+        '/exam/java-25/lesson/j25-0-1',
+        '/exam/java-25/lesson/j25-0-2',
       ]),
     );
   });
 
   it('leaves out a skill check, whose questions are drawn in the browser and so has no text to index', async () => {
     const paths = (await sitemap.buildUrls()).map((u) => u.path);
-    expect(paths).toContain('/java/exam/java-25/lesson/j25-0-2');
-    expect(paths).not.toContain('/java/exam/java-25/lesson/j25-0-9');
+    expect(paths).toContain('/exam/java-25/lesson/j25-0-2');
+    expect(paths).not.toContain('/exam/java-25/lesson/j25-0-9');
   });
 
   it('never lists a page that is private, per-user or not worth indexing', async () => {

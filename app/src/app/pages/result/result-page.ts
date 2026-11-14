@@ -82,7 +82,7 @@ export class ResultPage implements OnInit {
   }
 
   async copyShareLink(): Promise<void> {
-    const url = `${location.origin}/java/exam/${this.examId()}/share/${this.attemptId()}`;
+    const url = `${location.origin}/exam/${this.examId()}/share/${this.attemptId()}`;
     try {
       await navigator.clipboard.writeText(url);
     } catch {

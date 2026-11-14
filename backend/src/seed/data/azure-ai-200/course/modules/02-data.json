@@ -1,0 +1,47 @@
+{
+  "id": 2,
+  "title": "Develop AI Solutions by Using Azure Data Management Services",
+  "lessons": [
+    {
+      "id": "az200-2-1",
+      "title": "Cosmos DB: SDK, Queries, Request Units, Indexing and Consistency",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/2-1-cosmos-db-sdk-queries-indexing-and-consistency.md"
+    },
+    {
+      "id": "az200-2-2",
+      "title": "Cosmos DB Vector Search and the Change Feed",
+      "duration": "20m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/2-2-cosmos-db-vector-search-and-change-feed.md"
+    },
+    {
+      "id": "az200-2-3",
+      "title": "PostgreSQL: Schemas, pgvector Indexing and RAG",
+      "duration": "20m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/2-3-postgresql-pgvector-and-rag.md"
+    },
+    {
+      "id": "az200-2-4",
+      "title": "Azure Managed Redis: Caching, Expiration and Vectors",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "azure-ai-200/content/2-4-azure-managed-redis-caching-and-vectors.md"
+    },
+    {
+      "id": "az200-2-check",
+      "title": "Skill Check: Develop AI Solutions by Using Azure Data Management Services",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null,
+      "topic": "data"
+    }
+  ]
+}

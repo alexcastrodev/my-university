@@ -61,11 +61,11 @@ export class CoursePage implements OnInit {
     const course = this.course();
     if (!course) return [];
     const trail: BreadcrumbItem[] = [
-      { name: $localize`:@@examList.title:Certification Exams`, path: '/java/exams' },
-      { name: course.title, path: `/java/exam/${course.id}` },
+      { name: $localize`:@@examList.title:Certification Exams`, path: '/exams' },
+      { name: course.title, path: `/exam/${course.id}` },
     ];
     const lesson = this.activeLesson();
-    if (lesson) trail.push({ name: lesson.title, path: `/java/exam/${course.id}/lesson/${lesson.id}` });
+    if (lesson) trail.push({ name: lesson.title, path: `/exam/${course.id}/lesson/${lesson.id}` });
     return trail;
   });
 
@@ -97,7 +97,7 @@ export class CoursePage implements OnInit {
   }
 
   onLessonSelected(lesson: Lesson): void {
-    void this.router.navigate(['/java/exam', this.examId(), 'lesson', lesson.id]);
+    void this.router.navigate(['/exam', this.examId(), 'lesson', lesson.id]);
     this.openLesson(lesson);
   }
 
@@ -155,7 +155,7 @@ export class CoursePage implements OnInit {
   }
 
   clearLesson(): void {
-    void this.router.navigate(['/java/exam', this.examId()]);
+    void this.router.navigate(['/exam', this.examId()]);
     this.activeLesson.set(null);
     this.activeLessonId.set(null);
     this.markdownContent.set(null);
@@ -168,7 +168,7 @@ export class CoursePage implements OnInit {
     this.seo.set({
       title: `${course.title} — My University`,
       description: course.description,
-      path: `/java/exam/${course.id}`,
+      path: `/exam/${course.id}`,
       course: { moduleCount: course.moduleCount },
       breadcrumbs: this.breadcrumbItems(),
     });
@@ -180,7 +180,7 @@ export class CoursePage implements OnInit {
     this.seo.set({
       title: `${lesson.title} — ${course.title}`,
       description: `${lesson.title} — a lesson from the ${course.title} course on My University.`,
-      path: `/java/exam/${course.id}/lesson/${lesson.id}`,
+      path: `/exam/${course.id}/lesson/${lesson.id}`,
       type: 'article',
       // A skill check is a quiz built in the browser: the server renders only its title and the playlist.
       noindex: lesson.type === 'skill-check',
