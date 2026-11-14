@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Inject,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -74,12 +75,20 @@ export class PaperLibraryController {
     return entry;
   }
 
+  /**
+   * The entry for a paper, or `null` (200) when it is not in the library: that is the normal answer on every
+   * public paper the reader has not saved, and a 404 would show up as a red error in the browser console.
+   */
   @Get(':paperId')
   async get(
     @CurrentUserId() userId: number,
     @Param('paperId') paperId: string,
   ) {
-    return this.library.get(userId, await this.ids.resolveFor(userId, paperId));
+    const ref = await this.ids.resolveFor(userId, paperId);
+    return this.library.get(userId, ref).catch((err: unknown) => {
+      if (err instanceof NotFoundException) return null;
+      throw err;
+    });
   }
 
   /**

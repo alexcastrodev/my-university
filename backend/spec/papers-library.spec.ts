@@ -164,9 +164,10 @@ describe('privacy between readers', () => {
 
     expect((await library(ana.cookie)).total).toBe(1);
     expect((await library(bia.cookie)).total).toBe(0);
-    expect(
-      (await get(`/paper-library/${first}`, { Cookie: bia.cookie })).status,
-    ).toBe(404);
+    // Not in her library: an empty 200 (what the client reads as "not saved"), never Ana's entry.
+    const notHers = await get(`/paper-library/${first}`, { Cookie: bia.cookie });
+    expect(notHers.status).toBe(200);
+    expect(await notHers.text()).toBe('');
   });
 
   it('does not let one reader change or remove the entry of another', async () => {
