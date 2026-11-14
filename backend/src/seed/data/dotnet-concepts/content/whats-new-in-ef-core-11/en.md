@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-12
+version: 1.1
+updatedAt: 2026-11-14
 ---
 ## Objective
 
@@ -97,6 +97,12 @@ already a string, `EF.Functions.Like(u.Name, "Name%")` used to produce
 `WHERE CAST([u].[Name] AS nvarchar(max)) LIKE N'Name%'`, which blocks an index
 seek; EF Core 11 emits `WHERE [u].[Name] LIKE N'Name%'`. Deeper reading of
 generated SQL is in `query-translation-and-performance`.
+
+Explicit joins whose columns are never used are pruned as well, and that is where
+the release can change a row count: an `INNER JOIN` is only removed when the model
+says the foreign key is required and constrained. The same table gave 2 rows or 1
+depending on how an unconstrained key was declared, and
+`join-pruning-and-foreign-keys-without-constraints` shows it with real output.
 
 ### Translations that now work
 
@@ -204,6 +210,12 @@ back to the entity. A `vector` column is no longer selected when you load the
 entity (`SELECT [a].[Id], [a].[Title]`); only an explicit projection brings
 `[a].[Embedding]`. `whats-new-in-ef-core-10` has the earlier vector support.
 
+Each of these has a concept with the details that did not fit here:
+`ef-core-vector-search-with-sql-server-2025` (the index, the brute-force warning,
+hybrid search), `full-text-search-with-ef-core` (SQL Server, PostgreSQL and SQLite
+FTS5) and `sql-server-json-contains-and-path-exists-in-ef-core` (when `Contains`
+becomes `JSON_CONTAINS` and when it stays `OPENJSON`).
+
 ### Cosmos DB
 
 Checked on 11.0.0 without an emulator: `Database.AutoTransactionBehavior`
@@ -213,7 +225,10 @@ returns `WhenNeeded` for the Cosmos provider, the options expose
 throws `InvalidOperationException` ("Azure Cosmos DB does not support synchronous
 I/O"). That transactional batches group writes per partition and what bulk
 execution does at runtime come from the documentation, not from a run. The
-provider concept is `ef-core-nosql-cosmos-db-and-mongodb`.
+provider concept is `ef-core-nosql-cosmos-db-and-mongodb`, which also covers session
+tokens, and the Cosmos breaking changes (unmapped properties no longer preserved,
+`id` escaping, `undefined` projections) are in
+`upgrading-from-ef-core-10-to-11-breaking-changes`.
 
 ### Smaller items
 

@@ -1,6 +1,6 @@
 ---
-version: 1.2
-updatedAt: 2026-11-12
+version: 1.3
+updatedAt: 2026-11-14
 ---
 ## Objective
 
@@ -154,10 +154,34 @@ be combined with `--force`) removed the last migration without connecting to the
 database. It deletes the files and rewrites the snapshot, so it only makes sense
 when the migration was never applied.
 
+To see what else the 11.0.0 tool adds, I installed `dotnet-ef` 10.0.12 and 11.0.0
+side by side and diffed the options in `--help` for each command. Only in 11.0.0:
+
+- `database update <name> --add` (with `--output-dir`, `--namespace` and `--json`)
+  creates a migration and applies it in one step. The help says "Create a new
+  migration with the given name and apply it immediately", and the documentation says
+  it compiles the migration with Roslyn at run time, for places such as containers
+  where the project cannot be rebuilt, and still writes the files for source
+  control. I read the options and did not run it.
+- `--connection` on `migrations remove` and on `database drop`, so they no longer
+  need a connection string in the context.
+- `--file` and `--startup-file` on every command, as the file-based app equivalents
+  of `--project` and `--startup-project`.
+
+One thing the documentation lists as new in 11 was already there: `-c "*"`, which
+runs `migrations list`, `migrations script`, `database update` or `database drop` for
+every context, is in the `--help` of 10.0.12, so you do not need to upgrade the tool
+for it. The Package Manager Console `-NoBuild` switch for `Add-Migration` and
+`Update-Database` is documentation only, since there is no PMC here. The `dotnet ef`
+CLI already had `--no-build` in both versions.
+
 A related model option: `HasOne(...).HasForeignKey(...).IsConstrained(false)`
 keeps the relationship in the model but leaves the foreign key constraint out of
 the schema. On SQLite the generated script for an `Item.ParentId` relationship
 had the column and `CREATE INDEX "IX_Items_ParentId"`, but no `FOREIGN KEY`.
+`ExcludeForeignKeyFromMigrations()` gives the same script, and the two are not
+equivalent for queries, which `join-pruning-and-foreign-keys-without-constraints`
+shows with real rows.
 
 ## Trade-offs
 

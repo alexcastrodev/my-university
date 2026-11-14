@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-14
 title: "EF Core com NoSQL: Cosmos DB e MongoDB"
 summary: O que o EF Core mantém e o que perde contra bancos de documentos, partition key e point reads no Cosmos DB, documentos embutidos e transações no provider do MongoDB, e quando preferir o driver nativo.
 ---
@@ -135,6 +135,55 @@ levou a chave para uma propriedade separada `__id` mapeada ao `id` do JSON, enqu
 triggers e agora preenche um valor padrão para uma propriedade obrigatória nova quando
 um documento antigo não a tem.
 
+### Cosmos DB: o que o EF Core 11 trouxe além dos batches
+
+Conferi que estas APIs existem no 11.0.0 por reflexão sobre o pacote e, no caso dos
+complex types, montando um modelo. O comportamento vem da documentação, porque não
+havia emulador para rodar. As breaking changes da mesma release (propriedades sem
+mapeamento, escape de `id`, projeções `undefined`, I/O síncrono) estão em
+`upgrading-from-ef-core-10-to-11-breaking-changes`.
+
+- **Limites do batch.** Um transactional batch fica dentro de uma partição, tem até
+  100 operações e 2 MB, e não pode conter uma escrita de documento que tenha trigger
+  pré ou pós. Entidades configuradas com triggers são salvas separadamente, antes dos
+  batches, o que pode mudar a ordem de um save misto. Com `Always`, 101 entidades novas
+  lançam `InvalidOperationException`, porque não cabem em um batch só.
+- **Bulk execution é o outro caminho.** Ele executa as operações em paralelo, também
+  entre instâncias de `DbContext`, e serve para cargas de dados. A documentação o
+  apresenta como alternativa ao batching, e o 11.0.0 tem um evento de log chamado
+  `BulkExecutionWithTransactionalBatch`, que pelo nome relata a combinação. Não o
+  disparei, então leia a saída de log quando ligar os dois. Há também um evento
+  `ExecutedTransactionalBatch` com o request charge, o container, a partition key e os
+  ids dos documentos, que é onde olhar o custo de um save.
+- **Session tokens.** O Cosmos rastreia a consistência read-your-writes com um session
+  token, e o SDK o mantém sozinho dentro de um `CosmosClient`. Atrás de um load
+  balancer round-robin sem afinidade de sessão, uma leitura pode cair em uma instância
+  que não viu a sua escrita. `SessionTokenManagementMode(...)` nas opções do
+  `UseCosmos` aceita quatro valores, e os métodos são `GetSessionToken`/`GetSessionTokens`,
+  `UseSessionToken`/`UseSessionTokens` e `AppendSessionToken`/`AppendSessionTokens` em
+  `db.Database`.
+
+  | Modo | Significado, segundo a doc |
+  |---|---|
+  | `FullyAutomatic` | O padrão. O SDK gerencia os tokens, e os métodos get/use lançam exceção. |
+  | `SemiAutomatic` | Você pode sobrescrever por container com `UseSessionTokens`, e o SDK cobre o resto. O EF rastreia os tokens para você lê-los. |
+  | `Manual` | Só valem os tokens que você definiu ou que o EF rastreou. |
+  | `EnforcedManual` | Como o `Manual`, e lança exceção se você não definiu um token para o container antes. |
+
+  O fluxo usual é devolver `GetSessionToken()` ao cliente depois de uma escrita (em um
+  header) e chamar `UseSessionToken(token)` antes da leitura que precisa enxergá-la. A
+  documentação avisa que o gerenciamento manual pode quebrar a consistência de sessão
+  se feito errado, então só use quando você tem o problema do load balancer.
+- **Complex types.** `ComplexProperty` monta um modelo Cosmos no 11.0.0 e embute um
+  objeto JSON aninhado (ou um array, para uma coleção). A documentação o prefere a um
+  owned type para JSON porque tem semântica de valor e não tem identidade.
+  `ToJsonProperty("nome")` renomeia a propriedade JSON de um membro de complex type.
+- **Indexing policy.** `HasAutomaticIndexing(false)` e
+  `HasAutomaticIndexing().Except("/InternalNotes/?")` existem, e a documentação
+  acrescenta índices explícitos simples, compostos, vetoriais e full-text com
+  `HasIndex`. Isso pesa no custo de escrita, porque a policy padrão indexa todos os
+  caminhos.
+
 ### MongoDB: o provider mantido pela MongoDB
 
 `MongoDB.EntityFrameworkCore` é publicado pela MongoDB, não pela Microsoft, e a página
@@ -193,9 +242,10 @@ Atlas Search, que o provider não suporta, desça ao driver só naquela consulta
   ```csharp
   e.OwnsMany(x => x.Lines);   // bom para 20 itens, arriscado para 20.000
   ```
-- **Sem atomicidade entre documentos no Cosmos com EF Core 10.** Um
-  `SaveChangesAsync` com várias entidades não é tudo-ou-nada, então modele uma
-  invariante de negócio por documento ou aceite lógica de compensação.
+- **Sem atomicidade entre documentos no Cosmos com EF Core 10, e só dentro de um batch
+  no 11.** Um `SaveChangesAsync` com várias entidades não é tudo-ou-nada entre
+  partições, nem acima de 100 operações ou 2 MB, então modele uma invariante de
+  negócio por documento ou aceite lógica de compensação.
 - **Provider de terceiros fica atrás do EF Core.** O provider do Mongo sai no
   calendário da MongoDB, então uma atualização do EF Core pode esperar por ele.
 - **Você perde a caixa de ferramentas relacional.** Sem `Migrate()` e sem scaffolding,

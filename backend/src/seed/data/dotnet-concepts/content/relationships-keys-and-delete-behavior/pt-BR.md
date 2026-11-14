@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-14
 title: "Relacionamentos, Chaves e Comportamento de Delete"
 summary: Obrigatório versus opcional e o ON DELETE que cada um gera, o que o SaveChanges faz com dependentes carregados ou não (conferido no SQL do SQLite), órfãos, chaves compostas e alternativas, FKs sombra e many-to-many com navegações de salto.
 ---
@@ -129,6 +129,18 @@ Ninguém chamou `Remove` no produto. Num relacionamento opcional, o mesmo códig
 põe a foreign key em nulo. Banco de dados não tem noção de órfão, então isso só
 funciona com os dois lados carregados; a página oficial de cascade delete traz a
 matriz completa, carregado versus não carregado.
+
+### Um relacionamento que o banco não impõe
+
+Tudo acima pressupõe que a constraint de chave estrangeira existe, e é ela que torna
+um órfão impossível no banco. O EF Core 11 tem duas formas de manter o relacionamento
+no modelo e deixar a constraint de fora: `ExcludeForeignKeyFromMigrations()`
+(relacional) e `IsConstrained(false)` (core). Elas geram o mesmo esquema e respondem
+as consultas de forma diferente: no SQLite, com um pedido cujo cliente não existe, um
+`join` que nunca lê o cliente devolveu 2 linhas com a primeira e 1 com a segunda,
+porque o EF 11 poda um `INNER JOIN` que acredita ser redundante. Use a primeira só
+quando outra coisa garante que as linhas casam. O experimento, com a tabela de
+resultados, está em `join-pruning-and-foreign-keys-without-constraints`.
 
 ### Chaves compostas e alternativas
 

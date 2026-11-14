@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-14
 ---
 ## Objective
 
@@ -126,6 +126,19 @@ No `Remove` was called on the product. In an optional relationship the same code
 sets the foreign key to null instead. Databases have no notion of orphans, so
 this only works when both sides are loaded; the official cascade delete page has
 the full matrix of behavior, loaded versus not loaded.
+
+### A relationship the database does not enforce
+
+Everything above assumes the foreign key constraint exists, and that is what makes
+an orphan impossible at the database. EF Core 11 has two ways to keep the
+relationship in the model and leave the constraint out:
+`ExcludeForeignKeyFromMigrations()` (relational) and `IsConstrained(false)` (core).
+They generate the same schema and answer queries differently: on SQLite, with one
+order whose customer does not exist, a `join` that never reads the customer returned
+2 rows with the first and 1 with the second, because EF 11 prunes an `INNER JOIN` it
+believes is redundant. Use the first only when something else guarantees the rows
+match. The experiment, with the table of results, is in
+`join-pruning-and-foreign-keys-without-constraints`.
 
 ### Composite and alternate keys
 

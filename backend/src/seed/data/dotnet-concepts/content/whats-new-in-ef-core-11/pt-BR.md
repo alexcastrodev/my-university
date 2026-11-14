@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-12
+version: 1.1
+updatedAt: 2026-11-14
 title: "O que há de novo no EF Core 11"
 summary: Mapa das novidades do EF Core 11 (STS, .NET 11) com SQL lado a lado contra o EF Core 10: SQL mais enxuto, traduções novas, índice em caminho JSON, LastMigrationId, SQL Server 2025 e Cosmos DB.
 ---
@@ -97,6 +97,12 @@ string, `EF.Functions.Like(u.Name, "Name%")` gerava
 `WHERE CAST([u].[Name] AS nvarchar(max)) LIKE N'Name%'`, o que impede o uso de
 índice; o EF Core 11 emite `WHERE [u].[Name] LIKE N'Name%'`. A leitura mais
 profunda do SQL gerado está em `query-translation-and-performance`.
+
+Joins explícitos cujas colunas nunca são usadas também são podados, e é aí que a
+release pode mudar uma contagem de linhas: um `INNER JOIN` só é removido quando o
+modelo diz que a chave estrangeira é obrigatória e constrained. A mesma tabela deu 2
+linhas ou 1 conforme a forma de declarar uma chave sem constraint, e
+`join-pruning-and-foreign-keys-without-constraints` mostra isso com saída real.
 
 ### Traduções que agora funcionam
 
@@ -204,6 +210,12 @@ volta à entidade. Uma coluna `vector` não é mais selecionada ao carregar a en
 (`SELECT [a].[Id], [a].[Title]`); só uma projeção explícita traz `[a].[Embedding]`.
 `whats-new-in-ef-core-10` tem o suporte vetorial anterior.
 
+Cada um destes tem um concept com os detalhes que não couberam aqui:
+`ef-core-vector-search-with-sql-server-2025` (o índice, o aviso de brute-force, a
+busca híbrida), `full-text-search-with-ef-core` (SQL Server, PostgreSQL e SQLite
+FTS5) e `sql-server-json-contains-and-path-exists-in-ef-core` (quando o `Contains`
+vira `JSON_CONTAINS` e quando continua `OPENJSON`).
+
 ### Cosmos DB
 
 Conferido na 11.0.0 sem emulador: `Database.AutoTransactionBehavior` devolve
@@ -212,7 +224,10 @@ complex type gera um caminho aninhado (`WHERE (c["ShippingAddress"]["City"] = "L
 e um `ToList()` síncrono lança `InvalidOperationException` ("Azure Cosmos DB does not
 support synchronous I/O"). Que os transactional batches agrupam as escritas por
 partição e o que o bulk faz em tempo de execução vêm da documentação, não de uma
-execução. O concept do provider é `ef-core-nosql-cosmos-db-and-mongodb`.
+execução. O concept do provider é `ef-core-nosql-cosmos-db-and-mongodb`, que também
+cobre session tokens, e as breaking changes do Cosmos (propriedades sem mapeamento não
+preservadas, escape de `id`, projeções `undefined`) estão em
+`upgrading-from-ef-core-10-to-11-breaking-changes`.
 
 ### Itens menores
 

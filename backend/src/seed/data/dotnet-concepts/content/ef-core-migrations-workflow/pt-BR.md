@@ -1,6 +1,6 @@
 ---
-version: 1.2
-updatedAt: 2026-11-12
+version: 1.3
+updatedAt: 2026-11-14
 title: "Workflow de Migrations do EF Core"
 summary: Model snapshot, revisão do SQL gerado (rename que vira drop + add), migrationBuilder.Sql, conflito de snapshot entre branches e checagem do modelo no CI.
 ---
@@ -159,10 +159,34 @@ EF Core 11, não combina com `--force`) removeu a última migration sem conectar
 banco. Ele apaga os arquivos e reescreve o snapshot, então só faz sentido quando
 a migration nunca foi aplicada.
 
+Para ver o que mais a ferramenta 11.0.0 acrescenta, instalei o `dotnet-ef` 10.0.12 e
+o 11.0.0 lado a lado e comparei as opções do `--help` de cada comando. Só no 11.0.0:
+
+- `database update <nome> --add` (com `--output-dir`, `--namespace` e `--json`) cria
+  uma migration e a aplica em um passo só. O help diz "Create a new migration with
+  the given name and apply it immediately", e a documentação diz que ela compila a
+  migration com o Roslyn em tempo de execução, para lugares como containers onde o
+  projeto não pode ser recompilado, e ainda grava os arquivos para o controle de
+  versão. Li as opções e não executei.
+- `--connection` em `migrations remove` e em `database drop`, que assim não precisam
+  de uma connection string no contexto.
+- `--file` e `--startup-file` em todos os comandos, como equivalentes para apps
+  file-based de `--project` e `--startup-project`.
+
+Uma coisa que a documentação lista como novidade do 11 já existia: `-c "*"`, que roda
+`migrations list`, `migrations script`, `database update` ou `database drop` para
+todos os contextos, está no `--help` do 10.0.12, então você não precisa atualizar a
+ferramenta por causa dele. A chave `-NoBuild` do Package Manager Console para
+`Add-Migration` e `Update-Database` é só documentação, porque aqui não há PMC. A CLI
+`dotnet ef` já tinha `--no-build` nas duas versões.
+
 Uma opção de modelo relacionada: `HasOne(...).HasForeignKey(...).IsConstrained(false)`
 mantém o relacionamento no modelo mas deixa a constraint de chave estrangeira
 fora do esquema. No SQLite, o script gerado para um relacionamento `Item.ParentId`
 tinha a coluna e o `CREATE INDEX "IX_Items_ParentId"`, mas nenhum `FOREIGN KEY`.
+`ExcludeForeignKeyFromMigrations()` gera o mesmo script, e as duas não são
+equivalentes para consultas, o que `join-pruning-and-foreign-keys-without-constraints`
+mostra com linhas reais.
 
 ## Trade-offs
 
