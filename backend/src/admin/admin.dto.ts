@@ -80,6 +80,24 @@ export class UsersQueryDto {
   page?: number;
 }
 
+export class ReportsQueryDto {
+  @IsOptional()
+  @IsIn(['open', 'reviewed', 'dismissed', 'all'])
+  status?: 'open' | 'reviewed' | 'dismissed' | 'all';
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(100000)
+  page?: number;
+}
+
+export class ReviewReportDto {
+  @IsIn(['reviewed', 'dismissed'])
+  status: 'reviewed' | 'dismissed';
+}
+
 export class GrantCreditsDto {
   @IsInt()
   @Min(1)

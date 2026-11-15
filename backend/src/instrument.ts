@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/nestjs';
+import { scrubKurz } from './shared/sentry-scrub';
 
 /**
  * Error and performance reporting to Sentry (kutz/university-api). Must be the first import in
@@ -19,4 +20,6 @@ Sentry.init({
   // A share of requests traced end to end (route, handler, SQL), enough to see where a slow
   // endpoint spends its time without sending every request.
   tracesSampleRate: Number(process.env.SENTRY_TRACES_SAMPLE_RATE ?? 0.2),
+  // What a student asks the Kurz, and what it answers, is theirs: an error on that route keeps its stack, not their words.
+  beforeSend: scrubKurz,
 });

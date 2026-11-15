@@ -66,7 +66,12 @@ export async function startAuthApp(
   const app = await NestFactory.create<NestFastifyApplication>(
     TestModule,
     new FastifyAdapter(),
-    { logger: false },
+    // `abortOnError: false`: a module that cannot start fails the spec with its message, not the whole process.
+    // SPEC_LOGGER=1 shows the errors the app logs (a 500 says nothing on its own).
+    {
+      logger: process.env.SPEC_LOGGER ? ['error', 'warn'] : false,
+      abortOnError: false,
+    },
   );
   await app.register(fastifyCookie, { secret: 'random-test' });
   app.useGlobalPipes(new ValidationPipe({ transform: true }));

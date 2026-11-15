@@ -17,11 +17,14 @@ import {
 import { RequirePermission } from '../auth/permission.guard';
 import { AiCreditsService } from '../ai/ai-credits.service';
 import { PlatformBudgetService } from '../ai/platform-budget.service';
+import { KurzReportsService } from '../kurz/kurz-reports.service';
 import { CurrentUserId } from '../auth/session';
 import {
   CreateRoleDto,
   GrantCreditsDto,
+  ReportsQueryDto,
   ReverseGrantDto,
+  ReviewReportDto,
   SetUserRolesDto,
   UpdateRoleDto,
   UsersQueryDto,
@@ -45,6 +48,7 @@ export class AdminController {
     private service: AdminService,
     private credits: AiCreditsService,
     private budget: PlatformBudgetService,
+    private reports: KurzReportsService,
   ) {}
 
   @Get('roles')
@@ -148,5 +152,24 @@ export class AdminController {
   @RequirePermission('admin.access')
   platformBudget() {
     return this.budget.adminView();
+  }
+
+  /** The answers students reported as wrong, newest first. The reviewer sees the exchange, never who sent it. */
+  @Get('ai/reports')
+  @Header('Cache-Control', 'no-store')
+  @RequirePermission('ai_reports.review')
+  aiReports(@Query() query: ReportsQueryDto) {
+    return this.reports.list(query.status ?? 'open', query.page ?? 1);
+  }
+
+  @Put('ai/reports/:id')
+  @HttpCode(204)
+  @RequirePermission('ai_reports.review')
+  async reviewAiReport(
+    @CurrentUserId() actor: number,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: ReviewReportDto,
+  ) {
+    await this.reports.review(id, dto.status, actor);
   }
 }

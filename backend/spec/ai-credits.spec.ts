@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any -- the rows of raw SQL are untyped */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return -- the rows of raw SQL are untyped */
 import { ConflictException } from '@nestjs/common';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { AdminModule } from '../src/admin/admin.module';
@@ -628,19 +628,29 @@ describe('one question at a time, and what it costs', () => {
     ).toHaveLength(0);
   });
 
-  it('keeps the bill when the user’s conversation is gone: the usage row has no conversation key yet, so it cannot be cascaded', async () => {
+  it('keeps the bill when a conversation is erased: the usage row loses its conversation and stays', async () => {
     const s = await t.signIn();
-    const o = await usage.begin(
-      s.id,
-      MODEL,
-      '0198a0a0-0000-7000-8000-000000000001',
+    const [{ id: conversationId }] = await q(
+      `INSERT INTO kurz_conversation ("userId", "topicKey", lang) VALUES ($1, 'concept-read:test', 'en') RETURNING id`,
+      [s.id],
     );
+    const o = await usage.begin(s.id, MODEL, conversationId as string);
     await usage.finish(o.id, 'ok', asUsage, o.price, null);
-    expect(
-      (
-        await q(`SELECT "conversationId" FROM ai_usage WHERE id = $1`, [o.id])
-      )[0].conversationId,
-    ).toBe('0198a0a0-0000-7000-8000-000000000001');
+    const row = () =>
+      q(`SELECT "conversationId", credits FROM ai_usage WHERE id = $1`, [o.id]);
+    expect((await row())[0].conversationId).toBe(conversationId);
+    await q(`DELETE FROM kurz_conversation WHERE id = $1`, [conversationId]);
+    const [after] = await row();
+    expect(after.conversationId).toBeNull();
+    expect(after.credits).toBeGreaterThan(0);
+    expect(await credits.balance(s.id)).toBe(-after.credits);
+  });
+
+  it('refuses a conversation that does not exist, instead of billing something nobody can find', async () => {
+    const s = await t.signIn();
+    await expect(
+      usage.begin(s.id, MODEL, '0198a0a0-0000-7000-8000-000000000001'),
+    ).rejects.toMatchObject({ code: '23503' });
   });
 });
 

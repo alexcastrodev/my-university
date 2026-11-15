@@ -55,6 +55,14 @@ services:
       - S3_FORCE_PATH_STYLE=true
       - S3_ACCESS_KEY
       - S3_SECRET_KEY
+      # The Kurz (#317), the assistant of the posts. Off until KURZ_ENABLED=1 is in the host .env, and off again by
+      # removing it. GOOGLE_GEMINI_API_KEY is the key of a paid-plan project made for the Kurz alone (never the
+      # free plan, which lets Google train on what students write; see docs/kurz-security.md). The two budgets are
+      # in US$ and stop every student once spent; they default to 2 a day and 20 a month.
+      - KURZ_ENABLED
+      - GOOGLE_GEMINI_API_KEY
+      - KURZ_PLATFORM_BUDGET_DAILY_USD
+      - KURZ_PLATFORM_BUDGET_MONTHLY_USD
       # Error and performance reporting (Sentry project kutz/university-api). A DSN is not a
       # secret, it only lets clients send events; set here, and nowhere else, so only production reports.
       - SENTRY_DSN=https://ead6bcc0a9533ee44b1aabcf93268f8d@o4509399654989824.ingest.us.sentry.io/4512158423187456

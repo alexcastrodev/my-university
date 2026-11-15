@@ -34,6 +34,12 @@ services:
       - S3_FORCE_PATH_STYLE=true
       - S3_ACCESS_KEY=${S3_ACCESS_KEY:-localdev}
       - S3_SECRET_KEY=${S3_SECRET_KEY:-localdev-secret}
+      # The Kurz (#317) is on here, but answers with the stand-in model, so the route specs and the e2e suite spend
+      # nothing. Set KURZ_FAKE_MODEL= (empty) and GOOGLE_GEMINI_API_KEY in the host .env to try the real one: it is
+      # a paid API. KURZ_FAKE_MODEL is refused when NODE_ENV=production.
+      - KURZ_ENABLED=1
+      - KURZ_FAKE_MODEL=${KURZ_FAKE_MODEL-1}
+      - GOOGLE_GEMINI_API_KEY
     depends_on:
       - meilisearch
       - postgres
