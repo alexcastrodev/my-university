@@ -218,7 +218,7 @@ test.describe('Kurz, on a phone', () => {
 });
 
 test.describe('Kurz, in the settings and the privacy notice', () => {
-  test('shows the credits and limits, and erases the conversations in two steps', async ({ page }) => {
+  test('shows the credits and limits, and asks in a dialog before erasing the conversations', async ({ page }) => {
     const kurz = new KurzPage(page);
     await signIn(page);
     await kurz.mock({});
@@ -228,8 +228,9 @@ test.describe('Kurz, in the settings and the privacy notice', () => {
     await expect(page.getByTestId('kurz-platform')).toContainText('12%');
     const erase = page.getByTestId('kurz-erase');
     await erase.click();
-    expect(kurz.requests.some((r) => r.method === 'DELETE')).toBe(false); // the first click only asks
-    await erase.click();
+    await expect(page.getByTestId('confirm-dialog')).toBeVisible();
+    expect(kurz.requests.some((r) => r.method === 'DELETE')).toBe(false); // the button only asks
+    await page.getByTestId('confirm-dialog-confirm').click();
     await expect(page.getByText('Erased 3 conversations.')).toBeVisible();
   });
 
@@ -237,5 +238,6 @@ test.describe('Kurz, in the settings and the privacy notice', () => {
     await page.goto('/privacy');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Privacy notice');
     await expect(page.getByText('Version 1')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Settings' }).locator('..')).toContainText('whenever you want, in Settings.'); // the space before the link survives
   });
 });

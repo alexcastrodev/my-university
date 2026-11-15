@@ -121,19 +121,26 @@
             <p class="hint" i18n="@@kurz.settings.budgetHint">The platform budget is shared by every student. When it is spent, nobody can ask until it comes back, even with credits.</p>
           }
         }
-        <p class="hint" i18n="@@kurz.settings.eraseHint">Your conversations with the Kurz are private and kept for 90 days after the last message. You can erase them all now. Reports you sent stay, without your name.</p>
-        <div class="actions">
-          <button type="button" class="btn secondary-btn" data-testid="kurz-erase" [disabled]="kurzErase() === 'busy'" (click)="eraseConversations()">
-            @if (kurzErase() === 'confirm') { <ng-container i18n="@@kurz.settings.eraseConfirm">Confirm: erase everything</ng-container> } @else { <ng-container i18n="@@kurz.settings.erase">Erase my conversations with the Kurz</ng-container> }
-          </button>
-          @if (kurzErase() === 'confirm') {
-            <button type="button" class="btn secondary-btn" (click)="kurzErase.set('idle')" i18n="@@kurz.cancel">Cancel</button>
+        <section class="kurz-privacy" aria-labelledby="kurz-privacy-title">
+          <h3 id="kurz-privacy-title" class="subsection-title" i18n="@@kurz.settings.privacyTitle">Your conversations</h3>
+          <p class="hint" i18n="@@kurz.settings.eraseHint">Your conversations with the Kurz are private and kept for 90 days after the last message. You can erase them all now. Reports you sent stay, without your name.</p>
+          <div class="actions">
+            <button type="button" class="btn secondary-btn" data-testid="kurz-erase" [disabled]="kurzBusy()" (click)="askErase()" i18n="@@kurz.settings.erase">Erase my conversations with the Kurz</button>
+          </div>
+          @if (kurzMessage(); as msg) {
+            <p class="feedback" [class.error]="msg.kind === 'error'" role="status">{{ msg.text }}</p>
           }
-        </div>
-        @if (kurzMessage(); as msg) {
-          <p class="feedback" [class.error]="msg.kind === 'error'">{{ msg.text }}</p>
-        }
-        <p class="hint"><a routerLink="/privacy" i18n="@@kurz.settings.privacy">Privacy notice</a></p>
+          <p class="privacy-link"><a routerLink="/privacy" i18n="@@kurz.settings.privacy">Privacy notice</a></p>
+        </section>
+        <app-confirm-dialog
+          [open]="kurzEraseOpen()"
+          [heading]="eraseDialog.heading"
+          [message]="eraseDialog.message"
+          [confirmLabel]="eraseDialog.confirm"
+          [cancelLabel]="eraseDialog.cancel"
+          (confirmed)="eraseConversations()"
+          (cancelled)="kurzEraseOpen.set(false)"
+        />
       </div>
     } @else {
       <div class="login-prompt">
