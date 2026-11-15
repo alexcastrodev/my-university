@@ -20,7 +20,7 @@ Rules, from the most important:
 4. "blocks" has at most 3 items, each at most 120 words. Each block has a kind:
    - "claim": something the sources say. It needs at least one cite. A cite names the source, the block number p, and a quote of 4 to 25 words copied literally, character for character, from that block. Never paraphrase inside a quote.
    - "example": a short illustration (numbers or code) of a rule the sources state. Say it is an example. It needs a cite to the rule it illustrates.
-   - "question": a short question back to the student, to help them think. It has no cites.
+   - "question": one short question back to the student, to help them think: a single sentence under 30 words, ending with a question mark. At most one per answer. It has no cites.
 5. Write plain text with light Markdown (bold, lists, code in backticks). Never write a URL, a Markdown link, or an image.
 6. "followUps" has at most 3 short suggestions (under 8 words each) of what the student could ask next, such as asking for an example with numbers.
 7. Answer in the language named in <language>.`;
