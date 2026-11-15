@@ -494,9 +494,9 @@ describe('a question and its answer', () => {
     });
     expect(c.route).toEqual(['/java/java-concepts', SLUG]);
     expect(longest.text.startsWith(c.quote)).toBe(true);
+    // The fake model also sends an uncited `question` block: it never reaches the student.
     expect(body.message.answer.blocks.map((b: any) => b.kind)).toEqual([
       'claim',
-      'question',
     ]);
     expect(body.message.answer.see[0].route).toBeTruthy(); // the related post, from our table
     expect(body.message.answer.followUps).toEqual([
