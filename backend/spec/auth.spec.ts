@@ -41,14 +41,17 @@ describe('GET /auth/me', () => {
     expect(body.id).toBe(id);
   });
 
-  it('returns 401 when no session cookie is present', async () => {
+  // A visitor is not an error: since #315 the app calls /me on every load, and a 401 there was console noise.
+  it('returns 200 with null when no session cookie is present', async () => {
     const res = await get('/auth/me');
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(200);
+    expect(await json<unknown>(res)).toBeNull();
   });
 
-  it('returns 401 for an invalid / forged session cookie', async () => {
+  it('returns 200 with null for an invalid / forged session cookie', async () => {
     const res = await get('/auth/me', { Cookie: 'uid=999999' });
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(200);
+    expect(await json<unknown>(res)).toBeNull();
   });
 });
 
