@@ -121,10 +121,6 @@
   border-left: 2px solid var(--mu-accent-border);
 }
 
-.block.ask {
-  font-style: italic;
-}
-
 .tag {
   display: block;
   margin-bottom: 0.15rem;
@@ -421,6 +417,16 @@
   border-radius: 10px;
   background: var(--mu-surface);
   box-shadow: 0 6px 20px rgba(15, 23, 42, 0.15);
+}
+
+.menu-note {
+  margin: 0 0 0.35rem;
+  padding: 0.35rem 0.6rem 0.45rem;
+  max-width: 16rem;
+  border-bottom: 1px solid var(--mu-border);
+  color: var(--mu-muted);
+  font-size: 0.75rem;
+  line-height: 1.35;
 }
 
 .menu button {

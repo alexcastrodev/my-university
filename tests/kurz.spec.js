@@ -172,6 +172,9 @@ test.describe('Kurz, on a computer', () => {
     await kurz.openParagraph(0);
     await kurz.input.fill('Why does it matter?');
     await kurz.openIn.click();
+    // Before anything leaves, the menu says where it goes.
+    await expect(page.getByTestId('kurz-open-in-note')).toContainText('outside University');
+    await expect(page.getByRole('menu')).toHaveAccessibleDescription(/outside University/);
     const popup = context.waitForEvent('page');
     await page.getByRole('menuitem', { name: 'Claude' }).click();
     const opened = await popup;

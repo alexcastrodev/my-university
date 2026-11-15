@@ -1,7 +1,11 @@
 import { normalizeForMatch } from '../discussion/discussion.logic';
 import type { KurzSource } from './kurz-sources';
 
-export type KurzBlockKind = 'claim' | 'example' | 'question';
+/**
+ * Every block the student sees cites the post. There is no uncited kind (a `question` back to the student was
+ * dropped): text the model writes with nothing to check it against never reaches the student.
+ */
+export type KurzBlockKind = 'claim' | 'example';
 
 /** A citation as the student sees it: the number is ours, and the route and the section come from our sources. */
 export interface KurzCitation {
@@ -59,12 +63,6 @@ export const MIN_QUOTE_CHARS = 8;
 export const MAX_FOLLOW_UPS = 3;
 export const MAX_FOLLOW_UP_CHARS = 80;
 export const MAX_SEE = 3;
-/**
- * A `question` block has no citation to check, so it is the one place where text the model wrote freely reaches
- * the student (and, through "Partilhar na discussão", the public discussion). It is kept to what it is for: one short
- * question, on one line, ending in a question mark.
- */
-export const MAX_QUESTION_BLOCK_CHARS = 200;
 
 const REFUSED: KurzAnswer = {
   answerable: false,
@@ -137,19 +135,11 @@ export function validateAnswer(
     const kind = raw.kind;
     const text = typeof raw.text === 'string' ? stripLinks(raw.text) : '';
     if (
-      (kind !== 'claim' && kind !== 'example' && kind !== 'question') ||
+      (kind !== 'claim' && kind !== 'example') ||
       text === '' ||
       text.length > MAX_BLOCK_TEXT_CHARS
     ) {
       dropped++;
-      continue;
-    }
-    if (kind === 'question') {
-      if (!isShortQuestion(text) || blocks.some((b) => b.kind === 'question')) {
-        dropped++;
-        continue;
-      }
-      blocks.push({ kind, text: text.trim(), cites: [] });
       continue;
     }
     const cites: number[] = [];
@@ -184,7 +174,7 @@ export function validateAnswer(
     blocks.push({ kind, text, cites });
   }
 
-  if (!blocks.some((b) => b.kind !== 'question')) return unverified(dropped);
+  if (blocks.length === 0) return unverified(dropped);
 
   const followUps = (Array.isArray(parsed.followUps) ? parsed.followUps : [])
     .filter(
@@ -202,17 +192,6 @@ export function validateAnswer(
     outcome: 'answered',
     dropped,
   };
-}
-
-/** One question, not a paragraph that happens to end in "?": short, a single line, and a question mark at the end. */
-function isShortQuestion(text: string): boolean {
-  const t = text.trim();
-  return (
-    t.length <= MAX_QUESTION_BLOCK_CHARS &&
-    !/[\r\n]/.test(t) &&
-    /[?？]$/.test(t) &&
-    (t.match(/[?？]/g) ?? []).length <= 2
-  );
 }
 
 function checkCite(

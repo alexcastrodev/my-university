@@ -627,14 +627,10 @@ export class KurzService implements OnApplicationBootstrap, OnModuleDestroy {
 /** The text published for an exchange. `@` is broken after: an answer about annotations must not notify a user. */
 export function shareBody(question: string, answer: KurzAnswer): string {
   const label = 'Resposta do Kurz (IA)';
-  // Only the cited blocks: a `question` block is the one text the model wrote with nothing to check it against,
-  // so it stays in the student's private conversation and never reaches the public discussion.
-  const cited = answer.blocks.filter((b) => b.kind !== 'question');
-  const text =
-    `${question}\n\n${label}:\n${plain({ ...answer, blocks: cited })}`.replace(
-      /@(?=\w)/g,
-      '@​',
-    );
+  const text = `${question}\n\n${label}:\n${plain(answer)}`.replace(
+    /@(?=\w)/g,
+    '@​',
+  );
   return text.length <= MAX_BODY_LENGTH
     ? text
     : `${text.slice(0, MAX_BODY_LENGTH - 1)}…`;
