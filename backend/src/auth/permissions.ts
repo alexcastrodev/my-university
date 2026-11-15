@@ -18,3 +18,12 @@ export type Permission = (typeof PERMISSIONS)[number];
 export const isPermission = (value: unknown): value is Permission =>
   typeof value === 'string' &&
   (PERMISSIONS as readonly string[]).includes(value);
+
+/**
+ * Nobody hands out, or takes away, what they do not hold themselves: the rule that keeps a person with
+ * `roles.manage` from making a role, or giving one, that is worth more than their own.
+ */
+export const holdsAll = (
+  held: readonly string[],
+  needed: readonly string[],
+): boolean => needed.every((p) => held.includes(p));

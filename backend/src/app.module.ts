@@ -5,6 +5,7 @@ import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
@@ -106,6 +107,7 @@ import { XpModule } from './xp/xp.module';
       synchronize: false,
     }),
     AuthModule,
+    AdminModule,
     CourseNestModule,
     JavaMinuteModule,
     CSharpMinuteModule,

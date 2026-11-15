@@ -14,7 +14,8 @@ import { Permission } from './permissions';
 import { PermissionsService } from './permissions.service';
 import { discardSession, readSession } from './session';
 
-const PERMISSION_KEY = 'requiredPermission';
+/** Metadata key of `@RequirePermission`; a spec reads it to check that every admin route declares one. */
+export const PERMISSION_KEY = 'requiredPermission';
 
 /**
  * Runs on every request (registered once as `APP_GUARD`): a session cookie whose epoch is not the user's
