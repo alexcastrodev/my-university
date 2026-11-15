@@ -24,6 +24,7 @@ test.describe('Kurz, on a computer', () => {
     const buttons = kurz.menu.getByRole('button');
     await expect(buttons.first()).toHaveAttribute('data-testid', 'ask-kurz');
     await expect(kurz.menu.getByRole('group', { name: 'Open in' }).getByRole('button')).toHaveCount(3);
+    await expect(kurz.menu.getByRole('group', { name: 'Open in' })).toHaveAccessibleDescription(/outside University/);
   });
 
   test('asks the Kurz about a selection and reads an answer whose citation scrolls to the passage', async ({ page }) => {
