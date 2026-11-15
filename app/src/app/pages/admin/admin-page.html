@@ -1,0 +1,72 @@
+<div class="page">
+  <div class="page-body">
+    <h1 class="page-title" i18n="@@admin.title">Admin</h1>
+
+    @if (!auth.currentUser()) {
+      <div class="card">
+        <p class="empty" i18n="@@admin.signIn">Sign in to continue.</p>
+        <div class="actions">
+          <a class="btn primary" routerLink="/login" i18n="@@header.signIn">Sign in</a>
+        </div>
+      </div>
+    } @else if (!allowed()) {
+      <div class="card" data-testid="admin-denied">
+        <p class="empty" i18n="@@admin.denied">Your account has no access to this area.</p>
+      </div>
+    } @else {
+      @if (budget(); as b) {
+        <div class="card" data-testid="admin-budget">
+          <h2 i18n="@@admin.budget.title">Platform budget</h2>
+          <div class="budget">
+            <span>
+              <ng-container i18n="@@admin.budget.day">Today:</ng-container>
+              <b [class.high]="percent(b.day.spentUsd, b.day.budgetUsd) >= 80"
+                >{{ usd(b.day.spentUsd) }} / {{ usd(b.day.budgetUsd) }} ({{
+                  percent(b.day.spentUsd, b.day.budgetUsd)
+                }}%)</b
+              >
+            </span>
+            <span>
+              <ng-container i18n="@@admin.budget.month">This month:</ng-container>
+              <b [class.high]="percent(b.month.spentUsd, b.month.budgetUsd) >= 80"
+                >{{ usd(b.month.spentUsd) }} / {{ usd(b.month.budgetUsd) }} ({{
+                  percent(b.month.spentUsd, b.month.budgetUsd)
+                }}%)</b
+              >
+            </span>
+          </div>
+        </div>
+      }
+
+      <div class="tabs" role="tablist">
+        @for (t of tabs(); track t.id) {
+          <button
+            type="button"
+            role="tab"
+            class="tab"
+            [attr.data-testid]="'admin-tab-' + t.id"
+            [attr.aria-selected]="current() === t.id"
+            (click)="choose(t.id)"
+          >
+            {{ t.label }}
+          </button>
+        }
+      </div>
+
+      @switch (current()) {
+        @case ('users') {
+          <app-admin-users />
+        }
+        @case ('roles') {
+          <app-admin-roles />
+        }
+        @case ('reports') {
+          <app-admin-reports />
+        }
+        @case ('audit') {
+          <app-admin-audit />
+        }
+      }
+    }
+  </div>
+</div>

@@ -13,4 +13,6 @@ export interface User {
   publicProfileId?: string;
   /** The vanity part of the public link the user chose; null or absent means only the id link exists. */
   profileSlug?: string | null;
+  /** What the account may do (#322), from `/auth/me`. Only to hide what it cannot use: the server checks again. */
+  permissions?: string[];
 }

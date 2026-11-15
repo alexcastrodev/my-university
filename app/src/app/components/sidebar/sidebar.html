@@ -231,6 +231,9 @@
           <div class="menu" role="menu">
             <a routerLink="/profile" class="menu-item" role="menuitem" (click)="userMenuOpen.set(false)" i18n="@@header.userMenu.profile">Profile</a>
             <a routerLink="/settings" class="menu-item" role="menuitem" (click)="userMenuOpen.set(false)" i18n="@@header.userMenu.settings">Settings</a>
+            @if (auth.can('admin.access')) {
+              <a routerLink="/admin" class="menu-item" role="menuitem" data-testid="menu-admin" (click)="userMenuOpen.set(false)" i18n="@@header.userMenu.admin">Admin</a>
+            }
             <button type="button" class="menu-item" role="menuitem" (click)="logout()" i18n="@@header.userMenu.logout">Logout</button>
           </div>
         }

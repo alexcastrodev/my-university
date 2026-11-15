@@ -22,6 +22,9 @@
           <a class="link-row" routerLink="/profile" i18n="@@header.userMenu.profile">Profile</a>
           <a class="link-row" routerLink="/notifications" i18n="@@header.nav.notifications">Notifications</a>
           <a class="link-row" routerLink="/leaderboard" i18n="@@header.nav.leaderboard">Leaderboard</a>
+          @if (auth.can('admin.access')) {
+            <a class="link-row" routerLink="/admin" data-testid="settings-admin" i18n="@@header.userMenu.admin">Admin</a>
+          }
           <button type="button" class="link-row logout" (click)="logout()" i18n="@@header.userMenu.logout">Logout</button>
         </nav>
       </div>
