@@ -1,0 +1,116 @@
+{
+  "_about": "Real responses of the Gemini Interactions API (POST /v1beta/interactions, store false), recorded 2026-11-14 from calls with generic text. Only the model, status and usage are kept: no text, no signature, no key. Used to anchor the cost formula to what the API really reports.",
+  "usage": [
+    {
+      "what": "short answer, no thinking",
+      "model": "gemini-3.5-flash-lite",
+      "status": "completed",
+      "usage": {
+        "total_tokens": 66,
+        "total_input_tokens": 21,
+        "total_cached_tokens": 0,
+        "total_output_tokens": 45,
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 0
+      }
+    },
+    {
+      "what": "thinking_level high: the thinking tokens are reported apart from the output",
+      "model": "gemini-3.5-flash-lite",
+      "status": "completed",
+      "usage": {
+        "total_tokens": 1387,
+        "total_input_tokens": 31,
+        "total_cached_tokens": 0,
+        "total_output_tokens": 507,
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 849
+      }
+    },
+    {
+      "what": "max_output_tokens too low: status incomplete, still billed",
+      "model": "gemini-3.5-flash-lite",
+      "status": "incomplete",
+      "usage": {
+        "total_tokens": 30,
+        "total_input_tokens": 14,
+        "total_cached_tokens": 0,
+        "total_output_tokens": 16,
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 0
+      }
+    },
+    {
+      "what": "structured JSON output with citations",
+      "model": "gemini-3.5-flash-lite",
+      "status": "completed",
+      "usage": {
+        "total_tokens": 295,
+        "total_input_tokens": 156,
+        "total_cached_tokens": 0,
+        "total_output_tokens": 139,
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 0
+      }
+    },
+    {
+      "what": "6.8k token prefix, 3.5 flash-lite, no implicit cache hit",
+      "model": "gemini-3.5-flash-lite",
+      "status": "completed",
+      "usage": {
+        "total_tokens": 6838,
+        "total_input_tokens": 6791,
+        "total_cached_tokens": 0,
+        "total_output_tokens": 47,
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 0
+      }
+    },
+    {
+      "what": "same prefix on 3.1 flash-lite, no implicit cache hit",
+      "model": "gemini-3.1-flash-lite",
+      "status": "completed",
+      "usage": {
+        "total_tokens": 6860,
+        "total_input_tokens": 6791,
+        "total_cached_tokens": 0,
+        "total_output_tokens": 69,
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 0
+      }
+    },
+    {
+      "what": "4 hydrogen thinks by default and used the whole max_output_tokens thinking: incomplete",
+      "model": "gemini-4-hydrogen",
+      "status": "incomplete",
+      "usage": {
+        "total_tokens": 6868,
+        "total_input_tokens": 6748,
+        "total_cached_tokens": 0,
+        "total_output_tokens": 3,
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 117
+      }
+    }
+  ],
+  "errors": [
+    {
+      "http": 400,
+      "body": {
+        "error": {
+          "message": "Unknown parameter 'campo_inexistente'.",
+          "code": "invalid_request"
+        }
+      }
+    },
+    {
+      "http": 503,
+      "body": {
+        "error": {
+          "message": "gemini-3.8-flash is currently experiencing high demand, spikes in demand are usually temporary. Please try again later.",
+          "code": "service_unavailable"
+        }
+      }
+    }
+  ]
+}
