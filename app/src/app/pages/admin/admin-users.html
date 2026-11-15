@@ -1,0 +1,237 @@
+<div class="stack" data-testid="admin-users">
+  <div class="card">
+    <h2 i18n="@@admin.users.title">Users</h2>
+    <form class="bar" (submit)="$event.preventDefault(); search(q.value)">
+      <input
+        #q
+        type="search"
+        class="input grow"
+        data-testid="admin-user-search"
+        i18n-aria-label="@@admin.users.searchLabel"
+        aria-label="Search by name or GitHub login"
+        i18n-placeholder="@@admin.users.searchLabel"
+        placeholder="Search by name or GitHub login"
+        [value]="query()"
+      />
+      <button
+        type="submit"
+        class="btn primary"
+        data-testid="admin-user-search-go"
+        i18n="@@admin.users.search"
+      >
+        Search
+      </button>
+    </form>
+    @if (notice(); as n) {
+      <p class="feedback" [class.error]="n.kind === 'error'" data-testid="admin-notice">
+        {{ n.text }}
+      </p>
+    }
+
+    @if (data(); as d) {
+      <ul class="rows">
+        @for (u of d.items; track u.id) {
+          <li>
+            <button
+              type="button"
+              class="row"
+              data-testid="admin-user"
+              [class.on]="selected()?.id === u.id"
+              (click)="open(u)"
+            >
+              @if (u.avatarUrl) {
+                <img [src]="u.avatarUrl" alt="" />
+              } @else {
+                <span class="ph"></span>
+              }
+              <span class="who"
+                ><b>{{ u.displayName }}</b
+                ><small>&#64;{{ u.githubLogin }}</small></span
+              >
+              <span class="chips">
+                @for (r of u.roles; track r.id) {
+                  <span class="chip">{{ r.name }}</span>
+                }
+              </span>
+              <span class="num" i18n-title="@@admin.users.balance" title="Credits">{{
+                u.balance
+              }}</span>
+            </button>
+          </li>
+        } @empty {
+          <li><p class="empty" i18n="@@admin.users.empty">Nobody found.</p></li>
+        }
+      </ul>
+      @if (pages() > 1) {
+        <div class="pager">
+          <button
+            type="button"
+            class="btn"
+            [disabled]="page() === 1"
+            (click)="go(-1)"
+            i18n="@@admin.prev"
+          >
+            Previous
+          </button>
+          <span i18n="@@admin.pageOf">Page {{ page() }} of {{ pages() }}</span>
+          <button
+            type="button"
+            class="btn"
+            [disabled]="page() === pages()"
+            (click)="go(1)"
+            i18n="@@admin.next"
+          >
+            Next
+          </button>
+        </div>
+      }
+    }
+  </div>
+
+  @if (selected(); as user) {
+    <div class="card" data-testid="admin-user-detail">
+      <h2>
+        {{ user.displayName }} <small>&#64;{{ user.githubLogin }}</small>
+      </h2>
+
+      <h3 i18n="@@admin.users.roles">Roles</h3>
+      <div class="checks">
+        @for (r of roles(); track r.id) {
+          <label
+            ><input
+              #rc
+              type="checkbox"
+              [attr.data-testid]="'admin-user-role-' + r.name"
+              [disabled]="!canRoles()"
+              [checked]="chosenRoles().includes(r.id)"
+              (change)="toggleRole(r.id, rc.checked)"
+            />
+            {{ r.name }}</label
+          >
+        }
+      </div>
+      @if (canRoles()) {
+        <div class="actions">
+          <button
+            type="button"
+            class="btn primary"
+            data-testid="admin-user-roles-save"
+            [disabled]="!rolesChanged() || busy()"
+            (click)="saveRoles()"
+            i18n="@@admin.users.saveRoles"
+          >
+            Save roles
+          </button>
+        </div>
+      }
+
+      <h3 i18n="@@admin.users.credits">Credits</h3>
+      @if (credits(); as c) {
+        <p data-testid="admin-user-balance">
+          <b>{{ c.balance }}</b>
+          <small class="lead" i18n="@@admin.users.balanceNow">available</small>
+        </p>
+        @if (canGrant() && isSelf()) {
+          <p class="hint" data-testid="admin-grant-self" i18n="@@admin.users.self">
+            You cannot grant credits to your own account. Ask another admin.
+          </p>
+        } @else if (canGrant()) {
+          <form
+            class="bar"
+            data-testid="admin-grant-form"
+            (submit)="$event.preventDefault(); grant()"
+          >
+            <label class="field"
+              ><span i18n="@@admin.users.amount">Credits</span>
+              <input
+                #amt
+                class="input"
+                type="number"
+                min="1"
+                max="1000000"
+                data-testid="admin-grant-amount"
+                [value]="amount() || ''"
+                (input)="amount.set(amt.valueAsNumber)"
+            /></label>
+            <label class="field grow"
+              ><span i18n="@@admin.users.reason">Reason (kept in the audit trail)</span>
+              <input
+                #rsn
+                class="input"
+                maxlength="200"
+                data-testid="admin-grant-reason"
+                [value]="reason()"
+                (input)="reason.set(rsn.value)"
+            /></label>
+            <button
+              type="submit"
+              class="btn primary"
+              data-testid="admin-grant-submit"
+              [disabled]="!grantValid() || busy()"
+              i18n="@@admin.users.grant"
+            >
+              Grant
+            </button>
+          </form>
+        }
+
+        <h3 i18n="@@admin.users.history">Grants</h3>
+        @for (g of c.grants; track g.id) {
+          <div class="line" data-testid="admin-grant">
+            <b [class.neg]="g.amount < 0">{{ g.amount > 0 ? '+' : '' }}{{ g.amount }}</b>
+            <span>{{ kind(g.kind) }}</span>
+            <span class="grow"
+              >{{ g.reason }}
+              <small>{{ g.grantedByLogin ?? '' }} · {{ when(g.createdAt) }}</small></span
+            >
+            @if (reversed().has(g.id)) {
+              <small i18n="@@admin.users.reversed">reversed</small>
+            }
+            @if (canReverse() && canBeReversed(g)) {
+              <button
+                type="button"
+                class="btn danger"
+                data-testid="admin-grant-reverse"
+                [disabled]="busy()"
+                (click)="reverse(g)"
+              >
+                @if (reversing() === g.id) {
+                  <ng-container i18n="@@admin.users.confirmReverse">Confirm reversal</ng-container>
+                } @else {
+                  <ng-container i18n="@@admin.users.reverse">Reverse</ng-container>
+                }
+              </button>
+            }
+          </div>
+          @if (reversing() === g.id) {
+            <label class="field"
+              ><span i18n="@@admin.users.reverseReason">Why is it being reversed?</span>
+              <input
+                #rr
+                class="input"
+                maxlength="200"
+                data-testid="admin-reverse-reason"
+                [value]="reverseReason()"
+                (input)="reverseReason.set(rr.value)"
+            /></label>
+          }
+        } @empty {
+          <p class="empty" i18n="@@admin.users.noGrants">No credits yet.</p>
+        }
+
+        <h3 i18n="@@admin.users.usage">Use of the Kurz</h3>
+        @for (u of c.usage; track u.day) {
+          <div class="line" data-testid="admin-usage">
+            <span>{{ u.day }}</span>
+            <span i18n="@@admin.users.usageRow"
+              >{{ u.questions }} questions, {{ u.credits }} credits</span
+            >
+            <small>{{ usd(u.costUsd) }}</small>
+          </div>
+        } @empty {
+          <p class="empty" i18n="@@admin.users.noUsage">No questions yet.</p>
+        }
+      }
+    </div>
+  }
+</div>

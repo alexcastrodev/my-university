@@ -30,6 +30,7 @@ describe('SettingsPage', () => {
     logout = jasmine.createSpy('logout');
     const authStub = {
       currentUser: signal(user),
+      can: (permission: string) => user?.permissions?.includes(permission) ?? false,
       updateDisplayName: updateDisplayName ?? ((name: string | null) => of(makeUser({ displayName: name || 'Ana' }))),
       logout,
       updateProfilePublic: updateProfilePublic ?? ((value: boolean) => of(makeUser({ profilePublic: value, publicProfileId: PROFILE_ID }))),
@@ -123,6 +124,15 @@ describe('SettingsPage', () => {
 
     (account.querySelector('.logout') as HTMLButtonElement).click();
     expect(logout).toHaveBeenCalled();
+  });
+
+  it('links the admin screen only for an account that holds admin.access', () => {
+    const links = (user: User) =>
+      Array.from(setup(user).nativeElement.querySelectorAll('.account a')).map((a) => (a as HTMLAnchorElement).getAttribute('href'));
+
+    expect(links(makeUser())).not.toContain('/admin');
+    TestBed.resetTestingModule();
+    expect(links(makeUser({ permissions: ['admin.access'] }))).toContain('/admin');
   });
 
   it('switches language, also without a session', () => {

@@ -1,0 +1,112 @@
+<div class="stack" data-testid="admin-reports">
+  <div class="card">
+    <h2 i18n="@@admin.reports.title">Kurz reports</h2>
+    <p class="hint" i18n="@@admin.reports.hint">
+      Answers a student marked as wrong. The report is a copy of the exchange, without the student's
+      name.
+    </p>
+    <div class="bar" role="group" i18n-aria-label="@@admin.reports.filter" aria-label="Status">
+      @for (f of filters(); track f.id) {
+        <button
+          type="button"
+          class="btn"
+          [class.primary]="filter() === f.id"
+          [attr.aria-pressed]="filter() === f.id"
+          [attr.data-testid]="'admin-reports-' + f.id"
+          (click)="setFilter(f.id)"
+        >
+          {{ f.label }}
+        </button>
+      }
+    </div>
+    @if (notice(); as n) {
+      <p class="feedback" [class.error]="n.kind === 'error'" data-testid="admin-notice">
+        {{ n.text }}
+      </p>
+    }
+  </div>
+
+  @for (r of reports(); track r.id) {
+    <article class="card" data-testid="admin-report">
+      <div class="meta">
+        <span>{{ when(r.createdAt) }}</span>
+        <span class="chip" data-testid="admin-report-status">{{ r.status }}</span>
+        <span>{{ r.lang }}</span>
+        <span>{{ r.model }}</span>
+        <span i18n="@@admin.reports.prompt">prompt v{{ r.promptVersion }}</span>
+        @if (r.postVersion) {
+          <span i18n="@@admin.reports.post">post v{{ r.postVersion }}</span>
+        }
+        @if (r.route) {
+          <a [routerLink]="r.route" data-testid="admin-report-post" i18n="@@admin.reports.open_post"
+            >Open the post</a
+          >
+        }
+      </div>
+      @if (r.selection) {
+        <h3 i18n="@@admin.reports.selection">Selected text</h3>
+        <p class="quote">{{ r.selection }}</p>
+      }
+      <h3 i18n="@@admin.reports.question">Question</h3>
+      <p class="quote">{{ r.question }}</p>
+      <h3 i18n="@@admin.reports.answer">Answer</h3>
+      <p class="quote">{{ answer(r) }}</p>
+      @if (r.note) {
+        <h3 i18n="@@admin.reports.note">Student's note</h3>
+        <p class="quote">{{ r.note }}</p>
+      }
+      <div class="actions">
+        @if (r.status !== 'reviewed') {
+          <button
+            type="button"
+            class="btn primary"
+            data-testid="admin-report-reviewed"
+            (click)="review(r, 'reviewed')"
+            i18n="@@admin.reports.markReviewed"
+          >
+            Mark as reviewed
+          </button>
+        }
+        @if (r.status !== 'dismissed') {
+          <button
+            type="button"
+            class="btn"
+            data-testid="admin-report-dismiss"
+            (click)="review(r, 'dismissed')"
+            i18n="@@admin.reports.dismiss"
+          >
+            Dismiss
+          </button>
+        }
+      </div>
+    </article>
+  } @empty {
+    @if (reports()) {
+      <p class="empty" i18n="@@admin.reports.empty">No reports here.</p>
+    }
+  }
+
+  @if (page() > 1 || (reports()?.length ?? 0) === 25) {
+    <div class="pager">
+      <button
+        type="button"
+        class="btn"
+        [disabled]="page() === 1"
+        (click)="go(-1)"
+        i18n="@@admin.prev"
+      >
+        Previous
+      </button>
+      <span i18n="@@admin.page">Page {{ page() }}</span>
+      <button
+        type="button"
+        class="btn"
+        [disabled]="(reports()?.length ?? 0) < 25"
+        (click)="go(1)"
+        i18n="@@admin.next"
+      >
+        Next
+      </button>
+    </div>
+  }
+</div>

@@ -1,0 +1,29 @@
+<div class="card" data-testid="admin-audit">
+  <h2 i18n="@@admin.audit.title">Audit trail</h2>
+  <p class="hint" i18n="@@admin.audit.hint">The latest 100 changes, newest first.</p>
+  @if (failed()) {
+    <p class="feedback error" i18n="@@admin.error.failed">Something went wrong. Try again.</p>
+  } @else if (events(); as list) {
+    @for (e of list; track e.id) {
+      <div class="line" data-testid="admin-audit-event">
+        <code>{{ e.action }}</code>
+        <span class="grow">
+          @if (e.actorLogin) {
+            <ng-container i18n="@@admin.audit.by">by</ng-container> {{ e.actorLogin }}
+          } @else {
+            <ng-container i18n="@@admin.audit.cli">from the command line</ng-container>
+          }
+          @if (e.targetLogin) {
+            <ng-container i18n="@@admin.audit.to">on</ng-container> {{ e.targetLogin }}
+          }
+          @if (detail(e); as d) {
+            <br /><small>{{ d }}</small>
+          }
+        </span>
+        <small>{{ when(e.createdAt) }}</small>
+      </div>
+    } @empty {
+      <p class="empty" i18n="@@admin.audit.empty">Nothing yet.</p>
+    }
+  }
+</div>

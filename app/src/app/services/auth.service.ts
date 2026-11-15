@@ -13,6 +13,11 @@ export class AuthService {
 
   currentUser = signal<User | null>(this.readStoredUser());
 
+  /** Whether the signed-in account holds the permission. Reads a signal, so it works inside `computed`. */
+  can(permission: string): boolean {
+    return this.currentUser()?.permissions?.includes(permission) ?? false;
+  }
+
   /** Client-only: resolves the current session against the server and syncs the cached user. */
   bootstrap(): void {
     if (typeof localStorage === 'undefined') return;
@@ -75,7 +80,13 @@ export class AuthService {
       .pipe(tap((user) => this.setUser(user)));
   }
 
-  private setUser(user: User): void {
+  private setUser(incoming: User): void {
+    // Only `/auth/me` carries `permissions`; the settings calls answer with the bare user, which must not drop them.
+    const current = this.currentUser();
+    const user =
+      incoming.permissions || current?.id !== incoming.id || !current.permissions
+        ? incoming
+        : { ...incoming, permissions: current.permissions };
     this.currentUser.set(user);
     if (typeof localStorage === 'undefined') return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(user));

@@ -1,0 +1,138 @@
+<div class="stack" data-testid="admin-roles">
+  <div class="card">
+    <h2 i18n="@@admin.roles.title">Roles</h2>
+    <p class="hint" i18n="@@admin.roles.hint">
+      A role is a set of permissions and the credits its users may spend in 24 hours. A person holds
+      the sum of their roles. Changing someone's roles ends their sessions.
+    </p>
+    @for (role of roles(); track role.id) {
+      <div class="line" data-testid="admin-role">
+        <b>{{ role.name }}</b>
+        @if (role.system) {
+          <span class="chip sys" i18n="@@admin.roles.system">system</span>
+        }
+        <span class="grow">
+          <span class="chips">
+            @for (p of role.permissions; track p) {
+              <span class="chip">{{ p }}</span>
+            }
+          </span>
+          <small i18n="@@admin.roles.summary"
+            >{{ role.users }} users, daily credit limit {{ role.aiDailyCreditLimit }}</small
+          >
+        </span>
+        @if (canManage() && !(role.system && role.name === 'admin')) {
+          <button
+            type="button"
+            class="btn"
+            data-testid="admin-role-edit"
+            (click)="edit(role)"
+            i18n="@@admin.edit"
+          >
+            Edit
+          </button>
+        }
+        @if (canManage() && !role.system) {
+          <button
+            type="button"
+            class="btn danger"
+            data-testid="admin-role-delete"
+            [disabled]="busy()"
+            (click)="remove(role)"
+          >
+            @if (confirmDelete() === role.id) {
+              <ng-container i18n="@@admin.roles.confirmDelete">Confirm: delete</ng-container>
+            } @else {
+              <ng-container i18n="@@admin.delete">Delete</ng-container>
+            }
+          </button>
+        }
+      </div>
+    }
+    @if (canManage()) {
+      <div class="actions">
+        <button
+          type="button"
+          class="btn primary"
+          data-testid="admin-role-new"
+          (click)="edit(null)"
+          i18n="@@admin.roles.new"
+        >
+          New role
+        </button>
+      </div>
+    }
+    @if (notice(); as n) {
+      <p class="feedback" [class.error]="n.kind === 'error'" data-testid="admin-notice">
+        {{ n.text }}
+      </p>
+    }
+  </div>
+
+  @if (draft(); as d) {
+    <form class="card" data-testid="admin-role-form" (submit)="$event.preventDefault(); save()">
+      <h2>
+        @if (d.id === null) {
+          <ng-container i18n="@@admin.roles.formNew">New role</ng-container>
+        } @else {
+          <ng-container i18n="@@admin.roles.formEdit">Edit {{ d.name }}</ng-container>
+        }
+      </h2>
+      @if (d.id === null) {
+        <label class="field">
+          <span i18n="@@admin.roles.name">Name</span>
+          <input
+            #name
+            class="input"
+            data-testid="admin-role-name"
+            maxlength="60"
+            [value]="d.name"
+            (input)="patch({ name: name.value })"
+          />
+        </label>
+      }
+      <h3 i18n="@@admin.roles.permissions">Permissions</h3>
+      <div class="checks">
+        @for (p of permissions; track p) {
+          <label
+            ><input
+              #c
+              type="checkbox"
+              [attr.data-testid]="'admin-perm-' + p"
+              [checked]="d.permissions.includes(p)"
+              (change)="toggle(p, c.checked)"
+            />
+            {{ p }}</label
+          >
+        }
+      </div>
+      <label class="field">
+        <span i18n="@@admin.roles.limit">Daily credit limit (0 means none)</span>
+        <input
+          #limit
+          class="input"
+          type="number"
+          min="0"
+          max="1000000"
+          data-testid="admin-role-limit"
+          [value]="d.limit"
+          (input)="patch({ limit: limit.valueAsNumber })"
+        />
+      </label>
+      <div class="actions">
+        <button
+          type="submit"
+          class="btn primary"
+          data-testid="admin-role-save"
+          [disabled]="!valid() || busy()"
+          i18n="@@admin.save"
+        >
+          Save
+        </button>
+        <button type="button" class="btn" (click)="draft.set(null)" i18n="@@admin.cancel">
+          Cancel
+        </button>
+      </div>
+    </form>
+  }
+</div>

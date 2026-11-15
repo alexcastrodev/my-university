@@ -278,6 +278,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    // Behind a permission and per account: nothing to server-render.
+    path: 'admin',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'leaderboard',
     renderMode: RenderMode.Client,
   },
