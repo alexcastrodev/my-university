@@ -28,14 +28,25 @@ export class AuthService {
       return this.repo.save(existing);
     }
 
-    return this.repo.save(
-      this.repo.create({
-        githubId,
-        githubLogin: profile.login,
-        displayName,
-        avatarUrl: profile.avatar_url,
-      }),
-    );
+    return this.createUser({ githubId, githubLogin: profile.login, displayName, avatarUrl: profile.avatar_url });
+  }
+
+  /** Every new user is a student, in the same transaction, so nobody exists for a moment without a role. */
+  private createUser(data: Pick<User, 'githubId' | 'githubLogin' | 'displayName' | 'avatarUrl'>): Promise<User> {
+    return this.repo.manager.transaction(async (m) => {
+      const user = await m.save(User, m.create(User, data));
+      await m.query(
+        `INSERT INTO user_role ("userId", "roleId") SELECT $1, id FROM role WHERE name = 'student' ON CONFLICT DO NOTHING`,
+        [user.id],
+      );
+      return user;
+    });
+  }
+
+  /** The epoch the session cookie of this user must carry (see `session.ts`). */
+  async sessionEpoch(userId: number): Promise<number> {
+    const rows: { sessionEpoch: number }[] = await this.repo.query(`SELECT "sessionEpoch" FROM "user" WHERE id = $1`, [userId]);
+    return rows[0]?.sessionEpoch ?? 0;
   }
 
   async findById(id: number): Promise<User> {
@@ -102,16 +113,23 @@ export class AuthService {
     return withEffectiveDisplayName(user);
   }
 
-  /** Test-only: creates a fresh user without going through the GitHub OAuth flow. */
-  async createTestUser(name: string): Promise<User> {
-    return this.repo.save(
-      this.repo.create({
-        githubId: `test-${name}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-        githubLogin: name,
-        displayName: name,
-        avatarUrl: 'https://avatars.githubusercontent.com/u/0',
-      }),
-    );
+  /** Test-only: creates a fresh user without going through the GitHub OAuth flow, optionally with one more role by name. */
+  async createTestUser(name: string, role?: string): Promise<User> {
+    const user = await this.createUser({
+      githubId: `test-${name}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      githubLogin: name,
+      displayName: name,
+      avatarUrl: 'https://avatars.githubusercontent.com/u/0',
+    });
+    if (role) {
+      const found: unknown[] = await this.repo.query(`SELECT 1 FROM role WHERE name = $1`, [role]);
+      if (found.length === 0) throw new BadRequestException(`no role named ${role}`);
+      await this.repo.query(
+        `INSERT INTO user_role ("userId", "roleId") SELECT $1, id FROM role WHERE name = $2 ON CONFLICT DO NOTHING`,
+        [user.id, role],
+      );
+    }
+    return user;
   }
 
   /** Test-only: deletes every user created via `createTestUser`, and their XP rows via cascade, so repeated spec runs don't pollute things like the leaderboard. */
@@ -129,13 +147,11 @@ export class AuthService {
     const existing = await this.repo.findOne({ where: { githubId } });
     if (existing) return existing;
 
-    return this.repo.save(
-      this.repo.create({
-        githubId,
-        githubLogin: 'dev',
-        displayName: 'Dev User',
-        avatarUrl: 'https://avatars.githubusercontent.com/u/0',
-      }),
-    );
+    return this.createUser({
+      githubId,
+      githubLogin: 'dev',
+      displayName: 'Dev User',
+      avatarUrl: 'https://avatars.githubusercontent.com/u/0',
+    });
   }
 }

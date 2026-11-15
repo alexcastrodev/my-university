@@ -45,9 +45,35 @@ function readSignedCookie(req: FastifyRequest, name: string): string | null {
   return unsigned.valid ? (unsigned.value ?? null) : null;
 }
 
-/** Issues the session cookie after a successful GitHub login. */
-export function setSession(reply: FastifyReply, userId: number): void {
-  setSignedCookie(reply, SESSION_COOKIE, String(userId), SESSION_MAX_AGE);
+/** What the session cookie says: who, and which `user.sessionEpoch` it was issued under. */
+export interface SessionValue {
+  userId: number;
+  epoch: number;
+}
+
+/**
+ * Reads `uid:epoch`. A cookie issued before sessions were revocable is just `uid` and counts as epoch 0,
+ * so nobody is signed out by the deploy that introduced the epoch.
+ */
+export function parseSessionValue(value: string): SessionValue | null {
+  const match = /^(\d+)(?::(\d+))?$/.exec(value);
+  if (!match) return null;
+  const userId = Number(match[1]);
+  const epoch = match[2] === undefined ? 0 : Number(match[2]);
+  return Number.isSafeInteger(userId) &&
+    userId > 0 &&
+    Number.isSafeInteger(epoch)
+    ? { userId, epoch }
+    : null;
+}
+
+/** Issues the session cookie after a successful GitHub login, under the user's current epoch. */
+export function setSession(
+  reply: FastifyReply,
+  userId: number,
+  epoch: number,
+): void {
+  setSignedCookie(reply, SESSION_COOKIE, `${userId}:${epoch}`, SESSION_MAX_AGE);
 }
 
 /** Clears the session cookie on logout. */
@@ -71,11 +97,19 @@ export function readOauthState(req: FastifyRequest): string | null {
 }
 
 /** Reads and verifies the signed session cookie. Returns null when absent or tampered with. */
-function readSessionUserId(req: FastifyRequest): number | null {
+export function readSession(req: FastifyRequest): SessionValue | null {
   const value = readSignedCookie(req, SESSION_COOKIE);
-  if (value === null) return null;
-  const id = Number(value);
-  return Number.isInteger(id) && id > 0 ? id : null;
+  return value === null ? null : parseSessionValue(value);
+}
+
+/** Drops a session the server no longer honours from this request, so `CurrentUserId` answers 401 and `OptionalUserId` null. */
+export function discardSession(req: FastifyRequest, reply: FastifyReply): void {
+  if (req.cookies) delete req.cookies[SESSION_COOKIE];
+  clearSession(reply);
+}
+
+function readSessionUserId(req: FastifyRequest): number | null {
+  return readSession(req)?.userId ?? null;
 }
 
 /** Injects the authenticated user id, throwing 401 when there is no valid session. */

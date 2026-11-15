@@ -1,14 +1,23 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { GithubOauthService } from './github-oauth.service';
+import { PermissionGuard, SessionEpochGuard } from './permission.guard';
+import { PermissionsService } from './permissions.service';
 import { User } from './user.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [AuthController],
-  providers: [AuthService, GithubOauthService],
-  exports: [AuthService],
+  providers: [
+    AuthService,
+    GithubOauthService,
+    PermissionsService,
+    PermissionGuard,
+    { provide: APP_GUARD, useClass: SessionEpochGuard },
+  ],
+  exports: [AuthService, PermissionsService, PermissionGuard],
 })
 export class AuthModule {}
