@@ -1251,6 +1251,20 @@ pre.dz-block .dz-marker {
 .dz-marker.is-empty {
   color: var(--mu-faint);
   border-color: var(--mu-line);
+  opacity: 0.55;
+}
+
+.dz-block:hover > .dz-marker.is-empty,
+.dz-marker.is-empty:hover,
+.dz-marker.is-empty:focus-visible {
+  opacity: 1;
+}
+
+/* Phones have no hover: a paragraph with nothing yet shows no marker (a tap on it still opens the panel). */
+@media (max-width: 768px) {
+  .dz-marker.is-empty {
+    display: none;
+  }
 }
 
 .dz-marker.is-active {

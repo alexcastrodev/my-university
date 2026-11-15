@@ -40,6 +40,36 @@
   padding: 0.25rem 0.7rem;
 }
 
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0 1.25rem;
+  border-bottom: 1px solid var(--mu-line);
+}
+
+.tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0 0.5rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--mu-muted);
+  cursor: pointer;
+}
+
+.tab[aria-selected='true'] {
+  color: var(--mu-accent);
+  border-bottom-color: var(--mu-accent);
+}
+
 .close {
   background: none;
   border: none;
@@ -336,6 +366,7 @@
     width: auto;
     max-width: none;
     height: 82vh;
+    height: 82dvh;
     z-index: 120;
     border-left: none;
     border-radius: 18px 18px 0 0;

@@ -91,10 +91,44 @@
   ><span></span></div>
 
   <header class="head">
-    <span class="chip" i18n="@@discussion.panelTitle">Paragraph discussion · {{ count() }}</span>
+    @if (hasDiscussion()) {
+      <span class="chip" i18n="@@kurz.panel.paragraph">Paragraph</span>
+    } @else {
+      <span class="chip" i18n="@@kurz.panel.post">Whole post</span>
+    }
     <button type="button" class="close" i18n-aria-label="@@discussion.close" aria-label="Close discussion" (click)="discussion.close()">✕</button>
   </header>
 
+  @if (hasDiscussion() && kurzAvailable()) {
+    <div class="tabs" role="tablist">
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        id="panel-tab-kurz"
+        data-testid="tab-kurz"
+        [attr.aria-selected]="activeTab() === 'kurz'"
+        (click)="setTab('kurz')"
+      >
+        <app-kurz-avatar [size]="18" />
+        <ng-container i18n="@@kurz.tab">Ask the Kurz</ng-container>
+      </button>
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        id="panel-tab-discussion"
+        data-testid="tab-discussion"
+        [attr.aria-selected]="activeTab() === 'discussion'"
+        (click)="setTab('discussion')"
+        i18n="@@kurz.discussionTab"
+      >Discussion · {{ discussionCount() }}</button>
+    </div>
+  }
+
+  @if (activeTab() === 'kurz') {
+    <app-kurz-tab />
+  } @else {
   <div class="scroll">
     <blockquote class="quote">“{{ quoteText() }}”</blockquote>
 
@@ -165,5 +199,6 @@
         }
       }
     </footer>
+  }
   }
 </aside>

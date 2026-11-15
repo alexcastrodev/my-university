@@ -14,25 +14,28 @@ import { isPlatformBrowser } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { isPhoneViewport } from '../shared/breakpoints';
+import { KurzService } from '../kurz/kurz.service';
+import { conversationCounts } from '../kurz/kurz-anchor';
 import { Block, collectBlocks, matchMarkers } from './block-anchor';
 import { DiscussionEntry, DiscussionPanel } from './discussion-panel';
-import { DiscussionService } from './discussion.service';
+import { BlockResolver, DiscussionService } from './discussion.service';
 
 /** Content that has its own click behavior; a click there must not open a discussion. */
 const INTERACTIVE =
   'a, button, summary, input, textarea, .deep-dive-trigger, .mermaid-diagram, .concept-viz';
 const RESCAN_DELAY_MS = 150;
 
-const FLAG_ICON =
-  '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3h2v18H5zM8 4h11l-3 4 3 4H8z"/></svg>';
+const BALLOON_ICON =
+  '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9.4l-4.1 3.7a.5.5 0 0 1-.8-.4V17H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/></svg>';
 const CHECK_ICON =
   '<svg class="dz-check" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>';
 
 /**
  * Bridges the concept page and the discussion feature. It finds the paragraphs inside the page
- * content (which arrives late and is replaced on navigation), draws a marker on each, opens the
- * discussion when one is clicked, and hosts the panel. The markers are buttons with no text of
- * their own (the count is drawn by CSS), so they never change the text a paragraph is hashed from.
+ * content (which arrives late and is replaced on navigation), draws one marker on each (a balloon with
+ * the count of the reader's Kurz conversations plus the comments), opens the panel when one is clicked,
+ * and hosts it. The markers are buttons with no text of their own (the count is drawn by CSS), so they
+ * never change the text a paragraph is hashed from.
  */
 @Component({
   selector: 'app-discussion-host',
@@ -49,11 +52,13 @@ export class DiscussionHost implements OnDestroy {
   content = input.required<HTMLElement>();
 
   protected discussion = inject(DiscussionService);
+  private kurz = inject(KurzService);
   private router = inject(Router);
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   private blocks = signal<Block[]>([]);
   private match = computed(() => matchMarkers(this.blocks(), this.discussion.markers()));
+  private kurzCounts = computed(() => conversationCounts(this.blocks(), this.kurz.conversations()));
 
   protected entries = computed<DiscussionEntry[]>(() => {
     const { byBlock } = this.match();
@@ -85,8 +90,16 @@ export class DiscussionHost implements OnDestroy {
       const content = this.content();
       untracked(() => this.attach(content));
     });
+    this.discussion.registerResolver((node) => this.resolve(node));
+    effect(() => {
+      // The student's conversations belong to the page and to who is signed in.
+      this.discussion.topic();
+      this.kurz.signedIn();
+      untracked(() => void this.kurz.refresh());
+    });
     effect(() => {
       this.entries();
+      this.kurzCounts();
       this.discussion.markersVisible();
       this.discussion.target();
       untracked(() => this.render());
@@ -108,6 +121,7 @@ export class DiscussionHost implements OnDestroy {
 
   ngOnDestroy(): void {
     if (!this.isBrowser) return;
+    this.discussion.registerResolver(null);
     this.observer?.disconnect();
     this.attached?.removeEventListener('click', this.onContentClick);
     document.removeEventListener('click', this.onDocumentClick);
@@ -144,9 +158,20 @@ export class DiscussionHost implements OnDestroy {
     if (!same) this.blocks.set(next);
   }
 
+  /** The paragraph a node is in, and its discussion: what "ask the Kurz" about a selection opens on. */
+  private resolve(node: Node): ReturnType<BlockResolver> {
+    const block = this.blocks().find((b) => b.el.contains(node));
+    if (!block) return null;
+    return {
+      block: { key: block.key, index: block.index, quote: block.quote },
+      marker: this.match().byBlock.get(block.index) ?? null,
+    };
+  }
+
   private render(): void {
     const on = this.discussion.markersVisible();
     const { byBlock } = this.match();
+    const kurzCounts = this.kurzCounts();
     const target = this.discussion.target();
     let activeEl: HTMLElement | null = null;
 
@@ -174,19 +199,20 @@ export class DiscussionHost implements OnDestroy {
         button.className = 'dz-marker';
         el.appendChild(button);
       }
-      button.classList.toggle('is-empty', !marker);
+      const total = (marker?.commentCount ?? 0) + (kurzCounts.get(block.index) ?? 0);
+      button.classList.toggle('is-empty', total === 0);
       button.classList.toggle('is-active', active);
-      button.dataset['count'] = marker ? String(marker.commentCount) : '+';
+      button.dataset['count'] = total > 0 ? String(total) : '+';
       button.setAttribute(
         'aria-label',
-        marker
-          ? $localize`:@@discussion.markerAria:Discussion, ${marker.commentCount}:count: comments`
-          : $localize`:@@discussion.newMarkerAria:Start a discussion on this paragraph`,
+        total > 0
+          ? $localize`:@@kurz.markerAria:Kurz and discussion, ${total}:count: conversations and comments`
+          : $localize`:@@kurz.newMarkerAria:Ask the Kurz or start a discussion on this paragraph`,
       );
       const resolved = (marker?.resolvedCount ?? 0) > 0;
       if (button.dataset['resolved'] !== String(resolved)) {
         button.dataset['resolved'] = String(resolved);
-        button.innerHTML = FLAG_ICON + (resolved ? CHECK_ICON : '');
+        button.innerHTML = BALLOON_ICON + (resolved ? CHECK_ICON : '');
       }
       el.classList.toggle('dz-active', active);
     }

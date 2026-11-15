@@ -2,11 +2,12 @@
   <div
     #tooltip
     class="ask-ai-tooltip"
+    [class.compact]="compact"
     [style.top]="style().top"
     [style.left]="style().left"
     role="toolbar"
     i18n-aria-label="@@askAi.aria.toolbar"
-    aria-label="Ask AI about the selected text"
+    aria-label="Ask about the selected text"
   >
     @if (status(); as st) {
       <div class="ask-ai-status">
@@ -21,42 +22,20 @@
         }
       </div>
     } @else {
-      <button
-        type="button"
-        class="ask-ai-btn claude"
-        i18n-aria-label="@@askAi.aria.claude"
-        aria-label="Ask Claude about the selected text"
-        (click)="ask('claude')"
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 2l1.8 5.6L19 9l-5.2 1.4L12 16l-1.8-5.6L5 9l5.2-1.4L12 2z" fill="currentColor" />
-        </svg>
-        <ng-container i18n="@@askAi.claude">Ask Claude</ng-container>
-      </button>
-      <button
-        type="button"
-        class="ask-ai-btn chatgpt"
-        i18n-aria-label="@@askAi.aria.chatgpt"
-        aria-label="Ask ChatGPT about the selected text"
-        (click)="ask('chatgpt')"
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M4 4h16v12H8l-4 4V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
-        </svg>
-        <ng-container i18n="@@askAi.chatgpt">Ask ChatGPT</ng-container>
-      </button>
-      <button
-        type="button"
-        class="ask-ai-btn gemini"
-        i18n-aria-label="@@askAi.aria.gemini"
-        aria-label="Ask Gemini about the selected text"
-        (click)="ask('gemini')"
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10z" fill="currentColor" />
-        </svg>
-        <ng-container i18n="@@askAi.gemini">Ask Gemini</ng-container>
-      </button>
+      @if (kurzAvailable()) {
+        <button
+          type="button"
+          class="ask-ai-btn kurz-btn"
+          data-testid="ask-kurz"
+          (click)="askKurz()"
+        >
+          <app-kurz-avatar [size]="22" />
+          <span i18n="@@kurz.askKurz">Ask the Kurz</span>
+          @if (!compact) {
+            <kbd class="key" aria-hidden="true">↵</kbd>
+          }
+        </button>
+      }
       <button
         type="button"
         class="ask-ai-btn highlight-link"
@@ -72,8 +51,59 @@
             stroke-linecap="round"
           />
         </svg>
-        <ng-container i18n="@@askAi.highlightLink">Copy highlight link</ng-container>
+        <span class="label" i18n="@@askAi.highlightLink">Copy highlight link</span>
       </button>
+      @if (compact) {
+        <button
+          type="button"
+          class="ask-ai-btn more-btn"
+          i18n-aria-label="@@kurz.openIn.more"
+          aria-label="Open in Claude, ChatGPT or Gemini"
+          [attr.aria-expanded]="moreOpen()"
+          (click)="moreOpen.set(!moreOpen())"
+        >⋯</button>
+      }
+      @if (!compact || moreOpen()) {
+        <div class="open-in" role="group" i18n-aria-label="@@kurz.openIn.group" aria-label="Open in">
+          <span class="open-label" i18n="@@kurz.openInLabel">Open in</span>
+          <button
+            type="button"
+            class="ask-ai-btn claude"
+            i18n-aria-label="@@askAi.aria.claude"
+            aria-label="Ask Claude about the selected text"
+            (click)="ask('claude')"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2l1.8 5.6L19 9l-5.2 1.4L12 16l-1.8-5.6L5 9l5.2-1.4L12 2z" fill="currentColor" />
+            </svg>
+            <span i18n="@@kurz.openIn.claude">Claude</span>
+          </button>
+          <button
+            type="button"
+            class="ask-ai-btn chatgpt"
+            i18n-aria-label="@@askAi.aria.chatgpt"
+            aria-label="Ask ChatGPT about the selected text"
+            (click)="ask('chatgpt')"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 4h16v12H8l-4 4V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+            </svg>
+            <span i18n="@@kurz.openIn.chatgpt">ChatGPT</span>
+          </button>
+          <button
+            type="button"
+            class="ask-ai-btn gemini"
+            i18n-aria-label="@@askAi.aria.gemini"
+            aria-label="Ask Gemini about the selected text"
+            (click)="ask('gemini')"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10z" fill="currentColor" />
+            </svg>
+            <span i18n="@@kurz.openIn.gemini">Gemini</span>
+          </button>
+        </div>
+      }
     }
   </div>
 }

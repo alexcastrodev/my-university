@@ -46,6 +46,17 @@ export class TextHighlightService {
     return this.applySelection(selectedText, range, true);
   }
 
+  /**
+   * Scrolls to a passage of the page and highlights it, without touching the address bar: what a citation of the
+   * Kurz does. False when the text is not on the page (the post was edited since the answer).
+   */
+  focusPassage(text: string): boolean {
+    const params = buildHighlightParams(text);
+    if (!params) return false;
+    this.reset();
+    return this.tryApply(params, true);
+  }
+
   /** Same as `shareSelection` but keeps the native selection, so it can run while the reader selects. */
   previewSelection(selectedText: string, range?: Range): void {
     this.applySelection(selectedText, range, false);

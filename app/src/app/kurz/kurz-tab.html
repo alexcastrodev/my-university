@@ -1,0 +1,483 @@
+<div class="scroll" #scroll>
+  <p class="private">
+    <app-kurz-avatar [size]="16" />
+    <span i18n="@@kurz.private">Stays only between you and the Kurz</span>
+  </p>
+
+  @if (passage(); as quote) {
+    <div class="passage">
+      <blockquote class="quote">“{{ quote }}”</blockquote>
+      <button
+        type="button"
+        class="drop"
+        i18n-aria-label="@@kurz.dropPassage"
+        aria-label="Ask about the whole post instead"
+        i18n-title="@@kurz.dropPassage"
+        title="Ask about the whole post instead"
+        (click)="dropPassage()"
+      >
+        ✕
+      </button>
+    </div>
+  } @else {
+    <p class="scope" i18n="@@kurz.wholePost">About the whole post</p>
+  }
+
+  @if (stale()) {
+    <p class="note" i18n="@@kurz.stale">
+      Some of these conversations are from an earlier version of this post.
+    </p>
+  }
+
+  <div class="thread" aria-live="polite">
+    @if (messages().length === 0 && !asking()) {
+      <div class="row">
+        <app-kurz-avatar [size]="28" />
+        <div class="bubble kurz" data-testid="kurz-welcome" i18n="@@kurz.welcome">
+          Ask away, there are no silly questions here.
+        </div>
+      </div>
+    }
+
+    @for (m of messages(); track m.id; let last = $last) {
+      <div class="turn" data-testid="kurz-turn">
+        <div class="bubble me">{{ m.question }}</div>
+        <div class="row">
+          <app-kurz-avatar [size]="28" />
+          <div class="bubble kurz" data-testid="kurz-answer">
+            @if (m.outcome === 'answered') {
+              @for (block of m.answer.blocks; track $index) {
+                <div
+                  class="block"
+                  [class.example]="block.kind === 'example'"
+                  [class.ask]="block.kind === 'question'"
+                >
+                  @if (block.kind === 'example') {
+                    <span class="tag" i18n="@@kurz.example">Example</span>
+                  }
+                  <div class="text" [innerHTML]="html(block.text)"></div>
+                  @for (n of block.cites; track n) {
+                    @if (citation(m.answer, n); as c) {
+                      @if (c.source === 'S1') {
+                        <button
+                          type="button"
+                          class="cite"
+                          data-testid="kurz-cite"
+                          [title]="c.section"
+                          [attr.aria-label]="citeLabel(c)"
+                          (click)="goToPassage(c)"
+                        >
+                          [{{ c.n }}]
+                        </button>
+                      } @else {
+                        <a
+                          class="cite"
+                          data-testid="kurz-cite"
+                          [routerLink]="c.route"
+                          [title]="c.title"
+                          >[{{ c.n }}]</a
+                        >
+                      }
+                    }
+                  }
+                </div>
+              }
+              @if (m.answer.see.length) {
+                <p class="see">
+                  <span i18n="@@kurz.see">See also:</span>
+                  @for (s of m.answer.see; track s.source) {
+                    <a [routerLink]="s.route">{{ s.title }}</a>
+                  }
+                </p>
+              }
+              @if (last && m.answer.followUps.length) {
+                <div class="follow-ups">
+                  @for (f of m.answer.followUps; track f) {
+                    <button
+                      type="button"
+                      class="chip"
+                      [disabled]="asking() || blocked() !== null"
+                      (click)="ask(f)"
+                    >
+                      {{ f }}
+                    </button>
+                  }
+                </div>
+              }
+            } @else if (m.outcome === 'incomplete') {
+              <p class="muted" i18n="@@kurz.incomplete">
+                The answer was cut off. Try a shorter question.
+              </p>
+            } @else {
+              <p class="muted" data-testid="kurz-refused" i18n="@@kurz.refused">
+                I could not find this in the post, so I would rather not guess. Try asking about
+                something the post covers.
+              </p>
+            }
+
+            <div class="actions">
+              @if (m.outcome === 'answered') {
+                <button type="button" class="act" (click)="copy(m)" i18n="@@kurz.copy">Copy</button>
+                <button
+                  type="button"
+                  class="act"
+                  [class.on]="m.helpful === true"
+                  [attr.aria-pressed]="m.helpful === true"
+                  (click)="useful(m)"
+                  i18n="@@kurz.useful"
+                >
+                  Useful
+                </button>
+              }
+              <button
+                type="button"
+                class="act more"
+                [attr.aria-expanded]="moreOpen() === m.id"
+                i18n-aria-label="@@kurz.more"
+                aria-label="More actions"
+                (click)="toggleMore(m.id)"
+              >
+                ⋯
+              </button>
+              <span class="extra" [class.open]="moreOpen() === m.id">
+                <button
+                  type="button"
+                  class="act"
+                  data-testid="kurz-report"
+                  (click)="startReport(m)"
+                  i18n="@@kurz.report"
+                >
+                  Report wrong answer
+                </button>
+                @if (m.outcome === 'answered') {
+                  <button
+                    type="button"
+                    class="act"
+                    data-testid="kurz-share"
+                    (click)="share(m)"
+                    i18n="@@kurz.share"
+                  >
+                    Share in the discussion
+                  </button>
+                }
+              </span>
+            </div>
+
+            @if (reporting() === m.id) {
+              <div class="report">
+                <p class="hint" i18n="@@kurz.reportHint">
+                  The team sees this exchange. It is kept without your name.
+                </p>
+                <textarea
+                  rows="2"
+                  maxlength="500"
+                  [value]="reportNote()"
+                  (input)="reportNote.set($any($event.target).value)"
+                  i18n-placeholder="@@kurz.reportNote"
+                  placeholder="What was wrong? (optional)"
+                ></textarea>
+                <div class="report-actions">
+                  <button
+                    type="button"
+                    class="act"
+                    (click)="reporting.set(null)"
+                    i18n="@@kurz.cancel"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    class="send small"
+                    (click)="sendReport(m)"
+                    i18n="@@kurz.sendReport"
+                  >
+                    Send report
+                  </button>
+                </div>
+              </div>
+            }
+            @if (notice(); as n) {
+              @if (n.messageId === m.id) {
+                <p class="note" role="status">
+                  @switch (n.kind) {
+                    @case ('copied') {
+                      <ng-container i18n="@@kurz.notice.copied">Copied.</ng-container>
+                    }
+                    @case ('reported') {
+                      <ng-container i18n="@@kurz.notice.reported"
+                        >Thanks, the team will look at it.</ng-container
+                      >
+                    }
+                    @case ('shared') {
+                      <ng-container i18n="@@kurz.notice.shared"
+                        >Shared in the discussion.</ng-container
+                      >
+                      <button
+                        type="button"
+                        class="link"
+                        (click)="seeDiscussion()"
+                        i18n="@@kurz.notice.seeDiscussion"
+                      >
+                        See it
+                      </button>
+                    }
+                    @default {
+                      <ng-container i18n="@@kurz.notice.failed"
+                        >That did not work. Try again.</ng-container
+                      >
+                    }
+                  }
+                </p>
+              }
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (asking()) {
+      <div class="row" data-testid="kurz-thinking">
+        <app-kurz-avatar [size]="28" />
+        <div class="bubble kurz pending" i18n="@@kurz.thinking">The Kurz is reading the post…</div>
+      </div>
+    }
+  </div>
+
+  @if (gate() === 'terms') {
+    <section class="terms" data-testid="kurz-terms" aria-labelledby="kurz-terms-title">
+      <h3 id="kurz-terms-title" i18n="@@kurz.terms.title">Before your first question</h3>
+      <ul>
+        <li i18n="@@kurz.terms.sent">
+          Your question, the text you selected and the post are sent to Google (the Gemini API) to
+          write the answer. We turn off Google's storage of the conversation.
+        </li>
+        <li i18n="@@kurz.terms.kept">
+          Your conversations are private. They are kept for 90 days after the last message, and you
+          can erase them in Settings.
+        </li>
+        <li i18n="@@kurz.terms.wrong">
+          The Kurz can be wrong. It answers only from the post and cites where, so check the
+          citations.
+        </li>
+      </ul>
+      <label class="check">
+        <input
+          type="checkbox"
+          data-testid="kurz-adult"
+          [checked]="adult()"
+          (change)="adult.set($any($event.target).checked)"
+        />
+        <span i18n="@@kurz.terms.adult">I am 18 or older and I read the privacy notice.</span>
+      </label>
+      <p>
+        <a routerLink="/privacy" target="_blank" i18n="@@kurz.terms.read"
+          >Read the privacy notice</a
+        >
+      </p>
+      <button
+        type="button"
+        class="send"
+        data-testid="kurz-accept"
+        [disabled]="!adult() || acceptingTerms()"
+        (click)="acceptTerms()"
+        i18n="@@kurz.terms.accept"
+      >
+        Continue
+      </button>
+      @if (termsFailed()) {
+        <p class="error" role="alert" i18n="@@kurz.terms.failed">Could not save that. Try again.</p>
+      }
+    </section>
+  }
+</div>
+
+<footer class="composer">
+  @if (gate() === 'signIn') {
+    <a routerLink="/login" class="signin" i18n="@@kurz.signIn">Sign in to ask the Kurz</a>
+  } @else if (gate() === null) {
+    @if (blocked(); as b) {
+      <p class="blocked" role="status" data-testid="kurz-blocked">
+        @switch (b.reason) {
+          @case ('NO_BALANCE') {
+            <ng-container i18n="@@kurz.blocked.noBalance"
+              >You have no Kurz credits yet. An admin grants them, and until then the Kurz stays
+              quiet. "Open in" below still works.</ng-container
+            >
+          }
+          @case ('USER_DAILY_LIMIT') {
+            @if (b.resetsAt) {
+              <ng-container i18n="@@kurz.blocked.userDaily"
+                >You reached your daily limit. It frees up around
+                {{ when(b.resetsAt) }}.</ng-container
+              >
+            } @else {
+              <ng-container i18n="@@kurz.blocked.noAllowance"
+                >You have no daily allowance for the Kurz yet. An admin sets it.</ng-container
+              >
+            }
+          }
+          @case ('PLATFORM_BUDGET_DAILY') {
+            <ng-container i18n="@@kurz.blocked.platformDaily"
+              >The platform's budget for the Kurz is spent for today, for everyone, even if you have
+              credits. It comes back {{ when(b.resetsAt) }}.</ng-container
+            >
+          }
+          @default {
+            <ng-container i18n="@@kurz.blocked.platformMonthly"
+              >The platform's budget for the Kurz is spent for this month, for everyone, even if you
+              have credits. It comes back {{ when(b.resetsAt) }}.</ng-container
+            >
+          }
+        }
+      </p>
+    }
+    @if (budgetWarning(); as budget) {
+      <p class="budget" [class.high]="budget.usedPercent >= 80" data-testid="kurz-budget">
+        @if (budget.period === 'day') {
+          <ng-container i18n="@@kurz.budget.day"
+            >Platform budget today: {{ budget.usedPercent }}% used.</ng-container
+          >
+        } @else {
+          <ng-container i18n="@@kurz.budget.month"
+            >Platform budget this month: {{ budget.usedPercent }}% used.</ng-container
+          >
+        }
+      </p>
+    }
+    <div class="field">
+      <textarea
+        rows="2"
+        [maxLength]="maxQuestion"
+        [value]="draft()"
+        [disabled]="blocked() !== null"
+        (input)="draft.set($any($event.target).value)"
+        (keydown.enter)="onEnter($event)"
+        i18n-placeholder="@@kurz.placeholder"
+        placeholder="Ask the Kurz…"
+        i18n-aria-label="@@kurz.placeholder"
+        aria-label="Ask the Kurz…"
+        data-testid="kurz-input"
+      ></textarea>
+      <button
+        type="button"
+        class="send"
+        data-testid="kurz-send"
+        [disabled]="!canAsk()"
+        (click)="ask()"
+        i18n="@@kurz.ask"
+      >
+        Ask
+      </button>
+    </div>
+    @if (error(); as e) {
+      <p class="error" role="alert" data-testid="kurz-error">
+        @switch (e.kind) {
+          @case ('signIn') {
+            <ng-container i18n="@@kurz.error.signIn">Sign in to ask the Kurz.</ng-container>
+          }
+          @case ('noAccess') {
+            <ng-container i18n="@@kurz.error.noAccess"
+              >Your account cannot use the Kurz.</ng-container
+            >
+          }
+          @case ('rateLimited') {
+            <ng-container i18n="@@kurz.error.rateLimited"
+              >You are asking too fast. Wait a minute.</ng-container
+            >
+          }
+          @case ('inProgress') {
+            <ng-container i18n="@@kurz.error.inProgress"
+              >The Kurz is still answering your last question.</ng-container
+            >
+          }
+          @case ('blocked') {
+            <ng-container i18n="@@kurz.error.blocked"
+              >The Kurz cannot answer that. You were not charged. Try asking it another
+              way.</ng-container
+            >
+          }
+          @case ('disabled') {
+            <ng-container i18n="@@kurz.error.disabled"
+              >The Kurz is resting right now. Try again later.</ng-container
+            >
+          }
+          @case ('unavailable') {
+            <ng-container i18n="@@kurz.error.disabled"
+              >The Kurz is resting right now. Try again later.</ng-container
+            >
+          }
+          @case ('upstream') {
+            <ng-container i18n="@@kurz.error.upstream"
+              >The Kurz could not answer now. You were not charged. Try again.</ng-container
+            >
+          }
+          @case ('timeout') {
+            <ng-container i18n="@@kurz.error.upstream"
+              >The Kurz could not answer now. You were not charged. Try again.</ng-container
+            >
+          }
+          @case ('NO_BALANCE') {
+            <ng-container i18n="@@kurz.error.noBalance">You have no credits left.</ng-container>
+          }
+          @case ('USER_DAILY_LIMIT') {
+            <ng-container i18n="@@kurz.error.userDaily">You reached your daily limit.</ng-container>
+          }
+          @case ('PLATFORM_BUDGET_DAILY') {
+            <ng-container i18n="@@kurz.error.platform"
+              >The platform's budget for the Kurz is spent for now.</ng-container
+            >
+          }
+          @case ('PLATFORM_BUDGET_MONTHLY') {
+            <ng-container i18n="@@kurz.error.platform"
+              >The platform's budget for the Kurz is spent for now.</ng-container
+            >
+          }
+          @default {
+            <ng-container i18n="@@kurz.error.failed">Could not send. Try again.</ng-container>
+          }
+        }
+      </p>
+    }
+  }
+
+  <div class="open-in">
+    <button
+      type="button"
+      class="open-btn"
+      data-testid="kurz-open-in"
+      [attr.aria-expanded]="openInMenu()"
+      (click)="openInMenu.set(!openInMenu())"
+      i18n="@@kurz.openIn"
+    >
+      Open in ▾
+    </button>
+    @if (openInMenu()) {
+      <div class="menu" role="menu">
+        <button
+          type="button"
+          role="menuitem"
+          (click)="openIn('claude')"
+          i18n="@@kurz.openIn.claude"
+        >
+          Claude
+        </button>
+        <button
+          type="button"
+          role="menuitem"
+          (click)="openIn('chatgpt')"
+          i18n="@@kurz.openIn.chatgpt"
+        >
+          ChatGPT
+        </button>
+        <button
+          type="button"
+          role="menuitem"
+          (click)="openIn('gemini')"
+          i18n="@@kurz.openIn.gemini"
+        >
+          Gemini
+        </button>
+      </div>
+    }
+  </div>
+</footer>

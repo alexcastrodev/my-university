@@ -37,4 +37,38 @@ describe('buildAskAiPrompt', () => {
     expect(result.promptText).toContain('spaced text');
     expect(result.promptText).not.toContain('   spaced');
   });
+
+  describe('with a question the student wrote', () => {
+    it('carries the passage and the question, trimmed', () => {
+      const result = buildAskAiPrompt('Type erasure removes generic type info.', false, PAGE_URL, '  Why does it matter?  ');
+
+      expect(result.mode).toBe('partial');
+      const prompt = decodeURIComponent(result.urls.claude);
+      expect(prompt).toContain('Type erasure removes generic type info.');
+      expect(prompt).toContain('Why does it matter?');
+      expect(prompt).toContain(PAGE_URL);
+    });
+
+    it('asks about the whole post when there is no passage', () => {
+      const result = buildAskAiPrompt('', true, PAGE_URL, 'What is this about?');
+
+      expect(result.mode).toBe('select-all');
+      expect(decodeURIComponent(result.urls.chatgpt)).toContain('What is this about?');
+    });
+
+    it('copies a long passage and sends only the question in the link', () => {
+      const result = buildAskAiPrompt('x'.repeat(2000), false, PAGE_URL, 'Explain?');
+
+      expect(result.mode).toBe('clipboard');
+      expect(result.promptText).toContain('x'.repeat(2000));
+      expect(result.promptText).toContain('Explain?');
+      expect(decodeURIComponent(result.urls.claude)).not.toContain('xxxx');
+    });
+
+    it('keeps the old prompt when the question is blank', () => {
+      const result = buildAskAiPrompt('Some passage.', false, PAGE_URL, '   ');
+
+      expect(decodeURIComponent(result.urls.claude)).toContain('Please explain what it means');
+    });
+  });
 });

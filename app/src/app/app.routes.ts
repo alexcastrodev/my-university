@@ -42,6 +42,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/faq/faq-page').then((m) => m.FaqPage),
   },
   {
+    path: 'privacy',
+    loadComponent: () => import('./pages/privacy/privacy-page').then((m) => m.PrivacyPage),
+  },
+  {
     // One shell (banner, edit panel, tabs) with the three sections inside it.
     path: 'profile',
     loadComponent: () => import('./pages/profile/profile-layout').then((m) => m.ProfileLayout),
