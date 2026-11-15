@@ -13,6 +13,8 @@ export interface AiStatus {
   dailyLimit: number;
   usedLast24h: number;
   platformBudget: PlatformBudgetView;
+  /** An admin asks without a balance: the balance is not a reason to stop them (see `check`). */
+  unmetered: boolean;
   /** Why they cannot ask right now, or null. */
   blocked: AiBlock | null;
 }
@@ -21,6 +23,10 @@ export interface AiStatus {
  * May this student ask the model now? The checks run in an order that decides which reason they read: what
  * touches everybody first (the platform budget, month then day), then the student's own limit, then their
  * balance. Only the first that fails is reported. The permission (`ai.use`) is the route's own check.
+ *
+ * An admin is exempt from the balance only: nobody mints credit for themselves (the grant is refused to its
+ * own granter), so the admin simply does not need one. The platform budget and their own daily limit still
+ * stop them, and every question is still billed in `ai_usage` (their balance goes negative).
  */
 @Injectable()
 export class AiAccessService {
@@ -56,6 +62,15 @@ export class AiAccessService {
     };
   }
 
+  /** Whether the user holds the system `admin` role. */
+  async isAdmin(userId: number): Promise<boolean> {
+    const rows: unknown[] = await this.dataSource.query(
+      `SELECT 1 FROM user_role ur JOIN role r ON r.id = ur."roleId" WHERE ur."userId" = $1 AND r.name = 'admin' AND r.system`,
+      [userId],
+    );
+    return rows.length > 0;
+  }
+
   async check(userId: number, now = new Date()): Promise<AiBlock | null> {
     const platform = await this.budget.allows(now);
     if (platform) return platform;
@@ -68,18 +83,22 @@ export class AiAccessService {
         reason: 'USER_DAILY_LIMIT',
         resetsAt: window.frees?.toISOString() ?? null,
       };
-    if ((await this.credits.balance(userId)) <= 0)
+    if (
+      (await this.credits.balance(userId)) <= 0 &&
+      !(await this.isAdmin(userId))
+    )
       return { reason: 'NO_BALANCE', resetsAt: null };
     return null;
   }
 
   async status(userId: number, now = new Date()): Promise<AiStatus> {
-    const [balance, dailyLimit, window, platformBudget, blocked] =
+    const [balance, dailyLimit, window, platformBudget, unmetered, blocked] =
       await Promise.all([
         this.credits.balance(userId),
         this.dailyLimit(userId),
         this.usedLast24h(userId),
         this.budget.view(now),
+        this.isAdmin(userId),
         this.check(userId, now),
       ]);
     return {
@@ -87,6 +106,7 @@ export class AiAccessService {
       dailyLimit,
       usedLast24h: window.used,
       platformBudget,
+      unmetered,
       blocked,
     };
   }
