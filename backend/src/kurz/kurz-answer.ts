@@ -86,9 +86,11 @@ export function stripLinks(text: string): string {
     .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
     .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
     .replace(/^ {0,3}\[[^\]]+\]:\s*\S+.*$/gm, '')
-    .replace(/<[a-z][a-z0-9+.-]*:[^\s>]*>/gi, '')
-    .replace(/\b[a-z][a-z0-9+.-]*:\/\/[^\s)>\]]*/gi, '')
-    .replace(/\b(?:javascript|vbscript|data|file|mailto|tel|sms):\S+/gi, '')
+    .replace(/<?\b[a-z][a-z0-9+.-]*:\/\/[^\s)>\]]*>?/gi, '')
+    .replace(
+      /<?\b(?:javascript|vbscript|data|file|mailto|tel|sms):[^\s>]+>?/gi,
+      '',
+    )
     .replace(/\bwww\.[^\s)>\]]+/gi, '')
     .replace(/[ \t]+\n/g, '\n')
     .trim();

@@ -596,6 +596,36 @@ describe('what Sentry is sent', () => {
     });
   });
 
+  it('scrubs a Kurz event however the SDK recorded its URL', () => {
+    for (const url of [
+      'https://university.test/api/kurz',
+      'https://university.test/api/kurz/conversations?topic=x',
+      '/kurz',
+      '/kurz/messages/1/report',
+      'https://university.test/API/KURZ/terms',
+      'https://university.test/api/kurz?x=1',
+    ]) {
+      const scrubbed = scrubKurz({
+        ...event,
+        request: { ...event.request, url },
+      });
+      expect(JSON.stringify(scrubbed), url).not.toContain('secret');
+    }
+  });
+
+  it('does not take a route that only starts with the same letters', () => {
+    for (const url of [
+      'https://university.test/api/kurzweil',
+      'https://university.test/api/papers?q=/kurz',
+    ])
+      expect(
+        scrubKurz({ ...event, request: { ...event.request, url } }),
+      ).toEqual({
+        ...event,
+        request: { ...event.request, url },
+      });
+  });
+
   it('leaves every other route alone', () => {
     const other = {
       ...event,
