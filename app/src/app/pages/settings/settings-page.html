@@ -84,6 +84,54 @@
           <p class="feedback" [class.error]="msg.kind === 'error'">{{ msg.text }}</p>
         }
       </div>
+
+      <div class="card" data-testid="kurz-settings">
+        <h2 class="section-title" i18n="@@kurz.settings.title">Kurz</h2>
+        @if (kurzStatus(); as st) {
+          @if (st.enabled) {
+            <dl class="kurz-stats">
+              <div>
+                <dt i18n="@@kurz.settings.balance">Credits</dt>
+                <dd data-testid="kurz-balance">{{ st.balance }}</dd>
+              </div>
+              <div>
+                <dt i18n="@@kurz.settings.limit">Daily limit</dt>
+                <dd data-testid="kurz-limit">
+                  @if (st.dailyLimit > 0) {
+                    <ng-container i18n="@@kurz.settings.limitValue">{{ st.usedLast24h }} of {{ st.dailyLimit }} used in the last 24 hours</ng-container>
+                  } @else {
+                    <ng-container i18n="@@kurz.settings.limitNone">None: ask an admin</ng-container>
+                  }
+                </dd>
+              </div>
+              <div>
+                <dt i18n="@@kurz.settings.budget">Platform budget</dt>
+                <dd data-testid="kurz-platform" [class.high]="st.platformBudget.usedPercent >= 80">
+                  @if (st.platformBudget.period === 'day') {
+                    <ng-container i18n="@@kurz.settings.budgetDay">{{ st.platformBudget.usedPercent }}% used today, back {{ when(st.platformBudget.resetsAt) }}</ng-container>
+                  } @else {
+                    <ng-container i18n="@@kurz.settings.budgetMonth">{{ st.platformBudget.usedPercent }}% used this month, back {{ when(st.platformBudget.resetsAt) }}</ng-container>
+                  }
+                </dd>
+              </div>
+            </dl>
+            <p class="hint" i18n="@@kurz.settings.budgetHint">The platform budget is shared by every student. When it is spent, nobody can ask until it comes back, even with credits.</p>
+          }
+        }
+        <p class="hint" i18n="@@kurz.settings.eraseHint">Your conversations with the Kurz are private and kept for 90 days after the last message. You can erase them all now. Reports you sent stay, without your name.</p>
+        <div class="actions">
+          <button type="button" class="btn secondary-btn" data-testid="kurz-erase" [disabled]="kurzErase() === 'busy'" (click)="eraseConversations()">
+            @if (kurzErase() === 'confirm') { <ng-container i18n="@@kurz.settings.eraseConfirm">Confirm: erase everything</ng-container> } @else { <ng-container i18n="@@kurz.settings.erase">Erase my conversations with the Kurz</ng-container> }
+          </button>
+          @if (kurzErase() === 'confirm') {
+            <button type="button" class="btn secondary-btn" (click)="kurzErase.set('idle')" i18n="@@kurz.cancel">Cancel</button>
+          }
+        </div>
+        @if (kurzMessage(); as msg) {
+          <p class="feedback" [class.error]="msg.kind === 'error'">{{ msg.text }}</p>
+        }
+        <p class="hint"><a routerLink="/privacy" i18n="@@kurz.settings.privacy">Privacy notice</a></p>
+      </div>
     } @else {
       <div class="login-prompt">
         <p i18n="@@settings.loginPrompt">Log in with GitHub to change your settings.</p>

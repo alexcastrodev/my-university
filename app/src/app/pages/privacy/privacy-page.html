@@ -1,0 +1,87 @@
+<div class="page">
+  <div class="content">
+    <h1 class="title" i18n="@@privacy.title">Privacy notice: the Kurz</h1>
+    <p class="note" i18n="@@privacy.version">Version {{ version }}</p>
+
+    <section class="section" aria-labelledby="privacy-what">
+      <h2 id="privacy-what" class="heading" i18n="@@privacy.what.title">What the Kurz is</h2>
+      <p i18n="@@privacy.what.body">
+        The Kurz is an assistant that answers questions about the post you are reading. It answers
+        only from that post and from the posts it links to, and it shows where each answer comes
+        from. It can still be wrong, so check the citations.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="privacy-who">
+      <h2 id="privacy-who" class="heading" i18n="@@privacy.who.title">Who can use it</h2>
+      <p i18n="@@privacy.who.body">
+        You must be 18 or older. The first time you ask, you confirm that and that you read this
+        notice. Asking costs credits, which an admin grants. Without credits you can still use "Open
+        in" to take a passage to another assistant.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="privacy-sent">
+      <h2 id="privacy-sent" class="heading" i18n="@@privacy.sent.title">What is sent to Google</h2>
+      <p i18n="@@privacy.sent.body">
+        To write an answer we send Google (the Gemini API) your question, the text you selected, the
+        post you are on and a short summary of the posts it links to, and the last two exchanges of
+        that conversation. We do not send your name, your email, your notes, your papers or anything
+        from other people. We turn off the storage of the conversation on Google's side, and we use
+        the paid plan, under which Google does not use it to improve its products.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="privacy-open-in">
+      <h2 id="privacy-open-in" class="heading" i18n="@@privacy.openIn.title">"Open in" another assistant</h2>
+      <p i18n="@@privacy.openIn.body">
+        "Open in" sends the passage and the question you wrote, with the link of the post, to the service
+        you pick (Claude, ChatGPT or Gemini), in the link that opens it or through your clipboard. That
+        happens outside University: we keep nothing of it, and the privacy terms of that service apply.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="privacy-kept">
+      <h2 id="privacy-kept" class="heading" i18n="@@privacy.kept.title">
+        What we keep, and for how long
+      </h2>
+      <ul class="rules">
+        <li i18n="@@privacy.kept.conversations">
+          Your conversations (questions and answers) are kept for 90 days after the last message,
+          and then erased.
+        </li>
+        <li i18n="@@privacy.kept.usage">
+          The count of what each question used (tokens, credits, date) is kept, with no text, to
+          keep the bill right.
+        </li>
+        <li i18n="@@privacy.kept.reports">
+          If you report a wrong answer, we keep a copy of that exchange for the team to review,
+          without your name, even after you erase your conversations.
+        </li>
+        <li i18n="@@privacy.kept.shared">
+          What you publish in a discussion is an ordinary comment: erasing your conversations does
+          not erase it.
+        </li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="privacy-sees">
+      <h2 id="privacy-sees" class="heading" i18n="@@privacy.sees.title">Who sees it</h2>
+      <p i18n="@@privacy.sees.body">
+        Your conversations are private: only you see them, not other students and not the admins.
+        The admins see how many credits each person used, never the words. Errors that reach us are
+        cleaned of what you wrote.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="privacy-control">
+      <h2 id="privacy-control" class="heading" i18n="@@privacy.control.title">Your control</h2>
+      <p>
+        <ng-container i18n="@@privacy.control.body"
+          >You can erase one conversation, or all of them, whenever you want, in</ng-container
+        >
+        <a routerLink="/settings" i18n="@@privacy.control.settings">Settings</a>.
+      </p>
+    </section>
+  </div>
+</div>

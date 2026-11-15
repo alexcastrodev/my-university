@@ -40,6 +40,107 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* The Kurz comes first and stands out: it is the answer that stays in the platform. */
+.kurz-btn {
+  padding: 0.7rem 0.9rem;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 0.86rem;
+}
+
+.key {
+  margin-left: auto;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+.label {
+  flex: 1;
+  text-align: left;
+}
+
+.open-in {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.open-label {
+  padding: 0 0.2rem 0 0.85rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.open-note {
+  flex-basis: 100%;
+  margin: 0;
+  padding: 0 0.85rem 0.45rem;
+  font-size: 0.7rem;
+  line-height: 1.3;
+  opacity: 0.7;
+}
+
+.open-in .ask-ai-btn {
+  padding: 0.55rem 0.55rem;
+  border-top: none;
+}
+
+/* Phones: one horizontal bar under the selection, so it does not collide with the system's own menu. */
+.compact {
+  flex-direction: row;
+  align-items: stretch;
+  flex-wrap: wrap;
+  max-width: calc(100vw - 16px);
+  overflow: visible;
+  border-radius: 14px;
+}
+
+.compact .ask-ai-btn {
+  min-height: 44px;
+  min-width: 44px;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+.compact .ask-ai-btn + .ask-ai-btn {
+  border-top: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.compact .kurz-btn {
+  border-radius: 14px 0 0 14px;
+}
+
+.compact .highlight-link .label {
+  display: none;
+}
+
+.compact .more-btn {
+  border-radius: 0 14px 14px 0;
+  font-size: 1.2rem;
+}
+
+.compact .open-in {
+  flex-basis: 100%;
+  justify-content: space-around;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.compact .open-in .ask-ai-btn {
+  flex: 1;
+  border-left: none;
+}
+
+.compact .open-label {
+  display: none;
+}
+
 .ask-ai-btn.claude svg {
   color: #e8734f;
 }
@@ -74,12 +175,5 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-@media (max-width: 640px) {
-  .ask-ai-btn {
-    padding: 0.65rem 0.9rem;
-    font-size: 0.85rem;
   }
 }

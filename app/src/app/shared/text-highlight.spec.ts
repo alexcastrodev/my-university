@@ -3,6 +3,7 @@ import {
   buildHighlightUrl,
   computeHighlightOffsets,
   findHighlightRange,
+  findQuoteRange,
   readHighlightParams,
 } from './text-highlight';
 
@@ -143,6 +144,36 @@ describe('text-highlight', () => {
     it('ignores malformed or inverted hlp values', () => {
       expect(readHighlightParams('?hl=a&hlp=abc')).toEqual({ start: 'a' });
       expect(readHighlightParams('?hl=a&hlp=9-3')).toEqual({ start: 'a' });
+    });
+  });
+
+  describe('findQuoteRange (a citation of the Kurz)', () => {
+    it('finds a quote whose markup and punctuation differ from the rendered page', () => {
+      // The post's source text has the backticks; the page shows `classes` as plain code text.
+      const range = findQuoteRange([root], 'The JVM loads `classes` lazily!');
+      expect(range?.toString()).toBe('The JVM loads classes lazily');
+    });
+
+    it('ignores case and spacing', () => {
+      const range = findQuoteRange([root], 'GARBAGE   collection reclaims\nunreachable OBJECTS');
+      expect(range?.toString().replace(/\s+/g, ' ')).toBe('Garbage collection reclaims unreachable objects');
+    });
+
+    it('finds a long quote by its two ends when the middle was reworded', () => {
+      const long = document.createElement('p');
+      const words = Array.from({ length: 60 }, (_, i) => `alpha${i}`);
+      long.textContent = words.join(' ');
+      root.appendChild(long);
+      const quoted = [...words.slice(0, 12), 'something else entirely here', ...words.slice(-12)].join(' ');
+      const range = findQuoteRange([root], quoted);
+      expect(range?.toString().startsWith('alpha0 alpha1')).toBeTrue();
+      expect(range?.toString().endsWith('alpha59')).toBeTrue();
+    });
+
+    it('finds nothing for text the page does not have, or for a quote too short to prove anything', () => {
+      expect(findQuoteRange([root], 'Reflection makes everything slower')).toBeNull();
+      expect(findQuoteRange([root], 'the')).toBeNull();
+      expect(findQuoteRange([root], '`!`')).toBeNull();
     });
   });
 });

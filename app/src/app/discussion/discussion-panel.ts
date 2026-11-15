@@ -11,8 +11,11 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PostEditor } from '../components/post-editor/post-editor';
+import { KurzAvatar } from '../kurz/kurz-avatar';
+import { KurzService } from '../kurz/kurz.service';
+import { KurzTab } from '../kurz/kurz-tab';
 import { renderPostMarkdown } from '../shared/post-markdown';
-import { BlockAnchor, CommentView, MarkerSummary, ThreadView } from './discussion.model';
+import { BlockAnchor, CommentView, MarkerSummary, PanelTab, ThreadView } from './discussion.model';
 import { DiscussionService } from './discussion.service';
 import { timeAgo } from './time-ago';
 
@@ -32,12 +35,13 @@ const MAX_BODY = 2000;
 @Component({
   selector: 'app-discussion-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, NgTemplateOutlet, PostEditor],
+  imports: [RouterLink, NgTemplateOutlet, PostEditor, KurzAvatar, KurzTab],
   templateUrl: './discussion-panel.html',
   styleUrl: './discussion-panel.css',
 })
 export class DiscussionPanel {
   protected discussion = inject(DiscussionService);
+  private kurz = inject(KurzService);
   private locale = inject(LOCALE_ID);
 
   /** Every discussed paragraph of the page, with where it sits now (null when its text changed). */
@@ -52,8 +56,26 @@ export class DiscussionPanel {
   private swipeStart: number | null = null;
 
   protected target = this.discussion.target;
+
+  /** The whole post (the Kurz's floating button) has no paragraph, so no discussion to show. */
+  protected hasDiscussion = computed(() => {
+    const target = this.target();
+    return target !== null && (target.block !== null || target.markerId !== null);
+  });
+  protected kurzAvailable = this.kurz.enabled;
+  protected activeTab = computed<PanelTab>(() => {
+    if (!this.hasDiscussion()) return 'kurz';
+    if (!this.kurzAvailable()) return 'discussion';
+    return this.discussion.tab();
+  });
+  /** The tab's number: the comments of this paragraph, from the open discussion or the page's markers. */
+  protected discussionCount = computed(() => {
+    const detail = this.discussion.detail();
+    if (detail) return detail.commentCount;
+    const id = this.target()?.markerId;
+    return this.discussion.markers().find((m) => m.id === id)?.commentCount ?? 0;
+  });
   protected threads = computed<ThreadView[]>(() => this.discussion.detail()?.threads ?? []);
-  protected count = computed(() => this.discussion.detail()?.commentCount ?? 0);
   protected loading = computed(
     () => this.target()?.markerId != null && this.discussion.detail() === null,
   );
@@ -89,6 +111,10 @@ export class DiscussionPanel {
     const quote = this.target()?.quote ?? '';
     return quote.length >= 80 ? `${quote}...` : quote;
   });
+
+  protected setTab(tab: PanelTab): void {
+    this.discussion.tab.set(tab);
+  }
 
   protected displayName(comment: CommentView): string {
     return comment.author?.displayName ?? '';

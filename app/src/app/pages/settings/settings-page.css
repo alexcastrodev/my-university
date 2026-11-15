@@ -257,3 +257,31 @@
   flex-wrap: wrap;
 }
 .link-box .name-input { flex: 1; min-width: 0; margin: 0; }
+
+.kurz-stats {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0 0 0.9rem;
+}
+
+.kurz-stats div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+
+.kurz-stats dt {
+  color: var(--mu-muted);
+  font-size: 0.85rem;
+}
+
+.kurz-stats dd {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.kurz-stats dd.high {
+  color: var(--mu-warning-strong);
+}

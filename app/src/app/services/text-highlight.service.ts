@@ -8,6 +8,7 @@ import {
   buildHighlightUrl,
   computeHighlightOffsets,
   findHighlightRange,
+  findQuoteRange,
   readHighlightParams,
 } from '../shared/text-highlight';
 
@@ -44,6 +45,18 @@ export class TextHighlightService {
    */
   shareSelection(selectedText: string, range?: Range): string | null {
     return this.applySelection(selectedText, range, true);
+  }
+
+  /**
+   * Scrolls to a passage of the page and highlights it, without touching the address bar: what a citation of the
+   * Kurz does. False when the text is not on the page (the post was edited since the answer).
+   */
+  focusPassage(text: string): boolean {
+    const range = findQuoteRange(this.contentRoots(), text);
+    if (!range) return false;
+    this.reset();
+    this.paint(range, true, false);
+    return true;
   }
 
   /** Same as `shareSelection` but keeps the native selection, so it can run while the reader selects. */
@@ -86,6 +99,11 @@ export class TextHighlightService {
     const range = findHighlightRange(roots, params);
     if (!range) return false;
 
+    this.paint(range, scroll, keepSelection);
+    return true;
+  }
+
+  private paint(range: Range, scroll: boolean, keepSelection: boolean): void {
     if (typeof CSS !== 'undefined' && 'highlights' in CSS && typeof Highlight !== 'undefined') {
       CSS.highlights.set(HIGHLIGHT_NAME, new Highlight(range));
     } else if (!keepSelection) {
@@ -100,7 +118,6 @@ export class TextHighlightService {
       // Let the router's scroll restoration run first, then bring the passage into view.
       requestAnimationFrame(() => target?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
     }
-    return true;
   }
 
   private contentRoots(): Element[] {

@@ -79,11 +79,19 @@ export interface BlockAnchor {
   quote: string;
 }
 
-/** What the discussion panel is showing: an existing marker, a block waiting for its first comment, or both. */
+/** The two tabs of the panel: the private conversation with the Kurz, and the public discussion. */
+export type PanelTab = 'kurz' | 'discussion';
+
+/**
+ * What the panel is showing: an existing marker, a block waiting for its first comment, or both. With no
+ * marker and no block it is the whole post (the Kurz's floating button), which has no paragraph discussion.
+ */
 export interface PanelTarget {
   markerId: number | null;
   block: BlockAnchor | null;
   quote: string;
   /** Scroll the paragraph into view (opened from the list, not by clicking it). */
   reveal: boolean;
+  /** What the reader selected to ask the Kurz about: it opens the conversation with it as the passage. */
+  selection?: string | null;
 }

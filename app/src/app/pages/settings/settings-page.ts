@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, effect, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { KurzService } from '../../kurz/kurz.service';
 import { LANGUAGE_LABELS, SUPPORTED_LANGUAGES } from '../../models/language.model';
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
@@ -24,7 +25,9 @@ export class SettingsPage {
   protected themeService = inject(ThemeService);
   protected languageService = inject(LanguageService);
   protected xpService = inject(XpService);
+  protected kurz = inject(KurzService);
   private router = inject(Router);
+  private locale = inject(LOCALE_ID);
 
   protected readonly languages = SUPPORTED_LANGUAGES;
   protected readonly LANGUAGE_LABELS = LANGUAGE_LABELS;
@@ -67,6 +70,39 @@ export class SettingsPage {
         this.notifyMessage.set({ kind: 'error', text: $localize`:@@settings.error:Something went wrong. Try again.` });
       },
     });
+  }
+
+  /** What the student may do with the Kurz now, from the server. The erase button works even with the Kurz off. */
+  protected readonly kurzStatus = this.kurz.status;
+  protected kurzErase = signal<'idle' | 'confirm' | 'busy'>('idle');
+  protected kurzMessage = signal<{ kind: 'success' | 'error'; text: string } | null>(null);
+
+  constructor() {
+    effect(() => {
+      if (this.auth.currentUser()) void this.kurz.loadStatus();
+    });
+  }
+
+  protected when(iso: string): string {
+    return new Intl.DateTimeFormat(this.locale, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(iso));
+  }
+
+  /** Two steps, like deleting a comment: the first click asks, the second erases. */
+  async eraseConversations(): Promise<void> {
+    if (this.kurzErase() === 'idle') {
+      this.kurzErase.set('confirm');
+      this.kurzMessage.set(null);
+      return;
+    }
+    if (this.kurzErase() === 'busy') return;
+    this.kurzErase.set('busy');
+    const deleted = await this.kurz.deleteAll();
+    this.kurzErase.set('idle');
+    this.kurzMessage.set(
+      deleted === null
+        ? { kind: 'error', text: $localize`:@@settings.error:Something went wrong. Try again.` }
+        : { kind: 'success', text: $localize`:@@kurz.settings.erased:Erased ${deleted}:count: conversations.` },
+    );
   }
 
   displayName = signal(this.auth.currentUser()?.displayName ?? '');

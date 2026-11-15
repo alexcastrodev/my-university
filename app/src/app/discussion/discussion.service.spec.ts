@@ -167,4 +167,49 @@ describe('DiscussionService', () => {
     expect(service.error()).toBe('tooMany');
     expect(service.busy()).toBe(false);
   });
+
+  describe('the panel tabs and the Kurz', () => {
+    const anchor = { key: 'abcdef0123456789', index: 3, quote: 'a paragraph' };
+
+    it('opens on the Kurz tab from a paragraph, and on the discussion from a marker or a link', async () => {
+      await loadTopic('/dotnet-concepts/a', [marker(1)]);
+      service.openBlock(anchor, null);
+      expect(service.tab()).toBe('kurz');
+      service.openMarker(marker(1));
+      http.expectOne('/api/discussions/markers/1').flush({ id: 1, quote: 'q', commentCount: 1, threads: [] });
+      expect(service.tab()).toBe('discussion');
+    });
+
+    it('opens a conversation about the whole post, with no paragraph and no discussion', async () => {
+      await loadTopic('/dotnet-concepts/a');
+      service.openPost();
+      expect(service.panelOpen()).toBeTrue();
+      expect(service.target()).toEqual({ markerId: null, block: null, quote: '', reveal: false, selection: null });
+      expect(service.tab()).toBe('kurz');
+    });
+
+    it('opens the Kurz on the paragraph of a selection, with the text as the passage', async () => {
+      await loadTopic('/dotnet-concepts/a', [marker(3)]);
+      const node = document.createTextNode('text');
+      service.registerResolver((n) => (n === node ? { block: anchor, marker: marker(3) } : null));
+      service.askKurzAbout(node, 'the selected text');
+      http.expectOne('/api/discussions/markers/3').flush({ id: 3, quote: 'q', commentCount: 3, threads: [] });
+      expect(service.tab()).toBe('kurz');
+      expect(service.target()).toEqual({
+        markerId: 3,
+        block: anchor,
+        quote: 'the selected text',
+        reveal: false,
+        selection: 'the selected text',
+      });
+    });
+
+    it('falls back to the whole post when the selection is in no paragraph', async () => {
+      await loadTopic('/dotnet-concepts/a');
+      service.registerResolver(() => null);
+      service.askKurzAbout(document.createTextNode('x'), 'outside');
+      expect(service.target()?.block).toBeNull();
+      expect(service.target()?.selection).toBe('outside');
+    });
+  });
 });

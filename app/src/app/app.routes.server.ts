@@ -21,6 +21,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'privacy',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'computer-science/:module/:discipline',
     renderMode: RenderMode.Server,
   },

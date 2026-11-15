@@ -16,8 +16,12 @@ export function buildAskAiPrompt(
   selectedText: string,
   isSelectAll: boolean,
   pageUrl: string,
+  question = '',
 ): AskAiPromptResult {
   const trimmed = selectedText.trim();
+  const asked = question.trim();
+
+  if (asked) return buildQuestionPrompt(isSelectAll ? '' : trimmed, pageUrl, asked);
 
   if (isSelectAll) {
     const prompt = $localize`:@@askAi.prompt.selectAll:I'm studying the content at ${pageUrl}:pageUrl:. Please give me a thorough explanation of the article: break down each key concept covered, explain why it matters, and highlight any nuances or common misconceptions.`;
@@ -31,6 +35,20 @@ export function buildAskAiPrompt(
     return buildResult('clipboard', shortPrompt, fullPrompt);
   }
 
+  return buildResult('partial', fullPrompt, fullPrompt);
+}
+
+/** The student already wrote a question (in the Kurz's box): it goes along with the passage, in their words. */
+function buildQuestionPrompt(passage: string, pageUrl: string, question: string): AskAiPromptResult {
+  if (!passage) {
+    const prompt = $localize`:@@askAi.prompt.postQuestion:I'm studying the content at ${pageUrl}:pageUrl:. My question: ${question}:question:`;
+    return buildResult('select-all', prompt, prompt);
+  }
+  const fullPrompt = $localize`:@@askAi.prompt.partialQuestion:I'm studying this passage from ${pageUrl}:pageUrl: and I have a question about it:\n\n"${passage}:passage:"\n\nMy question: ${question}:question:`;
+  if (fullPrompt.length > CLIPBOARD_THRESHOLD) {
+    const shortPrompt = $localize`:@@askAi.prompt.clipboardQuestion:I'm going to paste a passage I'm studying from ${pageUrl}:pageUrl:. My question: ${question}:question:`;
+    return buildResult('clipboard', shortPrompt, fullPrompt);
+  }
   return buildResult('partial', fullPrompt, fullPrompt);
 }
 

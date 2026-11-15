@@ -109,6 +109,63 @@ function collectChars(roots: Element[]): { haystack: string; positions: CharPosi
   return { haystack: chars.join(''), positions };
 }
 
+const LETTER_OR_DIGIT = /[\p{L}\p{N}]/u;
+/** A quote with fewer letters and digits than this proves nothing: it would be found in any text. */
+const MIN_QUOTE_CHARS = 8;
+/** A long quote is looked for whole, and failing that by its two ends (the middle may have been reworded). */
+const QUOTE_EDGE_CHARS = 40;
+
+/** Letters and digits of `roots`, lowercased, in document order: the comparison the server makes. */
+function collectLetters(roots: Element[]): { haystack: string; positions: CharPosition[] } {
+  const chars: string[] = [];
+  const positions: CharPosition[] = [];
+  for (const root of roots) {
+    const walker = root.ownerDocument.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    for (let node = walker.nextNode() as Text | null; node; node = walker.nextNode() as Text | null) {
+      const value = node.data;
+      for (let i = 0; i < value.length; i++) {
+        for (const c of value[i].toLowerCase()) {
+          if (!LETTER_OR_DIGIT.test(c)) continue;
+          chars.push(c);
+          positions.push({ node, offset: i });
+        }
+      }
+    }
+  }
+  return { haystack: chars.join(''), positions };
+}
+
+/**
+ * Finds a quote of the post (what the Kurz cites) in the rendered page. The quote comes from the post's
+ * source text, so markup the page does not show (backticks, `**`, link syntax) and punctuation may differ:
+ * only letters and digits are compared, case apart, like the server does when it checks the quote.
+ */
+export function findQuoteRange(roots: Element[], quote: string): Range | null {
+  const needle = quote.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+  if (needle.length < MIN_QUOTE_CHARS) return null;
+  const { haystack, positions } = collectLetters(roots);
+
+  let start = haystack.indexOf(needle);
+  let end = start + needle.length - 1;
+  if (start === -1 && needle.length > QUOTE_EDGE_CHARS * 2) {
+    const head = needle.slice(0, QUOTE_EDGE_CHARS);
+    const tail = needle.slice(-QUOTE_EDGE_CHARS);
+    start = haystack.indexOf(head);
+    if (start !== -1) {
+      const tailAt = haystack.indexOf(tail, start + head.length);
+      end = tailAt === -1 ? start + head.length - 1 : tailAt + tail.length - 1;
+    }
+  }
+  if (start === -1) return null;
+
+  const first = positions[start];
+  const last = positions[end];
+  const range = first.node.ownerDocument.createRange();
+  range.setStart(first.node, first.offset);
+  range.setEnd(last.node, last.offset + 1);
+  return range;
+}
+
 /** Offsets (inclusive) of the characters fully inside `range`, or null when there are none. */
 export function computeHighlightOffsets(
   roots: Element[],

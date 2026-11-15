@@ -10,6 +10,7 @@ import {
   DiscussionTopic,
   MarkerDetail,
   MarkerSummary,
+  PanelTab,
   PanelTarget,
 } from './discussion.model';
 
@@ -19,6 +20,9 @@ const API = '/api/discussions';
 export const MARKER_PARAM = 'm';
 
 export type DiscussionError = 'tooMany' | 'failed' | null;
+
+/** Where on the page a node is: its paragraph, and that paragraph's discussion if it has one. Set by the host. */
+export type BlockResolver = (node: Node) => { block: BlockAnchor; marker: MarkerSummary | null } | null;
 
 /**
  * State and API calls for the paragraph discussions of the concept page on screen. The page's
@@ -38,6 +42,9 @@ export class DiscussionService {
   enabled = signal(this.readPreference());
   markers = signal<MarkerSummary[]>([]);
   target = signal<PanelTarget | null>(null);
+  /** The tab the panel opens on: the Kurz, except when the reader came for a discussion (a link, the list). */
+  tab = signal<PanelTab>('kurz');
+  private resolver: BlockResolver | null = null;
   detail = signal<MarkerDetail | null>(null);
   busy = signal(false);
   error = signal<DiscussionError>(null);
@@ -106,6 +113,7 @@ export class DiscussionService {
   /** Opens the discussion of a paragraph the reader clicked. */
   openBlock(block: BlockAnchor, marker: MarkerSummary | null): void {
     this.error.set(null);
+    this.tab.set('kurz');
     this.target.set({ markerId: marker?.id ?? null, block, quote: marker?.quote ?? block.quote, reveal: false });
     this.afterTargetChange(marker?.id ?? null);
   }
@@ -113,8 +121,37 @@ export class DiscussionService {
   /** Opens a discussion from the "other paragraphs" list or a shared link. */
   openMarker(marker: MarkerSummary, block: BlockAnchor | null = null): void {
     this.error.set(null);
+    this.tab.set('discussion');
     this.target.set({ markerId: marker.id, block, quote: marker.quote, reveal: true });
     this.afterTargetChange(marker.id);
+  }
+
+  /** The host tells the service how to find the paragraph of a node, so a selection can open the Kurz on it. */
+  registerResolver(resolver: BlockResolver | null): void {
+    this.resolver = resolver;
+  }
+
+  /** "Ask the Kurz" about a selection: opens the panel on the paragraph it is in, with the text as the passage. */
+  askKurzAbout(node: Node, selection: string): void {
+    const hit = this.resolver?.(node) ?? null;
+    this.error.set(null);
+    this.tab.set('kurz');
+    this.target.set({
+      markerId: hit?.marker?.id ?? null,
+      block: hit?.block ?? null,
+      quote: selection,
+      reveal: false,
+      selection,
+    });
+    this.afterTargetChange(hit?.marker?.id ?? null);
+  }
+
+  /** The Kurz's floating button: a conversation about the whole post. */
+  openPost(): void {
+    this.error.set(null);
+    this.tab.set('kurz');
+    this.target.set({ markerId: null, block: null, quote: '', reveal: false, selection: null });
+    this.afterTargetChange(null);
   }
 
   /** A discussion opened from a link or the list does not know its paragraph yet; the host fills it in. */
