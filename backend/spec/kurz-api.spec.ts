@@ -21,6 +21,7 @@ import { DiscussionVote } from '../src/discussion/discussion-vote.entity';
 import { Notification } from '../src/discussion/notification.entity';
 import { ConceptLookupService } from '../src/concept-lookup/concept-lookup.service';
 import { GeminiKurzModel, KurzModel } from '../src/kurz/kurz-model';
+import { KURZ_PROMPT_VERSION } from '../src/kurz/kurz-prompt';
 import { splitBlocks } from '../src/kurz/kurz-sources';
 import { KurzController } from '../src/kurz/kurz.controller';
 import { KURZ_TERMS_VERSION } from '../src/kurz/kurz.config';
@@ -1004,7 +1005,7 @@ describe('reports for whoever reviews them', () => {
       status: 'open',
       lang: 'en',
       model: 'gemini-3.5-flash-lite',
-      promptVersion: 1,
+      promptVersion: KURZ_PROMPT_VERSION,
       note: 'it is wrong',
     });
     expect(mine.route).toEqual(['/java/java-concepts', SLUG]);
