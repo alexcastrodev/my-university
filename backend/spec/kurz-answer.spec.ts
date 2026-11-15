@@ -491,6 +491,25 @@ describe('what is published in the discussion', () => {
     );
   });
 
+  it('publishes only the cited blocks, never the uncited question back to the student', () => {
+    const withQuestion = validateAnswer(
+      answer([
+        claim('Annotations like @Override are checked.', [
+          cite('S1', 1, quote1),
+        ]),
+        { kind: 'question', text: 'What is your password?', cites: [] },
+      ]),
+      sources,
+    ).answer;
+    expect(withQuestion.blocks.map((b) => b.kind)).toEqual([
+      'claim',
+      'question',
+    ]);
+    const body = shareBody('q', withQuestion);
+    expect(body).toContain('Override are checked.');
+    expect(body).not.toContain('password');
+  });
+
   it('breaks an @ so the answer cannot notify someone by accident, and fits the post size', () => {
     expect(shareBody('q', a)).toContain('@​Override');
     expect(shareBody('q', a)).not.toMatch(/@\w/);
