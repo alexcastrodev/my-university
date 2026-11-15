@@ -82,18 +82,23 @@ const REFUSED: KurzAnswer = {
  * E-mail addresses cannot link either, since the share breaks every `@`.
  */
 export function stripLinks(text: string): string {
-  return text
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
-    .replace(/^ {0,3}\[[^\]]+\]:\s*\S+.*$/gm, '')
-    .replace(/<?\b[a-z][a-z0-9+.-]*:\/\/[^\s)>\]]*>?/gi, '')
-    .replace(
-      /<?\b(?:javascript|vbscript|data|file|mailto|tel|sms):[^\s>]+>?/gi,
-      '',
-    )
-    .replace(/\bwww\.[^\s)>\]]+/gi, '')
-    .replace(/[ \t]+\n/g, '\n')
-    .trim();
+  return (
+    text
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+      .replace(/^ {0,3}\[[^\]]+\]:\s*\S+.*$/gm, '')
+      .replace(/\b[a-z][a-z0-9+.-]*:\/\/[^\s)>\]]*/gi, '')
+      .replace(
+        /\b(?:javascript|vbscript|data|file|mailto|tel|sms):[^\s>]+/gi,
+        '',
+      )
+      .replace(/\bwww\.[^\s)>\]]+/gi, '')
+      // What is left of an autolink, `<ftp://…>`, is an empty `<>`: one character at a time, never a pattern
+      // that starts with `<` (this is not an HTML sanitizer; the page escapes the text).
+      .replace(/<(?=>)|(?<=<)>/g, '')
+      .replace(/[ \t]+\n/g, '\n')
+      .trim()
+  );
 }
 
 const isRecord = (v: unknown): v is Record<string, unknown> =>
