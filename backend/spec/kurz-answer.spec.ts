@@ -452,6 +452,26 @@ describe('what the Kurz lets through (validateAnswer)', () => {
     expect(r.answer.followUps).toEqual(['See', 'Fine one']);
     expect(stripLinks('<https://a.example/b> ok')).toBe('ok');
   });
+
+  it('strips the links GFM would make live in the discussion, and keeps code that only looks like a host', () => {
+    for (const [given, kept] of [
+      ['Go to www.evil.example/login now', 'Go to  now'],
+      ['See WWW.Evil.Example.', 'See'],
+      ['Open ftp://evil.example/x or ssh://h', 'Open  or'],
+      ['Click javascript:alert(1) here', 'Click  here'],
+      ['Mail mailto:a@evil.example', 'Mail'],
+      ['<ftp://evil.example> ok', 'ok'],
+      ['Read [this][1] ok\n[1]: www.evil.example', 'Read [this][1] ok'],
+    ])
+      expect(stripLinks(given)).toBe(kept);
+    // Not links: code and prose with a dot or a colon in it.
+    for (const text of [
+      'Call System.out.println(record.name()) here.',
+      'In Java, `Map<K, V>` maps a key: value.',
+      'Use std::vector and a ratio of 3:1.',
+    ])
+      expect(stripLinks(text)).toBe(text);
+  });
 });
 
 describe('what is published in the discussion', () => {

@@ -75,12 +75,21 @@ const REFUSED: KurzAnswer = {
 /**
  * What the model wrote must never carry a link: the page renders no link or image from it, and the text may be
  * published in the public discussion, where a link would be live. Links come from our own table (`see`, citations).
+ *
+ * The discussion renders GFM, which also turns `www.` hosts into links, so those go too, with any `scheme://`
+ * address and the schemes a link could run or dial (`javascript:`, `data:`, `mailto:`…). A bare `evil.example`
+ * stays: GFM does not link it, and telling it apart from code (`System.out`, `record.name()`) is not possible.
+ * E-mail addresses cannot link either, since the share breaks every `@`.
  */
 export function stripLinks(text: string): string {
   return text
     .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
     .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
-    .replace(/<?\bhttps?:\/\/[^\s)>\]]+>?/gi, '')
+    .replace(/^ {0,3}\[[^\]]+\]:\s*\S+.*$/gm, '')
+    .replace(/<[a-z][a-z0-9+.-]*:[^\s>]*>/gi, '')
+    .replace(/\b[a-z][a-z0-9+.-]*:\/\/[^\s)>\]]*/gi, '')
+    .replace(/\b(?:javascript|vbscript|data|file|mailto|tel|sms):\S+/gi, '')
+    .replace(/\bwww\.[^\s)>\]]+/gi, '')
     .replace(/[ \t]+\n/g, '\n')
     .trim();
 }
