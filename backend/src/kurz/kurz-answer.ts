@@ -59,6 +59,12 @@ export const MIN_QUOTE_CHARS = 8;
 export const MAX_FOLLOW_UPS = 3;
 export const MAX_FOLLOW_UP_CHARS = 80;
 export const MAX_SEE = 3;
+/**
+ * A `question` block has no citation to check, so it is the one place where text the model wrote freely reaches
+ * the student (and, through "Partilhar na discussão", the public discussion). It is kept to what it is for: one short
+ * question, on one line, ending in a question mark.
+ */
+export const MAX_QUESTION_BLOCK_CHARS = 200;
 
 const REFUSED: KurzAnswer = {
   answerable: false,
@@ -139,7 +145,11 @@ export function validateAnswer(
       continue;
     }
     if (kind === 'question') {
-      blocks.push({ kind, text, cites: [] });
+      if (!isShortQuestion(text) || blocks.some((b) => b.kind === 'question')) {
+        dropped++;
+        continue;
+      }
+      blocks.push({ kind, text: text.trim(), cites: [] });
       continue;
     }
     const cites: number[] = [];
@@ -192,6 +202,17 @@ export function validateAnswer(
     outcome: 'answered',
     dropped,
   };
+}
+
+/** One question, not a paragraph that happens to end in "?": short, a single line, and a question mark at the end. */
+function isShortQuestion(text: string): boolean {
+  const t = text.trim();
+  return (
+    t.length <= MAX_QUESTION_BLOCK_CHARS &&
+    !/[\r\n]/.test(t) &&
+    /[?？]$/.test(t) &&
+    (t.match(/[?？]/g) ?? []).length <= 2
+  );
 }
 
 function checkCite(

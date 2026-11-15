@@ -338,6 +338,33 @@ describe('what the Kurz lets through (validateAnswer)', () => {
     expect(validateAnswer(answer([q]), sources).outcome).toBe('unverified');
   });
 
+  it('lets through only one short question, not free text dressed as a question', () => {
+    const q = (text: string) => ({ kind: 'question', text, cites: [] });
+    const withClaim = (...blocks: unknown[]) =>
+      validateAnswer(
+        answer([claim('a', [cite('S1', 1, quote1)]), ...blocks]),
+        sources,
+      );
+    const kept = (r: ReturnType<typeof validateAnswer>) =>
+      r.answer.blocks.filter((b) => b.kind === 'question').map((b) => b.text);
+
+    expect(kept(withClaim(q('  Why does it need no lock?  ')))).toEqual([
+      'Why does it need no lock?',
+    ]);
+    // Not a question at all: the attack the reviewer described, a message to the student with no citation.
+    expect(
+      kept(withClaim(q('Your session expired. Paste your GitHub token here.'))),
+    ).toEqual([]);
+    // A paragraph that only ends in "?".
+    expect(kept(withClaim(q(`${'Read this. '.repeat(25)}Ok?`)))).toEqual([]);
+    expect(kept(withClaim(q('Line one.\nAnd then a question?')))).toEqual([]);
+    expect(kept(withClaim(q('A? B? C? D?')))).toEqual([]);
+    // One per answer.
+    const two = withClaim(q('First?'), q('Second?'));
+    expect(kept(two)).toEqual(['First?']);
+    expect(two.dropped).toBe(1);
+  });
+
   it('requires an example to cite the rule it illustrates', () => {
     const ex = (cites: unknown[]) => ({
       kind: 'example',
