@@ -13,14 +13,27 @@ interface ScrubbableEvent {
 
 /**
  * What a student writes to the Kurz (the question, the selection) and what it answers must never reach Sentry:
- * not in the request body, not in a breadcrumb, not in extra data. An event from a `/api/kurz` request keeps its
+ * not in the request body, not in a breadcrumb, not in extra data. An event from a Kurz request keeps its
  * route, status, stack and timing, and loses the rest. (The server code logs only ids, sizes and token counts.)
  */
+/** A Kurz route, with or without the `/api` prefix, whole or relative, in any case: `/api/kurz`, `/kurz/x?y`. */
+const KURZ_ROUTE = /(?:^|\/)(?:api\/)?kurz(?:[/?#]|$)/i;
+
+/** The path of a URL, whether the SDK recorded it whole (`https://host/api/kurz`) or relative (`/kurz`). */
+function pathOf(url: string): string {
+  try {
+    return new URL(url, 'http://local').pathname;
+  } catch {
+    return url;
+  }
+}
+
 export function scrubKurz<T extends ScrubbableEvent>(event: T): T {
-  if (!event.request?.url?.includes('/api/kurz')) return event;
+  const url = event.request?.url;
+  if (!url || !KURZ_ROUTE.test(pathOf(url))) return event;
   return {
     ...event,
-    request: { url: event.request.url },
+    request: { url },
     breadcrumbs: [],
     extra: undefined,
   };
