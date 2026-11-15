@@ -26,5 +26,6 @@ import { NotificationService } from './notification.service';
   ],
   controllers: [DiscussionController, NotificationController],
   providers: [DiscussionService, NotificationService],
+  exports: [DiscussionService],
 })
 export class DiscussionModule {}

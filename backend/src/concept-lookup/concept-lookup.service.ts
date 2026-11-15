@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConceptSection } from '../shared/concept-content';
+import { ConceptLinkRef } from '../shared/concept-types';
 import { AlgorithmsConceptsService } from '../algorithms-concepts/algorithms-concepts.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
@@ -26,6 +27,43 @@ import { toUtcDateKey } from '../xp/streak';
 import { Language } from '../shared/language';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** What every track hands back for a post, whatever its own detail type adds. */
+export interface ConceptDetailCore {
+  title: string;
+  sections: ConceptSection[];
+  /** The frontmatter `version`; null when the file has none. */
+  version: string | null;
+  /** The one-line summary; null for the tracks that have none (the minutes). */
+  summary: string | null;
+  /** What the author linked as related; empty for the tracks that have none. */
+  related: ConceptLinkRef[];
+}
+
+function detailCore(
+  title: string,
+  d: {
+    sections: ConceptSection[];
+    version?: string | null;
+    summary?: string;
+    related?: ConceptLinkRef[];
+  },
+): ConceptDetailCore {
+  return {
+    title,
+    sections: d.sections,
+    version: d.version ?? null,
+    summary: d.summary ?? null,
+    related: d.related ?? [],
+  };
+}
+
+/** A post another one points at, in the shape the Kurz reads it. */
+export interface RelatedPost {
+  title: string;
+  summary: string | null;
+  route: string[];
+}
 
 export interface RecentActivityItem {
   date: string;
@@ -98,83 +136,83 @@ export class ConceptLookupService {
     module: string,
     slug: string,
     lang?: Language,
-  ): { title: string; sections: ConceptSection[] } | undefined {
+  ): ConceptDetailCore | undefined {
     switch (module) {
       case 'java-concepts': {
         const d = this.javaConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'jvm-concepts': {
         const d = this.jvmConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'spring-concepts': {
         const d = this.springConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'database-concepts': {
         const d = this.databaseConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'system-design-concepts': {
         const d = this.systemDesignConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'java-minute': {
         const d = this.javaMinute.findBySlug(slug, lang);
-        return d ? { title: d.question, sections: d.sections } : undefined;
+        return d ? detailCore(d.question, d) : undefined;
       }
       case 'csharp-minute': {
         const d = this.cSharpMinute.findBySlug(slug, lang);
-        return d ? { title: d.question, sections: d.sections } : undefined;
+        return d ? detailCore(d.question, d) : undefined;
       }
       case 'testing-concepts': {
         const d = this.testingConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'algorithms-concepts': {
         const d = this.algorithmsConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'ruby-concepts': {
         const d = this.rubyConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'rubyonrails-concepts': {
         const d = this.rubyOnRailsConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'dotnet-concepts': {
         const d = this.dotNetConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'csharp-concepts': {
         const d = this.cSharpConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'dotnet-testing-concepts': {
         const d = this.dotNetTestingConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'dotnet-ai-concepts': {
         const d = this.dotNetAiConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'rust-concepts': {
         const d = this.rustConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'go-concepts': {
         const d = this.goConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'quarkus-concepts': {
         const d = this.quarkusConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       case 'kubernetes-concepts': {
         const d = this.kubernetesConcepts.findBySlug(slug, lang);
-        return d ? { title: d.title, sections: d.sections } : undefined;
+        return d ? detailCore(d.title, d) : undefined;
       }
       default:
         return undefined;
@@ -190,19 +228,48 @@ export class ConceptLookupService {
     sourceType: ConceptSourceType,
     sourceId: string,
     lang?: Language,
-  ): { title: string; sections: ConceptSection[]; route: string[] } | null {
+  ): (ConceptDetailCore & { route: string[] }) | null {
     const cc = parseCurriculumSourceId(sourceId);
     if (cc) {
       const detail = this.curriculum.findBySlug(cc.module, cc.discipline, cc.slug, lang);
       if (!detail) return null;
-      return { title: detail.title, sections: detail.sections, route: cc.route };
+      return { ...detailCore(detail.title, detail), route: cc.route };
     }
 
     const resolved = fromSourceId(sourceType, sourceId);
     if (!resolved) return null;
     const detail = this.conceptDetailByModule(resolved.module, resolved.slug, lang);
     if (!detail) return null;
-    return { title: detail.title, sections: detail.sections, route: resolved.route };
+    return { ...detail, route: resolved.route };
+  }
+
+  /**
+   * The posts a post links as related (`related` in its metadata), up to `max`, as the Kurz reads them: title,
+   * summary and the route to open. A free-text mention has no page and is skipped. `feature` names the track of
+   * the target and defaults to the post's own; inside the Computer Science curriculum that default is ambiguous
+   * (the same slug can exist in several disciplines), so a link there with no `feature` is skipped too.
+   */
+  resolveRelated(
+    sourceType: ConceptSourceType,
+    sourceId: string,
+    related: ConceptLinkRef[],
+    lang: Language | undefined,
+    max: number,
+  ): RelatedPost[] {
+    const own = parseCurriculumSourceId(sourceId) ? null : fromSourceId(sourceType, sourceId);
+    const posts: RelatedPost[] = [];
+    for (const ref of related) {
+      if (posts.length >= max) break;
+      if (typeof ref === 'string') continue;
+      const module = ref.feature ?? own?.module;
+      if (!module) continue;
+      const target = toSourceId(module, ref.slug);
+      if (!target) continue;
+      const detail = this.resolveConceptDetail(target.sourceType, target.sourceId, lang);
+      if (!detail) continue;
+      posts.push({ title: detail.title, summary: detail.summary, route: detail.route });
+    }
+    return posts;
   }
 
   /** module + slug (+ discipline for Computer Science) -> the sourceType/sourceId identity the XP
@@ -211,6 +278,27 @@ export class ConceptLookupService {
     if (!discipline) return toSourceId(module, slug);
     if (!this.curriculum.findBySlug(module, discipline, slug)) return null;
     return { sourceType: 'concept-read', sourceId: curriculumSourceId(module, discipline, slug) };
+  }
+
+  /** The inverse of how a discussion or conversation names its page (`<sourceType>:<sourceId>`): module, slug, discipline. */
+  topicOfKey(topicKey: string): { module: string; slug: string; discipline?: string } | null {
+    const colon = topicKey.indexOf(':');
+    if (colon < 0) return null;
+    const sourceType = topicKey.slice(0, colon);
+    const sourceId = topicKey.slice(colon + 1);
+    if (sourceType !== 'concept-read' && sourceType !== 'episode-watched') return null;
+    const cc = parseCurriculumSourceId(sourceId);
+    if (cc) return { module: cc.module, slug: cc.slug, discipline: cc.discipline };
+    const resolved = fromSourceId(sourceType, sourceId);
+    return resolved ? { module: resolved.module, slug: resolved.slug } : null;
+  }
+
+  /** The route of the page a `topicKey` names, or null when the post is gone. */
+  routeOfTopicKey(topicKey: string): string[] | null {
+    const topic = this.topicOfKey(topicKey);
+    if (!topic) return null;
+    const source = this.resolveTopic(topic.module, topic.slug, topic.discipline);
+    return source ? (this.resolveConceptDetail(source.sourceType, source.sourceId)?.route ?? null) : null;
   }
 
   /** Human title for a Computer Science curriculum concept, or undefined if its discipline/content

@@ -170,6 +170,24 @@ jobs:
                       sys.exit('an upload location lost: ' + need)
           PY
 
+      - name: The Kurz keeps its rate limit and its timeout in nginx, and is never cached
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import re, sys
+          conf = open('nginx.conf').read()
+          if 'zone=kurz_rl' not in conf:
+              sys.exit('nginx lost the kurz_rl zone')
+          m = re.search(r"    location \^~ /api/kurz \{\n(?:(?!\n    \}).)*\n    \}", conf, re.S)
+          if not m:
+              sys.exit('nginx lost the /api/kurz location')
+          for need in ('limit_req zone=kurz_rl', 'proxy_read_timeout'):
+              if need not in m.group(0):
+                  sys.exit('the /api/kurz location lost: ' + need)
+          if 'proxy_cache' in m.group(0):
+              sys.exit('the /api/kurz location must never be cached: it answers per student')
+          PY
+
   # public/books/<github login>.md lists one person's books on their public profile, and the profile reads it
   # straight from the repository. The file name is the identity, so a pull request may only touch the file named
   # after its own author (the owner of the repository curates and is exempt). `pull_request`, not

@@ -50,6 +50,14 @@ export class User {
   @Column({ default: true })
   notifyReplies: boolean;
 
+  /** When the student confirmed the privacy notice and that they are 18 or older, the condition of asking the Kurz. */
+  @Column({ type: 'timestamp', nullable: true })
+  aiTermsAcceptedAt: Date | null;
+
+  /** Which version of that text they confirmed (`KURZ_TERMS_VERSION`); they confirm again when it changes. */
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  aiTermsVersion: string | null;
+
   @CreateDateColumn()
   createdAt: Date;
 

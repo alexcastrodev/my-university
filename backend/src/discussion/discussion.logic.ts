@@ -11,7 +11,7 @@ export function normalizeForMatch(text: string): string {
 }
 
 /** What the reader actually sees for the inline syntax that adds text the rendered page does not show. */
-function renderedText(markdown: string): string {
+export function renderedText(markdown: string): string {
   return markdown
     .replace(/\{\{([^{}]+)\}\}\[\^[\w-]+\]/g, '$1')
     .replace(/\[\[[^[\]|]+\|([^[\]]+)\]\]/g, '$1')

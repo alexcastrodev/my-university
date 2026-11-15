@@ -6,6 +6,7 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AdminModule } from './admin/admin.module';
+import { KurzModule } from './kurz/kurz.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
@@ -108,6 +109,7 @@ import { XpModule } from './xp/xp.module';
     }),
     AuthModule,
     AdminModule,
+    KurzModule,
     CourseNestModule,
     JavaMinuteModule,
     CSharpMinuteModule,

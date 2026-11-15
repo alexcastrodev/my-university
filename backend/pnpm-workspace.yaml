@@ -3,6 +3,8 @@ minimumReleaseAgeExclude:
 
 allowBuilds:
   '@nestjs/core': true
+  # protobufjs (a dependency of @google/genai): its postinstall only prepares the `pbjs` CLI, which nobody runs here.
+  protobufjs: false
   unrs-resolver: true
 
 # @nestjs/platform-fastify 11.x pins fastify 5.11.3, which has known advisories
