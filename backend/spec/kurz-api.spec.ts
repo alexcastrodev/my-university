@@ -410,6 +410,44 @@ describe('the order in which a student is stopped, and what each stop answers', 
     expect(spy).not.toHaveBeenCalled();
   });
 
+  it('does not stop an admin for lack of balance, and still bills what they spend', async () => {
+    const admin = await student({ credit: 0, role: 'admin' });
+    const spy = spyModel();
+    const res = await ask(admin, 'hello');
+    expect(res.status).toBe(200);
+    expect(spy).toHaveBeenCalledTimes(1);
+    const cost = await fakeCredits();
+    expect(await json(res)).toMatchObject({ credits: cost, balance: -cost });
+    expect(await credits.balance(admin.id)).toBe(-cost);
+    expect(await lastUsage(admin.id)).toMatchObject({
+      status: 'ok',
+      credits: cost,
+    });
+  });
+
+  it('shows an admin the notice and asks for the terms before their first question, though they hold no credit', async () => {
+    const admin = await student({ credit: 0, role: 'admin', terms: false });
+    const spy = spyModel();
+    expect(
+      await json(await t.call('GET', '/kurz/status', admin.cookie)),
+    ).toMatchObject({ unmetered: true, termsRequired: true, blocked: null });
+    const res = await ask(admin, 'hello');
+    expect(res.status).toBe(403);
+    expect((await json(res)).code).toBe('AI_TERMS_REQUIRED');
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('keeps the platform budget in force for an admin', async () => {
+    const admin = await student({ credit: 0, role: 'admin' });
+    expect((await ask(admin, 'hello')).status).toBe(200); // it spends, so the day has something in it
+    const spy = spyModel();
+    process.env.KURZ_PLATFORM_BUDGET_DAILY_USD = '0.000000001';
+    const res = await ask(admin, 'hello again');
+    expect(res.status).toBe(429);
+    expect((await json(res)).code).toBe('PLATFORM_BUDGET_DAILY');
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('stops everyone when the platform budget is spent, even with credit, without a call or a charge', async () => {
     const s = await student();
     const spy = spyModel();

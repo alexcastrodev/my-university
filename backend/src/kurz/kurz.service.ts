@@ -166,8 +166,8 @@ export class KurzService implements OnApplicationBootstrap, OnModuleDestroy {
     return {
       enabled: this.enabled(),
       termsVersion: KURZ_TERMS_VERSION,
-      // The notice is shown the first time they try the Kurz with credit, not to someone who cannot ask yet.
-      termsRequired: !accepted && status.balance > 0,
+      // The notice is shown the first time they try the Kurz with credit (an admin needs none), not to someone who cannot ask yet.
+      termsRequired: !accepted && (status.balance > 0 || status.unmetered),
       ...status,
     };
   }
