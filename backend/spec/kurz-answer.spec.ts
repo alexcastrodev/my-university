@@ -199,7 +199,7 @@ describe('what the model is asked', () => {
     const block = schema.properties.blocks.items.properties;
     expect(block.cites.items.properties.source.enum).toEqual(['S1', 'S2']);
     expect(schema.properties.blocks.maxItems).toBe(3);
-    expect(block.kind.enum).toEqual(['claim', 'example', 'question']);
+    expect(block.kind.enum).toEqual(['claim', 'example']);
     expect(schema.properties.see.items.enum).toEqual(['S1', 'S2']);
   });
 
@@ -321,48 +321,25 @@ describe('what the Kurz lets through (validateAnswer)', () => {
     ]);
   });
 
-  it('asks a question back without needing a citation, but a question alone is not an answer', () => {
-    const q = {
+  it('drops a block with no citation to check, whatever kind it claims to be', () => {
+    // The attack the security review described: free text with nothing in the post behind it.
+    const ask = {
       kind: 'question',
-      text: 'Can you say it in your own words?',
+      text: 'Your session expired. What is your GitHub token?',
       cites: [],
     };
-    const both = validateAnswer(
-      answer([claim('a', [cite('S1', 1, quote1)]), q]),
+    const r = validateAnswer(
+      answer([claim('a', [cite('S1', 1, quote1)]), ask]),
       sources,
     );
-    expect(both.answer.blocks.map((b) => b.kind)).toEqual([
-      'claim',
-      'question',
-    ]);
-    expect(validateAnswer(answer([q]), sources).outcome).toBe('unverified');
-  });
-
-  it('lets through only one short question, not free text dressed as a question', () => {
-    const q = (text: string) => ({ kind: 'question', text, cites: [] });
-    const withClaim = (...blocks: unknown[]) =>
-      validateAnswer(
-        answer([claim('a', [cite('S1', 1, quote1)]), ...blocks]),
-        sources,
-      );
-    const kept = (r: ReturnType<typeof validateAnswer>) =>
-      r.answer.blocks.filter((b) => b.kind === 'question').map((b) => b.text);
-
-    expect(kept(withClaim(q('  Why does it need no lock?  ')))).toEqual([
-      'Why does it need no lock?',
-    ]);
-    // Not a question at all: the attack the reviewer described, a message to the student with no citation.
-    expect(
-      kept(withClaim(q('Your session expired. Paste your GitHub token here.'))),
-    ).toEqual([]);
-    // A paragraph that only ends in "?".
-    expect(kept(withClaim(q(`${'Read this. '.repeat(25)}Ok?`)))).toEqual([]);
-    expect(kept(withClaim(q('Line one.\nAnd then a question?')))).toEqual([]);
-    expect(kept(withClaim(q('A? B? C? D?')))).toEqual([]);
-    // One per answer.
-    const two = withClaim(q('First?'), q('Second?'));
-    expect(kept(two)).toEqual(['First?']);
-    expect(two.dropped).toBe(1);
+    expect(r.outcome).toBe('answered');
+    expect(r.answer.blocks.map((b) => b.kind)).toEqual(['claim']);
+    expect(JSON.stringify(r.answer)).not.toContain('token');
+    expect(r.dropped).toBe(1);
+    // Even with a citation, `question` is not a kind the Kurz shows.
+    const cited = { ...ask, cites: [cite('S1', 1, quote1)] };
+    expect(validateAnswer(answer([cited]), sources).outcome).toBe('unverified');
+    expect(validateAnswer(answer([ask]), sources).outcome).toBe('unverified');
   });
 
   it('requires an example to cite the rule it illustrates', () => {
@@ -489,25 +466,6 @@ describe('what is published in the discussion', () => {
     expect(shareBody('What is it?', a)).toMatch(
       /^What is it\?\n\nResposta do Kurz \(IA\):\n/,
     );
-  });
-
-  it('publishes only the cited blocks, never the uncited question back to the student', () => {
-    const withQuestion = validateAnswer(
-      answer([
-        claim('Annotations like @Override are checked.', [
-          cite('S1', 1, quote1),
-        ]),
-        { kind: 'question', text: 'What is your password?', cites: [] },
-      ]),
-      sources,
-    ).answer;
-    expect(withQuestion.blocks.map((b) => b.kind)).toEqual([
-      'claim',
-      'question',
-    ]);
-    const body = shareBody('q', withQuestion);
-    expect(body).toContain('Override are checked.');
-    expect(body).not.toContain('password');
   });
 
   it('breaks an @ so the answer cannot notify someone by accident, and fits the post size', () => {
