@@ -62,7 +62,7 @@ describe('every admin route names the permission it needs', () => {
 
   it('finds the routes, and none is without a permission, and each is one the code knows', () => {
     const found = routes();
-    expect(found.length).toBe(7);
+    expect(found.length).toBe(11);
     for (const r of found) {
       expect(r.permission, `${r.method} ${r.path}`).toBeTruthy();
       expect(PERMISSIONS as readonly string[]).toContain(r.permission);

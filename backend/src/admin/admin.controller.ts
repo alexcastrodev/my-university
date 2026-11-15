@@ -7,6 +7,7 @@ import {
   HttpCode,
   Param,
   ParseIntPipe,
+  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -14,9 +15,13 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { RequirePermission } from '../auth/permission.guard';
+import { AiCreditsService } from '../ai/ai-credits.service';
+import { PlatformBudgetService } from '../ai/platform-budget.service';
 import { CurrentUserId } from '../auth/session';
 import {
   CreateRoleDto,
+  GrantCreditsDto,
+  ReverseGrantDto,
   SetUserRolesDto,
   UpdateRoleDto,
   UsersQueryDto,
@@ -36,7 +41,11 @@ import { AdminService } from './admin.service';
   }),
 )
 export class AdminController {
-  constructor(private service: AdminService) {}
+  constructor(
+    private service: AdminService,
+    private credits: AiCreditsService,
+    private budget: PlatformBudgetService,
+  ) {}
 
   @Get('roles')
   @Header('Cache-Control', 'no-store')
@@ -48,7 +57,12 @@ export class AdminController {
   @Post('roles')
   @RequirePermission('roles.manage')
   createRole(@CurrentUserId() actor: number, @Body() dto: CreateRoleDto) {
-    return this.service.createRole(actor, dto.name, dto.permissions);
+    return this.service.createRole(
+      actor,
+      dto.name,
+      dto.permissions,
+      dto.aiDailyCreditLimit,
+    );
   }
 
   @Put('roles/:id')
@@ -58,7 +72,12 @@ export class AdminController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateRoleDto,
   ) {
-    return this.service.updateRole(actor, id, dto.permissions);
+    return this.service.updateRole(
+      actor,
+      id,
+      dto.permissions,
+      dto.aiDailyCreditLimit,
+    );
   }
 
   @Delete('roles/:id')
@@ -93,5 +112,41 @@ export class AdminController {
   @RequirePermission('admin.access')
   audit() {
     return this.service.recentAudit();
+  }
+
+  /** A user's balance, the grants that made it, and what they used per day. */
+  @Get('users/:id/credits')
+  @Header('Cache-Control', 'no-store')
+  @RequirePermission('users.view')
+  userCredits(@Param('id', ParseIntPipe) id: number) {
+    return this.credits.summary(id);
+  }
+
+  @Post('users/:id/credits')
+  @RequirePermission('ai_credits.grant')
+  grantCredits(
+    @CurrentUserId() actor: number,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: GrantCreditsDto,
+  ) {
+    return this.credits.grant(actor, id, dto.amount, dto.reason);
+  }
+
+  @Post('credits/:grantId/reverse')
+  @RequirePermission('ai_credits.reverse')
+  reverseGrant(
+    @CurrentUserId() actor: number,
+    @Param('grantId', ParseUUIDPipe) grantId: string,
+    @Body() dto: ReverseGrantDto,
+  ) {
+    return this.credits.reverse(actor, grantId, dto.reason);
+  }
+
+  /** What the platform has spent on the model today and this month, in US$, against its budget. */
+  @Get('ai/budget')
+  @Header('Cache-Control', 'no-store')
+  @RequirePermission('admin.access')
+  platformBudget() {
+    return this.budget.adminView();
   }
 }

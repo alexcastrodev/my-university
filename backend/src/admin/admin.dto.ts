@@ -30,6 +30,13 @@ export class CreateRoleDto {
   @ArrayUnique()
   @IsIn(PERMISSIONS, { each: true })
   permissions: string[];
+
+  /** Credits a user of this role may spend in any 24 hours. Changing it needs `ai_credits.grant`. */
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(1_000_000)
+  aiDailyCreditLimit?: number;
 }
 
 export class UpdateRoleDto {
@@ -38,6 +45,13 @@ export class UpdateRoleDto {
   @ArrayUnique()
   @IsIn(PERMISSIONS, { each: true })
   permissions: string[];
+
+  /** Credits a user of this role may spend in any 24 hours. Changing it needs `ai_credits.grant`. */
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(1_000_000)
+  aiDailyCreditLimit?: number;
 }
 
 export class SetUserRolesDto {
@@ -64,4 +78,23 @@ export class UsersQueryDto {
   @Min(1)
   @Max(100000)
   page?: number;
+}
+
+export class GrantCreditsDto {
+  @IsInt()
+  @Min(1)
+  @Max(1_000_000)
+  amount: number;
+
+  @Transform(trim)
+  @IsString()
+  @Length(1, 200)
+  reason: string;
+}
+
+export class ReverseGrantDto {
+  @Transform(trim)
+  @IsString()
+  @Length(1, 200)
+  reason: string;
 }

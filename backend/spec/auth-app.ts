@@ -28,6 +28,8 @@ export interface AuthApp {
   ) => Promise<Response>;
   /** Makes a role holding `permissions`, named after this run, and gives it to the user. */
   give: (userId: number, permissions: string[]) => Promise<number>;
+  /** A provider of the running app, by class. */
+  get: <T>(token: Type<T>) => T;
   close: () => Promise<void>;
 }
 
@@ -88,6 +90,7 @@ export async function startAuthApp(
     dataSource,
     run,
     call,
+    get: (token) => app.get(token, { strict: false }),
     async signIn(role) {
       const res = await call('POST', '/auth/_test/login', undefined, {
         displayName: `t${n++} ${run}`,
@@ -121,6 +124,13 @@ export async function startAuthApp(
             OR "targetUserId" IN (SELECT id FROM "user" WHERE "displayName" LIKE $1)`,
         [mine],
       );
+      // The ledger first, reversals before what they reverse: `grantedByUserId` has no ON DELETE action.
+      const ours = `SELECT id FROM "user" WHERE "displayName" LIKE $1`;
+      for (const kind of ['= 4', '<> 4'])
+        await dataSource.query(
+          `DELETE FROM ai_credit_grant WHERE kind ${kind} AND ("userId" IN (${ours}) OR "grantedByUserId" IN (${ours}))`,
+          [mine],
+        );
       await dataSource.query(`DELETE FROM role WHERE name LIKE $1`, [mine]);
       await dataSource.query(`DELETE FROM "user" WHERE "displayName" LIKE $1`, [
         mine,

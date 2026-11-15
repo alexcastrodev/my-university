@@ -7,6 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
+import { recordAudit } from '../auth/audit';
 import { holdsAll } from '../auth/permissions';
 import { PermissionsService } from '../auth/permissions.service';
 import { USERS_PAGE_SIZE } from './admin.dto';
@@ -16,6 +17,7 @@ export interface RoleView {
   name: string;
   system: boolean;
   permissions: string[];
+  aiDailyCreditLimit: number;
   users: number;
 }
 
@@ -25,6 +27,8 @@ export interface AdminUserView {
   displayName: string;
   avatarUrl: string;
   createdAt: string;
+  /** Credits left (see `AiCreditsService.balance`). */
+  balance: number;
   roles: { id: number; name: string }[];
 }
 
@@ -51,7 +55,7 @@ export class AdminService {
 
   async listRoles(): Promise<RoleView[]> {
     const rows: RoleView[] = await this.dataSource.query(
-      `SELECT r.id, r.name, r.system,
+      `SELECT r.id, r.name, r.system, r."aiDailyCreditLimit",
               COALESCE(array_agg(rp.permission ORDER BY rp.permission) FILTER (WHERE rp.permission IS NOT NULL), '{}') AS permissions,
               (SELECT count(*) FROM user_role ur WHERE ur."roleId" = r.id)::int AS users
          FROM role r LEFT JOIN role_permission rp ON rp."roleId" = r.id
@@ -64,14 +68,17 @@ export class AdminService {
     actorId: number,
     name: string,
     permissions: string[],
+    aiDailyCreditLimit = 0,
   ): Promise<RoleView> {
     await this.mustHold(actorId, permissions);
+    if (aiDailyCreditLimit !== 0)
+      await this.mustHold(actorId, ['ai_credits.grant']);
     return this.dataSource.transaction(async (m) => {
       let id: number;
       try {
         const rows: { id: number }[] = await m.query(
-          `INSERT INTO role (name) VALUES ($1) RETURNING id`,
-          [name],
+          `INSERT INTO role (name, "aiDailyCreditLimit") VALUES ($1, $2) RETURNING id`,
+          [name, aiDailyCreditLimit],
         );
         id = rows[0].id;
       } catch (error) {
@@ -80,7 +87,11 @@ export class AdminService {
         throw error;
       }
       await this.setRolePermissions(m, id, permissions);
-      await this.audit(m, actorId, null, 'role.create', { name, permissions });
+      await this.audit(m, actorId, null, 'role.create', {
+        name,
+        permissions,
+        aiDailyCreditLimit,
+      });
       return this.roleView(m, id);
     });
   }
@@ -90,6 +101,7 @@ export class AdminService {
     actorId: number,
     id: number,
     permissions: string[],
+    aiDailyCreditLimit?: number,
   ): Promise<RoleView> {
     return this.dataSource.transaction(async (m) => {
       const role = await this.roleView(m, id);
@@ -100,12 +112,24 @@ export class AdminService {
       await this.mustHold(actorId, [...role.permissions, ...permissions]);
       const added = permissions.filter((p) => !role.permissions.includes(p));
       const removed = role.permissions.filter((p) => !permissions.includes(p));
-      if (added.length === 0 && removed.length === 0) return role;
+      const limit = aiDailyCreditLimit ?? role.aiDailyCreditLimit;
+      const limitChanged = limit !== role.aiDailyCreditLimit;
+      if (added.length === 0 && removed.length === 0 && !limitChanged)
+        return role;
+      if (limitChanged) await this.mustHold(actorId, ['ai_credits.grant']);
       await this.setRolePermissions(m, id, permissions);
+      if (limitChanged)
+        await m.query(
+          `UPDATE role SET "aiDailyCreditLimit" = $2 WHERE id = $1`,
+          [id, limit],
+        );
       await this.audit(m, actorId, null, 'role.permissions', {
         role: role.name,
         added,
         removed,
+        ...(limitChanged
+          ? { aiDailyCreditLimit: { from: role.aiDailyCreditLimit, to: limit } }
+          : {}),
       });
       return this.roleView(m, id);
     });
@@ -143,6 +167,7 @@ export class AdminService {
     );
     const items: AdminUserView[] = await this.dataSource.query(
       `SELECT u.id, u."githubLogin", COALESCE(u."displayNameOverride", u."displayName") AS "displayName", u."avatarUrl", u."createdAt",
+              (COALESCE((SELECT SUM(amount) FROM ai_credit_grant WHERE "userId" = u.id), 0) - COALESCE((SELECT SUM(credits) FROM ai_usage WHERE "userId" = u.id), 0))::int AS balance,
               COALESCE((SELECT json_agg(json_build_object('id', r.id, 'name', r.name) ORDER BY r.name)
                           FROM user_role ur JOIN role r ON r.id = ur."roleId" WHERE ur."userId" = u.id), '[]') AS roles
          FROM "user" u WHERE ${where}
@@ -248,22 +273,19 @@ export class AdminService {
     );
   }
 
-  private async audit(
+  private audit(
     m: EntityManager,
     actorId: number,
     targetId: number | null,
     action: string,
     detail: Record<string, unknown>,
   ): Promise<void> {
-    await m.query(
-      `INSERT INTO admin_audit_event ("actorUserId", "targetUserId", action, detail) VALUES ($1, $2, $3, $4)`,
-      [actorId, targetId, action, JSON.stringify(detail)],
-    );
+    return recordAudit(m, actorId, targetId, action, detail);
   }
 
   private async listRolesIn(m: EntityManager): Promise<RoleView[]> {
     return m.query(
-      `SELECT r.id, r.name, r.system,
+      `SELECT r.id, r.name, r.system, r."aiDailyCreditLimit",
               COALESCE(array_agg(rp.permission) FILTER (WHERE rp.permission IS NOT NULL), '{}') AS permissions, 0 AS users
          FROM role r LEFT JOIN role_permission rp ON rp."roleId" = r.id GROUP BY r.id`,
     );
@@ -271,7 +293,7 @@ export class AdminService {
 
   private async roleView(m: EntityManager, id: number): Promise<RoleView> {
     const rows: RoleView[] = await m.query(
-      `SELECT r.id, r.name, r.system,
+      `SELECT r.id, r.name, r.system, r."aiDailyCreditLimit",
               COALESCE(array_agg(rp.permission ORDER BY rp.permission) FILTER (WHERE rp.permission IS NOT NULL), '{}') AS permissions,
               (SELECT count(*) FROM user_role ur WHERE ur."roleId" = r.id)::int AS users
          FROM role r LEFT JOIN role_permission rp ON rp."roleId" = r.id WHERE r.id = $1 GROUP BY r.id`,
@@ -284,6 +306,7 @@ export class AdminService {
   private async userView(m: EntityManager, id: number): Promise<AdminUserView> {
     const rows: AdminUserView[] = await m.query(
       `SELECT u.id, u."githubLogin", COALESCE(u."displayNameOverride", u."displayName") AS "displayName", u."avatarUrl", u."createdAt",
+              (COALESCE((SELECT SUM(amount) FROM ai_credit_grant WHERE "userId" = u.id), 0) - COALESCE((SELECT SUM(credits) FROM ai_usage WHERE "userId" = u.id), 0))::int AS balance,
               COALESCE((SELECT json_agg(json_build_object('id', r.id, 'name', r.name) ORDER BY r.name)
                           FROM user_role ur JOIN role r ON r.id = ur."roleId" WHERE ur."userId" = u.id), '[]') AS roles
          FROM "user" u WHERE u.id = $1`,
