@@ -1,6 +1,6 @@
 /** Mirrors the /api/kurz responses (backend/src/kurz). */
 
-export type KurzBlockKind = 'claim' | 'example' | 'question';
+export type KurzBlockKind = 'claim' | 'example';
 
 export interface KurzCitation {
   n: number;

@@ -50,7 +50,6 @@
                 <div
                   class="block"
                   [class.example]="block.kind === 'example'"
-                  [class.ask]="block.kind === 'question'"
                 >
                   @if (block.kind === 'example') {
                     <span class="tag" i18n="@@kurz.example">Example</span>
@@ -452,7 +451,11 @@
       Open in ▾
     </button>
     @if (openInMenu()) {
-      <div class="menu" role="menu">
+      <div class="menu" role="menu" aria-describedby="kurz-open-in-note">
+        <p id="kurz-open-in-note" class="menu-note" data-testid="kurz-open-in-note" i18n="@@kurz.openIn.note">
+          Takes the passage and your question to the service you pick, outside University. Its own privacy
+          terms apply there.
+        </p>
         <button
           type="button"
           role="menuitem"
