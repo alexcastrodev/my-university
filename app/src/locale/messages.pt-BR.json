@@ -1600,6 +1600,7 @@
     "kurz.openIn.claude": "Claude",
     "kurz.openIn.chatgpt": "ChatGPT",
     "kurz.openIn.gemini": "Gemini",
+    "askAi.openIn.note": "Leva o trecho para fora do University.",
     "kurz.openIn.note": "Leva o trecho e a sua pergunta para o serviço que você escolher, fora do University. Lá valem os termos de privacidade dele.",
     "footer.privacy": "Privacidade",
     "kurz.markerAria": "Kurz e discussão, {$count} conversas e comentários",

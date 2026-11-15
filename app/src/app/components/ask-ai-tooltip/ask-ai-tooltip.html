@@ -64,7 +64,13 @@
         >⋯</button>
       }
       @if (!compact || moreOpen()) {
-        <div class="open-in" role="group" i18n-aria-label="@@kurz.openIn.group" aria-label="Open in">
+        <div
+          class="open-in"
+          role="group"
+          i18n-aria-label="@@kurz.openIn.group"
+          aria-label="Open in"
+          aria-describedby="ask-ai-open-in-note"
+        >
           <span class="open-label" i18n="@@kurz.openInLabel">Open in</span>
           <button
             type="button"
@@ -103,6 +109,9 @@
             <span i18n="@@kurz.openIn.gemini">Gemini</span>
           </button>
         </div>
+        <p id="ask-ai-open-in-note" class="open-note" data-testid="ask-ai-open-in-note" i18n="@@askAi.openIn.note">
+          Takes the passage outside University.
+        </p>
       }
     }
   </div>
