@@ -85,6 +85,7 @@
 
 .hint {
   font-size: 0.82rem;
+  line-height: 1.55;
   color: var(--mu-muted);
   margin: 0 0 0.9rem;
 }
@@ -260,8 +261,8 @@
 
 .kurz-stats {
   display: grid;
-  gap: 0.6rem;
-  margin: 0 0 0.9rem;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
 }
 
 .kurz-stats div {
@@ -284,4 +285,27 @@
 
 .kurz-stats dd.high {
   color: var(--mu-warning-strong);
+}
+
+/* Erasing the conversations is its own block: a rule above, then text, button and link each with room. */
+.kurz-privacy {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--mu-line);
+}
+
+.subsection-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--mu-ink);
+  margin: 0 0 0.5rem;
+}
+
+.kurz-privacy .actions {
+  margin-top: 1rem;
+}
+
+.privacy-link {
+  margin: 1.25rem 0 0;
+  font-size: 0.85rem;
 }

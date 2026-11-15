@@ -7,6 +7,7 @@ import { LanguageService } from '../../services/language.service';
 import { ThemeService } from '../../services/theme.service';
 import { profileKey, publicProfileUrl } from '../../shared/public-profile-url';
 import { XpService } from '../../services/xp.service';
+import { ConfirmDialog } from '../../shared/confirm-dialog/confirm-dialog';
 
 /**
  * Account, language and theme in one place. On phones this is the fifth bottom-nav tab and
@@ -16,7 +17,7 @@ import { XpService } from '../../services/xp.service';
 @Component({
   selector: 'app-settings-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [ConfirmDialog, RouterLink],
   templateUrl: './settings-page.html',
   styleUrl: './settings-page.css',
 })
@@ -74,7 +75,8 @@ export class SettingsPage {
 
   /** What the student may do with the Kurz now, from the server. The erase button works even with the Kurz off. */
   protected readonly kurzStatus = this.kurz.status;
-  protected kurzErase = signal<'idle' | 'confirm' | 'busy'>('idle');
+  protected kurzEraseOpen = signal(false);
+  protected kurzBusy = signal(false);
   protected kurzMessage = signal<{ kind: 'success' | 'error'; text: string } | null>(null);
 
   constructor() {
@@ -87,17 +89,25 @@ export class SettingsPage {
     return new Intl.DateTimeFormat(this.locale, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(iso));
   }
 
-  /** Two steps, like deleting a comment: the first click asks, the second erases. */
-  async eraseConversations(): Promise<void> {
-    if (this.kurzErase() === 'idle') {
-      this.kurzErase.set('confirm');
-      this.kurzMessage.set(null);
-      return;
-    }
-    if (this.kurzErase() === 'busy') return;
-    this.kurzErase.set('busy');
+  protected readonly eraseDialog = {
+    heading: $localize`:@@kurz.settings.eraseDialog.title:Erase all your conversations?`,
+    message: $localize`:@@kurz.settings.eraseDialog.body:Every conversation you had with the Kurz is erased for good and cannot be recovered. Reports you sent stay, without your name.`,
+    confirm: $localize`:@@kurz.settings.eraseDialog.confirm:Erase everything`,
+    cancel: $localize`:@@kurz.cancel:Cancel`,
+  };
+
+  /** The button only asks; the dialog's confirm button does the erasing. */
+  protected askErase(): void {
+    this.kurzMessage.set(null);
+    this.kurzEraseOpen.set(true);
+  }
+
+  protected async eraseConversations(): Promise<void> {
+    if (this.kurzBusy()) return;
+    this.kurzBusy.set(true);
     const deleted = await this.kurz.deleteAll();
-    this.kurzErase.set('idle');
+    this.kurzBusy.set(false);
+    this.kurzEraseOpen.set(false);
     this.kurzMessage.set(
       deleted === null
         ? { kind: 'error', text: $localize`:@@settings.error:Something went wrong. Try again.` }
