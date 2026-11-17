@@ -1856,7 +1856,8 @@
     "venue": "Proceedings of the ACM SIGOPS 31st Symposium on Operating Systems Principles",
     "publicationDate": "2025-10-12",
     "doi": "10.1145/3731569.3764820",
-    "url": "https://dl.acm.org/doi/10.1145/3731569.3764820"
+    "url": "https://dl.acm.org/doi/10.1145/3731569.3764820",
+    "paperUrl": "https://par.nsf.gov/servlets/purl/10647289"
   },
   {
     "slug": "cortenmm-efficient-memory-management-with-strong-correctness",
