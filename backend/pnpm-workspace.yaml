@@ -28,7 +28,13 @@ overrides:
 #   ts-loader at build time, never shipped in the production image.
 # - GHSA-gcqx-w48m-w2h4 (deepmerge): advisory says patched in 4.3.2, but npm only has up to
 #   4.3.1; only reached by @nestjs/cli (devDependency) via fork-ts-checker-webpack-plugin.
+# - GHSA-fc5q-39xc-vjpf (picomatch, ReDoS through repeated extglobs): affects every published release
+#   (<= 4.0.7). `pnpm audit` suggests 4.0.8, which is not on npm, and first_patched_version is null.
+#   It reaches the production image through typeorm > tinyglobby > picomatch, but the only glob patterns
+#   there are the fixed entity and migration paths in app.module.ts and data-source.ts, never input from a
+#   request, and the ReDoS needs an attacker-chosen pattern. Drop this entry once picomatch publishes a fix.
 auditConfig:
   ignoreGhsas:
     - GHSA-vfj7-8cjw-p6xm
     - GHSA-gcqx-w48m-w2h4
+    - GHSA-fc5q-39xc-vjpf
