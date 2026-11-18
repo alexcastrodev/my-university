@@ -5,7 +5,7 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 95;
+const SEED = 104;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
 const JOURNAL_ARTICLES = 15;
@@ -38,10 +38,10 @@ const GLOBAL_METRONOME = {
   slug: 'global-metronome-absolute-tempo-sync-networked-performance',
   title: 'The Global Metronome: Absolute Tempo Sync For Networked Musical Performance',
 };
-// The first of the newest month (OSDI 2026) when the list is newest first, ties broken by slug.
+// The first of the newest month (SOSP 2026) when the list is newest first, ties broken by slug.
 const NEWEST = {
-  slug: 'ambulance-saving-bft-through-racing',
-  title: 'Ambulance: Saving BFT through Racing',
+  slug: 'agilelog-forkable-shared-log-for-agents-on-data-streams',
+  title: 'AgileLog: A Forkable Shared Log for Agents on Data Streams',
 };
 // The list holds the 20 newest papers, so a reader reaches an older one by searching for its title, and so do these tests.
 const search = (paper) => `?q=${encodeURIComponent(paper.title)}`;
@@ -84,7 +84,7 @@ test.describe('Papers catalog', () => {
       await papers.goto();
       await expect(papers.cards).toHaveCount(PAGE);
 
-      // Ten OSDI 2026 papers share the newest month; a tie goes to the slug, so Ambulance leads.
+      // Seven SOSP 2026 papers share the newest month; a tie goes to the slug, so AgileLog leads.
       expect((await papers.titles())[0]).toBe(NEWEST.title);
       await expect(papers.cardRef(NEWEST.title)).toHaveText('[1]');
 
@@ -172,17 +172,17 @@ test.describe('Papers catalog', () => {
     test('filters by research area', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await papers.areaSelect.selectOption({ label: 'Operating Systems (23)' });
+      await papers.areaSelect.selectOption({ label: 'Operating Systems (25)' });
       await expect(page).toHaveURL(/area=Operating(\+|%20)Systems/);
 
-      // 23 papers: a full first page of the newest, and the three oldest (2019 and 2021) on the second.
+      // 25 papers: a full first page of the newest, and the five oldest (2019, 2021 and part of 2023) on the second.
       await expect(papers.cards).toHaveCount(PAGE);
       const newest = await papers.titles();
       expect(newest.some((t) => t.startsWith('Rakaia'))).toBe(true);
       expect(newest.some((t) => t.startsWith('kSTEP'))).toBe(true);
 
       await papers.nextLink.click();
-      await expect(papers.cards).toHaveCount(3);
+      await expect(papers.cards).toHaveCount(5);
       const oldest = await papers.titles();
       expect(oldest.some((t) => t.startsWith('Snap'))).toBe(true);
       expect(oldest.some((t) => t.startsWith('ghOSt'))).toBe(true);
@@ -299,7 +299,7 @@ test.describe('Papers catalog', () => {
 
       // A link copied from the English list still finds the paper after the switch of language.
       await papers.gotoPortuguese('?area=Machine+Learning+Systems');
-      await expect(papers.cards).toHaveCount(1);
+      await expect(papers.cards).toHaveCount(3);
       await expect(papers.card(PAGED.titlePt)).toBeVisible();
     });
 

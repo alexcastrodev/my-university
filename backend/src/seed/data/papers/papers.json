@@ -2845,5 +2845,275 @@
     "publicationDate": "2016-12-05",
     "doi": "10.1109/access.2016.2628440",
     "url": "https://ieeexplore.ieee.org/document/7769205"
+  },
+  {
+    "slug": "llm-42-enabling-determinism-in-llm-inference-with-verified-speculation",
+    "title": "LLM-42: Enabling Determinism in LLM Inference with Verified Speculation",
+    "authors": [
+      {
+        "name": "Raja Gond"
+      },
+      {
+        "name": "Aditya K Kamath"
+      },
+      {
+        "name": "Ramachandran Ramjee"
+      },
+      {
+        "name": "Ashish Panwar"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 32nd Symposium on Operating Systems Principles",
+    "publicationDate": "2026-09",
+    "url": "https://arxiv.org/abs/2601.17768",
+    "paperUrl": "https://arxiv.org/pdf/2601.17768"
+  },
+  {
+    "slug": "agilelog-forkable-shared-log-for-agents-on-data-streams",
+    "title": "AgileLog: A Forkable Shared Log for Agents on Data Streams",
+    "authors": [
+      {
+        "name": "Shreesha G. Bhat"
+      },
+      {
+        "name": "Tony Hong"
+      },
+      {
+        "name": "Michael Noguera"
+      },
+      {
+        "name": "Aishwarya Ganesan"
+      },
+      {
+        "name": "Ramnatthan Alagappan"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 32nd Symposium on Operating Systems Principles",
+    "publicationDate": "2026-09",
+    "url": "https://arxiv.org/abs/2604.14590",
+    "paperUrl": "https://arxiv.org/pdf/2604.14590"
+  },
+  {
+    "slug": "pirateship-append-only-ledgers-for-mostly-trusted-execution-environments",
+    "title": "Pirateship: Append-Only Ledgers for (Mostly) Trusted Execution Environments",
+    "authors": [
+      {
+        "name": "Shubham Mishra"
+      },
+      {
+        "name": "João Gonçalves"
+      },
+      {
+        "name": "Chawinphat Tankuranand"
+      },
+      {
+        "name": "Neil Giridharan"
+      },
+      {
+        "name": "Natacha Crooks"
+      },
+      {
+        "name": "Heidi Howard"
+      },
+      {
+        "name": "Chris Jensen"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 32nd Symposium on Operating Systems Principles",
+    "publicationDate": "2026-09",
+    "url": "https://arxiv.org/abs/2602.05346",
+    "paperUrl": "https://arxiv.org/pdf/2602.05346"
+  },
+  {
+    "slug": "cryptdough-unified-analytics-engine-for-secure-multiparty-computation",
+    "title": "CryptDough: A Unified Analytics Engine for Secure Multiparty Computation",
+    "authors": [
+      {
+        "name": "Muhammad Faisal"
+      },
+      {
+        "name": "Alessandra Lanz"
+      },
+      {
+        "name": "Sam Buxbaum"
+      },
+      {
+        "name": "Adam Godel"
+      },
+      {
+        "name": "Vasiliki Kalavri"
+      },
+      {
+        "name": "Mayank Varia"
+      },
+      {
+        "name": "John Liagouris"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 32nd Symposium on Operating Systems Principles",
+    "publicationDate": "2026-09",
+    "url": "https://arxiv.org/abs/2608.17529",
+    "paperUrl": "https://arxiv.org/pdf/2608.17529"
+  },
+  {
+    "slug": "tuxbot-semantic-aware-online-os-tuning-with-llms",
+    "title": "TuxBot: Semantic-Aware Online OS Tuning with LLMs",
+    "authors": [
+      {
+        "name": "Georgios Liargkovas"
+      },
+      {
+        "name": "Mihir Nitin Joshi"
+      },
+      {
+        "name": "Hubertus Franke"
+      },
+      {
+        "name": "Kostis Kaffes"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 32nd Symposium on Operating Systems Principles",
+    "publicationDate": "2026-09",
+    "url": "https://arxiv.org/abs/2605.15026",
+    "paperUrl": "https://arxiv.org/pdf/2605.15026"
+  },
+  {
+    "slug": "tensordex-compact-tensor-centric-storage-system-for-modern-ai-models",
+    "title": "TensorDex: A Compact, Tensor-Centric Storage System for Modern AI Models",
+    "authors": [
+      {
+        "name": "Tingfeng Lan"
+      },
+      {
+        "name": "Zirui Wang"
+      },
+      {
+        "name": "Yunjia Zheng"
+      },
+      {
+        "name": "Zhaoyuan Su"
+      },
+      {
+        "name": "Juncheng Yang"
+      },
+      {
+        "name": "Yue Cheng"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 32nd Symposium on Operating Systems Principles",
+    "publicationDate": "2026-09",
+    "url": "https://arxiv.org/abs/2604.17104",
+    "paperUrl": "https://arxiv.org/pdf/2604.17104"
+  },
+  {
+    "slug": "ahead-of-time-analysis-of-shell-program-effects",
+    "title": "Ahead-of-Time Analysis of Shell Program Effects",
+    "authors": [
+      {
+        "name": "Lukas Lazarek"
+      },
+      {
+        "name": "Evangelos Lamprou"
+      },
+      {
+        "name": "George Kapetanakis"
+      },
+      {
+        "name": "Anirudh Narsipur"
+      },
+      {
+        "name": "Eric Zhao"
+      },
+      {
+        "name": "Zhiwen Zheng"
+      },
+      {
+        "name": "Michael Greenberg"
+      },
+      {
+        "name": "Konstantinos Kallas"
+      },
+      {
+        "name": "Nikos Vasilakis"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 32nd Symposium on Operating Systems Principles",
+    "publicationDate": "2026-09",
+    "url": "https://doi.org/10.1145/3830418.3843861",
+    "paperUrl": "https://atlas.cs.brown.edu/pdf/sash:sosp:2026.pdf"
+  },
+  {
+    "slug": "controlling-opaque-component-effects-with-semisolates-and-try",
+    "title": "Controlling Opaque-Component Effects with Semisolates and Try",
+    "authors": [
+      {
+        "name": "Evangelos Lamprou"
+      },
+      {
+        "name": "Tianyu (Ezri) Zhu"
+      },
+      {
+        "name": "Di Jin"
+      },
+      {
+        "name": "Grigoris Ntousakis"
+      },
+      {
+        "name": "Georgios Liargkovas"
+      },
+      {
+        "name": "Calvin Eng"
+      },
+      {
+        "name": "Konstantinos Kallas"
+      },
+      {
+        "name": "Michael Greenberg"
+      },
+      {
+        "name": "Nikos Vasilakis"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/lamprou",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-lamprou.pdf"
+  },
+  {
+    "slug": "rt-regular-types-for-the-streaming-shell",
+    "title": "RT: Regular Types for the Streaming Shell",
+    "authors": [
+      {
+        "name": "Zekai Li"
+      },
+      {
+        "name": "Lukas Lazarek"
+      },
+      {
+        "name": "Evangelos Lamprou"
+      },
+      {
+        "name": "George Kapetanakis"
+      },
+      {
+        "name": "Konstantinos Mamouras"
+      },
+      {
+        "name": "Nikos Vasilakis"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th USENIX Symposium on Operating Systems Design and Implementation (OSDI 26)",
+    "publicationDate": "2026-07",
+    "url": "https://www.usenix.org/conference/osdi26/presentation/li-zekai",
+    "paperUrl": "https://www.usenix.org/system/files/osdi26-li-zekai.pdf"
   }
 ]
