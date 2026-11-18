@@ -1,0 +1,72 @@
+---
+title: "Controlando os efeitos de componentes opacos com semisolates e try"
+summary: O try executa qualquer comando sem modificação num semisolate, uma visão parcialmente isolada do sistema de arquivos atual construída com OverlayFS, namespaces de usuário e rastreamento opcional de chamadas de sistema, de modo que seus efeitos podem ser inspecionados, aplicados por inteiro ou em parte, descartados, empilhados entre execuções ou rastreados, sem privilégios, em qualquer linguagem e mais rápido que um contêiner.
+researchArea: Sistemas operacionais
+keywords: controle de efeitos, semisolate, overlayfs, namespaces, dry run, rastreamento de dependências, shell
+version: 1.0
+updatedAt: 2026-11-18
+---
+
+## Visão geral
+
+O software é cada vez mais montado a partir de componentes opacos: comandos, pacotes, scripts e, cada vez mais, código sugerido ou executado por agentes de IA. Rodar um deles tem efeitos sobre o ambiente que não dá para prever nem desfazer com facilidade. O `npm install` altera muitos arquivos, um `find -exec` sugerido por um LLM pode apagar arquivos críticos do usuário, e uma biblioteca de terceiros como a node-ipc já publicou versões que modificavam arquivos do sistema. As ferramentas à mão são grosseiras. Contêineres e máquinas virtuais isolam tudo, então os efeitos interessantes ficam lá dentro e o componente deixa de ver o ambiente real. Uma flag `--dry-run` embutida existe só em alguns comandos e cada um a implementa de um jeito. Sistemas de efeitos em nível de linguagem exigem que o componente seja escrito para eles.
+
+Os autores, da Brown University com o Stevens Institute of Technology, a Columbia University e a UCLA, propõem o semisolate, uma abstração que executa um componente no ambiente atual por meio de uma visão privada dele, e o `try`, sua implementação como um comando sem privilégios, independente de linguagem e de ordem superior: `try cmd args` roda o comando, coleta seus efeitos num diretório temporário e deixa o chamador decidir o que acontece com eles. O nome junta semi- (parcialmente) e isolate, já que o isolamento é parcial por projeto.
+
+Este artigo do OSDI 2026 ganhou os prêmios de Best Paper e Best Artifact. Ele segue cinco estudos de caso que guiam o projeto: revisar sugestões arriscadas de LLMs antes de aplicá-las, rastrear dependências de leitura após escrita entre comandos opacos para execução especulativa em paralelo, conter código de terceiros como hooks de pre-commit maliciosos, um `--dry-run` independente de comando e minerar especificações parciais de comandos a partir da ordem das suas leituras e escritas.
+
+Termos para não confundir: efeito é uma mudança ou acesso que um componente faz ao ambiente, aqui principalmente arquivos, semisolate é a visão privada mais os efeitos coletados, empilhar (stacking) é iniciar um comando sobre efeitos que foram coletados mas ainda não aplicados, whiteout é a marca que o OverlayFS deixa na camada superior para um caminho apagado, e dependência negativa é um acesso registrado a um caminho que não existe.
+
+Vale conhecer antes: como o OverlayFS mescla um diretório superior sobre inferiores com copy-up na escrita, o que os namespaces de usuário e de montagem do Linux dão a um processo sem privilégios e o que o `strace` e os filtros seccomp-BPF fazem. Dois artigos irmãos do mesmo grupo tratam o shell por outros ângulos. O [Ahead-of-Time Analysis of Shell Program Effects](/papers/ahead-of-time-analysis-of-shell-program-effects) prevê efeitos danosos antes da execução por execução simbólica, e o [RT: Regular Types for the Streaming Shell](/papers/rt-regular-types-for-the-streaming-shell) dá tipos aos dados que fluem entre comandos.
+
+## Contribuição
+
+- **Quatro requisitos.** Introspecção de efeitos (ver o que um componente fez, no ambiente em que rodou), aplicação seletiva (aplicar ou desfazer), empilhamento de efeitos (rodar comandos posteriores como se os efeitos anteriores tivessem sido aplicados, e desfazer pilhas inteiras) e manipulação adicional (aplicação parcial, registro para depois, ocultação de partes do ambiente). Streaming, tratadores configuráveis e sobrecarga em nível interativo são extras desejáveis. A mediação completa contra componentes que tentam ativamente escapar do try está explicitamente fora de escopo: o alvo são acidentes, não adversários.
+- **Três estágios.** A criação monta a visão privada: espelhar o sistema de arquivos, espelhá-lo com subárvores ocultas (`-i`, uma expressão regular) ou partir do estado não confirmado de uma execução anterior (`-L`, que exige que essa execução tenha sido guardada com `-N`). A execução roda o componente na visão, opcionalmente bloqueando a rede (`-x`) e rastreando acessos ordenados ao sistema de arquivos (`-t`). A conclusão aplica (`-y`), descarta (`-n`) ou inspeciona os efeitos um a um (`-e`) com filtros (`-E`, `-I`), ou os guarda com um nome.
+- **Modelo de efeitos.** Um efeito é um caminho (existente ou não) com um tipo (somente leitura, somente escrita ou leitura e escrita) e metadados sobre sucesso e falha, e por padrão cobre toda a subárvore de processos.
+- **Implementação no espaço de usuário do Linux.** Uma montagem OverlayFS cujo diretório superior coleta as mudanças e cujos diretórios inferiores são o sistema de arquivos real ou semisolates anteriores. Como o OverlayFS não pode usar `/` como camada inferior nesse arranjo, o `try` monta uma união por diretório de nível superior, faz bind mount dos dispositivos e, quando existem submontagens, as achata com o mergerfs. O componente roda em novos namespaces de usuário, PID, montagem e rede, que lhe dão a aparência de root sem setuid. O rastreamento usa `strace` com um filtro seccomp-BPF sobre chamadas que recebem caminhos, como `open`, `mkdir` e `unlink`, então leituras e escritas em descritores já abertos não são rastreadas a menos que o usuário acrescente filtros. A aplicação percorre o diretório superior em pré-ordem, tratando arquivos regulares, diretórios (inclusive os opacos), links simbólicos e whiteouts, e usa `rename` quando origem e destino estão no mesmo sistema de arquivos.
+- **Extras.** Um módulo `try-summarize` que pede a um modelo de linguagem um resumo em linguagem simples dos efeitos e se eles tocam diretórios sensíveis, e o `try-gidmapper` para diretórios de outros grupos. O sistema é de código aberto (MIT).
+
+## Metodologia
+
+Para cada caso de uso os autores medem controle (todos os efeitos relevantes são mediados), equivalência de comportamento (mesma saída e uma árvore de arquivos idêntica, checada por inspeção manual e por checksums da árvore inteira depois de execuções com e sem try) e desempenho em relação à execução simples e a um contêiner Docker 28.4.0 com isolamento total, o que inclui criar o contêiner, copiar entradas para dentro, executar, desmontar e copiar saídas para fora. A máquina tem 64 GB de RAM e um Intel Xeon W-2145 de 8 núcleos a 3,7 GHz, com Linux 6.1 no Debian 13.
+
+Os cinco grupos são: cinco scripts gerados pelo ChatGPT a partir de fluxos de trabalho com LLMs (tocar 10.000 arquivos, comprimir arquivos, buscar em 100 diretórios de 10.000 arquivos, varrer um log de 10 milhões de linhas, ordenar 10 milhões de linhas); cinco programas shell do Koala com muitas dependências (covid, nlp, spell, unixfun, ci-cd) para rastreamento de dependências; cinco projetos cujos hooks de pre-commit fazem trabalho de sistema de arquivos e de rede, incluindo um ataque de injeção de código que exfiltra dados (LinOTP, kibble, frogmouth, okteto, uv-metrics); cinco comandos com dry-run nativo (git clean, patch, rename, rsync, stow); e cinco comandos cujas especificações são mineradas (`ls`, `cp`, `rm`, `sed`, `xargs`, explorando 11, 100, 40, 1.408 e 3 configurações). Três microbenchmarks em Rust decompõem a própria sobrecarga do try.
+
+## Resultados
+
+Estes são os resultados reportados pelos autores.
+
+- **Controle e equivalência.** Nos cinco grupos o try mediou os efeitos relevantes e deu os mesmos resultados e o mesmo estado do sistema de arquivos que a execução simples. As exceções são pequenas: dois benchmarks de dry-run diferiram, um porque o `rename` imprime uma representação diferente e outro porque o dry-run nativo do `rsync` omite efeitos num `--log-file` que o try captura.
+- **Desempenho geral.** Sobre a execução simples o try custa de 1,0 a 8,3 vezes, e contra o Docker com isolamento total é de 1,1 a 225,7 vezes mais rápido. Os autores não dão média geométrica porque cada estudo de caso exige flags diferentes.
+- **Scripts de LLM.** De 1,1 a 1,9 vez sobre a execução simples, e de 1,3 a 225,7 vezes mais rápido que o Docker. Os extremos são tarefas que escrevem só na saída padrão ou num único arquivo grande, em que o try paga uma criação e um copy-up e o Docker paga toda a montagem e desmontagem.
+- **Rastreamento de dependências.** De 1,0 a 1,7 vez sobre a execução simples, com o custo de rastreamento crescendo com o número de efeitos (mais visível em componentes interpretados como um script Python do que em coreutils), e de 1,1 a 18,7 vezes mais rápido que o Docker. O try achou todas as dependências verdadeiras, e aplicá-las depois com empilhamento deu resultados corretos.
+- **Código de terceiros.** Até 1,3 vez sobre a execução simples, de 1,4 a 4,2 vezes mais rápido que o Docker. Com `-i` excluindo `/etc/passwd`, o try mediou todos os efeitos exceto o acréscimo injetado nesse arquivo, e as mudanças que os hooks deveriam fazer foram confirmadas corretamente.
+- **Dry run.** O try é de 4,9 a 82,6 vezes mais lento que os modos dry-run nativos (0,26 s contra 0,03 s em média), como esperado, já que executa o trabalho real e depois o descarta, sendo geral.
+- **Mineração de especificações.** As especificações inferidas coincidem com as escritas à mão do PaSh ou as estendem, e em três casos revelam efeitos que o original omitia. Por exemplo, o `cp` está marcado como com efeito colateral ali, mas se comporta de forma pura nos cenários avaliados. O try custa de 1,7 a 8,3 vezes sobre a execução simples e é de 1,6 a 2,2 vezes mais rápido que o Docker.
+- **Onde o tempo vai.** Um `echo` trivial leva 165 ms, 25% na criação do overlay (42 ms), 22% em diretórios (37 ms), 16% em desmontar dispositivos (26 ms) e 11% em montá-los (19 ms). Esses custos ficam mais ou menos constantes em execuções mais longas, e criar 10.000 arquivos pequenos gasta 6,3 s de 11 s na saída do namespace, em que o try percorre o diretório superior.
+- **Adoção.** Os autores reportam uso em pesquisa e em produção em várias organizações. O motor de execução fora de ordem hS e o sistema de incrementalização Incr usam o try para construir grafos de dependência e revogar efeitos, com ganhos de até 9,3 vezes no primeiro. Os usuários descartam efeitos quando um comando escreve fora da subárvore esperada, quando um `chmod +x *` toca mais do que o pretendido e depois de execuções de `pip` e `cpanm` digitadas errado, uma pessoa confirmou seletivamente só o melhor checkpoint de treinamento, um monitor de disciplina protegeu a máquina de submissões de alunos e estudantes envolveram sessões de agentes.
+
+## Análise crítica
+
+O artigo declara vários limites por conta própria.
+
+- **Namespaces de usuário mudam o comportamento.** Os processos não conseguem interagir com outros usuários nem trocar de UID, contornam permissões de escrita como root do namespace, o isolamento de PID e de sinais não pode ser desligado, e pseudo-sistemas de arquivos e dispositivos físicos são difíceis de tratar. A aplicação seletiva pode produzir um conjunto inconsistente de atualizações (um arquivo sem o diretório), sobre o qual o try avisa como o `mv` faz.
+- **Escopo dos efeitos.** O foco são os efeitos no sistema de arquivos, com extensões opcionais para rede e fluxos. Componentes adversariais e cientes do try ficam fora de escopo.
+- **O dry-run é mais lento por projeto.** Os autores reconhecem isso como o preço da generalidade.
+
+Os pontos a seguir são uma leitura da evidência, não afirmações do artigo.
+
+- **A comparação com o Docker define a razão.** A linha de base inclui criar o contêiner e copiar entradas para dentro e saídas para fora, que é uma forma de usar o Docker, e as maiores razões (até 225,7 vezes) vêm de tarefas em que o try quase não faz nada. Em trabalhos longos o custo fixo de montagem dos dois lados é amortizado e a razão encolhe para o extremo baixo da faixa. Uma configuração de Docker que faça bind mount da árvore de trabalho seria outra linha de base.
+- **Sem estudo com usuários externos.** A equivalência é checada em 25 cargas escolhidas, e a adoção é mostrada por anedotas e depoimentos de colegas, alunos e projetos afiliados, não por um estudo controlado sobre se as pessoas pegam mais erros.
+- **Efeitos fora do sistema de arquivos continuam fora de alcance.** Para um agente que envia um e-mail ou chama uma API, o try oferece bloqueio de rede e observação somente de leitura, mas nenhum modo de reverter a ação, então ele protege o disco local, o que a experiência dos alunos também mostra.
+- **O rastreamento é baseado em caminhos.** As dependências vêm de chamadas de sistema que recebem caminhos filtradas por seccomp, então a comunicação por descritores já abertos, memória compartilhada ou sockets entre processos fica invisível a menos que o usuário acrescente filtros, e o minerador de especificações depende dessa visão.
+- **Uma dependência de recursos do kernel.** Ele exige namespaces de usuário sem privilégios e OverlayFS, que os autores dizem estar habilitados por padrão na maioria das distribuições modernas, e depende de componentes extras (mergerfs quando há submontagens, strace para o rastreamento).
+- **Escritas grandes pagam o copy-up.** A primeira modificação de um arquivo grande o copia para a camada superior, o que o artigo observa no benchmark `logs`, então cargas que reescrevem arquivos grandes no lugar podem se comportar de modo diferente das de arquivos pequenos.
+
+## Pesquisas futuras
+
+- Capturar e compensar efeitos fora do sistema de arquivos, como requisições de rede, com o mesmo empilhamento e a mesma aplicação seletiva.
+- Reduzir os custos fixos de montagem e de saída, por exemplo quando muitos arquivos pequenos se acumulam na camada superior.
+- Um tratamento mais inteligente da aplicação parcial, com checagens de consistência entre efeitos dependentes.
+- Combinar semisolates com análise estática do mesmo script e com fluxos tipados, e usar os traces de efeitos para derivar especificações automaticamente em escala maior.
