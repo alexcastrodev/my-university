@@ -38,7 +38,12 @@ overrides:
 #   line is 11.x, whose CommonJS export is no longer callable, and karma 6 calls
 #   `mm(path, pattern)` (lib/file-list.js), so an override would break `ng test`. Every
 #   path is karma's toolchain, only reached in local `ng test`, never shipped to production.
+# - GHSA-fc5q-39xc-vjpf (picomatch, ReDoS through repeated extglobs): affects every published release
+#   (<= 4.0.7). `pnpm audit` suggests 4.0.8, which is not on npm, and first_patched_version is null.
+#   Only reached by the Angular and vite build toolchain with patterns from our own config, never shipped
+#   to production. Drop this entry once picomatch publishes a fixed release.
 auditConfig:
   ignoreGhsas:
     - GHSA-vfj7-8cjw-p6xm
     - GHSA-g3hv-75wg-m249
+    - GHSA-fc5q-39xc-vjpf
