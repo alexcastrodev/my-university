@@ -5597,6 +5597,157 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/reverse-proxy-and-api-gateway-with-yarp"
   },
   {
+    "slug": "graphql-with-hot-chocolate",
+    "id": 930,
+    "category": "ASP.NET Core",
+    "title": "GraphQL with Hot Chocolate",
+    "topic": "Remote APIs",
+    "summary": "A Hot Chocolate 16.7.6 server on net10.0 measured end to end: code-first schema with source generators, the N+1 problem counted in SQL statements with 1, 10 and 100 parents (7, 61 and 601 against a flat 3 with DataLoader), filtering, sorting and projection as SQL, cursor connections against offset on 200,000 rows, subscriptions over WebSocket and SSE, depth and cost limits (and how an unannotated list hides a 51,010 cost behind a 30), introspection, persisted operations, partial errors against HTTP status, authorization, GraphQL against Minimal APIs in bytes and requests, and the project's maintenance state and licensing.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "minimal-apis-routing-and-route-groups"
+    ],
+    "related": [
+      {
+        "label": "gRPC Services and JSON Transcoding",
+        "slug": "grpc-services-and-json-transcoding",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Reverse Proxy and API Gateway with YARP",
+        "slug": "reverse-proxy-and-api-gateway-with-yarp",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Query Translation and Performance in EF Core",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SignalR, WebSockets and Server-Sent Events",
+        "slug": "signalr-websockets-and-sse",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Logging, Query Tags and Diagnostics",
+        "slug": "ef-core-logging-query-tags-and-diagnostics",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "API Gateway",
+        "slug": "api-gateway",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "DataLoader, ChilliCream",
+        "url": "https://chillicream.com/docs/hotchocolate/v16/fetching-data/batching/dataloader",
+        "type": "doc"
+      },
+      {
+        "label": "Projections, ChilliCream",
+        "url": "https://chillicream.com/docs/hotchocolate/v16/fetching-data/projections",
+        "type": "doc"
+      },
+      {
+        "label": "Pagination, ChilliCream",
+        "url": "https://chillicream.com/docs/hotchocolate/v16/fetching-data/pagination",
+        "type": "doc"
+      },
+      {
+        "label": "Subscriptions, ChilliCream",
+        "url": "https://chillicream.com/docs/hotchocolate/v16/defining-a-schema/subscriptions",
+        "type": "doc"
+      },
+      {
+        "label": "Cost analysis, ChilliCream",
+        "url": "https://chillicream.com/docs/hotchocolate/v16/security/cost-analysis",
+        "type": "doc"
+      },
+      {
+        "label": "Authorization, ChilliCream",
+        "url": "https://chillicream.com/docs/hotchocolate/v16/security/authorization",
+        "type": "doc"
+      },
+      {
+        "label": "Persisted operations, ChilliCream",
+        "url": "https://chillicream.com/docs/hotchocolate/v16/performance/trusted-documents",
+        "type": "doc"
+      },
+      {
+        "label": "ChilliCream License 1.0, ChilliCream",
+        "url": "https://chillicream.com/licensing/chillicream-license",
+        "type": "doc"
+      },
+      {
+        "label": "Hot Chocolate repository, GitHub",
+        "url": "https://github.com/ChilliCream/graphql-platform",
+        "type": "doc"
+      },
+      {
+        "label": "Get started with GraphQL in .NET, ChilliCream",
+        "url": "https://chillicream.com/docs/hotchocolate/v16/get-started-with-graphql-in-net-core",
+        "type": "doc"
+      },
+      {
+        "label": "Filtering, ChilliCream",
+        "url": "https://chillicream.com/docs/hotchocolate/v16/fetching-data/filtering",
+        "type": "doc"
+      },
+      {
+        "label": "Request limits, ChilliCream",
+        "url": "https://chillicream.com/docs/hotchocolate/v16/security/request-limits",
+        "type": "doc"
+      },
+      {
+        "label": "Introspection, ChilliCream",
+        "url": "https://chillicream.com/docs/hotchocolate/v16/security/introspection",
+        "type": "doc"
+      },
+      {
+        "label": "GraphQL over HTTP specification, GraphQL Foundation",
+        "url": "https://graphql.github.io/graphql-over-http/draft/",
+        "type": "doc"
+      },
+      {
+        "label": "Cost analysis specification, IBM",
+        "url": "https://ibm.github.io/graphql-specs/cost-spec.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "api-versioning-with-asp-versioning",
     "id": 490,
     "category": "ASP.NET Core",
