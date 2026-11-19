@@ -3787,5 +3787,86 @@
     "doi": "10.1145/3102980.3103005",
     "url": "https://dl.acm.org/doi/10.1145/3102980.3103005",
     "paperUrl": "https://web.eecs.umich.edu/~ryanph/paper/grayfailure-hotos17.pdf"
+  },
+  {
+    "slug": "linux-scheduler-decade-of-wasted-cores",
+    "title": "The Linux Scheduler: A Decade of Wasted Cores",
+    "authors": [
+      {
+        "name": "Jean-Pierre Lozi"
+      },
+      {
+        "name": "Baptiste Lepers"
+      },
+      {
+        "name": "Justin Funston"
+      },
+      {
+        "name": "Fabien Gaud"
+      },
+      {
+        "name": "Vivien Quéma"
+      },
+      {
+        "name": "Alexandra Fedorova"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Eleventh European Conference on Computer Systems",
+    "publicationDate": "2016-04-18",
+    "doi": "10.1145/2901318.2901326",
+    "url": "https://doi.org/10.1145/2901318.2901326",
+    "paperUrl": "https://people.ece.ubc.ca/sasha/papers/eurosys16-final29.pdf"
+  },
+  {
+    "slug": "sel4-formal-verification-of-an-os-kernel",
+    "title": "seL4: Formal Verification of an OS Kernel",
+    "authors": [
+      {
+        "name": "Gerwin Klein"
+      },
+      {
+        "name": "Kevin Elphinstone"
+      },
+      {
+        "name": "Gernot Heiser"
+      },
+      {
+        "name": "June Andronick"
+      },
+      {
+        "name": "David Cock"
+      },
+      {
+        "name": "Philip Derrin"
+      },
+      {
+        "name": "Dhammika Elkaduwe"
+      },
+      {
+        "name": "Kai Engelhardt"
+      },
+      {
+        "name": "Rafal Kolanski"
+      },
+      {
+        "name": "Michael Norrish"
+      },
+      {
+        "name": "Thomas Sewell"
+      },
+      {
+        "name": "Harvey Tuch"
+      },
+      {
+        "name": "Simon Winwood"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 22nd Symposium on Operating Systems Principles",
+    "publicationDate": "2009-10-11",
+    "doi": "10.1145/1629575.1629596",
+    "url": "https://doi.org/10.1145/1629575.1629596",
+    "paperUrl": "https://sel4.systems/Research/pdfs/sel4-formal-verification-os-kernel.pdf"
   }
 ]
