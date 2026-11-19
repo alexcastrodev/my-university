@@ -4465,5 +4465,114 @@
     "publicationDate": "2002-12",
     "url": "https://www.usenix.org/conference/osdi-02/memory-resource-management-vmware-esx-server",
     "paperUrl": "https://www.usenix.org/legacy/event/osdi02/tech/full_papers/waldspurger/waldspurger.pdf"
+  },
+  {
+    "slug": "elle-inferring-isolation-anomalies-from-experimental-observations",
+    "title": "Elle: Inferring Isolation Anomalies from Experimental Observations",
+    "authors": [
+      {
+        "name": "Kyle Kingsbury"
+      },
+      {
+        "name": "Peter Alvaro"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the VLDB Endowment",
+    "publicationDate": "2020-11",
+    "doi": "10.14778/3430915.3430918",
+    "url": "https://doi.org/10.14778/3430915.3430918",
+    "paperUrl": "https://www.vldb.org/pvldb/vol14/p268-alvaro.pdf"
+  },
+  {
+    "slug": "eventually-consistent-vogels",
+    "title": "Eventually consistent",
+    "authors": [
+      {
+        "name": "Werner Vogels"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Communications of the ACM",
+    "publicationDate": "2009-01",
+    "doi": "10.1145/1435417.1435432",
+    "url": "https://doi.org/10.1145/1435417.1435432",
+    "paperUrl": "https://web.stanford.edu/class/cs345d-01/rl/eventually-consistent.pdf"
+  },
+  {
+    "slug": "implementing-remote-procedure-calls",
+    "title": "Implementing Remote Procedure Calls",
+    "authors": [
+      {
+        "name": "Andrew D. Birrell"
+      },
+      {
+        "name": "Bruce Jay Nelson"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Computer Systems",
+    "publicationDate": "1984-02",
+    "doi": "10.1145/2080.357392",
+    "url": "https://doi.org/10.1145/2080.357392",
+    "paperUrl": "https://www.cs.princeton.edu/courses/archive/fall11/cos518/papers/rpc.pdf"
+  },
+  {
+    "slug": "read-copy-update-mckenney-ols-2002",
+    "title": "Read Copy Update",
+    "authors": [
+      {
+        "name": "Paul E. McKenney"
+      },
+      {
+        "name": "Dipankar Sarma"
+      },
+      {
+        "name": "Andrea Arcangeli"
+      },
+      {
+        "name": "Andi Kleen"
+      },
+      {
+        "name": "Orran Krieger"
+      },
+      {
+        "name": "Rusty Russell"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Ottawa Linux Symposium (OLS 2002)",
+    "publicationDate": "2002-06",
+    "url": "https://www.kernel.org/doc/ols/2002/",
+    "paperUrl": "https://www.kernel.org/doc/ols/2002/ols2002-pages-338-367.pdf"
+  },
+  {
+    "slug": "shinjuku-preemptive-scheduling-for-usecond-scale-tail-latency",
+    "title": "Shinjuku: Preemptive Scheduling for μsecond-scale Tail Latency",
+    "authors": [
+      {
+        "name": "Kostis Kaffes"
+      },
+      {
+        "name": "Timothy Chong"
+      },
+      {
+        "name": "Jack Tigar Humphries"
+      },
+      {
+        "name": "Adam Belay"
+      },
+      {
+        "name": "David Mazières"
+      },
+      {
+        "name": "Christos Kozyrakis"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "16th USENIX Symposium on Networked Systems Design and Implementation (NSDI 19)",
+    "publicationDate": "2019-02",
+    "url": "https://www.usenix.org/conference/nsdi19/presentation/kaffes",
+    "paperUrl": "https://www.usenix.org/system/files/nsdi19-kaffes.pdf"
   }
 ]
