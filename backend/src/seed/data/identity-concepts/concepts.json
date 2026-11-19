@@ -1,0 +1,1772 @@
+[
+  {
+    "slug": "iam-identity-authentication-authorization-and-accounting",
+    "id": 1,
+    "title": "IAM: Identity, Authentication, Authorization and Accounting",
+    "topic": "Foundations",
+    "summary": "The IAM big picture measured on the wire. The four A's (identity, authentication, authorization and accounting) in a 58-line Node server with a PEP, a PDP and an audit trail, 401 versus 403, a session cookie and an RS256 JWT decoded and verified with openssl, a local OpenLDAP doing search and bind, the IdP, SP/RP, PEP and PDP roles, the joiner-mover-leaver lifecycle, least privilege, Zero Trust, and the map of MFA, OAuth 2.0, OIDC, SAML, LDAP/AD, Kerberos and SCIM.",
+    "publishedAt": "2026-11-19",
+    "requires": [],
+    "related": [
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "OAuth 2 Fundamentals and Grant Types",
+        "slug": "spring-security-oauth2-fundamentals-and-grant-types",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security JDBC and LDAP User Management",
+        "slug": "spring-security-jdbc-ldap-user-management",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authentication and Authorization at Scale",
+        "slug": "authentication-and-authorization-at-scale",
+        "feature": "system-design"
+      },
+      {
+        "label": "RBAC and Least Privilege",
+        "slug": "rbac-least-privilege",
+        "feature": "kubernetes-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "SP 800-207, Zero Trust Architecture, NIST",
+        "url": "https://csrc.nist.gov/pubs/sp/800/207/final",
+        "type": "doc"
+      },
+      {
+        "label": "SP 800-63-4, Digital Identity Guidelines, NIST",
+        "url": "https://csrc.nist.gov/pubs/sp/800/63/4/final",
+        "type": "doc"
+      },
+      {
+        "label": "SP 800-162, Guide to Attribute Based Access Control, NIST",
+        "url": "https://csrc.nist.gov/pubs/sp/800/162/upd2/final",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 2904, AAA Authorization Framework, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc2904",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7519, JSON Web Token, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc7519",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6749, The OAuth 2.0 Authorization Framework, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc6749",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect Core 1.0, OpenID Foundation",
+        "url": "https://openid.net/specs/openid-connect-core-1_0.html",
+        "type": "doc"
+      },
+      {
+        "label": "SAML V2.0 Technical Overview, OASIS",
+        "url": "https://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4511, LDAP: The Protocol, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc4511",
+        "type": "doc"
+      },
+      {
+        "label": "Session Management Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Authorization Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "passwords-and-credential-attacks",
+    "id": 2,
+    "title": "Passwords and Credential Attacks: Hashing, Stuffing, Spraying and Modern Policy",
+    "topic": "Authentication Factors",
+    "summary": "Server-side password security measured on one machine with Node 22 and openssl. Cost per hash of SHA-256, PBKDF2, bcrypt, scrypt and Argon2id at the current OWASP parameters and the guesses per second an attacker holding the leaked table gets (an estimate), unique salt versus precomputed tables and the pepper, the PHC string format and rehash-on-login migration, the attack classes (online and offline guessing, dictionary, credential stuffing, password spraying) against a local toy login endpoint, per-account and per-IP rate limits, progressive delay versus hard lockout and its denial of service, equal answers and equal time for unknown users with a dummy hash, detection across accounts, the NIST SP 800-63B-4 policy, breached-password screening with the k-anonymity range protocol (local sample, API docs only), a safe reset flow, and a table of attack, defense and metric.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "iam-identity-authentication-authorization-and-accounting"
+    ],
+    "related": [
+      {
+        "label": "Cryptography: Hashing, HMAC, AES-GCM and Password Hashing",
+        "slug": "cryptography-hashing-hmac-aes-gcm-and-password-hashing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring Security PasswordEncoder Contract and Encoding Strategies",
+        "slug": "spring-security-password-encoding",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "MFA Factors: HOTP, TOTP, SMS, Push and Recovery",
+        "slug": "mfa-factors-hotp-totp-sms-push-and-recovery",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "SP 800-63B-4, Authentication and Authenticator Management, NIST",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+        "type": "doc"
+      },
+      {
+        "label": "Password Storage Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Authentication Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Credential Stuffing Prevention Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Forgot Password Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9106, Argon2 Memory-Hard Function for Password Hashing, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9106",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8018, PKCS #5: Password-Based Cryptography Specification v2.1, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc8018",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7914, The scrypt Password-Based Key Derivation Function, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc7914",
+        "type": "doc"
+      },
+      {
+        "label": "PHC String Format, Password Hashing Competition",
+        "url": "https://github.com/P-H-C/phc-string-format/blob/master/phc-sf-spec.md",
+        "type": "doc"
+      },
+      {
+        "label": "Have I Been Pwned API v3, Pwned Passwords, Troy Hunt",
+        "url": "https://haveibeenpwned.com/API/v3#PwnedPasswords",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mfa-factors-hotp-totp-sms-push-and-recovery",
+    "id": 3,
+    "title": "MFA Factors: HOTP, TOTP, SMS, Push and Recovery",
+    "topic": "Authentication Factors",
+    "summary": "Authentication factors measured on the wire with Node 22 and openssl. Something you know, have and are, HOTP (RFC 4226) and TOTP (RFC 6238) written from scratch in 10 lines and checked against the 18 official RFC 6238 test vectors, the otpauth:// URI behind the QR code, clock drift and the tolerance window with the guess odds worked out, replay of a code, brute force and lockout, the secret encrypted at rest instead of hashed, single-use recovery codes, SMS and e-mail under NIST SP 800-63B-4, push fatigue and number matching, real-time phishing (AiTM) and origin binding, and a table of phishing resistance per factor.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "iam-identity-authentication-authorization-and-accounting"
+    ],
+    "related": [
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Cryptography: Hashing, HMAC, AES-GCM and Password Hashing",
+        "slug": "cryptography-hashing-hmac-aes-gcm-and-password-hashing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "WebAuthn, FIDO2 and Passkeys: The Protocol Measured",
+        "slug": "webauthn-fido2-and-passkeys-concepts",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "RFC 4226, HOTP: An HMAC-Based One-Time Password Algorithm, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc4226",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6238, TOTP: Time-Based One-Time Password Algorithm, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6238",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4648, The Base16, Base32, and Base64 Data Encodings, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc4648",
+        "type": "doc"
+      },
+      {
+        "label": "SP 800-63B-4, Authentication and Authenticator Management, NIST",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+        "type": "doc"
+      },
+      {
+        "label": "Key Uri Format, Google Authenticator wiki",
+        "url": "https://github.com/google/google-authenticator/wiki/Key-Uri-Format",
+        "type": "doc"
+      },
+      {
+        "label": "Multifactor Authentication Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Implementing Phishing-Resistant MFA, CISA",
+        "url": "https://www.cisa.gov/sites/default/files/publications/fact-sheet-implementing-phishing-resistant-mfa-508c.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Web Authentication Level 3, W3C",
+        "url": "https://www.w3.org/TR/webauthn-3/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "webauthn-fido2-and-passkeys-concepts",
+    "id": 4,
+    "title": "WebAuthn, FIDO2 and Passkeys: The Protocol Measured",
+    "topic": "Authentication Factors",
+    "summary": "WebAuthn measured with no browser and no hardware, using a software ES256 authenticator and a 323-line Node 22 relying party: the registration ceremony (challenge, rp.id, user.id, authenticatorSelection), clientDataJSON and the CBOR attestationObject, authData decoded byte by byte (rpIdHash, UP/UV/BE/BS/AT/ED flags, signCount, AAGUID, credentialId, COSE key), the assertion signature over authData and the hash of clientDataJSON with step-by-step verification, discoverable credentials and login without a username, origin binding rejecting a phishing origin where a relayed TOTP code is accepted, signCount and clone detection, synced against device-bound passkeys, attestation formats and AAGUID, userVerification, the weak recovery link and a table of RP parameters.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "iam-identity-authentication-authorization-and-accounting"
+    ],
+    "related": [
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MFA Factors: HOTP, TOTP, SMS, Push and Recovery",
+        "slug": "mfa-factors-hotp-totp-sms-push-and-recovery",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Web Authentication: An API for accessing Public Key Credentials, Level 3, W3C",
+        "url": "https://www.w3.org/TR/webauthn-3/",
+        "type": "doc"
+      },
+      {
+        "label": "Web Authentication: Level 2, W3C Recommendation",
+        "url": "https://www.w3.org/TR/webauthn-2/",
+        "type": "doc"
+      },
+      {
+        "label": "Web Authentication API, MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API",
+        "type": "doc"
+      },
+      {
+        "label": "passkeys.dev, community guide to passkeys",
+        "url": "https://passkeys.dev",
+        "type": "doc"
+      },
+      {
+        "label": "FIDO Alliance specifications",
+        "url": "https://fidoalliance.org/specs/",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9052, CBOR Object Signing and Encryption (COSE): Structures, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9052",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8949, Concise Binary Object Representation (CBOR), IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc8949",
+        "type": "doc"
+      },
+      {
+        "label": "SP 800-63B-4, Authentication and Authenticator Management, NIST",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+        "type": "doc"
+      },
+      {
+        "label": "Enable Web Authentication API (WebAuthn) passkeys, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/passkeys/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "identity-threats-aitm-phishing-consent-phishing-and-recovery",
+    "id": 19,
+    "title": "Identity Threats: AiTM, Phishing, Consent Phishing and Recovery",
+    "topic": "Authentication Factors",
+    "summary": "Identity attacks as failures of the trust model, with defenses measured on toy services of my own. The phishing resistance ladder (NIST SP 800-63B-4, CISA), AiTM and why MFA that is not phishing-resistant does not protect the session cookie, a session that works from another client and stops working when bound to a device key, MFA fatigue and number matching, token theft and reuse detection, consent phishing in OAuth with the Entra consent policies and a Keycloak 26.8.2 grant viewed and revoked through the Admin API (and what happens to the refresh token), account recovery as the weak link measured before and after four controls, stuffing and spraying, privileged and service accounts, a 60-line detector with measured false positives, the compromised-account checklist, MITRE ATT&CK technique IDs and a table of threat, bypassed control, defense and signal.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mfa-factors-hotp-totp-sms-push-and-recovery",
+      "webauthn-fido2-and-passkeys-concepts"
+    ],
+    "related": [
+      {
+        "label": "MFA Factors: HOTP, TOTP, SMS, Push and Recovery",
+        "slug": "mfa-factors-hotp-totp-sms-push-and-recovery",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "WebAuthn, FIDO2 and Passkeys: The Protocol Measured",
+        "slug": "webauthn-fido2-and-passkeys-concepts",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Passwords and Credential Attacks: Hashing, Stuffing, Spraying and Modern Policy",
+        "slug": "passwords-and-credential-attacks",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Session Management: Cookies, Fixation and Revocation",
+        "slug": "session-management-cookies-fixation-and-revocation",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth Security: BCP, DPoP, mTLS, PAR, RAR and Resource Indicators",
+        "slug": "oauth-security-bcp-dpop-mtls-par-rar-and-resource-indicators",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OpenID Connect: ID Token, UserInfo, Discovery and Logout",
+        "slug": "oidc-id-token-userinfo-discovery-and-logout",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Workload Identity: Service Accounts, mTLS and SPIFFE",
+        "slug": "workload-identity-service-accounts-mtls-and-spiffe",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "SP 800-63B-4, Authentication and Authenticator Management, NIST",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+        "type": "doc"
+      },
+      {
+        "label": "Implementing Phishing-Resistant MFA, CISA",
+        "url": "https://www.cisa.gov/sites/default/files/publications/fact-sheet-implementing-phishing-resistant-mfa-508c.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Phishing, T1566, MITRE ATT&CK",
+        "url": "https://attack.mitre.org/techniques/T1566/",
+        "type": "doc"
+      },
+      {
+        "label": "Adversary-in-the-Middle, T1557, MITRE ATT&CK",
+        "url": "https://attack.mitre.org/techniques/T1557/",
+        "type": "doc"
+      },
+      {
+        "label": "Steal Web Session Cookie, T1539, MITRE ATT&CK",
+        "url": "https://attack.mitre.org/techniques/T1539/",
+        "type": "doc"
+      },
+      {
+        "label": "Multi-Factor Authentication Request Generation, T1621, MITRE ATT&CK",
+        "url": "https://attack.mitre.org/techniques/T1621/",
+        "type": "doc"
+      },
+      {
+        "label": "Steal Application Access Token, T1528, MITRE ATT&CK",
+        "url": "https://attack.mitre.org/techniques/T1528/",
+        "type": "doc"
+      },
+      {
+        "label": "Configure how users consent to applications, Microsoft Entra",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/configure-user-consent",
+        "type": "doc"
+      },
+      {
+        "label": "Review and revoke permissions granted to applications, Microsoft Entra",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/manage-application-permissions",
+        "type": "doc"
+      },
+      {
+        "label": "Token Protection in Conditional Access, Microsoft Entra",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-token-protection",
+        "type": "doc"
+      },
+      {
+        "label": "How number matching works in MFA push notifications, Microsoft Entra",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-mfa-number-match",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak Admin REST API, users consents",
+        "url": "https://www.keycloak.org/docs-api/latest/rest-api/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Revoke signed-in sessions, Microsoft Graph",
+        "url": "https://learn.microsoft.com/en-us/graph/api/user-revokesigninsessions",
+        "type": "doc"
+      },
+      {
+        "label": "Client registration service and policies, Keycloak Securing Applications",
+        "url": "https://www.keycloak.org/securing-apps/client-registration",
+        "type": "doc"
+      },
+      {
+        "label": "Client registration policies, Keycloak Server Administration",
+        "url": "https://www.keycloak.org/docs/latest/server_admin/index.html#_client_registration_policies",
+        "type": "doc"
+      },
+      {
+        "label": "Device Bound Session Credentials, W3C draft",
+        "url": "https://w3c.github.io/webappsec-dbsc/",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9449, OAuth 2.0 Demonstrating Proof of Possession (DPoP), IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9449",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9700, Best Current Practice for OAuth 2.0 Security, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9700",
+        "type": "doc"
+      },
+      {
+        "label": "Forgot Password Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "saml-2-assertions-bindings-and-sso-flows",
+    "id": 5,
+    "title": "SAML 2.0: Assertions, Bindings and SSO Flows",
+    "topic": "Federation & SSO",
+    "summary": "SAML 2.0 measured on the wire against a local Keycloak 26.8.2 acting as the IdP. SP-initiated with the Redirect and POST bindings versus IdP-initiated (no InResponseTo), the AuthnRequest and Response decoded from base64 and deflate, the Assertion annotated element by element (Issuer, NameID formats, Conditions, AudienceRestriction, SubjectConfirmationData, AuthnStatement, AttributeStatement), the SP and IdP metadata XML, the XMLDSig signature (C14N, Reference by ID, why checking the signature alone is not enough), the SP's mandatory checks each failed on purpose (signature, Destination/Recipient, Audience, time window, InResponseTo, replay, Issuer), the XML Signature Wrapping class demonstrated against a toy verifier and the fix of reading only the signed reference, attribute-to-role mapping, Single Logout and its limits, and SAML versus OIDC.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "iam-identity-authentication-authorization-and-accounting"
+    ],
+    "related": [
+      {
+        "label": "OpenID Connect: ID Token, UserInfo, Discovery and Logout",
+        "slug": "oidc-id-token-userinfo-discovery-and-logout",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "SAML Core 2.0 OS, OASIS",
+        "url": "https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "SAML Bindings 2.0 OS, OASIS",
+        "url": "https://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "SAML Profiles 2.0 OS, OASIS",
+        "url": "https://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "SAML Metadata 2.0 OS, OASIS",
+        "url": "https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "XML Signature Syntax and Processing 1.1, W3C",
+        "url": "https://www.w3.org/TR/xmldsig-core1/",
+        "type": "doc"
+      },
+      {
+        "label": "SAML Security Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/SAML_Security_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "XML Security Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/XML_Security_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Server Administration Guide, Keycloak",
+        "url": "https://www.keycloak.org/docs/latest/server_admin/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Securing applications with SAML, Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/saml-galleon-layers",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "session-management-cookies-fixation-and-revocation",
+    "id": 18,
+    "title": "Session Management: Cookies, Fixation and Revocation",
+    "topic": "Federation & SSO",
+    "summary": "What happens after login, measured against a toy session server written for the lesson in Node 22 with no framework. A 128-bit session id against a counter, each Set-Cookie attribute (HttpOnly, Secure, Path, Domain, Max-Age, __Host- and __Secure- prefixes) with curl, session fixation and regenerating the id at login, idle against absolute expiry, remember-me with a selector and a hashed validator, CSRF with a synchronizer token, signed double submit and Sec-Fetch-Site, real logout, sign out everywhere, revocation on password change and SCIM active:false, a JWT as the session cookie under the same tests, the BFF pattern, a shared Redis store and what happens when it goes down, with SameSite and Entra Continuous Access Evaluation read from the docs only.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "iam-identity-authentication-authorization-and-accounting"
+    ],
+    "related": [
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OpenID Connect: ID Token, UserInfo, Discovery and Logout",
+        "slug": "oidc-id-token-userinfo-discovery-and-logout",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth 2.0 from First Principles: Roles, Grants and Tokens",
+        "slug": "oauth-2-roles-grants-and-tokens-from-first-principles",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Session Management Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Cross-Site Request Forgery Prevention Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6265, HTTP State Management Mechanism (Cookies), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6265",
+        "type": "doc"
+      },
+      {
+        "label": "Cookies: HTTP State Management Mechanism, draft-ietf-httpbis-rfc6265bis, IETF",
+        "url": "https://datatracker.ietf.org/doc/draft-ietf-httpbis-rfc6265bis/",
+        "type": "doc"
+      },
+      {
+        "label": "Set-Cookie header, MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie",
+        "type": "doc"
+      },
+      {
+        "label": "Sec-Fetch-Site header, MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Sec-Fetch-Site",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 10017, OAuth 2.0 for Browser-Based Applications, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc10017",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9700, Best Current Practice for OAuth 2.0 Security, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9700",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect Back-Channel Logout 1.0, OpenID Foundation",
+        "url": "https://openid.net/specs/openid-connect-backchannel-1_0.html",
+        "type": "doc"
+      },
+      {
+        "label": "Continuous access evaluation, Microsoft Entra, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-continuous-access-evaluation",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "choosing-a-federation-protocol-saml-oidc-kerberos-and-ldap",
+    "id": 14,
+    "title": "Choosing a Federation Protocol: SAML, OIDC, Kerberos and LDAP",
+    "topic": "Federation & SSO",
+    "summary": "Decision layer over the protocol lessons: a matrix of LDAP, Kerberos, SAML, OIDC and SCIM by client type, network, IdP ownership, logout, attributes, cost, attack surface and library maturity, then identity brokering measured with three Keycloak 26.8.2 containers on one Docker network. A hub realm that stores no passwords delegates to one upstream over OIDC and another over SAML, and the app sees a single OIDC token. Measured: the wire flow, claim mapping from both upstreams with identity provider mappers, kc_idp_hint, home realm discovery by e-mail domain with Keycloak organizations, the first broker login account takeover by unverified e-mail (six runs, which settings close it), and what hub logout does to the upstream sessions. B2B, B2C and CIAM, workforce, inter-organization federation, BFF gateways and SAML to OIDC migration are prose, with Entra docs only. Ends with a scenario, protocol, reason and pitfall table.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "saml-2-assertions-bindings-and-sso-flows",
+      "oidc-id-token-userinfo-discovery-and-logout"
+    ],
+    "related": [
+      {
+        "label": "SAML 2.0: Assertions, Bindings and SSO Flows",
+        "slug": "saml-2-assertions-bindings-and-sso-flows",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OpenID Connect: ID Token, UserInfo, Discovery and Logout",
+        "slug": "oidc-id-token-userinfo-discovery-and-logout",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "LDAP: Directories, DN, Schema and Binds",
+        "slug": "ldap-directories-dn-schema-and-binds",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Kerberos: Tickets, TGT, Delegation and NTLM",
+        "slug": "kerberos-tickets-tgt-delegation-and-ntlm",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth 2.0 from First Principles: Roles, Grants and Tokens",
+        "slug": "oauth-2-roles-grants-and-tokens-from-first-principles",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Implementing an OAuth2 Client: Single Sign-On with ClientRegistration",
+        "slug": "spring-security-oauth2-client-and-sso",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Keycloak as the Authorization Server for a Spring Resource Server",
+        "slug": "spring-security-keycloak-authorization-server-integration",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Server Administration Guide: identity brokering, first login flow, organizations, Keycloak",
+        "url": "https://www.keycloak.org/docs/latest/server_admin/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Securing applications and services with OpenID Connect, Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/oidc-layers",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect Core 1.0 incorporating errata set 2, OpenID Foundation",
+        "url": "https://openid.net/specs/openid-connect-core-1_0.html",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect Back-Channel Logout 1.0, OpenID Foundation",
+        "url": "https://openid.net/specs/openid-connect-backchannel-1_0.html",
+        "type": "doc"
+      },
+      {
+        "label": "SAML Core 2.0 OS, OASIS",
+        "url": "https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9700, Best Current Practice for OAuth 2.0 Security, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9700",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7644, SCIM Protocol, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc7644",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4120, The Kerberos Network Authentication Service (V5), IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc4120",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4511, Lightweight Directory Access Protocol (LDAP): The Protocol, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc4511",
+        "type": "doc"
+      },
+      {
+        "label": "NIST SP 800-63C Digital Identity Guidelines: Federation and Assertions, NIST",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63c.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Entra External ID overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/external-id/external-identities-overview",
+        "type": "doc"
+      },
+      {
+        "label": "B2B collaboration overview, Microsoft Entra External ID, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/external-id/what-is-b2b",
+        "type": "doc"
+      },
+      {
+        "label": "Secure applications and APIs by validating claims, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/claims-validation",
+        "type": "doc"
+      },
+      {
+        "label": "ID token claims reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/id-token-claims-reference",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ldap-directories-dn-schema-and-binds",
+    "id": 6,
+    "title": "LDAP: Directories, DN, Schema and Binds",
+    "topic": "Directory Services",
+    "summary": "LDAP measured on the wire against a local OpenLDAP 2.6.10. The tree (DIT, DN, RDN), schema errors provoked on purpose (MUST/MAY, structural versus auxiliary, error 65), every operation, scopes and RFC 4515 filters, what an index is worth on 50,000 entries read from the server log (12.3 ms to 0.09 ms), anonymous, simple and SASL binds and the unauthenticated-bind bug, LDAPS versus StartTLS seen on the wire with a relay and openssl s_client, ACLs that hide entries and filter results, {SSHA} and {ARGON2} password hashes, paged results and referrals, the search-then-bind login, and LDAP injection against a local toy script with the RFC 4515 escape as the defense.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "iam-identity-authentication-authorization-and-accounting"
+    ],
+    "related": [
+      {
+        "label": "Spring Security JDBC and LDAP User Management",
+        "slug": "spring-security-jdbc-ldap-user-management",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "RFC 4511, LDAP: The Protocol, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc4511",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4512, LDAP: Directory Information Models, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc4512",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4513, LDAP: Authentication Methods and Security Mechanisms, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc4513",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4514, LDAP: String Representation of Distinguished Names, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc4514",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4515, LDAP: String Representation of Search Filters, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc4515",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 2696, LDAP Control Extension for Simple Paged Results, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc2696",
+        "type": "doc"
+      },
+      {
+        "label": "OpenLDAP Software 2.6 Administrator's Guide, OpenLDAP",
+        "url": "https://www.openldap.org/doc/admin26/",
+        "type": "doc"
+      },
+      {
+        "label": "LDAP Injection Prevention Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/LDAP_Injection_Prevention_Cheat_Sheet.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "active-directory-and-entra-id-domains-forests-and-hybrid",
+    "id": 7,
+    "title": "Active Directory and Entra ID: Domains, Forests and Hybrid",
+    "topic": "Directory Services",
+    "summary": "Active Directory measured against an AD-compatible Samba 4.22.11 domain (lab.test, two DCs) in Docker, and Entra ID and the hybrid pieces from the docs only. Forest, domain, domain controller, Global Catalog, sites and DNS SRV records, objects and the four names of a user (DN, sAMAccountName, UPN, objectGUID and objectSid decoded down to the RID), group types and scopes with AGDLP, memberOf against tokenGroups and the LDAP_MATCHING_RULE_IN_CHAIN filter, userAccountControl bits and bitwise filters, the two doors (LDAP with StartTLS or GSSAPI, Kerberos), multi-master replication, RID pools and FSMO with two DCs, GPO as a directory object plus SYSVOL, and the default password policy. Then Entra ID (tenant, app registration against enterprise application, delegated against application permissions, consent, Conditional Access, PIM, managed identities), hybrid sync (Entra Connect, Cloud Sync, the ms-DS-ConsistencyGuid source anchor), PHS against PTA against federation, Seamless SSO, hybrid join, the UPN friction, security in prose and a final AD against Entra table.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "ldap-directories-dn-schema-and-binds"
+    ],
+    "related": [
+      {
+        "label": "LDAP: Directories, DN, Schema and Binds",
+        "slug": "ldap-directories-dn-schema-and-binds",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Kerberos: Tickets, TGT, Delegation and NTLM",
+        "slug": "kerberos-tickets-tgt-delegation-and-ntlm",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth Token Exchange: Delegation and On-Behalf-Of",
+        "slug": "oauth-token-exchange-delegation-and-on-behalf-of",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Workload Identity: Service Accounts, mTLS and SPIFFE",
+        "slug": "workload-identity-service-accounts-mtls-and-spiffe",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "SCIM: Provisioning and the Identity Lifecycle",
+        "slug": "scim-provisioning-and-the-identity-lifecycle",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Active Directory Domain Services overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Security identifiers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers",
+        "type": "doc"
+      },
+      {
+        "label": "Active Directory security groups, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-groups",
+        "type": "doc"
+      },
+      {
+        "label": "Operations master role placement, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/planning-operations-master-role-placement",
+        "type": "doc"
+      },
+      {
+        "label": "Search filter syntax, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows/win32/adsi/search-filter-syntax",
+        "type": "doc"
+      },
+      {
+        "label": "What is Microsoft Entra?, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/fundamentals/whatis",
+        "type": "doc"
+      },
+      {
+        "label": "How and why applications are added to Microsoft Entra ID, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/how-applications-are-added",
+        "type": "doc"
+      },
+      {
+        "label": "Overview of permissions and consent, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/permissions-consent-overview",
+        "type": "doc"
+      },
+      {
+        "label": "What is Microsoft Entra Connect?, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/whatis-azure-ad-connect",
+        "type": "doc"
+      },
+      {
+        "label": "What is Microsoft Entra Cloud Sync?, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/hybrid/cloud-sync/what-is-cloud-sync",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Entra Connect user sign-in options, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/plan-connect-user-signin",
+        "type": "doc"
+      },
+      {
+        "label": "Password hash synchronization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/how-to-connect-password-hash-synchronization",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Entra seamless single sign-on, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/how-to-connect-sso",
+        "type": "doc"
+      },
+      {
+        "label": "Enterprise access model, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/security/compass/privileged-access-access-model",
+        "type": "doc"
+      },
+      {
+        "label": "Setting up Samba as an Active Directory Domain Controller, Samba Wiki",
+        "url": "https://wiki.samba.org/index.php/Setting_up_Samba_as_an_Active_Directory_Domain_Controller",
+        "type": "doc"
+      },
+      {
+        "label": "T1003.006, OS Credential Dumping: DCSync, MITRE ATT&CK",
+        "url": "https://attack.mitre.org/techniques/T1003/006/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kerberos-tickets-tgt-delegation-and-ntlm",
+    "id": 8,
+    "title": "Kerberos: Tickets, TGT, Delegation and NTLM",
+    "topic": "Directory Services",
+    "summary": "Kerberos measured against a lab MIT KDC 1.21.3 in Docker. Realm, principals, kinit, the TGT and service tickets on the wire decoded with tshark, timestamp pre-authentication, what is inside a ticket (service key, authenticator, PAC), a keytab, Apache Negotiate and sshd GSSAPI validating for real, measured failures (Clock skew too great with a 5 minute window, expiry and renewal limits, an SPN built from an IP, a stale keytab kvno), encryption types, delegation (forwardable and unconstrained measured, constrained and RBCD in prose), trusts and Active Directory, golden ticket, silver ticket and Kerberoasting as failure classes with defenses, NTLM measured with a small verifier of our own (NT hash, challenge-response, relay), and a final table of ticket, who encrypts it, attack class and defense.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "iam-identity-authentication-authorization-and-accounting"
+    ],
+    "related": [
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "LDAP: Directories, DN, Schema and Binds",
+        "slug": "ldap-directories-dn-schema-and-binds",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "SAML 2.0: Assertions, Bindings and SSO Flows",
+        "slug": "saml-2-assertions-bindings-and-sso-flows",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "RFC 4120, The Kerberos Network Authentication Service (V5), IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc4120",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4121, The Kerberos Version 5 GSS-API Mechanism: Version 2, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc4121",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4559, SPNEGO-based Kerberos and NTLM HTTP Authentication, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc4559",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6806, Kerberos Principal Name Canonicalization and Referrals, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc6806",
+        "type": "doc"
+      },
+      {
+        "label": "MIT Kerberos Documentation, MIT",
+        "url": "https://web.mit.edu/kerberos/krb5-latest/doc/",
+        "type": "doc"
+      },
+      {
+        "label": "Papers and the Dialogue in Four Scenes, MIT Kerberos",
+        "url": "https://web.mit.edu/kerberos/papers.html",
+        "type": "doc"
+      },
+      {
+        "label": "Kerberos authentication overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Kerberos constrained delegation overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-constrained-delegation-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Protected Users security group, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group",
+        "type": "doc"
+      },
+      {
+        "label": "MS-NLMP, NT LAN Manager (NTLM) Authentication Protocol, Microsoft",
+        "url": "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nlmp/b38c36ed-2804-4868-a9ff-8dd3182128e4",
+        "type": "doc"
+      },
+      {
+        "label": "T1558, Steal or Forge Kerberos Tickets, MITRE ATT&CK",
+        "url": "https://attack.mitre.org/techniques/T1558/",
+        "type": "doc"
+      },
+      {
+        "label": "T1550.002, Pass the Hash, MITRE ATT&CK",
+        "url": "https://attack.mitre.org/techniques/T1550/002/",
+        "type": "doc"
+      },
+      {
+        "label": "T1557.001, LLMNR/NBT-NS Poisoning and SMB Relay, MITRE ATT&CK",
+        "url": "https://attack.mitre.org/techniques/T1557/001/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "oauth-2-roles-grants-and-tokens-from-first-principles",
+    "id": 9,
+    "title": "OAuth 2.0 from First Principles: Roles, Grants and Tokens",
+    "topic": "OAuth & OIDC",
+    "summary": "OAuth 2.0 measured on the wire against a local Keycloak 26.8.2 with only curl, jq and openssl. The four roles, public versus confidential clients, authorization code with PKCE S256 step by step, client credentials, device code (RFC 8628), refresh token rotation with reuse detection, what OAuth 2.1 removed (implicit, ROPC, wildcard redirects) and the attack behind each removal, scope versus audience, JWT (RFC 9068) versus opaque tokens, introspection (RFC 7662) and revocation (RFC 7009) timed, code reuse revoking the issued tokens, and invalid_grant, invalid_client and invalid_scope provoked on purpose.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "iam-identity-authentication-authorization-and-accounting"
+    ],
+    "related": [
+      {
+        "label": "OAuth 2 Fundamentals and Grant Types",
+        "slug": "spring-security-oauth2-fundamentals-and-grant-types",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "OAuth 2 Resource Server: Remote Check, Blackboarding, and Local Validation",
+        "slug": "spring-security-oauth2-resource-server-approaches",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MCP Authorization Flow: 401, Discovery and Token Validation",
+        "slug": "mcp-authorization-flow-401-discovery-and-token-validation",
+        "feature": "dotnet-ai-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "RFC 6749, The OAuth 2.0 Authorization Framework, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7636, Proof Key for Code Exchange (PKCE), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7636",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8628, OAuth 2.0 Device Authorization Grant, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8628",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7009, OAuth 2.0 Token Revocation, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7009",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7662, OAuth 2.0 Token Introspection, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7662",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9068, JWT Profile for OAuth 2.0 Access Tokens, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9068",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9700, Best Current Practice for OAuth 2.0 Security, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9700",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9207, OAuth 2.0 Authorization Server Issuer Identification, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9207",
+        "type": "doc"
+      },
+      {
+        "label": "The OAuth 2.1 Authorization Framework (draft), IETF",
+        "url": "https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/",
+        "type": "doc"
+      },
+      {
+        "label": "Securing applications and services with OpenID Connect, Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/oidc-layers",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak Server Administration Guide, Keycloak",
+        "url": "https://www.keycloak.org/docs/latest/server_admin/index.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "oidc-id-token-userinfo-discovery-and-logout",
+    "id": 10,
+    "title": "OpenID Connect: ID Token, UserInfo, Discovery and Logout",
+    "topic": "OAuth & OIDC",
+    "summary": "OpenID Connect measured on the wire against a local Keycloak 26.8.2 with curl, jq and a 44-line Node 22 validator: what scope=openid adds, the ID token and the access token decoded side by side (aud is the client versus an API), the standard claims, discovery and JWKS, step-by-step ID token validation failing on a wrong nonce, wrong aud, tampered payload, alg none, expiry and at_hash, JWKS key rotation and caching, prompt, max_age and acr_values (and the silent acr downgrade), implicit and hybrid as history, and RP-initiated, front-channel and back-channel logout with what each one does not guarantee.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "oauth-2-roles-grants-and-tokens-from-first-principles"
+    ],
+    "related": [
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Implementing an OAuth2 Client: Single Sign-On with ClientRegistration",
+        "slug": "spring-security-oauth2-client-and-sso",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Keycloak as the Authorization Server for a Spring Resource Server",
+        "slug": "spring-security-keycloak-authorization-server-integration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "OpenID Connect Core 1.0 incorporating errata set 2, OpenID Foundation",
+        "url": "https://openid.net/specs/openid-connect-core-1_0.html",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect Discovery 1.0, OpenID Foundation",
+        "url": "https://openid.net/specs/openid-connect-discovery-1_0.html",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect RP-Initiated Logout 1.0, OpenID Foundation",
+        "url": "https://openid.net/specs/openid-connect-rpinitiated-1_0.html",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect Front-Channel Logout 1.0, OpenID Foundation",
+        "url": "https://openid.net/specs/openid-connect-frontchannel-1_0.html",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect Back-Channel Logout 1.0, OpenID Foundation",
+        "url": "https://openid.net/specs/openid-connect-backchannel-1_0.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7517, JSON Web Key (JWK), IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc7517",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8176, Authentication Method Reference Values, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc8176",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9700, Best Current Practice for OAuth 2.0 Security, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9700",
+        "type": "doc"
+      },
+      {
+        "label": "Server Administration Guide, Keycloak",
+        "url": "https://www.keycloak.org/docs/latest/server_admin/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Securing applications and services with OpenID Connect, Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/oidc-layers",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "oauth-token-exchange-delegation-and-on-behalf-of",
+    "id": 13,
+    "title": "OAuth Token Exchange: Delegation and On-Behalf-Of",
+    "topic": "OAuth & OIDC",
+    "summary": "Why a service cannot forward the user's token, and the three real answers measured against Keycloak 26.8.2 with curl, jq and Node 22: the service's own credential, RFC 8693 token exchange as impersonation, and token exchange as delegation with may_act and a nested act claim. Covers audience restriction, the refusals (invalid_client, access_denied, invalid_scope, expired subject), resource silently ignored, widening scope by default and the downscope executor that stops it, why Keycloak stops at one delegation hop while an illustrative STS shows the A to B to C act chain, exchange cost versus a cache, audit, plus the Microsoft Entra on-behalf-of flow (docs only) and a comparison table.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "oauth-2-roles-grants-and-tokens-from-first-principles"
+    ],
+    "related": [
+      {
+        "label": "OAuth 2.0 from First Principles: Roles, Grants and Tokens",
+        "slug": "oauth-2-roles-grants-and-tokens-from-first-principles",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OpenID Connect: ID Token, UserInfo, Discovery and Logout",
+        "slug": "oidc-id-token-userinfo-discovery-and-logout",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "MCP Security: Tool Poisoning, Confused Deputy and Least Privilege",
+        "slug": "mcp-security-tool-poisoning-confused-deputy-and-least-privilege",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Server Filters, HttpContext and Caller Identity",
+        "slug": "mcp-server-filters-httpcontext-and-caller-identity",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OAuth Security: BCP, DPoP, mTLS, PAR, RAR and Resource Indicators",
+        "slug": "oauth-security-bcp-dpop-mtls-par-rar-and-resource-indicators",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "RFC 8693, OAuth 2.0 Token Exchange, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8693",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9700, Best Current Practice for OAuth 2.0 Security (section 2.3), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9700",
+        "type": "doc"
+      },
+      {
+        "label": "Configuring and using token exchange, Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/token-exchange",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak Server Administration Guide (downscoping, client policies), Keycloak",
+        "url": "https://www.keycloak.org/docs/latest/server_admin/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft identity platform and OAuth 2.0 On-Behalf-Of flow, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-on-behalf-of-flow",
+        "type": "doc"
+      },
+      {
+        "label": "Web API that calls web APIs: code configuration, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/scenario-web-api-call-api-app-configuration",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "oauth-security-bcp-dpop-mtls-par-rar-and-resource-indicators",
+    "id": 12,
+    "title": "OAuth Security: BCP, DPoP, mTLS, PAR, RAR and Resource Indicators",
+    "topic": "OAuth & OIDC",
+    "summary": "OAuth hardening measured on the wire against a local Keycloak 26.8.2 and a Node 22 resource server of your own: what RFC 9700 requires and what each rule stops, the iss mix-up defense (RFC 9207) checked by the client, DPoP (RFC 9449) with cnf.jkt and a stolen token refused for the Bearer scheme, a thief key, a replayed jti, htm, htu, ath and nonce, mTLS (RFC 8705) with cnf.x5t#S256 and a same-CA certificate refused, PAR (RFC 9126) taking the request out of the URL, JAR, RAR (RFC 9396) refused by Keycloak, resource indicators (RFC 8707) with per-API aud and invalid_target, FAPI 2.0, and what most apps actually need.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "oauth-2-roles-grants-and-tokens-from-first-principles"
+    ],
+    "related": [
+      {
+        "label": "OAuth 2.0 from First Principles: Roles, Grants and Tokens",
+        "slug": "oauth-2-roles-grants-and-tokens-from-first-principles",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OpenID Connect: ID Token, UserInfo, Discovery and Logout",
+        "slug": "oidc-id-token-userinfo-discovery-and-logout",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "MCP Client Registration: CIMD, DCR and Pre-registration",
+        "slug": "mcp-client-registration-cimd-dcr-and-pre-registration",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Authorization Flow: 401, Discovery and Token Validation",
+        "slug": "mcp-authorization-flow-401-discovery-and-token-validation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "OAuth 2 Resource Server: Remote Check, Blackboarding, and Local Validation",
+        "slug": "spring-security-oauth2-resource-server-approaches",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Implementing an OAuth2 Authorization Server: From Spring Security OAuth to Spring Authorization Server",
+        "slug": "spring-security-oauth2-authorization-server",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "OAuth Token Exchange: Delegation and On-Behalf-Of",
+        "slug": "oauth-token-exchange-delegation-and-on-behalf-of",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "RFC 9700, Best Current Practice for OAuth 2.0 Security, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9700",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9449, OAuth 2.0 Demonstrating Proof of Possession (DPoP), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9449",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8705, OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8705",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9126, OAuth 2.0 Pushed Authorization Requests, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9126",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9101, JWT-Secured Authorization Request (JAR), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9101",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9396, OAuth 2.0 Rich Authorization Requests, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9396",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8707, Resource Indicators for OAuth 2.0, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8707",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9207, OAuth 2.0 Authorization Server Issuer Identification, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9207",
+        "type": "doc"
+      },
+      {
+        "label": "FAPI 2.0 Security Profile, OpenID Foundation",
+        "url": "https://openid.net/specs/fapi-security-profile-2_0-final.html",
+        "type": "doc"
+      },
+      {
+        "label": "Securing applications with DPoP, Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/dpop",
+        "type": "doc"
+      },
+      {
+        "label": "Supported specifications, Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/specifications",
+        "type": "doc"
+      },
+      {
+        "label": "Integrating with Model Context Protocol (resource indicators), Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/mcp-authz-server",
+        "type": "doc"
+      },
+      {
+        "label": "Proof-of-Possession tokens, MSAL.NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/msal/dotnet/advanced/proof-of-possession-tokens",
+        "type": "doc"
+      },
+      {
+        "label": "Token binding with mTLS PoP, Microsoft Identity Web, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/msidweb/call-downstream-apis/token-binding",
+        "type": "doc"
+      },
+      {
+        "label": "Sender constraining, Auth0",
+        "url": "https://auth0.com/docs/secure/sender-constraining",
+        "type": "doc"
+      },
+      {
+        "label": "Highly Regulated Identity, Auth0",
+        "url": "https://auth0.com/docs/secure/highly-regulated-identity",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "authorization-models-rbac-abac-rebac-and-policy-engines",
+    "id": 15,
+    "title": "Authorization Models: RBAC, ABAC, ReBAC and Policy Engines",
+    "topic": "Authorization Models",
+    "summary": "Authorization as one function of subject, action, resource and context, and the models that fill it: ACL, RBAC (NIST roles, hierarchy, separation of duty, role explosion), ABAC (NIST SP 800-162 and the XACML PEP, PDP, PIP, PAP architecture) and ReBAC (the Zanzibar paper, the new enemy problem). One scenario (documents, folders, teams, clearance) measured in three engines: OPA with Rego (REST, opa test, decision logs, undefined-value and fail-open gotchas), Cedar (forbid wins, schema validation, a skipped policy that silently let a confidential read through) and OpenFGA (model DSL, tuples, check, list-objects, expand, folder inheritance), all 12 decisions identical, with local latency over 1000 calls and a comparison table. Scopes against domain permissions, where each engine sits and what it costs, the hidden-button trap and IDOR/BOLA (OWASP API1) on a toy API with and without an object check, and a final table of model, strengths, weaknesses, typical engine and trap.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "iam-identity-authentication-authorization-and-accounting"
+    ],
+    "related": [
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth Token Exchange: Delegation and On-Behalf-Of",
+        "slug": "oauth-token-exchange-delegation-and-on-behalf-of",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Authentication and Authorization at Scale",
+        "slug": "authentication-and-authorization-at-scale",
+        "feature": "system-design"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Method Security: Preauthorization and Postauthorization",
+        "slug": "spring-security-method-security-preauthorization-and-postauthorization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authorization: Authorities and Roles",
+        "slug": "spring-security-authorization-authorities-and-roles",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Role Based Access Control, NIST",
+        "url": "https://csrc.nist.gov/projects/role-based-access-control",
+        "type": "doc"
+      },
+      {
+        "label": "SP 800-162, Guide to Attribute Based Access Control, NIST",
+        "url": "https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-162.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "eXtensible Access Control Markup Language (XACML) 3.0, OASIS",
+        "url": "https://docs.oasis-open.org/xacml/3.0/",
+        "type": "doc"
+      },
+      {
+        "label": "Open Policy Agent Documentation, OPA",
+        "url": "https://www.openpolicyagent.org/docs",
+        "type": "doc"
+      },
+      {
+        "label": "Policy Language (Rego), OPA",
+        "url": "https://www.openpolicyagent.org/docs/policy-language",
+        "type": "doc"
+      },
+      {
+        "label": "Policy Testing, OPA",
+        "url": "https://www.openpolicyagent.org/docs/policy-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Decision Logs, OPA",
+        "url": "https://www.openpolicyagent.org/docs/management-decision-logs",
+        "type": "doc"
+      },
+      {
+        "label": "Cedar Policy Language Reference Guide, Cedar",
+        "url": "https://docs.cedarpolicy.com/",
+        "type": "doc"
+      },
+      {
+        "label": "How Cedar authorization works, Cedar",
+        "url": "https://docs.cedarpolicy.com/auth/authorization.html",
+        "type": "doc"
+      },
+      {
+        "label": "OpenFGA Documentation, OpenFGA",
+        "url": "https://openfga.dev/docs",
+        "type": "doc"
+      },
+      {
+        "label": "Getting started with modeling, OpenFGA",
+        "url": "https://openfga.dev/docs/modeling/getting-started",
+        "type": "doc"
+      },
+      {
+        "label": "Query consistency, OpenFGA",
+        "url": "https://openfga.dev/docs/interacting/consistency",
+        "type": "doc"
+      },
+      {
+        "label": "Zanzibar: Google's Consistent, Global Authorization System, USENIX ATC 2019",
+        "url": "https://www.usenix.org/conference/atc19/presentation/pang",
+        "type": "paper"
+      },
+      {
+        "label": "API1:2023 Broken Object Level Authorization, OWASP",
+        "url": "https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/",
+        "type": "doc"
+      },
+      {
+        "label": "Authorization Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9396, OAuth 2.0 Rich Authorization Requests, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9396",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "scim-provisioning-and-the-identity-lifecycle",
+    "id": 16,
+    "title": "SCIM: Provisioning and the Identity Lifecycle",
+    "topic": "Provisioning & Lifecycle",
+    "summary": "SCIM 2.0 (RFC 7643 and 7644) measured against a minimal SCIM server written for the lesson in Node 22 with no framework. Discovery (ServiceProviderConfig, ResourceTypes, Schemas), create with 201 and Location, uniqueness, filters and 1-based pagination, PUT against PATCH (PUT wiped externalId and department), PatchOp with paths such as emails[type eq \"work\"].value, active:false against DELETE with session revocation, scimType errors (uniqueness, invalidValue, mutability, noTarget, invalidVers), ETag and If-Match, bearer rotation, groups and the group-versus-user race, JIT against SCIM, a reconciler that finds orphan accounts, server-side validation against mass assignment and privileged groups, and Entra ID, Okta and Keycloak read from their official docs only.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "iam-identity-authentication-authorization-and-accounting"
+    ],
+    "related": [
+      {
+        "label": "IAM: Identity, Authentication, Authorization and Accounting",
+        "slug": "iam-identity-authentication-authorization-and-accounting",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "LDAP: Directories, DN, Schema and Binds",
+        "slug": "ldap-directories-dn-schema-and-binds",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "RFC 7642, SCIM: Definitions, Overview, Concepts and Requirements, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7642",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7643, SCIM: Core Schema, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7643",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7644, SCIM: Protocol, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7644",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Develop a SCIM endpoint for user provisioning, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/app-provisioning/use-scim-to-provision-users-and-groups",
+        "type": "doc"
+      },
+      {
+        "label": "Build a SCIM provisioning integration, overview, Okta Developer",
+        "url": "https://developer.okta.com/docs/guides/scim-provisioning-integration-overview/",
+        "type": "doc"
+      },
+      {
+        "label": "Prepare your SCIM API, Okta Developer",
+        "url": "https://developer.okta.com/docs/guides/scim-provisioning-integration-prepare/main/",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak 26.8.0 released (SCIM API supported), Keycloak",
+        "url": "https://www.keycloak.org/2026/10/keycloak-2680-released",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "workload-identity-service-accounts-mtls-and-spiffe",
+    "id": 17,
+    "title": "Workload Identity: Service Accounts, mTLS and SPIFFE",
+    "topic": "Workload Identity",
+    "summary": "Machine identity instead of static secrets, measured where it runs locally. A throwaway CA and mTLS with openssl, curl and a small Node server (what the server reads from the certificate SAN, refusals for a wrong CA, expiry and a missing certificate, authentication versus authorization, handshake cost), then SPIFFE/SPIRE 1.16.0 in Docker: SPIFFE IDs, X.509 and JWT SVIDs decoded and verified against the bundle, node and workload attestation with join_token and unix selectors, two workloads doing mTLS with an allow list of SPIFFE IDs, rotation at half life and the fact that revocation is the TTL. Docs only: Kubernetes projected ServiceAccount tokens, GitHub Actions OIDC federation (with the trust condition tested, including the loose repo:org/* mistake), Azure, AWS and GCP workload identity, service meshes. Ends with the anti-pattern of passing user tokens between services, rotation, audit and attribution, and a table of mechanism, what it proves, credential lifetime, who validates and the trap.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "oauth-2-roles-grants-and-tokens-from-first-principles"
+    ],
+    "related": [
+      {
+        "label": "OAuth 2.0 from First Principles: Roles, Grants and Tokens",
+        "slug": "oauth-2-roles-grants-and-tokens-from-first-principles",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth Token Exchange: Delegation and On-Behalf-Of",
+        "slug": "oauth-token-exchange-delegation-and-on-behalf-of",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth Security: BCP, DPoP, mTLS, PAR, RAR and Resource Indicators",
+        "slug": "oauth-security-bcp-dpop-mtls-par-rar-and-resource-indicators",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "ServiceAccount Tokens and Automount",
+        "slug": "serviceaccount-tokens-and-automount",
+        "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "RBAC and Least Privilege",
+        "slug": "rbac-least-privilege",
+        "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "Kubernetes Secrets Fundamentals",
+        "slug": "kubernetes-secrets-fundamentals",
+        "feature": "kubernetes-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "SPIFFE Concepts, SPIFFE",
+        "url": "https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/",
+        "type": "doc"
+      },
+      {
+        "label": "SPIRE Concepts, SPIFFE",
+        "url": "https://spiffe.io/docs/latest/spire-about/spire-concepts/",
+        "type": "doc"
+      },
+      {
+        "label": "Registering workloads, SPIFFE",
+        "url": "https://spiffe.io/docs/latest/deploying/registering/",
+        "type": "doc"
+      },
+      {
+        "label": "The X.509-SVID specification, SPIFFE",
+        "url": "https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md",
+        "type": "doc"
+      },
+      {
+        "label": "The JWT-SVID specification, SPIFFE",
+        "url": "https://github.com/spiffe/spiffe/blob/main/standards/JWT-SVID.md",
+        "type": "doc"
+      },
+      {
+        "label": "Service Accounts, Kubernetes",
+        "url": "https://kubernetes.io/docs/concepts/security/service-accounts/",
+        "type": "doc"
+      },
+      {
+        "label": "Managing Service Accounts (projected tokens, issuer discovery), Kubernetes",
+        "url": "https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect in GitHub Actions (security hardening), GitHub Docs",
+        "url": "https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect reference (claims), GitHub Docs",
+        "url": "https://docs.github.com/en/actions/reference/security/oidc",
+        "type": "doc"
+      },
+      {
+        "label": "Workload identities overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/workload-id/workload-identities-overview",
+        "type": "doc"
+      },
+      {
+        "label": "EKS Pod Identity, AWS",
+        "url": "https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html",
+        "type": "doc"
+      },
+      {
+        "label": "Workload Identity Federation, Google Cloud",
+        "url": "https://cloud.google.com/iam/docs/workload-identity-federation",
+        "type": "doc"
+      },
+      {
+        "label": "Istio security concepts, Istio",
+        "url": "https://istio.io/latest/docs/concepts/security/",
+        "type": "doc"
+      },
+      {
+        "label": "Automatic mTLS, Linkerd",
+        "url": "https://linkerd.io/2/features/automatic-mtls/",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8705, OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8705",
+        "type": "doc"
+      },
+      {
+        "label": "NIST SP 800-207, Zero Trust Architecture, NIST",
+        "url": "https://csrc.nist.gov/pubs/sp/800/207/final",
+        "type": "doc"
+      }
+    ]
+  }
+]

@@ -344,7 +344,7 @@
         "feature": "dotnet-ai-concepts"
       },
       {
-        "label": "Agent Framework Workflows and Orchestration",
+        "label": "Microsoft Agent Framework: Workflows and Orchestration",
         "slug": "agent-framework-workflows-and-orchestration",
         "feature": "dotnet-ai-concepts"
       },
@@ -452,6 +452,1602 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-ai-concepts/agent-framework-workflows-and-orchestration"
+  },
+  {
+    "slug": "mcp-tools-in-depth-schemas-annotations-and-structured-output",
+    "id": 14,
+    "title": "MCP Tools in Depth: Schemas, Annotations and Structured Output",
+    "topic": "Model Context Protocol",
+    "summary": "The contract of an MCP tool measured on the wire with the C# SDK 2.4.0, no model involved: the inputSchema generated from the method signature (enums, nullable, defaults, DataAnnotations that are not enforced), $ref and any JSON Schema 2020-12 keyword, outputSchema and structuredContent read back as a typed value, annotations as untrusted hints, the five content block types, tools/list order and caching, x-mcp-header with its -32020 validation, and the tool name rules.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tool Calling with AIFunction",
+        "slug": "tool-calling-with-aifunction",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Structured Output with Typed Responses",
+        "slug": "structured-output-with-typed-responses",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Multi Round-Trip Requests and Elicitation",
+        "slug": "mcp-multi-round-trip-requests-and-elicitation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Tasks Extension for Long-Running Tools",
+        "slug": "mcp-tasks-extension-for-long-running-tools",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+        "slug": "system-text-json-source-generation-and-utf8jsonreader",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "JSON Converters, Contract Customization and Schema Export",
+        "slug": "json-converters-contracts-and-schema-export",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Tools, Model Context Protocol specification 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+        "type": "doc"
+      },
+      {
+        "label": "Specification changelog 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog",
+        "type": "doc"
+      },
+      {
+        "label": "Basic protocol and JSON Schema usage, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic",
+        "type": "doc"
+      },
+      {
+        "label": "Streamable HTTP and custom headers from tool parameters, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http",
+        "type": "doc"
+      },
+      {
+        "label": "Schema reference (ToolAnnotations), modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/schema",
+        "type": "doc"
+      },
+      {
+        "label": "Tools, MCP C# SDK concepts",
+        "url": "https://csharp.sdk.modelcontextprotocol.io/concepts/tools/tools.html",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk",
+        "type": "doc"
+      },
+      {
+        "label": "Issue 2012: annotated content blocks fail in 2.4.0, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/issues/2012",
+        "type": "doc"
+      },
+      {
+        "label": "JSON Schema 2020-12 core, json-schema.org",
+        "url": "https://json-schema.org/draft/2020-12/json-schema-core",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-resources-prompts-completions-and-pagination",
+    "id": 15,
+    "title": "MCP Resources, Prompts, Completions and Pagination",
+    "topic": "Model Context Protocol",
+    "summary": "The server capabilities beyond tools, measured on a real server with the C# SDK 2.4.0: resources as text and base64 blobs, resource templates, the not-found error (-32602 in spec 2026-07-28, -32002 before), prompts with arguments and embedded content, argument completions and the 100 value limit, cursor pagination, the ttlMs and cacheScope cache hints (SEP-2549), and subscriptions/listen with the SDK 2.1.0 opt-in handler, plus when to use a tool, a resource or a prompt.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Tools in Depth: Schemas, Annotations and Structured Output",
+        "slug": "mcp-tools-in-depth-schemas-annotations-and-structured-output",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Tasks Extension for Long-Running Tools",
+        "slug": "mcp-tasks-extension-for-long-running-tools",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Resources, MCP specification 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/resources",
+        "type": "doc"
+      },
+      {
+        "label": "Prompts, MCP specification 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/prompts",
+        "type": "doc"
+      },
+      {
+        "label": "Completion, MCP specification 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/completion",
+        "type": "doc"
+      },
+      {
+        "label": "Pagination, MCP specification 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/pagination",
+        "type": "doc"
+      },
+      {
+        "label": "Caching, MCP specification 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching",
+        "type": "doc"
+      },
+      {
+        "label": "Subscriptions, MCP specification 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/subscriptions",
+        "type": "doc"
+      },
+      {
+        "label": "Specification changelog 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK 2.1.0 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.1.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-progress-cancellation-and-retry-semantics",
+    "id": 16,
+    "title": "MCP Progress, Cancellation and Retry Semantics",
+    "topic": "Model Context Protocol",
+    "summary": "What happens to an MCP tool call when something fails on the way, measured with the C# SDK 2.4.0 and spec 2026-07-28 behind a TCP proxy that cuts connections: progress notifications on the request's own response stream, cancellation by closing the stream (and notifications/cancelled on stdio), the request lost without Last-Event-ID, a non-idempotent reserve executed twice, the idempotency-key fix, layered timeouts, and what a retry handler may safely repeat.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Tasks Extension for Long-Running Tools",
+        "slug": "mcp-tasks-extension-for-long-running-tools",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Multi Round-Trip Requests and Elicitation",
+        "slug": "mcp-multi-round-trip-requests-and-elicitation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Specification changelog 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog",
+        "type": "doc"
+      },
+      {
+        "label": "Progress, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/utilities/progress",
+        "type": "doc"
+      },
+      {
+        "label": "Cancellation, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/utilities/cancellation",
+        "type": "doc"
+      },
+      {
+        "label": "Streamable HTTP transport, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http",
+        "type": "doc"
+      },
+      {
+        "label": "Tools and annotations, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+        "type": "doc"
+      },
+      {
+        "label": "Progress guide in the C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/v2.4.0/docs/concepts/progress/progress.md",
+        "type": "doc"
+      },
+      {
+        "label": "Cancellation guide in the C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/v2.4.0/docs/concepts/cancellation/cancellation.md",
+        "type": "doc"
+      },
+      {
+        "label": "Build resilient HTTP apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience",
+        "type": "doc"
+      },
+      {
+        "label": "The Idempotency-Key HTTP Header Field, IETF draft",
+        "url": "https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-multi-round-trip-requests-and-elicitation",
+    "id": 11,
+    "title": "MCP Multi Round-Trip Requests and Elicitation",
+    "topic": "Model Context Protocol",
+    "summary": "InputRequiredResult, inputResponses and requestState from the 2026-07-28 revision measured in the C# SDK 2.4.0 with a scripted handler: the real wire, accept, decline and cancel, ElicitAsync against InputRequiredException on stdio and the three HTTP session modes, forged requestState and Data Protection, URL mode elicitation, capabilities the SDK does not check, and the deprecation of Roots, Sampling and Logging.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tool Calling with AIFunction",
+        "slug": "tool-calling-with-aifunction",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Authorization Flow: 401, Discovery and Token Validation",
+        "slug": "mcp-authorization-flow-401-discovery-and-token-validation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Tasks Extension for Long-Running Tools",
+        "slug": "mcp-tasks-extension-for-long-running-tools",
+        "feature": "dotnet-ai-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Multi Round-Trip Requests, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr",
+        "type": "doc"
+      },
+      {
+        "label": "Elicitation, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation",
+        "type": "doc"
+      },
+      {
+        "label": "Specification changelog 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog",
+        "type": "doc"
+      },
+      {
+        "label": "Deprecated features, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/deprecated",
+        "type": "doc"
+      },
+      {
+        "label": "Multi Round-Trip Requests (MRTR), MCP C# SDK",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/main/docs/concepts/mrtr/mrtr.md",
+        "type": "doc"
+      },
+      {
+        "label": "Elicitation, MCP C# SDK",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/main/docs/concepts/elicitation/elicitation.md",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK v2.0.0 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.0.0",
+        "type": "doc"
+      },
+      {
+        "label": "Limit the lifetime of protected payloads, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/consumer-apis/limited-lifetime-payloads",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-tasks-extension-for-long-running-tools",
+    "id": 12,
+    "title": "MCP Tasks Extension for Long-Running Tools",
+    "topic": "Model Context Protocol",
+    "summary": "The io.modelcontextprotocol/tasks extension (SEP-2663) measured on a real HTTP server with the C# SDK 2.4.0: a 6 second tool that returns a task handle instead of blocking, polling with tasks/get, tasks/update with elicitation input, cooperative tasks/cancel, the Synchronous, Optional and Required execution modes, what a client without the extension sees, TTL expiry, a server restart that loses the in-memory store, and why idempotency still matters.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Multi Round-Trip Requests and Elicitation",
+        "slug": "mcp-multi-round-trip-requests-and-elicitation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Tasks extension overview, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/extensions/tasks/overview",
+        "type": "doc"
+      },
+      {
+        "label": "SEP-2663: Tasks Extension, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/seps/2663-tasks-extension",
+        "type": "doc"
+      },
+      {
+        "label": "Specification changelog 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog",
+        "type": "doc"
+      },
+      {
+        "label": "Tasks guide in the C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/v2.4.0/docs/concepts/tasks/tasks.md",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK 2.0.0 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.0.0",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-authorization-flow-401-discovery-and-token-validation",
+    "id": 10,
+    "title": "MCP Authorization Flow: 401, Discovery and Token Validation",
+    "topic": "Model Context Protocol",
+    "summary": "The whole OAuth flow of a protected HTTP MCP server, measured on the wire with the C# SDK 2.4.0 and a local authorization server: the 401 with resource_metadata, Protected Resource Metadata (RFC 9728), discovery through RFC 8414 and OpenID Connect, authorization code with PKCE S256 and resource (RFC 8707), a wrong audience getting 401 and a missing scope getting 403 insufficient_scope, the client's iss check (RFC 9207), and why stdio stays out of it.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Multi Round-Trip Requests and Elicitation",
+        "slug": "mcp-multi-round-trip-requests-and-elicitation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Authorization, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
+        "type": "doc"
+      },
+      {
+        "label": "Authorization Server Discovery, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/authorization-server-discovery",
+        "type": "doc"
+      },
+      {
+        "label": "Authorization Security Considerations, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9728: OAuth 2.0 Protected Resource Metadata, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9728",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8707: Resource Indicators for OAuth 2.0, RFC Editor",
+        "url": "https://www.rfc-editor.org/rfc/rfc8707.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9207: OAuth 2.0 Authorization Server Issuer Identification, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9207",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8414: OAuth 2.0 Authorization Server Metadata, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8414",
+        "type": "doc"
+      },
+      {
+        "label": "Configure JWT bearer authentication in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-jwt-bearer-authentication",
+        "type": "doc"
+      },
+      {
+        "label": "ProtectedMcpServer sample, MCP C# SDK on GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/tree/main/samples/ProtectedMcpServer",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK v2.0.0 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.0.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-client-registration-cimd-dcr-and-pre-registration",
+    "id": 22,
+    "title": "MCP Client Registration: CIMD, DCR and Pre-registration",
+    "topic": "Model Context Protocol",
+    "summary": "The three ways an MCP client gets a client_id in spec 2026-07-28, measured with the C# SDK 2.4.0 and a local authorization server that really fetches Client ID Metadata Documents: pre-registration, CIMD and deprecated DCR with application_type, the order the SDK follows, the token endpoint auth method taken from the AS list, credentials bound to the issuer, and what the AS must check before fetching a URL the client chose (SSRF, redirects, size, time, cache).",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-authorization-flow-401-discovery-and-token-validation"
+    ],
+    "related": [
+      {
+        "label": "MCP Authorization Flow: 401, Discovery and Token Validation",
+        "slug": "mcp-authorization-flow-401-discovery-and-token-validation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Security: Tool Poisoning, Confused Deputy and Least Privilege",
+        "slug": "mcp-security-tool-poisoning-confused-deputy-and-least-privilege",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Client Registration, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/client-registration",
+        "type": "doc"
+      },
+      {
+        "label": "Authorization Security Considerations, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
+        "type": "doc"
+      },
+      {
+        "label": "Key Changes, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog",
+        "type": "doc"
+      },
+      {
+        "label": "OAuth Client ID Metadata Document, draft-ietf-oauth-client-id-metadata-document-00, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-client-id-metadata-document-00",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7591: OAuth 2.0 Dynamic Client Registration Protocol, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7591",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect Dynamic Client Registration 1.0, OpenID Foundation",
+        "url": "https://openid.net/specs/openid-connect-registration-1_0.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9700: Best Current Practice for OAuth 2.0 Security, RFC Editor",
+        "url": "https://www.rfc-editor.org/rfc/rfc9700.html",
+        "type": "doc"
+      },
+      {
+        "label": "ClientOAuthOptions.cs at v2.4.0, MCP C# SDK on GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/v2.4.0/src/ModelContextProtocol.Core/Authentication/ClientOAuthOptions.cs",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK v2.0.0 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.0.0",
+        "type": "doc"
+      },
+      {
+        "label": "HttpClient guidelines for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/http/httpclient-guidelines",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "choosing-an-authorization-server-for-mcp-entra-keycloak-openiddict",
+    "id": 23,
+    "title": "Choosing an Authorization Server for MCP: Entra ID, Keycloak and OpenIddict",
+    "topic": "Model Context Protocol",
+    "summary": "The MCP server is only a resource server, so the token issuer is a separate choice. Measured against spec 2026-07-28 with the C# SDK 2.4.0: Keycloak 26.8.2 (resource indicators and CIMD behind experimental flags, scope-based audience without them, DCR behind anonymous policies), OpenIddict 7.9.0 embedded in ASP.NET Core (real resource validation, no DCR or CIMD), and Microsoft Entra ID, whose v2.0 metadata lacks code_challenge_methods_supported so the SDK refuses it; plus a decision table, a recommendation per scenario and the gateway pattern for a legacy identity provider.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-client-registration-cimd-dcr-and-pre-registration"
+    ],
+    "related": [
+      {
+        "label": "MCP Authorization Flow: 401, Discovery and Token Validation",
+        "slug": "mcp-authorization-flow-401-discovery-and-token-validation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Client Registration: CIMD, DCR and Pre-registration",
+        "slug": "mcp-client-registration-cimd-dcr-and-pre-registration",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Authorization, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
+        "type": "doc"
+      },
+      {
+        "label": "Authorization Security Considerations, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
+        "type": "doc"
+      },
+      {
+        "label": "Client Registration, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/client-registration",
+        "type": "doc"
+      },
+      {
+        "label": "Integrating with Model Context Protocol (MCP), Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/mcp-authz-server",
+        "type": "doc"
+      },
+      {
+        "label": "Client registration service, Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/client-registration",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate from OpenIddict 6.0 to 7.0, OpenIddict documentation",
+        "url": "https://documentation.openiddict.com/guides/migration/60-to-70",
+        "type": "doc"
+      },
+      {
+        "label": "Implement CIMD, issue #2552, OpenIddict on GitHub",
+        "url": "https://github.com/openiddict/openiddict-core/issues/2552",
+        "type": "doc"
+      },
+      {
+        "label": "Access token claims reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/access-token-claims-reference",
+        "type": "doc"
+      },
+      {
+        "label": "Scopes and permissions in the Microsoft identity platform, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/scopes-oidc",
+        "type": "doc"
+      },
+      {
+        "label": "OAuth 2.0 authorization code flow, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow",
+        "type": "doc"
+      },
+      {
+        "label": "Configure dynamic client registration, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/plugins/plugin-authentication-dynamic-client-registration",
+        "type": "doc"
+      },
+      {
+        "label": "Secure access to MCP servers in Azure API Management, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/api-management/secure-mcp-servers",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-authorization-extensions",
+    "id": 27,
+    "title": "MCP Authorization Extensions: Client Credentials and Enterprise-Managed Authorization",
+    "topic": "Model Context Protocol",
+    "summary": "The two Stable extensions of the modelcontextprotocol/ext-auth repository, read in full and measured on localhost with an MCP resource server, an authorization server and an enterprise IdP of my own, C# SDK 2.4.0 and Keycloak 26.8.2: negotiation by extension identifier, OAuth Client Credentials with private_key_jwt and the RFC 10070 audience rule (Keycloak still accepts the old one), Enterprise-Managed Authorization with the ID-JAG (SDK findings: audience gets a trailing slash, resource is mandatory, no issuer check on AS metadata), what each side refuses, support in the SDK, Keycloak and other products, and when to adopt each.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-authorization-flow-401-discovery-and-token-validation"
+    ],
+    "related": [
+      {
+        "label": "MCP Authorization Flow: 401, Discovery and Token Validation",
+        "slug": "mcp-authorization-flow-401-discovery-and-token-validation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Client Registration: CIMD, DCR and Pre-registration",
+        "slug": "mcp-client-registration-cimd-dcr-and-pre-registration",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Choosing an Authorization Server for MCP: Entra ID, Keycloak and OpenIddict",
+        "slug": "choosing-an-authorization-server-for-mcp-entra-keycloak-openiddict",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Servers Calling Downstream APIs: Token Exchange and OBO",
+        "slug": "mcp-servers-calling-downstream-apis-token-exchange-and-obo",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "OAuth Security: BCP, DPoP, mTLS, PAR, RAR and Resource Indicators",
+        "slug": "oauth-security-bcp-dpop-mtls-par-rar-and-resource-indicators",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth Token Exchange: Delegation and On-Behalf-Of",
+        "slug": "oauth-token-exchange-delegation-and-on-behalf-of",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Authorization, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
+        "type": "doc"
+      },
+      {
+        "label": "MCP Authorization Extensions repository, GitHub",
+        "url": "https://github.com/modelcontextprotocol/ext-auth",
+        "type": "doc"
+      },
+      {
+        "label": "OAuth Client Credentials extension, 2026-07-28 revision, GitHub",
+        "url": "https://github.com/modelcontextprotocol/ext-auth/blob/main/specification/stable/oauth-client-credentials/2026-07-28/oauth-client-credentials.mdx",
+        "type": "doc"
+      },
+      {
+        "label": "Enterprise-Managed Authorization extension, 2026-07-28 revision, GitHub",
+        "url": "https://github.com/modelcontextprotocol/ext-auth/blob/main/specification/stable/enterprise-managed-authorization/2026-07-28/enterprise-managed-authorization.mdx",
+        "type": "doc"
+      },
+      {
+        "label": "Extensions Overview and negotiation, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/extensions/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Enterprise-Managed Authorization and implementation support, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/extensions/auth/enterprise-managed-authorization",
+        "type": "doc"
+      },
+      {
+        "label": "SEP-3392: Extension Lifecycle, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/seps/3392-extension-lifecycle",
+        "type": "doc"
+      },
+      {
+        "label": "Identity Assertion JWT Authorization Grant, IETF draft",
+        "url": "https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 10070: Updates to OAuth 2.0 JWT Client Authentication and Assertion-Based Authorization Grants, RFC Editor",
+        "url": "https://www.rfc-editor.org/rfc/rfc10070.html",
+        "type": "doc"
+      },
+      {
+        "label": "IdentityAssertionGrantProvider.cs at v2.4.0, MCP C# SDK on GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/v2.4.0/src/ModelContextProtocol.Core/Authentication/IdentityAssertionGrantProvider.cs",
+        "type": "doc"
+      },
+      {
+        "label": "Identity Assertion JWT Authorization Grant, Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/identity-assertion-jwt-authorization-grant",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "consuming-many-mcp-servers-in-agents-and-hosts",
+    "id": 21,
+    "title": "Consuming Many MCP Servers in Agents and Hosts",
+    "topic": "Model Context Protocol",
+    "summary": "The host side of N MCP servers, measured without an LLM on the C# SDK 2.4.0, Microsoft.Extensions.AI and Agent Framework 1.28.0: what an agent receives from three servers, tool name collisions (the agent throws, plain MEAI picks one) and the fixes with a prefix, DelegatingAIFunction and an allow-list, the context budget in tokens (12,584 per call against 190), a server dying mid-conversation, a tools/list cache driven by ttlMs and list_changed, approval by annotation with ApprovalRequiredAIFunction, and how VS Code, Copilot CLI and Claude Code configure servers (docs only).",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk",
+      "agent-framework-agents-sessions-and-tools"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Microsoft Agent Framework: Agents, Sessions and Tools",
+        "slug": "agent-framework-agents-sessions-and-tools",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tool Calling with AIFunction",
+        "slug": "tool-calling-with-aifunction",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Security: Tool Poisoning, Confused Deputy and Least Privilege",
+        "slug": "mcp-security-tool-poisoning-confused-deputy-and-least-privilege",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Tools in Depth: Schemas, Annotations and Structured Output",
+        "slug": "mcp-tools-in-depth-schemas-annotations-and-structured-output",
+        "feature": "dotnet-ai-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Using MCP tools with Agents, Microsoft Agent Framework, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/agents/tools/local-mcp-tools",
+        "type": "doc"
+      },
+      {
+        "label": "Tool approval, Microsoft Agent Framework, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/agent-framework/agents/tools/tool-approval",
+        "type": "doc"
+      },
+      {
+        "label": "Get started with .NET AI and the Model Context Protocol, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/get-started-mcp",
+        "type": "doc"
+      },
+      {
+        "label": "Caching, Model Context Protocol specification 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching",
+        "type": "doc"
+      },
+      {
+        "label": "Tools, Model Context Protocol specification 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk",
+        "type": "doc"
+      },
+      {
+        "label": "Use MCP servers in VS Code, Visual Studio Code",
+        "url": "https://code.visualstudio.com/docs/copilot/customization/mcp-servers",
+        "type": "doc"
+      },
+      {
+        "label": "MCP configuration reference, Visual Studio Code",
+        "url": "https://code.visualstudio.com/docs/copilot/reference/mcp-configuration",
+        "type": "doc"
+      },
+      {
+        "label": "Adding MCP servers for Copilot CLI, GitHub Docs",
+        "url": "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers",
+        "type": "doc"
+      },
+      {
+        "label": "Connect Claude Code to tools via MCP, Claude Code Docs",
+        "url": "https://code.claude.com/docs/en/mcp",
+        "type": "doc"
+      },
+      {
+        "label": "Connect to local MCP servers, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/docs/develop/connect-local-servers",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-server-filters-httpcontext-and-caller-identity",
+    "id": 17,
+    "title": "MCP Server Filters, HttpContext and Caller Identity",
+    "topic": "Model Context Protocol",
+    "summary": "How the code of an MCP server built on the C# SDK 2.4.0 and ASP.NET Core sees its caller and intercepts calls, measured without an LLM: request filters and their order, ClaimsPrincipal, RequestContext and IHttpContextAccessor, stateless against stateful sessions, a scoped tenant service, [Authorize] attributes through AddAuthorizationFilters (what tools/list and tools/call return), denied tool calls that skip call-tool filters, filters that refuse in four ways, a 403 insufficient_scope step-up from inside a filter, reauthorization when a filter swaps the tool, an exception-standardizing filter and why audience validation stays in authentication.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Authorization Flow: 401, Discovery and Token Validation",
+        "slug": "mcp-authorization-flow-401-discovery-and-token-validation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Security: Tool Poisoning, Confused Deputy and Least Privilege",
+        "slug": "mcp-security-tool-poisoning-confused-deputy-and-least-privilege",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Filters, MCP C# SDK 2.4.0 docs, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/v2.4.0/docs/concepts/filters.md",
+        "type": "doc"
+      },
+      {
+        "label": "Identity and Role Propagation, MCP C# SDK 2.4.0 docs, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/v2.4.0/docs/concepts/identity/identity.md",
+        "type": "doc"
+      },
+      {
+        "label": "HTTP Context, MCP C# SDK 2.4.0 docs, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/v2.4.0/docs/concepts/httpcontext/httpcontext.md",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK v2.0.0 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.0.0",
+        "type": "doc"
+      },
+      {
+        "label": "Reauthorize tools changed by call-tool filters, pull request 1737, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/pull/1737",
+        "type": "doc"
+      },
+      {
+        "label": "Authorization, MCP specification 2026-07-28, scope challenge handling",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
+        "type": "doc"
+      },
+      {
+        "label": "Access HttpContext in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-context",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-servers-calling-downstream-apis-token-exchange-and-obo",
+    "id": 25,
+    "title": "MCP Servers Calling Downstream APIs: Token Exchange and OBO",
+    "topic": "Model Context Protocol",
+    "summary": "How an MCP server calls another API on behalf of the user without forwarding the token it received, measured with C# SDK 2.4.0 and Keycloak 26.8.2 and no model: passthrough (works only while the API skips the audience check), the server's own credentials (the API loses the user and alice reads bob's order), RFC 8693 token exchange with IHttpContextAccessor and a DelegatingHandler (real errors, scope upscaling, HybridCache against IMemoryCache under concurrency, failures that do not leak details to the model), Entra OBO and gateways (docs only), per-user third-party tokens through URL elicitation, and an audit trail with traceparent propagation.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-server-filters-httpcontext-and-caller-identity"
+    ],
+    "related": [
+      {
+        "label": "MCP Server Filters, HttpContext and Caller Identity",
+        "slug": "mcp-server-filters-httpcontext-and-caller-identity",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Security: Tool Poisoning, Confused Deputy and Least Privilege",
+        "slug": "mcp-security-tool-poisoning-confused-deputy-and-least-privilege",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Choosing an Authorization Server for MCP: Entra ID, Keycloak and OpenIddict",
+        "slug": "choosing-an-authorization-server-for-mcp-entra-keycloak-openiddict",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Multi Round-Trip Requests and Elicitation",
+        "slug": "mcp-multi-round-trip-requests-and-elicitation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "OAuth Token Exchange: Delegation and On-Behalf-Of",
+        "slug": "oauth-token-exchange-delegation-and-on-behalf-of",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Authorization Security Considerations, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
+        "type": "doc"
+      },
+      {
+        "label": "Security Best Practices, token passthrough, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices",
+        "type": "doc"
+      },
+      {
+        "label": "Elicitation, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation",
+        "type": "doc"
+      },
+      {
+        "label": "OAuth 2.0 Token Exchange, RFC 8693",
+        "url": "https://www.rfc-editor.org/rfc/rfc8693",
+        "type": "doc"
+      },
+      {
+        "label": "Configuring and using standard token exchange, Keycloak",
+        "url": "https://www.keycloak.org/securing-apps/token-exchange",
+        "type": "doc"
+      },
+      {
+        "label": "Standard Token Exchange is now officially supported in Keycloak 26.2, Keycloak blog",
+        "url": "https://www.keycloak.org/2025/05/standard-token-exchange-kc-26-2",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft identity platform and OAuth 2.0 On-Behalf-Of flow, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-on-behalf-of-flow",
+        "type": "doc"
+      },
+      {
+        "label": "Configure a web API that calls web APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/scenario-web-api-call-api-app-configuration",
+        "type": "doc"
+      },
+      {
+        "label": "HybridCache library in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/hybrid",
+        "type": "doc"
+      },
+      {
+        "label": "Request and response transforms, YARP",
+        "url": "https://microsoft.github.io/reverse-proxy/articles/transforms.html",
+        "type": "doc"
+      },
+      {
+        "label": "Secure access to MCP servers in Azure API Management, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/api-management/secure-mcp-servers",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-security-tool-poisoning-confused-deputy-and-least-privilege",
+    "id": 13,
+    "title": "MCP Security: Tool Poisoning, Confused Deputy and Least Privilege",
+    "topic": "Model Context Protocol",
+    "summary": "The attacks in the MCP 2026-07-28 security pages measured without an LLM on the C# SDK 2.4.0: a poisoned tool description reaching the model intact through McpClientTool, an allow-list plus a pinned tools/list hash, a rug pull after approval (list_changed, ttlMs, cacheScope), token passthrough against audience validation, DNS rebinding on a local HTTP server (AllowedHosts, Origin, binding to 127.0.0.1), environment secrets leaking into a stdio child process, limits on tool output, and SSRF in metadata discovery.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Authorization Flow: 401, Discovery and Token Validation",
+        "slug": "mcp-authorization-flow-401-discovery-and-token-validation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Tasks Extension for Long-Running Tools",
+        "slug": "mcp-tasks-extension-for-long-running-tools",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tool Calling with AIFunction",
+        "slug": "tool-calling-with-aifunction",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "OWASP in ASP.NET Core: Security Headers and CSP",
+        "slug": "owasp-secure-aspnet-core-security-headers-and-csp",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Security Best Practices, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices",
+        "type": "doc"
+      },
+      {
+        "label": "Local Server Security, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/local-server-security",
+        "type": "doc"
+      },
+      {
+        "label": "Authorization Security Considerations 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
+        "type": "doc"
+      },
+      {
+        "label": "Streamable HTTP transport 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http",
+        "type": "doc"
+      },
+      {
+        "label": "Tools 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+        "type": "doc"
+      },
+      {
+        "label": "Caching 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching",
+        "type": "doc"
+      },
+      {
+        "label": "Transports guide of the C# SDK 2.4.0, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/v2.4.0/docs/concepts/transports/transports.md",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK 2.3.1 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.3.1",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK 1.4.2 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v1.4.2",
+        "type": "doc"
+      },
+      {
+        "label": "Host filtering with ASP.NET Core Kestrel web server, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel/host-filtering",
+        "type": "doc"
+      },
+      {
+        "label": "OWASP MCP Top 10, OWASP",
+        "url": "https://owasp.org/www-project-mcp-top-10/",
+        "type": "doc"
+      },
+      {
+        "label": "LLM01: Prompt Injection, OWASP GenAI Security Project",
+        "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-observability-opentelemetry-and-trace-propagation",
+    "id": 18,
+    "title": "MCP Observability: OpenTelemetry and Trace Propagation",
+    "topic": "Model Context Protocol",
+    "summary": "What the MCP C# SDK 2.4.0 emits by itself (the Experimental.ModelContextProtocol ActivitySource and Meter, spans, tags, duration histograms), traceparent, tracestate and baggage in _meta measured on the wire over stdio and HTTP, the full tree from chat to tool call to MCP request to server handler with UseOpenTelemetry and UseFunctionInvocation, what stays out of tags by default, the cardinality of mcp.resource.uri, logs on stderr now that Logging is deprecated, and OTLP export.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Tokens, Cost and Telemetry for LLM Calls",
+        "slug": "tokens-cost-and-telemetry-for-llm-calls",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Progress, Cancellation and Retry Semantics",
+        "slug": "mcp-progress-cancellation-and-retry-semantics",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ILogger: Categories, Levels, Filtering and Scopes",
+        "slug": "ilogger-categories-levels-filtering-and-scopes",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Specification 2026-07-28: Base protocol, _meta and OpenTelemetry trace context, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/index",
+        "type": "doc"
+      },
+      {
+        "label": "Specification changelog 2026-07-28 (SEP-414, SEP-2577), modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog",
+        "type": "doc"
+      },
+      {
+        "label": "OpenTelemetry semantic conventions for MCP, GitHub",
+        "url": "https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/mcp.md",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK, release v2.1.0 (telemetry samples), GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.1.0",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK, Logging concept (deprecated in 2026-07-28), GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/main/docs/concepts/logging/logging.md",
+        "type": "doc"
+      },
+      {
+        "label": ".NET distributed tracing concepts, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/distributed-tracing-concepts",
+        "type": "doc"
+      },
+      {
+        "label": "Add distributed tracing instrumentation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/distributed-tracing-instrumentation-walkthroughs",
+        "type": "doc"
+      },
+      {
+        "label": "Aspire dashboard standalone mode, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/dashboard/standalone",
+        "type": "doc"
+      },
+      {
+        "label": "Trace Context, W3C",
+        "url": "https://www.w3.org/TR/trace-context/",
+        "type": "doc"
+      },
+      {
+        "label": "Baggage, W3C",
+        "url": "https://www.w3.org/TR/baggage/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "packaging-and-publishing-an-mcp-server",
+    "id": 19,
+    "title": "Packaging and Publishing an MCP Server",
+    "topic": "Model Context Protocol",
+    "summary": "The dotnet new mcpserver template and what it generates, dotnet pack as a pointer package plus one package per RID, running from a local feed with dnx and dotnet tool, mcp.json for VS Code and claude mcp add, a server.json validated against the MCP Registry schema, secrets and environment variables, measured size and start time of framework-dependent, single-file, trimmed and Native AOT builds, and what changes for consumers when the SDK version changes.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Packaging and Publishing a NuGet Library",
+        "slug": "packaging-and-publishing-a-nuget-library",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The dotnet CLI and the Noun-First Commands",
+        "slug": "dotnet-cli-and-noun-first-commands",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Self-Contained, Single-File and Trimmed Publishing",
+        "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Create a minimal MCP server using C# and publish to NuGet, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/quickstarts/build-mcp-server",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet tool exec (dnx), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-exec",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet tool install, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-install",
+        "type": "doc"
+      },
+      {
+        "label": "Native AOT deployment, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/",
+        "type": "doc"
+      },
+      {
+        "label": "MCP Registry: package types and ownership verification, GitHub",
+        "url": "https://github.com/modelcontextprotocol/registry/blob/main/docs/modelcontextprotocol-io/package-types.mdx",
+        "type": "doc"
+      },
+      {
+        "label": "MCP Registry: server.json format, GitHub",
+        "url": "https://github.com/modelcontextprotocol/registry/blob/main/docs/reference/server-json/generic-server-json.md",
+        "type": "doc"
+      },
+      {
+        "label": "Use MCP servers in VS Code",
+        "url": "https://code.visualstudio.com/docs/copilot/customization/mcp-servers",
+        "type": "doc"
+      },
+      {
+        "label": "Connect Claude Code to tools via MCP, Claude Code Docs",
+        "url": "https://code.claude.com/docs/en/mcp",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mcp-migration-from-sdk-1x-and-spec-2025-11-25",
+    "id": 29,
+    "title": "MCP Migration from SDK 1.x and Spec 2025-11-25",
+    "topic": "Model Context Protocol",
+    "summary": "Moving a C# MCP server and client from SDK 1.4.2 to 2.4.0 and living with clients that only speak spec 2025-11-25: the real compiler errors (all Tasks) and MCP9005 to MCP9007 warnings, a reflection diff of both public APIs, why IMcpClient and McpClientFactory are not a 2.x break, a measured server x client matrix over stdio and HTTP (negotiated version, sessions, roots, sampling, logging, tasks), the changes that still compile (stateless HTTP default, structured content, error codes, tool order), a migration order, the 1.x template and a risk table.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Tasks Extension for Long-Running Tools",
+        "slug": "mcp-tasks-extension-for-long-running-tools",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Multi Round-Trip Requests and Elicitation",
+        "slug": "mcp-multi-round-trip-requests-and-elicitation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Packaging and Publishing an MCP Server",
+        "slug": "packaging-and-publishing-an-mcp-server",
+        "feature": "dotnet-ai-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "MCP C# SDK 2.0.0 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.0.0",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK 2.3.0 release notes (ServerInfo nullable), GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.3.0",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK 1.4.2 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v1.4.2",
+        "type": "doc"
+      },
+      {
+        "label": "C# SDK versioning and breaking changes, csharp.sdk.modelcontextprotocol.io",
+        "url": "https://csharp.sdk.modelcontextprotocol.io/versioning.html",
+        "type": "doc"
+      },
+      {
+        "label": "List of diagnostics (MCP9005, MCP9006, MCP9007), GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/main/docs/list-of-diagnostics.md",
+        "type": "doc"
+      },
+      {
+        "label": "Specification changelog 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog",
+        "type": "doc"
+      },
+      {
+        "label": "Deprecated features, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/deprecated",
+        "type": "doc"
+      },
+      {
+        "label": "ModelContextProtocol package, NuGet",
+        "url": "https://www.nuget.org/packages/ModelContextProtocol",
+        "type": "doc"
+      },
+      {
+        "label": "ModelContextProtocol.Extensions.Tasks package, NuGet",
+        "url": "https://www.nuget.org/packages/ModelContextProtocol.Extensions.Tasks",
+        "type": "doc"
+      },
+      {
+        "label": "Create a minimal MCP server using C# and publish to NuGet, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/quickstarts/build-mcp-server",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "hosting-remote-mcp-servers-functions-container-apps-and-aspire",
+    "id": 20,
+    "title": "Hosting Remote MCP Servers: Functions, Container Apps and Aspire",
+    "topic": "Model Context Protocol",
+    "summary": "A remote MCP server in production, measured behind nginx in Docker with the C# SDK 2.4.0: stateless round robin against sessions that need affinity (an Mcp-Session-Id hash fails, a cookie works), response buffering and read timeouts on an SSE stream, a chiseled non-root image with separate liveness and readiness probes, graceful shutdown, AllowedHosts behind a proxy, body limits, a per-replica rate limiter with 429 and Retry-After, what a restart destroys, and an Aspire AppHost with two replicas. Azure Functions (MCP extension) and Container Apps are covered from the docs only, ending in a table of hosting targets.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Security: Tool Poisoning, Confused Deputy and Least Privilege",
+        "slug": "mcp-security-tool-poisoning-confused-deputy-and-least-privilege",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Progress, Cancellation and Retry Semantics",
+        "slug": "mcp-progress-cancellation-and-retry-semantics",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Tasks Extension for Long-Running Tools",
+        "slug": "mcp-tasks-extension-for-long-running-tools",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Aspire: AppHost, ServiceDefaults and Deployment",
+        "slug": "aspire-apphost-servicedefaults-and-deployment",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Containerizing .NET: SDK Publish, Dockerfile and Chiseled Images",
+        "slug": "containerizing-dotnet-sdk-publish-dockerfile-chiseled",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Health Checks: Liveness and Readiness",
+        "slug": "health-checks-liveness-and-readiness",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Reverse Proxy and API Gateway with YARP",
+        "slug": "reverse-proxy-and-api-gateway-with-yarp",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Response Compression: Brotli, Gzip and Zstandard",
+        "slug": "response-compression-brotli-gzip-and-zstandard",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Host MCP servers on Azure Container Apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/container-apps/mcp-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Choosing an Azure service for your MCP server, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/container-apps/mcp-choosing-azure-service",
+        "type": "doc"
+      },
+      {
+        "label": "Deploy an MCP server to Container Apps (.NET), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/container-apps/tutorial-mcp-server-dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "Ingress in Azure Container Apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/container-apps/ingress-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Session affinity in Azure Container Apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/container-apps/sticky-sessions",
+        "type": "doc"
+      },
+      {
+        "label": "Set scaling rules in Azure Container Apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/container-apps/scale-app",
+        "type": "doc"
+      },
+      {
+        "label": "Application lifecycle management in Azure Container Apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/container-apps/application-lifecycle-management",
+        "type": "doc"
+      },
+      {
+        "label": "MCP bindings for Azure Functions overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-mcp",
+        "type": "doc"
+      },
+      {
+        "label": "Self-hosted remote MCP server on Azure Functions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/self-hosted-mcp-servers",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Functions scale and hosting, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Functions MCP extension, GitHub",
+        "url": "https://github.com/Azure/azure-functions-mcp-extension",
+        "type": "doc"
+      },
+      {
+        "label": "remote-mcp-functions-dotnet sample, GitHub",
+        "url": "https://github.com/Azure-Samples/remote-mcp-functions-dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "Streamable HTTP transport 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http",
+        "type": "doc"
+      },
+      {
+        "label": "Transports guide of the C# SDK 2.4.0, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/v2.4.0/docs/concepts/transports/transports.md",
+        "type": "doc"
+      },
+      {
+        "label": "ngx_http_proxy_module (proxy_buffering, X-Accel-Buffering), nginx",
+        "url": "https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering",
+        "type": "doc"
+      },
+      {
+        "label": "ngx_http_upstream_module (hash), nginx",
+        "url": "https://nginx.org/en/docs/http/ngx_http_upstream_module.html",
+        "type": "doc"
+      },
+      {
+        "label": "Session affinity, YARP",
+        "url": "https://microsoft.github.io/reverse-proxy/articles/session-affinity.html",
+        "type": "doc"
+      },
+      {
+        "label": "Configure ASP.NET Core to work with proxy servers and load balancers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer",
+        "type": "doc"
+      },
+      {
+        "label": "Rate limiting middleware in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit",
+        "type": "doc"
+      },
+      {
+        "label": "Kestrel server options, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel/options",
+        "type": "doc"
+      },
+      {
+        "label": ".NET Generic Host (ShutdownTimeout), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host",
+        "type": "doc"
+      },
+      {
+        "label": "Aspire documentation, aspire.dev",
+        "url": "https://aspire.dev/",
+        "type": "doc"
+      }
+    ]
   },
   {
     "slug": "embeddings-and-vector-search-with-vectordata",

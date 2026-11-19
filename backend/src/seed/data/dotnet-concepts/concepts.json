@@ -3924,6 +3924,122 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/structured-logging-with-serilog-and-log-sinks"
   },
   {
+    "slug": "observability-backends-prometheus-grafana-tempo-and-application-insights",
+    "id": 911,
+    "category": "ASP.NET Core",
+    "title": "Observability Backends: Prometheus, Grafana, Tempo and Application Insights",
+    "topic": "Observability",
+    "summary": "Where OpenTelemetry signals go and how to query them, measured on Docker with two ASP.NET Core services: the Collector as the single endpoint (OTLP over gRPC and HTTP), Prometheus with PromQL and the effect of an exploding tag on series, Tempo traces, Loki logs with trace_id, Grafana datasources provisioned by file and checked through the API, head sampling in the SDK against tail sampling in the Collector, and Application Insights from the docs only.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "opentelemetry-logs-metrics-and-traces"
+    ],
+    "related": [
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Structured Logging with Serilog and Log Sinks",
+        "slug": "structured-logging-with-serilog-and-log-sinks",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ILogger: Categories, Levels, Filtering and Scopes",
+        "slug": "ilogger-categories-levels-filtering-and-scopes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Health Checks: Liveness and Readiness",
+        "slug": "health-checks-liveness-and-readiness",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MCP Observability: OpenTelemetry and Trace Propagation",
+        "slug": "mcp-observability-opentelemetry-and-trace-propagation",
+        "feature": "dotnet-ai-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "OpenTelemetry for .NET, opentelemetry.io",
+        "url": "https://opentelemetry.io/docs/languages/dotnet/",
+        "type": "doc"
+      },
+      {
+        "label": "OpenTelemetry Collector, opentelemetry.io",
+        "url": "https://opentelemetry.io/docs/collector/",
+        "type": "doc"
+      },
+      {
+        "label": "Tail sampling processor, GitHub",
+        "url": "https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/tailsamplingprocessor",
+        "type": "doc"
+      },
+      {
+        "label": "OpenTelemetry Exporter Prometheus AspNetCore, GitHub",
+        "url": "https://github.com/open-telemetry/opentelemetry-dotnet/tree/main/src/OpenTelemetry.Exporter.Prometheus.AspNetCore",
+        "type": "doc"
+      },
+      {
+        "label": "Prometheus documentation",
+        "url": "https://prometheus.io/docs/",
+        "type": "doc"
+      },
+      {
+        "label": "Using Prometheus as an OpenTelemetry backend, prometheus.io",
+        "url": "https://prometheus.io/docs/guides/opentelemetry/",
+        "type": "doc"
+      },
+      {
+        "label": "Grafana Tempo documentation",
+        "url": "https://grafana.com/docs/tempo/latest/",
+        "type": "doc"
+      },
+      {
+        "label": "Grafana Loki documentation",
+        "url": "https://grafana.com/docs/loki/latest/",
+        "type": "doc"
+      },
+      {
+        "label": "Ingesting logs to Loki using OpenTelemetry, Grafana",
+        "url": "https://grafana.com/docs/loki/latest/send-data/otel/",
+        "type": "doc"
+      },
+      {
+        "label": "Provision Grafana, grafana.com",
+        "url": "https://grafana.com/docs/grafana/latest/administration/provisioning/",
+        "type": "doc"
+      },
+      {
+        "label": "Enable OpenTelemetry in Application Insights, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable",
+        "type": "doc"
+      },
+      {
+        "label": "OpenTelemetry configuration for Azure Monitor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-configuration",
+        "type": "doc"
+      },
+      {
+        "label": "Application Insights telemetry data model, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/app/data-model-complete",
+        "type": "doc"
+      },
+      {
+        "label": "Application Insights Classic API 2.x deprecation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/app/asp-net-core",
+        "type": "doc"
+      },
+      {
+        "label": "Standalone Aspire Dashboard, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/dashboard/standalone",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "health-checks-liveness-and-readiness",
     "id": 440,
     "category": "ASP.NET Core",
@@ -4075,6 +4191,112 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/feature-flags-with-microsoft-featuremanagement"
+  },
+  {
+    "slug": "windows-services-and-systemd-hosting",
+    "id": 910,
+    "category": "ASP.NET Core",
+    "title": "Windows Services and systemd Hosting",
+    "topic": "Operations",
+    "summary": "UseSystemd and UseWindowsService read from the source, then a real app under systemd 257: Type=notify, journal priorities, crash and restart, graceful shutdown against TimeoutStopSec, port 80 without root, hardening, the watchdog, and the Windows Service side (sc.exe, accounts, recovery, Event Log) from the docs.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "kestrel-iis-and-hosting-models"
+    ],
+    "related": [
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Health Checks: Liveness and Readiness",
+        "slug": "health-checks-liveness-and-readiness",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Containerizing .NET: SDK Publish, Dockerfile and Chiseled Images",
+        "slug": "containerizing-dotnet-sdk-publish-dockerfile-chiseled",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Self-Contained, Single-File and Trimmed Publishing",
+        "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Create a Windows Service using BackgroundService, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/windows-service",
+        "type": "doc"
+      },
+      {
+        "label": "Host ASP.NET Core in a Windows Service, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service",
+        "type": "doc"
+      },
+      {
+        "label": "Host ASP.NET Core on Linux with Nginx (systemd unit), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx",
+        "type": "doc"
+      },
+      {
+        "label": "SystemdHostBuilderExtensions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.systemdhostbuilderextensions",
+        "type": "doc"
+      },
+      {
+        "label": "WindowsServiceLifetimeHostBuilderExtensions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.windowsservicelifetimehostbuilderextensions",
+        "type": "doc"
+      },
+      {
+        "label": "systemd.service, freedesktop.org",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html",
+        "type": "doc"
+      },
+      {
+        "label": "sd_notify, freedesktop.org",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/sd_notify.html",
+        "type": "doc"
+      },
+      {
+        "label": "systemd.exec (sandboxing options), freedesktop.org",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html",
+        "type": "doc"
+      },
+      {
+        "label": "systemd-analyze security, freedesktop.org",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd-analyze.html",
+        "type": "doc"
+      },
+      {
+        "label": "sc create, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create",
+        "type": "doc"
+      },
+      {
+        "label": "New-Service, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/new-service",
+        "type": "doc"
+      },
+      {
+        "label": "Service user accounts, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows/win32/services/service-user-accounts",
+        "type": "doc"
+      },
+      {
+        "label": ".NET Generic Host (ShutdownTimeout), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host",
+        "type": "doc"
+      }
+    ]
   },
   {
     "slug": "signalr-websockets-and-sse",
@@ -8287,6 +8509,92 @@
     "id": 6
   },
   {
+    "slug": "orleans-virtual-actors-grains-and-persistence",
+    "category": "Architecture",
+    "title": "Orleans: Virtual Actors, Grains and Persistence",
+    "topic": "Distributed Actors",
+    "summary": "Orleans 10.4.2 grains as virtual actors measured locally without Docker: on-demand activation and idle collection, single-threaded turns, the A to B to A deadlock, IPersistentState in memory against PostgreSQL, timers against reminders, StatelessWorker, placement, and a 2-silo cluster with one silo killed.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "hosted-services-and-backgroundservice"
+    ],
+    "related": [
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Aspire: AppHost, ServiceDefaults and Deployment",
+        "slug": "aspire-apphost-servicedefaults-and-deployment",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Request scheduling and reentrancy, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/orleans/grains/request-scheduling",
+        "type": "doc"
+      },
+      {
+        "label": "Grain persistence, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/orleans/grains/grain-persistence/",
+        "type": "doc"
+      },
+      {
+        "label": "Timers and reminders, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/orleans/grains/timers-and-reminders",
+        "type": "doc"
+      },
+      {
+        "label": "Grain placement, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/orleans/grains/grain-placement",
+        "type": "doc"
+      },
+      {
+        "label": "Grain directory, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/orleans/host/grain-directory",
+        "type": "doc"
+      },
+      {
+        "label": "Cluster management, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/orleans/implementation/cluster-management",
+        "type": "doc"
+      },
+      {
+        "label": "Orleans repository and releases, GitHub",
+        "url": "https://github.com/dotnet/orleans",
+        "type": "doc"
+      },
+      {
+        "label": "Orleans: Distributed Virtual Actors for Programmability and Scalability, Bernstein et al., Microsoft Research 2014",
+        "url": "https://www.microsoft.com/en-us/research/publication/orleans-distributed-virtual-actors-for-programmability-and-scalability/",
+        "type": "doc"
+      }
+    ],
+    "id": 900
+  },
+  {
     "slug": "hosted-services-and-backgroundservice",
     "category": "Concurrency & Background Work",
     "title": "Hosted Services and BackgroundService",
@@ -8562,12 +8870,12 @@
       {
         "label": "Transactional outbox, microservices.io",
         "url": "https://microservices.io/patterns/data/transactional-outbox.html",
-        "type": "engineering"
+        "type": "doc"
       },
       {
         "label": "Idempotent consumer, microservices.io",
         "url": "https://microservices.io/patterns/communication-style/idempotent-consumer.html",
-        "type": "engineering"
+        "type": "doc"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/transactional-outbox-inbox-and-idempotent-consumers"

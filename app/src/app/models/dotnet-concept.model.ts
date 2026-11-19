@@ -59,6 +59,7 @@ export const DOTNET_CONCEPT_TOPIC_ORDER: readonly string[] = [
   'API Documentation',
   'HTTP Clients',
   'Security',
+  'Identity & Access',
   'Resilience & Protection',
   'Caching & Performance',
   'Observability',
@@ -81,6 +82,7 @@ export const DOTNET_CONCEPT_TOPIC_ORDER: readonly string[] = [
   'Application Architecture',
   'Modular Architecture',
   'DDD',
+  'Distributed Actors',
   // Concurrency & Background Work
   'Background Jobs',
   'Concurrency',

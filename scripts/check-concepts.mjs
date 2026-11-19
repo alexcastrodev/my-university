@@ -15,16 +15,16 @@ const DATA = join(ROOT, 'backend/src/seed/data');
 const TAXONOMY = {
   'dotnet-concepts': {
     'Platform & Tooling': ['Runtime & SDK', 'Project System', 'NuGet & Packaging', 'Publishing & Native AOT', 'Diagnostics', "What's New & Migration"],
-    'ASP.NET Core': ['ASP.NET Core Fundamentals', 'Hosting & Pipeline', 'Minimal APIs', 'MVC & Razor Pages', 'API Documentation', 'HTTP Clients', 'Security', 'Resilience & Protection', 'Caching & Performance', 'Observability', 'Operations', 'Real-Time', 'Remote APIs', 'Web API Design', 'Cloud-Native', 'Globalization', "What's New & Migration"],
+    'ASP.NET Core': ['ASP.NET Core Fundamentals', 'Hosting & Pipeline', 'Minimal APIs', 'MVC & Razor Pages', 'API Documentation', 'HTTP Clients', 'Security', 'Identity & Access', 'Resilience & Protection', 'Caching & Performance', 'Observability', 'Operations', 'Real-Time', 'Remote APIs', 'Web API Design', 'Cloud-Native', 'Globalization', "What's New & Migration"],
     Blazor: ['Blazor Fundamentals', 'Components & Forms'],
     'Data Access': ['Data Access Choices', 'EF Core', 'EF Core Modeling', 'EF Core Querying', 'Migrations', "What's New & Migration"],
-    Architecture: ['Application Architecture', 'Modular Architecture', 'DDD'],
+    Architecture: ['Application Architecture', 'Modular Architecture', 'DDD', 'Distributed Actors'],
     'Concurrency & Background Work': ['Background Jobs', 'Concurrency'],
   },
   'csharp-concepts': {
     Language: ['Language Basics', 'Strings & Formatting', 'Numbers & Conversions', 'Operators & Control Flow', 'Pattern Matching', 'Exceptions', 'Methods & Lambdas', "What's New"],
     'Type Design': ['Classes & Members', 'Properties & Initialization', 'Records & Equality', 'Inheritance & Polymorphism', 'Interfaces & Generics', 'Delegates & Events', 'Nullability', 'Extension Members'],
-    'Base Class Library': ['Text & Regex', 'Common Types', 'Collections', 'Files & I/O', 'Streams', 'Serialization', 'Reflection & Attributes'],
+    'Base Class Library': ['Text & Regex', 'Common Types', 'Collections', 'Files & I/O', 'Streams', 'Networking', 'Serialization', 'Reflection & Attributes'],
     LINQ: ['LINQ'],
     'Memory & Concurrency': ['Memory & Value Semantics', 'Interop & Unsafe', 'Threads'],
   },

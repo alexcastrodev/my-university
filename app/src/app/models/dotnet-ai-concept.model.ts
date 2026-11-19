@@ -38,6 +38,7 @@ export interface DotNetAiConcept extends DotNetAiConceptSummary {
 export const DOTNET_AI_CONCEPT_TOPIC_ORDER: readonly string[] = [
   'Microsoft.Extensions.AI',
   'Agents & Tools',
+  'Model Context Protocol',
   'Data & RAG',
   'Operations',
 ];

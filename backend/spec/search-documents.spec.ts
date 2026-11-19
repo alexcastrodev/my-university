@@ -14,6 +14,7 @@ import { DotNetConceptsService } from '../src/dotnet-concepts/dotnet-concepts.se
 import { CSharpConceptsService } from '../src/csharp-concepts/csharp-concepts.service';
 import { DotNetTestingConceptsService } from '../src/dotnet-testing-concepts/dotnet-testing-concepts.service';
 import { DotNetAiConceptsService } from '../src/dotnet-ai-concepts/dotnet-ai-concepts.service';
+import { IdentityConceptsService } from '../src/identity-concepts/identity-concepts.service';
 import { RustConceptsService } from '../src/rust-concepts/rust-concepts.service';
 import { GoConceptsService } from '../src/go-concepts/go-concepts.service';
 import { PapersCatalogService } from '../src/papers/papers-catalog.service';
@@ -49,6 +50,7 @@ function buildDocuments() {
     new GoConceptsService(),
     new QuarkusConceptsService(),
     new KubernetesConceptsService(),
+    new IdentityConceptsService(),
     papersCatalog,
     null as never,
   ).buildContentDocuments();

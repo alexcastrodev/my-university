@@ -37,6 +37,7 @@ const META: Record<string, TrackMeta> = {
   'database-concepts': { group: 'fundamentals', kind: 'theory' },
   'system-design-concepts': { group: 'fundamentals', kind: 'theory' },
   'kubernetes-concepts': { group: 'fundamentals', kind: 'platform' },
+  'identity-concepts': { group: 'fundamentals', kind: 'theory' },
   'algorithms-concepts': { group: 'fundamentals', kind: 'theory' },
 };
 

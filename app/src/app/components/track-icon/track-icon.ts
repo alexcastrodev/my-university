@@ -26,6 +26,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     @case ('database-concepts') { <ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/> }
     @case ('system-design-concepts') { <rect x="9" y="2" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="16" y="16" width="6" height="6" rx="1"/><path d="M12 8v4M5 16v-2a2 2 0 0 1 2-2h14v4M19 12v4"/> }
     @case ('kubernetes-concepts') { <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3v6.5M12 14.5V21M4.2 7.5l5.6 3.2M14.2 13.3l5.6 3.2M4.2 16.5l5.6-3.2M14.2 10.7l5.6-3.2"/> }
+    @case ('identity-concepts') { <circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.7 12.3 9.8-9.8M17 6l3 3M14.5 8.5l2 2"/> }
     @case ('algorithms-concepts') { <path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/> }
     @case ('trophy') { <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/> }
     @case ('badge') { <path d="M12 2l8 4.5v9L12 20l-8-4.5v-9z"/><path d="m9 11 2 2 4-4"/> }

@@ -385,7 +385,7 @@ export const MANIFEST: TrackManifest[] = [
     source: { kind: 'concepts', module: 'dotnet-concepts', groupBy: 'topic', category: 'Architecture' },
     sessions: [
       { sessionId: '01a14507-ff5a-70ae-9b76-58a38d2bbbb2', title: 'Modular Architecture', label: 'Modular Architecture' },
-      { sessionId: '01a14507-ff5a-70b1-8dea-8ae3a322167f', title: 'DDD & Application Architecture', label: ['DDD', 'Application Architecture'] },
+      { sessionId: '01a14507-ff5a-70b1-8dea-8ae3a322167f', title: 'DDD & Application Architecture', label: ['DDD', 'Application Architecture', 'Distributed Actors'] },
     ],
   },
   {
@@ -420,7 +420,7 @@ export const MANIFEST: TrackManifest[] = [
     sessions: [
       { sessionId: '01a14507-ff5a-70cb-a99d-63c7fa633e24', title: 'Collections', label: 'Collections' },
       { sessionId: '01a14507-ff5a-70cd-983e-8da55d377adf', title: 'Text, Regex & Common Types', label: ['Text & Regex', 'Common Types'] },
-      { sessionId: '01a14507-ff5a-70d0-a7a5-b09d089dfde6', title: 'Streams, Files & I/O', label: ['Streams', 'Files & I/O'] },
+      { sessionId: '01a14507-ff5a-70d0-a7a5-b09d089dfde6', title: 'Streams, Files & I/O', label: ['Streams', 'Files & I/O', 'Networking'] },
       { sessionId: '01a14507-ff5a-70d2-9717-08d877eebf48', title: 'Serialization, Reflection & Attributes', label: ['Serialization', 'Reflection & Attributes'] },
     ],
   },
