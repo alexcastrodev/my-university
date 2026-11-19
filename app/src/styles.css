@@ -81,11 +81,11 @@
    The defaults are bare :root on purpose: the critical CSS inlined in the SSR page (Beasties)
    drops every :root[...] and :root:not(...) rule, so anything written that way only applies once
    the full stylesheet loads, and the margin animates into place (CLS 0.45 on phones). */
-:root { --mu-sidebar-w: 216px; }
+:root { --mu-sidebar-w: 208px; }
 :root[data-sidebar='collapsed'] { --mu-sidebar-w: 56px; }
 @media (max-width: 1199px) {
   :root { --mu-sidebar-w: 56px; }
-  :root[data-sidebar='expanded'] { --mu-sidebar-w: 216px; }
+  :root[data-sidebar='expanded'] { --mu-sidebar-w: 208px; }
 }
 @media (max-width: 768px) {
   /* !important: a bare :root has to beat the attribute rules above. */
