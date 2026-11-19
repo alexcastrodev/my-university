@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnChanges, SimpleChanges, inject, input, output, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { JavaMinuteEpisode } from '../../models/java-minute.model';
+import { MinuteEpisode } from '../../models/minute.model';
 import { getReferenceIcon, mapConceptSections, pickLeadSection } from '../../shared/concept-sections';
 import { parseMarkdown } from '../../shared/markdown';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
@@ -11,14 +11,14 @@ import { BreadcrumbItem, Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 const REFERENCES_TITLE = 'References';
 
 @Component({
-  selector: 'app-java-minute-episode',
+  selector: 'app-minute-episode',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RenderMermaidDirective, RenderConceptVizDirective, ConceptActions, Breadcrumbs],
-  templateUrl: './java-minute-episode.html',
-  styleUrl: './java-minute-episode.css',
+  templateUrl: './minute-episode.html',
+  styleUrl: './minute-episode.css',
 })
-export class JavaMinuteEpisodeView implements OnChanges {
-  episode = input<JavaMinuteEpisode | null>(null);
+export class MinuteEpisodeView implements OnChanges {
+  episode = input<MinuteEpisode | null>(null);
   read = input<boolean>(false);
   marking = input<boolean>(false);
   breadcrumbs = input<BreadcrumbItem[]>([]);

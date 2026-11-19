@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, s
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
-import { JavaMinuteEpisodeView } from '../../components/java-minute-episode/java-minute-episode';
+import { MinuteEpisodeView } from '../../components/minute-episode/minute-episode';
 import { CSharpMinuteEpisode, CSharpMinuteEpisodeSummary } from '../../models/csharp-minute.model';
 import { Language } from '../../models/language.model';
 import { CSharpMinuteService } from '../../services/csharp-minute.service';
@@ -15,9 +15,9 @@ import { createConceptNavigation } from '../../shared/concept-navigation';
 @Component({
   selector: 'app-csharp-minute-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JavaMinuteEpisodeView, RouterLink, ConceptDetailLayout],
+  imports: [MinuteEpisodeView, RouterLink, ConceptDetailLayout],
   templateUrl: './csharp-minute-detail.html',
-  styleUrl: '../java-minute/java-minute-detail.css',
+  styleUrl: '../minute/minute-detail.css',
 })
 export class CSharpMinuteDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
