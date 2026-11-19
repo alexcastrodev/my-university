@@ -14,7 +14,7 @@ const PT_BR_PATH = '/pt-BR/java/java-minute';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   templateUrl: './java-minute-list.html',
-  styleUrl: './java-minute-list.css',
+  styleUrl: '../minute/minute-list.css',
 })
 export class JavaMinuteListPage implements OnInit {
   private javaMinuteService = inject(JavaMinuteService);

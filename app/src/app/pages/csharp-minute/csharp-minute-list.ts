@@ -14,7 +14,7 @@ const PT_BR_PATH = '/pt-BR/csharp-minute';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   templateUrl: './csharp-minute-list.html',
-  styleUrl: '../java-minute/java-minute-list.css',
+  styleUrl: '../minute/minute-list.css',
 })
 export class CSharpMinuteListPage implements OnInit {
   private cSharpMinuteService = inject(CSharpMinuteService);
