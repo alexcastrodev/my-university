@@ -4368,5 +4368,102 @@
     "doi": "10.1145/3380787.3393681",
     "url": "https://doi.org/10.1145/3380787.3393681",
     "paperUrl": "https://arxiv.org/pdf/2004.05074v2"
+  },
+  {
+    "slug": "conflict-free-replicated-json-datatype",
+    "title": "A Conflict-Free Replicated JSON Datatype",
+    "authors": [
+      {
+        "name": "Martin Kleppmann"
+      },
+      {
+        "name": "Alastair R. Beresford"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "IEEE Transactions on Parallel and Distributed Systems",
+    "publicationDate": "2017-10",
+    "doi": "10.1109/tpds.2017.2697382",
+    "url": "https://doi.org/10.1109/tpds.2017.2697382",
+    "paperUrl": "https://arxiv.org/pdf/1608.03960"
+  },
+  {
+    "slug": "firecracker-lightweight-virtualization-for-serverless-applications",
+    "title": "Firecracker: Lightweight Virtualization for Serverless Applications",
+    "authors": [
+      {
+        "name": "Alexandru Agache"
+      },
+      {
+        "name": "Marc Brooker"
+      },
+      {
+        "name": "Andreea Florescu"
+      },
+      {
+        "name": "Alexandra Iordache"
+      },
+      {
+        "name": "Anthony Liguori"
+      },
+      {
+        "name": "Rolf Neugebauer"
+      },
+      {
+        "name": "Phil Piwonka"
+      },
+      {
+        "name": "Diana-Maria Popa"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "17th USENIX Symposium on Networked Systems Design and Implementation (NSDI 20)",
+    "publicationDate": "2020-02",
+    "url": "https://www.usenix.org/conference/nsdi20/presentation/agache",
+    "paperUrl": "https://www.usenix.org/system/files/nsdi20-paper-agache.pdf"
+  },
+  {
+    "slug": "highly-available-transactions-virtues-and-limitations",
+    "title": "Highly Available Transactions: Virtues and Limitations",
+    "authors": [
+      {
+        "name": "Peter Bailis"
+      },
+      {
+        "name": "Aaron Davidson"
+      },
+      {
+        "name": "Alan Fekete"
+      },
+      {
+        "name": "Ali Ghodsi"
+      },
+      {
+        "name": "Joseph M. Hellerstein"
+      },
+      {
+        "name": "Ion Stoica"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the VLDB Endowment",
+    "publicationDate": "2013-11",
+    "doi": "10.14778/2732232.2732237",
+    "url": "https://doi.org/10.14778/2732232.2732237",
+    "paperUrl": "https://vldb.org/pvldb/vol7/p181-bailis.pdf"
+  },
+  {
+    "slug": "memory-resource-management-in-vmware-esx-server",
+    "title": "Memory Resource Management in VMware ESX Server",
+    "authors": [
+      {
+        "name": "Carl A. Waldspurger"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "5th Symposium on Operating Systems Design and Implementation (OSDI 02)",
+    "publicationDate": "2002-12",
+    "url": "https://www.usenix.org/conference/osdi-02/memory-resource-management-vmware-esx-server",
+    "paperUrl": "https://www.usenix.org/legacy/event/osdi02/tech/full_papers/waldspurger/waldspurger.pdf"
   }
 ]
