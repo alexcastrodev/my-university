@@ -4258,6 +4258,157 @@
     ]
   },
   {
+    "slug": "saml-2-single-sign-on-in-aspnet-core",
+    "id": 929,
+    "category": "ASP.NET Core",
+    "title": "SAML 2.0 Single Sign-On in ASP.NET Core",
+    "topic": "Identity & Access",
+    "summary": "SAML 2.0 service provider in ASP.NET Core, measured against a real Keycloak 26.8.2 in Docker with Sustainsys.Saml2.AspNetCore2 2.11.1 on net10.0. ASP.NET Core has no native SAML (shared framework and Microsoft packages checked), and the library state checked on 2026-11-19 (Sustainsys in security-only mode with four advisories fixed in 2.11.1, ITfoxtec active with net10 and net11 targets, Duende IdentityServer 8 SAML docs only). The AuthnRequest over the Redirect and POST bindings, the signed Response and Assertion decoded, SP and IdP metadata, attribute-to-claim mapping and the cookie session (7 role attributes, a 4017 byte chunked cookie, a 500 from ForbidAsync), and the attacks measured: tampered, unsigned and wrongly signed assertions, XML Signature Wrapping (a naive verifier is fooled, the library rejects), Audience, InResponseTo, the default 5 minute clock skew, replay (the cache is in memory and forgets on restart) and Single Logout (SP-initiated works, IdP back-channel logout does not end the app session).",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "authentication-and-authorization-fundamentals"
+    ],
+    "related": [
+      {
+        "label": "SAML 2.0: Assertions, Bindings and SSO Flows",
+        "slug": "saml-2-assertions-bindings-and-sso-flows",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Choosing a Federation Protocol: SAML, OIDC, Kerberos and LDAP",
+        "slug": "choosing-a-federation-protocol-saml-oidc-kerberos-and-ldap",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MFA with TOTP and Recovery Codes in ASP.NET Core Identity",
+        "slug": "mfa-totp-and-recovery-codes-with-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Building an Authorization Server with OpenIddict",
+        "slug": "building-an-authorization-server-with-openiddict",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Data Protection: Key Ring and Purposes",
+        "slug": "data-protection-key-ring-and-purposes",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Authentication handlers in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/",
+        "type": "doc"
+      },
+      {
+        "label": "Use cookie authentication without ASP.NET Core Identity, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie",
+        "type": "doc"
+      },
+      {
+        "label": "WS-Federation authentication in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/ws-federation",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Data Protection overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/introduction",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core handler, Sustainsys.Saml2 documentation",
+        "url": "https://saml2.sustainsys.com/en/v2/asp.net-core.html",
+        "type": "doc"
+      },
+      {
+        "label": "Configuration in code, Sustainsys.Saml2 documentation",
+        "url": "https://saml2.sustainsys.com/en/v2/code-configuration.html",
+        "type": "doc"
+      },
+      {
+        "label": "Sustainsys.Saml2 repository, README and SECURITY.md, GitHub",
+        "url": "https://github.com/Sustainsys/Saml2",
+        "type": "doc"
+      },
+      {
+        "label": "Sustainsys.Saml2 security advisories, GitHub",
+        "url": "https://github.com/Sustainsys/Saml2/security/advisories",
+        "type": "doc"
+      },
+      {
+        "label": "ITfoxtec.Identity.Saml2 repository, GitHub",
+        "url": "https://github.com/ITfoxtec/ITfoxtec.Identity.Saml2",
+        "type": "doc"
+      },
+      {
+        "label": "SAML 2.0 in IdentityServer, Duende documentation",
+        "url": "https://docs.duendesoftware.com/identityserver/saml/",
+        "type": "doc"
+      },
+      {
+        "label": "SAML 2.0 external provider, Duende documentation",
+        "url": "https://docs.duendesoftware.com/identityserver/ui/login/saml-provider/",
+        "type": "doc"
+      },
+      {
+        "label": "SAML Security Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/SAML_Security_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Assertions and Protocols for SAML V2.0, OASIS",
+        "url": "https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Bindings for SAML V2.0, OASIS",
+        "url": "https://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Profiles for SAML V2.0, OASIS",
+        "url": "https://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Metadata for SAML V2.0, OASIS",
+        "url": "https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "XML Signature Syntax and Processing Version 1.1, W3C",
+        "url": "https://www.w3.org/TR/xmldsig-core1/",
+        "type": "doc"
+      },
+      {
+        "label": "Server Administration Guide, Keycloak",
+        "url": "https://www.keycloak.org/docs/latest/server_admin/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "SAML protocol reference, Microsoft Entra ID, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/saml-protocol-reference",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rate-limiting-and-request-timeouts",
     "id": 450,
     "category": "ASP.NET Core",
