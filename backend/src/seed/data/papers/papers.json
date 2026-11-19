@@ -3704,5 +3704,23 @@
     "publicationDate": "2019-07",
     "url": "https://www.usenix.org/conference/atc19/presentation/pang",
     "paperUrl": "https://www.usenix.org/system/files/atc19-pang.pdf"
+  },
+  {
+    "slug": "log-structured-file-system",
+    "title": "The Design and Implementation of a Log-Structured File System",
+    "authors": [
+      {
+        "name": "Mendel Rosenblum"
+      },
+      {
+        "name": "John K. Ousterhout"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Computer Systems",
+    "publicationDate": "1992-02",
+    "doi": "10.1145/146941.146943",
+    "url": "https://doi.org/10.1145/146941.146943",
+    "paperUrl": "https://web.stanford.edu/~ouster/cgi-bin/papers/lfs.pdf"
   }
 ]
