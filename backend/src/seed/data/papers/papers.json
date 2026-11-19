@@ -4208,5 +4208,116 @@
     "publicationDate": "2013-04",
     "url": "https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala",
     "paperUrl": "https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf"
+  },
+  {
+    "slug": "analysis-of-network-partitioning-failures-in-cloud-systems",
+    "title": "An Analysis of Network-Partitioning Failures in Cloud Systems",
+    "authors": [
+      {
+        "name": "Ahmed Alquraan"
+      },
+      {
+        "name": "Hatem Takruri"
+      },
+      {
+        "name": "Mohammed Alfatafta"
+      },
+      {
+        "name": "Samer Al-Kiswany"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "13th USENIX Symposium on Operating Systems Design and Implementation (OSDI 18)",
+    "publicationDate": "2018-10",
+    "url": "https://www.usenix.org/conference/osdi18/presentation/alquraan",
+    "paperUrl": "https://www.usenix.org/system/files/osdi18-alquraan.pdf"
+  },
+  {
+    "slug": "arrakis-operating-system-is-the-control-plane",
+    "title": "Arrakis: The Operating System is the Control Plane",
+    "authors": [
+      {
+        "name": "Simon Peter"
+      },
+      {
+        "name": "Jialin Li"
+      },
+      {
+        "name": "Irene Zhang"
+      },
+      {
+        "name": "Dan R. K. Ports"
+      },
+      {
+        "name": "Doug Woos"
+      },
+      {
+        "name": "Arvind Krishnamurthy"
+      },
+      {
+        "name": "Thomas Anderson"
+      },
+      {
+        "name": "Timothy Roscoe"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "11th USENIX Symposium on Operating Systems Design and Implementation (OSDI 14)",
+    "publicationDate": "2014-10",
+    "url": "https://www.usenix.org/conference/osdi14/technical-sessions/presentation/peter",
+    "paperUrl": "https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-peter_simon.pdf"
+  },
+  {
+    "slug": "keeping-calm-when-distributed-consistency-is-easy",
+    "title": "Keeping CALM: When Distributed Consistency Is Easy",
+    "authors": [
+      {
+        "name": "Joseph M. Hellerstein"
+      },
+      {
+        "name": "Peter Alvaro"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Communications of the ACM",
+    "publicationDate": "2020-08",
+    "doi": "10.1145/3369736",
+    "url": "https://doi.org/10.1145/3369736",
+    "paperUrl": "https://arxiv.org/pdf/1901.01930"
+  },
+  {
+    "slug": "simple-testing-can-prevent-most-critical-failures",
+    "title": "Simple Testing Can Prevent Most Critical Failures: An Analysis of Production Failures in Distributed Data-Intensive Systems",
+    "authors": [
+      {
+        "name": "Ding Yuan"
+      },
+      {
+        "name": "Yu Luo"
+      },
+      {
+        "name": "Xin Zhuang"
+      },
+      {
+        "name": "Guilherme Renna Rodrigues"
+      },
+      {
+        "name": "Xu Zhao"
+      },
+      {
+        "name": "Yongle Zhang"
+      },
+      {
+        "name": "Pranay U. Jain"
+      },
+      {
+        "name": "Michael Stumm"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "11th USENIX Symposium on Operating Systems Design and Implementation (OSDI 14)",
+    "publicationDate": "2014-10",
+    "url": "https://www.usenix.org/conference/osdi14/technical-sessions/presentation/yuan",
+    "paperUrl": "https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-yuan.pdf"
   }
 ]
