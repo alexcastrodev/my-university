@@ -9148,6 +9148,182 @@
     "id": 18
   },
   {
+    "slug": "redis-with-stackexchange-redis-structures-pubsub-and-locks",
+    "category": "Concurrency & Background Work",
+    "title": "Redis with StackExchange.Redis: Structures, Pub/Sub and Locks",
+    "topic": "Concurrency",
+    "summary": "Redis measured from C# in Docker: one multiplexer against one per call, a server dying mid-traffic, a transaction without rollback, Pub/Sub against Streams with the consumer down, a sorted-set rate limiter, eviction deleting a lock, a distributed lock whose holder pauses past the TTL and the fencing token that refuses the stale write, the Redlock debate, stampede, and the Redis, Valkey and Garnet licences.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "task-and-async-await-internals"
+    ],
+    "related": [
+      {
+        "label": "Caching: IMemoryCache, HybridCache and Distributed",
+        "slug": "caching-imemorycache-hybridcache-and-distributed",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Message Brokers: MassTransit, Azure Service Bus and RabbitMQ",
+        "slug": "message-brokers-masstransit-azure-service-bus-and-rabbitmq",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures",
+        "feature": "system-design"
+      },
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services",
+        "feature": "system-design"
+      },
+      {
+        "label": "Application-Level Locks for External-I/O Critical Sections",
+        "slug": "application-level-locks-for-external-io-critical-sections",
+        "feature": "system-design"
+      },
+      {
+        "label": "Distributed Locking and Semaphores in Redis",
+        "slug": "redis-distributed-locking-and-semaphores",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Streams: Append-Only Logs and Consumer Groups",
+        "slug": "redis-streams",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Licensing History and the Valkey Fork",
+        "slug": "redis-licensing-history-and-the-valkey-fork",
+        "feature": "database-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "StackExchange.Redis documentation, seredis.dev",
+        "url": "https://seredis.dev/",
+        "type": "doc"
+      },
+      {
+        "label": "Transactions in Redis, StackExchange.Redis",
+        "url": "https://seredis.dev/Transactions",
+        "type": "doc"
+      },
+      {
+        "label": "Distributed locks with Redis, redis.io",
+        "url": "https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/",
+        "type": "doc"
+      },
+      {
+        "label": "How to do distributed locking, Martin Kleppmann",
+        "url": "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html",
+        "type": "doc"
+      },
+      {
+        "label": "Is Redlock safe?, Salvatore Sanfilippo",
+        "url": "https://antirez.com/news/101",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Streams, redis.io",
+        "url": "https://redis.io/docs/latest/develop/data-types/streams/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Pub/Sub and keyspace notifications, redis.io",
+        "url": "https://redis.io/docs/latest/develop/pubsub/keyspace-notifications/",
+        "type": "doc"
+      },
+      {
+        "label": "Key eviction, redis.io",
+        "url": "https://redis.io/docs/latest/develop/reference/eviction/",
+        "type": "doc"
+      },
+      {
+        "label": "Persistence, redis.io",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/",
+        "type": "doc"
+      },
+      {
+        "label": "DELEX command, redis.io",
+        "url": "https://redis.io/docs/latest/commands/delex/",
+        "type": "doc"
+      },
+      {
+        "label": "Cluster specification, redis.io",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/",
+        "type": "doc"
+      },
+      {
+        "label": "High availability with Redis Sentinel, redis.io",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis is now available under the AGPLv3 license, redis.io",
+        "url": "https://redis.io/blog/agplv3/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis repository and licence notes, GitHub",
+        "url": "https://github.com/redis/redis",
+        "type": "doc"
+      },
+      {
+        "label": "Valkey, valkey.io",
+        "url": "https://valkey.io/",
+        "type": "doc"
+      },
+      {
+        "label": "Garnet, Microsoft",
+        "url": "https://microsoft.github.io/garnet/",
+        "type": "doc"
+      },
+      {
+        "label": "Garnet API compatibility, Microsoft",
+        "url": "https://microsoft.github.io/garnet/docs/commands/api-compatibility",
+        "type": "doc"
+      },
+      {
+        "label": "HybridCache library in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/hybrid",
+        "type": "doc"
+      },
+      {
+        "label": "Rate limiting middleware in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit",
+        "type": "doc"
+      }
+    ],
+    "id": 924
+  },
+  {
     "slug": "runtime-async-in-dotnet-11",
     "id": 766,
     "category": "Concurrency & Background Work",
