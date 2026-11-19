@@ -3722,5 +3722,70 @@
     "doi": "10.1145/146941.146943",
     "url": "https://doi.org/10.1145/146941.146943",
     "paperUrl": "https://web.stanford.edu/~ouster/cgi-bin/papers/lfs.pdf"
+  },
+  {
+    "slug": "analysis-of-linux-scalability-to-many-cores",
+    "title": "An Analysis of Linux Scalability to Many Cores",
+    "authors": [
+      {
+        "name": "Silas Boyd-Wickizer"
+      },
+      {
+        "name": "Austin T. Clements"
+      },
+      {
+        "name": "Yandong Mao"
+      },
+      {
+        "name": "Aleksey Pesterev"
+      },
+      {
+        "name": "M. Frans Kaashoek"
+      },
+      {
+        "name": "Robert Morris"
+      },
+      {
+        "name": "Nickolai Zeldovich"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "9th USENIX Symposium on Operating Systems Design and Implementation (OSDI 10)",
+    "publicationDate": "2010-10",
+    "url": "https://www.usenix.org/conference/osdi10/analysis-linux-scalability-many-cores",
+    "paperUrl": "https://www.usenix.org/legacy/events/osdi10/tech/full_papers/Boyd-Wickizer.pdf"
+  },
+  {
+    "slug": "gray-failure-achilles-heel-cloud-scale-systems",
+    "title": "Gray Failure: The Achilles' Heel of Cloud-Scale Systems",
+    "authors": [
+      {
+        "name": "Peng Huang"
+      },
+      {
+        "name": "Chuanxiong Guo"
+      },
+      {
+        "name": "Lidong Zhou"
+      },
+      {
+        "name": "Jacob R. Lorch"
+      },
+      {
+        "name": "Yingnong Dang"
+      },
+      {
+        "name": "Murali Chintalapati"
+      },
+      {
+        "name": "Randolph Yao"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 16th Workshop on Hot Topics in Operating Systems",
+    "publicationDate": "2017-05-07",
+    "doi": "10.1145/3102980.3103005",
+    "url": "https://dl.acm.org/doi/10.1145/3102980.3103005",
+    "paperUrl": "https://web.eecs.umich.edu/~ryanph/paper/grayfailure-hotos17.pdf"
   }
 ]
