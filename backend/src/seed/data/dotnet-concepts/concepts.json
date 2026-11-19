@@ -869,6 +869,167 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/nuget-supply-chain-audit-lock-files-and-publish-age"
   },
   {
+    "slug": "ci-cd-for-dotnet-github-actions-sbom-sourcelink-and-signing",
+    "id": 922,
+    "category": "Platform & Tooling",
+    "title": "CI/CD for .NET: GitHub Actions, SBOM, SourceLink and Signing",
+    "topic": "NuGet & Packaging",
+    "summary": "A build, test and publish pipeline measured on a toy library: locked restore with and without cache, coverlet, ReportGenerator and MTP coverage with a failing gate, deterministic builds (what changes the hash), SourceLink read from the PDB, MinVer versions from tags, NuGetAudit on a real vulnerable package, CycloneDX and SPDX SBOMs, dotnet nuget sign with a test certificate, push with --skip-duplicate, and trusted publishing, attestations and pipeline security from the docs.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "nuget-restore-versions-and-dependency-resolution"
+    ],
+    "related": [
+      {
+        "label": "Packaging and Publishing a NuGet Library",
+        "slug": "packaging-and-publishing-a-nuget-library",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Central Package Management and Package Source Mapping",
+        "slug": "central-package-management-and-package-source-mapping",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "NuGet Supply Chain: Audit, Lock Files and Minimum Publish Age",
+        "slug": "nuget-supply-chain-audit-lock-files-and-publish-age",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Multi-Targeting and .NET Standard",
+        "slug": "multi-targeting-and-netstandard",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Analyzers, EditorConfig and Build Quality Gates",
+        "slug": "analyzers-editorconfig-and-build-quality-gates",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Containerizing .NET: SDK Publish, Dockerfile and Chiseled Images",
+        "slug": "containerizing-dotnet-sdk-publish-dockerfile-chiseled",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Self-Contained, Single-File and Trimmed Publishing",
+        "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Workload Identity: Service Accounts, mTLS and SPIFFE",
+        "slug": "workload-identity-service-accounts-mtls-and-spiffe",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Integration Testing ASP.NET Core with WebApplicationFactory",
+        "slug": "integration-testing-with-webapplicationfactory",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "The Four Pillars of a Good Unit Test",
+        "slug": "four-pillars-of-a-good-unit-test",
+        "feature": "testing-concepts"
+      },
+      {
+        "feature": "dotnet-concepts",
+        "slug": "secrets-and-managed-identities-key-vault-and-workload-identity",
+        "label": "Secrets and Managed Identities: Key Vault and Workload Identity"
+      }
+    ],
+    "references": [
+      {
+        "label": "Create a GitHub Actions workflow to build and test .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/devops/dotnet-test-github-action",
+        "type": "doc"
+      },
+      {
+        "label": "Auditing packages, NuGet, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/auditing-packages",
+        "type": "doc"
+      },
+      {
+        "label": "Source Link and .NET libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/sourcelink",
+        "type": "doc"
+      },
+      {
+        "label": "nuget sign command, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-sign",
+        "type": "doc"
+      },
+      {
+        "label": "Code coverage with Microsoft.Testing.Platform, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-extensions-code-coverage",
+        "type": "doc"
+      },
+      {
+        "label": "Trusted publishing, nuget.org, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing",
+        "type": "doc"
+      },
+      {
+        "label": "GitHub Actions documentation, GitHub",
+        "url": "https://docs.github.com/en/actions",
+        "type": "doc"
+      },
+      {
+        "label": "Using artifact attestations to establish provenance, GitHub Docs",
+        "url": "https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds",
+        "type": "doc"
+      },
+      {
+        "label": "Security hardening for GitHub Actions, GitHub Docs",
+        "url": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+        "type": "doc"
+      },
+      {
+        "label": "Dependabot options reference, GitHub Docs",
+        "url": "https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference",
+        "type": "doc"
+      },
+      {
+        "label": "actions/setup-dotnet, GitHub",
+        "url": "https://github.com/actions/setup-dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "NuGet/login, GitHub",
+        "url": "https://github.com/NuGet/login",
+        "type": "doc"
+      },
+      {
+        "label": "coverlet, GitHub",
+        "url": "https://github.com/coverlet-coverage/coverlet",
+        "type": "doc"
+      },
+      {
+        "label": "MinVer, GitHub",
+        "url": "https://github.com/adamralph/minver",
+        "type": "doc"
+      },
+      {
+        "label": "Nerdbank.GitVersioning, GitHub",
+        "url": "https://github.com/dotnet/Nerdbank.GitVersioning",
+        "type": "doc"
+      },
+      {
+        "label": "CycloneDX specification, cyclonedx.org",
+        "url": "https://cyclonedx.org/",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft sbom-tool, GitHub",
+        "url": "https://github.com/microsoft/sbom-tool",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "self-contained-single-file-and-trimmed-publishing",
     "id": 210,
     "category": "Platform & Tooling",
@@ -8851,6 +9012,132 @@
       }
     ],
     "id": 6
+  },
+  {
+    "slug": "event-sourcing-and-projections-with-marten",
+    "category": "Architecture",
+    "title": "Event Sourcing and Projections with Marten",
+    "topic": "DDD",
+    "summary": "Event sourcing on PostgreSQL with Marten 9.62 measured in Docker: the mt_events and mt_streams tables, the cost of rebuilding streams of 10, 1,000 and 10,000 events, the optimistic concurrency collision with FetchForWriting and EventStreamUnexpectedMaxEventIdException, Inline, Live and Async projections with the measured daemon lag (1 s default, 7 ms with LISTEN/NOTIFY), a 100,000-event rebuild, snapshots against replay, upcasting and event type aliases, the event store as a natural outbox through subscriptions, and when not to use event sourcing (CRUD, ad hoc reports, erasure laws). Ends with a table of concern, mechanism, guarantee and trap.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "aggregates-entities-and-value-objects"
+    ],
+    "related": [
+      {
+        "label": "Domain Events and Consistency Boundaries",
+        "slug": "domain-events-and-consistency-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CQRS, Mediator and Vertical Slices",
+        "slug": "cqrs-mediator-and-vertical-slices",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Orleans: Virtual Actors, Grains and Persistence",
+        "slug": "orleans-virtual-actors-grains-and-persistence",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Event Sourcing and CQRS",
+        "slug": "event-sourcing-and-cqrs",
+        "feature": "system-design"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern",
+        "feature": "system-design"
+      },
+      {
+        "label": "The Saga Pattern",
+        "slug": "saga-pattern",
+        "feature": "system-design"
+      },
+      {
+        "label": "Read/Write Splitting and CQRS-Lite",
+        "slug": "read-write-splitting-and-cqrs-lite",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Event Store, Marten",
+        "url": "https://martendb.io/events/",
+        "type": "doc"
+      },
+      {
+        "label": "Appending Events, concurrency and exclusive locks, Marten",
+        "url": "https://martendb.io/events/appending.html",
+        "type": "doc"
+      },
+      {
+        "label": "Asynchronous Projections and the daemon, Marten",
+        "url": "https://martendb.io/events/projections/async-daemon.html",
+        "type": "doc"
+      },
+      {
+        "label": "Rebuilding Projections, Marten",
+        "url": "https://martendb.io/events/projections/rebuilding.html",
+        "type": "doc"
+      },
+      {
+        "label": "Flat Table Projections, Marten",
+        "url": "https://martendb.io/events/projections/flat.html",
+        "type": "doc"
+      },
+      {
+        "label": "Event Subscriptions, Marten",
+        "url": "https://martendb.io/events/subscriptions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Event Versioning, Marten",
+        "url": "https://martendb.io/events/versioning.html",
+        "type": "doc"
+      },
+      {
+        "label": "Marten, GitHub",
+        "url": "https://github.com/JasperFx/marten",
+        "type": "doc"
+      },
+      {
+        "label": "Wolverine with Marten event sourcing, Wolverine",
+        "url": "https://wolverinefx.net/guide/durability/marten/event-sourcing.html",
+        "type": "doc"
+      },
+      {
+        "label": "Event Sourcing, Martin Fowler",
+        "url": "https://martinfowler.com/eaaDev/EventSourcing.html",
+        "type": "doc"
+      },
+      {
+        "label": "Event Sourcing pattern, Azure Architecture Center, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing",
+        "type": "doc"
+      },
+      {
+        "label": "NOTIFY, PostgreSQL documentation",
+        "url": "https://www.postgresql.org/docs/current/sql-notify.html",
+        "type": "doc"
+      },
+      {
+        "label": "KurrentDB documentation, Kurrent",
+        "url": "https://docs.kurrent.io/getting-started/",
+        "type": "doc"
+      }
+    ],
+    "id": 925
   },
   {
     "slug": "orleans-virtual-actors-grains-and-persistence",
