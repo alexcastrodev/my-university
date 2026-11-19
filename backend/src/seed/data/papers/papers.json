@@ -3915,5 +3915,68 @@
     "doi": "10.1145/224056.224075",
     "url": "https://doi.org/10.1145/224056.224075",
     "paperUrl": "https://www.cse.unsw.edu.au/~cs9242/current/papers/Liedtke_95.pdf"
+  },
+  {
+    "slug": "multikernel-new-os-architecture-scalable-multicore-systems",
+    "title": "The Multikernel: A New OS Architecture for Scalable Multicore Systems",
+    "authors": [
+      {
+        "name": "Andrew Baumann"
+      },
+      {
+        "name": "Paul Barham"
+      },
+      {
+        "name": "Pierre-Evariste Dagand"
+      },
+      {
+        "name": "Tim Harris"
+      },
+      {
+        "name": "Rebecca Isaacs"
+      },
+      {
+        "name": "Simon Peter"
+      },
+      {
+        "name": "Timothy Roscoe"
+      },
+      {
+        "name": "Adrian Schüpbach"
+      },
+      {
+        "name": "Akhilesh Singhania"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 22nd Symposium on Operating Systems Principles",
+    "publicationDate": "2009-10",
+    "doi": "10.1145/1629575.1629579",
+    "url": "https://doi.org/10.1145/1629575.1629579",
+    "paperUrl": "https://barrelfish.org/publications/barrelfish_sosp09.pdf"
+  },
+  {
+    "slug": "scheduler-activations-user-level-management-of-parallelism",
+    "title": "Scheduler Activations: Effective Kernel Support for the User-Level Management of Parallelism",
+    "authors": [
+      {
+        "name": "Thomas E. Anderson"
+      },
+      {
+        "name": "Brian N. Bershad"
+      },
+      {
+        "name": "Edward D. Lazowska"
+      },
+      {
+        "name": "Henry M. Levy"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Computer Systems",
+    "publicationDate": "1992-02",
+    "doi": "10.1145/146941.146944",
+    "url": "https://doi.org/10.1145/146941.146944",
+    "paperUrl": "https://homes.cs.washington.edu/~tom/pubs/sched_act.pdf"
   }
 ]
