@@ -4122,6 +4122,142 @@
     ]
   },
   {
+    "slug": "external-authorization-with-openfga-or-opa-in-aspnet-core",
+    "id": 928,
+    "category": "ASP.NET Core",
+    "title": "External Authorization with OpenFGA or OPA in ASP.NET Core",
+    "topic": "Identity & Access",
+    "summary": "An external PDP (real OpenFGA and OPA in Docker) called from a resource-based AuthorizationHandler and an endpoint filter in ASP.NET Core, measured on .NET 10 with OpenFga.Sdk 0.10.5: latency per call (0.45 ms against 0.15 ms for a built-in handler), the N+1 problem on lists (one Check per item, BatchCheck capped at 50, ListObjects silently capped at 1000), decision caching and the stale decision after a revoke (a 5 s TTL, in both directions, plus OpenFGA's own query cache and HIGHER_CONSISTENCY), OPA bundles and decision logs, and what happens when the PDP is down or hung (fail-open against fail-closed, SDK retries, timeouts).",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "authentication-and-authorization-fundamentals"
+    ],
+    "related": [
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Caching: IMemoryCache, HybridCache and Distributed",
+        "slug": "caching-imemorycache-hybridcache-and-distributed",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Client Certificates, mTLS and API Keys in ASP.NET Core",
+        "slug": "client-certificates-mtls-and-api-keys-in-aspnet-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Building an Authorization Server with OpenIddict",
+        "slug": "building-an-authorization-server-with-openiddict",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authorization Models: RBAC, ABAC, ReBAC and Policy Engines",
+        "slug": "authorization-models-rbac-abac-rebac-and-policy-engines",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Resource-based authorization in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased",
+        "type": "doc"
+      },
+      {
+        "label": "Policy-based authorization in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies",
+        "type": "doc"
+      },
+      {
+        "label": "Filters in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/min-api-filters",
+        "type": "doc"
+      },
+      {
+        "label": "OpenFGA .NET SDK, GitHub",
+        "url": "https://github.com/openfga/dotnet-sdk",
+        "type": "doc"
+      },
+      {
+        "label": "Perform a check, OpenFGA",
+        "url": "https://openfga.dev/docs/getting-started/perform-check",
+        "type": "doc"
+      },
+      {
+        "label": "Relationship queries: Check, BatchCheck, ListObjects, OpenFGA",
+        "url": "https://openfga.dev/docs/interacting/relationship-queries",
+        "type": "doc"
+      },
+      {
+        "label": "Query consistency modes, OpenFGA",
+        "url": "https://openfga.dev/docs/interacting/consistency",
+        "type": "doc"
+      },
+      {
+        "label": "Contextual tuples, OpenFGA",
+        "url": "https://openfga.dev/docs/interacting/contextual-tuples",
+        "type": "doc"
+      },
+      {
+        "label": "Conditions, OpenFGA",
+        "url": "https://openfga.dev/docs/modeling/conditions",
+        "type": "doc"
+      },
+      {
+        "label": "Configure OpenFGA, OpenFGA",
+        "url": "https://openfga.dev/docs/getting-started/setup-openfga/configure-openfga",
+        "type": "doc"
+      },
+      {
+        "label": "OPA REST API, Open Policy Agent",
+        "url": "https://www.openpolicyagent.org/docs/rest-api",
+        "type": "doc"
+      },
+      {
+        "label": "OPA bundles, Open Policy Agent",
+        "url": "https://www.openpolicyagent.org/docs/management-bundles",
+        "type": "doc"
+      },
+      {
+        "label": "OPA decision logs, Open Policy Agent",
+        "url": "https://www.openpolicyagent.org/docs/management-decision-logs",
+        "type": "doc"
+      },
+      {
+        "label": "OPA WebAssembly, Open Policy Agent",
+        "url": "https://www.openpolicyagent.org/docs/wasm",
+        "type": "doc"
+      },
+      {
+        "label": "Zanzibar: Google's Consistent, Global Authorization System, Google Research",
+        "url": "https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rate-limiting-and-request-timeouts",
     "id": 450,
     "category": "ASP.NET Core",
