@@ -4535,6 +4535,192 @@
     ]
   },
   {
+    "slug": "windows-authentication-negotiate-kerberos-and-ldap-in-dotnet",
+    "id": 932,
+    "category": "ASP.NET Core",
+    "title": "Windows Authentication in .NET: Negotiate, Kerberos and LDAP",
+    "topic": "Identity & Access",
+    "summary": "Integrated authentication in ASP.NET Core 10 with Microsoft.AspNetCore.Authentication.Negotiate 10.0.15, measured against a real MIT Kerberos KDC and a real OpenLDAP in Docker (SDK 10.0.100, run on Ubuntu 24.04 with runtime 10.0.14). The 401 Negotiate challenge and the mutual-auth token, connection state (Kerberos is not kept per connection by default, NTLM is; PersistKerberosCredentials on and off), HTTP/2 and proxies, and the failures as client and server see them (no ticket, SPN by IP or alias, clock skew of 4 and 6 minutes, keytab without the key, a rotated key version, a missing keytab, all 500 by default and how to turn them into 401). NTLM on Linux needs gss-ntlmssp and a validator, and the user name changes spelling. Roles from EnableLdap on Linux (nested groups, 10 minute cache, MachineAccountName unsupported, no reconnect and a SIGSEGV after an LDAP restart, a 500 for a user without memberOf) and the handler's own LDAP injection fixed in 10.0.10 (CVE-2026-47303 and two more advisories), shown with principals such as bo* on 10.0.9 against 10.0.15. LDAP directly with System.DirectoryServices.Protocols: simple, anonymous and empty-password binds, SASL GSSAPI, LDAPS and StartTLS quirks on Linux, paging against a server-side total limit, and filter escaping (the library has none). System.DirectoryServices.AccountManagement is Windows-only (build and run shown). IIS, HTTP.sys and Kerberos delegation are docs only. Kerberos against OIDC and SAML.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "authentication-and-authorization-fundamentals"
+    ],
+    "related": [
+      {
+        "label": "Kerberos: Tickets, TGT, Delegation and NTLM",
+        "slug": "kerberos-tickets-tgt-delegation-and-ntlm",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "LDAP: Directories, DN, Schema and Binds",
+        "slug": "ldap-directories-dn-schema-and-binds",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Active Directory and Entra ID: Domains, Forests and Hybrid",
+        "slug": "active-directory-and-entra-id-domains-forests-and-hybrid",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Choosing a Federation Protocol: SAML, OIDC, Kerberos and LDAP",
+        "slug": "choosing-a-federation-protocol-saml-oidc-kerberos-and-ldap",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SAML 2.0 Single Sign-On in ASP.NET Core",
+        "slug": "saml-2-single-sign-on-in-aspnet-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Client Certificates, mTLS and API Keys in ASP.NET Core",
+        "slug": "client-certificates-mtls-and-api-keys-in-aspnet-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Windows Services and systemd Hosting",
+        "slug": "windows-services-and-systemd-hosting",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Reverse Proxy and API Gateway with YARP",
+        "slug": "reverse-proxy-and-api-gateway-with-yarp",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Configure Windows Authentication in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/windowsauth",
+        "type": "doc"
+      },
+      {
+        "label": "NegotiateOptions Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.authentication.negotiate.negotiateoptions",
+        "type": "doc"
+      },
+      {
+        "label": "LdapSettings Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.authentication.negotiate.ldapsettings",
+        "type": "doc"
+      },
+      {
+        "label": "Negotiate handler source (v10.0.15), GitHub",
+        "url": "https://github.com/dotnet/aspnetcore/tree/v10.0.15/src/Security/Authentication/Negotiate/src",
+        "type": "doc"
+      },
+      {
+        "label": "Negotiate: handle missing memberOf during LDAP claim resolution, issue 70090, GitHub",
+        "url": "https://github.com/dotnet/aspnetcore/issues/70090",
+        "type": "doc"
+      },
+      {
+        "label": "CVE-2026-47303 advisory GHSA-2p3q-h3hg-jcqq, GitHub",
+        "url": "https://github.com/advisories/GHSA-2p3q-h3hg-jcqq",
+        "type": "doc"
+      },
+      {
+        "label": "CVE-2026-47300 advisory GHSA-8prm-248r-h957, GitHub",
+        "url": "https://github.com/advisories/GHSA-8prm-248r-h957",
+        "type": "doc"
+      },
+      {
+        "label": "CVE-2026-70179 advisory GHSA-vrrp-6v32-2p8g, GitHub",
+        "url": "https://github.com/advisories/GHSA-vrrp-6v32-2p8g",
+        "type": "doc"
+      },
+      {
+        "label": "LdapConnection Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.directoryservices.protocols.ldapconnection",
+        "type": "doc"
+      },
+      {
+        "label": "PageResultRequestControl Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.directoryservices.protocols.pageresultrequestcontrol",
+        "type": "doc"
+      },
+      {
+        "label": "PrincipalContext Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.directoryservices.accountmanagement.principalcontext",
+        "type": "doc"
+      },
+      {
+        "label": "HTTP.sys web server implementation in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/httpsys",
+        "type": "doc"
+      },
+      {
+        "label": "Host ASP.NET Core on Windows with IIS, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/",
+        "type": "doc"
+      },
+      {
+        "label": "Kerberos constrained delegation overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-constrained-delegation-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Keytabs and application servers, MIT Kerberos documentation",
+        "url": "https://web.mit.edu/kerberos/krb5-1.20/doc/admin/appl_servers.html",
+        "type": "doc"
+      },
+      {
+        "label": "Size and time limits, OpenLDAP Administrator's Guide",
+        "url": "https://www.openldap.org/doc/admin26/limits.html",
+        "type": "doc"
+      },
+      {
+        "label": "Using SASL, OpenLDAP Administrator's Guide",
+        "url": "https://www.openldap.org/doc/admin26/sasl.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4559, SPNEGO-based Kerberos and NTLM HTTP Authentication",
+        "url": "https://www.rfc-editor.org/rfc/rfc4559",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4515, LDAP String Representation of Search Filters",
+        "url": "https://www.rfc-editor.org/rfc/rfc4515",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 4513, LDAP Authentication Methods and Security Mechanisms",
+        "url": "https://www.rfc-editor.org/rfc/rfc4513",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 2696, LDAP Control Extension for Simple Paged Results",
+        "url": "https://www.rfc-editor.org/rfc/rfc2696",
+        "type": "doc"
+      },
+      {
+        "label": "LDAP Injection Prevention Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/LDAP_Injection_Prevention_Cheat_Sheet.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rate-limiting-and-request-timeouts",
     "id": 450,
     "category": "ASP.NET Core",
