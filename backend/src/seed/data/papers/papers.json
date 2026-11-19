@@ -4658,5 +4658,179 @@
     "publicationDate": "2022-07",
     "url": "https://www.usenix.org/conference/osdi22/presentation/zhong",
     "paperUrl": "https://www.usenix.org/system/files/osdi22-zhong_1.pdf"
+  },
+  {
+    "slug": "all-file-systems-are-not-created-equal-crash-consistent-applications",
+    "title": "All File Systems Are Not Created Equal: On the Complexity of Crafting Crash-Consistent Applications",
+    "authors": [
+      {
+        "name": "Thanumalayan Sankaranarayana Pillai"
+      },
+      {
+        "name": "Vijay Chidambaram"
+      },
+      {
+        "name": "Ramnatthan Alagappan"
+      },
+      {
+        "name": "Samer Al-Kiswany"
+      },
+      {
+        "name": "Andrea C. Arpaci-Dusseau"
+      },
+      {
+        "name": "Remzi H. Arpaci-Dusseau"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "11th USENIX Symposium on Operating Systems Design and Implementation (OSDI 14)",
+    "publicationDate": "2014-10",
+    "url": "https://www.usenix.org/conference/osdi14/technical-sessions/presentation/pillai",
+    "paperUrl": "https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-pillai.pdf"
+  },
+  {
+    "slug": "certikos-extensible-architecture-for-certified-concurrent-os-kernels",
+    "title": "CertiKOS: An Extensible Architecture for Building Certified Concurrent OS Kernels",
+    "authors": [
+      {
+        "name": "Ronghui Gu"
+      },
+      {
+        "name": "Zhong Shao"
+      },
+      {
+        "name": "Hao Chen"
+      },
+      {
+        "name": "Xiongnan (Newman) Wu"
+      },
+      {
+        "name": "Jieung Kim"
+      },
+      {
+        "name": "Vilhelm Sjöberg"
+      },
+      {
+        "name": "David Costanzo"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "12th USENIX Symposium on Operating Systems Design and Implementation (OSDI 16)",
+    "publicationDate": "2016-11",
+    "url": "https://www.usenix.org/conference/osdi16/technical-sessions/presentation/gu",
+    "paperUrl": "https://www.usenix.org/system/files/conference/osdi16/osdi16-gu.pdf"
+  },
+  {
+    "slug": "cores-that-dont-count",
+    "title": "Cores that don't count",
+    "authors": [
+      {
+        "name": "Peter H. Hochschild"
+      },
+      {
+        "name": "Paul Turner"
+      },
+      {
+        "name": "Jeffrey C. Mogul"
+      },
+      {
+        "name": "Rama Govindaraju"
+      },
+      {
+        "name": "Parthasarathy Ranganathan"
+      },
+      {
+        "name": "David E. Culler"
+      },
+      {
+        "name": "Amin Vahdat"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Workshop on Hot Topics in Operating Systems",
+    "publicationDate": "2021-06",
+    "doi": "10.1145/3458336.3465297",
+    "url": "https://doi.org/10.1145/3458336.3465297",
+    "paperUrl": "https://sigops.org/s/conferences/hotos/2021/papers/hotos21-s01-hochschild.pdf"
+  },
+  {
+    "slug": "hyperkernel-push-button-verification-of-an-os-kernel",
+    "title": "Hyperkernel: Push-Button Verification of an OS Kernel",
+    "authors": [
+      {
+        "name": "Luke Nelson"
+      },
+      {
+        "name": "Helgi Sigurbjarnarson"
+      },
+      {
+        "name": "Kaiyuan Zhang"
+      },
+      {
+        "name": "Dylan Johnson"
+      },
+      {
+        "name": "James Bornholt"
+      },
+      {
+        "name": "Emina Torlak"
+      },
+      {
+        "name": "Xi Wang"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 26th Symposium on Operating Systems Principles",
+    "publicationDate": "2017-10-14",
+    "doi": "10.1145/3132747.3132748",
+    "url": "https://dl.acm.org/doi/10.1145/3132747.3132748",
+    "paperUrl": "https://unsat.cs.washington.edu/papers/nelson-hyperkernel.pdf"
+  },
+  {
+    "slug": "meltdown-reading-kernel-memory-from-user-space",
+    "title": "Meltdown: Reading Kernel Memory from User Space",
+    "authors": [
+      {
+        "name": "Moritz Lipp"
+      },
+      {
+        "name": "Michael Schwarz"
+      },
+      {
+        "name": "Daniel Gruss"
+      },
+      {
+        "name": "Thomas Prescher"
+      },
+      {
+        "name": "Werner Haas"
+      },
+      {
+        "name": "Anders Fogh"
+      },
+      {
+        "name": "Jann Horn"
+      },
+      {
+        "name": "Stefan Mangard"
+      },
+      {
+        "name": "Paul Kocher"
+      },
+      {
+        "name": "Daniel Genkin"
+      },
+      {
+        "name": "Yuval Yarom"
+      },
+      {
+        "name": "Mike Hamburg"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "27th USENIX Security Symposium (USENIX Security 18)",
+    "publicationDate": "2018-08",
+    "url": "https://www.usenix.org/conference/usenixsecurity18/presentation/lipp",
+    "paperUrl": "https://www.usenix.org/system/files/conference/usenixsecurity18/sec18-lipp.pdf"
   }
 ]
