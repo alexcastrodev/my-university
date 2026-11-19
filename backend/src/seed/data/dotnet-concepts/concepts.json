@@ -2650,6 +2650,132 @@
     ]
   },
   {
+    "slug": "razor-pages-tag-helpers-and-view-components",
+    "id": 933,
+    "category": "ASP.NET Core",
+    "title": "Razor Pages, Tag Helpers and View Components",
+    "topic": "MVC & Razor Pages",
+    "summary": "Razor Pages in a real net10.0 app, measured request by request: handlers and what BindProperty binds (SupportsGet, unknown handler falling through to OnPost, RedirectToPage reusing ambient route values), Tag Helper HTML compared with HTML Helpers, the antiforgery 400 and where IgnoreAntiforgeryToken is allowed, _ViewImports, layouts and sections failures, a custom Tag Helper with unit and WebApplicationFactory tests, view component rules (no model binding, silent typos) and partial vs view component vs Tag Helper, the jquery-validation-unobtrusive scripts that dotnet new webapp ships on SDK 10.0.100, and what Razor compilation costs (DLL size, startup, first request, runtime compilation now obsolete), with a book vs today note on WebForms, MVC and Blazor.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "mvc-controllers-filters-and-model-binding"
+    ],
+    "related": [
+      {
+        "label": "Razor Syntax and Component Compilation",
+        "slug": "razor-syntax-and-component-compilation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Forms: EditForm and Validation",
+        "slug": "blazor-forms-editform-and-validation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor SSR State: TempData, Session and CacheView",
+        "slug": "blazor-ssr-state-tempdata-session-and-cacheview",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Choosing an ASP.NET Core Application Model",
+        "slug": "choosing-an-aspnet-core-application-model",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OWASP in ASP.NET Core: Security Headers and CSP",
+        "slug": "owasp-secure-aspnet-core-security-headers-and-csp",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Localization: resx and IStringLocalizer",
+        "slug": "localization-resx-and-istringlocalizer",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Introduction to Razor Pages in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Tag Helpers in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/intro?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Author Tag Helpers in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/authoring?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "View components in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/views/view-components?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Partial views in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/views/partial?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Layout in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/views/layout?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Razor file compilation in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/views/view-compilation?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor SDK, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/razor-pages/sdk?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Choose an ASP.NET Core web UI, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/tutorials/choose-web-ui?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Model validation in ASP.NET Core MVC and Razor Pages, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "openapi-document-generation",
     "id": 400,
     "category": "ASP.NET Core",
