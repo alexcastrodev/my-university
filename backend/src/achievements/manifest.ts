@@ -345,6 +345,7 @@ export const MANIFEST: TrackManifest[] = [
       { sessionId: '01a14507-ff5a-7094-8fa8-0ce25286f2c6', title: 'API Documentation & HTTP Clients', label: ['API Documentation', 'HTTP Clients'] },
       { sessionId: '01a18493-1951-7639-bc6d-51c6e6931620', title: 'Production Readiness', label: ['Resilience & Protection', 'Caching & Performance', 'Observability', 'Operations', 'Cloud-Native'] },
       { sessionId: '01a18493-1951-7f9b-adc5-ecdd3f317001', title: 'APIs, Real-Time & Globalization', label: ['MVC & Razor Pages', 'Web API Design', 'Remote APIs', 'Real-Time', 'Globalization'] },
+      { sessionId: '01a1f3cb-256f-72fa-81c3-4aac531ada44', title: 'Identity & Access', label: 'Identity & Access' },
     ],
   },
   {

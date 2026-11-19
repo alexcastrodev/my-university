@@ -3375,6 +3375,350 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/csrf-protection-antiforgery-tokens-and-fetch-metadata"
   },
   {
+    "slug": "oauth-2-clients-in-dotnet-code-pkce-client-credentials-and-device-flow",
+    "id": 920,
+    "category": "ASP.NET Core",
+    "title": "OAuth 2.0 Clients in .NET Code: PKCE, Client Credentials and Device Flow",
+    "topic": "Identity & Access",
+    "summary": "A .NET app as the OAuth client, written in C# and measured against Keycloak: a client-credentials token handler with a single refresh under 50 concurrent callers (1 token request against 50), one renewal on 401 and where it sits relative to the retry handler, MSAL and Duende.AccessTokenManagement compared with the hand-written version (Duende license read from the vendor pages), private_key_jwt, authorization code with PKCE on a loopback listener, the device flow with slow_down and expiry, refresh rotation and reuse, and where tokens and secrets rest.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "authentication-and-authorization-fundamentals"
+    ],
+    "related": [
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OAuth 2.0 from First Principles: Roles, Grants and Tokens",
+        "slug": "oauth-2-roles-grants-and-tokens-from-first-principles",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OpenID Connect: ID Token, UserInfo, Discovery and Logout",
+        "slug": "oidc-id-token-userinfo-discovery-and-logout",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth Security: BCP, DPoP, mTLS, PAR, RAR and Resource Indicators",
+        "slug": "oauth-security-bcp-dpop-mtls-par-rar-and-resource-indicators",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Microsoft Authentication Library for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/msal/dotnet/",
+        "type": "doc"
+      },
+      {
+        "label": "Client credential flows in MSAL.NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/msal/dotnet/acquiring-tokens/web-apps-apis/client-credential-flows",
+        "type": "doc"
+      },
+      {
+        "label": "Acquire tokens interactively with MSAL.NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/msal/dotnet/acquiring-tokens/desktop-mobile/acquiring-tokens-interactively",
+        "type": "doc"
+      },
+      {
+        "label": "Device code flow in MSAL.NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/msal/dotnet/acquiring-tokens/desktop-mobile/device-code-flow",
+        "type": "doc"
+      },
+      {
+        "label": "Token cache serialization in MSAL.NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/msal/dotnet/how-to/token-cache-serialization",
+        "type": "doc"
+      },
+      {
+        "label": "Access tokens in the Microsoft identity platform, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/access-tokens",
+        "type": "doc"
+      },
+      {
+        "label": "Scopes and the .default scope, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/scopes-oidc",
+        "type": "doc"
+      },
+      {
+        "label": "Make HTTP requests using IHttpClientFactory in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests",
+        "type": "doc"
+      },
+      {
+        "label": "Build resilient HTTP apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience",
+        "type": "doc"
+      },
+      {
+        "label": "Access Token Management, Duende documentation",
+        "url": "https://docs.duendesoftware.com/accesstokenmanagement/",
+        "type": "doc"
+      },
+      {
+        "label": "IdentityServer Community Edition, Duende",
+        "url": "https://duendesoftware.com/products/communityedition",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8252, OAuth 2.0 for Native Apps, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8252",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8628, OAuth 2.0 Device Authorization Grant, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8628",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7636, Proof Key for Code Exchange, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7636",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7523, JWT Profile for Client Authentication, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7523",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "building-an-authorization-server-with-openiddict",
+    "id": 921,
+    "category": "ASP.NET Core",
+    "title": "Building an Authorization Server with OpenIddict",
+    "topic": "Identity & Access",
+    "summary": "An OAuth 2.0 and OpenID Connect server in ASP.NET Core with OpenIddict 7.9.0, measured with curl against a SQLite lab and a separate API: the four tables, PKCE and exact redirect_uri errors, claim destinations, encrypted access tokens versus JWT, introspection, revocation and entry validation, refresh rotation and reuse, key rotation, reference tokens, PAR, mTLS and the missing DPoP; and when not to build one, against Duende IdentityServer and ready-made products.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "authentication-and-authorization-fundamentals",
+      "jwt-bearer-and-aspnet-core-identity"
+    ],
+    "related": [
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OAuth 2.0 Clients in .NET Code: PKCE, Client Credentials and Device Flow",
+        "slug": "oauth-2-clients-in-dotnet-code-pkce-client-credentials-and-device-flow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Choosing an Authorization Server for MCP: Entra ID, Keycloak and OpenIddict",
+        "slug": "choosing-an-authorization-server-for-mcp-entra-keycloak-openiddict",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "OAuth 2.0 from First Principles: Roles, Grants and Tokens",
+        "slug": "oauth-2-roles-grants-and-tokens-from-first-principles",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OpenID Connect: ID Token, UserInfo, Discovery and Logout",
+        "slug": "oidc-id-token-userinfo-discovery-and-logout",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth Security: BCP, DPoP, mTLS, PAR, RAR and Resource Indicators",
+        "slug": "oauth-security-bcp-dpop-mtls-par-rar-and-resource-indicators",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "OpenIddict documentation",
+        "url": "https://documentation.openiddict.com/",
+        "type": "doc"
+      },
+      {
+        "label": "Claim destinations, OpenIddict documentation",
+        "url": "https://documentation.openiddict.com/configuration/claim-destinations",
+        "type": "doc"
+      },
+      {
+        "label": "Token formats, OpenIddict documentation",
+        "url": "https://documentation.openiddict.com/configuration/token-formats",
+        "type": "doc"
+      },
+      {
+        "label": "Token storage, OpenIddict documentation",
+        "url": "https://documentation.openiddict.com/configuration/token-storage",
+        "type": "doc"
+      },
+      {
+        "label": "Authorization storage, OpenIddict documentation",
+        "url": "https://documentation.openiddict.com/configuration/authorization-storage",
+        "type": "doc"
+      },
+      {
+        "label": "Encryption and signing credentials, OpenIddict documentation",
+        "url": "https://documentation.openiddict.com/configuration/encryption-and-signing-credentials",
+        "type": "doc"
+      },
+      {
+        "label": "openiddict-core, GitHub",
+        "url": "https://github.com/openiddict/openiddict-core",
+        "type": "doc"
+      },
+      {
+        "label": "OpenIddict, NuGet Gallery",
+        "url": "https://www.nuget.org/packages/OpenIddict",
+        "type": "doc"
+      },
+      {
+        "label": "GHSA-cxgj-hwwh-855g, OpenIddict security advisory",
+        "url": "https://github.com/openiddict/openiddict-core/security/advisories/GHSA-cxgj-hwwh-855g",
+        "type": "doc"
+      },
+      {
+        "label": "Duende IdentityServer, Duende Software",
+        "url": "https://duendesoftware.com/products/identityserver",
+        "type": "doc"
+      },
+      {
+        "label": "Duende pricing and licensing, Duende Software",
+        "url": "https://duendesoftware.com/pricing",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6749: The OAuth 2.0 Authorization Framework, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7636: Proof Key for Code Exchange, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7636",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7009: OAuth 2.0 Token Revocation, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7009",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7662: OAuth 2.0 Token Introspection, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7662",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "secrets-and-managed-identities-key-vault-and-workload-identity",
+    "id": 923,
+    "category": "ASP.NET Core",
+    "title": "Secrets and Managed Identities: Key Vault and Workload Identity",
+    "topic": "Identity & Access",
+    "summary": "From the secret ladder (appsettings, user-secrets, environment variables, measured with GetDebugView) to the DefaultAzureCredential chain and why docs say to replace it in production, ManagedIdentityCredential against a fake App Service identity endpoint (token request, cache, retries, 429, timeouts), WorkloadIdentityCredential against a fake token endpoint that validates the client_assertion JWT, and Key Vault through the Lowkey Vault emulator (versions, soft delete, the configuration provider, rotation, vault down). Real Azure parts, Vault/OpenBao and the secrets-in-CI bridge are docs only, and it ends with a table of where a secret lives.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "authentication-and-authorization-fundamentals"
+    ],
+    "related": [
+      {
+        "label": "Data Protection: Key Ring and Purposes",
+        "slug": "data-protection-key-ring-and-purposes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Workload Identity: Service Accounts, mTLS and SPIFFE",
+        "slug": "workload-identity-service-accounts-mtls-and-spiffe",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth 2.0 from First Principles: Roles, Grants and Tokens",
+        "slug": "oauth-2-roles-grants-and-tokens-from-first-principles",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Kubernetes Secrets Fundamentals",
+        "slug": "kubernetes-secrets-fundamentals",
+        "feature": "kubernetes-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Authenticate .NET apps to Azure services, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/azure/sdk/authentication/",
+        "type": "doc"
+      },
+      {
+        "label": "Credential chains in the Azure Identity library for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/azure/sdk/authentication/credential-chains",
+        "type": "doc"
+      },
+      {
+        "label": "Authentication best practices with the Azure Identity library for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/azure/sdk/authentication/best-practices",
+        "type": "doc"
+      },
+      {
+        "label": "What are managed identities for Azure resources, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Managed identities in App Service (REST endpoint reference), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/overview-managed-identity",
+        "type": "doc"
+      },
+      {
+        "label": "Workload identity federation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation",
+        "type": "doc"
+      },
+      {
+        "label": "Use Microsoft Entra Workload ID with AKS, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview",
+        "type": "doc"
+      },
+      {
+        "label": "WorkloadIdentityCredential class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/azure.identity.workloadidentitycredential",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rate-limiting-and-request-timeouts",
     "id": 450,
     "category": "ASP.NET Core",
