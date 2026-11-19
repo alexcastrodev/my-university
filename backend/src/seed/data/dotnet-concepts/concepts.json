@@ -5527,6 +5527,162 @@
     ]
   },
   {
+    "slug": "file-uploads-streaming-multipart-and-range-requests",
+    "id": 931,
+    "category": "ASP.NET Core",
+    "title": "File Uploads, Streaming Multipart and Range Requests",
+    "topic": "Web API Design",
+    "summary": "Uploading and downloading large files in ASP.NET Core 10, measured on Kestrel with 1 MB, 100 MB and 1 GB: what IFormFile really buffers (temp disk, flat memory, 2 GB of disk for a 1 GB upload), streaming with MultipartReader and BodyReader (a 1 GB body at about 110 MB of working set against 2.1 GB when materialized), which limit answers 413, 400, 408 or 500 and when (Kestrel, RequestSizeLimit, IHttpMaxRequestBodySizeFeature, FormOptions, MinRequestBodyDataRate), Expect 100-continue, magic numbers and hostile file names, Range, If-Range and Content-Disposition filename* (multiple ranges ignored, unknown units served as bytes, If-Range skipped without an ETag), a resumable upload with a hand-written tus subset and tusdotnet 2.12.0, and local disk against an S3-compatible store with AWSSDK.S3 presigned URLs.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "minimal-apis-routing-and-route-groups"
+    ],
+    "related": [
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Static Files and MapStaticAssets",
+        "slug": "static-files-and-mapstaticassets",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload",
+        "feature": "system-design"
+      },
+      {
+        "label": "Chunked Upload, Deduplication, and Delta Sync",
+        "slug": "chunked-upload-deduplication-and-delta-sync",
+        "feature": "system-design"
+      },
+      {
+        "label": "Multipart File Uploads with RESTEasy Reactive",
+        "slug": "multipart-file-uploads-with-resteasy-reactive",
+        "feature": "quarkus-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Upload files in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads",
+        "type": "doc"
+      },
+      {
+        "label": "Kestrel options and limits, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel/options",
+        "type": "doc"
+      },
+      {
+        "label": "IHttpMaxRequestBodySizeFeature, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.features.ihttpmaxrequestbodysizefeature",
+        "type": "doc"
+      },
+      {
+        "label": "FormOptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.features.formoptions",
+        "type": "doc"
+      },
+      {
+        "label": "MultipartReader, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.webutilities.multipartreader",
+        "type": "doc"
+      },
+      {
+        "label": "Minimal API parameter binding (IFormFile, forms), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding",
+        "type": "doc"
+      },
+      {
+        "label": "Results.File, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.results.file",
+        "type": "doc"
+      },
+      {
+        "label": "FileResult.EnableRangeProcessing, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.fileresult.enablerangeprocessing",
+        "type": "doc"
+      },
+      {
+        "label": "ContentDispositionHeaderValue, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.net.http.headers.contentdispositionheadervalue",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9110, HTTP Semantics (Range, If-Range, Expect), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9110",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6266, Content-Disposition in HTTP, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6266",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8187, Character Set and Language Encoding for HTTP Header Parameters, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8187",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7578, Returning Values from Forms: multipart/form-data, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7578",
+        "type": "doc"
+      },
+      {
+        "label": "tus resumable upload protocol 1.0.0, tus.io",
+        "url": "https://tus.io/protocols/resumable-upload",
+        "type": "doc"
+      },
+      {
+        "label": "tusdotnet, GitHub",
+        "url": "https://github.com/tusdotnet/tusdotnet",
+        "type": "doc"
+      },
+      {
+        "label": "File Upload Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Uploading objects with presigned URLs, Amazon S3 User Guide",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "aspire-apphost-servicedefaults-and-deployment",
     "id": 480,
     "category": "ASP.NET Core",
