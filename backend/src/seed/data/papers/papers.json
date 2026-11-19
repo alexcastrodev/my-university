@@ -4319,5 +4319,36 @@
     "publicationDate": "2014-10",
     "url": "https://www.usenix.org/conference/osdi14/technical-sessions/presentation/yuan",
     "paperUrl": "https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-yuan.pdf"
+  },
+  {
+    "slug": "eliminating-receive-livelock-in-an-interrupt-driven-kernel",
+    "title": "Eliminating Receive Livelock in an Interrupt-driven Kernel",
+    "authors": [
+      {
+        "name": "Jeffrey C. Mogul"
+      },
+      {
+        "name": "K. K. Ramakrishnan"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "USENIX 1996 Annual Technical Conference (USENIX ATC 96)",
+    "publicationDate": "1996-01",
+    "url": "https://www.usenix.org/conference/usenix-1996-annual-technical-conference/eliminating-receive-livelock-interrupt-driven",
+    "paperUrl": "https://pdos.csail.mit.edu/6.1810/2019/readings/mogul96usenix.pdf"
+  },
+  {
+    "slug": "slab-allocator-object-caching-kernel-memory-allocator",
+    "title": "The Slab Allocator: An Object-Caching Kernel Memory Allocator",
+    "authors": [
+      {
+        "name": "Jeff Bonwick"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "USENIX Summer 1994 Technical Conference",
+    "publicationDate": "1994-06",
+    "url": "https://www.usenix.org/conference/usenix-summer-1994-technical-conference/slab-allocator-object-caching-kernel",
+    "paperUrl": "https://people.eecs.berkeley.edu/~kubitron/courses/cs194-24-S14/hand-outs/bonwick_slab.pdf"
   }
 ]
