@@ -3868,5 +3868,19 @@
     "doi": "10.1145/1629575.1629596",
     "url": "https://doi.org/10.1145/1629575.1629596",
     "paperUrl": "https://sel4.systems/Research/pdfs/sel4-formal-verification-os-kernel.pdf"
+  },
+  {
+    "slug": "consensus-bridging-theory-and-practice-raft-thesis",
+    "title": "Consensus: Bridging Theory and Practice",
+    "authors": [
+      {
+        "name": "Diego Ongaro"
+      }
+    ],
+    "type": "thesis",
+    "venue": "Ph.D. dissertation, Department of Computer Science, Stanford University",
+    "publicationDate": "2014-08",
+    "url": "https://purl.stanford.edu/qr033xr6097",
+    "paperUrl": "https://web.stanford.edu/~ouster/cgi-bin/papers/OngaroPhD.pdf"
   }
 ]
