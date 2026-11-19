@@ -3115,5 +3115,430 @@
     "publicationDate": "2026-07",
     "url": "https://www.usenix.org/conference/osdi26/presentation/li-zekai",
     "paperUrl": "https://www.usenix.org/system/files/osdi26-li-zekai.pdf"
+  },
+  {
+    "slug": "bigtable-distributed-storage-system-structured-data",
+    "title": "Bigtable: A Distributed Storage System for Structured Data",
+    "authors": [
+      {
+        "name": "Fay Chang"
+      },
+      {
+        "name": "Jeffrey Dean"
+      },
+      {
+        "name": "Sanjay Ghemawat"
+      },
+      {
+        "name": "Wilson C. Hsieh"
+      },
+      {
+        "name": "Deborah A. Wallach"
+      },
+      {
+        "name": "Mike Burrows"
+      },
+      {
+        "name": "Tushar Chandra"
+      },
+      {
+        "name": "Andrew Fikes"
+      },
+      {
+        "name": "Robert E. Gruber"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "7th USENIX Symposium on Operating Systems Design and Implementation (OSDI 06)",
+    "publicationDate": "2006-11",
+    "url": "https://www.usenix.org/conference/osdi-06/bigtable-distributed-storage-system-structured-data",
+    "paperUrl": "https://www.usenix.org/legacy/event/osdi06/tech/chang/chang.pdf"
+  },
+  {
+    "slug": "brewers-conjecture-cap-feasibility-web-services",
+    "title": "Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services",
+    "authors": [
+      {
+        "name": "Seth Gilbert"
+      },
+      {
+        "name": "Nancy Lynch"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM SIGACT News",
+    "publicationDate": "2002-06",
+    "doi": "10.1145/564585.564601",
+    "url": "https://doi.org/10.1145/564585.564601",
+    "paperUrl": "https://www.comp.nus.edu.sg/~gilbert/pubs/BrewersConjecture-SigAct.pdf"
+  },
+  {
+    "slug": "byzantine-generals-problem",
+    "title": "The Byzantine Generals Problem",
+    "authors": [
+      {
+        "name": "Leslie Lamport"
+      },
+      {
+        "name": "Robert Shostak"
+      },
+      {
+        "name": "Marshall Pease"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Programming Languages and Systems",
+    "publicationDate": "1982-07",
+    "doi": "10.1145/357172.357176",
+    "url": "https://dl.acm.org/doi/10.1145/357172.357176",
+    "paperUrl": "https://lamport.azurewebsites.net/pubs/byz.pdf"
+  },
+  {
+    "slug": "chain-replication-high-throughput-availability",
+    "title": "Chain Replication for Supporting High Throughput and Availability",
+    "authors": [
+      {
+        "name": "Robbert van Renesse"
+      },
+      {
+        "name": "Fred B. Schneider"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "6th Symposium on Operating Systems Design and Implementation (OSDI 04)",
+    "publicationDate": "2004-12",
+    "url": "https://www.usenix.org/conference/osdi-04/chain-replication-supporting-high-throughput-and-availability",
+    "paperUrl": "https://www.usenix.org/legacy/event/osdi04/tech/full_papers/renesse/renesse.pdf"
+  },
+  {
+    "slug": "chord-scalable-peer-to-peer-lookup-service",
+    "title": "Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications",
+    "authors": [
+      {
+        "name": "Ion Stoica"
+      },
+      {
+        "name": "Robert Morris"
+      },
+      {
+        "name": "David Karger"
+      },
+      {
+        "name": "M. Frans Kaashoek"
+      },
+      {
+        "name": "Hari Balakrishnan"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2001 conference on Applications, technologies, architectures, and protocols for computer communications",
+    "publicationDate": "2001-08-27",
+    "doi": "10.1145/383059.383071",
+    "url": "https://doi.org/10.1145/383059.383071",
+    "paperUrl": "https://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf"
+  },
+  {
+    "slug": "chubby-lock-service-loosely-coupled-distributed-systems",
+    "title": "The Chubby Lock Service for Loosely-Coupled Distributed Systems",
+    "authors": [
+      {
+        "name": "Mike Burrows"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "7th USENIX Symposium on Operating Systems Design and Implementation (OSDI 06)",
+    "publicationDate": "2006-11",
+    "url": "https://www.usenix.org/conference/osdi-06/chubby-lock-service-loosely-coupled-distributed-systems",
+    "paperUrl": "https://www.usenix.org/legacy/event/osdi06/tech/full_papers/burrows/burrows.pdf"
+  },
+  {
+    "slug": "conflict-free-replicated-data-types",
+    "title": "Conflict-free Replicated Data Types",
+    "authors": [
+      {
+        "name": "Marc Shapiro"
+      },
+      {
+        "name": "Nuno Preguiça"
+      },
+      {
+        "name": "Carlos Baquero"
+      },
+      {
+        "name": "Marek Zawirski"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Stabilization, Safety, and Security of Distributed Systems (SSS 2011)",
+    "publicationDate": "2011-10",
+    "doi": "10.1007/978-3-642-24550-3_29",
+    "url": "https://doi.org/10.1007/978-3-642-24550-3_29",
+    "paperUrl": "https://inria.hal.science/hal-00932836/document"
+  },
+  {
+    "slug": "dynamo-amazons-highly-available-key-value-store",
+    "title": "Dynamo: Amazon's Highly Available Key-value Store",
+    "authors": [
+      {
+        "name": "Giuseppe DeCandia"
+      },
+      {
+        "name": "Deniz Hastorun"
+      },
+      {
+        "name": "Madan Jampani"
+      },
+      {
+        "name": "Gunavardhan Kakulapati"
+      },
+      {
+        "name": "Avinash Lakshman"
+      },
+      {
+        "name": "Alex Pilchin"
+      },
+      {
+        "name": "Swaminathan Sivasubramanian"
+      },
+      {
+        "name": "Peter Vosshall"
+      },
+      {
+        "name": "Werner Vogels"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 21st ACM Symposium on Operating Systems Principles",
+    "publicationDate": "2007-10-14",
+    "doi": "10.1145/1294261.1294281",
+    "url": "https://dl.acm.org/doi/10.1145/1294261.1294281",
+    "paperUrl": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf"
+  },
+  {
+    "slug": "egalitarian-paxos-more-consensus-in-egalitarian-parliaments",
+    "title": "There Is More Consensus in Egalitarian Parliaments",
+    "authors": [
+      {
+        "name": "Iulian Moraru"
+      },
+      {
+        "name": "David G. Andersen"
+      },
+      {
+        "name": "Michael Kaminsky"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Twenty-Fourth ACM Symposium on Operating Systems Principles",
+    "publicationDate": "2013-11-03",
+    "doi": "10.1145/2517349.2517350",
+    "url": "https://doi.org/10.1145/2517349.2517350",
+    "paperUrl": "https://www.cs.cmu.edu/~dga/papers/epaxos-sosp2013.pdf"
+  },
+  {
+    "slug": "flp-impossibility-of-distributed-consensus",
+    "title": "Impossibility of Distributed Consensus with One Faulty Process",
+    "authors": [
+      {
+        "name": "Michael J. Fischer"
+      },
+      {
+        "name": "Nancy A. Lynch"
+      },
+      {
+        "name": "Michael S. Paterson"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Journal of the ACM",
+    "publicationDate": "1985-04",
+    "doi": "10.1145/3149.214121",
+    "url": "https://dl.acm.org/doi/10.1145/3149.214121",
+    "paperUrl": "https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf"
+  },
+  {
+    "slug": "google-file-system",
+    "title": "The Google File System",
+    "authors": [
+      {
+        "name": "Sanjay Ghemawat"
+      },
+      {
+        "name": "Howard Gobioff"
+      },
+      {
+        "name": "Shun-Tak Leung"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 19th ACM Symposium on Operating Systems Principles",
+    "publicationDate": "2003-10-19",
+    "doi": "10.1145/945445.945450",
+    "url": "https://dl.acm.org/doi/10.1145/945445.945450",
+    "paperUrl": "https://static.googleusercontent.com/media/research.google.com/en//archive/gfs-sosp2003.pdf"
+  },
+  {
+    "slug": "lamport-time-clocks-ordering-of-events",
+    "title": "Time, Clocks, and the Ordering of Events in a Distributed System",
+    "authors": [
+      {
+        "name": "Leslie Lamport"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Communications of the ACM",
+    "publicationDate": "1978-07",
+    "doi": "10.1145/359545.359563",
+    "url": "https://doi.org/10.1145/359545.359563",
+    "paperUrl": "https://lamport.azurewebsites.net/pubs/time-clocks.pdf"
+  },
+  {
+    "slug": "linearizability-correctness-condition-concurrent-objects",
+    "title": "Linearizability: A Correctness Condition for Concurrent Objects",
+    "authors": [
+      {
+        "name": "Maurice P. Herlihy"
+      },
+      {
+        "name": "Jeannette M. Wing"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Programming Languages and Systems",
+    "publicationDate": "1990-07",
+    "doi": "10.1145/78969.78972",
+    "url": "https://dl.acm.org/doi/10.1145/78969.78972",
+    "paperUrl": "https://cs.brown.edu/people/mph/HerlihyW90/p463-herlihy.pdf"
+  },
+  {
+    "slug": "mapreduce-simplified-data-processing-large-clusters",
+    "title": "MapReduce: Simplified Data Processing on Large Clusters",
+    "authors": [
+      {
+        "name": "Jeffrey Dean"
+      },
+      {
+        "name": "Sanjay Ghemawat"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "6th Symposium on Operating Systems Design and Implementation (OSDI 04)",
+    "publicationDate": "2004-12",
+    "url": "https://www.usenix.org/conference/osdi-04/mapreduce-simplified-data-processing-large-clusters",
+    "paperUrl": "https://www.usenix.org/legacy/event/osdi04/tech/full_papers/dean/dean.pdf"
+  },
+  {
+    "slug": "paxos-made-live-engineering-perspective",
+    "title": "Paxos Made Live: An Engineering Perspective",
+    "authors": [
+      {
+        "name": "Tushar D. Chandra"
+      },
+      {
+        "name": "Robert Griesemer"
+      },
+      {
+        "name": "Joshua Redstone"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the twenty-sixth annual ACM symposium on Principles of distributed computing",
+    "publicationDate": "2007-08-12",
+    "doi": "10.1145/1281100.1281103",
+    "url": "https://dl.acm.org/doi/10.1145/1281100.1281103",
+    "paperUrl": "https://static.googleusercontent.com/media/research.google.com/en//archive/paxos_made_live.pdf"
+  },
+  {
+    "slug": "practical-byzantine-fault-tolerance",
+    "title": "Practical Byzantine Fault Tolerance",
+    "authors": [
+      {
+        "name": "Miguel Castro"
+      },
+      {
+        "name": "Barbara Liskov"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Third Symposium on Operating Systems Design and Implementation (OSDI '99)",
+    "publicationDate": "1999-02",
+    "url": "https://www.usenix.org/conference/osdi-99/practical-byzantine-fault-tolerance",
+    "paperUrl": "https://css.csail.mit.edu/6.824/2014/papers/castro-practicalbft.pdf"
+  },
+  {
+    "slug": "state-machine-approach-fault-tolerant-services-tutorial",
+    "title": "Implementing Fault-Tolerant Services Using the State Machine Approach: A Tutorial",
+    "authors": [
+      {
+        "name": "Fred B. Schneider"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Computing Surveys",
+    "publicationDate": "1990-12",
+    "doi": "10.1145/98163.98167",
+    "url": "https://doi.org/10.1145/98163.98167",
+    "paperUrl": "https://www.cs.cornell.edu/fbs/publications/SMSurvey.pdf"
+  },
+  {
+    "slug": "viewstamped-replication-revisited",
+    "title": "Viewstamped Replication Revisited",
+    "authors": [
+      {
+        "name": "Barbara Liskov"
+      },
+      {
+        "name": "James Cowling"
+      }
+    ],
+    "type": "report",
+    "venue": "MIT Computer Science and Artificial Intelligence Laboratory Technical Report MIT-CSAIL-TR-2012-021",
+    "publicationDate": "2012-07-23",
+    "url": "https://hdl.handle.net/1721.1/71763",
+    "paperUrl": "https://web.archive.org/web/20210125160200/http://www.pmg.csail.mit.edu/papers/vr-revisited.pdf"
+  },
+  {
+    "slug": "zab-high-performance-broadcast-primary-backup-systems",
+    "title": "Zab: High-performance broadcast for primary-backup systems",
+    "authors": [
+      {
+        "name": "Flavio P. Junqueira"
+      },
+      {
+        "name": "Benjamin C. Reed"
+      },
+      {
+        "name": "Marco Serafini"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2011 IEEE/IFIP 41st International Conference on Dependable Systems & Networks (DSN)",
+    "publicationDate": "2011-06",
+    "doi": "10.1109/dsn.2011.5958223",
+    "url": "https://doi.org/10.1109/dsn.2011.5958223",
+    "paperUrl": "https://www.cs.cornell.edu/courses/cs6452/2012sp/papers/zab-ieee.pdf"
+  },
+  {
+    "slug": "zookeeper-wait-free-coordination-internet-scale-systems",
+    "title": "ZooKeeper: Wait-free Coordination for Internet-scale Systems",
+    "authors": [
+      {
+        "name": "Patrick Hunt"
+      },
+      {
+        "name": "Mahadev Konar"
+      },
+      {
+        "name": "Flavio P. Junqueira"
+      },
+      {
+        "name": "Benjamin Reed"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2010 USENIX Annual Technical Conference (USENIX ATC 10)",
+    "publicationDate": "2010-06",
+    "url": "https://www.usenix.org/conference/usenix-atc-10/zookeeper-wait-free-coordination-internet-scale-systems",
+    "paperUrl": "https://www.usenix.org/legacy/event/usenix10/tech/full_papers/Hunt.pdf"
   }
 ]
