@@ -3540,5 +3540,169 @@
     "publicationDate": "2010-06",
     "url": "https://www.usenix.org/conference/usenix-atc-10/zookeeper-wait-free-coordination-internet-scale-systems",
     "paperUrl": "https://www.usenix.org/legacy/event/usenix10/tech/full_papers/Hunt.pdf"
+  },
+  {
+    "slug": "exokernel-os-architecture-application-level-resource-management",
+    "title": "Exokernel: An Operating System Architecture for Application-Level Resource Management",
+    "authors": [
+      {
+        "name": "Dawson R. Engler"
+      },
+      {
+        "name": "M. Frans Kaashoek"
+      },
+      {
+        "name": "James O'Toole Jr."
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Fifteenth ACM Symposium on Operating Systems Principles",
+    "publicationDate": "1995-12",
+    "doi": "10.1145/224056.224076",
+    "url": "https://doi.org/10.1145/224056.224076",
+    "paperUrl": "https://pdos.csail.mit.edu/6.828/2008/readings/engler95exokernel.pdf"
+  },
+  {
+    "slug": "hints-for-computer-system-design",
+    "title": "Hints for Computer System Design",
+    "authors": [
+      {
+        "name": "Butler W. Lampson"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Ninth ACM Symposium on Operating Systems Principles",
+    "publicationDate": "1983",
+    "doi": "10.1145/800217.806614",
+    "url": "https://dl.acm.org/doi/10.1145/800217.806614",
+    "paperUrl": "https://bwlampson.site/33-Hints/Acrobat.pdf"
+  },
+  {
+    "slug": "protection-of-information-in-computer-systems",
+    "title": "The Protection of Information in Computer Systems",
+    "authors": [
+      {
+        "name": "Jerome H. Saltzer"
+      },
+      {
+        "name": "Michael D. Schroeder"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Proceedings of the IEEE",
+    "publicationDate": "1975-09",
+    "doi": "10.1109/proc.1975.9939",
+    "url": "https://doi.org/10.1109/PROC.1975.9939",
+    "paperUrl": "https://www.cl.cam.ac.uk/teaching/1011/R01/75-protection.pdf"
+  },
+  {
+    "slug": "unix-time-sharing-system",
+    "title": "The UNIX Time-Sharing System",
+    "authors": [
+      {
+        "name": "Dennis M. Ritchie"
+      },
+      {
+        "name": "Ken Thompson"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Communications of the ACM",
+    "publicationDate": "1974-07",
+    "doi": "10.1145/361011.361061",
+    "url": "https://dl.acm.org/doi/10.1145/361011.361061",
+    "paperUrl": "https://dsf.berkeley.edu/cs262/unix.pdf"
+  },
+  {
+    "slug": "xen-and-the-art-of-virtualization",
+    "title": "Xen and the Art of Virtualization",
+    "authors": [
+      {
+        "name": "Paul Barham"
+      },
+      {
+        "name": "Boris Dragovic"
+      },
+      {
+        "name": "Keir Fraser"
+      },
+      {
+        "name": "Steven Hand"
+      },
+      {
+        "name": "Tim Harris"
+      },
+      {
+        "name": "Alex Ho"
+      },
+      {
+        "name": "Rolf Neugebauer"
+      },
+      {
+        "name": "Ian Pratt"
+      },
+      {
+        "name": "Andrew Warfield"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Nineteenth ACM Symposium on Operating Systems Principles",
+    "publicationDate": "2003-10-19",
+    "doi": "10.1145/945445.945462",
+    "url": "https://doi.org/10.1145/945445.945462",
+    "paperUrl": "https://www.cl.cam.ac.uk/research/srg/netos/papers/2003-xensosp.pdf"
+  },
+  {
+    "slug": "zanzibar-googles-consistent-global-authorization-system",
+    "title": "Zanzibar: Google's Consistent, Global Authorization System",
+    "authors": [
+      {
+        "name": "Ruoming Pang"
+      },
+      {
+        "name": "Ramón Cáceres"
+      },
+      {
+        "name": "Mike Burrows"
+      },
+      {
+        "name": "Zhifeng Chen"
+      },
+      {
+        "name": "Pratik Dave"
+      },
+      {
+        "name": "Nathan Germer"
+      },
+      {
+        "name": "Alexander Golynski"
+      },
+      {
+        "name": "Kevin Graney"
+      },
+      {
+        "name": "Nina Kang"
+      },
+      {
+        "name": "Lea Kissner"
+      },
+      {
+        "name": "Jeffrey L. Korn"
+      },
+      {
+        "name": "Abhishek Parmar"
+      },
+      {
+        "name": "Christina D. Richards"
+      },
+      {
+        "name": "Mengzhi Wang"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2019 USENIX Annual Technical Conference (USENIX ATC 19)",
+    "publicationDate": "2019-07",
+    "url": "https://www.usenix.org/conference/atc19/presentation/pang",
+    "paperUrl": "https://www.usenix.org/system/files/atc19-pang.pdf"
   }
 ]
