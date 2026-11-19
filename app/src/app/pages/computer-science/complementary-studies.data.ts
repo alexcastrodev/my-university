@@ -179,6 +179,15 @@ export const COMPLEMENTARY_AREAS: ComplementaryArea[] = [
     relationship: 'Where distributed software actually runs',
   },
   {
+    slug: 'identity-concepts',
+    apiBase: '/api/identity-concepts',
+    title: 'Identity & Access',
+    routerLink: '/identity-concepts',
+    touchesModule: 'software-distributed',
+    touchesTitle: 'Software + Distributed',
+    relationship: 'The protocols behind authentication and authorization',
+  },
+  {
     slug: 'algorithms-concepts',
     apiBase: '/api/algorithms-concepts',
     title: 'Algorithms',

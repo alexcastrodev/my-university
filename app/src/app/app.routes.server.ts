@@ -186,6 +186,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'identity-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'identity-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'rust-concepts',
     renderMode: RenderMode.Server,
   },

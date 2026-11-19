@@ -19,6 +19,7 @@ export type SearchResultType =
   | 'csharp-concept'
   | 'dotnet-testing-concept'
   | 'dotnet-ai-concept'
+  | 'identity-concept'
   | 'rust-concept'
   | 'go-concept'
   | 'paper';
