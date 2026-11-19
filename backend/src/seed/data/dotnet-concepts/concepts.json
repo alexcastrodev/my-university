@@ -3880,6 +3880,122 @@
     ]
   },
   {
+    "slug": "mfa-totp-and-recovery-codes-with-aspnet-core-identity",
+    "id": 926,
+    "category": "ASP.NET Core",
+    "title": "MFA with TOTP and Recovery Codes in ASP.NET Core Identity",
+    "topic": "Identity & Access",
+    "summary": "The ASP.NET Core Identity second factor measured with the real UserManager and SignInManager (net10.0, EF Core SQLite) and an independent TOTP checked against the 18 RFC 6238 vectors: the key, the otpauth URI and the QR code the framework does not draw, the five-step clock window, reuse of a code inside the window (the default does not stop it) and a provider that does, single-use recovery codes stored in clear text and ProtectPersonalData, lockout shared with the password, the cookies of the two-step sign-in and remember-this-machine, the MapIdentityApi /manage/2fa request and response shapes, a step-up policy with an mfa_at claim that survives security stamp refresh, and what the .NET 10 passkey support is and is not.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "jwt-bearer-and-aspnet-core-identity"
+    ],
+    "related": [
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OAuth 2.0 Clients in .NET Code: PKCE, Client Credentials and Device Flow",
+        "slug": "oauth-2-clients-in-dotnet-code-pkce-client-credentials-and-device-flow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Building an Authorization Server with OpenIddict",
+        "slug": "building-an-authorization-server-with-openiddict",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Secrets and Managed Identities: Key Vault and Workload Identity",
+        "slug": "secrets-and-managed-identities-key-vault-and-workload-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Cryptography: Hashing, HMAC, AES-GCM and Password Hashing",
+        "slug": "cryptography-hashing-hmac-aes-gcm-and-password-hashing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MFA Factors: HOTP, TOTP, SMS, Push and Recovery",
+        "slug": "mfa-factors-hotp-totp-sms-push-and-recovery",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Identity Threats: AiTM, Phishing, Consent Phishing and Recovery",
+        "slug": "identity-threats-aitm-phishing-consent-phishing-and-recovery",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Enable QR code generation for TOTP authenticator apps in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-enable-qrcodes",
+        "type": "doc"
+      },
+      {
+        "label": "Enable QR code generation for TOTP authenticator apps in a Blazor Web App, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/security/qrcodes-for-authenticator-apps",
+        "type": "doc"
+      },
+      {
+        "label": "Multi-factor authentication in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/mfa",
+        "type": "doc"
+      },
+      {
+        "label": "Identity API endpoints (MapIdentityApi), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization",
+        "type": "doc"
+      },
+      {
+        "label": "Enable WebAuthn passkeys in ASP.NET Core Identity, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/passkeys/",
+        "type": "doc"
+      },
+      {
+        "label": "Configure ASP.NET Core Identity (lockout and token options), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration",
+        "type": "doc"
+      },
+      {
+        "label": "Policy-based authorization in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6238, TOTP: Time-Based One-Time Password Algorithm, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6238",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9470, OAuth 2.0 Step Up Authentication Challenge Protocol, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9470",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8176, Authentication Method Reference Values, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8176",
+        "type": "doc"
+      },
+      {
+        "label": "Key Uri Format, Google Authenticator wiki",
+        "url": "https://github.com/google/google-authenticator/wiki/Key-Uri-Format",
+        "type": "doc"
+      },
+      {
+        "label": "QrCodeGenerator for .NET, GitHub",
+        "url": "https://github.com/manuelbl/QrCodeGenerator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rate-limiting-and-request-timeouts",
     "id": 450,
     "category": "ASP.NET Core",
