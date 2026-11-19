@@ -4122,6 +4122,142 @@
     ]
   },
   {
+    "slug": "external-authorization-with-openfga-or-opa-in-aspnet-core",
+    "id": 928,
+    "category": "ASP.NET Core",
+    "title": "External Authorization with OpenFGA or OPA in ASP.NET Core",
+    "topic": "Identity & Access",
+    "summary": "An external PDP (real OpenFGA and OPA in Docker) called from a resource-based AuthorizationHandler and an endpoint filter in ASP.NET Core, measured on .NET 10 with OpenFga.Sdk 0.10.5: latency per call (0.45 ms against 0.15 ms for a built-in handler), the N+1 problem on lists (one Check per item, BatchCheck capped at 50, ListObjects silently capped at 1000), decision caching and the stale decision after a revoke (a 5 s TTL, in both directions, plus OpenFGA's own query cache and HIGHER_CONSISTENCY), OPA bundles and decision logs, and what happens when the PDP is down or hung (fail-open against fail-closed, SDK retries, timeouts).",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "authentication-and-authorization-fundamentals"
+    ],
+    "related": [
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Caching: IMemoryCache, HybridCache and Distributed",
+        "slug": "caching-imemorycache-hybridcache-and-distributed",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Client Certificates, mTLS and API Keys in ASP.NET Core",
+        "slug": "client-certificates-mtls-and-api-keys-in-aspnet-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Building an Authorization Server with OpenIddict",
+        "slug": "building-an-authorization-server-with-openiddict",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authorization Models: RBAC, ABAC, ReBAC and Policy Engines",
+        "slug": "authorization-models-rbac-abac-rebac-and-policy-engines",
+        "feature": "identity-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Resource-based authorization in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased",
+        "type": "doc"
+      },
+      {
+        "label": "Policy-based authorization in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies",
+        "type": "doc"
+      },
+      {
+        "label": "Filters in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/min-api-filters",
+        "type": "doc"
+      },
+      {
+        "label": "OpenFGA .NET SDK, GitHub",
+        "url": "https://github.com/openfga/dotnet-sdk",
+        "type": "doc"
+      },
+      {
+        "label": "Perform a check, OpenFGA",
+        "url": "https://openfga.dev/docs/getting-started/perform-check",
+        "type": "doc"
+      },
+      {
+        "label": "Relationship queries: Check, BatchCheck, ListObjects, OpenFGA",
+        "url": "https://openfga.dev/docs/interacting/relationship-queries",
+        "type": "doc"
+      },
+      {
+        "label": "Query consistency modes, OpenFGA",
+        "url": "https://openfga.dev/docs/interacting/consistency",
+        "type": "doc"
+      },
+      {
+        "label": "Contextual tuples, OpenFGA",
+        "url": "https://openfga.dev/docs/interacting/contextual-tuples",
+        "type": "doc"
+      },
+      {
+        "label": "Conditions, OpenFGA",
+        "url": "https://openfga.dev/docs/modeling/conditions",
+        "type": "doc"
+      },
+      {
+        "label": "Configure OpenFGA, OpenFGA",
+        "url": "https://openfga.dev/docs/getting-started/setup-openfga/configure-openfga",
+        "type": "doc"
+      },
+      {
+        "label": "OPA REST API, Open Policy Agent",
+        "url": "https://www.openpolicyagent.org/docs/rest-api",
+        "type": "doc"
+      },
+      {
+        "label": "OPA bundles, Open Policy Agent",
+        "url": "https://www.openpolicyagent.org/docs/management-bundles",
+        "type": "doc"
+      },
+      {
+        "label": "OPA decision logs, Open Policy Agent",
+        "url": "https://www.openpolicyagent.org/docs/management-decision-logs",
+        "type": "doc"
+      },
+      {
+        "label": "OPA WebAssembly, Open Policy Agent",
+        "url": "https://www.openpolicyagent.org/docs/wasm",
+        "type": "doc"
+      },
+      {
+        "label": "Zanzibar: Google's Consistent, Global Authorization System, Google Research",
+        "url": "https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rate-limiting-and-request-timeouts",
     "id": 450,
     "category": "ASP.NET Core",
@@ -5386,6 +5522,162 @@
       {
         "label": "Generate OpenAPI documents, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi?view=aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "file-uploads-streaming-multipart-and-range-requests",
+    "id": 931,
+    "category": "ASP.NET Core",
+    "title": "File Uploads, Streaming Multipart and Range Requests",
+    "topic": "Web API Design",
+    "summary": "Uploading and downloading large files in ASP.NET Core 10, measured on Kestrel with 1 MB, 100 MB and 1 GB: what IFormFile really buffers (temp disk, flat memory, 2 GB of disk for a 1 GB upload), streaming with MultipartReader and BodyReader (a 1 GB body at about 110 MB of working set against 2.1 GB when materialized), which limit answers 413, 400, 408 or 500 and when (Kestrel, RequestSizeLimit, IHttpMaxRequestBodySizeFeature, FormOptions, MinRequestBodyDataRate), Expect 100-continue, magic numbers and hostile file names, Range, If-Range and Content-Disposition filename* (multiple ranges ignored, unknown units served as bytes, If-Range skipped without an ETag), a resumable upload with a hand-written tus subset and tusdotnet 2.12.0, and local disk against an S3-compatible store with AWSSDK.S3 presigned URLs.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "minimal-apis-routing-and-route-groups"
+    ],
+    "related": [
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Static Files and MapStaticAssets",
+        "slug": "static-files-and-mapstaticassets",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CSRF Protection: Antiforgery Tokens and Fetch Metadata",
+        "slug": "csrf-protection-antiforgery-tokens-and-fetch-metadata",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload",
+        "feature": "system-design"
+      },
+      {
+        "label": "Chunked Upload, Deduplication, and Delta Sync",
+        "slug": "chunked-upload-deduplication-and-delta-sync",
+        "feature": "system-design"
+      },
+      {
+        "label": "Multipart File Uploads with RESTEasy Reactive",
+        "slug": "multipart-file-uploads-with-resteasy-reactive",
+        "feature": "quarkus-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Upload files in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads",
+        "type": "doc"
+      },
+      {
+        "label": "Kestrel options and limits, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel/options",
+        "type": "doc"
+      },
+      {
+        "label": "IHttpMaxRequestBodySizeFeature, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.features.ihttpmaxrequestbodysizefeature",
+        "type": "doc"
+      },
+      {
+        "label": "FormOptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.features.formoptions",
+        "type": "doc"
+      },
+      {
+        "label": "MultipartReader, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.webutilities.multipartreader",
+        "type": "doc"
+      },
+      {
+        "label": "Minimal API parameter binding (IFormFile, forms), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding",
+        "type": "doc"
+      },
+      {
+        "label": "Results.File, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.results.file",
+        "type": "doc"
+      },
+      {
+        "label": "FileResult.EnableRangeProcessing, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.fileresult.enablerangeprocessing",
+        "type": "doc"
+      },
+      {
+        "label": "ContentDispositionHeaderValue, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.net.http.headers.contentdispositionheadervalue",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9110, HTTP Semantics (Range, If-Range, Expect), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9110",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6266, Content-Disposition in HTTP, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6266",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8187, Character Set and Language Encoding for HTTP Header Parameters, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8187",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7578, Returning Values from Forms: multipart/form-data, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7578",
+        "type": "doc"
+      },
+      {
+        "label": "tus resumable upload protocol 1.0.0, tus.io",
+        "url": "https://tus.io/protocols/resumable-upload",
+        "type": "doc"
+      },
+      {
+        "label": "tusdotnet, GitHub",
+        "url": "https://github.com/tusdotnet/tusdotnet",
+        "type": "doc"
+      },
+      {
+        "label": "File Upload Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Uploading objects with presigned URLs, Amazon S3 User Guide",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html",
         "type": "doc"
       }
     ]
