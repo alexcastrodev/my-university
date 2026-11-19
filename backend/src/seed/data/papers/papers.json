@@ -4350,5 +4350,23 @@
     "publicationDate": "1994-06",
     "url": "https://www.usenix.org/conference/usenix-summer-1994-technical-conference/slab-allocator-object-caching-kernel",
     "paperUrl": "https://people.eecs.berkeley.edu/~kubitron/courses/cs194-24-S14/hand-outs/bonwick_slab.pdf"
+  },
+  {
+    "slug": "paxos-vs-raft-have-we-reached-consensus-on-distributed-consensus",
+    "title": "Paxos vs Raft: Have we reached consensus on distributed consensus?",
+    "authors": [
+      {
+        "name": "Heidi Howard"
+      },
+      {
+        "name": "Richard Mortier"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 7th Workshop on Principles and Practice of Consistency for Distributed Data",
+    "publicationDate": "2020-04-27",
+    "doi": "10.1145/3380787.3393681",
+    "url": "https://doi.org/10.1145/3380787.3393681",
+    "paperUrl": "https://arxiv.org/pdf/2004.05074v2"
   }
 ]
