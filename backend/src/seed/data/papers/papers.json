@@ -4574,5 +4574,89 @@
     "publicationDate": "2019-02",
     "url": "https://www.usenix.org/conference/nsdi19/presentation/kaffes",
     "paperUrl": "https://www.usenix.org/system/files/nsdi19-kaffes.pdf"
+  },
+  {
+    "slug": "efficient-io-with-io-uring",
+    "title": "Efficient IO with io_uring",
+    "authors": [
+      {
+        "name": "Jens Axboe"
+      }
+    ],
+    "type": "report",
+    "venue": "Technical note, kernel.dk (version 0.4)",
+    "publicationDate": "2019-10-15",
+    "url": "https://kernel.dk/io_uring.pdf",
+    "paperUrl": "https://kernel.dk/io_uring.pdf"
+  },
+  {
+    "slug": "shenango-achieving-high-cpu-efficiency-for-latency-sensitive-datacenter-workloads",
+    "title": "Shenango: Achieving High CPU Efficiency for Latency-sensitive Datacenter Workloads",
+    "authors": [
+      {
+        "name": "Amy Ousterhout"
+      },
+      {
+        "name": "Joshua Fried"
+      },
+      {
+        "name": "Jonathan Behrens"
+      },
+      {
+        "name": "Adam Belay"
+      },
+      {
+        "name": "Hari Balakrishnan"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "16th USENIX Symposium on Networked Systems Design and Implementation (NSDI 19)",
+    "publicationDate": "2019-02",
+    "url": "https://www.usenix.org/conference/nsdi19/presentation/ousterhout",
+    "paperUrl": "https://www.usenix.org/system/files/nsdi19-ousterhout.pdf"
+  },
+  {
+    "slug": "xrp-in-kernel-storage-functions-with-ebpf",
+    "title": "XRP: In-Kernel Storage Functions with eBPF",
+    "authors": [
+      {
+        "name": "Yuhong Zhong"
+      },
+      {
+        "name": "Haoyu Li"
+      },
+      {
+        "name": "Yu Jian Wu"
+      },
+      {
+        "name": "Ioannis Zarkadas"
+      },
+      {
+        "name": "Jeffrey Tao"
+      },
+      {
+        "name": "Evan Mesterhazy"
+      },
+      {
+        "name": "Michael Makris"
+      },
+      {
+        "name": "Junfeng Yang"
+      },
+      {
+        "name": "Amy Tai"
+      },
+      {
+        "name": "Ryan Stutsman"
+      },
+      {
+        "name": "Asaf Cidon"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "16th USENIX Symposium on Operating Systems Design and Implementation (OSDI 22)",
+    "publicationDate": "2022-07",
+    "url": "https://www.usenix.org/conference/osdi22/presentation/zhong",
+    "paperUrl": "https://www.usenix.org/system/files/osdi22-zhong_1.pdf"
   }
 ]
