@@ -4103,5 +4103,110 @@
     "publicationDate": "2012-04",
     "url": "https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/zaharia",
     "paperUrl": "https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final138.pdf"
+  },
+  {
+    "slug": "ix-protected-dataplane-operating-system",
+    "title": "IX: A Protected Dataplane Operating System for High Throughput and Low Latency",
+    "authors": [
+      {
+        "name": "Adam Belay"
+      },
+      {
+        "name": "George Prekas"
+      },
+      {
+        "name": "Ana Klimovic"
+      },
+      {
+        "name": "Samuel Grossman"
+      },
+      {
+        "name": "Christos Kozyrakis"
+      },
+      {
+        "name": "Edouard Bugnion"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "11th USENIX Symposium on Operating Systems Design and Implementation (OSDI 14)",
+    "publicationDate": "2014-10",
+    "url": "https://www.usenix.org/conference/osdi14/technical-sessions/presentation/belay",
+    "paperUrl": "https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-belay.pdf"
+  },
+  {
+    "slug": "ceph-scalable-high-performance-distributed-file-system",
+    "title": "Ceph: A Scalable, High-Performance Distributed File System",
+    "authors": [
+      {
+        "name": "Sage A. Weil"
+      },
+      {
+        "name": "Scott A. Brandt"
+      },
+      {
+        "name": "Ethan L. Miller"
+      },
+      {
+        "name": "Darrell D. E. Long"
+      },
+      {
+        "name": "Carlos Maltzahn"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "7th USENIX Symposium on Operating Systems Design and Implementation (OSDI 06)",
+    "publicationDate": "2006-11",
+    "url": "https://www.usenix.org/conference/osdi-06/ceph-scalable-high-performance-distributed-file-system",
+    "paperUrl": "https://www.usenix.org/legacy/event/osdi06/tech/full_papers/weil/weil.pdf"
+  },
+  {
+    "slug": "scaling-memcache-at-facebook",
+    "title": "Scaling Memcache at Facebook",
+    "authors": [
+      {
+        "name": "Rajesh Nishtala"
+      },
+      {
+        "name": "Hans Fugal"
+      },
+      {
+        "name": "Steven Grimm"
+      },
+      {
+        "name": "Marc Kwiatkowski"
+      },
+      {
+        "name": "Herman Lee"
+      },
+      {
+        "name": "Harry C. Li"
+      },
+      {
+        "name": "Ryan McElroy"
+      },
+      {
+        "name": "Mike Paleczny"
+      },
+      {
+        "name": "Daniel Peek"
+      },
+      {
+        "name": "Paul Saab"
+      },
+      {
+        "name": "David Stafford"
+      },
+      {
+        "name": "Tony Tung"
+      },
+      {
+        "name": "Venkateshwaran Venkataramani"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "10th USENIX Symposium on Networked Systems Design and Implementation (NSDI 13)",
+    "publicationDate": "2013-04",
+    "url": "https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala",
+    "paperUrl": "https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf"
   }
 ]
