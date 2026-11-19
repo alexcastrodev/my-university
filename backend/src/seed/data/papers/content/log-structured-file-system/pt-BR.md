@@ -1,0 +1,62 @@
+---
+title: "Projeto e implementação de um sistema de arquivos estruturado em log"
+summary: Rosenblum e Ousterhout gravam toda mudança do sistema de arquivos sequencialmente em um log, dividido em segmentos que um limpador mantém livres, e mostram com simulações e com o protótipo Sprite LFS que uma política de limpeza de custo-benefício permite escrever arquivos pequenos cerca de dez vezes mais rápido que o SunOS, com custo de limpeza baixo em produção.
+researchArea: Sistemas operacionais
+keywords: sistema de arquivos estruturado em log, limpeza de segmentos, custo de escrita, política de custo-benefício, checkpoint, roll-forward, mapa de inodes, Sprite LFS
+version: 1.0
+updatedAt: 2026-11-19
+---
+
+## Resumo
+
+Este artigo apresenta uma nova técnica de gerenciamento de armazenamento em disco, chamada sistema de arquivos estruturado em log. Um sistema de arquivos estruturado em log grava todas as modificações em disco de forma sequencial, em uma estrutura semelhante a um log, acelerando tanto a escrita de arquivos quanto a recuperação após falhas. O log é a única estrutura no disco; ele contém informações de indexação para que os arquivos possam ser lidos de volta do log com eficiência. Para manter grandes áreas livres no disco e escrever rápido, dividimos o log em segmentos e usamos um limpador de segmentos para compactar a informação viva dos segmentos muito fragmentados. Apresentamos uma série de simulações que demonstram a eficiência de uma política de limpeza simples baseada em custo e benefício. Implementamos um protótipo chamado Sprite LFS, que supera os sistemas de arquivos Unix atuais por uma ordem de grandeza na escrita de arquivos pequenos, igualando ou superando o desempenho do Unix nas leituras e nas escritas grandes. Mesmo incluindo o custo da limpeza, o Sprite LFS consegue usar 70% da banda do disco para escrita, enquanto os sistemas de arquivos Unix costumam usar apenas de 5 a 10%.
+
+## Visão geral
+
+Esta é a versão completa em periódico (ACM Transactions on Computer Systems, fevereiro de 1992) de um trabalho apresentado antes no SOSP '91 por Mendel Rosenblum e John Ousterhout, então em Stanford e em Berkeley. O alvo da crítica é o fast file system (FFS) do Berkeley Unix, que mantém o desenho de inodes de [The UNIX Time-Sharing System](/papers/unix-time-sharing-system), mas distribui os blocos com cuidado no disco. A aposta do artigo vem das tendências de hardware de 1991: CPUs e memórias ficam mais rápidas, o tempo de acesso ao disco não, então os caches absorvem as leituras e o tráfego de disco passa a ser quase só de escrita. A resposta também é uma instância da dica "log updates" de [Hints for Computer System Design](/papers/hints-for-computer-system-design), levada ao extremo de fazer do log a única cópia dos dados.
+
+Os pareamentos com o catálogo neste parágrafo são meus, não do artigo. O Sprite LFS guarda seus dados em um log sequencial com um limpador, ideia que reaparece no [Bigtable](/papers/bigtable-distributed-storage-system-structured-data) (commit log, memtable e arquivos SSTable imutáveis, mesclados em segundo plano) e, com outro objetivo, no log compartilhado do [CORFU](/papers/corfu-shared-log-design-for-flash-clusters) para clusters de flash. O log de metadados com checkpoints do [Google File System](/papers/google-file-system) é um parente menor: lá o log protege os metadados, no LFS ele guarda tudo.
+
+Vale conhecer antes: o que são um inode e um bloco indireto, por que uma busca (seek) custa muito mais que a transferência sequencial em um disco, o que o fsck faz após uma falha, e a diferença entre o write-ahead logging de um banco de dados e usar o log como destino final dos dados.
+
+## Contribuição
+
+- **O log é o sistema de arquivos.** Dados de arquivos, inodes, blocos indiretos, diretórios e as demais estruturas são acumulados no cache de arquivos e gravados em disco em uma única escrita sequencial grande. Não há bitmap nem lista de blocos livres, nem outra cópia no disco. O artigo contrasta isso com sistemas que usam o log só como armazenamento temporário.
+- **Mapa de inodes.** Os inodes deixam de ter endereço fixo, então um mapa de inodes informa o endereço atual de cada um no log. Seus blocos também vão para o log, são pequenos o bastante para ficar em cache na memória e são localizados a partir de uma região de checkpoint fixa.
+- **Segmentos mais limpeza.** O disco é dividido em segmentos de tamanho fixo (512 KB ou 1 MB no Sprite LFS). O espaço livre é gerenciado por uma mistura de threading e cópia: o log é encadeado segmento a segmento, e um limpador copia os blocos vivos de segmentos fragmentados para que eles possam ser reescritos. Blocos de resumo de segmento e um número de versão por arquivo permitem ao limpador distinguir blocos vivos de mortos.
+- **Custo de escrita e política de custo-benefício.** O artigo define o custo de escrita, o tempo de disco por byte de dado novo, incluindo a limpeza, e dá custo de escrita = 2 / (1 - u) para segmentos limpos com utilização u. Propõe escolher os segmentos por (1 - u) * idade / (1 + u) e ordenar os blocos vivos por idade, de modo que segmentos frios sejam limpos com utilização maior que os quentes.
+- **Checkpoints e roll-forward.** Duas regiões de checkpoint alternadas marcam estados consistentes. O roll-forward varre o log escrito depois do último checkpoint, e um log de operações de diretório mantém consistentes as entradas de diretório e as contagens de referência dos inodes.
+
+## Metodologia
+
+A parte de projeto é argumentada a partir de tendências de tecnologia e de carga de trabalho, tendo o FFS de Berkeley como comparação constante. As políticas de limpeza são estudadas com um simulador: um número fixo de arquivos de 4 KB, sobrescritos um a um sob um padrão uniforme ou um padrão quente e frio (10% dos arquivos recebem 90% das escritas), com utilização de disco constante e sem tráfego de leitura. Os autores afirmam que esse modelo é mais severo que a realidade.
+
+A avaliação tem três partes. Microbenchmarks comparam o Sprite LFS com o SunOS 4.0.3 (um sistema baseado no FFS) em uma única Sun-4/260 com 32 MB de memória e um disco Wren IV (transferência máxima de 1,3 MB/s, busca média de 17,5 ms), com cerca de 300 MB utilizáveis por sistema de arquivos, blocos de 8 KB no SunOS e de 4 KB com segmentos de 1 MB no Sprite LFS. Não houve limpeza durante essas execuções, então são resultados de melhor caso. Em segundo lugar, estatísticas de limpeza foram coletadas por quatro meses em cinco sistemas de arquivos de produção do Sprite (/user6, /pcs, /src/kernel, /tmp, /swap2), depois de esperar vários meses para remover efeitos de partida. Em terceiro, a recuperação após falha foi cronometrada com uma versão especial, e o modified Andrew benchmark foi executado como carga realista.
+
+## Resultados
+
+- **Arquivos pequenos.** Em um benchmark que cria, lê e apaga 10000 arquivos de 1 KB, o Sprite LFS é quase dez vezes mais rápido que o SunOS na criação e na remoção, e também mais rápido nas leituras. Na criação, manteve o disco ocupado 17% do tempo enquanto saturava a CPU, ao passo que o SunOS manteve o disco ocupado 85% do tempo usando cerca de 1,2% da banda potencial do disco para dados novos. Os autores preveem que o Sprite LFS ganharia mais um fator de 4 a 6 com CPUs mais rápidas, e o SunOS quase nada.
+- **Arquivos grandes.** Em um arquivo de 100 MB, o Sprite LFS tem banda de escrita maior que a do SunOS em todos os casos e banda de leitura parecida, exceto na leitura sequencial de um arquivo escrito de forma aleatória, em que é bem mais lento por causa das buscas. O artigo acrescenta que uma versão mais nova do SunOS, que agrupa escritas, deveria igualar o Sprite LFS nas escritas sequenciais.
+- **Simulação.** Com 75% de utilização geral e acesso uniforme, os segmentos limpos têm em média só 55% de utilização. Com um limpador guloso (greedy), mais localidade piorou o resultado, porque segmentos frios ficam parados logo acima do ponto de limpeza e prendem espaço livre. A política de custo-benefício produziu a distribuição bimodal esperada, limpando segmentos frios com cerca de 75% de utilização e os quentes com cerca de 15%, e reduziu o custo de escrita em até 50% em relação à gulosa.
+- **Limpeza em produção.** Em quatro meses, os sistemas de arquivos operaram com 11 a 75% de utilização de disco, mais da metade dos segmentos limpos estavam vazios e os custos de escrita ficaram entre 1,2 e 1,6, contra 2,5 a 3 nas simulações. O artigo lê isso como cerca de 70% da banda máxima de escrita sequencial, contra 5 a 10% do Unix FFS em arquivos pequenos.
+- **Recuperação.** O tempo de recuperação depende do número de arquivos reaplicados: 1 MB de arquivos de 1 KB levou 1 segundo, 50 MB de arquivos de 1 KB levaram 132 segundos, 50 MB de arquivos de 100 KB levaram 8 segundos. Um intervalo de checkpoint de uma hora daria recuperação média em torno de um segundo para as taxas de escrita observadas. Os autores lembram que varreduras do tipo fsck em sistemas tradicionais já levam dezenas de minutos.
+- **Uso diário e custo.** O modified Andrew benchmark ficou só 20% mais rápido que o SunOS, porque é limitado pela CPU. Blocos de metadados (inodes, mapa de inodes, tabela de uso de segmentos) foram cerca de 13% dos dados escritos no log, e só o mapa de inodes passou de 7%.
+
+## Análise crítica
+
+O que o artigo não afirma importa tanto quanto o que ele afirma. Os números de 1992 têm limites que os próprios autores declaram.
+
+- **O roll-forward não estava em produção.** Os discos de produção usavam intervalo de checkpoint de 30 segundos e descartavam tudo após o último checkpoint ao reiniciar. Os tempos de recuperação vêm de uma versão especial, e os autores dizem que o intervalo de 30 segundos provavelmente é curto demais.
+- **O melhor caso é a manchete.** O resultado de uma ordem de grandeza vale para criar e apagar arquivos pequenos sem limpeza. Os microbenchmarks rodaram em uma máquina e um disco, e o artigo admite que o ganho no uso real (20% no Andrew) foi modesto.
+- **A limpeza foi explorada só em parte.** Os autores não estudaram quando limpar nem quantos segmentos limpar de cada vez, e esperam que a limpeza em períodos ociosos ajude, sem saber ainda. As cargas de produção (cerca de trinta usuários em um grupo de pesquisa) não são processamento de transações.
+- **Linha de base.** O próprio artigo observa que um SunOS mais novo agrupa escritas e deveria igualar o Sprite LFS nas escritas sequenciais, então o SunOS 4.0.3 é uma base mais fraca que versões posteriores do FFS.
+
+Os próximos pontos vêm da literatura posterior, não deste PDF. Seltzer e colegas (USENIX 1995, "File System Logging versus Clustering") compararam o sistema de arquivos estruturado em log do 4.4BSD, uma implementação diferente do Sprite LFS, com o FFS do 4.4BSD e relataram que, ignorando a limpeza, o ganho de uma ordem de grandeza vale só para trabalho intensivo em metadados (criar arquivos de 1 KB ou menos e apagar arquivos de 64 KB ou menos), que o desempenho com arquivos grandes é comparável e que a sobrecarga do limpador reduziu o desempenho de processamento de transações em mais de 33% com o disco meio cheio. O F2FS (Lee e colegas, FAST '15) mantém o log e o checkpoint, mas troca o mapa de inodes por uma tabela de endereços de nós para evitar a cadeia de atualizações da "wandering tree", escreve vários logs para separar dados quentes e frios, usa limpeza gulosa em primeiro plano e de custo-benefício em segundo plano, e passa para threaded logging quando o espaço aperta. O Btrfs (Rodeh, Bacik e Mason, ACM Transactions on Storage, 2013) é copy-on-write com B-trees e snapshots, um caminho parecido, porém diferente, para evitar sobrescrever no mesmo lugar.
+
+## Pesquisas futuras
+
+- Políticas de limpeza que prevejam a vida útil dos dados melhor que a idade, e quando rodar o limpador em segundo plano.
+- Projetos estruturados em log conscientes de flash, em que o limite de apagar antes de escrever torna valiosas as escritas sequenciais e a separação entre dados quentes e frios (o F2FS é um exemplo).
+- Sistemas de arquivos copy-on-write que mantêm snapshots e evitam a cadeia de atualização das folhas até a raiz.
+- Comparações cuidadosas entre sistemas de arquivos com log e com clustering em discos envelhecidos e cargas transacionais.
+- Tempos de modificação por bloco, que os autores planejavam, e o efeito do intervalo de checkpoint no tempo de recuperação e na sobrecarga de metadados.
