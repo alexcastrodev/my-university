@@ -3882,5 +3882,38 @@
     "publicationDate": "2014-08",
     "url": "https://purl.stanford.edu/qr033xr6097",
     "paperUrl": "https://web.stanford.edu/~ouster/cgi-bin/papers/OngaroPhD.pdf"
+  },
+  {
+    "slug": "distributed-snapshots-determining-global-states",
+    "title": "Distributed Snapshots: Determining Global States of Distributed Systems",
+    "authors": [
+      {
+        "name": "K. Mani Chandy"
+      },
+      {
+        "name": "Leslie Lamport"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Computer Systems",
+    "publicationDate": "1985-02",
+    "doi": "10.1145/214451.214456",
+    "url": "https://doi.org/10.1145/214451.214456",
+    "paperUrl": "https://lamport.azurewebsites.net/pubs/chandy.pdf"
+  },
+  {
+    "slug": "on-micro-kernel-construction",
+    "title": "On µ-Kernel Construction",
+    "authors": [
+      {
+        "name": "Jochen Liedtke"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Fifteenth ACM Symposium on Operating Systems Principles",
+    "publicationDate": "1995-12",
+    "doi": "10.1145/224056.224075",
+    "url": "https://doi.org/10.1145/224056.224075",
+    "paperUrl": "https://www.cse.unsw.edu.au/~cs9242/current/papers/Liedtke_95.pdf"
   }
 ]
