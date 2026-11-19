@@ -4311,6 +4311,87 @@
     "id": 9
   },
   {
+    "slug": "sockets-tcp-udp-named-pipes-and-quic-in-dotnet",
+    "category": "Base Class Library",
+    "title": "TCP and UDP Sockets, Named Pipes and QUIC in .NET",
+    "topic": "Networking",
+    "summary": "Socket, TcpListener and TcpClient, TCP as a byte stream with length-prefix framing, NoDelay, backlog, close and reset, timeouts, UDP, named pipes, Unix domain sockets and System.Net.Quic, measured on loopback.",
+    "publishedAt": "2026-11-19",
+    "related": [
+      {
+        "label": "Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async I/O and System.IO.Pipelines",
+        "slug": "async-io-and-system-io-pipelines",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "requires": [
+      "async-io-and-system-io-pipelines"
+    ],
+    "references": [
+      {
+        "label": "Use Sockets to send and receive data over TCP, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/sockets/socket-services",
+        "type": "doc"
+      },
+      {
+        "label": "TCP/UDP classes overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/sockets/tcp-classes",
+        "type": "doc"
+      },
+      {
+        "label": "Sockets overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/sockets/sockets-overview",
+        "type": "doc"
+      },
+      {
+        "label": "QUIC support in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/quic/quic-overview",
+        "type": "doc"
+      },
+      {
+        "label": "How to use named pipes for network interprocess communication, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-use-named-pipes-for-network-interprocess-communication",
+        "type": "doc"
+      },
+      {
+        "label": "Socket.Shutdown, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.shutdown",
+        "type": "doc"
+      },
+      {
+        "label": "UnixDomainSocketEndPoint, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.unixdomainsocketendpoint",
+        "type": "doc"
+      },
+      {
+        "label": "QuicConnection.IsSupported, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.quic.quicconnection.issupported",
+        "type": "doc"
+      }
+    ],
+    "id": 750
+  },
+  {
     "slug": "system-text-json-serialization-and-options",
     "category": "Base Class Library",
     "title": "System.Text.Json: Serialization and Options",

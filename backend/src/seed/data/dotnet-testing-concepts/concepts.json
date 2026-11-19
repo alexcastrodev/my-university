@@ -1730,6 +1730,96 @@
     ]
   },
   {
+    "slug": "testing-mcp-servers-in-process-and-with-the-inspector",
+    "id": 26,
+    "title": "Testing MCP Servers in Process and with the Inspector",
+    "topic": "AI Testing",
+    "summary": "Test a C# MCP server with no model: the real server and client joined by in-memory Pipes, the same tools over HTTP with WebApplicationFactory, timeouts and the server/discover fallback driven by FakeTimeProvider, the tools/list output as a snapshot that catches schema changes and rug pulls, the IsError, McpException and unknown-tool paths, and the MCP Inspector CLI for manual exploration.",
+    "publishedAt": "2026-11-19",
+    "requires": [
+      "integration-testing-with-webapplicationfactory"
+    ],
+    "related": [
+      {
+        "label": "Integration Testing ASP.NET Core with WebApplicationFactory",
+        "slug": "integration-testing-with-webapplicationfactory",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Snapshot Testing with Verify",
+        "slug": "snapshot-testing-with-verify",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Controlling Time in Tests with TimeProvider and FakeTimeProvider",
+        "slug": "controlling-time-with-timeprovider",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing Authentication and Authorization in ASP.NET Core",
+        "slug": "testing-authentication-and-authorization-in-aspnet-core",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Evaluating AI Features with Microsoft.Extensions.AI.Evaluation",
+        "slug": "evaluating-ai-features-with-meai-evaluation",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "MCP Inspector, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/docs/tools/inspector",
+        "type": "doc"
+      },
+      {
+        "label": "MCP Inspector, GitHub",
+        "url": "https://github.com/modelcontextprotocol/inspector",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk",
+        "type": "doc"
+      },
+      {
+        "label": "FakeTimeProvider class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.time.testing.faketimeprovider",
+        "type": "doc"
+      },
+      {
+        "label": "Tools, MCP specification 2026-07-28, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+        "type": "doc"
+      },
+      {
+        "label": "Get started with .NET AI and the Model Context Protocol, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/ai/get-started-mcp",
+        "type": "doc"
+      },
+      {
+        "label": "Integration tests in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests",
+        "type": "doc"
+      },
+      {
+        "label": "Test code that depends on time with FakeTimeProvider, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/timeprovider-testing",
+        "type": "doc"
+      },
+      {
+        "label": "System.IO.Pipelines.Pipe class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.pipelines.pipe",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "testing-domain-events-with-mstest",
     "id": 1,
     "title": "Testing Domain Events with MSTest",
