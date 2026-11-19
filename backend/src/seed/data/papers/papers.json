@@ -3978,5 +3978,130 @@
     "doi": "10.1145/146941.146944",
     "url": "https://doi.org/10.1145/146941.146944",
     "paperUrl": "https://homes.cs.washington.edu/~tom/pubs/sched_act.pdf"
+  },
+  {
+    "slug": "dapper-large-scale-distributed-systems-tracing-infrastructure",
+    "title": "Dapper, a Large-Scale Distributed Systems Tracing Infrastructure",
+    "authors": [
+      {
+        "name": "Benjamin H. Sigelman"
+      },
+      {
+        "name": "Luiz André Barroso"
+      },
+      {
+        "name": "Mike Burrows"
+      },
+      {
+        "name": "Pat Stephenson"
+      },
+      {
+        "name": "Manoj Plakal"
+      },
+      {
+        "name": "Donald Beaver"
+      },
+      {
+        "name": "Saul Jaspan"
+      },
+      {
+        "name": "Chandan Shanbhag"
+      }
+    ],
+    "type": "report",
+    "venue": "Google Technical Report dapper-2010-1",
+    "publicationDate": "2010-04",
+    "url": "https://research.google/pubs/pub36356/",
+    "paperUrl": "https://static.googleusercontent.com/media/research.google.com/en//archive/papers/dapper-2010-1.pdf"
+  },
+  {
+    "slug": "flexible-paxos-quorum-intersection-revisited",
+    "title": "Flexible Paxos: Quorum Intersection Revisited",
+    "authors": [
+      {
+        "name": "Heidi Howard"
+      },
+      {
+        "name": "Dahlia Malkhi"
+      },
+      {
+        "name": "Alexander Spiegelman"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "20th International Conference on Principles of Distributed Systems (OPODIS 2016), LIPIcs, vol. 70",
+    "publicationDate": "2017",
+    "doi": "10.4230/lipics.opodis.2016.25",
+    "url": "https://doi.org/10.4230/lipics.opodis.2016.25",
+    "paperUrl": "https://drops.dagstuhl.de/storage/00lipics/lipics-vol070-opodis2016/LIPIcs.OPODIS.2016.25/LIPIcs.OPODIS.2016.25.pdf"
+  },
+  {
+    "slug": "life-beyond-distributed-transactions-an-apostates-opinion",
+    "title": "Life beyond Distributed Transactions: an Apostate's Opinion",
+    "authors": [
+      {
+        "name": "Pat Helland"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "3rd Biennial Conference on Innovative Data Systems Research (CIDR 2007)",
+    "publicationDate": "2007-01-07",
+    "url": "https://www.cidrdb.org/cidr2007/program.html",
+    "paperUrl": "https://www.cidrdb.org/cidr2007/papers/cidr07p15.pdf"
+  },
+  {
+    "slug": "percolator-large-scale-incremental-processing",
+    "title": "Large-scale Incremental Processing Using Distributed Transactions and Notifications",
+    "authors": [
+      {
+        "name": "Daniel Peng"
+      },
+      {
+        "name": "Frank Dabek"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "9th USENIX Symposium on Operating Systems Design and Implementation (OSDI 10)",
+    "publicationDate": "2010-10",
+    "url": "https://www.usenix.org/conference/osdi10/large-scale-incremental-processing-using-distributed-transactions-and",
+    "paperUrl": "https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Peng.pdf"
+  },
+  {
+    "slug": "resilient-distributed-datasets-in-memory-cluster-computing",
+    "title": "Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing",
+    "authors": [
+      {
+        "name": "Matei Zaharia"
+      },
+      {
+        "name": "Mosharaf Chowdhury"
+      },
+      {
+        "name": "Tathagata Das"
+      },
+      {
+        "name": "Ankur Dave"
+      },
+      {
+        "name": "Justin Ma"
+      },
+      {
+        "name": "Murphy McCauley"
+      },
+      {
+        "name": "Michael J. Franklin"
+      },
+      {
+        "name": "Scott Shenker"
+      },
+      {
+        "name": "Ion Stoica"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "9th USENIX Symposium on Networked Systems Design and Implementation (NSDI 12)",
+    "publicationDate": "2012-04",
+    "url": "https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/zaharia",
+    "paperUrl": "https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final138.pdf"
   }
 ]
