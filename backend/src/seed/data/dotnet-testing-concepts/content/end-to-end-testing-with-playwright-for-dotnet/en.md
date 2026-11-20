@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-12
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -39,8 +39,9 @@ references: `Microsoft.Playwright.MSTest.dll` references
 of MSTest 2.x, while MSTest 4 ships `MSTest.TestFramework`. MSTest matches its
 attributes by exact type identity, so the hooks of `PageTest` are silently
 ignored, and the adapter fails to load the old framework assembly when it
-discovers tests. The package's nuspec still depends on MSTest 2.2.7. Replacing
-MSTest with 3.11.1 makes the same test pass, which confirms it.
+discovers tests. The package's nuspec still depends on MSTest 2.2.7, and still does
+in 1.65.1, which also found 0 tests with MSTest 4.5.3 (so did 1.64.1 with 4.5.2).
+Replacing MSTest with 3.11.1 makes the same test pass, which confirms it.
 
 The fix with MSTest 4 is to reference the core `Microsoft.Playwright` package
 (1.64.1) and write the small base class yourself:

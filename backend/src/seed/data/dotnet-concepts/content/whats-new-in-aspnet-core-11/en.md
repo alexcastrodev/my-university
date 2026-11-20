@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-12
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -72,12 +72,49 @@ SDKs, is in `migrating-from-aspnet-core-10-to-11`.
   can be resolved at runtime (for example per tenant). Ran on GA: the service
   resolves. I did not build a provider with real policies. See
   `output-caching-and-http-caching`.
-- **`HttpMethod.Query`, TempData and Session in Blazor SSR, `CacheView`,
-  `QuickGrid` state in the URL, `Virtualize` anchoring, `DisplayName`,
-  `BasePath`, SignalR authentication refresh.** All in the release notes and
-  checked only against the RC3 build, not rerun on GA, so I give no output.
-  Start from `blazor-static-ssr-and-enhanced-navigation`, `blazor-forms-editform-and-validation`
-  and `signalr-websockets-and-sse`.
+- **Blazor SSR state and small components.** Ran on GA in a
+  `dotnet new blazor -int None` app with `Microsoft.AspNetCore.Components.QuickGrid`
+  11.0.0, driven by `curl` (static SSR, no browser):
+  - `TempData`: a POST that set a `[SupplyParameterFromTempData]` property and
+    redirected made the next GET show `saved-via-property`, with a
+    `.AspNetCore.Components.TempData` cookie (`httponly`, `samesite=lax`).
+    `ITempData.Get("flash")` returned `manual-flash` once and nothing on the
+    next two GETs, but the property value showed on all three, so the attribute
+    is not single-read like `Get`.
+  - Session (`AddSession` and `UseSession`): a POST that set a
+    `[SupplyParameterFromSession]` property kept the value on later GETs. A
+    value written with `HttpContext.Session.SetString("Val", ...)` in another
+    endpoint was not read by the attribute (empty), so write through the property.
+  - `CacheView VaryByQuery="category"`: two GETs with `?category=a` returned the
+    same timestamp ticks, and `?category=b` a new value.
+  - `QuickGrid`: `?page=2&sort=Name&direction=desc` over 30 rows at 5 per page
+    rendered `Name25` to `Name21`. Sortable headers and the paginator are
+    `<a href>` links such as `...?page=3&sort=Name&direction=desc`, and the link
+    to page 1 drops `page`.
+  - `DisplayName` showed `Date of production` from `[Display(Name = ...)]` and
+    the property name `Plain` without an attribute. `<BasePath />` rendered
+    `<base href="/" />`, and `EnvironmentView` rendered both an `Include` and an
+    `Exclude` block in Development.
+  - `Virtualize` only compiled. The enum is `VirtualizeAnchorMode`:
+    `AnchorMode="VirtualizeAnchorMode.End"` builds, but `AnchorMode="End"`, as the
+    release notes show it, fails with `CS0103`. The scrolling needs a browser
+    (docs only).
+  Start from `blazor-static-ssr-and-enhanced-navigation`,
+  `blazor-forms-editform-and-validation` and `signalr-websockets-and-sse`.
+- **`HttpMethod.Query`.** `HttpMethod.Query.Method` is `QUERY`, and
+  `MapMethods("/q", ["QUERY"], ...)` answered `curl -X QUERY -d a=1` with the body
+  it received. Ran on GA. The OpenAPI side is in `openapi-document-generation`.
+- **SignalR authentication refresh.** Ran on GA with the .NET client
+  (`Microsoft.AspNetCore.SignalR.Client` 11.0.0) against a hub with
+  `EnableAuthenticationRefresh = true` and a toy token scheme. After
+  `RefreshAuthenticationAsync()` with a new token for the same user the server
+  ran `OnAuthenticationRefresh` and `OnAuthenticationRefreshedAsync`, the client
+  raised `AuthenticationRefreshed`, and `Context.User` carried the new claim
+  (`alice/1` became `alice/2`). A refresh with a token for another user failed
+  with 403, the client raised `AuthenticationRefreshFailed`, and the connection
+  stayed `Connected` as `alice/2`. I turned `EnableAutoRefresh` off and never
+  waited for a token to expire; the TypeScript client, the cancellation of hub
+  invocations and the refresh of Blazor Server circuits are docs only.
 - **Passkeys and Identity.** Confirmation and lockout changes and passkey naming,
   per the release notes (not run). See `jwt-bearer-and-aspnet-core-identity`.
 

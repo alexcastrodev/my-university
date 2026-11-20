@@ -190,7 +190,7 @@
     "category": "Language",
     "title": "Console Apps, Exit Codes and System.CommandLine",
     "topic": "Language Basics",
-    "summary": "Main signatures, args and the dotnet run -- separator, exit codes and their 0..255 truncation on Unix, crashes and FailFast, stdout versus stderr, stdin and encodings, Ctrl+C and SIGTERM on .NET 10, and a CLI built with System.CommandLine 2.0 (options, arguments, validators, help, parse errors, response files, directives and cancellation), and the .NET 11 FORCE_COLOR support, with the measured exit code of each case.",
+    "summary": "Main signatures, args and the dotnet run -- separator, exit codes and their 0..255 truncation on Unix, crashes and FailFast, stdout versus stderr, stdin and encodings, Ctrl+C and SIGTERM on .NET 10, and a CLI built with System.CommandLine 2.0 and 3.0 (options, arguments, validators, help, parse errors, response files, directives and cancellation), and the .NET 11 FORCE_COLOR support, with the measured exit code of each case.",
     "publishedAt": "2026-10-28",
     "requires": [
       "top-level-programs-implicit-usings-and-namespaces"
