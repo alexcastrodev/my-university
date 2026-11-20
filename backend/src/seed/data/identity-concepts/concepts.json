@@ -1768,5 +1768,245 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "privileged-access-secrets-vaults-and-just-in-time",
+    "id": 20,
+    "title": "Privileged Access: Secrets, Vaults and Just-in-Time",
+    "topic": "Workload Identity",
+    "summary": "Privileged access and secrets, measured on HashiCorp Vault 2.2.2 in dev mode in Docker with curl, jq and the vault CLI. The problem of standing privilege and blast radius, the four parts of PAM (inventory, vault with check-out and check-in, session recording, just-in-time access), then the operation: KV v2 versions and metadata, HCL policies and three path traps, tokens with TTL, renew, expiry (403 with invalid token), revoke trees and orphans, dynamic Postgres credentials (issued, expired at the lease, revoked, and an open session that survives revocation until pg_terminate_backend is added), static role rotation and rotate-root, AppRole with response wrapping against secret zero (a second unwrap is evidence of interception), a JIT elevation approved by a second person with a 20 second token, short-lived signed SSH certificates, seal and unseal, the audit device with HMAC masked values and audit-hash, and break-glass: the Entra emergency access guidance, the MFA and Conditional Access lockout lesson, a break-glass read that raises an alert, and generate-root. Docs only: Entra PIM, Azure Key Vault, AWS Secrets Manager, CyberArk, BeyondTrust, OpenBao, Vault Enterprise control groups. Ends with a comparison table of Key Vault, Secrets Manager, Kubernetes Secrets and Vault, the PAM suite against secrets manager market, the BSL licence note, and what NIST SP 800-53 asks.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "workload-identity-service-accounts-mtls-and-spiffe"
+    ],
+    "related": [
+      {
+        "label": "Workload Identity: Service Accounts, mTLS and SPIFFE",
+        "slug": "workload-identity-service-accounts-mtls-and-spiffe",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Identity Threats: AiTM, Phishing, Consent Phishing and Recovery",
+        "slug": "identity-threats-aitm-phishing-consent-phishing-and-recovery",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Authorization Models: RBAC, ABAC, ReBAC and Policy Engines",
+        "slug": "authorization-models-rbac-abac-rebac-and-policy-engines",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "SCIM: Provisioning and the Identity Lifecycle",
+        "slug": "scim-provisioning-and-the-identity-lifecycle",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Secrets and Managed Identities: Key Vault and Workload Identity",
+        "slug": "secrets-and-managed-identities-key-vault-and-workload-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Key Vault and App Configuration in .NET",
+        "slug": "key-vault-and-app-configuration-in-dotnet",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Kubernetes Secrets Fundamentals",
+        "slug": "kubernetes-secrets-fundamentals",
+        "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "Secrets as Environment Variables vs Mounted Files",
+        "slug": "secrets-as-env-vars-vs-mounted-files",
+        "feature": "kubernetes-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Vault documentation: key concepts, dev server, HashiCorp",
+        "url": "https://developer.hashicorp.com/vault/docs/concepts/dev-server",
+        "type": "doc"
+      },
+      {
+        "label": "KV version 2, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/secrets/kv/kv-v2",
+        "type": "doc"
+      },
+      {
+        "label": "KV v2 API, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/api-docs/secret/kv/kv-v2",
+        "type": "doc"
+      },
+      {
+        "label": "Policies, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/concepts/policies",
+        "type": "doc"
+      },
+      {
+        "label": "Tokens, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/concepts/tokens",
+        "type": "doc"
+      },
+      {
+        "label": "Lease, renew and revoke, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/concepts/lease",
+        "type": "doc"
+      },
+      {
+        "label": "Database secrets engine, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/secrets/databases",
+        "type": "doc"
+      },
+      {
+        "label": "Database secrets engine API (roles, static roles, rotate-root), HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/api-docs/secret/databases",
+        "type": "doc"
+      },
+      {
+        "label": "LDAP secrets engine (service account check-out), HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/secrets/ldap",
+        "type": "doc"
+      },
+      {
+        "label": "AppRole auth method, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/auth/approle",
+        "type": "doc"
+      },
+      {
+        "label": "Response wrapping, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/concepts/response-wrapping",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes auth method, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/auth/kubernetes",
+        "type": "doc"
+      },
+      {
+        "label": "JWT/OIDC auth method, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/auth/jwt",
+        "type": "doc"
+      },
+      {
+        "label": "Signed SSH certificates, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/secrets/ssh/signed-ssh-certificates",
+        "type": "doc"
+      },
+      {
+        "label": "SSH secrets engine API, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/api-docs/secret/ssh",
+        "type": "doc"
+      },
+      {
+        "label": "Seal and unseal, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/concepts/seal",
+        "type": "doc"
+      },
+      {
+        "label": "operator generate-root, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/commands/operator/generate-root",
+        "type": "doc"
+      },
+      {
+        "label": "Audit devices, HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/audit",
+        "type": "doc"
+      },
+      {
+        "label": "Control groups (Enterprise), HashiCorp Vault",
+        "url": "https://developer.hashicorp.com/vault/docs/enterprise/control-groups",
+        "type": "doc"
+      },
+      {
+        "label": "Vault LICENSE (BSL 1.1), HashiCorp, GitHub",
+        "url": "https://github.com/hashicorp/vault/blob/main/LICENSE",
+        "type": "doc"
+      },
+      {
+        "label": "OpenBao documentation, OpenBao",
+        "url": "https://openbao.org/docs/",
+        "type": "doc"
+      },
+      {
+        "label": "What is Privileged Identity Management, Microsoft Entra",
+        "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure",
+        "type": "doc"
+      },
+      {
+        "label": "Manage emergency access accounts, Microsoft Entra",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access",
+        "type": "doc"
+      },
+      {
+        "label": "Automate secret rotation with Event Grid, Azure Key Vault",
+        "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/tutorial-rotation",
+        "type": "doc"
+      },
+      {
+        "label": "Monitor Azure Key Vault, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault",
+        "type": "doc"
+      },
+      {
+        "label": "Rotate AWS Secrets Manager secrets, AWS",
+        "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html",
+        "type": "doc"
+      },
+      {
+        "label": "Secret versions and staging labels, AWS Secrets Manager",
+        "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/whats-in-a-secret.html",
+        "type": "doc"
+      },
+      {
+        "label": "Log Secrets Manager events with CloudTrail, AWS",
+        "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-cloudtrail.html",
+        "type": "doc"
+      },
+      {
+        "label": "Secrets, Kubernetes",
+        "url": "https://kubernetes.io/docs/concepts/configuration/secret/",
+        "type": "doc"
+      },
+      {
+        "label": "Encrypting confidential data at rest, Kubernetes",
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/",
+        "type": "doc"
+      },
+      {
+        "label": "Auditing, Kubernetes",
+        "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/",
+        "type": "doc"
+      },
+      {
+        "label": "Check out credentials, BeyondTrust Privileged Remote Access",
+        "url": "https://docs.beyondtrust.com/pra/v24.3/docs/check-out",
+        "type": "doc"
+      },
+      {
+        "label": "Privileged Access Manager architecture (Vault, CPM, PSM), CyberArk Docs",
+        "url": "https://docs.cyberark.com/pam-self-hosted/latest/en/content/pasimp/privileged-account-security-solution-architecture.htm",
+        "type": "doc"
+      },
+      {
+        "label": "Password Safe sessions, BeyondTrust Docs",
+        "url": "https://docs.beyondtrust.com/bips/docs/ps-sessions",
+        "type": "doc"
+      },
+      {
+        "label": "Palo Alto Networks completes acquisition of CyberArk, Palo Alto Networks",
+        "url": "https://www.paloaltonetworks.com/company/press/2026/palo-alto-networks-completes-acquisition-of-cyberark-to-secure-the-ai-era",
+        "type": "doc"
+      },
+      {
+        "label": "NIST SP 800-53 Rev. 5, Security and Privacy Controls, NIST",
+        "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+        "type": "doc"
+      },
+      {
+        "label": "NIST SP 800-53 Rev. 5 OSCAL catalog (AC-6, AC-2), NIST on GitHub",
+        "url": "https://github.com/usnistgov/oscal-content/blob/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json",
+        "type": "doc"
+      }
+    ]
   }
 ]
