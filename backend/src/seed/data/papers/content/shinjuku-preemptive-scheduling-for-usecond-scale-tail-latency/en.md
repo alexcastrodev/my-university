@@ -3,8 +3,8 @@ title: "Shinjuku: Preemptive Scheduling for μsecond-scale Tail Latency"
 summary: Shinjuku is a single-address-space OS that uses virtualization hardware (posted interrupts under Dune) to preempt requests every 5 to 15 µs from one centralized dispatcher, so short requests stop queuing behind long ones, with up to 6.6x the throughput and 88% lower tail latency than ZygOS on RocksDB.
 researchArea: Operating Systems
 keywords: tail latency, preemptive scheduling, centralized dispatcher, Dune, posted interrupts, request scheduling, dataplane OS
-version: 1.0
-updatedAt: 2026-11-19
+version: 1.1
+updatedAt: 2026-11-20
 ---
 
 ## Abstract
@@ -54,7 +54,7 @@ What the paper does not claim or measure:
 - **Application cooperation.** Non-thread-safe code runs with interrupts disabled (`call safe(fn)`), and allocation functions too, so long allocations hurt the tail. Large memory footprints make preemption expensive, which is left to future locality-aware policies.
 - **Small inconsistencies.** The introduction says Shinjuku matches IX and ZygOS on light tails, while Section 4.2 says close to IX and better than ZygOS. The 10% overhead claim uses a 2 GHz clock in the text while the testbed runs at 2.3 GHz. Dividing 1,212 cycles by a 5 µs slice at 2 GHz (my arithmetic) gives about 12% before the context switch.
 
-Later literature, as read in this catalog's analyses and not in the original papers: Concord reports that Shinjuku's preemption costs about 20% of throughput at a 5 µs quantum and 50% at 2 µs, and that its virtualization tricks rule out public-cloud VMs. Skyloft says Shinjuku cannot give a batch application any CPU share. Shenango and Caladan are in the backlog but not in the catalog, and I did not read them.
+Later literature, as read in this catalog's analyses and not in the original papers: Concord reports that Shinjuku's preemption costs about 20% of throughput at a 5 µs quantum and 50% at 2 µs, and that its virtualization tricks rule out public-cloud VMs. Skyloft says Shinjuku cannot give a batch application any CPU share. [Shenango](/papers/shenango-achieving-high-cpu-efficiency-for-latency-sensitive-datacenter-workloads) came out at the same venue in the same year, and [Caladan](/papers/caladan-mitigating-interference-at-microsecond-timescales) followed at OSDI 2020; both have their own analysis in this catalog, and this analysis does not compare their numbers with Shinjuku's.
 
 ## Further Research
 
