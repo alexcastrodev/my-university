@@ -2634,6 +2634,114 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/generic-math-and-static-abstract-members"
   },
   {
+    "slug": "design-patterns-with-pattern-matching-unions-and-di",
+    "id": 955,
+    "category": "Type Design",
+    "title": "Design Patterns with Pattern Matching, Unions and DI",
+    "topic": "Interfaces & Generics",
+    "summary": "Strategy, Decorator, State and Visitor rewritten in today's C# (delegates, keyed services, Scrutor, switch over a closed record hierarchy), what each costs in ns and bytes, the private-constructor simulation of a closed union, and what C# 15 union and closed change (docs only).",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "interfaces-explicit-implementation-and-default-methods",
+      "records-and-with-expressions",
+      "type-constant-and-relational-patterns"
+    ],
+    "related": [
+      {
+        "label": "Union Types in C# 15: Values From a Closed Set of Types",
+        "slug": "union-types-in-csharp-15",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Closed Classes and Exhaustive Hierarchies in C# 15",
+        "slug": "closed-classes-and-exhaustive-hierarchies",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 15: A Map of the Features",
+        "slug": "whats-new-in-csharp-15",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Events, the Observer Pattern and Memory Leaks",
+        "slug": "events-observer-pattern-and-memory-leaks",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Result Types versus Exceptions",
+        "slug": "result-types-versus-exceptions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CQRS, Mediator and Vertical Slices",
+        "slug": "cqrs-mediator-and-vertical-slices",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Dependency injection overview (keyed services), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection/guidelines",
+        "type": "doc"
+      },
+      {
+        "label": "Scrutor, assembly scanning and decoration, GitHub",
+        "url": "https://github.com/khellang/Scrutor",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core middleware, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/",
+        "type": "doc"
+      },
+      {
+        "label": "ExpressionVisitor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.expressions.expressionvisitor",
+        "type": "doc"
+      },
+      {
+        "label": "Union types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/union",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 15, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-15",
+        "type": "doc"
+      },
+      {
+        "label": "Unions proposal, dotnet/csharplang",
+        "url": "https://github.com/dotnet/csharplang/blob/main/proposals/csharp-15.0/unions.md",
+        "type": "doc"
+      },
+      {
+        "label": "Closed hierarchies proposal, dotnet/csharplang",
+        "url": "https://github.com/dotnet/csharplang/blob/main/proposals/csharp-15.0/closed-hierarchies.md",
+        "type": "doc"
+      },
+      {
+        "label": "Design Patterns in Dynamic Languages, Peter Norvig",
+        "url": "https://norvig.com/design-patterns/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "delegates-and-multicast-invocation",
     "id": 410,
     "category": "Type Design",
@@ -4937,6 +5045,117 @@
     ]
   },
   {
+    "slug": "writing-a-roslyn-analyzer-and-an-incremental-source-generator",
+    "id": 954,
+    "category": "Base Class Library",
+    "title": "Writing a Roslyn Analyzer and an Incremental Source Generator",
+    "topic": "Reflection & Attributes",
+    "summary": "A DiagnosticAnalyzer for DateTime.Now against TimeProvider, choosing between syntax, operation and symbol actions, a code fix with DocumentEditor and FixAll, tests with Microsoft.CodeAnalysis.Testing, NuGet packaging, severity through .editorconfig and an IIncrementalGenerator whose incremental cache is measured with a GeneratorDriver.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "attributes-custom-and-compiler-read"
+    ],
+    "related": [
+      {
+        "label": "Reflection: Type Metadata and Its Costs",
+        "slug": "reflection-type-metadata-and-its-costs",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Partial Types and Partial Members",
+        "slug": "partial-types-and-partial-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dates, Times and Time Zones",
+        "slug": "dates-times-and-time-zones",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+        "slug": "system-text-json-source-generation-and-utf8jsonreader",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Source Generators and AOT-Friendly Code",
+        "slug": "source-generators-and-aot-friendly-code",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Analyzers, EditorConfig and Build Quality Gates",
+        "slug": "analyzers-editorconfig-and-build-quality-gates",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Packaging and Publishing a NuGet Library",
+        "slug": "packaging-and-publishing-a-nuget-library",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Controlling Time in Tests with TimeProvider and FakeTimeProvider",
+        "slug": "controlling-time-with-timeprovider",
+        "feature": "dotnet-testing-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The .NET Compiler Platform SDK (Roslyn APIs), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Write your first analyzer and code fix, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/tutorials/how-to-write-csharp-analyzer-code-fix",
+        "type": "doc"
+      },
+      {
+        "label": "Source generators overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Incremental generators cookbook, dotnet/roslyn",
+        "url": "https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.cookbook.md",
+        "type": "doc"
+      },
+      {
+        "label": "Incremental generators design, dotnet/roslyn",
+        "url": "https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.md",
+        "type": "doc"
+      },
+      {
+        "label": "Analyzer actions semantics, dotnet/roslyn",
+        "url": "https://github.com/dotnet/roslyn/blob/main/docs/analyzers/Analyzer%20Actions%20Semantics.md",
+        "type": "doc"
+      },
+      {
+        "label": "FixAllProvider, dotnet/roslyn",
+        "url": "https://github.com/dotnet/roslyn/blob/main/docs/analyzers/FixAllProvider.md",
+        "type": "doc"
+      },
+      {
+        "label": "Roslyn analyzer rules for analyzer authors (RS rules), dotnet/roslyn-analyzers",
+        "url": "https://github.com/dotnet/roslyn-analyzers/blob/main/src/Microsoft.CodeAnalysis.Analyzers/Microsoft.CodeAnalysis.Analyzers.md",
+        "type": "doc"
+      },
+      {
+        "label": "Analyzer NuGet conventions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/guides/analyzers-conventions",
+        "type": "doc"
+      },
+      {
+        "label": "TimeProvider class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.timeprovider",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet format, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-format",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "linq-deferred-execution-and-iterators",
     "category": "LINQ",
     "title": "LINQ, Deferred Execution, and Iterators",
@@ -6139,6 +6358,210 @@
       }
     ],
     "id": 12
+  },
+  {
+    "slug": "synchronization-primitives-barrier-countdown-spinlock-and-events",
+    "category": "Memory & Concurrency",
+    "title": "Synchronization Primitives: Barrier, CountdownEvent, SpinLock and Events",
+    "topic": "Threads",
+    "summary": "Barrier and its post-phase action, CountdownEvent as fork/join without Task, ManualResetEventSlim and AutoResetEvent with spinning, SpinLock as a struct, ReaderWriterLockSlim and when a plain lock or an immutable snapshot wins, and System.Threading.Lock, all measured, with the bridge to operating systems semaphores and spin locks.",
+    "publishedAt": "2026-11-20",
+    "related": [
+      {
+        "label": "Locks, Monitor, and Interlocked",
+        "slug": "locks-monitor-and-interlocked",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Memory Model, volatile, and Thread-Local State",
+        "slug": "memory-model-volatile-and-thread-local-state",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Immutable and Frozen Collections",
+        "slug": "immutable-and-frozen-collections",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Concurrency Utilities: Executors, Synchronizers, and Locks",
+        "slug": "concurrency-utilities-executors-and-synchronizers",
+        "feature": "java-concepts"
+      }
+    ],
+    "requires": [
+      "locks-monitor-and-interlocked",
+      "memory-model-volatile-and-thread-local-state"
+    ],
+    "references": [
+      {
+        "label": "Overview of synchronization primitives, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/overview-of-synchronization-primitives",
+        "type": "doc"
+      },
+      {
+        "label": "Barrier class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.barrier",
+        "type": "doc"
+      },
+      {
+        "label": "How to synchronize concurrent operations with a Barrier, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/how-to-synchronize-concurrent-operations-with-a-barrier",
+        "type": "doc"
+      },
+      {
+        "label": "BarrierPostPhaseException class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.barrierpostphaseexception",
+        "type": "doc"
+      },
+      {
+        "label": "CountdownEvent class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.countdownevent",
+        "type": "doc"
+      },
+      {
+        "label": "ManualResetEventSlim class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.manualreseteventslim",
+        "type": "doc"
+      },
+      {
+        "label": "AutoResetEvent class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.autoresetevent",
+        "type": "doc"
+      },
+      {
+        "label": "SpinLock struct, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.spinlock",
+        "type": "doc"
+      },
+      {
+        "label": "How to use SpinLock for low-level synchronization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/how-to-use-spinlock-for-low-level-synchronization",
+        "type": "doc"
+      },
+      {
+        "label": "ReaderWriterLockSlim class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.readerwriterlockslim",
+        "type": "doc"
+      },
+      {
+        "label": "Lock class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock",
+        "type": "doc"
+      },
+      {
+        "label": "lock statement, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/lock",
+        "type": "doc"
+      },
+      {
+        "label": "ImmutableInterlocked class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutableinterlocked",
+        "type": "doc"
+      }
+    ],
+    "id": 951
+  },
+  {
+    "slug": "dataflow-pipelines-tpl-dataflow-and-rx",
+    "category": "Memory & Concurrency",
+    "title": "Dataflow Pipelines: TPL Dataflow and Rx",
+    "topic": "Threads",
+    "summary": "TPL Dataflow blocks, LinkTo, BoundedCapacity backpressure, EnsureOrdered, fault and cancellation, Rx.NET cold and hot sources, schedulers, the undisposed subscription, Task.WhenEach and .NET 10 async LINQ, with Channel, Dataflow, Rx and Parallel.ForEachAsync measured on one job.",
+    "publishedAt": "2026-11-20",
+    "related": [
+      {
+        "label": "Async Streams with IAsyncEnumerable",
+        "slug": "async-streams-iasyncenumerable",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Data Parallelism: Parallel and PLINQ",
+        "slug": "data-parallelism-parallel-and-plinq",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "requires": [
+      "threads-threadpool-and-starvation",
+      "async-streams-iasyncenumerable"
+    ],
+    "references": [
+      {
+        "label": "Dataflow (Task Parallel Library), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/dataflow-task-parallel-library",
+        "type": "doc"
+      },
+      {
+        "label": "Walkthrough: Implement a producer-consumer dataflow pattern, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/how-to-implement-a-producer-consumer-dataflow-pattern",
+        "type": "doc"
+      },
+      {
+        "label": "DataflowLinkOptions.PropagateCompletion, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.dataflow.dataflowlinkoptions.propagatecompletion",
+        "type": "doc"
+      },
+      {
+        "label": "Rx.NET repository, GitHub",
+        "url": "https://github.com/dotnet/reactive",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to Rx.NET, introtorx.com",
+        "url": "https://introtorx.com/",
+        "type": "doc"
+      },
+      {
+        "label": "Task.WhenEach, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking change: System.Linq.AsyncEnumerable in .NET 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/asyncenumerable",
+        "type": "doc"
+      },
+      {
+        "label": "AsyncEnumerable class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.asyncenumerable",
+        "type": "doc"
+      }
+    ],
+    "id": 952
   },
   {
     "slug": "whats-new-in-csharp-14",

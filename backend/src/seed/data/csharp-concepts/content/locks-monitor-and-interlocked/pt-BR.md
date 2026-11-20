@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-20
 title: "Locks, Monitor e Interlocked"
 summary: O que lock compila de fato, System.Threading.Lock, o que nunca usar como alvo, Interlocked e laços CAS, ReaderWriterLockSlim, por que não dá para usar await dentro de lock e como a ordem dos locks evita deadlock.
 ---
@@ -93,7 +93,7 @@ if (_gate.TryEnter())
 
 Em código novo no .NET 9 ou posterior, inclusive no .NET 10, declare o campo como
 `Lock` em vez de `object`. Não faça cast para `object` e trave nele: o compilador
-volta à semântica de `Monitor`, e o compilador avisa sobre isso (CS9216). Um `Lock` também é reentrante na mesma thread, e cada `Enter` precisa de um `Exit` correspondente; sair por uma thread diferente da que entrou deixa o lock num estado indefinido.
+volta à semântica de `Monitor`, e o compilador avisa sobre isso (CS9216). Um `Lock` também é reentrante na mesma thread, e cada `Enter` precisa de um `Exit` correspondente; sair por uma thread diferente da que entrou lança `SynchronizationLockException` e o lock continua com a thread que entrou (medido no .NET 10, veja [Primitivas de Sincronização: Barrier, CountdownEvent, SpinLock e Eventos](/csharp-concepts/synchronization-primitives-barrier-countdown-spinlock-and-events)).
 
 ### Nunca trave em algo que outros alcançam
 

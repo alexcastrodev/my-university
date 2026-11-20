@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-04
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -86,7 +86,7 @@ if (_gate.TryEnter())
 
 For new code on .NET 9 and later, including .NET 10, declare the field as `Lock`
 rather than `object`. Do not cast it to `object` and lock on that: the compiler
-then falls back to `Monitor` semantics, and the compiler warns about it (CS9216). A `Lock` is also re-entrant on the same thread, and every `Enter` needs a matching `Exit`; exiting from a different thread than the one that entered leaves the lock in an undefined state.
+then falls back to `Monitor` semantics, and the compiler warns about it (CS9216). A `Lock` is also re-entrant on the same thread, and every `Enter` needs a matching `Exit`; exiting from a different thread than the one that entered throws `SynchronizationLockException` and the lock stays held by the thread that entered it (measured on .NET 10, see [Synchronization Primitives: Barrier, CountdownEvent, SpinLock and Events](/csharp-concepts/synchronization-primitives-barrier-countdown-spinlock-and-events)).
 
 ### Never lock on something others can reach
 
