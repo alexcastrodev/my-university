@@ -3,8 +3,8 @@ title: "Shinjuku: escalonamento preemptivo para latência de cauda em escala de 
 summary: O Shinjuku é um sistema operacional de espaço de endereçamento único que usa hardware de virtualização (interrupções postadas sob o Dune) para preemptar requisições a cada 5 a 15 µs a partir de um despachante centralizado, de modo que requisições curtas deixam de ficar atrás de longas, com até 6,6x a vazão e 88% menos latência de cauda que o ZygOS no RocksDB.
 researchArea: Sistemas operacionais
 keywords: latência de cauda, escalonamento preemptivo, despachante centralizado, Dune, interrupções postadas, escalonamento de requisições, SO de dataplane
-version: 1.0
-updatedAt: 2026-11-19
+version: 1.1
+updatedAt: 2026-11-20
 ---
 
 ## Resumo
@@ -54,7 +54,7 @@ O que o artigo não afirma nem mede:
 - **Cooperação da aplicação.** Código não thread-safe roda com interrupções desligadas (`call safe(fn)`), e as funções de alocação também, então alocações longas pioram a cauda. Grandes pegadas de memória tornam a preempção cara, o que fica para políticas futuras sensíveis à localidade.
 - **Pequenas inconsistências.** A introdução diz que o Shinjuku iguala IX e ZygOS em caudas leves, enquanto a Seção 4.2 diz perto do IX e melhor que o ZygOS. A alegação de 10% de custo usa 2 GHz no texto, mas o testbed roda a 2,3 GHz. Dividir 1.212 ciclos por uma fatia de 5 µs a 2 GHz (conta minha) dá cerca de 12% antes da troca de contexto.
 
-Literatura posterior, lida nas análises deste catálogo e não nos artigos originais: o Concord relata que a preempção do Shinjuku custa cerca de 20% da vazão com quantum de 5 µs e 50% com 2 µs, e que seus truques de virtualização excluem VMs de nuvem pública. O Skyloft diz que o Shinjuku não consegue dar nenhuma fatia de CPU a uma aplicação em lote. Shenango e Caladan estão na fila, mas não no catálogo, e não os li.
+Literatura posterior, lida nas análises deste catálogo e não nos artigos originais: o Concord relata que a preempção do Shinjuku custa cerca de 20% da vazão com quantum de 5 µs e 50% com 2 µs, e que seus truques de virtualização excluem VMs de nuvem pública. O Skyloft diz que o Shinjuku não consegue dar nenhuma fatia de CPU a uma aplicação em lote. O [Shenango](/papers/shenango-achieving-high-cpu-efficiency-for-latency-sensitive-datacenter-workloads) saiu no mesmo evento e no mesmo ano, e o [Caladan](/papers/caladan-mitigating-interference-at-microsecond-timescales) veio no OSDI 2020; os dois têm análise própria neste catálogo, e esta análise não compara os números deles com os do Shinjuku.
 
 ## Pesquisas futuras
 
