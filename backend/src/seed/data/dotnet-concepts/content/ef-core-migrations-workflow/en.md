@@ -1,6 +1,6 @@
 ---
-version: 1.3
-updatedAt: 2026-11-14
+version: 1.4
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -162,7 +162,13 @@ side by side and diffed the options in `--help` for each command. Only in 11.0.0
   migration with the given name and apply it immediately", and the documentation says
   it compiles the migration with Roslyn at run time, for places such as containers
   where the project cannot be rebuilt, and still writes the files for source
-  control. I read the options and did not run it.
+  control. I ran it on the 11.0.0 GA tool with SQLite: for the first migration of a
+  project it worked ("Migration ... was successfully created and applied"), but with
+  an earlier migration already in the project it generated a migration that repeats
+  `CreateTable` for the whole model and failed with `SQLite Error 1: 'table
+  "Customers" already exists'`, leaving the broken migration file behind (undo with
+  `migrations remove --force`). Until that is fixed, use `migrations add` then
+  `database update`, which produced the expected `AddColumn`.
 - `--connection` on `migrations remove` and on `database drop`, so they no longer
   need a connection string in the context.
 - `--file` and `--startup-file` on every command, as the file-based app equivalents

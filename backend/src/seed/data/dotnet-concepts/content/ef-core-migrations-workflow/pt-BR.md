@@ -1,6 +1,6 @@
 ---
-version: 1.3
-updatedAt: 2026-11-14
+version: 1.4
+updatedAt: 2026-11-20
 title: "Workflow de Migrations do EF Core"
 summary: Model snapshot, revisão do SQL gerado (rename que vira drop + add), migrationBuilder.Sql, conflito de snapshot entre branches e checagem do modelo no CI.
 ---
@@ -167,7 +167,13 @@ o 11.0.0 lado a lado e comparei as opções do `--help` de cada comando. Só no 
   the given name and apply it immediately", e a documentação diz que ela compila a
   migration com o Roslyn em tempo de execução, para lugares como containers onde o
   projeto não pode ser recompilado, e ainda grava os arquivos para o controle de
-  versão. Li as opções e não executei.
+  versão. Executei no tool 11.0.0 GA com SQLite: na primeira migration de um projeto
+  funcionou ("Migration ... was successfully created and applied"), mas com uma
+  migration anterior já no projeto ela gerou uma migration que repete `CreateTable`
+  do modelo inteiro e falhou com `SQLite Error 1: 'table "Customers" already
+  exists'`, deixando o arquivo da migration quebrada para trás (desfaça com
+  `migrations remove --force`). Enquanto isso não for corrigido, use `migrations add`
+  e depois `database update`, que gerou o `AddColumn` esperado.
 - `--connection` em `migrations remove` e em `database drop`, que assim não precisam
   de uma connection string no contexto.
 - `--file` e `--startup-file` em todos os comandos, como equivalentes para apps

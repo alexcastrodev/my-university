@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -72,8 +72,14 @@ returned an empty collection. EF Core 11
 [throws `DbQueryConcurrencyException` instead](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/breaking-changes#split-queries-now-throw-when-concurrent-modifications-are-detected)
 ("The results of a split query could not be correlated because the data was modified
 concurrently..."), and the documented fix is to retry the query, wrap it in a
-serializable or snapshot transaction, or use a single query. I could not reproduce the
-race on SQLite, so this rests on the documentation.
+serializable or snapshot transaction, or use a single query. SQLite does not reproduce
+the race, but PostgreSQL 18.7 does. An interceptor inserted a blog with id 2 and a post
+through a second connection right after the first command of
+`Include(...).AsSplitQuery()` ran, when blogs 1 and 3 already existed. EF Core 10 (Npgsql
+10.0.4) returned blog 1 with its post and blog 3 with 0 posts although it has one. EF
+Core 11.0.0 (Npgsql 11.0.0) threw the exception. Deleting the posts between the two
+commands threw on neither: the blog came back with 0 posts, so the exception covers rows
+that cannot be correlated, not every concurrent change.
 
 ### N+1 and lazy loading
 

@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-14
+version: 1.2
+updatedAt: 2026-11-20
 title: "O que há de novo no EF Core 11"
 summary: Mapa das novidades do EF Core 11 (STS, .NET 11) com SQL lado a lado contra o EF Core 10: SQL mais enxuto, traduções novas, índice em caminho JSON, LastMigrationId, SQL Server 2025 e Cosmos DB.
 ---
@@ -241,8 +241,8 @@ preservadas, escape de `id`, projeções `undefined`) estão em
   chamado sobre um `IQueryable`, porque isso itera de forma síncrona. Use
   `AsAsyncEnumerable()`.
 - Split queries lançam `DbQueryConcurrencyException` quando linhas mudam entre os
-  comandos, em vez de devolver dados errados. Isso vem das release notes e do pull
-  request; o SQLite não reproduz, então não é mostrado aqui.
+  comandos, em vez de devolver dados errados. Reproduzido no PostgreSQL 18.7, não no
+  SQLite: veja `loading-related-data-and-n-plus-one`.
 
 ## Trade-offs
 

@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-14
+version: 1.2
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -240,8 +240,8 @@ tokens, and the Cosmos breaking changes (unmapped properties no longer preserved
 - The `EF1004` analyzer warns in the 11.0.0 build when `ToAsyncEnumerable()` is called on an
   `IQueryable`, because that iterates synchronously. Use `AsAsyncEnumerable()`.
 - Split queries throw `DbQueryConcurrencyException` when rows change between the
-  commands, instead of returning wrong data. That comes from the release notes and
-  its pull request; SQLite does not reproduce it, so it is not shown here.
+  commands, instead of returning wrong data. Reproduced on PostgreSQL 18.7, not on
+  SQLite: see `loading-related-data-and-n-plus-one`.
 
 ## Trade-offs
 

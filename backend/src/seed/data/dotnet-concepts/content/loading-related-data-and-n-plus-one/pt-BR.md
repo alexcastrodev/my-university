@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-20
 title: "Carregando Dados Relacionados e o Problema N+1"
 summary: Include e ThenInclude, explosão cartesiana e AsSplitQuery, N+1 com lazy loading, projeções e como ler o SQL gerado com ToQueryString.
 ---
@@ -75,8 +75,14 @@ uma coleção vazia em silêncio. O EF Core 11
 [lança `DbQueryConcurrencyException` no lugar](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-11.0/breaking-changes#split-queries-now-throw-when-concurrent-modifications-are-detected)
 ("The results of a split query could not be correlated because the data was modified
 concurrently..."), e a correção documentada é repetir a query, envolvê-la numa
-transação serializable ou snapshot, ou usar uma query única. Não consegui reproduzir a
-corrida no SQLite, então isso se apoia na documentação.
+transação serializable ou snapshot, ou usar uma query única. O SQLite não reproduz a
+corrida, mas o PostgreSQL 18.7 reproduz. Um interceptor inseriu um blog de id 2 e um
+post por uma segunda conexão logo depois que o primeiro comando de
+`Include(...).AsSplitQuery()` rodou, com os blogs 1 e 3 já existentes. O EF Core 10
+(Npgsql 10.0.4) devolveu o blog 1 com seu post e o blog 3 com 0 posts, embora ele tenha
+um. O EF Core 11.0.0 (Npgsql 11.0.0) lançou a exceção. Apagar os posts entre os dois
+comandos não lançou em nenhum dos dois: o blog voltou com 0 posts, então a exceção cobre
+linhas que não conseguem ser casadas, não toda mudança concorrente.
 
 ### N+1 e lazy loading
 

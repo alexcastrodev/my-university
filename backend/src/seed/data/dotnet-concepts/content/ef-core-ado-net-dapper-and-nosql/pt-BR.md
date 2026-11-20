@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-20
 title: "EF Core, ADO.NET, Dapper e a Escolha da Abordagem de Acesso a Dados"
 summary: Três camadas sobre a mesma conexão, a mesma consulta nas três formas com tempos medidos, como misturá-las numa transação, providers do EF Core e o efeito do Native AOT.
 ---
@@ -156,13 +156,18 @@ roda em versões anteriores do .NET nem no .NET Framework. O Entity Framework 6 
 estável, mas não recebe mais desenvolvimento ativo; a orientação é mantê-lo
 quando o código de dados é estável e portar para o EF Core quando ele evolui.
 
-Esse atraso ficou visível quando o EF Core 11.0.0 saiu, em 10 de novembro de 2026.
-No NuGet, dois dias depois, os providers da Microsoft (SqlServer, Sqlite, Cosmos) já
-tinham a 11.0.0, o provider EF Core 11 do Npgsql ainda estava em 11.0.0-rc.3, o
-`MySql.EntityFrameworkCore` da Oracle tinha 10.0.x estável e uma 11.0.0 preview, o da
-MongoDB estava na 10.0.5, e o provider comunitário Pomelo para MySQL tinha parado na
-9.0.0, sem build para EF Core 10 nem 11. Confira o feed do provider antes de planejar
-um upgrade do EF.
+Esse atraso ficou visível depois que o EF Core 11.0.0 saiu, em 10 de novembro de 2026.
+No NuGet em 20 de novembro de 2026 (dez dias depois): os providers da Microsoft
+(SqlServer, Sqlite, Cosmos) tinham uma 11.0.0 estável desde o dia do lançamento, e o
+provider do Npgsql ficou na 11.0.0-rc.3 até a 11.0.0 estável ser publicada nesse mesmo
+dia, exigindo EF Core `[11.0.0, 12.0.0)`. O `MySql.EntityFrameworkCore` da Oracle tinha
+a 10.0.12 como última estável e só uma 11.0.0 preview (as duas de 21 de outubro). O
+provider da MongoDB estava na 10.0.5, sem 11.x; a faixa de dependência dele não tem
+limite superior, então o restore não impediria, mas eu não o executei no EF Core 11. O
+provider comunitário Pomelo para MySQL parou na 9.0.0 (17 de agosto de 2025), feito só
+para EF Core 9, sem build para EF Core 10 nem 11. A página oficial de providers ainda
+listava os providers da Microsoft só até o EF Core 10 naquele dia. Confira o feed do
+provider antes de planejar um upgrade do EF.
 
 ### O Native AOT muda a escolha
 

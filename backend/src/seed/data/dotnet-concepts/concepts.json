@@ -8680,7 +8680,7 @@
     "category": "Data Access",
     "title": "EF Core Provider Differences: PostgreSQL, SQL Server and SQLite",
     "topic": "EF Core Modeling",
-    "summary": "One EF Core 10 model measured on PostgreSQL 18 and SQLite, with SQL Server from the docs: case sensitivity and collations (ICU nondeterministic, citext, NOCASE), DateTime and DateTimeOffset rules, decimal storage and precision, identity, GUID generation and batching, ALTER COLUMN versus table rebuild, arrays, JSON and enums, concurrency tokens, and why tests on SQLite miss production bugs.",
+    "summary": "One EF Core model measured on EF Core 10 and rerun on EF Core 11 GA against PostgreSQL 18 and SQLite, with SQL Server from the docs: case sensitivity and collations (ICU nondeterministic, citext, NOCASE), DateTime and DateTimeOffset rules, decimal storage and precision, identity, GUID generation and batching, ALTER COLUMN versus table rebuild, arrays, JSON and enums, concurrency tokens, and why tests on SQLite miss production bugs.",
     "publishedAt": "2026-10-28",
     "requires": [
       "ef-core-functions-and-database-specific-translation"
@@ -9195,7 +9195,7 @@
     "category": "Data Access",
     "title": "Full-Text Search with EF Core: SQL Server, PostgreSQL and SQLite",
     "topic": "EF Core Querying",
-    "summary": "When LIKE '%x%' stops being enough. Full-text catalog and index in the model (EF Core 11), FreeText and Contains, FreeTextTable and ContainsTable with a rank, tsvector and GIN on PostgreSQL, and SQLite FTS5 actually run, with bm25, triggers and the user input that breaks MATCH.",
+    "summary": "When LIKE '%x%' stops being enough. Full-text catalog and index in the model (EF Core 11), FreeText and Contains, FreeTextTable and ContainsTable with a rank, tsvector and GIN on PostgreSQL (run on Npgsql 11.0.0 and PostgreSQL 18.7), and SQLite FTS5 actually run, with bm25, triggers and the user input that breaks MATCH.",
     "publishedAt": "2026-11-14",
     "requires": [
       "ef-core-functions-and-database-specific-translation"
