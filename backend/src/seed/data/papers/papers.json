@@ -5679,5 +5679,121 @@
     "doi": "10.1145/2451116.2451167",
     "url": "https://doi.org/10.1145/2451116.2451167",
     "paperUrl": "https://anil.recoil.org/papers/2013-asplos-mirage.pdf"
+  },
+  {
+    "slug": "a-fast-file-system-for-unix",
+    "title": "A Fast File System for UNIX",
+    "authors": [
+      {
+        "name": "Marshall K. McKusick"
+      },
+      {
+        "name": "William N. Joy"
+      },
+      {
+        "name": "Samuel J. Leffler"
+      },
+      {
+        "name": "Robert S. Fabry"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Computer Systems",
+    "publicationDate": "1984-08",
+    "doi": "10.1145/989.990",
+    "url": "https://doi.org/10.1145/989.990",
+    "paperUrl": "https://people.eecs.berkeley.edu/~brewer/cs262/FFS.pdf"
+  },
+  {
+    "slug": "multiprogramming-a-64kb-computer-safely-and-efficiently",
+    "title": "Multiprogramming a 64kB Computer Safely and Efficiently",
+    "authors": [
+      {
+        "name": "Amit Levy"
+      },
+      {
+        "name": "Bradford Campbell"
+      },
+      {
+        "name": "Branden Ghena"
+      },
+      {
+        "name": "Daniel B. Giffin"
+      },
+      {
+        "name": "Pat Pannuto"
+      },
+      {
+        "name": "Prabal Dutta"
+      },
+      {
+        "name": "Philip Levis"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 26th Symposium on Operating Systems Principles",
+    "publicationDate": "2017-10-14",
+    "doi": "10.1145/3132747.3132786",
+    "url": "https://doi.org/10.1145/3132747.3132786",
+    "paperUrl": "https://www.tockos.org/assets/papers/tock-sosp2017.pdf"
+  },
+  {
+    "slug": "sharing-memory-robustly-in-message-passing-systems",
+    "title": "Sharing Memory Robustly in Message-Passing Systems",
+    "authors": [
+      {
+        "name": "Hagit Attiya"
+      },
+      {
+        "name": "Amotz Bar-Noy"
+      },
+      {
+        "name": "Danny Dolev"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Journal of the ACM",
+    "publicationDate": "1995-01",
+    "doi": "10.1145/200836.200869",
+    "url": "https://dl.acm.org/doi/10.1145/200836.200869",
+    "paperUrl": "https://groups.csail.mit.edu/tds/papers/Attiya/JACM95.pdf"
+  },
+  {
+    "slug": "taxdc-a-taxonomy-of-non-deterministic-concurrency-bugs-in-datacenter-distributed-systems",
+    "title": "TaxDC: A Taxonomy of Non-Deterministic Concurrency Bugs in Datacenter Distributed Systems",
+    "authors": [
+      {
+        "name": "Tanakorn Leesatapornwongsa"
+      },
+      {
+        "name": "Jeffrey F. Lukman"
+      },
+      {
+        "name": "Shan Lu"
+      },
+      {
+        "name": "Haryadi S. Gunawi"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Twenty-First International Conference on Architectural Support for Programming Languages and Operating Systems",
+    "publicationDate": "2016-03-25",
+    "doi": "10.1145/2872362.2872374",
+    "url": "https://dl.acm.org/doi/10.1145/2872362.2872374",
+    "paperUrl": "https://web.archive.org/web/20220118152353/https://ucare.cs.uchicago.edu/pdf/asplos16-TaxDC.pdf"
+  },
+  {
+    "slug": "why-arent-operating-systems-getting-faster-as-fast-as-hardware",
+    "title": "Why Aren't Operating Systems Getting Faster As Fast as Hardware?",
+    "authors": [
+      {
+        "name": "John K. Ousterhout"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "USENIX Summer 1990 Technical Conference",
+    "publicationDate": "1990-06",
+    "url": "https://people.eecs.berkeley.edu/~prabal/resources/osprelim/Ous90.pdf",
+    "paperUrl": "https://people.eecs.berkeley.edu/~prabal/resources/osprelim/Ous90.pdf"
   }
 ]

@@ -5,10 +5,10 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 202;
+const SEED = 207;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
-const JOURNAL_ARTICLES = 38;
+const JOURNAL_ARTICLES = 40;
 const FDB = {
   slug: 'foundationdb-unbundled-transactional-kv-store',
   title: 'FoundationDB: A Distributed Unbundled Transactional Key Value Store',
@@ -177,10 +177,10 @@ test.describe('Papers catalog', () => {
     test('filters by research area', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await papers.areaSelect.selectOption({ label: 'Operating Systems (59)' });
+      await papers.areaSelect.selectOption({ label: 'Operating Systems (62)' });
       await expect(page).toHaveURL(/area=Operating(\+|%20)Systems/);
 
-      // 59 papers: a full first page of the newest, a full second page (2014 to 2023, with 2019 and 2021 among them) and the nineteen oldest, from 1974 to 2014, on a third.
+      // 62 papers: a full first page of the newest, a full second page (2014 to 2023, with 2019 and 2021 among them), a full third page (2014 down to 1983) and the two oldest, from 1975 and 1974, on a fourth.
       await expect(papers.cards).toHaveCount(PAGE);
       const newest = await papers.titles();
       expect(newest.some((t) => t.startsWith('Rakaia'))).toBe(true);
