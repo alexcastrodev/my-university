@@ -1,10 +1,10 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
-A container image is a stack of tar layers plus a JSON config that says which user runs the process, which command starts it, which ports it listens on and which environment it sees. .NET gives you two ways to produce one. The SDK route (`dotnet publish -t:PublishContainer`) builds the image itself, with no Dockerfile and no Docker daemon, by pulling a Microsoft base image over HTTPS and adding your publish output as one layer. The Dockerfile route is a multi-stage build you write and run with Docker or another builder. The SDK route makes many decisions for you (base image, operating system, user, port, entrypoint), and some of them matter in production: which Linux you ship, whether the process runs as root, and whether the image has the ICU data your culture-sensitive code needs. This concept publishes the same ASP.NET Core app into tar archives on a machine without a Docker daemon, unpacks them and reads the manifest, the config and every layer, then compares base image families by measured size. Versions used: SDK 10.0.100 (container tooling `10.0.100-rtm.25523.111`) on an Apple Silicon Mac (`osx-arm64`), .NET runtime and ASP.NET Core 10.0.14 inside the images, base images `mcr.microsoft.com/dotnet/aspnet:10.0` (Ubuntu 24.04.5 LTS), `10.0-noble-chiseled`, `10.0-noble-chiseled-extra` and `10.0-alpine` (Alpine Linux v3.24), plus `aspnet:9.0` (Debian 12) for comparison.
+A container image is a stack of tar layers plus a JSON config that says which user runs the process, which command starts it, which ports it listens on and which environment it sees. .NET gives you two ways to produce one. The SDK route (`dotnet publish -t:PublishContainer`) builds the image itself, with no Dockerfile and no Docker daemon, by pulling a Microsoft base image over HTTPS and adding your publish output as one layer. The Dockerfile route is a multi-stage build you write and run with Docker or another builder. The SDK route makes many decisions for you (base image, operating system, user, port, entrypoint), and some of them matter in production: which Linux you ship, whether the process runs as root, and whether the image has the ICU data your culture-sensitive code needs. This concept publishes the same ASP.NET Core app into tar archives on a machine without a Docker daemon, unpacks them and reads the manifest, the config and every layer, then compares base image families by measured size. Versions used: SDK 10.0.100 (container tooling `10.0.100-rtm.25523.111`) on an Apple Silicon Mac (`osx-arm64`), .NET runtime and ASP.NET Core 10.0.14 inside the images, base images `mcr.microsoft.com/dotnet/aspnet:10.0` (Ubuntu 24.04.5 LTS), `10.0-noble-chiseled`, `10.0-noble-chiseled-extra` and `10.0-alpine` (Alpine Linux v3.24), plus `aspnet:9.0` (Debian 12) for comparison. The .NET 11 section uses SDK 11.0.100 and `mcr.microsoft.com/dotnet/aspnet:11.0`.
 
 ## Use Cases
 
@@ -200,7 +200,29 @@ Creating `pt-BR` throws. Turning off predefined-cultures-only makes it succeed b
 
 ### Pushing to a registry (documented, not run)
 
-I did not push anywhere. The docs describe `ContainerRegistry` as the destination, for example `-p:ContainerRegistry=registry.mycorp.com:1234`, and list ACR, ECR, Artifact Registry, Docker Hub, GHCR, GitLab and Quay among the registries that implement the Docker Registry HTTP API V2 it needs. Credentials come from the normal Docker config (`~/.docker/config.json` or `$DOCKER_CONFIG`: `auths`, `credHelpers`, `credsStore`), so a `docker login` or a cloud credential helper is enough. For CI without that file, the SDK reads `DOTNET_CONTAINER_REGISTRY_UNAME` and `DOTNET_CONTAINER_REGISTRY_PWORD` (the names before SDK 8.0.400 were `SDK_CONTAINER_REGISTRY_UNAME`/`PWORD`). The auth doc warns that these variables are not scoped per registry: the same credentials are sent to the registry the base image comes from and to the destination. `DOTNET_CONTAINER_INSECURE_REGISTRIES` (SDK 9.0.1xx and later) takes a comma-separated list of registries to treat as insecure, for example a private registry without TLS.
+I did not push to any real registry (the .NET 11 section below uses a throwaway local one). The docs describe `ContainerRegistry` as the destination, for example `-p:ContainerRegistry=registry.mycorp.com:1234`, and list ACR, ECR, Artifact Registry, Docker Hub, GHCR, GitLab and Quay among the registries that implement the Docker Registry HTTP API V2 it needs. Credentials come from the normal Docker config (`~/.docker/config.json` or `$DOCKER_CONFIG`: `auths`, `credHelpers`, `credsStore`), so a `docker login` or a cloud credential helper is enough. For CI without that file, the SDK reads `DOTNET_CONTAINER_REGISTRY_UNAME` and `DOTNET_CONTAINER_REGISTRY_PWORD` (the names before SDK 8.0.400 were `SDK_CONTAINER_REGISTRY_UNAME`/`PWORD`). The auth doc warns that these variables are not scoped per registry: the same credentials are sent to the registry the base image comes from and to the destination. `DOTNET_CONTAINER_INSECURE_REGISTRIES` (SDK 9.0.1xx and later) takes a comma-separated list of registries to treat as insecure, for example a private registry without TLS.
+
+### .NET 11: the local runtime and reproducible digests
+
+Measured on SDK 11.0.100 (`net11.0`, `osx-arm64`); every image was named `dotnet11-residuos-*` and removed afterwards. The property that picks the local tool is `LocalRegistry` (`Docker`, `Podman`, `Wslc` or `MacOSContainer`), not `ContainerRuntimeIdentifier`, which is the image's RID (see above). When it is empty, SDK 11 prefers the platform-native tool: `wslc` on Windows and Apple's `container` CLI on macOS, each only if installed and its service is running, then Docker or Podman. Only Docker is installed here, so `wslc`, `container` and Podman are "docs only"; I measured the detection and the failures:
+
+```text
+LocalRegistry unset:       Pushed image 'dotnet11-residuos-local:auto' to local registry via 'Docker'.
+-p:LocalRegistry=Docker:   Pushed image 'dotnet11-residuos-local:docker' to local registry via 'Docker'.
+-p:LocalRegistry=Podman (or MacOSContainer, Wslc): error CONTAINER1012: The local registry is not available, but pushing to a local registry was requested.
+```
+
+SDK 11 also builds multi-arch images with Podman, where before only Docker could (docs only). For the digest, I pushed to a throwaway `registry:2` on `127.0.0.1:6970` (container `dotnet11-residuos-registry`, removed), with `dotnet publish -t:PublishContainer -p:ContainerRegistry=localhost:6970` and a different `-p:ContainerImageTag` per run, running `rm -rf bin obj` before each one and reading `Docker-Content-Digest` from the registry:
+
+```text
+SDK 11, SOURCE_DATE_EPOCH=1700000000, run 1: sha256:68e3be49429c4633cca1a87329c5025ae43057462929072dd2473e9668f3f77d
+SDK 11, SOURCE_DATE_EPOCH=1700000000, run 2: sha256:68e3be49429c4633cca1a87329c5025ae43057462929072dd2473e9668f3f77d
+SDK 11, variable unset, run 1:               sha256:3ac57c25b4c016a3491d9da56e3455166043fa6645d741d2727edab74fbc6575
+SDK 11, variable unset, run 2:               sha256:38c8eb5f3516896bdc43241cb4595b71ea04badb796e2cd4e673a265cf94c3d6
+SDK 10.0.100, variable set, run 1 and 2:     sha256:9a903f42866d... and sha256:023ea3c36a56... (different)
+```
+
+The same epoch gave the same digest, no variable gave a new one each time, and SDK 10.0.100 ignores the variable (its targets file never mentions it). The targets pass `$(SOURCE_DATE_EPOCH)` to the image task, so an environment variable or `-p:` both work, and the docs suggest `-p:SOURCE_DATE_EPOCH="$(git log -1 --pretty=%ct)"` so one commit always yields one digest. In the extracted archives the base layers were always the same; with the epoch the app layer and the config were identical too, without it both changed. Caveat: two archives built with the same epoch still had different `sha256` as files, although `manifest.json`, the config and every layer inside were byte-identical, so compare the registry digest or the config and layer ids, not the hash of the `.tar.gz`. It held on one machine with a base tag that did not move between runs; pin the base by digest (see the trade-offs) for a stronger claim. The docs add that when the manifest already exists in the registry the SDK skips the layers (`ContainerPushNoCache=true` disables it); I did not test that.
 
 ### Route 2: a multi-stage Dockerfile (shown, not executed)
 
@@ -245,5 +267,7 @@ Copying the `.csproj` and restoring before copying the sources makes the restore
 - [Containerize an app with dotnet publish, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/containers/sdk-publish) (doc)
 - [Containerize a .NET app reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/containers/publish-configuration) (doc)
 - [.NET container images, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/docker/container-images) (doc)
+- [What's new in the SDK and tooling for .NET 11: container updates, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk) (doc)
+- [SOURCE_DATE_EPOCH specification, Reproducible Builds](https://reproducible-builds.org/docs/source-date-epoch/) (doc)
 - [Introduction to Docker, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/docker/introduction) (doc)
 - [Globalization config settings, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/runtime-config/globalization) (doc)

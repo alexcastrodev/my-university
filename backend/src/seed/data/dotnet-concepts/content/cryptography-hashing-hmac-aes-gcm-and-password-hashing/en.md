@@ -1,10 +1,10 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
-Most security bugs in application code are not broken algorithms but the right algorithm used for the wrong job: SHA-256 to store passwords, a plain hash to "sign" a webhook, AES without authentication, `==` to compare a token, `System.Random` for a reset code. .NET ships a primitive for each job in `System.Security.Cryptography`: one-shot hashes (`SHA256.HashData`), keyed hashes (`HMACSHA256.HashData`), authenticated encryption (`AesGcm`), password-based key derivation (`Rfc2898DeriveBytes.Pbkdf2`), signatures (`ECDsa`, `RSA`), a CSPRNG (`RandomNumberGenerator`) and a constant-time comparison (`CryptographicOperations.FixedTimeEquals`). This concept picks the primitive by the job, measures why the wrong one fails (hashes per second, PBKDF2 cost per call, what a flipped bit does to AES-GCM), decodes the hash that ASP.NET Core Identity's `PasswordHasher<TUser>` produces, lists the build diagnostics that flag the old APIs and checks what the .NET 10 post-quantum types do on this machine. Versions used: SDK 10.0.100, runtime `Microsoft.NETCore.App` 10.0.0, `Microsoft.Extensions.Identity.Core` 10.0.14 (for `PasswordHasher<TUser>`), on macOS 27.0.1, Apple M4 Max.
+Most security bugs in application code are not broken algorithms but the right algorithm used for the wrong job: SHA-256 to store passwords, a plain hash to "sign" a webhook, AES without authentication, `==` to compare a token, `System.Random` for a reset code. .NET ships a primitive for each job in `System.Security.Cryptography`: one-shot hashes (`SHA256.HashData`), keyed hashes (`HMACSHA256.HashData`), authenticated encryption (`AesGcm`), password-based key derivation (`Rfc2898DeriveBytes.Pbkdf2`), signatures (`ECDsa`, `RSA`), a CSPRNG (`RandomNumberGenerator`) and a constant-time comparison (`CryptographicOperations.FixedTimeEquals`). This concept picks the primitive by the job, measures why the wrong one fails (hashes per second, PBKDF2 cost per call, what a flipped bit does to AES-GCM), decodes the hash that ASP.NET Core Identity's `PasswordHasher<TUser>` produces, lists the build diagnostics that flag the old APIs and checks what the .NET 10 post-quantum types do on this machine. Versions used: SDK 10.0.100, runtime `Microsoft.NETCore.App` 10.0.0, `Microsoft.Extensions.Identity.Core` 10.0.14 (for `PasswordHasher<TUser>`), on macOS 27.0.1, Apple M4 Max. The .NET 11 additions were measured on SDK 11.0.100 (runtime 11.0.0, `net11.0`) on the same machine.
 
 ## Use Cases
 
@@ -163,19 +163,12 @@ tagSize 12, 16-byte tag buffer: ArgumentException: The specified tag is not a va
 ```text
 1 ciphertext bit flipped: System.Security.Cryptography.AuthenticationTagMismatchException: The computed authentication tag did not match the input authentication tag.
    is CryptographicException: True; output all zero: True
-1 tag bit flipped: System.Security.Cryptography.AuthenticationTagMismatchException: The computed authentication tag did not match the input authentication tag.
-aad user:43: System.Security.Cryptography.AuthenticationTagMismatchException: The computed authentication tag did not match the input authentication tag.
+1 tag bit flipped, and aad user:43 instead of user:42: the same exception and message
 ```
 
 The exact type is `AuthenticationTagMismatchException`, which derives from `CryptographicException` (the docs say it is thrown from .NET 8; earlier versions threw the base type, so `catch (CryptographicException)` covers both). The output buffer was all zeros: the docs say the plaintext is cleared when the tag cannot be validated, so no partially decrypted data leaks to the caller.
 
-Nonces must be unique per key. The `Encrypt` docs are blunt: "The security guarantees of the AES-GCM algorithm mode require that the same nonce value is never used twice with the same key." GCM is a counter mode, so key and nonce determine the keystream. I only checked the visible symptom:
-
-```text
-same key+nonce+plaintext twice, identical ciphertext: True
-```
-
-The same pair produced the same bytes, so an observer learns that two messages are equal, and with different plaintexts the documented guarantees no longer hold. Use a fresh random 12-byte nonce per message (or a counter you can prove never repeats across restarts and instances) and rotate keys. A hardcoded or zero nonce is the classic bug.
+Nonces must be unique per key. The `Encrypt` docs are blunt: "The security guarantees of the AES-GCM algorithm mode require that the same nonce value is never used twice with the same key." GCM is a counter mode, so key and nonce determine the keystream. I only checked the visible symptom: the same key, nonce and plaintext twice gave identical ciphertext (`True`), so an observer learns that two messages are equal, and with different plaintexts the documented guarantees no longer hold. Use a fresh random 12-byte nonce per message (or a counter you can prove never repeats across restarts and instances) and rotate keys. A hardcoded or zero nonce is the classic bug.
 
 ### Book vs today: the diagnostics the compiler shows
 
@@ -197,10 +190,8 @@ The old constructor `new Rfc2898DeriveBytes("pw", 16)` still ran with `Iteration
 ### Randomness: RandomNumberGenerator, never Random
 
 ```text
-RandomNumberGenerator.GetBytes(16): c60d032768798df7144efe5b0bbbebb1
-RandomNumberGenerator.GetInt32(0, 1000000): 393199
-GetHexString(32): cfae8efa4fc7cd1813ea0cb1fdcda4b8
-GetString: GWYD9ZZPBG
+GetBytes(16): c60d032768798df7144efe5b0bbbebb1, GetInt32(0, 1000000): 393199
+GetHexString(32): cfae8efa4fc7cd1813ea0cb1fdcda4b8, GetString: GWYD9ZZPBG
 new Random(1234) twice: 857019877 1923929452 / 857019877 1923929452
 ```
 
@@ -217,25 +208,49 @@ SlhDsa.IsSupported = False
 CompositeMLDsa.IsAlgorithmSupported(MLDsa65WithECDsaP256) = False
 MLKem.GenerateKey: System.PlatformNotSupportedException: Algorithm 'MLKem' is not supported on this platform.
 error SYSLIB5006: 'System.Security.Cryptography.SlhDsa' is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-error SYSLIB5006: 'System.Security.Cryptography.CompositeMLDsa' is for evaluation purposes only ...
 error SYSLIB5006: 'System.Security.Cryptography.MLKem.ExportSubjectPublicKeyInfo()' is for evaluation purposes only ...
-error SYSLIB5006: 'System.Security.Cryptography.MLDsa.SignPreHash(byte[], string, byte[]?)' is for evaluation purposes only ...
 ```
+
+`CompositeMLDsa` and `MLDsa.SignPreHash(byte[], string, byte[]?)` gave the same error.
 
 Two corrections to what I expected. First, `MLDsa` is not experimental as a class: `IsSupported`, `GenerateKey` and `SignData` compiled without a diagnostic; only some members are (`SignPreHash` and the PKCS#8/SPKI/PEM import and export, since those formats came from drafts), and the same holds for `MLKem`. `SlhDsa` and `CompositeMLDsa` are experimental as whole classes, which matches the .NET Blog post. Second, SYSLIB5006 is an error, not a warning, so the build fails until you add `#pragma warning disable SYSLIB5006` or `<NoWarn>`. Nothing is supported on macOS: the cross-platform docs list Linux with OpenSSL 3.5.0+ and recent Windows 11 only, Apple with no support. Call `IsSupported` and keep a classical fallback.
 
-### Which library did the work on this machine
+### What .NET 11 adds: X25519, AES Key Wrap, HPKE and composite ML-KEM
 
-The cross-platform docs say .NET calls the operating system's crypto library (CNG on Windows, OpenSSL on Linux, Apple's libraries on macOS) rather than shipping its own, so support and FIPS status follow the OS. I ran the program with `DYLD_PRINT_LIBRARIES=1` and filtered the loaded images:
+Measured on SDK 11.0.100; on 10.0.100 none of it compiles (`CS0103` for `X25519DiffieHellman`, `CS1061` for `Aes.EncryptKeyWrap`).
 
-```text
-libSystem.Security.Cryptography.Native.Apple.dylib
-CryptoKit
-libcommonCrypto.dylib
-libcorecrypto.dylib
+```csharp
+using var alice = X25519DiffieHellman.GenerateKey();
+using var bob = X25519DiffieHellman.GenerateKey();
+byte[] a = alice.DeriveRawSecretAgreement(bob);   // and bob.DeriveRawSecretAgreement(alice)
+byte[] key = HKDF.DeriveKey(HashAlgorithmName.SHA256, a, 32, info: "app v1"u8.ToArray());
 ```
 
-The Apple shim and CryptoKit were loaded, and the OpenSSL shim (`libSystem.Security.Cryptography.Native.OpenSsl`) was not. That explains the differences above: 16-byte tags only, no SHA-3, no post-quantum. The same code on a Linux container uses the distro's OpenSSL, so test there before you rely on an algorithm.
+```text
+X25519DiffieHellman.IsSupported = True, instance type: X25519DiffieHellmanImplementation
+shared lengths: 32 32, equal: True; public key 32 B, private key 32 B; with a third party: equal False
+all-zero public key (low-order point): CryptographicException: Error occurred during a cryptographic operation.
+```
+
+X25519 is supported on macOS arm64 (the Apple shim loaded, not the OpenSSL one). The raw agreement is not a key: pass it through a KDF such as HKDF, and it does not say who is on the other end, so authenticate the public keys. A low-order public key is rejected instead of yielding a predictable secret. I print lengths and equality only.
+
+`Aes.EncryptKeyWrap` and `DecryptKeyWrap` implement unpadded AES Key Wrap (RFC 3394), `EncryptKeyWrapPadded` the padded AES-KWP (RFC 5649); `Aes.GetKeyWrapLength(16)` (static) returned `24`. I checked both against the RFC test vectors:
+
+```text
+RFC 3394 4.1 (128-bit KEK, 16-byte key): 1FA68B0A8112B447AEF34BD8FB5A7B829D3E862371D2CFE5, matches RFC: True
+RFC 5649 (192-bit KEK, 20-byte key): 138BDEAA9B8FA7FC61F97742E72248EE5AE6AE5360D1AE6A5F54F373FA543B6A, True
+RFC 5649 (same KEK, 7-byte key): AFBEB0F07DFBF5419200F2CCB50BB24F, True
+unpadded with 8, 20 or 0 bytes: ArgumentException: The plaintext is not a valid length for the Key Wrap algorithm.
+wrapped blob with one bit changed: CryptographicException (TryDecryptKeyWrap throws too; it returns false only for a too-small buffer)
+```
+
+Unpadded wrap needs 16 bytes or more in multiples of 8; use the padded variant for other lengths.
+
+`Hpke` (RFC 9180) and `CompositeMLKem` are experimental and the build fails (error, not warning) until you add `<NoWarn>`: `SYSLIB5009` for `Hpke`, `HpkeSuite`, `HpkeKem`, `HpkeKdf` and `HpkeAead`; `SYSLIB5006` for `CompositeMLKem` and `CompositeMLKemAlgorithm`. HPKE ran here: `Hpke.IsSupported` was `True` for the four DHKEM suites (P-256, P-384, P-521, X25519) and `False` for the five ML-KEM based KEMs. A P-256 suite sealed `"Hello"` into a 65-byte encapsulated key plus a 21-byte ciphertext (5 + 16 tag) and `Open` returned it. Composite ML-KEM is "docs only" on this Mac: `MLKem.IsSupported` is still `False`, all 12 `CompositeMLKem.IsAlgorithmSupported` calls returned `False` (for example `MLKem768WithX25519`), and `CompositeMLKem.GenerateKey` threw `PlatformNotSupportedException: Algorithm 'CompositeMLKem' is not supported on this platform.` The .NET 11 notes also add ML-KEM recipients to `EnvelopedCms` (not on Windows), which I did not run. The `MLKem` statements in the post-quantum section hold on 11.0.100 too.
+
+### Which library did the work on this machine
+
+The cross-platform docs say .NET calls the operating system's crypto library (CNG on Windows, OpenSSL on Linux, Apple's libraries on macOS) rather than shipping its own, so support and FIPS status follow the OS. I ran the program with `DYLD_PRINT_LIBRARIES=1` and filtered the loaded images: `libSystem.Security.Cryptography.Native.Apple.dylib`, `CryptoKit`, `libcommonCrypto.dylib` and `libcorecrypto.dylib`. The OpenSSL shim (`libSystem.Security.Cryptography.Native.OpenSsl`) was not loaded. That explains the differences above: 16-byte tags only, no SHA-3, no post-quantum. The same code on a Linux container uses the distro's OpenSSL, so test there before you rely on an algorithm.
 
 ## Trade-offs
 
@@ -245,7 +260,7 @@ The Apple shim and CryptoKit were loaded, and the OpenSSL shim (`libSystem.Secur
 - **HMAC vs signature.** HMAC is fast and short but both sides can forge; a signature needs key pairs and is larger, but the verifier cannot sign.
 - **AES-GCM is only as safe as the nonce handling.** One repeated nonce under a key breaks the documented guarantees; random 96-bit nonces plus key rotation are the simple path, and the 16-byte tag is the only size that works everywhere.
 - **Raw primitives are easy to misuse.** For protecting your own cookies, tokens and temporary payloads, Data Protection handles keys, rotation and authenticated encryption for you; reach for `AesGcm` when you need a format you control.
-- **Platform differences are real.** SHA-3, tag sizes and the post-quantum types depend on the OS library (none of the latter run on macOS, and `SlhDsa` and `CompositeMLDsa` fail the build without suppression); check `IsSupported` and test on the OS you deploy to.
+- **Platform differences are real.** SHA-3, tag sizes and the post-quantum types depend on the OS library (X25519 and DHKEM-based HPKE ran on macOS, no ML-KEM or composite type did, and the experimental ones fail the build without suppression); check `IsSupported` and test on the OS you deploy to.
 
 ## Documentation Links
 
@@ -254,4 +269,7 @@ The Apple shim and CryptoKit were loaded, and the OpenSSL shim (`libSystem.Secur
 - [Rfc2898DeriveBytes.Pbkdf2 Method, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.rfc2898derivebytes.pbkdf2?view=net-10.0) (doc)
 - [AesGcm Class, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aesgcm?view=net-10.0) (doc)
 - [Post-Quantum Cryptography in .NET, .NET Blog](https://devblogs.microsoft.com/dotnet/post-quantum-cryptography-in-dotnet/) (doc)
+- [What's new in .NET 11 libraries: cryptography, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries) (doc)
+- [Aes.EncryptKeyWrap Method, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aes.encryptkeywrap) (doc)
+- [Hpke Class, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hpke) (doc)
 - [Password Storage Cheat Sheet, OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html) (doc)

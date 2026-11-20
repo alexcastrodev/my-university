@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -12,7 +12,8 @@ options), the noun-first commands that .NET 10 added (`dotnet package add`,
 MSBuild properties and where that breaks, how tools are installed, pinned in a
 manifest and run without installing (`dotnet tool exec`, `dnx`), and what
 `dotnet watch` hot reload really does. Everything was run on SDK 10.0.100 on
-macOS; version claims come from the official SDK pages.
+macOS, and the .NET 11 additions (solution filters, `tool exec` without a prompt)
+on SDK 11.0.100; version claims come from the official SDK pages.
 
 ## Use Cases
 
@@ -155,6 +156,40 @@ tick v2
 The loop never restarted. Edits the runtime cannot apply (the documentation
 refers to "supported edits") fall back to a restart, which I did not exercise.
 
+### Solution filters: dotnet sln on a .slnf (SDK 11)
+
+A solution filter (`.slnf`) is a JSON file that points to a parent solution and
+lists the subset of its projects to load or build. In .NET 11 `dotnet new slnf`
+creates one and `dotnet sln` edits it. I made a `.slnx` with three projects
+(`src/Lib`, `tests/LibTests`, `tests/Other`) and a filter with two of them:
+
+```text
+$ dotnet new slnf --parent-solution Shop.slnx --name Libs    # writes Libs.slnf
+$ dotnet sln Libs.slnf list
+No projects found in the solution.
+$ dotnet sln Libs.slnf add src/Lib/Lib.csproj tests/LibTests/LibTests.csproj
+$ dotnet sln Libs.slnf remove tests/LibTests/LibTests.csproj
+$ cat Libs.slnf
+{ "solution": { "path": "Shop.slnx", "projects": [ "src\\Lib\\Lib.csproj" ] } }
+$ dotnet sln Libs.slnf add tests/Extra/Extra.csproj     # exists, not in Shop.slnx
+Project `tests/Extra/Extra.csproj` could not be found in the solution.
+```
+
+The filter starts empty and the paths are relative to the parent with a
+backslash even on macOS (it is the Visual Studio format). The parent is
+the limit: a project that is not in `Shop.slnx` is refused, and adding one that
+is already listed prints "already contains project". `dotnet build Libs.slnf`
+built `Lib` and `LibTests` (not `Other`), `dotnet test Libs.slnf` ran the
+`LibTests` test (1 passed), and `dotnet build Shop.slnx` built all three. Two
+traps: the documentation example `dotnet new slnf --name MyApp.slnf` produced
+`MyApp.slnf.slnf` (use `--name MyApp`), and in a folder with a `.slnx` and a
+`.slnf`, a bare `dotnet sln list` fails with `Found more than one solution file
+... Specify which one to use.`, so name the file in CI. On SDK 10.0.100 there is
+no `slnf` template, `dotnet sln Libs.slnf list` worked on a hand-written file,
+but `add` and `remove` crashed with `Object reference not set to an instance of
+an object` (exit code 1) and left the file unchanged; `dotnet build` of the
+filter worked there too.
+
 ### Introspection and shells
 
 `--cli-schema` prints a command's definition as JSON. `dotnet build
@@ -191,5 +226,7 @@ says commands are interactive by default in interactive terminals; pass
 - [dotnet tool exec, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-exec) (doc)
 - [dotnet package update, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-package-update) (doc)
 - [dotnet package download, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-package-download) (doc)
+- [dotnet sln, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-sln) (doc)
+- [What's new in the SDK and tooling for .NET 11, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk) (doc)
 - [dotnet watch, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-watch) (doc)
 - [.NET tools overview, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools) (doc)

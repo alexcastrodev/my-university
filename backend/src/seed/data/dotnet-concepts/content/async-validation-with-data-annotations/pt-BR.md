@@ -1,14 +1,14 @@
 ---
-version: 1.0
-updatedAt: 2026-11-12
+version: 1.1
+updatedAt: 2026-11-20
 title: "Validação Assíncrona com Data Annotations"
-summary: AsyncValidationAttribute e IAsyncValidatableObject nas Minimal APIs do .NET 11, para regras que consultam banco ou serviço, com a ordem em que as regras rodam, o ProblemDetails gerado, o cancelamento pelo token da requisição e o que ficou de fora porque não foi executado.
+summary: AsyncValidationAttribute e IAsyncValidatableObject nas Minimal APIs do .NET 11, para regras que consultam banco ou serviço, com a ordem em que as regras rodam, o ProblemDetails gerado, o cancelamento pelo token da requisição, a validação assíncrona de options na partida do host (IAsyncStartupValidator e IAsyncValidateOptions) e o que ficou de fora porque não foi executado.
 ---
 ## Objective
 
 "Este e-mail já está cadastrado" é a regra de validação que mais se pede primeiro, e até o .NET 10 ela não podia ser escrita como data annotation, porque um `ValidationAttribute` é síncrono e uma chamada ao banco não é. Ou você bloqueava uma thread na consulta, ou tirava a regra do atributo e a colocava no handler. O ASP.NET Core 11 acrescenta dois tipos que resolvem isso: `AsyncValidationAttribute` para uma regra sobre uma propriedade, e `IAsyncValidatableObject` para uma regra sobre o objeto inteiro. A validação das Minimal APIs que você já ligou com `AddValidation()` executa os dois, espera por eles, entrega o token de cancelamento da requisição e transforma as falhas no mesmo `400 application/problem+json` de qualquer outra regra.
 
-Este concept mostra como esses dois tipos se parecem, em que ordem as regras rodam, como é a resposta e o que acontece quando o cliente vai embora. Todo comportamento abaixo foi executado no SDK 11.0.100 com um teste de `WebApplicationFactory`.
+Este concept mostra como esses dois tipos se parecem, em que ordem as regras rodam, como é a resposta e o que acontece quando o cliente vai embora. Ele cobre também a mesma ideia para configuração: `IAsyncStartupValidator` e `IAsyncValidateOptions<T>` validam options de forma assíncrona quando o host sobe. Todo comportamento abaixo foi executado no SDK 11.0.100, com um teste de `WebApplicationFactory` para as regras da requisição e um host de console para as options.
 
 ## Use Cases
 
@@ -129,9 +129,60 @@ O handler não roda. É a mesma garantia da validação síncrona, e é por isso
 
 O token passado a `IsValidAsync` e `ValidateAsync` é cancelado quando o cliente desconecta. No teste, uma requisição para uma regra que espera 1,5 segundo na chamada ao repositório foi abortada pelo cliente após 200 ms, e o repositório viu `OperationCanceledException` e registrou `canceled` em vez de terminar. Se a regra passa `CancellationToken.None` (ou esquece o parâmetro e chama uma sobrecarga sem ele), a consulta roda até o fim para um cliente que já foi embora. Para uma consulta barata e indexada isso não importa. Para uma chamada lenta a outro serviço importa, e é uma linha a conferir em toda regra assíncrona.
 
+### Validando options na partida: `IAsyncStartupValidator`
+
+A mesma lacuna existe na configuração: "o backend para o qual esta option aponta está acessível?" exige I/O, e `IValidateOptions<T>.Validate` é síncrono. O .NET 11 acrescenta a `Microsoft.Extensions.Options` dois tipos, nenhum marcado `[Experimental]`, e ambos ausentes do 10.0.100 (não compilam lá). `IAsyncValidateOptions<TOptions>` tem `ValidateAsync(string? name, TOptions options, CancellationToken)` e estende `IValidateOptions<TOptions>`, então o `Validate` síncrono também precisa existir. `IAsyncStartupValidator` tem `ValidateAsync(CancellationToken)` e é o que o host chama ao iniciar; o antigo `IStartupValidator` síncrono agora é `[Obsolete]` (SYSLIB0066). Você não implementa o segundo: `ValidateOnStart()` o alimenta, e a chamada que você já escreve é o registro.
+
+```csharp
+public sealed class ReachableValidator(IHttpClientFactory f) : IAsyncValidateOptions<BackendOptions>
+{
+    public ValidateOptionsResult Validate(string? name, BackendOptions o) =>
+        ValidateOptionsResult.Fail("the async validator must run asynchronously");
+
+    public async Task<ValidateOptionsResult> ValidateAsync(string? name, BackendOptions o, CancellationToken ct)
+    {
+        using var r = await f.CreateClient().GetAsync(o.Url, ct);
+        return r.IsSuccessStatusCode ? ValidateOptionsResult.Success
+            : ValidateOptionsResult.Fail($"Backend at {o.Url} answered {(int)r.StatusCode}");
+    }
+}
+
+services.AddHttpClient();
+services.AddSingleton<IValidateOptions<BackendOptions>, ReachableValidator>();   // não IAsyncValidateOptions<T>
+services.AddOptions<BackendOptions>().Configure(o => o.Url = "...").ValidateOnStart();
+```
+
+Rodei num host genérico no 11.0.100, contra um Kestrel local com `/health` (responde após 300 ms) e `/gone` (404):
+
+```text
+registered as IAsyncValidateOptions<T> only         started OK, the validator never ran
+IValidateOptions<T> registration, /health           started after 352 ms (303 ms on a later run)
+IValidateOptions<T> registration, /gone             OptionsValidationException after 2 ms:
+                                                    Backend at http://127.0.0.1:6960/gone answered 404
+sync + async validators, both failing               one exception: "Url must not point at /gone; Backend at ... answered 404"
+Validate<ReachableValidator>() on the builder       same exception as the registration above
+Task.Delay(1000) validator, token cancelled at 300  OperationCanceledException after 302 ms
+no ValidateOnStart, then IOptions<T>.Value          started OK; the read threw from the SYNC Validate (my Fail text)
+with a hosted service, validator passing            validator ran first, the hosted service started 302 ms later
+with a hosted service, validator failing            the hosted service never started
+```
+
+A primeira linha é a armadilha: `IOptions<T>` só coleta `IValidateOptions<T>`, então um validator registrado apenas sob a interface assíncrona é ignorado sem aviso. Registre-o sob `IValidateOptions<T>` (ou com `Validate<TValidator>()`) e a factory detecta que ele é assíncrono. Quando a validação falha, a exceção é `OptionsValidationException`, com `OptionsType`, `OptionsName` e `Failures`; devolver `ValidateOptionsResult.Fail(["first problem", "second problem"])` deu duas entradas e a mensagem `first problem; second problem`. Numa `WebApplication` o host registra `Hosting failed to start`, a pilha vai de `Host.StartAsync` a `StartupValidator.ValidateAsync`, e o app nunca chega a escutar. Você também pode resolver `IAsyncStartupValidator` e dar `await` em `ValidateAsync` por conta própria (levou 302 ms ali), por exemplo num readiness check. O `IStartupValidator.Validate()` síncrono e obsoleto voltou sem erro no mesmo registro, então a regra assíncrona não é exercitada por ele.
+
+Contra o `IValidateOptions<T>` síncrono: o formato da regra é o mesmo e a falha também, mas a versão síncrona precisa bloquear uma thread com `.GetAwaiter().GetResult()` para fazer I/O, enquanto a assíncrona recebe o token de início do host (a execução cancelada acima) e é reportada junto com os validators síncronos das mesmas options. A ponte com o resto deste concept é `ValidateDataAnnotations()`: um `AsyncValidationAttribute` numa classe de options (um `Task.Delay(200)` no lugar de uma consulta) rodou na partida:
+
+```text
+Tenant = "ghost", ValidateDataAnnotations + ValidateOnStart   failed after 207 ms: OptionsValidationException
+    DataAnnotation validation failed for 'TenantOptions' members: 'Tenant' with the error: 'Tenant 'ghost' does not exist.'.
+Tenant = "acme"                                               started after 201 ms
+"ghost" without ValidateOnStart, then IOptions<T>.Value       NotSupportedException from the attribute's IsValid
+```
+
+A última linha é o `IsValid` síncrono que "lança, nunca chamado" nas seções da requisição acima: ele é chamado quando alguém lê as options de forma síncrona e nada as validou na partida. Use `ValidateOnStart()` em toda option que carregue uma regra assíncrona.
+
 ### O que não está coberto
 
-As notas de versão descrevem APIs assíncronas equivalentes para formulários Blazor no `EditContext`. Na auditoria que sustenta esta página elas só compilaram, e nada as exercitou em um navegador, então esta página não diz nada sobre o comportamento delas. O mesmo vale para a validação assíncrona de options (`IAsyncValidateOptions<T>`): um teste no GA 11.0.100 não a disparou, então ela ficou de fora de propósito. As duas são funcionalidades para testar no seu projeto antes de depender delas. O concept de formulários Blazor cobre o lado síncrono do `EditForm`.
+As notas de versão descrevem APIs assíncronas equivalentes para formulários Blazor no `EditContext`. Na auditoria que sustenta esta página elas só compilaram, e nada as exercitou em um navegador, então esta página não diz nada sobre o comportamento delas. Teste essa no seu projeto antes de depender dela. (Uma versão anterior desta página dizia que a validação assíncrona de options não disparou no GA 11.0.100; o que não dispara é o registro apenas sob `IAsyncValidateOptions<T>`, e a seção acima mostra o que dispara.) O concept de formulários Blazor cobre o lado síncrono do `EditForm`.
 
 ## Trade-offs
 
@@ -140,6 +191,7 @@ As notas de versão descrevem APIs assíncronas equivalentes para formulários B
 - **O método síncrono é código morto que você precisa escrever.** `IsValid` e `Validate` precisam existir e nunca são chamados pela Minimal API. Lançar torna isso visível, mas também significa que o tipo quebra em código que usa o validador síncrono. Decida uma vez quais caminhos de código validam seus tipos.
 - **I/O escondido em uma anotação.** Um atributo num DTO que abre uma conexão passa despercebido ao ler o tipo. Um nome como `UniqueEmail` é uma pista; um comentário é barato. Mantenha o I/O atrás de um serviço e o atributo fino.
 - **Uma API nova e ainda jovem.** Ela chegou durante as previews do .NET 11 e não existe no .NET 10. Bibliotecas como o FluentValidation têm regras assíncronas há anos e mantêm as regras fora do DTO; a versão embutida é o passo menor se você já usa anotações.
+- **A validação na partida acopla a partida à dependência.** Com `ValidateOnStart()` e uma checagem de rede, um backend inacessível impede o app de subir e nenhum hosted service roda, e cada reinício paga a consulta. Valide ali o formato da configuração e dependências baratas e essenciais, e deixe o resto para os health checks.
 - **Os testes carregam o contrato.** A ordem das regras e o comportamento do cancelamento não estão nas assinaturas dos tipos. Um teste por regra que posta um valor ruim e confere o `400`, mais um para o cancelamento, é o que mantém isso verdadeiro entre atualizações.
 
 ## Lab
@@ -180,3 +232,6 @@ Os testes rodam a API em memória com `WebApplicationFactory<Program>` e trocam 
 - [Validation in Minimal API apps, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#validation-support-in-minimal-apis) (doc)
 - [AsyncValidationAttribute class, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.asyncvalidationattribute) (doc)
 - [Handle errors in ASP.NET Core APIs, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api) (doc)
+- [IAsyncStartupValidator interface, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.options.iasyncstartupvalidator) (doc)
+- [IAsyncValidateOptions<TOptions> interface, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.options.iasyncvalidateoptions-1) (doc)
+- [Options pattern in .NET, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/extensions/options) (doc)

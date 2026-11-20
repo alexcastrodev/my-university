@@ -1,10 +1,10 @@
 ---
-version: 1.1
-updatedAt: 2026-11-11
+version: 1.2
+updatedAt: 2026-11-20
 ---
 ## Objective
 
-When a request is slow or fails in production you need three kinds of evidence: logs (what happened), metrics (how often and how long, in aggregate) and traces (where one request spent its time across services). .NET does not hide these behind a vendor SDK: the framework itself ships the APIs (`ILogger`, `Meter`, `ActivitySource`) and already emits data through them. OpenTelemetry is the standard layer that collects that data and exports it, usually over OTLP, to whatever backend you run. This concept separates the two halves that people mix up (what the framework and your code emit, what the SDK collects), runs both against a real app, and measures the parts that bite: instrumentation that silently does nothing, a metric that loses its dimensions, sampling that cuts the trace in half, and an exporter that posts to the wrong path. Versions used: SDK 10.0.100, OpenTelemetry packages 1.20.1.
+When a request is slow or fails in production you need three kinds of evidence: logs (what happened), metrics (how often and how long, in aggregate) and traces (where one request spent its time across services). .NET does not hide these behind a vendor SDK: the framework itself ships the APIs (`ILogger`, `Meter`, `ActivitySource`) and already emits data through them. OpenTelemetry is the standard layer that collects that data and exports it, usually over OTLP, to whatever backend you run. This concept separates the two halves that people mix up (what the framework and your code emit, what the SDK collects), runs both against a real app, and measures the parts that bite: instrumentation that silently does nothing, a metric that loses its dimensions, sampling that cuts the trace in half, and an exporter that posts to the wrong path. Versions used: SDK 10.0.100, OpenTelemetry packages 1.20.1; the tracing rules section was measured on SDK 11.0.100 (`net11.0`, `Microsoft.Extensions.Diagnostics` 11.0.0).
 
 ## Use Cases
 
@@ -44,12 +44,41 @@ Always write `activity?.SetTag(...)`, because the result can be null. `Propagati
 parent.Id      = 00-f0d96be9f9ac273ef74b763ab5c9571c-676432794cb0bbc8-01
 child.Id       = 00-f0d96be9f9ac273ef74b763ab5c9571c-0e544646a89f0fa8-01
 child.ParentId = 00-f0d96be9f9ac273ef74b763ab5c9571c-676432794cb0bbc8-01
-same TraceId=True, Current is child=True
-after await: Current is child=True
-after child.Dispose: Current is parent=True
 ```
 
-The format is `version-traceid-spanid-flags`. Failure is recorded with `activity?.SetStatus(ActivityStatusCode.Error, "card declined")`. The docs add two rules of thumb: events live in memory until sent, so use `ILogger` for large or unbounded volumes, and do not wrap every method in an activity, because the trace becomes unreadable.
+Same `TraceId`; `Current` was the child, still the child after an `await`, and the parent again after `child.Dispose`. The format is `version-traceid-spanid-flags`. Failure is recorded with `activity?.SetStatus(ActivityStatusCode.Error, "card declined")`. The docs add two rules of thumb: events live in memory until sent, so use `ILogger` for large or unbounded volumes, and do not wrap every method in an activity, because the trace becomes unreadable.
+
+### Tracing rules instead of a manual listener (.NET 11)
+
+.NET 11 adds `AddTracing` to `Microsoft.Extensions.Diagnostics` (11.0.0): rules decide which `ActivitySource` and operation create activities, so you stop writing `ShouldListenTo`. It is not `[Experimental]` (checked by reflection) and does not exist in 10.0.100 (`AddTracing` does not compile there). It mirrors the metrics rules:
+
+```csharp
+services.AddTracing(t => t
+    .AddListener("rec", lb => lb.Sample = (ref ActivityCreationOptions<ActivityContext> _) =>
+        ActivitySamplingResult.AllDataAndRecorded)
+    .EnableTracing(sourceName: "Shop.Orders")
+    .DisableTracing(sourceName: "Shop.Orders", operationName: "HealthCheck"));
+```
+
+I probed `Shop.Orders` (`place`, `HealthCheck`) and `Shop.Billing` with `StartActivity` on 11.0.100:
+
+```text
+no listener / rule without listener /
+  listener without rule / Sample unset        all null
+listener + Enable(Shop.Orders)                place, HealthCheck created (recorded); billing null
+  + Disable(Shop.Orders, HealthCheck)         place created; HealthCheck null; billing null
+Enable("Shop.*")                              all three created
+Enable() + Disable(Shop.Billing)              orders created; billing null
+manual ActivityListener (Shop.Orders)         place, HealthCheck created; billing null
+```
+
+Rules and listener are two halves: the listener's `Sample` must answer, and its `ActivityStopped` callback is where you would export. The same rules come from configuration with `t.AddConfiguration(config.GetSection("Tracing"))` (keys `Tracing:EnabledTracing:<source>` and `Default`; without that call the keys were ignored), and a reload applied with no restart. Against the manual listener, that is data you can change at runtime, while `ShouldListenTo` is code fixed at startup; I did not test the rules with the OpenTelemetry SDK, whose `AddSource` stays the wiring used here:
+
+```text
+Default=false, Shop.Orders=true      orders created, billing null
+Shop.Orders=false (reload)           all null
+Shop.Billing=true (reload)           billing created
+```
 
 ### Metrics: instruments and listeners
 
@@ -96,14 +125,7 @@ Meters published (a selection):
   System.Runtime / dotnet.gc.collections, dotnet.gc.pause.time, dotnet.thread_pool.queue.length, ...
 ```
 
-The old runtime counters (`EventCounters`, `PerformanceCounter`) are legacy next to this. The downstream endpoint printed the header it received:
-
-```text
-server activity trace=9c5458b80311b86ac52c6e20e14bea83
-downstream saw: traceparent=00-9c5458b80311b86ac52c6e20e14bea83-73d5009bb7056542-01
-```
-
-`HttpClient` injected a `traceparent` header taken from the current activity, so the second hop joined the same trace with no code from me. This is context propagation, and it is what turns a pile of spans into one trace.
+The old runtime counters (`EventCounters`, `PerformanceCounter`) are legacy next to this. The server activity had trace id `9c5458b80311b86ac52c6e20e14bea83`, and the downstream endpoint saw `traceparent=00-9c5458b80311b86ac52c6e20e14bea83-73d5009bb7056542-01`. `HttpClient` injected a `traceparent` header taken from the current activity, so the second hop joined the same trace with no code from me. This is context propagation, and it is what turns a pile of spans into one trace.
 
 ### Wiring the SDK
 
@@ -146,17 +168,7 @@ The [breaking change page](https://learn.microsoft.com/en-us/aspnet/core/breakin
 
 ### One trace across hops
 
-The exported spans of one request in that host, linked by parent:
-
-```text
-GET /orders/7          Client    System.Net.Http       parent: none
-  GET /orders/{id:int} Server    Microsoft.AspNetCore  parent: the client span
-    load-order         Internal  Shop.Orders           parent: the server span
-      GET              Client    System.Net.Http       parent: load-order
-        GET /down      Server    Microsoft.AspNetCore  parent: the client span
-```
-
-Five spans, one trace id, every `ParentSpanId` pointing at the previous hop. A custom activity needs nothing else to join: it picked `Activity.Current` as its parent.
+The exported spans of one request in that host were five, with one trace id and every `ParentSpanId` pointing at the previous hop: client `GET /orders/7` (System.Net.Http), server `GET /orders/{id:int}` (Microsoft.AspNetCore), internal `load-order` (Shop.Orders), client `GET`, and server `GET /down`. A custom activity needs nothing else to join: it picked `Activity.Current` as its parent.
 
 ### Metric cardinality: the silent data loss
 
@@ -195,16 +207,12 @@ About 10% of the traces were kept, and each kept trace is complete (the 191 chil
 
 ### Resource: who is talking
 
-Every signal carries a resource that identifies the service. Without configuration:
+Every signal carries a resource that identifies the service. Without configuration, then with environment variables:
 
 ```text
-service.name=unknown_service:OtelLab, telemetry.sdk.name=opentelemetry, telemetry.sdk.language=dotnet, telemetry.sdk.version=1.20.1
-```
-
-With `OTEL_SERVICE_NAME=orders-api` and `OTEL_RESOURCE_ATTRIBUTES=deployment.environment.name=staging,service.version=1.4.2` set in the environment:
-
-```text
-service.name=orders-api, deployment.environment.name=staging, service.version=1.4.2, ...
+default: service.name=unknown_service:OtelLab, telemetry.sdk.name=opentelemetry, telemetry.sdk.language=dotnet, telemetry.sdk.version=1.20.1
+with OTEL_SERVICE_NAME=orders-api and OTEL_RESOURCE_ATTRIBUTES=deployment.environment.name=staging,service.version=1.4.2:
+  service.name=orders-api, deployment.environment.name=staging, service.version=1.4.2, ...
 ```
 
 Set at least `OTEL_SERVICE_NAME` in every deployment. Otherwise the backend shows a service named after the process, and two services with the same executable name merge.
@@ -213,11 +221,8 @@ Set at least `OTEL_SERVICE_NAME` in every deployment. Otherwise the backend show
 
 OpenTelemetry hooks into `ILogger`, so existing log calls need no change. Inside an active activity:
 
-```csharp
-logger.LogInformation("Order {OrderId} placed, total {Total}", 42, 9.9m);
-```
-
 ```text
+logger.LogInformation("Order {OrderId} placed, total {Total}", 42, 9.9m);
 in activity: TraceId=d747be3aa0ca29352f021160e351abbf (matches the activity), SpanId=1b30f63abb610b09, LogLevel=Information
   FormattedMessage='Order 42 placed, total 9.9', Body='Order {OrderId} placed, total {Total}'
   Attributes: OrderId=42, Total=9.9, {OriginalFormat}=Order {OrderId} placed, total {Total}
@@ -241,7 +246,7 @@ Through the environment variable the exporter appends the per-signal path (`/v1/
 
 ## Trade-offs
 
-- **Instrumentation is opt-in per name.** A source or meter you never register is silently dropped.
+- **Instrumentation is opt-in per name.** A source or meter you never register is silently dropped, and a .NET 11 tracing rule with no listener (or a listener with no rule) is dropped just the same.
   ```csharp
   .WithTracing(t => t.AddSource("Shop.Orders"))   // forget this and load-order never appears
   ```
@@ -251,8 +256,7 @@ Through the environment variable the exporter appends the per-signal path (`/v1/
   counter.Add(1, new("user.id", userId));         // bad: unbounded
   ```
 - **Sampling trades completeness for cost.** At 10% you will miss most rare failures; keep errors with a collector that does tail sampling, or sample at 100% for a low-traffic service.
-- **Span names and tags come from the instrumentation package.** Registering only the framework's source gives you spans, but with no route name and no attributes, so aggregation by endpoint is impossible.
-- **Logs, metrics and traces answer different questions.** Metrics are cheap and aggregate, traces show one request's path, logs hold the detail. Use the cheapest one that answers your question.
+- **Span names and tags may come from the instrumentation package.** On .NET 10, registering only the framework's source gave spans with no route name and no attributes; .NET 11 closed that gap, so check which one you run.
 - **Telemetry has a runtime cost.** Recording is cheap (under 10 ns with no listener per the docs, more with a collector), but unbounded events on an activity sit in memory until exported.
 - **Packages and conventions move.** The spans above declare a semantic-convention schema (`https://opentelemetry.io/schemas/1.44.0`), and attribute names change as that schema evolves, so build dashboards and alerts on the names you actually export and re-check them when you upgrade the packages.
 
@@ -264,3 +268,6 @@ Through the environment variable the exporter appends the per-signal path (`/v1/
 - [Compare metric APIs, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/compare-metric-apis) (doc)
 - [ASP.NET Core metrics, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/metrics/overview?view=aspnetcore-10.0) (doc)
 - [OpenTelemetry semantic conventions](https://opentelemetry.io/docs/specs/semconv/) (doc)
+- [What's new in .NET 11 libraries, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries) (doc)
+- [TracingServiceExtensions.AddTracing, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.tracingserviceextensions.addtracing) (doc)
+- [ITracingBuilder interface, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.diagnostics.tracing.itracingbuilder) (doc)

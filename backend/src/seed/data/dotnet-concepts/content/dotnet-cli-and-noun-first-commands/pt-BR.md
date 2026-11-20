@@ -1,8 +1,8 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-20
 title: "A CLI do dotnet e os Comandos Noun-First"
-summary: Anatomia da CLI, os comandos noun-first do .NET 10 (e um bug visto no SDK 10.0.100), -p: e onde ele quebra, tools locais com manifesto, dotnet tool exec e dnx, dotnet watch com hot reload, --cli-schema e completions, tudo medido no SDK 10.0.100.
+summary: Anatomia da CLI, os comandos noun-first do .NET 10 (e um bug visto no SDK 10.0.100), -p: e onde ele quebra, tools locais com manifesto, dotnet tool exec e dnx, filtros de solução .slnf no dotnet sln do .NET 11, dotnet watch com hot reload, --cli-schema e completions, tudo medido nos SDKs 10.0.100 e 11.0.100.
 ---
 ## Objective
 
@@ -14,7 +14,8 @@ argumentos, opções), os comandos noun-first que o .NET 10 trouxe
 10.0.100, como o `-p:` passa propriedades do MSBuild e onde isso quebra, como as
 tools são instaladas, fixadas num manifesto e executadas sem instalar
 (`dotnet tool exec`, `dnx`), e o que o hot reload do `dotnet watch` realmente
-faz. Tudo foi executado no SDK 10.0.100 em macOS; as afirmações de versão vêm
+faz. Tudo foi executado no SDK 10.0.100 em macOS, e as novidades do .NET 11 (filtros
+de solução, `tool exec` sem prompt) no SDK 11.0.100; as afirmações de versão vêm
 das páginas oficiais do SDK.
 
 ## Use Cases
@@ -158,6 +159,40 @@ tick v2
 O loop nunca reiniciou. Edições que o runtime não consegue aplicar (a
 documentação fala em "supported edits") caem num restart, que não exercitei.
 
+### Filtros de solução: dotnet sln em um .slnf (SDK 11)
+
+Um filtro de solução (`.slnf`) é um arquivo JSON que aponta para uma solução
+pai e lista o subconjunto de projetos dela a carregar ou compilar. No .NET 11 o
+`dotnet new slnf` cria um e o `dotnet sln` o edita. Montei um `.slnx` com três
+projetos (`src/Lib`, `tests/LibTests`, `tests/Other`) e um filtro com dois deles:
+
+```text
+$ dotnet new slnf --parent-solution Shop.slnx --name Libs    # writes Libs.slnf
+$ dotnet sln Libs.slnf list
+No projects found in the solution.
+$ dotnet sln Libs.slnf add src/Lib/Lib.csproj tests/LibTests/LibTests.csproj
+$ dotnet sln Libs.slnf remove tests/LibTests/LibTests.csproj
+$ cat Libs.slnf
+{ "solution": { "path": "Shop.slnx", "projects": [ "src\\Lib\\Lib.csproj" ] } }
+$ dotnet sln Libs.slnf add tests/Extra/Extra.csproj     # exists, not in Shop.slnx
+Project `tests/Extra/Extra.csproj` could not be found in the solution.
+```
+
+O filtro nasce vazio e os caminhos são relativos ao pai, com barra invertida
+até no macOS (é o formato do Visual Studio). O pai é o limite: um projeto que
+não está no `Shop.slnx` é recusado, e adicionar um que já está na lista imprime
+"already contains project". `dotnet build Libs.slnf` compilou `Lib` e `LibTests`
+(não `Other`), `dotnet test Libs.slnf` rodou o teste de `LibTests` (1 passou) e
+`dotnet build Shop.slnx` compilou os três. Duas armadilhas: o exemplo da
+documentação `dotnet new slnf --name MyApp.slnf` gerou `MyApp.slnf.slnf` (use
+`--name MyApp`), e numa pasta com um `.slnx` e um `.slnf`, um `dotnet sln list`
+sem arquivo falha com `Found more than one solution file ... Specify which one
+to use.`, então nomeie o arquivo no CI. No SDK 10.0.100 não existe o template
+`slnf`, `dotnet sln Libs.slnf list` funcionou num arquivo escrito à mão, mas
+`add` e `remove` quebraram com `Object reference not set to an instance of an
+object` (código de saída 1) e deixaram o arquivo intacto; o `dotnet build` do
+filtro funcionou lá também.
+
 ### Introspecção e shells
 
 O `--cli-schema` imprime a definição de um comando em JSON. `dotnet build
@@ -196,5 +231,7 @@ diz que os comandos são interativos por padrão em terminais interativos; passe
 - [dotnet tool exec, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-exec) (doc)
 - [dotnet package update, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-package-update) (doc)
 - [dotnet package download, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-package-download) (doc)
+- [dotnet sln, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-sln) (doc)
+- [What's new in the SDK and tooling for .NET 11, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk) (doc)
 - [dotnet watch, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-watch) (doc)
 - [.NET tools overview, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools) (doc)
