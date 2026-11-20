@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-12
+version: 1.1
+updatedAt: 2026-11-20
 title: "Novidades do ASP.NET Core 11: um Mapa"
 summary: Um mapa das notas de versão do ASP.NET Core 11 separando o que é automático, o que exige uma chamada e o que pode quebrar, dizendo o que foi executado no SDK 11.0.100 GA e o que vem só da página oficial, com link para o conceito que aprofunda cada item.
 ---
@@ -81,12 +81,51 @@ depois nos dois SDKs, está em `migrating-from-aspnet-core-10-to-11`.
   políticas podem ser resolvidas em runtime (por exemplo, por tenant).
   Executado no GA: o serviço resolve. Não montei um provider com políticas
   reais. Veja `output-caching-and-http-caching`.
-- **`HttpMethod.Query`, TempData e Session no Blazor SSR, `CacheView`, estado
-  do `QuickGrid` na URL, ancoragem do `Virtualize`, `DisplayName`, `BasePath`,
-  refresh de autenticação no SignalR.** Tudo nas notas de versão e conferido só
-  contra o build RC3, sem nova execução no GA, então não dou saída. Comece por
-  `blazor-static-ssr-and-enhanced-navigation`,
+- **Estado do Blazor SSR e componentes pequenos.** Executado no GA num app
+  `dotnet new blazor -int None` com `Microsoft.AspNetCore.Components.QuickGrid`
+  11.0.0, guiado por `curl` (SSR estático, sem navegador):
+  - `TempData`: um POST que atribuiu uma propriedade
+    `[SupplyParameterFromTempData]` e redirecionou fez o GET seguinte mostrar
+    `saved-via-property`, com o cookie `.AspNetCore.Components.TempData`
+    (`httponly`, `samesite=lax`). `ITempData.Get("flash")` devolveu
+    `manual-flash` uma vez e nada nos dois GETs seguintes, mas o valor da
+    propriedade apareceu nos três, então o atributo não é de leitura única como
+    o `Get`.
+  - Session (`AddSession` e `UseSession`): um POST que atribuiu uma propriedade
+    `[SupplyParameterFromSession]` manteve o valor nos GETs seguintes. Um valor
+    gravado com `HttpContext.Session.SetString("Val", ...)` em outro endpoint
+    não foi lido pelo atributo (vazio), então grave pela propriedade.
+  - `CacheView VaryByQuery="category"`: dois GETs com `?category=a` devolveram
+    os mesmos ticks de timestamp, e `?category=b` um valor novo.
+  - `QuickGrid`: `?page=2&sort=Name&direction=desc` sobre 30 linhas, 5 por
+    página, renderizou `Name25` a `Name21`. Cabeçalhos ordenáveis e paginador
+    são links `<a href>` como `...?page=3&sort=Name&direction=desc`, e o link
+    para a página 1 omite `page`.
+  - `DisplayName` mostrou `Date of production` de `[Display(Name = ...)]` e o
+    nome da propriedade `Plain` sem atributo. `<BasePath />` renderizou
+    `<base href="/" />`, e `EnvironmentView` renderizou um bloco `Include` e um
+    `Exclude` em Development.
+  - `Virtualize` só compilou. O enum é `VirtualizeAnchorMode`:
+    `AnchorMode="VirtualizeAnchorMode.End"` compila, mas `AnchorMode="End"`,
+    como as notas de versão mostram, falha com `CS0103`. A rolagem exige um
+    navegador (só documentação).
+  Comece por `blazor-static-ssr-and-enhanced-navigation`,
   `blazor-forms-editform-and-validation` e `signalr-websockets-and-sse`.
+- **`HttpMethod.Query`.** `HttpMethod.Query.Method` é `QUERY`, e
+  `MapMethods("/q", ["QUERY"], ...)` respondeu a `curl -X QUERY -d a=1` com o
+  corpo que recebeu. Executado no GA. O lado do OpenAPI está em
+  `openapi-document-generation`.
+- **Refresh de autenticação no SignalR.** Executado no GA com o cliente .NET
+  (`Microsoft.AspNetCore.SignalR.Client` 11.0.0) contra um hub com
+  `EnableAuthenticationRefresh = true` e um esquema de token de brinquedo. Depois
+  de `RefreshAuthenticationAsync()` com um token novo do mesmo usuário, o
+  servidor rodou `OnAuthenticationRefresh` e `OnAuthenticationRefreshedAsync`, o
+  cliente disparou `AuthenticationRefreshed`, e `Context.User` trouxe a claim
+  nova (`alice/1` virou `alice/2`). Um refresh com token de outro usuário falhou
+  com 403, o cliente disparou `AuthenticationRefreshFailed`, e a conexão
+  continuou `Connected` como `alice/2`. Desliguei `EnableAutoRefresh` e nunca
+  esperei um token expirar; o cliente TypeScript, o cancelamento de invocações
+  de hub e o refresh dos circuitos do Blazor Server são só documentação.
 - **Passkeys e Identity.** Mudanças de confirmação e lockout e nomes de passkey,
   segundo as notas de versão (não executado). Veja
   `jwt-bearer-and-aspnet-core-identity`.

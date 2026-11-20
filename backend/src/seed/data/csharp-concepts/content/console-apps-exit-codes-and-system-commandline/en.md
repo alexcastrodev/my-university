@@ -1,21 +1,21 @@
 ---
-version: 1.2
+version: 1.3
 updatedAt: 2026-11-20
 ---
 ## Objective
 
-A command-line program talks to its caller through arguments, the exit code,
-stdout (data) and stderr (everything else). Scripts, CI and orchestrators read
-only those, so a tool that exits 0 after a failure breaks them silently. This
-concept shows, on .NET 10 / C# 14 under macOS (plus a .NET 11 note on `FORCE_COLOR`), how `Main` returns codes, what
-Unix does to codes outside 0..255, what a crash exits with, how to keep stdout
-clean, how to handle Ctrl+C and SIGTERM, and how to build a CLI with
-`System.CommandLine`. That package was beta for six years: NuGet shows 2.0.0
-stable since 2025-11-11, 2.0.14 as current stable (2026-10-25) and 3.0.0 still
-in prerelease (rc.3). The examples use 2.0.14, whose API differs from the beta4
-one most blog posts show. The Spectre.Console.Cli README calls it "a modern
-library for parsing command line arguments", and Cocona's README describes a
-micro-framework where public methods become commands (neither tested here).
+A command-line program talks to its caller through arguments, the exit code, stdout
+(data) and stderr (everything else). Scripts, CI and orchestrators read only those, so a
+tool that exits 0 after a failure breaks them silently. This concept shows, on .NET 10 /
+C# 14 under macOS (plus a .NET 11 note on `FORCE_COLOR`), how `Main` returns codes, what
+Unix does to codes outside 0..255, what a crash exits with, how to keep stdout clean,
+how to handle Ctrl+C and SIGTERM, and how to build a CLI with `System.CommandLine`. That
+package was beta for six years: NuGet shows 2.0.0 stable since 2025-11-11, 2.0.15 as the
+latest 2.0 and 3.0.0 stable since 2026-11-10 (rc.3 on 2026-10-25). The examples were
+measured on 2.0.14 and rerun on 3.0.0 with one message changed (see the 3.0.0 note);
+both differ from the beta4 API most blog posts show. The Spectre.Console.Cli README
+calls it "a modern library for parsing command line arguments", and Cocona's README
+describes a micro-framework where public methods become commands (neither tested here).
 
 ## Use Cases
 
@@ -28,18 +28,16 @@ micro-framework where public methods become commands (neither tested here).
 
 ### Entry points, args and the `--` separator
 
-`Main` returns `void`, `int`, `Task` or `Task<int>`, with or without
-`string[] args`; a top-level program gets the `int` form once it contains
-`return n;`. `args` never holds the program name. What
-`Environment.GetCommandLineArgs()[0]` holds depends on how the program started:
-with `dotnet app.dll` it is the `.dll` path; through the apphost it was also the
-`.dll` path up to .NET 10, but on .NET 11 it is the name used to invoke it
-(`./app`, or `./alias` for a symlink), as the
-[compatibility page](https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/environment-getcommandlineargs-apphost-invocation-name.md)
+`Main` returns `void`, `int`, `Task` or `Task<int>`, with or without `string[] args`; a
+top-level program gets the `int` form once it contains `return n;`. `args` never holds
+the program name. What `Environment.GetCommandLineArgs()[0]` holds depends on how the
+program started: with `dotnet app.dll` it is the `.dll` path; through the apphost it was
+also the `.dll` path up to .NET 10, but on .NET 11 it is the name used to invoke it
+(`./app`, or `./alias` for a symlink), as the [compatibility
+page](https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/environment-getcommandlineargs-apphost-invocation-name.md)
 says and the GA runtime confirmed. For the executable path use
-`Environment.ProcessPath`. Under `dotnet run`,
-everything after `--` goes to the program; without it the SDK keeps the options
-it recognizes:
+`Environment.ProcessPath`. Under `dotnet run`, everything after `--` goes to the
+program; without it the SDK keeps the options it recognizes:
 
 ```text
 $ dotnet run -- args --verbose -c x
@@ -63,12 +61,12 @@ throw new InvalidOperationException(...)  -> 134  "Unhandled exception. System..
 Environment.FailFast("state corrupted")   -> 134  "Process terminated." + stack
 ```
 
-The status is taken modulo 256, so a tool that returns "256 errors found"
-reports success. Shells report death by signal n as 128 + n: a crash is SIGABRT
-(6), hence 134, and 130 and 143 appear below. Keep your own codes under 128.
-Crash messages go to stderr; `FailFast` (for state too damaged to run cleanup)
-also skipped its `finally`. 134 is the macOS value; for Windows, Azure Service
-Fabric's exit-code docs list `0xE0434352` for an unhandled .NET exception.
+The status is taken modulo 256, so a tool that returns "256 errors found" reports
+success. Shells report death by signal n as 128 + n: a crash is SIGABRT (6), hence 134,
+and 130 and 143 appear below. Keep your own codes under 128. Crash messages go to
+stderr; `FailFast` (for state too damaged to run cleanup) also skipped its `finally`.
+134 is the macOS value; for Windows, Azure Service Fabric's exit-code docs list
+`0xE0434352` for an unhandled .NET exception.
 
 ### stdout for data, stderr for people
 
@@ -85,30 +83,30 @@ echo hi | ./basics       out=False in=True  err=False
 ./basics 2>/dev/null     data line
 ```
 
-Use `IsOutputRedirected` to drop colors, spinners and prompts when output is
-piped. `head` shows a difference from native tools: `yes | head -1` gives `yes`
-status 141 (killed by SIGPIPE), while a .NET program writing 1,000,000 lines
-into `| head -2` kept running, printed "wrote all" to stderr and exited 0; the
-writes after the pipe closed were silently dropped.
+Use `IsOutputRedirected` to drop colors, spinners and prompts when output is piped.
+`head` shows a difference from native tools: `yes | head -1` gives `yes` status 141
+(killed by SIGPIPE), while a .NET program writing 1,000,000 lines into `| head -2` kept
+running, printed "wrote all" to stderr and exited 0; the writes after the pipe closed
+were silently dropped.
 
-`Console.ReadLine()` returns `null` at end of input. `Console.ReadKey()` with
-stdin redirected, as in CI, throws `InvalidOperationException: Cannot read keys
-when either application does not have a console or when console input has been
-redirected. Try Console.Read.`, so guard it with `!Console.IsInputRedirected`.
-The encoding follows the locale: `Console.OutputEncoding.WebName` was `utf-8`
-under `LANG=en_US.UTF-8`, `LANG=C` and no locale variables, but `iso-8859-1`
-under `LANG=en_US.ISO8859-1`, where `"café ✓"` came out as `caf\xe9 ?`. Setting
-`Console.OutputEncoding = Encoding.UTF8` restored UTF-8, with no BOM written.
+`Console.ReadLine()` returns `null` at end of input. `Console.ReadKey()` with stdin
+redirected, as in CI, throws `InvalidOperationException: Cannot read keys when either
+application does not have a console or when console input has been redirected. Try
+Console.Read.`, so guard it with `!Console.IsInputRedirected`. The encoding follows the
+locale: `Console.OutputEncoding.WebName` was `utf-8` under `LANG=en_US.UTF-8`, `LANG=C`
+and no locale variables, but `iso-8859-1` under `LANG=en_US.ISO8859-1`, where `"café ✓"`
+came out as `caf\xe9 ?`. Setting `Console.OutputEncoding = Encoding.UTF8` restored
+UTF-8, with no BOM written.
 
 ### FORCE_COLOR and NO_COLOR (.NET 11)
 
-.NET 11 makes the console honor the `FORCE_COLOR` environment variable
-(force-color.org) next to `NO_COLOR`. It is not an API and not experimental: with
-`FORCE_COLOR` set, a redirected stdout no longer suppresses the ANSI escape codes
-that `Console.ForegroundColor` and `ResetColor` produce, which is what you want in
-`FORCE_COLOR=1 dotnet run | tee build.log`. The program set `ForegroundColor =
-Red`, wrote `erro`, called `ResetColor()`, and the output went through `od -c`
-(11.0.100 GA against 10.0.100):
+.NET 11 makes the console honor the `FORCE_COLOR` environment variable (force-color.org)
+next to `NO_COLOR`. It is not an API and not experimental: with `FORCE_COLOR` set, a
+redirected stdout no longer suppresses the ANSI escape codes that
+`Console.ForegroundColor` and `ResetColor` produce, which is what you want in
+`FORCE_COLOR=1 dotnet run | tee build.log`. The program set `ForegroundColor = Red`,
+wrote `erro`, called `ResetColor()`, and the output went through `od -c` (11.0.100 GA
+against 10.0.100):
 
 ```text
                           net10.0 piped   net11.0 piped   net11.0 pty
@@ -119,9 +117,9 @@ FORCE_COLOR=1 NO_COLOR=1  plain           ESC[91m erro    not run
 ```
 
 `NO_COLOR` already worked on .NET 10, and `FORCE_COLOR` wins over it on .NET 11.
-`Console.IsOutputRedirected` stayed `True` in every piped run, so code of your own
-that tests it to drop colors must also read `FORCE_COLOR`. Only the `Console`
-color APIs were measured; what other libraries do with the variable is up to them.
+`Console.IsOutputRedirected` stayed `True` in every piped run, so code of your own that
+tests it to drop colors must also read `FORCE_COLOR`. Only the `Console` color APIs were
+measured; what other libraries do with the variable is up to them.
 
 ### Ctrl+C and SIGTERM
 
@@ -144,12 +142,12 @@ SIGTERM, registration without Cancel  -> handler ran, exit 143
 SIGTERM, nothing registered           -> exit 143, ProcessExit NOT raised
 ```
 
-After a handled SIGINT the exit code is whatever your code returns (return 130
-to still signal "interrupted"). The last line is a .NET 10 breaking change: the
-docs say the runtime no longer installs a SIGTERM handler, so `ProcessExit` is
-not raised; on the .NET 9 runtime the same program printed "ProcessExit". A
-container worker needs its own registration or the Generic Host. Testing trap:
-a job started with `&` in a non-interactive shell ignores SIGINT.
+After a handled SIGINT the exit code is whatever your code returns (return 130 to still
+signal "interrupted"). The last line is a .NET 10 breaking change: the docs say the
+runtime no longer installs a SIGTERM handler, so `ProcessExit` is not raised; on the
+.NET 9 runtime the same program printed "ProcessExit". A container worker needs its own
+registration or the Generic Host. Testing trap: a job started with `&` in a
+non-interactive shell ignores SIGINT.
 
 ### System.CommandLine 2.0: commands, options, arguments
 
@@ -169,19 +167,29 @@ RootCommand root = new("todo: a tiny task tracker") { verbose, add, done, sync }
 return await root.Parse(args).InvokeAsync();
 ```
 
-Constructors take the name then aliases; the description is a property. Beta4
-code fails on 2.0.14: `root.SetHandler(...)` gives `CS1061: 'RootCommand' does
-not contain a definition for 'SetHandler'` (it became `SetAction`, which
-receives `ParseResult`), `InvocationContext` gives `CS0234`, and
-`new Option<int>("--count", "How many items")` throws `ArgumentException: Names
-and aliases cannot contain whitespace: "How many items" (Parameter 'alias')`.
+Constructors take the name then aliases; the description is a property. Beta4 code fails
+on 2.0.14: `root.SetHandler(...)` gives `CS1061: 'RootCommand' does not contain a
+definition for 'SetHandler'` (it became `SetAction`, which receives `ParseResult`),
+`InvocationContext` gives `CS0234`, and `new Option<int>("--count", "How many items")`
+throws `ArgumentException: Names and aliases cannot contain whitespace: "How many items"
+(Parameter 'alias')`.
+
+### System.CommandLine 3.0.0 versus 2.0
+
+3.0.0 ships `lib/net10.0` (2.0.15: `lib/net8.0`); I ran it on SDK 10.0.100. Reflection
+over the public API found only additions to 2.0.15: `Argument.CaptureRemainingTokens`,
+`AcceptOnlyFromAmong` with a `StringComparer`, `RootCommand.HelpName` and
+`ToolCommandName`. The todo program compiled unchanged on 2.0.14, 2.0.15 and 3.0.0 and,
+run on 2.0.14 and 3.0.0, gave identical exit codes, help, validators, response files,
+`[diagram]` and every cancellation row below. One message differs: 3.0.0 prints
+`Required argument 'title' missing for command: 'add'.` where 2.0.14 omitted `'title'`.
+Beta4 samples fail on 3.0.0 too. Not checked: 3.0.0 on net11.0.
 
 ### Help, errors, validators, response files and directives
 
-`RootCommand` adds `-?, -h, --help` and `--version` (which printed `1.0.0`);
-`todo add --help` showed `[default: 3]`, `(REQUIRED)` and the recursive
-`-v, --verbose`. A parse error never reaches your action: errors go to stderr,
-help to stdout, exit code 1.
+`RootCommand` adds `-?, -h, --help` and `--version` (which printed `1.0.0`); `todo add
+--help` showed `[default: 3]`, `(REQUIRED)` and the recursive `-v, --verbose`. A parse
+error never reaches your action: errors go to stderr, help to stdout, exit code 1.
 
 ```text
 $ todo add                       (exit 1)
@@ -194,9 +202,9 @@ stderr: Unrecognized command or argument 'ad'.
 $ todo done 7                    (exit 2, returned by the action)
 ```
 
-Typo suggestions are on by default. `todo add x -l home -vp 2` (bundling) ran
-with verbose on and priority 2. An exception thrown in an action is printed as
-`Unhandled exception: System.IO.IOException: disk full` and becomes exit 1.
+Typo suggestions are on by default. `todo add x -l home -vp 2` (bundling) ran with
+verbose on and priority 2. An exception thrown in an action is printed as `Unhandled
+exception: System.IO.IOException: disk full` and becomes exit 1.
 
 ```csharp
 priority.Validators.Add(result =>
@@ -209,24 +217,24 @@ priority.Validators.Add(result =>
 ```
 
 `-p 9` printed `--priority must be between 1 and 5.` (exit 1). The docs' sample
-validator calls `result.GetValue(option)` instead; with `-p abc` that crashed
-the process (exit 134) with `InvalidOperationException: Cannot parse argument
-'abc' for option '--priority' as expected type 'System.Int32'.`, because
-validators run inside `Parse`, outside the exception handler. Reading the token
-turns that into a normal parse error (exit 1).
+validator calls `result.GetValue(option)` instead; with `-p abc` that crashed the
+process (exit 134) with `InvalidOperationException: Cannot parse argument 'abc' for
+option '--priority' as expected type 'System.Int32'.`, because validators run inside
+`Parse`, outside the exception handler. Reading the token turns that into a normal parse
+error (exit 1).
 
-Response files are on by default: `todo @add.rsp --due 2026-12-24` (one token
-per line in the file) ran `add` with the file's tokens plus `--due`. `[suggest]`
-is registered by default, but `[diagram]` is not, although the syntax page
-calls it a default feature: it failed with `Unrecognized command or argument
-'[diagram]'` until `root.Directives.Add(new DiagramDirective())`, after which
-`todo [diagram] add "Buy milk" -l home -p abc` printed
-`[ todo ![ add <Buy milk> [ -l <home> ] ![ -p <abc> ] ] *[ --verbose ] ]`.
+Response files are on by default: `todo @add.rsp --due 2026-12-24` (one token per line
+in the file) ran `add` with the file's tokens plus `--due`. `[suggest]` is registered by
+default, but `[diagram]` is not, although the syntax page calls it a default feature: it
+failed with `Unrecognized command or argument '[diagram]'` until
+`root.Directives.Add(new DiagramDirective())`, after which `todo [diagram] add "Buy
+milk" -l home -p abc` printed `[ todo ![ add <Buy milk> [ -l <home> ] ![ -p <abc> ] ] *[
+--verbose ] ]`.
 
 ### Cancellation in actions, and dotnet run versus a published tool
 
-An async action receives a `CancellationToken` that the library cancels on
-SIGINT (Ctrl+C) or SIGTERM. The `sync` command awaits `Task.Delay(30 s, ct)`:
+An async action receives a `CancellationToken` that the library cancels on SIGINT
+(Ctrl+C) or SIGTERM. The `sync` command awaits `Task.Delay(30 s, ct)`:
 
 ```text
 token honored, catch returns 130          -> exit 130 right after the signal
@@ -236,18 +244,18 @@ ProcessTerminationTimeout = 5 s, ignored  -> killed 5 s later, exit 130
 ProcessTerminationTimeout = null (SIGINT) -> exit 130 at once, no cleanup ran
 ```
 
-The first two rows were the same for SIGTERM. The published apphost
-(`dotnet publish -c Release -o out`) started in about 35 ms, against about
-670 ms for `dotnet run` and 290 ms for `dotnet run --no-build` (medians of five
-runs). Use `dotnet run --` while developing; ship and test the executable.
+The first two rows were the same for SIGTERM. The published apphost (`dotnet publish -c
+Release -o out`) started in about 35 ms, against about 670 ms for `dotnet run` and 290
+ms for `dotnet run --no-build` (medians of five runs). Use `dotnet run --` while
+developing; ship and test the executable.
 
 ## Trade-offs
 
 - **Exit codes are a byte on Unix.** Anything outside 0..255 wraps silently.
   Define a small documented set (0 success, 1 failure, 2 usage, others < 128).
 - **System.CommandLine is stable, its history is noisy.** Most samples online
-  are beta4 code that no longer compiles. Pin a 2.0.x version and ignore
-  samples with `SetHandler` or `InvocationContext`.
+  are beta4 code that no longer compiles. Pin a 2.0.x or 3.0.x version and
+  ignore samples with `SetHandler` or `InvocationContext`.
 - **The library writes to the console for you.** Help and typo suggestions go
   to stdout even after a usage error, so check the exit code first. Messages
   are partly localized: under `LANG=pt_BR.UTF-8` one became "Argumento

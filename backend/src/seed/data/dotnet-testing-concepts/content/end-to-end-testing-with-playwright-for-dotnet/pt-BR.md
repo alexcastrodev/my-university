@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-12
+version: 1.1
+updatedAt: 2026-11-20
 title: "Testes end-to-end com Playwright for .NET"
 summary: Escreva testes Playwright for .NET com MSTest 4 contra um app ASP.NET Core em Kestrel real (não TestServer), com locators, auto-wait, trace viewer e Page Objects, e saiba por que o pacote Microsoft.Playwright.MSTest descobre 0 testes com MSTest 4.
 ---
@@ -40,7 +40,8 @@ referencia `Microsoft.VisualStudio.TestPlatform.TestFramework` 14.0.0.0, o nome 
 do MSTest 2.x, enquanto o MSTest 4 traz `MSTest.TestFramework`. O MSTest compara seus
 atributos por identidade exata de tipo, então os hooks do `PageTest` são ignorados em
 silêncio, e o adapter não consegue carregar o assembly antigo ao descobrir os testes. O
-nuspec do pacote ainda depende do MSTest 2.2.7. Trocar o MSTest pela 3.11.1 faz o mesmo
+nuspec do pacote ainda depende do MSTest 2.2.7, e na 1.65.1 também, que igualmente achou 0 testes
+com o MSTest 4.5.3 (a 1.64.1 com o MSTest 4.5.2 também). Trocar o MSTest pela 3.11.1 faz o mesmo
 teste passar, o que confirma a causa.
 
 A saída com MSTest 4 é referenciar o pacote core `Microsoft.Playwright` (1.64.1) e escrever
