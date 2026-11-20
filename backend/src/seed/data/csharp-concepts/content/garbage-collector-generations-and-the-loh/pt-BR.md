@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-20
 title: "O Garbage Collector: Gerações e o LOH"
 summary: Gerações 0, 1 e 2 e a promoção, o large object heap e o pinned object heap, GC workstation versus server, background GC e DATAS, limites em container, o que mudou no .NET 10, os mitos do GC.Collect e as ferramentas para medir, com números do .NET 10.
 ---
@@ -117,7 +117,8 @@ o Web SDK (`Microsoft.NET.Sdk.Web` no SDK 10.0.100) define
   e não à máquina. A documentação relata uma grande redução de working set por
   um custo de 2 a 3 por cento de throughput no benchmark dela;
   `<GarbageCollectionAdaptationMode>0</GarbageCollectionAdaptationMode>`
-  desliga.
+  desliga. No macOS usado aqui não fez diferença (a linha "server, com ou sem DATAS" acima tem um resultado só para os dois, provavelmente porque essa plataforma não tem regiões do GC, o que é inferência e não algo que a doc diga); o efeito no Linux foi medido em
+  [Ajuste do GC: Server, Workstation, Concorrente e Regiões Sem GC](/csharp-concepts/gc-tuning-server-workstation-concurrent-and-no-gc-regions).
 
 ### Containers e limites
 
