@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-12
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -147,6 +147,30 @@ Sum(Decimal64.Parse("0.1", inv), Decimal64.Parse("0.2", inv), Decimal64.Parse("0
 
 There are no operators between an IEEE decimal and `long`, `double` or `decimal`; convert first. The generic math concept explains the interfaces.
 
+### `Complex<T>`: complex numbers over any IEEE float
+
+.NET 11 also adds `System.Numerics.Complex<T>` (stable, no `[Experimental]`),
+where `T : IFloatingPointIeee754<T>, IMinMaxValue<T>`. The old `Complex` stays
+and is always `double`. The three IEEE decimals, `Half` and `float` fit the
+constraint, `decimal` does not (`CS0315`):
+
+```csharp
+var old = new Complex(0.1, 0.2);
+var d64 = new Complex<Decimal64>(Decimal64.Parse("0.1", inv), Decimal64.Parse("0.2", inv));
+Console.WriteLine(old + old + old);   // <0.30000000000000004; 0.6000000000000001>
+Console.WriteLine(d64 + d64 + d64);   // <0.3; 0.6>
+Complex<double>.Sqrt(new(-1, 0))      // <0; 1>
+```
+
+A generic `Norm2<T>(Complex<T> z)` returned `25` for `Complex<Half>(3, 4)`,
+`Complex<float>` and `Complex<Decimal64>`. `Complex<T>` has `Abs`, `Sqrt`,
+`Exp`, `Log`, `Pow` and trigonometric functions, `FromPolarCoordinates`,
+`Conjugate` and `Parse`. A `double` converts implicitly, but there is no
+conversion from `Complex` to `Complex<double>` (`CS0030`): rebuild it from
+`Real` and `Imaginary`. On `net10.0`, `Complex<float>` is `CS0308`. The
+decimal part matters for exact decimal inputs; for signal processing, `double`
+and `Complex` remain the fast path (speed of `Complex<T>` was not measured).
+
 ### Speed
 
 The arithmetic is done in software (there is no decimal instruction in the processor), and so is `decimal`. 20 million operations, best of five, Release, `net11.0`, Apple Silicon (milliseconds):
@@ -217,3 +241,4 @@ One library project (`Ieee.cs`) and a test project that targets `net11.0`. The s
 - [What's new in .NET 11 libraries, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries) (doc)
 - [Decimal, double and BigInteger conversions in .NET 11, breaking change, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/11/decimal-biginteger-floating-point-conversions) (doc)
 - [IDecimalFloatingPointIeee754<TSelf> interface, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.idecimalfloatingpointieee754-1) (doc)
+- [Complex<T> struct, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex-1) (doc)

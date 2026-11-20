@@ -1,13 +1,13 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-20
 ---
 ## Objective
 
 A command-line program talks to its caller through arguments, the exit code,
 stdout (data) and stderr (everything else). Scripts, CI and orchestrators read
 only those, so a tool that exits 0 after a failure breaks them silently. This
-concept shows, on .NET 10 / C# 14 under macOS, how `Main` returns codes, what
+concept shows, on .NET 10 / C# 14 under macOS (plus a .NET 11 note on `FORCE_COLOR`), how `Main` returns codes, what
 Unix does to codes outside 0..255, what a crash exits with, how to keep stdout
 clean, how to handle Ctrl+C and SIGTERM, and how to build a CLI with
 `System.CommandLine`. That package was beta for six years: NuGet shows 2.0.0
@@ -99,6 +99,29 @@ The encoding follows the locale: `Console.OutputEncoding.WebName` was `utf-8`
 under `LANG=en_US.UTF-8`, `LANG=C` and no locale variables, but `iso-8859-1`
 under `LANG=en_US.ISO8859-1`, where `"café ✓"` came out as `caf\xe9 ?`. Setting
 `Console.OutputEncoding = Encoding.UTF8` restored UTF-8, with no BOM written.
+
+### FORCE_COLOR and NO_COLOR (.NET 11)
+
+.NET 11 makes the console honor the `FORCE_COLOR` environment variable
+(force-color.org) next to `NO_COLOR`. It is not an API and not experimental: with
+`FORCE_COLOR` set, a redirected stdout no longer suppresses the ANSI escape codes
+that `Console.ForegroundColor` and `ResetColor` produce, which is what you want in
+`FORCE_COLOR=1 dotnet run | tee build.log`. The program set `ForegroundColor =
+Red`, wrote `erro`, called `ResetColor()`, and the output went through `od -c`
+(11.0.100 GA against 10.0.100):
+
+```text
+                          net10.0 piped   net11.0 piped   net11.0 pty
+(nothing set)             plain           plain           ESC[91m ... color
+FORCE_COLOR=1             plain           ESC[91m erro    not run
+NO_COLOR=1                plain           plain           plain (net10 pty: plain)
+FORCE_COLOR=1 NO_COLOR=1  plain           ESC[91m erro    not run
+```
+
+`NO_COLOR` already worked on .NET 10, and `FORCE_COLOR` wins over it on .NET 11.
+`Console.IsOutputRedirected` stayed `True` in every piped run, so code of your own
+that tests it to drop colors must also read `FORCE_COLOR`. Only the `Console`
+color APIs were measured; what other libraries do with the variable is up to them.
 
 ### Ctrl+C and SIGTERM
 
@@ -241,3 +264,4 @@ runs). Use `dotnet run --` while developing; ship and test the executable.
 - [Environment.Exit method, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.environment.exit?view=net-10.0) (doc)
 - [PosixSignalRegistration class, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.posixsignalregistration?view=net-10.0) (doc)
 - [.NET runtime no longer provides default termination signal handlers, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/sigterm-signal-handler) (doc)
+- [What's new in .NET 11 libraries, FORCE_COLOR support, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries) (doc)

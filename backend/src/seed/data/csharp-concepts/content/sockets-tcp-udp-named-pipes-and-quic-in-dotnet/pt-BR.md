@@ -1,8 +1,8 @@
 ---
-version: 1.0
-updatedAt: 2026-11-19
+version: 1.1
+updatedAt: 2026-11-20
 title: "Sockets TCP e UDP, Named Pipes e QUIC no .NET"
-summary: Socket, TcpListener e TcpClient, TCP como fluxo de bytes sem fronteira, enquadramento por prefixo de tamanho, NoDelay, backlog, fechamento e reset, timeouts, UDP, named pipes, Unix domain sockets e System.Net.Quic, tudo medido em loopback no macOS.
+summary: Socket, TcpListener e TcpClient, TCP como fluxo de bytes sem fronteira, enquadramento por prefixo de tamanho, NoDelay, backlog, fechamento e reset, timeouts, UDP, named pipes, Unix domain sockets, System.Net.Quic e a prioridade de stream QUIC do .NET 11, tudo medido em loopback no macOS.
 ---
 ## Objective
 
@@ -17,8 +17,8 @@ Unix domain sockets são as alternativas locais, e o `System.Net.Quic` tem um
 requisito de plataforma que decide se você consegue usá-lo. Tudo rodou em
 loopback, no macOS.
 
-Versões: .NET SDK 10.0.100, TFM `net10.0`, nenhum pacote NuGet (só o shared
-framework), macOS arm64.
+Versões: .NET SDK 10.0.100 (e 11.0.100 na nota de prioridade QUIC), TFM
+`net10.0`, nenhum pacote NuGet (só o shared framework), macOS arm64.
 
 ## Use Cases
 
@@ -209,17 +209,31 @@ Windows também cruzam a rede, segundo o how-to: docs only).
 
 ### QUIC
 
-```text
-QuicConnection.IsSupported = False; QuicListener.IsSupported = False
-```
-
-Não usável neste macOS. A doc diz que o `System.Net.Quic` embrulha o MsQuic:
+`QuicConnection.IsSupported` e `QuicListener.IsSupported` dão `False`:
+não usável neste macOS. A doc diz que o `System.Net.Quic` embrulha o MsQuic:
 embutido no .NET no Windows 11 e Windows Server 2022 ou posterior, `libmsquic`
 (2.2+) instalada por você no Linux e um build manual do MsQuic nos demais, fora
 da matriz testada. A API é estável desde o .NET 9. O resto é docs only, não
 rodou: cheque `IsSupported` primeiro, QUIC exige TLS 1.3 e um protocolo ALPN,
 `QuicListener.ListenAsync` aceita conexões e cada `QuicConnection` abre muitos
 `QuicStream`s independentes (o HTTP/3 é construído sobre isso).
+
+### Prioridade de stream QUIC no .NET 11
+
+O .NET 11 acrescenta `QuicStream.Priority` (`System.Net.Quic`, um `byte`,
+estável, sem diagnóstico `[Experimental]`) e `QuicStream.DefaultPriority`:
+priorização de streams do HTTP/3 (RFC 9218), 0 a mais alta, 255 a mais baixa,
+padrão 127. Medido no SDK 11.0.100 GA:
+
+```csharp
+QuicConnection.IsSupported         // False (sem libmsquic neste Mac)
+QuicStream.DefaultPriority         // 127
+static void Boost(QuicStream s) => s.Priority = 64;   // compila em net11.0
+```
+
+Em `net10.0` o mesmo arquivo falha com CS1061 (`Priority`) e CS0117
+(`DefaultPriority`). Não foi possível abrir conexão, então o que o par faz com o
+valor é docs only. Suba em streams interativos, deixe os de carga em massa.
 
 ### Pontes: sistemas operacionais e sistemas distribuídos
 
@@ -258,3 +272,4 @@ retentativa precisa ser segura.
 - [Socket.Shutdown, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.shutdown) (doc)
 - [UnixDomainSocketEndPoint, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.unixdomainsocketendpoint) (doc)
 - [QuicConnection.IsSupported, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.quic.quicconnection.issupported) (doc)
+- [QuicStream.Priority, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.quic.quicstream.priority) (doc)
