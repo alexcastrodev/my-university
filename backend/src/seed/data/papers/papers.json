@@ -5894,5 +5894,61 @@
     "doi": "10.1145/1294261.1294267",
     "url": "https://doi.org/10.1145/1294261.1294267",
     "paperUrl": "https://www.cs.utexas.edu/~lorenzo/papers/kotla07Zyzzyva.pdf"
+  },
+  {
+    "slug": "orleans-cloud-computing-for-everyone",
+    "title": "Orleans: Cloud Computing for Everyone",
+    "authors": [
+      {
+        "name": "Sergey Bykov"
+      },
+      {
+        "name": "Alan Geller"
+      },
+      {
+        "name": "Gabriel Kliot"
+      },
+      {
+        "name": "James R. Larus"
+      },
+      {
+        "name": "Ravi Pandya"
+      },
+      {
+        "name": "Jorgen Thelin"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2nd ACM Symposium on Cloud Computing",
+    "publicationDate": "2011-10-26",
+    "doi": "10.1145/2038916.2038932",
+    "url": "https://doi.org/10.1145/2038916.2038932",
+    "paperUrl": "https://www.microsoft.com/en-us/research/wp-content/uploads/2011/10/socc125-print.pdf"
+  },
+  {
+    "slug": "orleans-distributed-virtual-actors-for-programmability-and-scalability",
+    "title": "Orleans: Distributed Virtual Actors for Programmability and Scalability",
+    "authors": [
+      {
+        "name": "Philip A. Bernstein"
+      },
+      {
+        "name": "Sergey Bykov"
+      },
+      {
+        "name": "Alan Geller"
+      },
+      {
+        "name": "Gabriel Kliot"
+      },
+      {
+        "name": "Jorgen Thelin"
+      }
+    ],
+    "type": "report",
+    "venue": "Microsoft Research Technical Report MSR-TR-2014-41",
+    "publicationDate": "2014-03-24",
+    "url": "https://www.microsoft.com/en-us/research/publication/orleans-distributed-virtual-actors-for-programmability-and-scalability/",
+    "paperUrl": "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/Orleans-MSR-TR-2014-41.pdf"
   }
 ]
