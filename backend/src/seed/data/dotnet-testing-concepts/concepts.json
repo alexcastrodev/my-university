@@ -814,6 +814,151 @@
     ]
   },
   {
+    "slug": "load-testing-and-contract-testing-k6-nbomber-and-pact",
+    "id": 27,
+    "title": "Load Testing and Contract Testing with k6, NBomber and Pact",
+    "topic": "ASP.NET Core Testing",
+    "summary": "Write load tests with NBomber and k6 (open versus closed model, coordinated omission, JIT warm-up, percentiles, thresholds and their exit codes) and consumer-driven contract tests with PactNet 5 (pact file, PactVerifier, provider states, matchers, a real breaking change, Pact Broker and can-i-deploy), all measured on net10.0.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "integration-testing-with-webapplicationfactory"
+    ],
+    "related": [
+      {
+        "label": "Integration Testing ASP.NET Core with WebApplicationFactory",
+        "slug": "integration-testing-with-webapplicationfactory",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing Distributed Apps with Aspire",
+        "slug": "testing-distributed-apps-with-aspire",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "End-to-End Testing with Playwright for .NET",
+        "slug": "end-to-end-testing-with-playwright-for-dotnet",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Testing HttpClient Code and Resilience Pipelines",
+        "slug": "testing-httpclient-and-resilience-pipelines",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenAPI Document Generation in ASP.NET Core 10",
+        "slug": "openapi-document-generation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Test Pyramid Strategy",
+        "slug": "test-pyramid-strategy",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "Describing Performance: Latency, Response Time, and Percentiles",
+        "slug": "describing-performance-latency-and-percentiles",
+        "feature": "system-design"
+      },
+      {
+        "label": "Benchmarking with BenchmarkDotNet and Allocation Profiling",
+        "slug": "benchmarking-with-benchmarkdotnet-and-allocation-profiling",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Load Simulation, NBomber",
+        "url": "https://nbomber.com/docs/nbomber/load-simulation/",
+        "type": "doc"
+      },
+      {
+        "label": "Asserts and Thresholds, NBomber",
+        "url": "https://nbomber.com/docs/nbomber/asserts_and_thresholds/",
+        "type": "doc"
+      },
+      {
+        "label": "License, NBomber",
+        "url": "https://nbomber.com/docs/getting-started/license/",
+        "type": "doc"
+      },
+      {
+        "label": "Open and closed models, Grafana k6",
+        "url": "https://grafana.com/docs/k6/latest/using-k6/scenarios/concepts/open-vs-closed/",
+        "type": "doc"
+      },
+      {
+        "label": "Constant arrival rate executor, Grafana k6",
+        "url": "https://grafana.com/docs/k6/latest/using-k6/scenarios/executors/constant-arrival-rate/",
+        "type": "doc"
+      },
+      {
+        "label": "Thresholds, Grafana k6",
+        "url": "https://grafana.com/docs/k6/latest/using-k6/thresholds/",
+        "type": "doc"
+      },
+      {
+        "label": "How NOT to Measure Latency, Gil Tene",
+        "url": "https://www.youtube.com/watch?v=lJ8ydIuPFeU",
+        "type": "doc"
+      },
+      {
+        "label": "PactNet on GitHub",
+        "url": "https://github.com/pact-foundation/pact-net",
+        "type": "doc"
+      },
+      {
+        "label": "Upgrading to PactNet 4.x (Ruby to Rust core)",
+        "url": "https://github.com/pact-foundation/pact-net/blob/master/docs/upgrading-to-4.md",
+        "type": "doc"
+      },
+      {
+        "label": "How Pact works, docs.pact.io",
+        "url": "https://docs.pact.io/getting_started/how_pact_works",
+        "type": "doc"
+      },
+      {
+        "label": "Matching, docs.pact.io",
+        "url": "https://docs.pact.io/getting_started/matching",
+        "type": "doc"
+      },
+      {
+        "label": "Provider states, docs.pact.io",
+        "url": "https://docs.pact.io/getting_started/provider_states",
+        "type": "doc"
+      },
+      {
+        "label": "Can I Deploy, docs.pact.io",
+        "url": "https://docs.pact.io/pact_broker/can_i_deploy",
+        "type": "doc"
+      },
+      {
+        "label": "Integration tests in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests",
+        "type": "doc"
+      },
+      {
+        "label": "OpenAPI overview in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/overview",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "testing-with-real-databases-using-testcontainers",
     "id": 11,
     "title": "Testing Against a Real Database with Testcontainers",
