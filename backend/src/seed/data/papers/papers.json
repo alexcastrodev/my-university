@@ -5526,5 +5526,158 @@
     "doi": "10.1145/2670979.2670986",
     "url": "https://doi.org/10.1145/2670979.2670986",
     "paperUrl": "https://web.archive.org/web/20210118151542/https://ucare.cs.uchicago.edu/pdf/socc14-cbs.pdf"
+  },
+  {
+    "slug": "consensus-on-transaction-commit",
+    "title": "Consensus on Transaction Commit",
+    "authors": [
+      {
+        "name": "Jim Gray"
+      },
+      {
+        "name": "Leslie Lamport"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Database Systems",
+    "publicationDate": "2006-03",
+    "doi": "10.1145/1132863.1132867",
+    "url": "https://doi.org/10.1145/1132863.1132867",
+    "paperUrl": "https://lamport.azurewebsites.net/video/consensus-on-transaction-commit.pdf"
+  },
+  {
+    "slug": "epidemic-algorithms-for-replicated-database-maintenance",
+    "title": "Epidemic Algorithms for Replicated Database Maintenance",
+    "authors": [
+      {
+        "name": "Alan Demers"
+      },
+      {
+        "name": "Dan Greene"
+      },
+      {
+        "name": "Carl Hauser"
+      },
+      {
+        "name": "Wes Irish"
+      },
+      {
+        "name": "John Larson"
+      },
+      {
+        "name": "Scott Shenker"
+      },
+      {
+        "name": "Howard Sturgis"
+      },
+      {
+        "name": "Dan Swinehart"
+      },
+      {
+        "name": "Doug Terry"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Sixth Annual ACM Symposium on Principles of Distributed Computing (PODC '87)",
+    "publicationDate": "1987-08",
+    "doi": "10.1145/41840.41841",
+    "url": "https://doi.org/10.1145/41840.41841",
+    "paperUrl": "https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p1-demers.pdf"
+  },
+  {
+    "slug": "hemem-scalable-tiered-memory-management-for-big-data-applications-and-real-nvm",
+    "title": "HeMem: Scalable Tiered Memory Management for Big Data Applications and Real NVM",
+    "authors": [
+      {
+        "name": "Amanda Raybuck"
+      },
+      {
+        "name": "Tim Stamler"
+      },
+      {
+        "name": "Wei Zhang"
+      },
+      {
+        "name": "Mattan Erez"
+      },
+      {
+        "name": "Simon Peter"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 28th Symposium on Operating Systems Principles",
+    "publicationDate": "2021-10-26",
+    "doi": "10.1145/3477132.3483550",
+    "url": "https://doi.org/10.1145/3477132.3483550",
+    "paperUrl": "https://par.nsf.gov/servlets/purl/10337601"
+  },
+  {
+    "slug": "session-guarantees-for-weakly-consistent-replicated-data",
+    "title": "Session Guarantees for Weakly Consistent Replicated Data",
+    "authors": [
+      {
+        "name": "Douglas B. Terry"
+      },
+      {
+        "name": "Alan J. Demers"
+      },
+      {
+        "name": "Karin Petersen"
+      },
+      {
+        "name": "Mike J. Spreitzer"
+      },
+      {
+        "name": "Marvin M. Theimer"
+      },
+      {
+        "name": "Brent B. Welch"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of 3rd International Conference on Parallel and Distributed Information Systems",
+    "publicationDate": "1994-09",
+    "doi": "10.1109/pdis.1994.331722",
+    "url": "https://doi.org/10.1109/pdis.1994.331722",
+    "paperUrl": "https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/SessionGuaranteesBayou.pdf"
+  },
+  {
+    "slug": "unikernels-library-operating-systems-for-the-cloud",
+    "title": "Unikernels: Library Operating Systems for the Cloud",
+    "authors": [
+      {
+        "name": "Anil Madhavapeddy"
+      },
+      {
+        "name": "Richard Mortier"
+      },
+      {
+        "name": "Charalampos Rotsos"
+      },
+      {
+        "name": "David Scott"
+      },
+      {
+        "name": "Balraj Singh"
+      },
+      {
+        "name": "Thomas Gazagnaire"
+      },
+      {
+        "name": "Steven Smith"
+      },
+      {
+        "name": "Steven Hand"
+      },
+      {
+        "name": "Jon Crowcroft"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the eighteenth international conference on Architectural support for programming languages and operating systems",
+    "publicationDate": "2013-03-16",
+    "doi": "10.1145/2451116.2451167",
+    "url": "https://doi.org/10.1145/2451116.2451167",
+    "paperUrl": "https://anil.recoil.org/papers/2013-asplos-mirage.pdf"
   }
 ]
