@@ -18,6 +18,7 @@ import { CSharpConceptsService } from '../csharp-concepts/csharp-concepts.servic
 import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-testing-concepts.service';
 import { DotNetAiConceptsService } from '../dotnet-ai-concepts/dotnet-ai-concepts.service';
 import { IdentityConceptsService } from '../identity-concepts/identity-concepts.service';
+import { AzureDotnetConceptsService } from '../azure-dotnet-concepts/azure-dotnet-concepts.service';
 import { RustConceptsService } from '../rust-concepts/rust-concepts.service';
 import { GoConceptsService } from '../go-concepts/go-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
@@ -68,6 +69,7 @@ export class SitemapService {
     private readonly quarkusConcepts: QuarkusConceptsService,
     private readonly kubernetesConcepts: KubernetesConceptsService,
     private readonly identityConcepts: IdentityConceptsService,
+    private readonly azureDotnetConcepts: AzureDotnetConceptsService,
     private readonly papers: PapersCatalogService,
     private readonly curriculum: CurriculumService,
   ) {}
@@ -115,6 +117,7 @@ export class SitemapService {
       ['/quarkus-concepts', this.quarkusConcepts.findAll()],
       ['/kubernetes-concepts', this.kubernetesConcepts.findAll()],
       ['/identity-concepts', this.identityConcepts.findAll()],
+      ['/azure-dotnet-concepts', this.azureDotnetConcepts.findAll()],
     ];
     for (const {
       module: mod,

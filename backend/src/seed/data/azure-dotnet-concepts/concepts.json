@@ -1,0 +1,560 @@
+[
+  {
+    "id": 1,
+    "slug": "azure-sdk-clients-and-defaultazurecredential",
+    "title": "Azure SDK Clients and DefaultAzureCredential",
+    "topic": "Azure SDK & Identity",
+    "summary": "The Azure.* client pattern (endpoint, TokenCredential, ClientOptions, Response<T>, Pageable, RequestFailedException, the default retry policy) measured against a fake HTTPS service, and DefaultAzureCredential offline on Azure.Identity 1.21.0: the real chain order, the aggregate error message, the time to fail, AZURE_TOKEN_CREDENTIALS, the EnvironmentCredential that wins silently, plus AddAzureClients, the AzureEventSourceListener log and the legacy Microsoft.Azure.* packages.",
+    "publishedAt": "2026-11-20",
+    "requires": [],
+    "related": [
+      {
+        "label": "Secrets and Managed Identities: Key Vault and Workload Identity",
+        "slug": "secrets-and-managed-identities-key-vault-and-workload-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OAuth 2.0 Clients in .NET Code: PKCE, Client Credentials and Device Flow",
+        "slug": "oauth-2-clients-in-dotnet-code-pkce-client-credentials-and-device-flow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OAuth 2.0 from First Principles: Roles, Grants and Tokens",
+        "slug": "oauth-2-roles-grants-and-tokens-from-first-principles",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Workload Identity: Service Accounts, mTLS and SPIFFE",
+        "slug": "workload-identity-service-accounts-mtls-and-spiffe",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Azure Functions in C#: The Isolated Worker Model",
+        "slug": "azure-functions-isolated-worker",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Azure Service Bus: Queues, Topics and Processors",
+        "slug": "azure-service-bus-queues-topics-and-processors",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Key Vault and App Configuration in .NET",
+        "slug": "key-vault-and-app-configuration-in-dotnet",
+        "feature": "azure-dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Authenticate .NET apps to Azure services, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/azure/sdk/authentication/",
+        "type": "doc"
+      },
+      {
+        "label": "Credential chains in the Azure Identity library for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/azure/sdk/authentication/credential-chains",
+        "type": "doc"
+      },
+      {
+        "label": "Authentication best practices with the Azure Identity library for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/azure/sdk/authentication/best-practices",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection with the Azure SDK for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/azure/sdk/dependency-injection",
+        "type": "doc"
+      },
+      {
+        "label": "Logging with the Azure SDK for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/azure/sdk/logging",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Identity client library for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/overview/azure/identity-readme",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Extensions.Azure client library, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/overview/azure/microsoft.extensions.azure-readme",
+        "type": "doc"
+      },
+      {
+        "label": "DefaultAzureCredentialOptions class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/azure.identity.defaultazurecredentialoptions",
+        "type": "doc"
+      },
+      {
+        "label": "RetryOptions class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/azure.core.retryoptions",
+        "type": "doc"
+      },
+      {
+        "label": "RequestFailedException class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/azure.requestfailedexception",
+        "type": "doc"
+      },
+      {
+        "label": "AzureAuthorityHosts class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/azure.identity.azureauthorityhosts",
+        "type": "doc"
+      },
+      {
+        "label": "Azure SDK design guidelines for .NET, Azure SDK",
+        "url": "https://azure.github.io/azure-sdk/dotnet_introduction.html",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Identity troubleshooting guide, GitHub",
+        "url": "https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/TROUBLESHOOTING.md",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate applications to MSAL (ADAL retirement), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/msal-migration",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "slug": "azure-functions-isolated-worker",
+    "title": "Azure Functions in C#: The Isolated Worker Model",
+    "topic": "Serverless",
+    "summary": "A C# Azure Functions app is a .NET process that a separate host starts and calls over gRPC. Measured with Core Tools 4.16.1 and Azurite 3.38.0 on an app with HTTP, Timer and Queue triggers plus an output binding, and an MSTest suite that needs no host, on net10.0 with Azure.Functions.Sdk 1.1.0 and Worker 2.52.0. FunctionsApplication.CreateBuilder against HostBuilder, IActionResult against HttpResponseData, host.json against local.settings.json, and the plans and dates (the in-process model ended on 2026-11-10) read from the docs and marked docs only.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "azure-sdk-clients-and-defaultazurecredential"
+    ],
+    "related": [
+      {
+        "label": "Azure SDK Clients and DefaultAzureCredential",
+        "slug": "azure-sdk-clients-and-defaultazurecredential",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Azure Service Bus: Queues, Topics and Processors",
+        "slug": "azure-service-bus-queues-topics-and-processors",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Key Vault and App Configuration in .NET",
+        "slug": "key-vault-and-app-configuration-in-dotnet",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Observability Backends: Prometheus, Grafana, Tempo and Application Insights",
+        "slug": "observability-backends-prometheus-grafana-tempo-and-application-insights",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Durable Jobs with Hangfire and Quartz.NET",
+        "slug": "durable-jobs-hangfire-and-quartz",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Testing BackgroundService, Channels and Async Code",
+        "slug": "testing-background-services-and-async-code",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Test Doubles in .NET: Fakes, Stubs and NSubstitute",
+        "slug": "test-doubles-fakes-stubs-and-nsubstitute",
+        "feature": "dotnet-testing-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Guide for running C# Azure Functions in an isolated worker process, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Functions runtime versions overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate C# apps from in-process to isolated worker model, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/migrate-dotnet-to-isolated-model",
+        "type": "doc"
+      },
+      {
+        "label": "Differences between in-process and isolated worker process, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-in-process-differences",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Functions scale and hosting, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale",
+        "type": "doc"
+      },
+      {
+        "label": "Flex Consumption plan hosting, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/flex-consumption-plan",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate Consumption plan apps to Flex Consumption, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/migration/migrate-plan-consumption-to-flex",
+        "type": "doc"
+      },
+      {
+        "label": "Develop and run Azure Functions locally (local.settings.json), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-develop-local",
+        "type": "doc"
+      },
+      {
+        "label": "host.json reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-host-json",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Functions Core Tools, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local",
+        "type": "doc"
+      },
+      {
+        "label": "Triggers and bindings in Azure Functions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-triggers-bindings",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Queue storage trigger for Azure Functions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue-trigger",
+        "type": "doc"
+      },
+      {
+        "label": "Timer trigger for Azure Functions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer",
+        "type": "doc"
+      },
+      {
+        "label": "Event-driven scaling and cold start, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/event-driven-scaling",
+        "type": "doc"
+      },
+      {
+        "label": "Use the Azurite emulator for local Azure Storage development, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite",
+        "type": "doc"
+      },
+      {
+        "label": "Durable Functions in the .NET isolated worker, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/durable-task/durable-functions/durable-functions-dotnet-isolated-overview",
+        "type": "doc"
+      },
+      {
+        "label": "azure-functions-dotnet-worker, GitHub",
+        "url": "https://github.com/Azure/azure-functions-dotnet-worker",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "slug": "azure-service-bus-queues-topics-and-processors",
+    "title": "Azure Service Bus: Queues, Topics and Processors",
+    "topic": "Messaging",
+    "summary": "Azure Service Bus with Azure.Messaging.ServiceBus 7.21.0, measured on the local emulator. PeekLock against ReceiveAndDelete, the four settlements (complete, abandon, dead-letter, defer), DeliveryCount and the dead-letter queue, ServiceBusProcessor and its options, a lock that expires during slow work (MessageLockLost reproduced), prefetch, sessions, duplicate detection, TTL, scheduling, batches, subscription filters, ServiceBusFailureReason, registration with dependency injection, the idempotent consumer, and the retirement of the old client libraries. Entra ID, RBAC roles and Premium features are docs only.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "azure-sdk-clients-and-defaultazurecredential"
+    ],
+    "related": [
+      {
+        "label": "Azure SDK Clients and DefaultAzureCredential",
+        "slug": "azure-sdk-clients-and-defaultazurecredential",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Azure Functions in C#: The Isolated Worker Model",
+        "slug": "azure-functions-isolated-worker",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Message Brokers: MassTransit, Azure Service Bus and RabbitMQ",
+        "slug": "message-brokers-masstransit-azure-service-bus-and-rabbitmq",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Idempotency in Distributed Systems",
+        "slug": "idempotency",
+        "feature": "system-design"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern",
+        "feature": "system-design"
+      },
+      {
+        "label": "The Saga Pattern",
+        "slug": "saga-pattern",
+        "feature": "system-design"
+      },
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Send and receive messages from a Service Bus queue (.NET), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dotnet-get-started-with-queues",
+        "type": "doc"
+      },
+      {
+        "label": "Message transfers, locks, and settlement, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement",
+        "type": "doc"
+      },
+      {
+        "label": "Service Bus dead-letter queues, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues",
+        "type": "doc"
+      },
+      {
+        "label": "Queues, topics, and subscriptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions",
+        "type": "doc"
+      },
+      {
+        "label": "Message sessions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/message-sessions",
+        "type": "doc"
+      },
+      {
+        "label": "Duplicate detection, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/duplicate-detection",
+        "type": "doc"
+      },
+      {
+        "label": "Prefetch Service Bus messages, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-prefetch",
+        "type": "doc"
+      },
+      {
+        "label": "Topic filters and actions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/topic-filters",
+        "type": "doc"
+      },
+      {
+        "label": "Authenticate an application with Microsoft Entra ID, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/authenticate-application",
+        "type": "doc"
+      },
+      {
+        "label": "Service Bus emulator overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/overview-emulator",
+        "type": "doc"
+      },
+      {
+        "label": "ServiceBusFailureReason, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/azure.messaging.servicebus.servicebusfailurereason",
+        "type": "doc"
+      },
+      {
+        "label": "Service Bus queues compared with Storage queues, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-azure-and-service-bus-queues-compared-contrasted",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection with the Azure SDK for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/azure/sdk/dependency-injection",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate from Microsoft.Azure.ServiceBus to Azure.Messaging.ServiceBus, Azure SDK for .NET",
+        "url": "https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/servicebus/Azure.Messaging.ServiceBus/MigrationGuide.md",
+        "type": "doc"
+      },
+      {
+        "label": "System.Threading.Channels, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/channels",
+        "type": "doc"
+      },
+      {
+        "label": "RabbitMQ consumer acknowledgements and publisher confirms",
+        "url": "https://www.rabbitmq.com/docs/confirms",
+        "type": "doc"
+      },
+      {
+        "label": "RabbitMQ queues",
+        "url": "https://www.rabbitmq.com/docs/queues",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "slug": "key-vault-and-app-configuration-in-dotnet",
+    "title": "Key Vault and App Configuration in .NET",
+    "topic": "Secrets & Config",
+    "summary": "SecretClient against a local fake of the Key Vault data plane (versions, the 401 challenge, 404 and 403 as RequestFailedException), AddAzureKeyVault as a configuration provider (the -- to : mapping, KeyVaultSecretManager, ReloadInterval and rotation), App Configuration with Select and labels, sentinel and RegisterAll refresh, the request middleware, Key Vault references and SetSecretRefreshInterval, feature flags, RBAC against access policies, throttling limits and a book vs today note, all measured on a C# fake that is a test double and not the real service.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "azure-sdk-clients-and-defaultazurecredential"
+    ],
+    "related": [
+      {
+        "label": "Secrets and Managed Identities: Key Vault and Workload Identity",
+        "slug": "secrets-and-managed-identities-key-vault-and-workload-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Feature Flags with Microsoft.FeatureManagement",
+        "slug": "feature-flags-with-microsoft-featuremanagement",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Workload Identity: Service Accounts, mTLS and SPIFFE",
+        "slug": "workload-identity-service-accounts-mtls-and-spiffe",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Kubernetes Secrets Fundamentals",
+        "slug": "kubernetes-secrets-fundamentals",
+        "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "Secrets as Environment Variables vs Mounted Files",
+        "slug": "secrets-as-env-vars-vs-mounted-files",
+        "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "Azure SDK Clients and DefaultAzureCredential",
+        "slug": "azure-sdk-clients-and-defaultazurecredential",
+        "feature": "azure-dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Quickstart: Azure App Configuration with ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/quickstart-aspnet-core-app",
+        "type": "doc"
+      },
+      {
+        "label": ".NET configuration provider reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/reference-dotnet-provider",
+        "type": "doc"
+      },
+      {
+        "label": "Azure App Configuration FAQ, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/faq",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: use Azure Key Vault with an Azure web app in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/tutorial-net-create-vault-azure-web-app",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Key Vault configuration provider, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/key-vault-configuration",
+        "type": "doc"
+      },
+      {
+        "label": "Grant permission to applications to access a key vault using Azure RBAC, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+        "type": "doc"
+      },
+      {
+        "label": "Plan for Azure RBAC as the default access control model in Key Vault, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/access-control-default",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Key Vault service limits, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/service-limits",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Key Vault throttling guidance, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/overview-throttling",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Key Vault secret client library for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/overview/azure/security.keyvault.secrets-readme",
+        "type": "doc"
+      },
+      {
+        "label": "Feature management overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/feature-management-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Use Key Vault references in an ASP.NET Core app, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/use-key-vault-references-dotnet-core",
+        "type": "doc"
+      },
+      {
+        "label": "Migration guide from Microsoft.Azure.KeyVault, Azure SDK for .NET",
+        "url": "https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/keyvault/Azure.Security.KeyVault.Secrets/MigrationGuide.md",
+        "type": "doc"
+      }
+    ]
+  }
+]

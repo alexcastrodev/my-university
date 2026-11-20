@@ -116,6 +116,15 @@ export const COMPLEMENTARY_AREAS: ComplementaryArea[] = [
     relationship: 'An applied framework example',
   },
   {
+    slug: 'azure-dotnet-concepts',
+    apiBase: '/api/azure-dotnet-concepts',
+    title: 'Azure for .NET',
+    routerLink: '/azure-dotnet-concepts',
+    touchesModule: 'software-distributed',
+    touchesTitle: 'Software + Distributed',
+    relationship: 'Where .NET services meet managed cloud building blocks',
+  },
+  {
     slug: 'rust-concepts',
     apiBase: '/api/rust-concepts',
     title: 'Rust',

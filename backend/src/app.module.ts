@@ -58,6 +58,7 @@ import { CSharpConceptsModule } from './csharp-concepts/csharp-concepts.module';
 import { DotNetTestingConceptsModule } from './dotnet-testing-concepts/dotnet-testing-concepts.module';
 import { DotNetAiConceptsModule } from './dotnet-ai-concepts/dotnet-ai-concepts.module';
 import { IdentityConceptsModule } from './identity-concepts/identity-concepts.module';
+import { AzureDotnetConceptsModule } from './azure-dotnet-concepts/azure-dotnet-concepts.module';
 import { RustConceptsModule } from './rust-concepts/rust-concepts.module';
 import { GoConceptsModule } from './go-concepts/go-concepts.module';
 import { SearchModule } from './search/search.module';
@@ -128,6 +129,7 @@ import { XpModule } from './xp/xp.module';
     DotNetTestingConceptsModule,
     DotNetAiConceptsModule,
     IdentityConceptsModule,
+    AzureDotnetConceptsModule,
     RustConceptsModule,
     GoConceptsModule,
     QuarkusConceptsModule,

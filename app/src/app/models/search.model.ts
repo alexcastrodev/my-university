@@ -20,6 +20,7 @@ export type SearchResultType =
   | 'dotnet-testing-concept'
   | 'dotnet-ai-concept'
   | 'identity-concept'
+  | 'azure-dotnet-concept'
   | 'rust-concept'
   | 'go-concept'
   | 'paper';
