@@ -536,6 +536,147 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/formatting-values-and-interpolated-strings"
   },
   {
+    "slug": "custom-interpolated-string-handlers-and-format-interfaces",
+    "category": "Language",
+    "title": "Custom Interpolated String Handlers, ISpanFormattable and Format Providers",
+    "topic": "Strings & Formatting",
+    "summary": "What the compiler emits for $\"...\" (IL), writing your own handler with shouldAppend and InterpolatedStringHandlerArgument (logging and parameterized SQL), overload resolution, ISpanFormattable and IUtf8SpanFormattable without allocating, IFormatProvider, ICustomFormatter and who consumes IParsable, measured with BenchmarkDotNet.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "formatting-values-and-interpolated-strings"
+    ],
+    "related": [
+      {
+        "label": "Formatting Values: Interpolated Strings, Format Specifiers and Cultures",
+        "slug": "formatting-values-and-interpolated-strings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Parsing, TryParse and the Try Pattern",
+        "slug": "parsing-tryparse-and-the-try-pattern",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Building and Searching Strings Efficiently",
+        "slug": "building-and-searching-strings-efficiently",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "String Literals: Verbatim, Raw and Escape Sequences",
+        "slug": "string-literals-verbatim-raw-and-escapes",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generic Math and static abstract Interface Members",
+        "slug": "generic-math-and-static-abstract-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Benchmarking with BenchmarkDotNet and Allocation Profiling",
+        "slug": "benchmarking-with-benchmarkdotnet-and-allocation-profiling",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "ILogger: Categories, Levels, Filtering and Scopes",
+        "slug": "ilogger-categories-levels-filtering-and-scopes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "String interpolation using $, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated",
+        "type": "doc"
+      },
+      {
+        "label": "Write a custom string interpolation handler, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/performance/interpolated-string-handler",
+        "type": "doc"
+      },
+      {
+        "label": "Improved interpolated strings, C# 10 feature specification, csharplang",
+        "url": "https://github.com/dotnet/csharplang/blob/main/proposals/csharp-10.0/improved-interpolated-strings.md",
+        "type": "doc"
+      },
+      {
+        "label": "DefaultInterpolatedStringHandler class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.defaultinterpolatedstringhandler",
+        "type": "doc"
+      },
+      {
+        "label": "InterpolatedStringHandlerArgumentAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute",
+        "type": "doc"
+      },
+      {
+        "label": "ISpanFormattable interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.ispanformattable",
+        "type": "doc"
+      },
+      {
+        "label": "IUtf8SpanFormattable interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.iutf8spanformattable",
+        "type": "doc"
+      },
+      {
+        "label": "Utf8.TryWrite method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.unicode.utf8.trywrite",
+        "type": "doc"
+      },
+      {
+        "label": "ICustomFormatter interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.icustomformatter",
+        "type": "doc"
+      },
+      {
+        "label": "IFormatProvider interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.iformatprovider",
+        "type": "doc"
+      },
+      {
+        "label": "IParsable<TSelf> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.iparsable-1",
+        "type": "doc"
+      },
+      {
+        "label": "IUtf8SpanParsable<TSelf> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.iutf8spanparsable-1",
+        "type": "doc"
+      },
+      {
+        "label": "Parameter binding in Minimal APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding",
+        "type": "doc"
+      },
+      {
+        "label": "Get started with System.CommandLine, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/commandline/get-started-tutorial",
+        "type": "doc"
+      },
+      {
+        "label": "Compile-time logging source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logger-message-generator",
+        "type": "doc"
+      },
+      {
+        "label": "BenchmarkDotNet",
+        "url": "https://benchmarkdotnet.org/",
+        "type": "doc"
+      }
+    ],
+    "id": 959
+  },
+  {
     "slug": "numeric-types-and-binary-representation",
     "id": 110,
     "category": "Language",
@@ -2742,6 +2883,124 @@
     ]
   },
   {
+    "slug": "legacy-interfaces-icloneable-iserializable-and-friends",
+    "id": 960,
+    "category": "Type Design",
+    "title": "Legacy Interfaces: ICloneable, ISerializable and Friends",
+    "topic": "Interfaces & Generics",
+    "summary": "ICloneable and the shallow copy trap, ISerializable, [Serializable] and BinaryFormatter today, what Exception still serializes, which serializer honors which hook, ArrayList and Hashtable against the generics, IAsyncResult and the APM pattern, with a measured book-versus-today note on .NET 10.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "interfaces-explicit-implementation-and-default-methods",
+      "generics-constraints-and-variance",
+      "records-and-with-expressions"
+    ],
+    "related": [
+      {
+        "label": "BinaryFormatter Removal and Safe Serialization",
+        "slug": "binaryformatter-removal-and-safe-serialization",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "XML Serialization and LINQ to XML",
+        "slug": "xml-serialization-and-linq-to-xml",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Events, the Observer Pattern and Memory Leaks",
+        "slug": "events-observer-pattern-and-memory-leaks",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Exceptions: try, catch, Filters and finally",
+        "slug": "exceptions-try-catch-filters-and-finally",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ICloneable Interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.icloneable",
+        "type": "doc"
+      },
+      {
+        "label": "Object.MemberwiseClone, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone",
+        "type": "doc"
+      },
+      {
+        "label": "ISerializable Interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable",
+        "type": "doc"
+      },
+      {
+        "label": "SYSLIB0050: Formatter-based serialization is obsolete, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/syslib-diagnostics/syslib0050",
+        "type": "doc"
+      },
+      {
+        "label": "SYSLIB0051: Legacy serialization support APIs are obsolete, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/syslib-diagnostics/syslib0051",
+        "type": "doc"
+      },
+      {
+        "label": "SYSLIB0011: BinaryFormatter serialization is obsolete, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/syslib-diagnostics/syslib0011",
+        "type": "doc"
+      },
+      {
+        "label": "BinaryFormatter migration guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-migration-guide/",
+        "type": "doc"
+      },
+      {
+        "label": "Commonly used collection types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/collections/",
+        "type": "doc"
+      },
+      {
+        "label": "Non-generic collections shouldn't be used, dotnet/platform-compat",
+        "url": "https://github.com/dotnet/platform-compat/blob/master/docs/DE0006.md",
+        "type": "doc"
+      },
+      {
+        "label": "Asynchronous Programming Model (APM), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/asynchronous-programming-model-apm",
+        "type": "doc"
+      },
+      {
+        "label": "Interop with other asynchronous patterns and types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/interop-with-other-asynchronous-patterns-and-types",
+        "type": "doc"
+      },
+      {
+        "label": "ISynchronizeInvoke Interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.isynchronizeinvoke",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "delegates-and-multicast-invocation",
     "id": 410,
     "category": "Type Design",
@@ -4243,6 +4502,123 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/running-external-processes-with-process"
   },
   {
+    "slug": "binary-data-endianness-binaryreader-and-memory-mapped-files",
+    "id": 956,
+    "category": "Base Class Library",
+    "title": "Binary Data: Endianness, BinaryReader and Memory-Mapped Files",
+    "topic": "Files & I/O",
+    "summary": "BinaryWriter and BinaryReader byte by byte (7-bit string prefix, always little-endian), endianness with BinaryPrimitives, a real file header with StructLayout and MemoryMarshal, MemoryMappedFile (access modes, Flush, view pointer, sequential and random reads measured) and System.IO.Hashing (Crc32, Crc64, XxHash3) against SHA256 and MD5, with the bridge to virtual memory and the page cache.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "filesystem-apis-and-cross-platform-paths",
+      "numeric-types-and-binary-representation"
+    ],
+    "related": [
+      {
+        "label": "Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async I/O and System.IO.Pipelines",
+        "slug": "async-io-and-system-io-pipelines",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Compression: ZIP, GZip, Brotli and Tar",
+        "slug": "compression-zip-gzip-brotli-and-tar",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Unsafe Code, Pointers and Function Pointers",
+        "slug": "unsafe-code-pointers-and-function-pointers",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "TCP and UDP Sockets, Named Pipes and QUIC in .NET",
+        "slug": "sockets-tcp-udp-named-pipes-and-quic-in-dotnet",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "BinaryWriter class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.binarywriter",
+        "type": "doc"
+      },
+      {
+        "label": "BinaryReader class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.binaryreader",
+        "type": "doc"
+      },
+      {
+        "label": "BinaryPrimitives class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives",
+        "type": "doc"
+      },
+      {
+        "label": "BitConverter.IsLittleEndian, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.islittleendian",
+        "type": "doc"
+      },
+      {
+        "label": "MemoryMarshal.Read, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.memorymarshal.read",
+        "type": "doc"
+      },
+      {
+        "label": "StructLayoutAttribute.Pack, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.structlayoutattribute.pack",
+        "type": "doc"
+      },
+      {
+        "label": "Memory-mapped files, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/io/memory-mapped-files",
+        "type": "doc"
+      },
+      {
+        "label": "MemoryMappedFile class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.memorymappedfiles.memorymappedfile",
+        "type": "doc"
+      },
+      {
+        "label": "MemoryMappedViewAccessor.Flush, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.memorymappedfiles.memorymappedviewaccessor.flush",
+        "type": "doc"
+      },
+      {
+        "label": "SafeBuffer.AcquirePointer, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.safebuffer.acquirepointer",
+        "type": "doc"
+      },
+      {
+        "label": "System.IO.Hashing namespace, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.hashing",
+        "type": "doc"
+      },
+      {
+        "label": "NonCryptographicHashAlgorithm class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.hashing.noncryptographichashalgorithm",
+        "type": "doc"
+      },
+      {
+        "label": "RandomAccess class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.randomaccess",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "stream-class-hierarchy-and-decorators",
     "category": "Base Class Library",
     "title": "Stream Class Hierarchy and Decorators",
@@ -5151,6 +5527,83 @@
       {
         "label": "dotnet format, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-format",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "debugging-attributes-and-visualizing-types",
+    "id": 958,
+    "category": "Base Class Library",
+    "title": "Debugging Attributes and Visualizing Types",
+    "topic": "Reflection & Attributes",
+    "summary": "DebuggerDisplay, DebuggerBrowsable, DebuggerTypeProxy, the step and hide attributes and StackTraceHidden, read with CustomAttributeData, their effect on StackTrace, Debugger, Debug.Assert and Trace without a debugger, and what dotnet-dump ignores.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "attributes-custom-and-compiler-read",
+      "reflection-type-metadata-and-its-costs"
+    ],
+    "related": [
+      {
+        "label": "Attributes: Custom and Compiler-Read",
+        "slug": "attributes-custom-and-compiler-read",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Reflection: Type Metadata and Its Costs",
+        "slug": "reflection-type-metadata-and-its-costs",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Preprocessor Directives and Conditional Compilation",
+        "slug": "preprocessor-directives-and-conditional-compilation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Guard Clauses, Throwing and Rethrowing",
+        "slug": "guard-clauses-throwing-and-rethrowing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Diagnosing Production with dotnet-trace, dotnet-dump and dotnet-gcdump",
+        "slug": "diagnosing-production-with-dotnet-trace-dump-and-gcdump",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Display custom info using DebuggerDisplay, Visual Studio, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/visualstudio/debugger/using-the-debuggerdisplay-attribute",
+        "type": "doc"
+      },
+      {
+        "label": "Use the DebuggerTypeProxy attribute, Visual Studio, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/visualstudio/debugger/using-debuggertypeproxy-attribute",
+        "type": "doc"
+      },
+      {
+        "label": "Enhancing debugging with the debugger display attributes, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/framework/debug-trace-profile/enhancing-debugging-with-the-debugger-display-attributes",
+        "type": "doc"
+      },
+      {
+        "label": "Create custom visualizers of data, Visual Studio, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-visualizers-of-data",
+        "type": "doc"
+      },
+      {
+        "label": "StackTraceHiddenAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.stacktracehiddenattribute",
+        "type": "doc"
+      },
+      {
+        "label": "ICollectionDebugView.cs, dotnet/runtime, GitHub",
+        "url": "https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Collections/Generic/ICollectionDebugView.cs",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet-dump, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-dump",
         "type": "doc"
       }
     ]
