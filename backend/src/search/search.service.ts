@@ -20,6 +20,7 @@ import { CSharpConceptsService } from '../csharp-concepts/csharp-concepts.servic
 import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-testing-concepts.service';
 import { DotNetAiConceptsService } from '../dotnet-ai-concepts/dotnet-ai-concepts.service';
 import { IdentityConceptsService } from '../identity-concepts/identity-concepts.service';
+import { AzureDotnetConceptsService } from '../azure-dotnet-concepts/azure-dotnet-concepts.service';
 import { RustConceptsService } from '../rust-concepts/rust-concepts.service';
 import { GoConceptsService } from '../go-concepts/go-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
@@ -60,6 +61,7 @@ export const SEARCH_RESULT_TYPES = [
   'dotnet-testing-concept',
   'dotnet-ai-concept',
   'identity-concept',
+  'azure-dotnet-concept',
   'rust-concept',
   'go-concept',
   'paper',
@@ -173,6 +175,7 @@ export class SearchService implements OnApplicationBootstrap {
     private quarkusConceptsService: QuarkusConceptsService,
     private kubernetesConceptsService: KubernetesConceptsService,
     private identityConceptsService: IdentityConceptsService,
+    private azureDotnetConceptsService: AzureDotnetConceptsService,
     private papersCatalog: PapersCatalogService,
     private meili: MeilisearchClient,
   ) {}
@@ -312,6 +315,9 @@ export class SearchService implements OnApplicationBootstrap {
       ),
       concepts('identity-concept', 'Identity & Access Concepts', '/identity-concepts', (l) =>
         this.identityConceptsService.findAllDetailed(l),
+      ),
+      concepts('azure-dotnet-concept', 'Azure for .NET Concepts', '/azure-dotnet-concepts', (l) =>
+        this.azureDotnetConceptsService.findAllDetailed(l),
       ),
       concepts('rust-concept', 'Rust Concepts', '/rust-concepts', (l) =>
         this.rustConceptsService.findAllDetailed(l),

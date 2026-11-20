@@ -17,6 +17,7 @@ const COMPLEMENTARY: Record<string, [group: string, track?: string]> = {
   'system-design-concepts': [$localize`:@@header.nav.systemDesign:System Design`],
   'kubernetes-concepts': ['Kubernetes'],
   'identity-concepts': [$localize`:@@area.group.identity:Identity & Access`],
+  'azure-dotnet-concepts': ['.NET', 'Azure'],
   'algorithms-concepts': [$localize`:@@area.group.algorithms:Algorithms`],
   'ruby-concepts': ['Ruby'],
   'rubyonrails-concepts': ['Ruby', 'Rails'],

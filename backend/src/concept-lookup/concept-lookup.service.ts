@@ -19,6 +19,7 @@ import { CSharpConceptsService } from '../csharp-concepts/csharp-concepts.servic
 import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-testing-concepts.service';
 import { DotNetAiConceptsService } from '../dotnet-ai-concepts/dotnet-ai-concepts.service';
 import { IdentityConceptsService } from '../identity-concepts/identity-concepts.service';
+import { AzureDotnetConceptsService } from '../azure-dotnet-concepts/azure-dotnet-concepts.service';
 import { RustConceptsService } from '../rust-concepts/rust-concepts.service';
 import { GoConceptsService } from '../go-concepts/go-concepts.service';
 import { curriculumSourceId, fromSourceId, parseCurriculumSourceId, ResolvedCurriculum, ResolvedSource, ConceptSourceType, toSourceId } from './concept-lookup.constants';
@@ -95,6 +96,7 @@ export class ConceptLookupService {
     private dotNetTestingConcepts: DotNetTestingConceptsService,
     private dotNetAiConcepts: DotNetAiConceptsService,
     private identityConcepts: IdentityConceptsService,
+    private azureDotnetConcepts: AzureDotnetConceptsService,
     private rustConcepts: RustConceptsService,
     private goConcepts: GoConceptsService,
     private quarkusConcepts: QuarkusConceptsService,
@@ -122,6 +124,7 @@ export class ConceptLookupService {
       'dotnet-testing-concepts': new Map(this.dotNetTestingConcepts.findAll().map((c) => [c.slug, c.title])),
       'dotnet-ai-concepts': new Map(this.dotNetAiConcepts.findAll().map((c) => [c.slug, c.title])),
       'identity-concepts': new Map(this.identityConcepts.findAll().map((c) => [c.slug, c.title])),
+      'azure-dotnet-concepts': new Map(this.azureDotnetConcepts.findAll().map((c) => [c.slug, c.title])),
       'rust-concepts': new Map(this.rustConcepts.findAll().map((c) => [c.slug, c.title])),
       'go-concepts': new Map(this.goConcepts.findAll().map((c) => [c.slug, c.title])),
       'quarkus-concepts': new Map(this.quarkusConcepts.findAll().map((c) => [c.slug, c.title])),
@@ -203,6 +206,10 @@ export class ConceptLookupService {
       }
       case 'identity-concepts': {
         const d = this.identityConcepts.findBySlug(slug, lang);
+        return d ? detailCore(d.title, d) : undefined;
+      }
+      case 'azure-dotnet-concepts': {
+        const d = this.azureDotnetConcepts.findBySlug(slug, lang);
         return d ? detailCore(d.title, d) : undefined;
       }
       case 'rust-concepts': {

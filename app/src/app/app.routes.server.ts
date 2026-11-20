@@ -194,6 +194,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'azure-dotnet-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'azure-dotnet-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'rust-concepts',
     renderMode: RenderMode.Server,
   },

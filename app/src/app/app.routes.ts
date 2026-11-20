@@ -261,6 +261,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/identity-concepts/identity-concepts-detail').then((m) => m.IdentityConceptsDetailPage),
   },
   {
+    path: 'azure-dotnet-concepts',
+    loadComponent: () => import('./pages/azure-dotnet-concepts/azure-dotnet-concepts-list').then((m) => m.AzureDotnetConceptsListPage),
+  },
+  {
+    path: 'azure-dotnet-concepts/:slug',
+    loadComponent: () => import('./pages/azure-dotnet-concepts/azure-dotnet-concepts-detail').then((m) => m.AzureDotnetConceptsDetailPage),
+  },
+  {
     path: 'rust-concepts',
     loadComponent: () => import('./pages/rust-concepts/rust-concepts-list').then((m) => m.RustConceptsListPage),
   },
