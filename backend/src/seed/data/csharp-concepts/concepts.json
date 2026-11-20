@@ -4876,6 +4876,82 @@
     "id": 750
   },
   {
+    "slug": "dns-resolution-and-the-dnsresolver-api",
+    "category": "Base Class Library",
+    "title": "DNS Resolution and the DnsResolver API",
+    "topic": "Networking",
+    "summary": "Dns.GetHostEntryAsync and what it does not do (OS getaddrinfo, no SRV, TXT, TTL or server choice), the typed .NET 11 DnsResolver, SRV priority and weight as service discovery, NXDOMAIN, timeouts and the lack of a cache, measured against a local CoreDNS.",
+    "publishedAt": "2026-11-20",
+    "related": [
+      {
+        "label": "TCP and UDP Sockets, Named Pipes and QUIC in .NET",
+        "slug": "sockets-tcp-udp-named-pipes-and-quic-in-dotnet",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Aspire: AppHost, ServiceDefaults and Deployment",
+        "slug": "aspire-apphost-servicedefaults-and-deployment",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "requires": [
+      "sockets-tcp-udp-named-pipes-and-quic-in-dotnet"
+    ],
+    "references": [
+      {
+        "label": "What's new in .NET 11 libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "DnsResolver Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.dnsresolver",
+        "type": "doc"
+      },
+      {
+        "label": "DnsResolverOptions Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.dnsresolveroptions",
+        "type": "doc"
+      },
+      {
+        "label": "DnsResult Struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.dnsresult-1",
+        "type": "doc"
+      },
+      {
+        "label": "SrvRecord Struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.srvrecord",
+        "type": "doc"
+      },
+      {
+        "label": "Dns.GetHostEntryAsync, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.dns.gethostentryasync",
+        "type": "doc"
+      },
+      {
+        "label": "Service discovery in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/service-discovery",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 2782, A DNS RR for specifying the location of services (DNS SRV), IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc2782",
+        "type": "doc"
+      }
+    ],
+    "id": 961
+  },
+  {
     "slug": "system-text-json-serialization-and-options",
     "category": "Base Class Library",
     "title": "System.Text.Json: Serialization and Options",
@@ -5267,6 +5343,92 @@
       }
     ],
     "id": 621
+  },
+  {
+    "slug": "cbor-and-compact-binary-formats",
+    "category": "Base Class Library",
+    "title": "CBOR and Compact Binary Formats",
+    "topic": "Serialization",
+    "summary": "System.Formats.Cbor (CborWriter and CborReader) with the bytes in hex, the same object in JSON, CBOR, MessagePack and Protobuf, conformance modes and key order, .NET 11 incremental reading and a COSE_Sign1 message signed and verified, with the passkey bridge.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "system-text-json-serialization-and-options"
+    ],
+    "related": [
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+        "slug": "system-text-json-source-generation-and-utf8jsonreader",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "BinaryFormatter Removal and Safe Serialization",
+        "slug": "binaryformatter-removal-and-safe-serialization",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "WebAuthn, FIDO2 and Passkeys: The Protocol Measured",
+        "slug": "webauthn-fido2-and-passkeys-concepts",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "Cryptography: Hashing, HMAC, AES-GCM and Password Hashing",
+        "slug": "cryptography-hashing-hmac-aes-gcm-and-password-hashing",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "System.Formats.Cbor Namespace, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.formats.cbor",
+        "type": "doc"
+      },
+      {
+        "label": "CborWriter Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.formats.cbor.cborwriter",
+        "type": "doc"
+      },
+      {
+        "label": "CborReader Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.formats.cbor.cborreader",
+        "type": "doc"
+      },
+      {
+        "label": "CborConformanceMode Enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.formats.cbor.cborconformancemode",
+        "type": "doc"
+      },
+      {
+        "label": "CoseSign1Message Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cose.cosesign1message",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 11 libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8949, Concise Binary Object Representation (CBOR), IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc8949",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9052, CBOR Object Signing and Encryption (COSE): Structures and Process, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9052",
+        "type": "doc"
+      },
+      {
+        "label": "Web Authentication Level 3, W3C",
+        "url": "https://www.w3.org/TR/webauthn-3/",
+        "type": "doc"
+      }
+    ],
+    "id": 962
   },
   {
     "slug": "attributes-custom-and-compiler-read",
@@ -6530,6 +6692,102 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/benchmarking-with-benchmarkdotnet-and-allocation-profiling"
+  },
+  {
+    "slug": "simd-vector-t-and-hardware-intrinsics",
+    "id": 957,
+    "category": "Memory & Concurrency",
+    "title": "SIMD in .NET: Vector<T>, Vector128/256/512 and Hardware Intrinsics",
+    "topic": "Memory & Value Semantics",
+    "summary": "Why the JIT does not vectorize a plain loop, Vector<T> and Vector128/256/512 with a scalar remainder, masks and ConditionalSelect, the IsHardwareAccelerated dispatch pattern, AdvSimd on Apple Silicon, byte count, find and array sum measured against LINQ, span.Count, IndexOf and TensorPrimitives, the float and out-of-bounds pitfalls, and the .NET 11 lane operations (docs only).",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "span-memory-and-slicing-without-allocating"
+    ],
+    "related": [
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Benchmarking with BenchmarkDotNet and Allocation Profiling",
+        "slug": "benchmarking-with-benchmarkdotnet-and-allocation-profiling",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Unsafe Code, Pointers and Function Pointers",
+        "slug": "unsafe-code-pointers-and-function-pointers",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Types and Binary Representation",
+        "slug": "numeric-types-and-binary-representation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Writing LINQ Operators and How LINQ Is Implemented",
+        "slug": "writing-linq-operators-and-how-linq-is-implemented",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Building and Searching Strings Efficiently",
+        "slug": "building-and-searching-strings-efficiently",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Embeddings and Vector Search with Microsoft.Extensions.VectorData",
+        "slug": "embeddings-and-vector-search-with-vectordata",
+        "feature": "dotnet-ai-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Use SIMD and hardware intrinsics in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/simd",
+        "type": "doc"
+      },
+      {
+        "label": "Vector<T> struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.vector-1",
+        "type": "doc"
+      },
+      {
+        "label": "Vector128 class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.vector128",
+        "type": "doc"
+      },
+      {
+        "label": "AdvSimd class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.arm.advsimd",
+        "type": "doc"
+      },
+      {
+        "label": "TensorPrimitives class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.tensors.tensorprimitives",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 11 runtime, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/runtime",
+        "type": "doc"
+      },
+      {
+        "label": "API proposal: more Vector<T> sequence and lane APIs, dotnet/runtime#122557",
+        "url": "https://github.com/dotnet/runtime/issues/122557",
+        "type": "doc"
+      },
+      {
+        "label": "Reapply \"Add lane construction and composition APIs\", dotnet/runtime#129627",
+        "url": "https://github.com/dotnet/runtime/pull/129627",
+        "type": "doc"
+      }
+    ]
   },
   {
     "slug": "pinvoke-libraryimport-and-native-interop",
