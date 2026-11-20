@@ -556,5 +556,360 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "id": 5,
+    "slug": "cosmos-db-sdk-change-feed-and-consistency",
+    "title": "Cosmos DB SDK: Change Feed and Consistency",
+    "topic": "NoSQL",
+    "summary": "Microsoft.Azure.Cosmos 3.64.0 measured against the Cosmos DB emulator (vNext, arm64) with a fake TokenCredential and a handler that injects 429s: the CosmosClient singleton (60 against 22 HTTP requests), the serializer (System.Text.Json and the mandatory Newtonsoft reference), the partition key as the central decision, point read against query, CosmosException and the 429 retry, consistency levels, ETag, TransactionalBatch and bulk, the change feed processor (at-least-once, leases, modes), Entra ID and TTL. What the emulator does not implement (real RU, composite indexes, authentication, regions) is marked docs only.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "azure-sdk-clients-and-defaultazurecredential"
+    ],
+    "related": [
+      {
+        "label": "EF Core with NoSQL: Cosmos DB and MongoDB",
+        "slug": "ef-core-nosql-cosmos-db-and-mongodb",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Azure Functions in C#: The Isolated Worker Model",
+        "slug": "azure-functions-isolated-worker",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Key Vault and App Configuration in .NET",
+        "slug": "key-vault-and-app-configuration-in-dotnet",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Azure Service Bus: Queues, Topics and Processors",
+        "slug": "azure-service-bus-queues-topics-and-processors",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Transactional Outbox, Inbox and Idempotent Consumers",
+        "slug": "transactional-outbox-inbox-and-idempotent-consumers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Idempotency in Distributed Systems",
+        "slug": "idempotency",
+        "feature": "system-design"
+      },
+      {
+        "label": "Change Data Capture (CDC)",
+        "slug": "change-data-capture",
+        "feature": "system-design"
+      },
+      {
+        "label": "Choosing a MongoDB Shard Key: Ascending, Hashed, and Zoned Distributions",
+        "slug": "mongodb-choosing-a-shard-key",
+        "feature": "database-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Change feed processor in Azure Cosmos DB, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/change-feed-processor",
+        "type": "doc"
+      },
+      {
+        "label": "Change feed modes in Azure Cosmos DB, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/change-feed-modes",
+        "type": "doc"
+      },
+      {
+        "label": "Partitioning and horizontal scaling in Azure Cosmos DB, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Hierarchical partition keys, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/hierarchical-partition-keys",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Cosmos DB service quotas, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/concepts-limits",
+        "type": "doc"
+      },
+      {
+        "label": "Consistency levels in Azure Cosmos DB, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels",
+        "type": "doc"
+      },
+      {
+        "label": "Request units in Azure Cosmos DB, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/request-units",
+        "type": "doc"
+      },
+      {
+        "label": "Indexing policies in Azure Cosmos DB, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/index-policy",
+        "type": "doc"
+      },
+      {
+        "label": "Performance tips for the .NET SDK v3, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/performance-tips-dotnet-sdk-v3",
+        "type": "doc"
+      },
+      {
+        "label": "Designing resilient applications with the Azure Cosmos DB SDKs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/conceptual-resilient-sdk-applications",
+        "type": "doc"
+      },
+      {
+        "label": "Transactional batch operations, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/transactional-batch",
+        "type": "doc"
+      },
+      {
+        "label": "Optimistic concurrency control, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/database-transactions-optimistic-concurrency",
+        "type": "doc"
+      },
+      {
+        "label": "Time to live in Azure Cosmos DB, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/time-to-live",
+        "type": "doc"
+      },
+      {
+        "label": "Connect with role-based access control and Microsoft Entra ID, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-connect-role-based-access-control",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Cosmos DB Linux emulator (vNext), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/emulator-linux",
+        "type": "doc"
+      },
+      {
+        "label": "CosmosClientOptions class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.azure.cosmos.cosmosclientoptions",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate to the Azure Cosmos DB .NET SDK v3, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/migrate-dotnet-v3",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Cosmos DB .NET SDK v3 changelog, GitHub",
+        "url": "https://github.com/Azure/azure-cosmos-dotnet-v3/blob/master/changelog.md",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Cosmos DB trigger for Azure Functions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-cosmosdb-v2-trigger",
+        "type": "doc"
+      },
+      {
+        "label": "JSON types in PostgreSQL, PostgreSQL documentation",
+        "url": "https://www.postgresql.org/docs/current/datatype-json.html",
+        "type": "doc"
+      },
+      {
+        "label": "Transactions in MongoDB, MongoDB documentation",
+        "url": "https://www.mongodb.com/docs/manual/core/transactions/",
+        "type": "doc"
+      },
+      {
+        "label": "Reshard a collection in MongoDB, MongoDB documentation",
+        "url": "https://www.mongodb.com/docs/manual/core/sharding-reshard-a-collection/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "slug": "azure-blob-storage-clients-metadata-and-sas",
+    "title": "Azure Blob Storage: Clients, Metadata and SAS",
+    "topic": "Storage",
+    "summary": "BlobServiceClient, BlobContainerClient and BlobClient in Azure.Storage.Blobs 12.30.1 measured against Azurite 3.38.0 (block, append and page blobs, when an upload becomes one Put Blob or blocks, peak memory with a 1 GiB file, flat and hierarchical listing, metadata against tags against properties, ETag conditions, leases, the retry that fails against its own write, access tiers), service, account and user delegation SAS validated against the emulator, identity instead of the account key, AddAzureClients, and a book vs today note on WindowsAzure.Storage and Microsoft.Azure.Storage.Blob.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "azure-sdk-clients-and-defaultazurecredential"
+    ],
+    "related": [
+      {
+        "label": "Azure SDK Clients and DefaultAzureCredential",
+        "slug": "azure-sdk-clients-and-defaultazurecredential",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "Key Vault and App Configuration in .NET",
+        "slug": "key-vault-and-app-configuration-in-dotnet",
+        "feature": "azure-dotnet-concepts"
+      },
+      {
+        "label": "File Uploads, Streaming Multipart and Range Requests",
+        "slug": "file-uploads-streaming-multipart-and-range-requests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Compression: ZIP, GZip, Brotli and Tar",
+        "slug": "compression-zip-gzip-brotli-and-tar",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload",
+        "feature": "system-design"
+      },
+      {
+        "label": "Application-Level Locks for External-I/O Critical Sections",
+        "slug": "application-level-locks-for-external-io-critical-sections",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Quickstart: Azure Blob Storage client library for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "Azure Storage Blobs client library for .NET 12.30.1, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/overview/azure/storage.blobs-readme",
+        "type": "doc"
+      },
+      {
+        "label": "Upload a blob with .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-upload",
+        "type": "doc"
+      },
+      {
+        "label": "Performance tuning for uploads and downloads with .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-tune-upload-download",
+        "type": "doc"
+      },
+      {
+        "label": "Understanding block blobs, append blobs, and page blobs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs",
+        "type": "doc"
+      },
+      {
+        "label": "Scalability and performance targets for Blob storage, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/scalability-targets",
+        "type": "doc"
+      },
+      {
+        "label": "Manage and find Azure Blob data with blob index tags, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-manage-find-blobs",
+        "type": "doc"
+      },
+      {
+        "label": "Manage concurrency in Blob Storage, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/concurrency-manage",
+        "type": "doc"
+      },
+      {
+        "label": "Access tiers for blob data, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Grant limited access to Azure Storage resources using SAS, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Create a service SAS for a container or blob with .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/sas-service-create-dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "Create a user delegation SAS for a container or blob with .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-user-delegation-sas-create-dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "Define a stored access policy, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/define-stored-access-policy",
+        "type": "doc"
+      },
+      {
+        "label": "Prevent authorization with Shared Key, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/common/shared-key-authorization-prevent",
+        "type": "doc"
+      },
+      {
+        "label": "Authorize access to blobs using Microsoft Entra ID, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-access-azure-active-directory",
+        "type": "doc"
+      },
+      {
+        "label": "Azure built-in roles for Storage, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/storage",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection with the Azure SDK for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/azure/sdk/dependency-injection",
+        "type": "doc"
+      },
+      {
+        "label": "Use the Azurite emulator for local Azure Storage development, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate from Azure Storage .NET v11 to v12, GitHub",
+        "url": "https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/storage/Azure.Storage.Blobs/AzureStorageNetMigrationV12.md",
+        "type": "doc"
+      },
+      {
+        "label": "Multipart upload limits, Amazon S3 User Guide",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html",
+        "type": "doc"
+      },
+      {
+        "label": "Conditional requests and writes, Amazon S3 User Guide",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/conditional-writes.html",
+        "type": "doc"
+      },
+      {
+        "label": "Sharing objects with presigned URLs, Amazon S3 User Guide",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html",
+        "type": "doc"
+      },
+      {
+        "label": "Organizing objects using prefixes, Amazon S3 User Guide",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html",
+        "type": "doc"
+      },
+      {
+        "label": "rename(), POSIX.1-2017, The Open Group",
+        "url": "https://pubs.opengroup.org/onlinepubs/9699919799/functions/rename.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
