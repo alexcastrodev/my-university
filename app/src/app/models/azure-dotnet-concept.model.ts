@@ -40,4 +40,6 @@ export const AZURE_DOTNET_CONCEPT_TOPIC_ORDER: readonly string[] = [
   'Serverless',
   'Messaging',
   'Secrets & Config',
+  'NoSQL',
+  'Storage',
 ];
