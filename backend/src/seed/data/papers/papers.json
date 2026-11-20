@@ -5313,5 +5313,218 @@
     "doi": "10.1145/226643.226647",
     "url": "https://doi.org/10.1145/226643.226647",
     "paperUrl": "https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf"
+  },
+  {
+    "slug": "amazon-aurora-design-considerations-for-high-throughput-cloud-native-relational-databases",
+    "title": "Amazon Aurora: Design Considerations for High Throughput Cloud-Native Relational Databases",
+    "authors": [
+      {
+        "name": "Alexandre Verbitski"
+      },
+      {
+        "name": "Anurag Gupta"
+      },
+      {
+        "name": "Debanjan Saha"
+      },
+      {
+        "name": "Murali Brahmadesam"
+      },
+      {
+        "name": "Kamal Gupta"
+      },
+      {
+        "name": "Raman Mittal"
+      },
+      {
+        "name": "Sailesh Krishnamurthy"
+      },
+      {
+        "name": "Sandor Maurice"
+      },
+      {
+        "name": "Tengiz Kharatishvili"
+      },
+      {
+        "name": "Xiaofeng Bao"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2017 ACM International Conference on Management of Data",
+    "publicationDate": "2017-05",
+    "doi": "10.1145/3035918.3056101",
+    "url": "https://dl.acm.org/doi/10.1145/3035918.3056101",
+    "paperUrl": "https://cdn.amazon.science/dc/2b/4ef2b89649f9a393d37d3e042f4e/amazon-aurora-design-considerations-for-high-throughput-cloud-native-relational-databases.pdf"
+  },
+  {
+    "slug": "chaos-engineering-basiri",
+    "title": "Chaos Engineering",
+    "authors": [
+      {
+        "name": "Ali Basiri"
+      },
+      {
+        "name": "Niosha Behnam"
+      },
+      {
+        "name": "Ruud de Rooij"
+      },
+      {
+        "name": "Lorin Hochstein"
+      },
+      {
+        "name": "Luke Kosewski"
+      },
+      {
+        "name": "Justin Reynolds"
+      },
+      {
+        "name": "Casey Rosenthal"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "IEEE Software",
+    "publicationDate": "2016-05",
+    "doi": "10.1109/ms.2016.60",
+    "url": "https://doi.org/10.1109/ms.2016.60",
+    "paperUrl": "https://arxiv.org/pdf/1702.05843"
+  },
+  {
+    "slug": "cockroachdb-the-resilient-geo-distributed-sql-database",
+    "title": "CockroachDB: The Resilient Geo-Distributed SQL Database",
+    "authors": [
+      {
+        "name": "Rebecca Taft"
+      },
+      {
+        "name": "Irfan Sharif"
+      },
+      {
+        "name": "Andrei Matei"
+      },
+      {
+        "name": "Nathan VanBenschoten"
+      },
+      {
+        "name": "Jordan Lewis"
+      },
+      {
+        "name": "Tobias Grieger"
+      },
+      {
+        "name": "Kai Niemi"
+      },
+      {
+        "name": "Andy Woods"
+      },
+      {
+        "name": "Anne Birzin"
+      },
+      {
+        "name": "Raphael Poss"
+      },
+      {
+        "name": "Paul Bardea"
+      },
+      {
+        "name": "Amruta Ranade"
+      },
+      {
+        "name": "Ben Darnell"
+      },
+      {
+        "name": "Bram Gruneir"
+      },
+      {
+        "name": "Justin Jaffray"
+      },
+      {
+        "name": "Lucy Zhang"
+      },
+      {
+        "name": "Peter Mattis"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 2020 ACM SIGMOD International Conference on Management of Data",
+    "publicationDate": "2020-06",
+    "doi": "10.1145/3318464.3386134",
+    "url": "https://doi.org/10.1145/3318464.3386134",
+    "paperUrl": "https://www.cockroachlabs.com/pdf/cockroachdb-the-resilient-geo-distributed-sql-database-sigmod-2020.pdf"
+  },
+  {
+    "slug": "using-crash-hoare-logic-for-certifying-the-fscq-file-system",
+    "title": "Using Crash Hoare logic for certifying the FSCQ file system",
+    "authors": [
+      {
+        "name": "Haogang Chen"
+      },
+      {
+        "name": "Daniel Ziegler"
+      },
+      {
+        "name": "Tej Chajed"
+      },
+      {
+        "name": "Adam Chlipala"
+      },
+      {
+        "name": "M. Frans Kaashoek"
+      },
+      {
+        "name": "Nickolai Zeldovich"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 25th Symposium on Operating Systems Principles",
+    "publicationDate": "2015-10-04",
+    "doi": "10.1145/2815400.2815402",
+    "url": "https://doi.org/10.1145/2815400.2815402",
+    "paperUrl": "https://pdos.csail.mit.edu/papers/fscq:sosp15.pdf"
+  },
+  {
+    "slug": "what-bugs-live-in-the-cloud-a-study-of-3000-issues-in-cloud-systems",
+    "title": "What Bugs Live in the Cloud? A Study of 3000+ Issues in Cloud Systems",
+    "authors": [
+      {
+        "name": "Haryadi S. Gunawi"
+      },
+      {
+        "name": "Mingzhe Hao"
+      },
+      {
+        "name": "Tanakorn Leesatapornwongsa"
+      },
+      {
+        "name": "Tiratat Patana-anake"
+      },
+      {
+        "name": "Thanh Do"
+      },
+      {
+        "name": "Jeffry Adityatama"
+      },
+      {
+        "name": "Kurnia J. Eliazar"
+      },
+      {
+        "name": "Agung Laksono"
+      },
+      {
+        "name": "Jeffrey F. Lukman"
+      },
+      {
+        "name": "Vincentius Martin"
+      },
+      {
+        "name": "Anang D. Satria"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM Symposium on Cloud Computing",
+    "publicationDate": "2014-11-03",
+    "doi": "10.1145/2670979.2670986",
+    "url": "https://doi.org/10.1145/2670979.2670986",
+    "paperUrl": "https://web.archive.org/web/20210118151542/https://ucare.cs.uchicago.edu/pdf/socc14-cbs.pdf"
   }
 ]

@@ -5,10 +5,10 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 192;
+const SEED = 197;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
-const JOURNAL_ARTICLES = 36;
+const JOURNAL_ARTICLES = 37;
 const FDB = {
   slug: 'foundationdb-unbundled-transactional-kv-store',
   title: 'FoundationDB: A Distributed Unbundled Transactional Key Value Store',
@@ -177,10 +177,10 @@ test.describe('Papers catalog', () => {
     test('filters by research area', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await papers.areaSelect.selectOption({ label: 'Operating Systems (56)' });
+      await papers.areaSelect.selectOption({ label: 'Operating Systems (57)' });
       await expect(page).toHaveURL(/area=Operating(\+|%20)Systems/);
 
-      // 56 papers: a full first page of the newest, a full second page (2013 to 2023, with 2019 and 2021 among them) and the sixteen oldest, from 1974 to 2010, on a third.
+      // 57 papers: a full first page of the newest, a full second page (2014 to 2023, with 2019 and 2021 among them) and the seventeen oldest, from 1974 to 2013, on a third.
       await expect(papers.cards).toHaveCount(PAGE);
       const newest = await papers.titles();
       expect(newest.some((t) => t.startsWith('Rakaia'))).toBe(true);
@@ -245,6 +245,8 @@ test.describe('Papers catalog', () => {
       await expect.poll(() => papers.titles()).toEqual([
         'A Critique of ANSI SQL Isolation Levels',
         'Access Path Selection in a Relational Database Management System',
+        'Amazon Aurora: Design Considerations for High Throughput Cloud-Native Relational Databases',
+        'CockroachDB: The Resilient Geo-Distributed SQL Database',
         'DuckDB: an Embeddable Analytical Database',
         'Elle: Inferring Isolation Anomalies from Experimental Observations',
         FDB.title,
