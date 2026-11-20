@@ -1,12 +1,12 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-20
 title: "Containerizando .NET: dotnet publish, Dockerfile e imagens chiseled"
-summary: Duas rotas para gerar uma imagem de container .NET 10 (o suporte embutido do SDK sem Dockerfile nem daemon, e um Dockerfile multi-stage), com a imagem base escolhida, o usuário não root, as famílias chiseled e Alpine medidas em tamanho, imagens multi-arquitetura e o efeito da falta de ICU na globalização.
+summary: Duas rotas para gerar uma imagem de container .NET 10 (o suporte embutido do SDK sem Dockerfile nem daemon, e um Dockerfile multi-stage), com a imagem base escolhida, o usuário não root, as famílias chiseled e Alpine medidas em tamanho, imagens multi-arquitetura, a propriedade LocalRegistry e o digest reproduzível com SOURCE_DATE_EPOCH no .NET 11, e o efeito da falta de ICU na globalização.
 ---
 ## Objective
 
-Uma imagem de container é uma pilha de camadas tar mais um config JSON que diz qual usuário executa o processo, qual comando o inicia, em quais portas ele escuta e qual ambiente ele enxerga. O .NET oferece dois caminhos para produzir uma. A rota do SDK (`dotnet publish -t:PublishContainer`) monta a imagem sozinha, sem Dockerfile e sem daemon do Docker, baixando uma imagem base da Microsoft por HTTPS e adicionando a saída do publish como uma camada. A rota do Dockerfile é um build multi-stage que você escreve e executa com o Docker ou outro builder. A rota do SDK toma várias decisões por você (imagem base, sistema operacional, usuário, porta, entrypoint), e algumas importam em produção: qual Linux você entrega, se o processo roda como root e se a imagem tem os dados de ICU de que o seu código sensível a cultura precisa. Este conceito publica o mesmo app ASP.NET Core em arquivos tar numa máquina sem daemon do Docker, descompacta esses arquivos, lê o manifest, o config e cada camada, e compara as famílias de imagem base pelo tamanho medido. Versões usadas: SDK 10.0.100 (container tooling `10.0.100-rtm.25523.111`) num Mac Apple Silicon (`osx-arm64`), runtime .NET e ASP.NET Core 10.0.14 dentro das imagens, imagens base `mcr.microsoft.com/dotnet/aspnet:10.0` (Ubuntu 24.04.5 LTS), `10.0-noble-chiseled`, `10.0-noble-chiseled-extra` e `10.0-alpine` (Alpine Linux v3.24), além de `aspnet:9.0` (Debian 12) para comparação.
+Uma imagem de container é uma pilha de camadas tar mais um config JSON que diz qual usuário executa o processo, qual comando o inicia, em quais portas ele escuta e qual ambiente ele enxerga. O .NET oferece dois caminhos para produzir uma. A rota do SDK (`dotnet publish -t:PublishContainer`) monta a imagem sozinha, sem Dockerfile e sem daemon do Docker, baixando uma imagem base da Microsoft por HTTPS e adicionando a saída do publish como uma camada. A rota do Dockerfile é um build multi-stage que você escreve e executa com o Docker ou outro builder. A rota do SDK toma várias decisões por você (imagem base, sistema operacional, usuário, porta, entrypoint), e algumas importam em produção: qual Linux você entrega, se o processo roda como root e se a imagem tem os dados de ICU de que o seu código sensível a cultura precisa. Este conceito publica o mesmo app ASP.NET Core em arquivos tar numa máquina sem daemon do Docker, descompacta esses arquivos, lê o manifest, o config e cada camada, e compara as famílias de imagem base pelo tamanho medido. Versões usadas: SDK 10.0.100 (container tooling `10.0.100-rtm.25523.111`) num Mac Apple Silicon (`osx-arm64`), runtime .NET e ASP.NET Core 10.0.14 dentro das imagens, imagens base `mcr.microsoft.com/dotnet/aspnet:10.0` (Ubuntu 24.04.5 LTS), `10.0-noble-chiseled`, `10.0-noble-chiseled-extra` e `10.0-alpine` (Alpine Linux v3.24), além de `aspnet:9.0` (Debian 12) para comparação. A seção do .NET 11 usa o SDK 11.0.100 e `mcr.microsoft.com/dotnet/aspnet:11.0`.
 
 ## Use Cases
 
@@ -202,7 +202,29 @@ Criar `pt-BR` lança exceção. Desligar o predefined-cultures-only faz a criaç
 
 ### Enviando para um registry (documentado, não executado)
 
-Não enviei nada para lugar nenhum. A documentação descreve o `ContainerRegistry` como destino, por exemplo `-p:ContainerRegistry=registry.mycorp.com:1234`, e lista ACR, ECR, Artifact Registry, Docker Hub, GHCR, GitLab e Quay entre os registries que implementam a Docker Registry HTTP API V2 de que ele precisa. As credenciais vêm do config normal do Docker (`~/.docker/config.json` ou `$DOCKER_CONFIG`: `auths`, `credHelpers`, `credsStore`), então um `docker login` ou um credential helper da nuvem basta. Para CI sem esse arquivo, o SDK lê `DOTNET_CONTAINER_REGISTRY_UNAME` e `DOTNET_CONTAINER_REGISTRY_PWORD` (antes do SDK 8.0.400 os nomes eram `SDK_CONTAINER_REGISTRY_UNAME`/`PWORD`). A documentação de autenticação avisa que essas variáveis não têm escopo por registry: as mesmas credenciais são enviadas ao registry de onde vem a imagem base e ao destino. `DOTNET_CONTAINER_INSECURE_REGISTRIES` (SDK 9.0.1xx em diante) recebe uma lista separada por vírgulas de registries a tratar como inseguros, por exemplo um registry privado sem TLS.
+Não enviei nada para nenhum registry de verdade (a seção do .NET 11 logo abaixo usa um registry local descartável). A documentação descreve o `ContainerRegistry` como destino, por exemplo `-p:ContainerRegistry=registry.mycorp.com:1234`, e lista ACR, ECR, Artifact Registry, Docker Hub, GHCR, GitLab e Quay entre os registries que implementam a Docker Registry HTTP API V2 de que ele precisa. As credenciais vêm do config normal do Docker (`~/.docker/config.json` ou `$DOCKER_CONFIG`: `auths`, `credHelpers`, `credsStore`), então um `docker login` ou um credential helper da nuvem basta. Para CI sem esse arquivo, o SDK lê `DOTNET_CONTAINER_REGISTRY_UNAME` e `DOTNET_CONTAINER_REGISTRY_PWORD` (antes do SDK 8.0.400 os nomes eram `SDK_CONTAINER_REGISTRY_UNAME`/`PWORD`). A documentação de autenticação avisa que essas variáveis não têm escopo por registry: as mesmas credenciais são enviadas ao registry de onde vem a imagem base e ao destino. `DOTNET_CONTAINER_INSECURE_REGISTRIES` (SDK 9.0.1xx em diante) recebe uma lista separada por vírgulas de registries a tratar como inseguros, por exemplo um registry privado sem TLS.
+
+### .NET 11: o runtime local e digests reproduzíveis
+
+Medido no SDK 11.0.100 (`net11.0`, `osx-arm64`); toda imagem se chamou `dotnet11-residuos-*` e foi removida depois. A propriedade que escolhe a ferramenta local é `LocalRegistry` (`Docker`, `Podman`, `Wslc` ou `MacOSContainer`), e não `ContainerRuntimeIdentifier`, que é o RID da imagem (veja acima). Quando ela está vazia, o SDK 11 prefere a ferramenta nativa da plataforma: `wslc` no Windows e a CLI `container` da Apple no macOS, cada uma só se estiver instalada e com o serviço rodando, e depois Docker ou Podman. Aqui só o Docker está instalado, então `wslc`, `container` e Podman ficam como "docs only"; medi a detecção e as falhas:
+
+```text
+LocalRegistry unset:       Pushed image 'dotnet11-residuos-local:auto' to local registry via 'Docker'.
+-p:LocalRegistry=Docker:   Pushed image 'dotnet11-residuos-local:docker' to local registry via 'Docker'.
+-p:LocalRegistry=Podman (or MacOSContainer, Wslc): error CONTAINER1012: The local registry is not available, but pushing to a local registry was requested.
+```
+
+O SDK 11 também monta imagens multi-arquitetura com o Podman, o que antes só o Docker fazia (docs only). Para o digest, enviei para um `registry:2` descartável em `127.0.0.1:6970` (container `dotnet11-residuos-registry`, removido), com `dotnet publish -t:PublishContainer -p:ContainerRegistry=localhost:6970` e um `-p:ContainerImageTag` diferente por execução, rodando `rm -rf bin obj` antes de cada uma e lendo o `Docker-Content-Digest` do registry:
+
+```text
+SDK 11, SOURCE_DATE_EPOCH=1700000000, run 1: sha256:68e3be49429c4633cca1a87329c5025ae43057462929072dd2473e9668f3f77d
+SDK 11, SOURCE_DATE_EPOCH=1700000000, run 2: sha256:68e3be49429c4633cca1a87329c5025ae43057462929072dd2473e9668f3f77d
+SDK 11, variable unset, run 1:               sha256:3ac57c25b4c016a3491d9da56e3455166043fa6645d741d2727edab74fbc6575
+SDK 11, variable unset, run 2:               sha256:38c8eb5f3516896bdc43241cb4595b71ea04badb796e2cd4e673a265cf94c3d6
+SDK 10.0.100, variable set, run 1 and 2:     sha256:9a903f42866d... and sha256:023ea3c36a56... (different)
+```
+
+O mesmo epoch deu o mesmo digest, sem a variável saiu um digest novo a cada vez, e o SDK 10.0.100 ignora a variável (o arquivo de targets dele nem a menciona). Os targets passam `$(SOURCE_DATE_EPOCH)` à tarefa da imagem, então tanto uma variável de ambiente quanto `-p:` funcionam, e a documentação sugere `-p:SOURCE_DATE_EPOCH="$(git log -1 --pretty=%ct)"` para que um commit gere sempre um digest. Nos arquivos extraídos, as camadas base foram sempre iguais; com o epoch a camada do app e a config também foram idênticas, sem ele as duas mudaram. Ressalva: dois arquivos gerados com o mesmo epoch ainda tinham `sha256` diferente como arquivo, embora `manifest.json`, a config e cada camada por dentro fossem idênticos byte a byte, então compare o digest do registry ou os ids da config e das camadas, não o hash do `.tar.gz`. Isso valeu numa máquina, com uma tag base que não mudou entre as execuções; fixe a base por digest (veja os trade-offs) para uma garantia mais forte. A documentação acrescenta que, quando o manifesto já existe no registry, o SDK pula as camadas (`ContainerPushNoCache=true` desliga isso); não testei.
 
 ### Rota 2: um Dockerfile multi-stage (mostrado, não executado)
 
@@ -247,5 +269,7 @@ Copiar o `.csproj` e fazer o restore antes de copiar o código-fonte torna a cam
 - [Containerize an app with dotnet publish, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/containers/sdk-publish) (doc)
 - [Containerize a .NET app reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/containers/publish-configuration) (doc)
 - [.NET container images, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/docker/container-images) (doc)
+- [What's new in the SDK and tooling for .NET 11: container updates, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk) (doc)
+- [SOURCE_DATE_EPOCH specification, Reproducible Builds](https://reproducible-builds.org/docs/source-date-epoch/) (doc)
 - [Introduction to Docker, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/docker/introduction) (doc)
 - [Globalization config settings, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/runtime-config/globalization) (doc)

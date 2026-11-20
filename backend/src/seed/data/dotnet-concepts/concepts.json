@@ -437,7 +437,7 @@
     "category": "Platform & Tooling",
     "title": "The dotnet CLI and the Noun-First Commands",
     "topic": "Project System",
-    "summary": "CLI anatomy, the .NET 10 noun-first commands (and a reference add failure seen on SDK 10.0.100), -p: and where it breaks, tool manifests, dotnet tool exec and dnx, dotnet watch hot reload, --cli-schema, all measured on SDK 10.0.100.",
+    "summary": "CLI anatomy, the .NET 10 noun-first commands (and a reference add failure seen on SDK 10.0.100), -p: and where it breaks, tool manifests, dotnet tool exec and dnx, dotnet watch hot reload, --cli-schema and .slnf solution filters in dotnet sln (.NET 11), measured on SDKs 10.0.100 and 11.0.100.",
     "publishedAt": "2026-10-15",
     "requires": [
       "sdk-style-projects-msbuild-and-directory-build-props"
@@ -498,6 +498,16 @@
       {
         "label": ".NET tools overview, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet sln, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-sln",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the SDK and tooling for .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk",
         "type": "doc"
       }
     ]
@@ -1256,7 +1266,7 @@
     "category": "Platform & Tooling",
     "title": "Containerizing .NET: SDK Publish, Dockerfile and Chiseled Images",
     "topic": "Publishing & Native AOT",
-    "summary": "Two routes to a .NET 10 container image, the SDK's PublishContainer (no Dockerfile, no daemon) and a multi-stage Dockerfile, with the inferred base image (Ubuntu 24.04 for 10.0), the rootless user 1654, the image config and layers read from a tar archive, chiseled and Alpine families measured by size, multi-arch images, registry authentication, and what missing ICU does to culture-sensitive code.",
+    "summary": "Two routes to a .NET 10 container image, the SDK's PublishContainer (no Dockerfile, no daemon) and a multi-stage Dockerfile, with the inferred base image (Ubuntu 24.04 for 10.0), the rootless user 1654, the image config and layers read from a tar archive, chiseled and Alpine families measured by size, multi-arch images, the LocalRegistry property and reproducible digests with SOURCE_DATE_EPOCH in .NET 11, registry authentication, and what missing ICU does to culture-sensitive code.",
     "publishedAt": "2026-10-28",
     "requires": [
       "self-contained-single-file-and-trimmed-publishing"
@@ -1317,6 +1327,16 @@
       {
         "label": "Globalization config settings, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/globalization",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the SDK and tooling for .NET 11: container updates, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/sdk",
+        "type": "doc"
+      },
+      {
+        "label": "SOURCE_DATE_EPOCH specification, Reproducible Builds",
+        "url": "https://reproducible-builds.org/docs/source-date-epoch/",
         "type": "doc"
       }
     ]
@@ -2430,7 +2450,7 @@
     "category": "ASP.NET Core",
     "title": "Async Validation with Data Annotations",
     "topic": "Minimal APIs",
-    "summary": "AsyncValidationAttribute and IAsyncValidatableObject in .NET 11 Minimal APIs for rules that query a database or a service, the order in which rules run, the ProblemDetails response, cancellation through the request token, and what was left out because it was not executed.",
+    "summary": "AsyncValidationAttribute and IAsyncValidatableObject in .NET 11 Minimal APIs for rules that query a database or a service, the order in which rules run, the ProblemDetails response, cancellation through the request token, asynchronous options validation at host startup (IAsyncStartupValidator and IAsyncValidateOptions), and what was left out because it was not executed.",
     "publishedAt": "2026-11-12",
     "requires": [
       "input-validation-in-minimal-apis"
@@ -2486,6 +2506,21 @@
       {
         "label": "Handle errors in ASP.NET Core APIs, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api",
+        "type": "doc"
+      },
+      {
+        "label": "IAsyncStartupValidator interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.options.iasyncstartupvalidator",
+        "type": "doc"
+      },
+      {
+        "label": "IAsyncValidateOptions<TOptions> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.options.iasyncvalidateoptions-1",
+        "type": "doc"
+      },
+      {
+        "label": "Options pattern in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/options",
         "type": "doc"
       }
     ],
@@ -3508,7 +3543,7 @@
     "category": "ASP.NET Core",
     "title": "Cryptography: Hashing, HMAC, AES-GCM and Password Hashing",
     "topic": "Security",
-    "summary": "Choosing the .NET primitive by the job, with measurements: SHA256.HashData, why a fast hash is wrong for passwords, PBKDF2 with a random salt, the real format of Identity's PasswordHasher, constant-time comparison, HMAC, signatures, AesGcm tamper detection and nonces, the SYSLIB diagnostics on legacy APIs, RandomNumberGenerator and the .NET 10 post-quantum types.",
+    "summary": "Choosing the .NET primitive by the job, with measurements: SHA256.HashData, why a fast hash is wrong for passwords, PBKDF2 with a random salt, the real format of Identity's PasswordHasher, constant-time comparison, HMAC, signatures, AesGcm tamper detection and nonces, the SYSLIB diagnostics on legacy APIs, RandomNumberGenerator, the .NET 10 post-quantum types and the .NET 11 additions (X25519, AES Key Wrap, HPKE, composite ML-KEM).",
     "publishedAt": "2026-10-28",
     "requires": [
       "authentication-and-authorization-fundamentals"
@@ -3574,6 +3609,21 @@
       {
         "label": "Password Storage Cheat Sheet, OWASP",
         "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 11 libraries: cryptography, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "Aes.EncryptKeyWrap Method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aes.encryptkeywrap",
+        "type": "doc"
+      },
+      {
+        "label": "Hpke Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hpke",
         "type": "doc"
       }
     ]
@@ -5041,7 +5091,7 @@
     "category": "ASP.NET Core",
     "title": "OpenTelemetry: Logs, Metrics and Traces",
     "topic": "Observability",
-    "summary": "ILogger, Meter and ActivitySource as the three framework APIs, what ASP.NET Core already emits on its own, what the SDK and the instrumentation packages add, context propagation, metric cardinality limits, histogram buckets, sampling, resources and the path the OTLP exporter really posts to, with the measured result of each experiment.",
+    "summary": "ILogger, Meter and ActivitySource as the three framework APIs, what ASP.NET Core already emits on its own, what the SDK and the instrumentation packages add, context propagation, metric cardinality limits, histogram buckets, sampling, resources the path the OTLP exporter really posts to and the .NET 11 tracing rules for Activity (AddTracing, no manual ActivityListener), with the measured result of each experiment.",
     "publishedAt": "2026-10-28",
     "requires": [
       "middleware-pipeline-and-program-cs"
@@ -5112,6 +5162,21 @@
       {
         "label": "OpenTelemetry semantic conventions",
         "url": "https://opentelemetry.io/docs/specs/semconv/",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 11 libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "TracingServiceExtensions.AddTracing, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.tracingserviceextensions.addtracing",
+        "type": "doc"
+      },
+      {
+        "label": "ITracingBuilder interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.diagnostics.tracing.itracingbuilder",
         "type": "doc"
       }
     ]
