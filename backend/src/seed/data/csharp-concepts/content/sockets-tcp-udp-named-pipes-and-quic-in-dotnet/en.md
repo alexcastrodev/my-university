@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-19
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -14,8 +14,8 @@ Named pipes and Unix domain sockets are the local alternatives, and
 `System.Net.Quic` has a platform requirement that decides whether you can use
 it. Everything ran on loopback, on macOS.
 
-Versions: .NET SDK 10.0.100, TFM `net10.0`, no NuGet packages (shared
-framework only), macOS arm64.
+Versions: .NET SDK 10.0.100 (and 11.0.100 for the QUIC priority note), TFM
+`net10.0`, no NuGet packages (shared framework only), macOS arm64.
 
 ## Use Cases
 
@@ -208,17 +208,31 @@ Windows named pipes can also cross the network (docs only).
 
 ### QUIC
 
-```text
-QuicConnection.IsSupported = False; QuicListener.IsSupported = False
-```
-
-Not usable on this macOS. The docs say `System.Net.Quic` wraps MsQuic: bundled
+`QuicConnection.IsSupported` and `QuicListener.IsSupported` are both `False`:
+not usable on this macOS. The docs say `System.Net.Quic` wraps MsQuic: bundled
 with .NET on Windows 11 and Windows Server 2022 or later, `libmsquic` (2.2+)
 installed by you on Linux, and a manual MsQuic build elsewhere, outside the
 tested matrix. The API is stable since .NET 9. The rest is docs only, not run:
 check `IsSupported` first, QUIC needs TLS 1.3 and an ALPN protocol,
 `QuicListener.ListenAsync` accepts connections, and each `QuicConnection` opens
 many independent `QuicStream`s (HTTP/3 is built on it).
+
+### QUIC stream priority in .NET 11
+
+.NET 11 adds `QuicStream.Priority` (`System.Net.Quic`, a `byte`, stable, no
+`[Experimental]` diagnostic) and `QuicStream.DefaultPriority`: HTTP/3 stream
+prioritization (RFC 9218), 0 the highest, 255 the lowest, default 127. Measured
+on the 11.0.100 GA SDK:
+
+```csharp
+QuicConnection.IsSupported         // False (no libmsquic on this Mac)
+QuicStream.DefaultPriority         // 127
+static void Boost(QuicStream s) => s.Priority = 64;   // compiles on net11.0
+```
+
+On `net10.0` the same file fails with CS1061 (`Priority`) and CS0117
+(`DefaultPriority`). No connection could be opened, so what the peer does with
+the value is docs only. Raise it on interactive streams, leave bulk ones alone.
 
 ### Bridges: operating systems and distributed systems
 
@@ -254,3 +268,4 @@ whether the server ran the request, so a retry must be safe.
 - [Socket.Shutdown, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.shutdown) (doc)
 - [UnixDomainSocketEndPoint, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.unixdomainsocketendpoint) (doc)
 - [QuicConnection.IsSupported, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.quic.quicconnection.issupported) (doc)
+- [QuicStream.Priority, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.quic.quicstream.priority) (doc)

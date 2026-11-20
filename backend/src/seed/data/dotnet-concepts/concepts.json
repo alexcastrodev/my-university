@@ -3006,7 +3006,7 @@
     "category": "ASP.NET Core",
     "title": "HttpClient and IHttpClientFactory",
     "topic": "HTTP Clients",
-    "summary": "Socket exhaustion with a client per request, the DNS problem of a static client and PooledConnectionLifetime, named and typed clients, DelegatingHandler, HttpClient.Timeout versus CancellationToken, ResponseHeadersRead and GetFromJsonAsync, with the real result of each experiment.",
+    "summary": "Socket exhaustion with a client per request, the DNS problem of a static client and PooledConnectionLifetime, named and typed clients, DelegatingHandler, HttpClient.Timeout versus CancellationToken, ResponseHeadersRead and GetFromJsonAsync, and the .NET 11 InitialHttp2MaxConcurrentStreams, with the real result of each experiment.",
     "publishedAt": "2026-10-15",
     "related": [
       {
@@ -3084,6 +3084,11 @@
       {
         "label": "Make HTTP requests using IHttpClientFactory in ASP.NET Core, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests",
+        "type": "doc"
+      },
+      {
+        "label": "SocketsHttpHandler.InitialHttp2MaxConcurrentStreams property, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.http.socketshttphandler.initialhttp2maxconcurrentstreams",
         "type": "doc"
       }
     ],

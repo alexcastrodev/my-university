@@ -1,8 +1,8 @@
 ---
-version: 1.0
-updatedAt: 2026-11-12
+version: 1.1
+updatedAt: 2026-11-20
 title: "Ponto Flutuante Decimal: Decimal32, Decimal64 e Decimal128"
-summary: Os tipos decimais IEEE 754 do .NET 11 contra decimal e double (precisão, faixa, tamanho, bits BID, arredondamento, parsing e formatação, conversões, JSON e desempenho medido), com a escolha honesta entre eles e o aviso de que a adoção ainda é mínima.
+summary: Os tipos decimais IEEE 754 do .NET 11 contra decimal e double (precisão, faixa, tamanho, bits BID, arredondamento, parsing e formatação, conversões, JSON, Complex<T> sobre os decimais e desempenho medido), com a escolha honesta entre eles e o aviso de que a adoção ainda é mínima.
 ---
 ## Objective
 
@@ -149,6 +149,30 @@ Sum(Decimal64.Parse("0.1", inv), Decimal64.Parse("0.2", inv), Decimal64.Parse("0
 
 Não há operadores entre um decimal IEEE e `long`, `double` ou `decimal`; converta antes. O concept de generic math explica as interfaces.
 
+### `Complex<T>`: números complexos sobre qualquer float IEEE
+
+O .NET 11 também acrescenta `System.Numerics.Complex<T>` (estável, sem
+`[Experimental]`), com `T : IFloatingPointIeee754<T>, IMinMaxValue<T>`. O
+`Complex` antigo continua e é sempre `double`. Os três decimais IEEE, `Half` e
+`float` cabem na restrição, `decimal` não (`CS0315`):
+
+```csharp
+var old = new Complex(0.1, 0.2);
+var d64 = new Complex<Decimal64>(Decimal64.Parse("0.1", inv), Decimal64.Parse("0.2", inv));
+Console.WriteLine(old + old + old);   // <0.30000000000000004; 0.6000000000000001>
+Console.WriteLine(d64 + d64 + d64);   // <0.3; 0.6>
+Complex<double>.Sqrt(new(-1, 0))      // <0; 1>
+```
+
+Um `Norm2<T>(Complex<T> z)` genérico devolveu `25` para `Complex<Half>(3, 4)`,
+`Complex<float>` e `Complex<Decimal64>`. `Complex<T>` tem `Abs`, `Sqrt`, `Exp`,
+`Log`, `Pow` e funções trigonométricas, `FromPolarCoordinates`, `Conjugate` e
+`Parse`. Um `double` converte implicitamente, mas não há conversão de `Complex`
+para `Complex<double>` (`CS0030`): reconstrua a partir de `Real` e `Imaginary`.
+No `net10.0`, `Complex<float>` dá `CS0308`. A parte decimal importa para entradas
+decimais exatas; para processamento de sinais, `double` e `Complex` seguem como
+caminho rápido (a velocidade de `Complex<T>` não foi medida).
+
 ### Velocidade
 
 A aritmética é feita em software (não há instrução decimal no processador), e o `decimal` também. 20 milhões de operações, melhor de cinco, Release, `net11.0`, Apple Silicon (milissegundos):
@@ -219,3 +243,4 @@ Um projeto de biblioteca (`Ieee.cs`) e um projeto de testes que mira `net11.0`. 
 - [What's new in .NET 11 libraries, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries) (doc)
 - [Decimal, double and BigInteger conversions in .NET 11, breaking change, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/11/decimal-biginteger-floating-point-conversions) (doc)
 - [IDecimalFloatingPointIeee754<TSelf> interface, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.idecimalfloatingpointieee754-1) (doc)
+- [Complex<T> struct, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex-1) (doc)

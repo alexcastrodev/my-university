@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -11,7 +11,8 @@ explains what that costs when you create clients per request, what a long-lived
 client gets wrong about DNS, how `IHttpClientFactory` (named and typed clients,
 handler lifetime, `DelegatingHandler`) fixes both, and what the exceptions
 really look like when a request times out or is cancelled. Everything was run
-against a local Kestrel server on the 10.0.100 SDK (runtime 10.0.0).
+against a local Kestrel server on the 10.0.100 SDK (runtime 10.0.0); the HTTP/2
+note also on 11.0.100.
 
 ## Use Cases
 
@@ -40,13 +41,12 @@ for (int i = 0; i < 1000; i++)
 
 left **1000 sockets in `TIME_WAIT`** (`netstat -an -p tcp`). A single shared
 client doing the same 1000 calls added one. `TIME_WAIT` is the TCP state in which
-the side that closed first holds the port for a while; the docs point to RFC 9293
-for it. Looping until something broke, the 16256th request failed with
-`HttpRequestException: Can't assign requested address (127.0.0.1:5300)` (inner
-`SocketException`, `HttpRequestError.ConnectionError`), roughly the size of the
-macOS ephemeral port range (49152 to 65535) on this machine. The limit is a
-property of the operating system, so the number differs elsewhere, but the
-failure mode does not.
+the side that closed first holds the port for a while (RFC 9293). Looping until
+something broke, the 16256th request failed with `HttpRequestException: Can't
+assign requested address (127.0.0.1:5300)` (inner `SocketException`,
+`HttpRequestError.ConnectionError`), roughly the macOS ephemeral port range
+(49152 to 65535). The limit belongs to the operating system, so the number
+differs elsewhere, but the failure mode does not.
 
 ### The static client and DNS
 
@@ -95,23 +95,20 @@ class GamesClient(HttpClient http) { public Task<string> WhoAsync() => http.GetS
 What the factory does, observed:
 
 - Every `CreateClient` returns a **new `HttpClient`** (`ReferenceEquals` was
-  false) that shares the **same handler** (true) while it is within its
-  lifetime. 1000 calls to `CreateClient` plus `Dispose` per request left no
-  growth in `TIME_WAIT`: disposing a factory client does not dispose the
-  pooled handler.
+  false) sharing the **same handler** while it is within its lifetime. 1000
+  `CreateClient` plus `Dispose` calls left no growth in `TIME_WAIT`: disposing a
+  factory client does not dispose the pooled handler.
 - The default `HandlerLifetime` read back as `00:02:00`; `SetHandlerLifetime`
   changes it per client. When it expires, the next `CreateClient` gets a new
-  handler and the old one is disposed once no client uses it.
-- The chain behind a client was `LifetimeTrackingHttpMessageHandler`,
+  handler and the old one is disposed once nobody uses it.
+- The chain was `LifetimeTrackingHttpMessageHandler`,
   `LoggingScopeHttpMessageHandler`, `LoggingHttpMessageHandler`, then a
-  `SocketsHttpHandler` whose `PooledConnectionLifetime` read `00:02:00`. The
-  docs call the factory-default primary handler an implementation detail, so
-  do not cast it; use `ConfigurePrimaryHttpMessageHandler` or
-  `UseSocketsHttpHandler` when you need control.
-- The typed client is registered transient. The docs add two cautions: do not
-  register the typed class a second time yourself (the later registration
-  overwrites the factory's), and keep the number of distinct client names
-  bounded, never derived from user input.
+  `SocketsHttpHandler` with `PooledConnectionLifetime` of `00:02:00`. The docs
+  call the default primary handler an implementation detail: do not cast it, use
+  `ConfigurePrimaryHttpMessageHandler` or `UseSocketsHttpHandler`.
+- The typed client is transient. Cautions from the docs: do not register the
+  typed class again yourself (the later registration overwrites the factory's)
+  and keep the number of client names bounded, never derived from user input.
 
 ### Typed clients captured by singletons
 
@@ -127,15 +124,12 @@ t=7s  default handler: resolved 65462 captured 65463   |   explicit infinite Soc
 ```
 
 With the default primary handler the captured client still rotated its
-connection (it read `PooledConnectionLifetime` of two minutes at the default
-handler lifetime, so it probably follows the handler lifetime), but with a
-primary handler built as a plain
-`new SocketsHttpHandler()` the captured one stayed on port 65453 forever. That
-is the captive dependency from the earlier DI concept, applied to DNS. The
+connection (probably following the handler lifetime), but with a primary handler
+built as a plain `new SocketsHttpHandler()` the captured one stayed on port 65453
+forever: the captive dependency from the earlier DI concept, applied to DNS. The
 docs' remedies: inject `IHttpClientFactory` into the singleton and call
 `CreateClient` when needed, or set `PooledConnectionLifetime` on the primary
-handler yourself. Do not rely on the first behavior, since it comes from that
-implementation detail.
+handler yourself. Do not rely on the first behavior, an implementation detail.
 
 ### DelegatingHandler: outgoing middleware
 
@@ -157,13 +151,12 @@ class TraceHandler(RequestInfo info) : DelegatingHandler
 ```
 
 The log showed `TimingHandler: before`, `TraceHandler`, then `TimingHandler:
-after`. There is a trap with scoped services. The factory creates its own DI
-scope per handler instance, separate from the request scope. A scoped
-`RequestInfo` was `787f50` in the first request scope and `f14957` in the second,
-yet the handler saw `027923` in both, because the same cached handler served
-both requests. The docs advise not caching scope data in handlers and describe a
-transient scope-aware handler wrapped around the cached one for the cases that
-need it.
+after`. A trap with scoped services: the factory creates its own DI scope per
+handler instance, separate from the request scope. A scoped `RequestInfo` was
+`787f50` in the first request scope and `f14957` in the second, yet the handler
+saw `027923` in both, because the same cached handler served both. The docs
+advise not caching scope data in handlers and describe a transient scope-aware
+handler around the cached one for the cases that need it.
 
 ### Timeouts and cancellation
 
@@ -209,15 +202,31 @@ threw `JsonException`. `GetFromJsonAsAsyncEnumerable<T>` yielded items at 409,
 812, 1211, 1612 and 2013 ms, while `GetFromJsonAsync<List<T>>` returned all five
 at 2009 ms.
 
+### Limiting the first HTTP/2 burst (.NET 11)
+
+`SocketsHttpHandler.InitialHttp2MaxConcurrentStreams` (`int`, at least 1,
+stable, no `[Experimental]`) caps the streams a new HTTP/2 connection opens
+before the server's `SETTINGS` frame arrives (default 100); afterwards the
+server's advertised limit applies. Measured on 11.0.100 GA against a TCP stub on
+`127.0.0.1:7100` that sends `SETTINGS` (200 streams) after 500 ms and counts
+`HEADERS` frames while 150 `RequestVersionExact` requests are queued:
+
+```csharp
+var handler = new SocketsHttpHandler { InitialHttp2MaxConcurrentStreams = 20 };
+// streams opened at 300 ms / at 1500 ms:   net10.0 100 / 150, net11.0 default 100 / 150,
+// net11.0 = 20: 20 / 150,   net11.0 = 1: 1 / 150
+```
+
+On `net10.0` the property fails with CS1061 and the first burst is always 100.
+Use a lower value when you know the server (a gateway, an old HTTP/2 stack)
+allows fewer than 100; once `SETTINGS` arrives it changes nothing.
+
 ## Trade-offs
 
 - **A static client is simplest, but only with the right setting.** Without
   `PooledConnectionLifetime` it never sees a DNS change. The factory gives named
   configuration and handler pipelines in exchange for a package and a lifetime
   model to understand.
-  ```csharp
-  new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(2) }
-  ```
 - **Typed clients are convenient and easy to capture.** Injected into a
   singleton, they escape the factory's control. A named client plus
   `CreateClient` per use avoids it.
@@ -248,9 +257,7 @@ In this lab you get a typed client `GamesClient` that throws `NotImplementedExce
 No network is used: the tests replace the primary handler with an in-process fake (`FakeHandler`) that returns JSON, a status, or hangs forever.
 
 - `ServiceCollectionExtensions.cs`: `AddGamesClient(baseAddress, timeout)`, with the constants `ConnectionLifetime` (2 minutes) and `HandlerLifetime` (5 minutes).
-- `CorrelationIdHandler.cs`: a `DelegatingHandler` with the `X-Correlation-Id` header constant.
-- `GamesClient.cs`: the typed client, with `GetGameAsync`, `ReadFirstLineAsync` and two optional variants.
-- `Game.cs`: the `Game` record and `GameServiceTimeoutException`.
+- `CorrelationIdHandler.cs` (a `DelegatingHandler` with the `X-Correlation-Id` header constant), `GamesClient.cs` (`GetGameAsync`, `ReadFirstLineAsync` and two optional variants) and `Game.cs` (the `Game` record and `GameServiceTimeoutException`).
 
 **What you will do, step by step**
 
@@ -283,3 +290,4 @@ No network is used: the tests replace the primary handler with an in-process fak
 - [HttpCompletionOption, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcompletionoption) (doc)
 - [SocketsHttpHandler.PooledConnectionLifetime, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.socketshttphandler.pooledconnectionlifetime) (doc)
 - [Make HTTP requests using IHttpClientFactory in ASP.NET Core, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests) (doc)
+- [SocketsHttpHandler.InitialHttp2MaxConcurrentStreams, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.socketshttphandler.initialhttp2maxconcurrentstreams) (doc)

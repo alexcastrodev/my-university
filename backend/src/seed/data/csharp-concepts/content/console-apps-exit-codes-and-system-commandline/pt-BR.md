@@ -1,15 +1,15 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-20
 title: "Apps de Console, Códigos de Saída e System.CommandLine"
-summary: Assinaturas de Main, args e o separador -- do dotnet run, códigos de saída e o truncamento para 0..255 no Unix, crashes e FailFast, stdout versus stderr, stdin e encodings, Ctrl+C e SIGTERM no .NET 10, e uma CLI com System.CommandLine 2.0 (opções, argumentos, validadores, ajuda, erros, response files, diretivas e cancelamento).
+summary: Assinaturas de Main, args e o separador -- do dotnet run, códigos de saída e o truncamento para 0..255 no Unix, crashes e FailFast, stdout versus stderr, stdin e encodings, Ctrl+C e SIGTERM no .NET 10, e uma CLI com System.CommandLine 2.0 (opções, argumentos, validadores, ajuda, erros, response files, diretivas e cancelamento) e o suporte a FORCE_COLOR do .NET 11.
 ---
 ## Objective
 
 Um programa de linha de comando conversa com quem o chamou por argumentos,
 código de saída, stdout (dados) e stderr (o resto). Scripts, CI e
 orquestradores só leem isso, então sair com 0 depois de uma falha quebra tudo
-em silêncio. Este conceito mostra, no .NET 10 / C# 14 no macOS, como `Main`
+em silêncio. Este conceito mostra, no .NET 10 / C# 14 no macOS (e uma nota do .NET 11 sobre `FORCE_COLOR`), como `Main`
 devolve códigos, o que o Unix faz com códigos fora de 0..255, como termina um
 crash, como manter o stdout limpo, como tratar Ctrl+C e SIGTERM e como montar
 uma CLI com `System.CommandLine`, que ficou seis anos em beta: o NuGet mostra a
@@ -102,6 +102,30 @@ been redirected. Try Console.Read.`, então proteja com
 sem variáveis de locale, mas `iso-8859-1` com `LANG=en_US.ISO8859-1`, onde
 `"café ✓"` saiu como `caf\xe9 ?`. Definir `Console.OutputEncoding =
 Encoding.UTF8` restaurou o UTF-8, sem escrever BOM.
+
+### FORCE_COLOR e NO_COLOR (.NET 11)
+
+O .NET 11 faz o console respeitar a variável de ambiente `FORCE_COLOR`
+(force-color.org) ao lado de `NO_COLOR`. Não é uma API nem é experimental: com
+`FORCE_COLOR` definida, um stdout redirecionado deixa de suprimir os códigos ANSI
+que `Console.ForegroundColor` e `ResetColor` produzem, que é o que você quer em
+`FORCE_COLOR=1 dotnet run | tee build.log`. O programa definiu `ForegroundColor =
+Red`, escreveu `erro`, chamou `ResetColor()`, e a saída passou por `od -c`
+(11.0.100 GA contra 10.0.100):
+
+```text
+                          net10.0 piped   net11.0 piped   net11.0 pty
+(nothing set)             plain           plain           ESC[91m ... color
+FORCE_COLOR=1             plain           ESC[91m erro    not run
+NO_COLOR=1                plain           plain           plain (net10 pty: plain)
+FORCE_COLOR=1 NO_COLOR=1  plain           ESC[91m erro    not run
+```
+
+O `NO_COLOR` já funcionava no .NET 10, e o `FORCE_COLOR` vence o `NO_COLOR` no
+.NET 11. `Console.IsOutputRedirected` continuou `True` em toda execução com pipe,
+então o seu código que o testa para desligar cores também precisa ler
+`FORCE_COLOR`. Só as APIs de cor do `Console` foram medidas; o que outras
+bibliotecas fazem com a variável é com elas.
 
 ### Ctrl+C e SIGTERM
 
@@ -244,3 +268,4 @@ execuções). Use `dotnet run --` no dia a dia; distribua e teste o executável.
 - [Environment.Exit method, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.environment.exit?view=net-10.0) (doc)
 - [PosixSignalRegistration class, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.posixsignalregistration?view=net-10.0) (doc)
 - [.NET runtime no longer provides default termination signal handlers, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/sigterm-signal-handler) (doc)
+- [What's new in .NET 11 libraries, FORCE_COLOR support, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries) (doc)

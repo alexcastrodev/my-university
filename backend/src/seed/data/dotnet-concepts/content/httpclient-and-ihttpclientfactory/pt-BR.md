@@ -1,8 +1,8 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-20
 title: "HttpClient e IHttpClientFactory"
-summary: Esgotamento de sockets com um cliente por requisição, o problema de DNS do cliente estático e PooledConnectionLifetime, clientes nomeados e tipados, DelegatingHandler, Timeout versus CancellationToken, ResponseHeadersRead e GetFromJsonAsync, com o resultado real dos experimentos.
+summary: Esgotamento de sockets com um cliente por requisição, o problema de DNS do cliente estático e PooledConnectionLifetime, clientes nomeados e tipados, DelegatingHandler, Timeout versus CancellationToken, ResponseHeadersRead, GetFromJsonAsync e InitialHttp2MaxConcurrentStreams do .NET 11, com o resultado real dos experimentos.
 ---
 ## Objective
 
@@ -13,7 +13,8 @@ custo de criar clientes por requisição, o que um cliente de vida longa erra so
 DNS, como o `IHttpClientFactory` (clientes nomeados e tipados, handler lifetime,
 `DelegatingHandler`) resolve os dois problemas, e como são de verdade as exceções
 quando uma requisição estoura o tempo ou é cancelada. Tudo foi executado contra um
-Kestrel local, no SDK 10.0.100 (runtime 10.0.0).
+Kestrel local, no SDK 10.0.100 (runtime 10.0.0); a nota de HTTP/2 também no
+11.0.100.
 
 ## Use Cases
 
@@ -42,13 +43,12 @@ for (int i = 0; i < 1000; i++)
 
 deixaram **1000 sockets em `TIME_WAIT`** (`netstat -an -p tcp`). Um único cliente
 compartilhado fazendo as mesmas 1000 chamadas acrescentou um. `TIME_WAIT` é o
-estado do TCP em que o lado que fechou primeiro segura a porta por um tempo; a
-documentação aponta a RFC 9293 para isso. Repetindo até algo quebrar, a requisição
-16256 falhou com `HttpRequestException: Can't assign requested address
-(127.0.0.1:5300)` (interna `SocketException`, `HttpRequestError.ConnectionError`),
-aproximadamente o tamanho da faixa de portas efêmeras do macOS (49152 a 65535)
-nesta máquina. O limite é do sistema operacional, então o número muda de máquina
-para máquina, mas o modo de falha não.
+estado do TCP em que o lado que fechou primeiro segura a porta por um tempo (RFC
+9293). Repetindo até algo quebrar, a requisição 16256 falhou com
+`HttpRequestException: Can't assign requested address (127.0.0.1:5300)` (interna
+`SocketException`, `HttpRequestError.ConnectionError`), aproximadamente a faixa de
+portas efêmeras do macOS (49152 a 65535). O limite é do sistema operacional,
+então o número muda de máquina para máquina, mas o modo de falha não.
 
 ### O cliente estático e o DNS
 
@@ -96,24 +96,24 @@ class GamesClient(HttpClient http) { public Task<string> WhoAsync() => http.GetS
 
 O que a factory faz, observado:
 
-- Todo `CreateClient` devolve um **`HttpClient` novo** (`ReferenceEquals` deu false)
-  que compartilha o **mesmo handler** (true) enquanto ele estiver dentro do
-  lifetime. 1000 chamadas a `CreateClient` com `Dispose` por requisição não fizeram
-  o `TIME_WAIT` crescer: descartar um cliente da factory não descarta o handler do
+- Todo `CreateClient` devolve um **`HttpClient` novo** (`ReferenceEquals` deu
+  false) que compartilha o **mesmo handler** enquanto ele estiver dentro do
+  lifetime. 1000 chamadas a `CreateClient` com `Dispose` não fizeram o
+  `TIME_WAIT` crescer: descartar um cliente da factory não descarta o handler do
   pool.
-- O `HandlerLifetime` padrão voltou como `00:02:00`; `SetHandlerLifetime` muda isso
-  por cliente. Quando expira, o próximo `CreateClient` recebe um handler novo e o
-  antigo é descartado quando nenhum cliente o usa mais.
-- A cadeia atrás de um cliente foi `LifetimeTrackingHttpMessageHandler`,
+- O `HandlerLifetime` padrão voltou como `00:02:00`; `SetHandlerLifetime` muda
+  isso por cliente. Quando expira, o próximo `CreateClient` recebe um handler
+  novo e o antigo é descartado quando ninguém mais o usa.
+- A cadeia foi `LifetimeTrackingHttpMessageHandler`,
   `LoggingScopeHttpMessageHandler`, `LoggingHttpMessageHandler` e então um
-  `SocketsHttpHandler` cujo `PooledConnectionLifetime` marcou `00:02:00`. A
-  documentação chama o primary handler padrão da factory de detalhe de
-  implementação, então não faça cast nele; use `ConfigurePrimaryHttpMessageHandler`
-  ou `UseSocketsHttpHandler` quando precisar de controle.
-- O cliente tipado é registrado como transient. A documentação acrescenta dois
-  cuidados: não registre a classe tipada de novo por conta própria (o último
-  registro sobrescreve o da factory) e mantenha limitado o número de nomes de
-  cliente distintos, nunca derivado de entrada do usuário.
+  `SocketsHttpHandler` com `PooledConnectionLifetime` de `00:02:00`. A
+  documentação chama o primary handler padrão de detalhe de implementação: não
+  faça cast nele, use `ConfigurePrimaryHttpMessageHandler` ou
+  `UseSocketsHttpHandler`.
+- O cliente tipado é transient. Cuidados da documentação: não registre a classe
+  tipada de novo por conta própria (o último registro sobrescreve o da factory) e
+  mantenha limitado o número de nomes de cliente, nunca derivado de entrada do
+  usuário.
 
 ### Clientes tipados capturados por singletons
 
@@ -128,14 +128,13 @@ t=3s  default handler: resolved 65457 captured 65458   |   explicit infinite Soc
 t=7s  default handler: resolved 65462 captured 65463   |   explicit infinite SocketsHttpHandler: resolved 65464 captured 65453
 ```
 
-Com o primary handler padrão, o cliente capturado ainda trocou de conexão (o
-`PooledConnectionLifetime` marcou dois minutos no handler lifetime padrão, então
-provavelmente acompanha o handler lifetime), mas com um primary handler criado como
-um simples `new SocketsHttpHandler()` o capturado ficou na porta 65453 para sempre.
-É a captive dependency do conceito anterior de DI, aplicada ao DNS. Os remédios da
-documentação: injetar `IHttpClientFactory` no singleton e chamar `CreateClient`
-quando precisar, ou definir você mesmo o `PooledConnectionLifetime` no primary
-handler. Não dependa do primeiro comportamento, porque ele vem desse detalhe de
+Com o primary handler padrão, o cliente capturado ainda trocou de conexão
+(provavelmente acompanha o handler lifetime), mas com um primary handler criado
+como um simples `new SocketsHttpHandler()` o capturado ficou na porta 65453 para
+sempre: a captive dependency do conceito anterior de DI, aplicada ao DNS. Os
+remédios da documentação: injetar `IHttpClientFactory` no singleton e chamar
+`CreateClient` quando precisar, ou definir você mesmo o `PooledConnectionLifetime`
+no primary handler. Não dependa do primeiro comportamento, um detalhe de
 implementação.
 
 ### DelegatingHandler: middleware de saída
@@ -159,13 +158,13 @@ class TraceHandler(RequestInfo info) : DelegatingHandler
 ```
 
 O log mostrou `TimingHandler: before`, `TraceHandler` e depois `TimingHandler:
-after`. Há uma armadilha com serviços scoped. A factory cria um escopo de DI próprio
-por instância de handler, separado do escopo da requisição. Um `RequestInfo` scoped
-era `787f50` no escopo da primeira requisição e `f14957` no da segunda, mas o
-handler viu `027923` nas duas, porque o mesmo handler em cache atendeu ambas. A
-documentação recomenda não guardar dados de escopo em handlers e descreve um handler
-transient ciente de escopo, envolvendo o handler em cache, para os casos que
-precisam disso.
+after`. Uma armadilha com serviços scoped: a factory cria um escopo de DI próprio
+por instância de handler, separado do escopo da requisição. Um `RequestInfo`
+scoped era `787f50` no escopo da primeira requisição e `f14957` no da segunda,
+mas o handler viu `027923` nas duas, porque o mesmo handler em cache atendeu
+ambas. A documentação recomenda não guardar dados de escopo em handlers e
+descreve um handler transient ciente de escopo, em volta do handler em cache,
+para os casos que precisam disso.
 
 ### Timeouts e cancelamento
 
@@ -211,15 +210,31 @@ Um `404` lançou `HttpRequestException` (ele verifica o status por você), um co
 1211, 1612 e 2013 ms, enquanto `GetFromJsonAsync<List<T>>` devolveu os cinco de uma
 vez em 2009 ms.
 
+### Limitando a primeira rajada de HTTP/2 (.NET 11)
+
+`SocketsHttpHandler.InitialHttp2MaxConcurrentStreams` (`int`, no mínimo 1,
+estável, sem `[Experimental]`) limita os streams que uma nova conexão HTTP/2
+abre antes de o frame `SETTINGS` do servidor chegar (padrão 100); depois vale o
+limite anunciado pelo servidor. Medido no 11.0.100 GA contra um stub TCP em
+`127.0.0.1:7100` que envia `SETTINGS` (200 streams) após 500 ms e conta os frames
+`HEADERS` com 150 requisições `RequestVersionExact` na fila:
+
+```csharp
+var handler = new SocketsHttpHandler { InitialHttp2MaxConcurrentStreams = 20 };
+// streams abertos aos 300 ms / aos 1500 ms:   net10.0 100 / 150, net11.0 padrão 100 / 150,
+// net11.0 = 20: 20 / 150,   net11.0 = 1: 1 / 150
+```
+
+No `net10.0` a propriedade falha com CS1061 e a primeira rajada é sempre 100.
+Use um valor menor quando souber que o servidor (um gateway, uma pilha HTTP/2
+antiga) aceita menos de 100; depois do `SETTINGS` ela não muda nada.
+
 ## Trade-offs
 
 - **Um cliente estático é o mais simples, mas só com a configuração certa.** Sem
   `PooledConnectionLifetime` ele nunca vê uma mudança de DNS. A factory dá
   configuração nomeada e pipelines de handlers, em troca de um pacote e de um
   modelo de lifetime para entender.
-  ```csharp
-  new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(2) }
-  ```
 - **Clientes tipados são convenientes e fáceis de capturar.** Injetados num
   singleton, escapam do controle da factory. Um cliente nomeado com `CreateClient`
   a cada uso evita isso.
@@ -250,9 +265,7 @@ Neste lab você recebe um cliente tipado `GamesClient` que lança `NotImplemente
 Nenhuma rede é usada: os testes trocam o handler primário por um fake em processo (`FakeHandler`), que devolve JSON, um status, ou fica pendurado para sempre.
 
 - `ServiceCollectionExtensions.cs`: `AddGamesClient(baseAddress, timeout)`, com as constantes `ConnectionLifetime` (2 minutos) e `HandlerLifetime` (5 minutos).
-- `CorrelationIdHandler.cs`: um `DelegatingHandler` com a constante `X-Correlation-Id`.
-- `GamesClient.cs`: o cliente tipado, com `GetGameAsync`, `ReadFirstLineAsync` e duas variantes opcionais.
-- `Game.cs`: o record `Game` e a `GameServiceTimeoutException`.
+- `CorrelationIdHandler.cs` (um `DelegatingHandler` com a constante `X-Correlation-Id`), `GamesClient.cs` (`GetGameAsync`, `ReadFirstLineAsync` e duas variantes opcionais) e `Game.cs` (o record `Game` e a `GameServiceTimeoutException`).
 
 **O que você vai fazer, passo a passo**
 
@@ -285,3 +298,4 @@ Nenhuma rede é usada: os testes trocam o handler primário por um fake em proce
 - [HttpCompletionOption, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcompletionoption) (doc)
 - [SocketsHttpHandler.PooledConnectionLifetime, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.socketshttphandler.pooledconnectionlifetime) (doc)
 - [Make HTTP requests using IHttpClientFactory in ASP.NET Core, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests) (doc)
+- [SocketsHttpHandler.InitialHttp2MaxConcurrentStreams, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.socketshttphandler.initialhttp2maxconcurrentstreams) (doc)

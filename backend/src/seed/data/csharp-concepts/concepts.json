@@ -190,7 +190,7 @@
     "category": "Language",
     "title": "Console Apps, Exit Codes and System.CommandLine",
     "topic": "Language Basics",
-    "summary": "Main signatures, args and the dotnet run -- separator, exit codes and their 0..255 truncation on Unix, crashes and FailFast, stdout versus stderr, stdin and encodings, Ctrl+C and SIGTERM on .NET 10, and a CLI built with System.CommandLine 2.0 (options, arguments, validators, help, parse errors, response files, directives and cancellation), with the measured exit code of each case.",
+    "summary": "Main signatures, args and the dotnet run -- separator, exit codes and their 0..255 truncation on Unix, crashes and FailFast, stdout versus stderr, stdin and encodings, Ctrl+C and SIGTERM on .NET 10, and a CLI built with System.CommandLine 2.0 (options, arguments, validators, help, parse errors, response files, directives and cancellation), and the .NET 11 FORCE_COLOR support, with the measured exit code of each case.",
     "publishedAt": "2026-10-28",
     "requires": [
       "top-level-programs-implicit-usings-and-namespaces"
@@ -261,6 +261,11 @@
       {
         "label": ".NET runtime no longer provides default termination signal handlers, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/sigterm-signal-handler",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 11 libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-11/libraries",
         "type": "doc"
       }
     ]
@@ -887,7 +892,7 @@
     "category": "Language",
     "title": "Decimal Floating Point: Decimal32, Decimal64 and Decimal128",
     "topic": "Numbers & Conversions",
-    "summary": "The IEEE 754 decimal types of .NET 11 against decimal and double: digits, range, size, BID bits, rounding and silent overflow, conversions, parsing and formatting, System.Text.Json, measured speed in Release, and an honest note that almost nothing uses them yet.",
+    "summary": "The IEEE 754 decimal types of .NET 11 against decimal and double: digits, range, size, BID bits, rounding and silent overflow, conversions, parsing and formatting, System.Text.Json, Complex<T> over the IEEE decimals, measured speed in Release, and an honest note that almost nothing uses them yet.",
     "publishedAt": "2026-11-12",
     "requires": [
       "numeric-types-and-binary-representation",
@@ -939,6 +944,11 @@
       {
         "label": "IDecimalFloatingPointIeee754<TSelf> interface, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.idecimalfloatingpointieee754-1",
+        "type": "doc"
+      },
+      {
+        "label": "Complex<T> struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex-1",
         "type": "doc"
       }
     ],
@@ -4799,7 +4809,7 @@
     "category": "Base Class Library",
     "title": "TCP and UDP Sockets, Named Pipes and QUIC in .NET",
     "topic": "Networking",
-    "summary": "Socket, TcpListener and TcpClient, TCP as a byte stream with length-prefix framing, NoDelay, backlog, close and reset, timeouts, UDP, named pipes, Unix domain sockets and System.Net.Quic, measured on loopback.",
+    "summary": "Socket, TcpListener and TcpClient, TCP as a byte stream with length-prefix framing, NoDelay, backlog, close and reset, timeouts, UDP, named pipes, Unix domain sockets, System.Net.Quic and the .NET 11 QuicStream.Priority, measured on loopback.",
     "publishedAt": "2026-11-19",
     "related": [
       {
@@ -4870,6 +4880,11 @@
       {
         "label": "QuicConnection.IsSupported, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.quic.quicconnection.issupported",
+        "type": "doc"
+      },
+      {
+        "label": "QuicStream.Priority property, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.quic.quicstream.priority",
         "type": "doc"
       }
     ],
