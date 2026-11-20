@@ -5,10 +5,10 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 207;
+const SEED = 212;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
-const JOURNAL_ARTICLES = 40;
+const JOURNAL_ARTICLES = 44;
 const FDB = {
   slug: 'foundationdb-unbundled-transactional-kv-store',
   title: 'FoundationDB: A Distributed Unbundled Transactional Key Value Store',
@@ -147,12 +147,15 @@ test.describe('Papers catalog', () => {
       await papers.typeSelect.selectOption({ label: 'Journal article' });
       await expect(page).toHaveURL(/type=journal-article/);
       await expect(papers.resultsCount).toContainText(String(JOURNAL_ARTICLES));
-      // More journal articles than one page holds: a full first page of the newest, and the oldest on the second.
+      // More journal articles than two pages hold: a full first page of the newest, a full second page, and the oldest on the third.
       await expect(papers.cards).toHaveCount(PAGE);
       await expect(papers.card(TIDB.title)).toBeVisible();
 
       await papers.nextLink.click();
-      await expect(papers.cards).toHaveCount(JOURNAL_ARTICLES - PAGE);
+      await expect(papers.cards).toHaveCount(PAGE);
+
+      await papers.nextLink.click();
+      await expect(papers.cards).toHaveCount(JOURNAL_ARTICLES - 2 * PAGE);
     });
 
     test('says where each paper stands, and filters by it', async ({ page }) => {
@@ -177,10 +180,10 @@ test.describe('Papers catalog', () => {
     test('filters by research area', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await papers.areaSelect.selectOption({ label: 'Operating Systems (62)' });
+      await papers.areaSelect.selectOption({ label: 'Operating Systems (66)' });
       await expect(page).toHaveURL(/area=Operating(\+|%20)Systems/);
 
-      // 62 papers: a full first page of the newest, a full second page (2014 to 2023, with 2019 and 2021 among them), a full third page (2014 down to 1983) and the two oldest, from 1975 and 1974, on a fourth.
+      // 66 papers: a full first page of the newest, a full second page (2014 to 2023, with 2019 and 2021 among them), a full third page (2014 down to 1984) and the six oldest, from 1983 to 1968, on a fourth.
       await expect(papers.cards).toHaveCount(PAGE);
       const newest = await papers.titles();
       expect(newest.some((t) => t.startsWith('Rakaia'))).toBe(true);
