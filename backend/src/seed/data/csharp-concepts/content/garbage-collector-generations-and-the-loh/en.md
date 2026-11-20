@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-15
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -113,7 +113,8 @@ the Web SDK (`Microsoft.NET.Sdk.Web` in SDK 10.0.100) sets
   instead of to the machine. The documentation reports a large working-set
   reduction for a 2 to 3 percent throughput cost on its benchmark;
   `<GarbageCollectionAdaptationMode>0</GarbageCollectionAdaptationMode>`
-  turns it off.
+  turns it off. On the macOS machine used here it made no difference (the "server, DATAS on or off" row above has one result for both, probably because that platform has no GC regions, which is an inference, not something the docs say); the Linux effect was measured in
+  [GC Tuning: Server, Workstation, Concurrent and No-GC Regions](/csharp-concepts/gc-tuning-server-workstation-concurrent-and-no-gc-regions).
 
 ### Containers and limits
 

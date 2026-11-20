@@ -5906,6 +5906,97 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/garbage-collector-generations-and-the-loh"
   },
   {
+    "slug": "gc-tuning-server-workstation-concurrent-and-no-gc-regions",
+    "id": 953,
+    "category": "Memory & Concurrency",
+    "title": "GC Tuning: Server, Workstation, Concurrent and No-GC Regions",
+    "topic": "Memory & Value Semantics",
+    "summary": "Workstation against Server, background GC, GCSettings.LatencyMode, GC.TryStartNoGCRegion, DATAS, GCConserveMemory, GCHeapCount and container heap limits, measured with a stress program on macOS and a Linux Docker VM.",
+    "publishedAt": "2026-11-20",
+    "requires": [
+      "garbage-collector-generations-and-the-loh"
+    ],
+    "related": [
+      {
+        "label": "The Garbage Collector: Generations and the LOH",
+        "slug": "garbage-collector-generations-and-the-loh",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Benchmarking with BenchmarkDotNet and Allocation Profiling",
+        "slug": "benchmarking-with-benchmarkdotnet-and-allocation-profiling",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Diagnosing Production with dotnet-trace, dotnet-dump and dotnet-gcdump",
+        "slug": "diagnosing-production-with-dotnet-trace-dump-and-gcdump",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Managed Runtime Memory in Containers",
+        "slug": "managed-runtime-memory-in-containers",
+        "feature": "kubernetes-concepts"
+      },
+      {
+        "label": "Choosing a Garbage Collector: Serial, Parallel, G1, ZGC, and Shenandoah",
+        "slug": "choosing-a-garbage-collector",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Workstation and server garbage collection, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/workstation-server-gc",
+        "type": "doc"
+      },
+      {
+        "label": "Background garbage collection, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/background-gc",
+        "type": "doc"
+      },
+      {
+        "label": "Latency modes, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/latency",
+        "type": "doc"
+      },
+      {
+        "label": "Dynamic adaptation to application sizes (DATAS), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/datas",
+        "type": "doc"
+      },
+      {
+        "label": "Garbage collector config settings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/garbage-collector",
+        "type": "doc"
+      },
+      {
+        "label": "GC.TryStartNoGCRegion, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.gc.trystartnogcregion",
+        "type": "doc"
+      },
+      {
+        "label": "GCLatencyMode, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.gclatencymode",
+        "type": "doc"
+      },
+      {
+        "label": "GC.GetGCMemoryInfo, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.gc.getgcmemoryinfo",
+        "type": "doc"
+      },
+      {
+        "label": "GC.GetTotalPauseDuration, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.gc.gettotalpauseduration",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "benchmarking-with-benchmarkdotnet-and-allocation-profiling",
     "id": 740,
     "category": "Memory & Concurrency",
