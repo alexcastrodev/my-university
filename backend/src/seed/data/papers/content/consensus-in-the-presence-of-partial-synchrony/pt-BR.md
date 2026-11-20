@@ -1,0 +1,61 @@
+---
+title: "Consenso na presença de sincronia parcial"
+summary: O artigo que definiu a sincronia parcial, os modelos intermediários entre um sistema síncrono e um assíncrono em que o consenso tem solução, e que fixou, para falhas de parada, de omissão e bizantinas, o maior número de falhas tolerado, com protocolos e limites inferiores correspondentes.
+researchArea: Sistemas distribuídos
+keywords: consenso, sincronia parcial, tempo global de estabilização, tolerância a falhas, falhas bizantinas, relógios distribuídos, limites inferiores
+version: 1.0
+updatedAt: 2026-11-20
+---
+
+## Resumo
+
+O conceito de sincronia parcial em um sistema distribuído é introduzido. A sincronia parcial fica entre os casos de um sistema síncrono e de um sistema assíncrono. Em um sistema síncrono, há um limite superior fixo e conhecido Δ para o tempo que uma mensagem leva para ir de um processador a outro e um limite superior fixo e conhecido Φ para as velocidades relativas de processadores diferentes. Em um sistema assíncrono, não existem limites fixos Δ e Φ. Em uma versão da sincronia parcial, os limites fixos Δ e Φ existem, mas não são conhecidos a priori. O problema é projetar protocolos que funcionem corretamente no sistema parcialmente síncrono, quaisquer que sejam os valores reais dos limites Δ e Φ. Em outra versão, os limites são conhecidos, mas só têm garantia de valer a partir de um instante T desconhecido, e os protocolos precisam funcionar corretamente independentemente de quando T ocorre. São apresentados protocolos de consenso tolerantes a falhas para vários casos de sincronia parcial e vários modelos de falha. Também são apresentados limites inferiores que mostram, na maioria dos casos, que os protocolos são ótimos quanto ao número de falhas toleradas. Os protocolos de consenso para processadores parcialmente síncronos usam novos protocolos de "relógios distribuídos" tolerantes a falhas, que permitem que processadores parcialmente síncronos cheguem a uma noção de tempo aproximadamente comum.
+
+## Visão geral
+
+O artigo de Dwork, Lynch e Stockmeyer (muitas vezes chamado de DLS) saiu no Journal of the ACM em abril de 1988 (volume 35, número 2, páginas 288 a 323). Uma versão preliminar foi apresentada no 3rd ACM Symposium on Principles of Distributed Computing, em Vancouver, em 1984. Dwork e Stockmeyer estavam na IBM Almaden e Lynch no MIT.
+
+O ponto de partida é uma lacuna entre dois resultados conhecidos. Com um limite conhecido para o atraso das mensagens e outro para a velocidade relativa dos processadores, o consenso tem solução para qualquer número de falhas de parada. Sem um dos dois limites, o [resultado FLP](/papers/flp-impossibility-of-distributed-consensus) (e um artigo anterior de Dolev, Dwork e Stockmeyer, que o texto cita) mostra que não existe protocolo de consenso resiliente nem a uma única falha de parada. O artigo estuda os modelos intermediários. Segundo os agradecimentos, a versão com limites desconhecidos nasceu de uma pergunta de Joe Halpern: a impossibilidade continuaria valendo se os limites existissem, mas não fossem conhecidos de antemão?
+
+O trabalho se apoia nos modelos de falha do [problema dos Generais Bizantinos](/papers/byzantine-generals-problem), incluindo o limite 3t + 1 para falhas bizantinas sem autenticação, e nos relógios do [artigo de Lamport de 1978](/papers/lamport-time-clocks-ordering-of-events), que os novos relógios distribuídos tornam tolerantes a falhas. Vale saber antes: a distinção entre segurança (safety) e terminação, a ideia de protocolo t-resiliente (correto se no máximo t dos N processadores falharem) e a diferença entre falha de parada, de omissão e bizantina.
+
+## Contribuição
+
+- **Duas definições de sincronia parcial.** Na primeira, um limite Δ para o atraso das mensagens (e, na versão para processadores, um limite Φ para a velocidade relativa) existe em toda execução, mas é desconhecido, então o protocolo precisa funcionar seja qual for o valor. Na segunda, o limite é conhecido, mas só vale a partir de um tempo global de estabilização (GST) desconhecido.
+- **Segurança e terminação separadas.** O artigo argumenta que o modelo GST equivale a exigir segurança não importa quão assíncrono seja o comportamento do sistema, e terminação apenas quando o limite acaba valendo.
+- **Quatro tipos de falha.** Parada, omissão, bizantina autenticada e bizantina sem autenticação, cada uma resolvida em cada modelo de tempo.
+- **Uma tabela de resiliência.** Para cada combinação, o menor número de processadores N para o qual existe um protocolo t-resiliente, com limites superiores (protocolos) e inferiores (provas de impossibilidade).
+- **Um protocolo com bloqueios.** Três algoritmos no modelo básico de rodadas, transformados em protocolos para cada modelo de tempo, mais novos relógios distribuídos tolerantes a falhas.
+
+## Metodologia
+
+O artigo é inteiramente teórico: protocolos, lemas e provas, sem implementação nem medição. O modelo segue Dolev, Dwork e Stockmeyer e o FLP. Os processadores são determinísticos, possivelmente com infinitos estados, e em cada passo ou recebem mensagens ou enviam uma mensagem a um único processador. Correção significa consistência (dois processadores corretos nunca decidem de forma diferente), terminação e unanimidade (forte: se todos os valores iniciais são v, a decisão é v; fraca: o mesmo só quando todos os processadores estão corretos).
+
+O recurso central é o modelo básico de rodadas: rodadas síncronas em que mensagens podem se perder, exceto que, a partir de uma rodada GST desconhecida, as mensagens entre processadores corretos são entregues. Os Algoritmos 1 a 3 resolvem o consenso nele. As fases são numeradas e a fase k pertence ao processador p_i quando k é congruente a i módulo N. Em uma fase de tentativa, cada processador envia ao dono da fase os valores que considera aceitáveis (que não conflitam com seus bloqueios). Se o dono ouve de N - t processadores que um valor v é aceitável, ele transmite um pedido de bloqueio, os receptores bloqueiam v com o número da fase e confirmam, e o dono decide após confirmações suficientes (t + 1 no Algoritmo 1, 2t + 1 nos Algoritmos 2 e 3). Uma fase de liberação solta o bloqueio em v quando é informado um bloqueio em outro valor com número de fase igual ou maior. O Algoritmo 2 anexa provas assinadas aos bloqueios, e o Algoritmo 3 troca as assinaturas por uma primitiva de difusão baseada em ecos, adaptada de Srikanth e Toueg.
+
+Cada modelo de tempo então simula o modelo básico. Com processadores síncronos, a rodada r recebe um número fixo de passos (quando Δ vale eventualmente) ou crescente (quando Δ é desconhecido: a rodada r recebe N + r passos, e as rodadas a partir do Δ real são longas o bastante e fazem o papel do GST). Com processadores parcialmente síncronos, os novos relógios distribuídos, feitos de "ticks" e "claims", dão uma noção de tempo aproximadamente comum.
+
+## Resultados
+
+Tudo abaixo vem do próprio artigo.
+
+- **Resiliência (Tabela I).** Com comunicação parcialmente síncrona, com processadores síncronos ou parcialmente síncronos, o menor N para o qual existe protocolo t-resiliente é 2t + 1 para falhas de parada e de omissão, e 3t + 1 para falhas bizantinas, autenticadas ou não. A coluna síncrona vale t para os três primeiros tipos de falha (qualquer número de falhas pode ser tolerado) e 3t + 1 para falhas bizantinas sem autenticação, e a coluna assíncrona é infinito (nenhuma resiliência). Sob sincronia parcial, a autenticação não melhora a resiliência.
+- **Com processadores parcialmente síncronos e comunicação síncrona,** as entradas são t (parada), entre 2t e 2t + 1 (omissão), 2t + 1 (bizantina autenticada, para unanimidade fraca ou quando os valores iniciais são assinados por um remetente distinguido) e 3t + 1 (bizantina sem autenticação). Sem valores iniciais assinados, a unanimidade forte bizantina autenticada exige N de pelo menos 3t + 1 (Teorema 6.7).
+- **Limites inferiores.** O Teorema 4.3 (parada e omissão, N no máximo 2t) e o Teorema 4.4 (bizantina autenticada, N no máximo 3t) valem mesmo para unanimidade fraca e valores binários. Os Teoremas 6.5 a 6.7 tratam de processadores parcialmente síncronos. O limite 3t + 1 para falhas bizantinas sem autenticação decorre do resultado síncrono de Lamport, Shostak e Pease.
+- **Tempo.** Os Algoritmos 1 e 2 decidem até a rodada GST + 4(N + 1), e o Algoritmo 3 até GST + 6(N + 1). Nas simulações, o tempo é GST mais um polinômio em N e Δ (e Φ), ou um polinômio em N e Δ quando Δ é desconhecido. O total de bits enviados também é limitado por um polinômio. A Observação 1 chega a O(t) rodadas depois do GST fazendo os processadores que decidiram repetirem "Decide v".
+- **Parada do protocolo.** Se mensagens podem se perder antes do GST, todo protocolo resiliente a uma falha de parada tem uma execução em que algum processador correto precisa continuar enviando mensagens para sempre.
+
+## Análise crítica
+
+- **O que o artigo não afirma.** Não há implementação, medição nem comparação de desempenho. As constantes dos limites de relógio e de tempo não foram otimizadas, de forma explícita, e as questões em aberto perguntam se as rodadas depois do GST podem ser reduzidas e se outros problemas podem ser estudados em modelos parcialmente síncronos. O texto trata só de consenso de uma decisão: não há log replicado, máquina de estados nem protocolo de eleição de líder além de fases pertencentes a processadores em rodízio.
+- **Onde estão as provas de impossibilidade.** A impossibilidade assíncrona é citada, não demonstrada de novo. Os limites inferiores do próprio artigo estão na Seção 4.3 e na Seção 6.5, construídos por cenários de indistinguibilidade em que as mensagens entre dois grupos demoram mais do que cada grupo precisa para decidir.
+- **Escolhas do modelo.** As duas versões de sincronia parcial supõem que Δ vale para todas as mensagens depois do GST, para sempre. O artigo observa que isso poderia ser enfraquecido para o tempo necessário para decidir, mas deixa o intervalo fora do modelo por conveniência.
+- **Lido ao lado de protocolos posteriores (leitura minha).** Os bloqueios com número de fase, os donos de fase em rodízio e os quóruns de N - t lembram a estrutura de protocolos posteriores, mas o artigo não se apresenta como protocolo de replicação de máquina de estados e diz apenas que métodos parecidos já apareceram na literatura anterior.
+- **Literatura posterior (fora do artigo, conferida só nos textos citados).** O artigo do [PBFT](/papers/practical-byzantine-fault-tolerance), na versão que li, contorna o FLP com uma suposição fraca de que o atraso das mensagens não cresce mais rápido que t indefinidamente, garante segurança sem sincronia e vivacidade só com ela, e não cita este artigo. O artigo do [Autobahn](/papers/autobahn-seamless-high-speed-bft) o cita como origem do modelo de sincronia parcial, descreve o GST como um instante desconhecido a partir do qual a sincronia vale, e argumenta que "GST is an elegant fiction", já que redes reais só são síncronas por trechos. O [Narwhal e Tusk](/papers/narwhal-and-tusk-dag-based-mempool-and-efficient-bft-consensus) separa a disseminação de dados de um protocolo de consenso eventualmente síncrono e acrescenta uma variante totalmente assíncrona, o Tusk. Li apenas partes desses textos e, para esta análise, não li o artigo do Raft nem outra literatura posterior sobre GST.
+
+## Pesquisas futuras
+
+- Protocolos que mantêm a segurança incondicional e usam timeouts só para vivacidade, como o [Paxos simplificado](/papers/paxos-made-simple), que cita o FLP como motivo de a eleição de líder exigir tempo real ou aleatoriedade, e, como descreve a análise do Raft neste catálogo, o [Raft](/papers/raft-understandable-consensus-algorithm).
+- Replicação bizantina de máquina de estados sob sincronia parcial, como o [PBFT](/papers/practical-byzantine-fault-tolerance), que usa 3f + 1 réplicas.
+- O comportamento durante períodos assíncronos, que este artigo deixa fora do modelo, como no [Autobahn](/papers/autobahn-seamless-high-speed-bft) e no [Narwhal e Tusk](/papers/narwhal-and-tusk-dag-based-mempool-and-efficient-bft-consensus).
+- As questões em aberto do próprio artigo: menos rodadas depois do GST e outros problemas distribuídos em modelos parcialmente síncronos.

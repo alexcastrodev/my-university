@@ -5209,5 +5209,109 @@
     "doi": "10.1145/2737924.2737958",
     "url": "https://doi.org/10.1145/2737924.2737958",
     "paperUrl": "https://homes.cs.washington.edu/~ztatlock/pubs/verdi-wilcox-pldi15.pdf"
+  },
+  {
+    "slug": "algorithms-for-scalable-synchronization-on-shared-memory-multiprocessors",
+    "title": "Algorithms for Scalable Synchronization on Shared-Memory Multiprocessors",
+    "authors": [
+      {
+        "name": "John M. Mellor-Crummey"
+      },
+      {
+        "name": "Michael L. Scott"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Computer Systems",
+    "publicationDate": "1991-02",
+    "doi": "10.1145/103727.103729",
+    "url": "https://dl.acm.org/doi/10.1145/103727.103729",
+    "paperUrl": "https://www.cs.rochester.edu/u/scott/papers/1991_TOCS_synch.pdf"
+  },
+  {
+    "slug": "consensus-in-the-presence-of-partial-synchrony",
+    "title": "Consensus in the Presence of Partial Synchrony",
+    "authors": [
+      {
+        "name": "Cynthia Dwork"
+      },
+      {
+        "name": "Nancy Lynch"
+      },
+      {
+        "name": "Larry Stockmeyer"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Journal of the ACM",
+    "publicationDate": "1988-04",
+    "doi": "10.1145/42282.42283",
+    "url": "https://dl.acm.org/doi/10.1145/42282.42283",
+    "paperUrl": "https://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf"
+  },
+  {
+    "slug": "the-benefits-and-costs-of-writing-a-posix-kernel-in-a-high-level-language",
+    "title": "The benefits and costs of writing a POSIX kernel in a high-level language",
+    "authors": [
+      {
+        "name": "Cody Cutler"
+      },
+      {
+        "name": "M. Frans Kaashoek"
+      },
+      {
+        "name": "Robert T. Morris"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "13th USENIX Symposium on Operating Systems Design and Implementation (OSDI 18)",
+    "publicationDate": "2018-10",
+    "url": "https://www.usenix.org/conference/osdi18/presentation/cutler",
+    "paperUrl": "https://www.usenix.org/system/files/osdi18-cutler.pdf"
+  },
+  {
+    "slug": "the-scalable-commutativity-rule",
+    "title": "The Scalable Commutativity Rule: Designing Scalable Software for Multicore Processors",
+    "authors": [
+      {
+        "name": "Austin T. Clements"
+      },
+      {
+        "name": "M. Frans Kaashoek"
+      },
+      {
+        "name": "Nickolai Zeldovich"
+      },
+      {
+        "name": "Robert T. Morris"
+      },
+      {
+        "name": "Eddie Kohler"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Twenty-Fourth ACM Symposium on Operating Systems Principles",
+    "publicationDate": "2013-11-03",
+    "doi": "10.1145/2517349.2522712",
+    "url": "https://doi.org/10.1145/2517349.2522712",
+    "paperUrl": "https://pdos.csail.mit.edu/papers/commutativity:sosp13.pdf"
+  },
+  {
+    "slug": "unreliable-failure-detectors-for-reliable-distributed-systems",
+    "title": "Unreliable Failure Detectors for Reliable Distributed Systems",
+    "authors": [
+      {
+        "name": "Tushar Deepak Chandra"
+      },
+      {
+        "name": "Sam Toueg"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Journal of the ACM",
+    "publicationDate": "1996-03",
+    "doi": "10.1145/226643.226647",
+    "url": "https://doi.org/10.1145/226643.226647",
+    "paperUrl": "https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf"
   }
 ]
