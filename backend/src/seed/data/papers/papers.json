@@ -5795,5 +5795,104 @@
     "publicationDate": "1990-06",
     "url": "https://people.eecs.berkeley.edu/~prabal/resources/osprelim/Ous90.pdf",
     "paperUrl": "https://people.eecs.berkeley.edu/~prabal/resources/osprelim/Ous90.pdf"
+  },
+  {
+    "slug": "lightweight-remote-procedure-call",
+    "title": "Lightweight Remote Procedure Call",
+    "authors": [
+      {
+        "name": "Brian N. Bershad"
+      },
+      {
+        "name": "Thomas E. Anderson"
+      },
+      {
+        "name": "Edward D. Lazowska"
+      },
+      {
+        "name": "Henry M. Levy"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM Transactions on Computer Systems",
+    "publicationDate": "1990-02",
+    "doi": "10.1145/77648.77650",
+    "url": "https://doi.org/10.1145/77648.77650",
+    "paperUrl": "https://homes.cs.washington.edu/~tom/pubs/lrpc.pdf"
+  },
+  {
+    "slug": "on-the-duality-of-operating-system-structures",
+    "title": "On the Duality of Operating System Structures",
+    "authors": [
+      {
+        "name": "Hugh C. Lauer"
+      },
+      {
+        "name": "Roger M. Needham"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "ACM SIGOPS Operating Systems Review",
+    "publicationDate": "1979-04",
+    "doi": "10.1145/850657.850658",
+    "url": "https://doi.org/10.1145/850657.850658",
+    "paperUrl": "https://cseweb.ucsd.edu/classes/wi19/cse221-a/papers/lauer78.pdf"
+  },
+  {
+    "slug": "the-structure-of-the-the-multiprogramming-system",
+    "title": "The Structure of the “THE”-Multiprogramming System",
+    "authors": [
+      {
+        "name": "Edsger W. Dijkstra"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Communications of the ACM",
+    "publicationDate": "1968-05",
+    "doi": "10.1145/363095.363143",
+    "url": "https://dl.acm.org/doi/10.1145/363095.363143",
+    "paperUrl": "https://home.cs.colorado.edu/~rhan/CSCI_5573_Fall_2011/Papers/dijkstra68.pdf"
+  },
+  {
+    "slug": "the-working-set-model-for-program-behavior",
+    "title": "The Working Set Model for Program Behavior",
+    "authors": [
+      {
+        "name": "Peter J. Denning"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Communications of the ACM",
+    "publicationDate": "1968-05",
+    "doi": "10.1145/363095.363141",
+    "url": "https://doi.org/10.1145/363095.363141",
+    "paperUrl": "https://denninginstitute.com/pjd/PUBS/WSModel_1968.pdf"
+  },
+  {
+    "slug": "zyzzyva-speculative-byzantine-fault-tolerance",
+    "title": "Zyzzyva: Speculative Byzantine Fault Tolerance",
+    "authors": [
+      {
+        "name": "Ramakrishna Kotla"
+      },
+      {
+        "name": "Lorenzo Alvisi"
+      },
+      {
+        "name": "Mike Dahlin"
+      },
+      {
+        "name": "Allen Clement"
+      },
+      {
+        "name": "Edmund Wong"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 21st ACM Symposium on Operating Systems Principles",
+    "publicationDate": "2007-10",
+    "doi": "10.1145/1294261.1294267",
+    "url": "https://doi.org/10.1145/1294261.1294267",
+    "paperUrl": "https://www.cs.utexas.edu/~lorenzo/papers/kotla07Zyzzyva.pdf"
   }
 ]
