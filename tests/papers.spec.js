@@ -5,7 +5,7 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 177;
+const SEED = 182;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
 const JOURNAL_ARTICLES = 31;
@@ -246,7 +246,9 @@ test.describe('Papers catalog', () => {
         'A Critique of ANSI SQL Isolation Levels',
         'Access Path Selection in a Relational Database Management System',
         'DuckDB: an Embeddable Analytical Database',
+        'Elle: Inferring Isolation Anomalies from Experimental Observations',
         FDB.title,
+        'Sagas',
         TIDB.title,
       ]);
     });

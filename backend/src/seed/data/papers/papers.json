@@ -4953,5 +4953,121 @@
     "doi": "10.1145/2408776.2408794",
     "url": "https://doi.org/10.1145/2408776.2408794",
     "paperUrl": "https://www.barroso.org/publications/TheTailAtScale.pdf"
+  },
+  {
+    "slug": "cassandra-decentralized-structured-storage-system",
+    "title": "Cassandra - A Decentralized Structured Storage System",
+    "authors": [
+      {
+        "name": "Avinash Lakshman"
+      },
+      {
+        "name": "Prashant Malik"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "3rd ACM SIGOPS International Workshop on Large Scale Distributed Systems and Middleware (LADIS 2009)",
+    "publicationDate": "2009-10",
+    "url": "https://www.cs.cornell.edu/projects/ladis2009/program.htm",
+    "paperUrl": "https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf"
+  },
+  {
+    "slug": "dont-settle-for-eventual-scalable-causal-consistency-cops",
+    "title": "Don't Settle for Eventual: Scalable Causal Consistency for Wide-Area Storage with COPS",
+    "authors": [
+      {
+        "name": "Wyatt Lloyd"
+      },
+      {
+        "name": "Michael J. Freedman"
+      },
+      {
+        "name": "Michael Kaminsky"
+      },
+      {
+        "name": "David G. Andersen"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Twenty-Third ACM Symposium on Operating Systems Principles",
+    "publicationDate": "2011-10-23",
+    "doi": "10.1145/2043556.2043593",
+    "url": "https://doi.org/10.1145/2043556.2043593",
+    "paperUrl": "https://www.cs.princeton.edu/~mfreed/docs/cops-sosp11.pdf"
+  },
+  {
+    "slug": "large-scale-cluster-management-at-google-with-borg",
+    "title": "Large-scale cluster management at Google with Borg",
+    "authors": [
+      {
+        "name": "Abhishek Verma"
+      },
+      {
+        "name": "Luis Pedrosa"
+      },
+      {
+        "name": "Madhukar Korupolu"
+      },
+      {
+        "name": "David Oppenheimer"
+      },
+      {
+        "name": "Eric Tune"
+      },
+      {
+        "name": "John Wilkes"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the Tenth European Conference on Computer Systems",
+    "publicationDate": "2015-04",
+    "doi": "10.1145/2741948.2741964",
+    "url": "https://doi.org/10.1145/2741948.2741964",
+    "paperUrl": "https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43438.pdf"
+  },
+  {
+    "slug": "logical-physical-clocks",
+    "title": "Logical Physical Clocks",
+    "authors": [
+      {
+        "name": "Sandeep S. Kulkarni"
+      },
+      {
+        "name": "Murat Demirbas"
+      },
+      {
+        "name": "Deepak Madappa"
+      },
+      {
+        "name": "Bharadwaj Avva"
+      },
+      {
+        "name": "Marcelo Leone"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Principles of Distributed Systems: 18th International Conference, OPODIS 2014, Cortina d'Ampezzo, Italy, December 16-19, 2014. Proceedings (Lecture Notes in Computer Science 8878)",
+    "publicationDate": "2014",
+    "doi": "10.1007/978-3-319-14472-6_2",
+    "url": "https://doi.org/10.1007/978-3-319-14472-6_2",
+    "paperUrl": "https://cse.buffalo.edu/tech-reports/2014-04.pdf"
+  },
+  {
+    "slug": "sagas-garcia-molina-salem",
+    "title": "Sagas",
+    "authors": [
+      {
+        "name": "Hector Garcia-Molina"
+      },
+      {
+        "name": "Kenneth Salem"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 1987 ACM SIGMOD International Conference on Management of Data (SIGMOD '87)",
+    "publicationDate": "1987-05",
+    "doi": "10.1145/38713.38742",
+    "url": "https://doi.org/10.1145/38713.38742",
+    "paperUrl": "https://www.cs.cornell.edu/andru/cs711/2002fa/reading/sagas.pdf"
   }
 ]
