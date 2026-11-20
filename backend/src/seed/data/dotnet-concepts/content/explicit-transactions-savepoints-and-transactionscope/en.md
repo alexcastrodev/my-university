@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -145,7 +145,9 @@ RepeatableRead: A read 1: 100, A read 2: 100 (snapshot)
   final alice: 50
 ```
 
-Read Committed lost B's update: EF wrote `balance = 90` computed from a stale read. Repeatable Read refused the write instead. Note the outer exception: even without `EnableRetryOnFailure`, the default (non-retrying) Npgsql execution strategy wraps a transient error (`IsTransient=True` for 40001) in that `InvalidOperationException`, so `catch (DbUpdateException)` does not catch it.
+Read Committed lost B's update: EF wrote `balance = 90` computed from a stale read. Repeatable Read refused the write instead. Note the outer exception (EF Core 10 and Npgsql 10; the EF Core 11 shape is next): even without `EnableRetryOnFailure`, the default (non-retrying) Npgsql execution strategy wraps a transient error (`IsTransient=True` for 40001) in that `InvalidOperationException`, so `catch (DbUpdateException)` does not catch it.
+
+On EF Core 11.0.0 with Npgsql 11.0.0 (GA, rerun on November 20, 2026) the same conflict surfaces as a `DbUpdateConcurrencyException` whose direct inner exception is the `PostgresException` 40001, so `catch (DbUpdateException)` does catch it. A deadlock gets the same mapping: two transactions saving rows a and b in opposite order made PostgreSQL abort one with 40P01, reported as `DbUpdateConcurrencyException > PostgresException(40P01)` on EF Core 11, and as the `InvalidOperationException > DbUpdateException > PostgresException` chain on EF Core 10 with Npgsql 10.0.4. The consequence: a handler written for stale `xmin` conflicts (`catch (DbUpdateConcurrencyException)`, reload, ask the user again) now also receives serialization failures and deadlocks. Check `InnerException is PostgresException { SqlState: "40001" or "40P01" }` first and retry the whole transaction. The retry loop below gave the same result on both versions.
 
 Serializable also catches write skew, where two transactions read the same rows and update different ones. Rule: at least one account must stay on call. A and B both count 2, then each turns a different account off:
 

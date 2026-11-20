@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-20
 title: "Transações explícitas, savepoints e TransactionScope"
 summary: Controle explícito de transações no EF Core 10 medido em SQLite e PostgreSQL: BeginTransaction com vários SaveChanges, AutoTransactionBehavior no log, o savepoint que o EF cria sozinho, transação compartilhada com ADO.NET, execution strategy com retry, níveis de isolamento com duas conexões, TransactionScope e async, prepared transactions e espera por lock.
 ---
@@ -147,7 +147,9 @@ RepeatableRead: A read 1: 100, A read 2: 100 (snapshot)
   final alice: 50
 ```
 
-O Read Committed perdeu a atualização de B: o EF gravou `balance = 90`, calculado a partir de uma leitura velha. O Repeatable Read recusou a escrita. Repare na exceção de fora: mesmo sem `EnableRetryOnFailure`, a execution strategy padrão (sem retry) do Npgsql embrulha um erro transitório (`IsTransient=True` para 40001) nessa `InvalidOperationException`, então `catch (DbUpdateException)` não a captura.
+O Read Committed perdeu a atualização de B: o EF gravou `balance = 90`, calculado a partir de uma leitura velha. O Repeatable Read recusou a escrita. Repare na exceção de fora (EF Core 10 e Npgsql 10; o formato do EF Core 11 vem a seguir): mesmo sem `EnableRetryOnFailure`, a execution strategy padrão (sem retry) do Npgsql embrulha um erro transitório (`IsTransient=True` para 40001) nessa `InvalidOperationException`, então `catch (DbUpdateException)` não a captura.
+
+No EF Core 11.0.0 com Npgsql 11.0.0 (GA, repetido em 20 de novembro de 2026) o mesmo conflito aparece como uma `DbUpdateConcurrencyException` cuja exceção interna direta é a `PostgresException` 40001, então `catch (DbUpdateException)` a captura. Um deadlock recebe o mesmo mapeamento: duas transações salvando as linhas a e b em ordem oposta fizeram o PostgreSQL abortar uma com 40P01, reportada como `DbUpdateConcurrencyException > PostgresException(40P01)` no EF Core 11, e como a cadeia `InvalidOperationException > DbUpdateException > PostgresException` no EF Core 10 com Npgsql 10.0.4. A consequência: um handler escrito para conflitos de `xmin` obsoleto (`catch (DbUpdateConcurrencyException)`, recarregar, perguntar de novo ao usuário) agora também recebe falhas de serialização e deadlocks. Confira `InnerException is PostgresException { SqlState: "40001" or "40P01" }` primeiro e repita a transação inteira. O loop de retry abaixo deu o mesmo resultado nas duas versões.
 
 O Serializable também pega o write skew, em que duas transações leem as mesmas linhas e atualizam linhas diferentes. Regra: pelo menos uma conta precisa ficar de plantão. A e B contam 2, e cada uma desliga uma conta diferente:
 

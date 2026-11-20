@@ -1,8 +1,8 @@
 ---
-version: 1.0
-updatedAt: 2026-11-14
+version: 1.1
+updatedAt: 2026-11-20
 title: "Busca full-text com EF Core: SQL Server, PostgreSQL e SQLite"
-summary: Quando LIKE '%x%' deixa de servir. Catálogo e índice full-text no modelo (EF Core 11), FreeText e Contains, FreeTextTable e ContainsTable com rank, tsvector e GIN no PostgreSQL, e FTS5 no SQLite executado de verdade, com bm25, triggers e a entrada do usuário que derruba o MATCH.
+summary: Quando LIKE '%x%' deixa de servir. Catálogo e índice full-text no modelo (EF Core 11), FreeText e Contains, FreeTextTable e ContainsTable com rank, tsvector e GIN no PostgreSQL (executado no Npgsql 11.0.0 e PostgreSQL 18.7), e FTS5 no SQLite executado de verdade, com bm25, triggers e a entrada do usuário que derruba o MATCH.
 ---
 ## Objective
 
@@ -15,20 +15,20 @@ criados por migrations, e as funções com valor de tabela `FREETEXTTABLE` e
 
 Este concept mostra o mesmo recurso em três engines, porque o código não é portável
 entre elas: SQL Server (EF Core 11), PostgreSQL (provider Npgsql) e SQLite (FTS5 por
-SQL cru). Quais partes foram executadas importa, então aqui vai. A seção de SQLite
-foi **executada** no EF Core 11.0.0 com linhas reais. O SQL de SQL Server e de
-PostgreSQL foi **gerado offline** (`ToQueryString()` e `GenerateCreateScript()`, sem
-servidor), o que prova o que o EF gera e não o que um servidor devolve. A execução
-com PostgreSQL usou o build Npgsql 11.0.0-rc.3, o mais novo no NuGet em 14 de
-novembro de 2026. As regras gerais de `EF.Functions` estão em
-`ef-core-functions-and-database-specific-translation`.
+SQL cru). Quais partes foram executadas importa. As seções de SQLite e de PostgreSQL
+foram **executadas** com linhas reais: SQLite no EF Core 11.0.0, e PostgreSQL 18.7
+(container descartável) com Npgsql 11.0.0 (o build estável que o NuGet publicou em
+20 de novembro de 2026) e EF Core 11.0.0. O SQL de SQL Server foi **gerado offline**
+(`ToQueryString()` e `GenerateCreateScript()`, sem servidor): prova o que o EF gera,
+não o que um servidor devolve, e nada aqui rodou contra o SQL Server 2025. As regras
+gerais de `EF.Functions` estão em `ef-core-functions-and-database-specific-translation`.
 
 ## Use Cases
 
 - Uma caixa de busca sobre artigos, tickets, produtos ou documentos em que
   "framework" também deve achar "Frameworks".
-- Mostrar os melhores resultados primeiro, com um score para ordenar.
-- Busca por prefixo, frases exatas e "esta palavra mas não aquela".
+- Melhores resultados primeiro, com um score para ordenar; busca por prefixo, frases
+  exatas e "esta palavra mas não aquela".
 - Combinar as palavras exatas (full-text) com o significado (vetores) em uma só
   consulta, veja `ef-core-vector-search-with-sql-server-2025`.
 
@@ -58,10 +58,10 @@ CREATE FULLTEXT INDEX ON [Articles]([Title], [Body])
 Duas coisas saíram de executar isso no 11.0.0:
 
 - `UseKeyIndex` é obrigatório. Sem ele a construção do modelo falha com `Full-text
-  index '{'Title'}' on entity type 'Article' does not have a KEY INDEX
-  configured. SQL Server requires a KEY INDEX for every full-text index.` Segundo a
-  documentação do SQL Server, o índice de chave precisa ser único, de uma só coluna e
-  não anulável, e a chave primária é a escolha usual.
+  index '{'Title', 'Body'}' on entity type 'Article' does not have a KEY INDEX
+  configured.` mais uma dica sobre `UseKeyIndex`. Segundo a documentação do SQL
+  Server, o índice de chave é único, de uma só coluna e não anulável, e a chave
+  primária é a escolha usual.
 - **As colunas viram `nvarchar(450)`.** `Title` e `Body` são `nvarchar(max)` por
   padrão, e assim que entram no índice full-text o DDL gerado diz `nvarchar(450)`.
   Essa é a convenção do SQL Server para qualquer propriedade string indexada (um
@@ -138,16 +138,16 @@ mostrado acima é a forma que funciona. O tipo da chave precisa ser escrito
 ### PostgreSQL: uma coluna tsvector e um índice GIN
 
 O Npgsql modela a busca full-text como uma coluna `tsvector` gerada, um índice sobre
-ela e operadores de consulta:
+ela e operadores de consulta. A função de consulta vai dentro da lambda:
 
 ```csharp
 modelBuilder.Entity<Article>()
     .HasGeneratedTsVectorColumn(a => a.SearchVector, "english", a => new { a.Title, a.Body })
     .HasIndex(a => a.SearchVector).HasMethod("GIN");
 
-var q = EF.Functions.WebSearchToTsQuery("english", "entity framework -dapper");
-db.Articles.Where(a => a.SearchVector.Matches(q))
-           .OrderByDescending(a => a.SearchVector.Rank(q));
+db.Articles
+  .Where(a => a.SearchVector.Matches(EF.Functions.WebSearchToTsQuery("english", "entity framework -dapper")))
+  .OrderByDescending(a => a.SearchVector.Rank(EF.Functions.WebSearchToTsQuery("english", "entity framework -dapper")));
 ```
 
 ```sql
@@ -158,11 +158,18 @@ WHERE a."SearchVector" @@ websearch_to_tsquery('english', 'entity framework -dap
 ORDER BY ts_rank(a."SearchVector", websearch_to_tsquery('english', 'entity framework -dapper')) DESC
 ```
 
-`websearch_to_tsquery` aceita a sintaxe que as pessoas digitam em uma caixa de busca
-(frases entre aspas, `-palavra`) e, segundo a documentação do PostgreSQL, não levanta
-erros de sintaxe, o que a torna a porta de entrada mais segura para texto do usuário.
-O idioma ('english') decide o stemming e as stop words, e precisa casar com o idioma
-do conteúdo. Tudo aqui é SQL offline.
+Extrair a chamada para uma variável local (`var q = EF.Functions.WebSearchToTsQuery(...)`,
+depois `Matches(q)`) não funciona: lança `InvalidOperationException: The
+'WebSearchToTsQuery' method is not supported because the query has switched to
+client-evaluation.` Com 44 linhas (quatro artigos reais, 40 de enchimento), a execução
+devolveu "Entity Framework Core 11" (rank 0.1815) e "Frameworks everywhere" (0.1810)
+para `entity framework -dapper`, e as mesmas três linhas para `framework` e `frameworks`.
+
+`websearch_to_tsquery` aceita o que as pessoas digitam em uma caixa de busca (frases
+entre aspas, `-palavra`, `or`) e não levantou erro com um `entity and` solto (duas
+linhas de volta), então é a porta de entrada mais segura para texto do usuário. O
+idioma ('english') decide o stemming e as stop words, e precisa casar com o conteúdo.
+Com `SET enable_seqscan = off`, o `EXPLAIN` mostrou um `Bitmap Index Scan` no índice GIN.
 
 ### SQLite: FTS5, com uma tabela virtual e SQL cru
 
@@ -187,9 +194,8 @@ END;
 ```
 
 Em um projeto real esse SQL vai em uma migration com `migrationBuilder.Sql(...)`,
-porque o modelo nunca enxerga `ArticlesFts`. (Esta execução o criou com `ExecuteSql`
-depois de `EnsureCreated`.) A consulta é um `SqlQuery<T>` sobre um join, ordenada por
-`bm25`:
+porque o modelo nunca enxerga `ArticlesFts` (a execução usou `ExecuteSql`). A
+consulta é um `SqlQuery<T>` sobre um join, ordenada por `bm25`:
 
 ```csharp
 public record Hit(int Id, string Title, double Score);
@@ -229,47 +235,41 @@ Quatro comportamentos para conhecer antes de ir para produção:
   banco, e por isso os triggers são a camada certa.
 - **Tabelas minúsculas dão score zero.** Na primeira execução a tabela tinha só
   quatro linhas, cada termo aparecia em metade delas, e todo score de `bm25` saiu
-  `0.000`. Scores precisam de um corpus. A ordenação acima só apareceu depois das
-  linhas de enchimento.
+  `0.000`. Scores precisam de um corpus: a ordenação só apareceu com o enchimento.
 - **`MATCH` tem sintaxe própria, e entrada ruim lança exceção.** Passar `entity AND`
   de uma caixa de busca levantou `SqliteException: SQLite Error 1: 'fts5: syntax
   error near ""'`. A correção testada é transformar o texto do usuário em uma frase,
   cercando-o de aspas duplas e dobrando qualquer aspa interna:
   `static string Quote(string s) => "\"" + s.Replace("\"", "\"\"") + "\"";`.
   `Quote("entity AND")` não devolveu linhas nem exceção, e uma entrada hostil
-  (`a" OR "b`) virou a frase inofensiva `"a"" OR ""b"`. O preço é que os usuários
-  perdem operadores e prefixos a menos que você os devolva por conta própria.
+  (`a" OR "b`) virou a frase inofensiva `"a"" OR ""b"`. O preço: os usuários perdem
+  operadores e prefixos, a menos que você os devolva.
 - **Não é `LIKE`.** `EF.Functions.Like(a.Body, "%framework%")` casou uma linha por
-  substring pura em `Body`, sem ranking e sem índice. O FTS5 casou duas linhas porque
+  substring pura em `Body`, sem ranking e sem índice. O FTS5 casou duas porque
   pesquisou `Title` e `Body` e tokenizou as palavras.
 
-O SQL Server tem o mesmo tipo de armadilha. `CONTAINS` espera uma condição de busca
-válida e falha em uma malformada, enquanto `FREETEXT` é mais tolerante. Isso vem da
-documentação do SQL Server e não foi executado aqui.
+O SQL Server tem a mesma armadilha: `CONTAINS` falha com uma condição malformada,
+`FREETEXT` é mais tolerante (documentação do SQL Server, não executado aqui).
 
 ## Trade-offs
 
 - **Três engines, três APIs.** Nada neste concept é portável. Um recurso que precisa
-  rodar em SQL Server e PostgreSQL exige uma interface sua com duas implementações,
+  rodar em SQL Server e PostgreSQL exige uma interface sua com duas implementações
   ou um serviço de busca fora do banco.
 - **O índice não é instantâneo em todo lugar.** O SQL Server popula um índice
-  full-text com um processo próprio, então uma linha inserida agora há pouco pode não
-  ser pesquisável de imediato (comportamento documentado do SQL Server, não executado
-  aqui). Triggers e colunas geradas, como nos exemplos de SQLite e PostgreSQL,
-  mantêm o índice transacional com a escrita.
-- **O idioma faz parte do índice.** Stemming e stop words dependem do idioma que você
-  configura. Um catálogo em português pesquisado com configuração em inglês funciona
-  mal de jeitos que parecem "a busca é instável".
+  full-text com um processo próprio, então uma linha recém-inserida pode não ser
+  pesquisável ainda (comportamento documentado do SQL Server, não executado aqui).
+  Triggers e colunas geradas, como nos exemplos de SQLite e PostgreSQL, mantêm o
+  índice transacional com a escrita.
+- **O idioma faz parte do índice.** Stemming e stop words dependem do idioma
+  configurado; um catálogo em português com configuração em inglês parece "instável".
 - **Scores não são comparáveis.** O rank do SQL Server, o `ts_rank` do PostgreSQL e o
-  `bm25` do SQLite usam escalas diferentes, então um limite como "rank acima de 50"
-  faz sentido em uma engine só. Ordene por eles, não fixe valores no código.
-- **`nvarchar(450)` pode truncar ou rejeitar dados.** Revise o DDL de qualquer
-  entidade que você coloque em um índice full-text.
+  `bm25` do SQLite usam escalas diferentes: ordene por eles, não fixe um limite.
+- **`nvarchar(450)` pode truncar dados.** Revise o DDL de qualquer entidade indexada.
 - **Quando o banco não basta.** Tolerância a erros de digitação, facetas e sinônimos
-  sobre milhões de documentos são o que engines dedicadas como Meilisearch ou
-  Elasticsearch fazem, ao custo de uma segunda cópia dos dados para manter em
-  sincronia (`full-text-and-vector-search-indexes`, na trilha de system design,
-  compara as duas abordagens).
+  sobre milhões de documentos são para engines dedicadas como Meilisearch ou
+  Elasticsearch, ao custo de uma segunda cópia dos dados para manter em sincronia
+  (`full-text-and-vector-search-indexes`, na trilha de system design, compara as duas).
 
 ## Documentation Links
 

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-14
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -14,19 +14,20 @@ and `CONTAINSTABLE` return a rank you can sort by.
 This concept shows the same feature on three engines, because the code is not
 portable between them: SQL Server (EF Core 11), PostgreSQL (the Npgsql provider)
 and SQLite (FTS5 through raw SQL). Which parts were run matters, so here it is.
-The SQLite section was **executed** on EF Core 11.0.0 with real rows. The SQL
-Server and PostgreSQL SQL was **generated offline** (`ToQueryString()` and
-`GenerateCreateScript()`, no server), which proves what EF generates and not what
-a server returns. The PostgreSQL run used the Npgsql 11.0.0-rc.3 build, the newest
-on NuGet on November 14, 2026. The general `EF.Functions` rules are in
+The SQLite and PostgreSQL sections were **executed** with real rows: SQLite on EF
+Core 11.0.0, and PostgreSQL 18.7 (a throwaway container) with Npgsql 11.0.0 (the
+stable build NuGet published on November 20, 2026) and EF Core 11.0.0. The SQL Server
+SQL was **generated offline** (`ToQueryString()` and `GenerateCreateScript()`, no
+server): it proves what EF generates, not what a server returns, and nothing here
+ran against SQL Server 2025. The general `EF.Functions` rules are in
 `ef-core-functions-and-database-specific-translation`.
 
 ## Use Cases
 
 - A search box over articles, tickets, products or documents where "framework"
   should also find "Frameworks".
-- Showing the best matches first, with a score to sort by.
-- Prefix search, exact phrases and "this word but not that one".
+- Best matches first, with a score to sort by; prefix search, exact phrases and
+  "this word but not that one".
 - Combining the exact words (full-text) with the meaning (vectors) in one query,
   see `ef-core-vector-search-with-sql-server-2025`.
 
@@ -56,10 +57,10 @@ CREATE FULLTEXT INDEX ON [Articles]([Title], [Body])
 Two things came out of running it on 11.0.0:
 
 - `UseKeyIndex` is required. Without it model building fails with `Full-text
-  index '{'Title'}' on entity type 'Article' does not have a KEY INDEX
-  configured. SQL Server requires a KEY INDEX for every full-text index.` Per the
-  SQL Server documentation the key index must be a unique, single-column,
-  non-nullable index, and the primary key is the usual choice.
+  index '{'Title', 'Body'}' on entity type 'Article' does not have a KEY INDEX
+  configured.` plus a hint to call `UseKeyIndex`. Per the SQL Server documentation
+  the key index must be a unique, single-column, non-nullable index, and the primary
+  key is the usual choice.
 - **The columns turn into `nvarchar(450)`.** `Title` and `Body` are `nvarchar(max)`
   by default, and as soon as they are in the full-text index the generated DDL
   says `nvarchar(450)`. That is the SQL Server convention for any indexed string
@@ -137,16 +138,16 @@ back by key shown above is the working form. The key type has to be written out
 ### PostgreSQL: a tsvector column and a GIN index
 
 Npgsql models full-text search as a generated `tsvector` column, an index on it,
-and query operators:
+and query operators. The query function goes inside the lambda:
 
 ```csharp
 modelBuilder.Entity<Article>()
     .HasGeneratedTsVectorColumn(a => a.SearchVector, "english", a => new { a.Title, a.Body })
     .HasIndex(a => a.SearchVector).HasMethod("GIN");
 
-var q = EF.Functions.WebSearchToTsQuery("english", "entity framework -dapper");
-db.Articles.Where(a => a.SearchVector.Matches(q))
-           .OrderByDescending(a => a.SearchVector.Rank(q));
+db.Articles
+  .Where(a => a.SearchVector.Matches(EF.Functions.WebSearchToTsQuery("english", "entity framework -dapper")))
+  .OrderByDescending(a => a.SearchVector.Rank(EF.Functions.WebSearchToTsQuery("english", "entity framework -dapper")));
 ```
 
 ```sql
@@ -157,11 +158,18 @@ WHERE a."SearchVector" @@ websearch_to_tsquery('english', 'entity framework -dap
 ORDER BY ts_rank(a."SearchVector", websearch_to_tsquery('english', 'entity framework -dapper')) DESC
 ```
 
-`websearch_to_tsquery` accepts the syntax people type in a search box (quoted
-phrases, `-word`) and, per the PostgreSQL documentation, does not raise syntax
-errors, which makes it the safest entry point for user text. The
-language ('english') decides the stemming and the stop words, and it has to match
-the language of the content. Everything here is offline SQL.
+Hoisting the call into a local (`var q = EF.Functions.WebSearchToTsQuery(...)`, then
+`Matches(q)`) does not work: it throws `InvalidOperationException: The
+'WebSearchToTsQuery' method is not supported because the query has switched to
+client-evaluation.` On 44 rows (four real articles, 40 filler) the run returned
+"Entity Framework Core 11" (rank 0.1815) and "Frameworks everywhere" (0.1810) for
+`entity framework -dapper`, and the same three rows for `framework` and `frameworks`.
+
+`websearch_to_tsquery` accepts what people type in a search box (quoted phrases,
+`-word`, `or`) and did not raise a syntax error on a dangling `entity and` (two rows
+back), so it is the safest entry point for user text. The language ('english')
+decides the stemming and the stop words, and it has to match the content. With
+`SET enable_seqscan = off`, `EXPLAIN` showed a `Bitmap Index Scan` on the GIN index.
 
 ### SQLite: FTS5, with a virtual table and raw SQL
 
@@ -186,9 +194,8 @@ END;
 ```
 
 In a real project that SQL goes in a migration with `migrationBuilder.Sql(...)`,
-because the model never sees `ArticlesFts`. (This run created it with
-`ExecuteSql` after `EnsureCreated`.) The query is `SqlQuery<T>` over a join,
-ordered by `bm25`:
+because the model never sees `ArticlesFts` (the run used `ExecuteSql`). The query
+is `SqlQuery<T>` over a join, ordered by `bm25`:
 
 ```csharp
 public record Hit(int Id, string Title, double Score);
@@ -226,7 +233,6 @@ Four behaviors to know before shipping:
   index, and the `JOIN` back to `Articles` is what hides it from the query above.
   Bulk operations such as `ExecuteDelete` and `ExecuteUpdate` skip the change
   tracker, but not database triggers, which is why triggers are the right layer.
-
 - **Tiny tables score zero.** In the first run the table had only four rows, every
   term appeared in half of them, and every `bm25` score printed `0.000`. Scores
   need a corpus. The ordering above appeared only after the filler rows.
@@ -242,9 +248,8 @@ Four behaviors to know before shipping:
   by raw substring in `Body`, with no ranking and no index. FTS5 matched two rows
   because it searched `Title` and `Body` and tokenized the words.
 
-SQL Server has the same kind of trap. `CONTAINS` expects a valid search condition
-and fails on a malformed one, while `FREETEXT` is more forgiving. That comes from
-the SQL Server documentation and was not run here.
+SQL Server has the same kind of trap: `CONTAINS` fails on a malformed search
+condition, while `FREETEXT` is more forgiving (SQL Server documentation, not run here).
 
 ## Trade-offs
 
@@ -252,23 +257,18 @@ the SQL Server documentation and was not run here.
   that must run on SQL Server and PostgreSQL needs an interface of your own with
   two implementations, or a search service outside the database.
 - **The index is not instant everywhere.** SQL Server populates a full-text index
-  with its own process, so a row inserted a moment ago may not be searchable
-  immediately (documented SQL Server behavior, not run here). Triggers and
-  generated columns, as in the SQLite and PostgreSQL examples, keep the index
-  transactional with the write.
-- **Language is part of the index.** Stemming and stop words depend on the
-  language you configure. A Portuguese catalog searched with English settings
-  works badly in ways that look like "search is flaky".
+  with its own process, so a fresh row may not be searchable yet (documented SQL
+  Server behavior, not run here). Triggers and generated columns, as in the SQLite
+  and PostgreSQL examples, keep the index transactional with the write.
+- **Language is part of the index.** Stemming and stop words depend on the language
+  you configure; a Portuguese catalog searched with English settings looks "flaky".
 - **Scores are not comparable.** SQL Server's rank, PostgreSQL's `ts_rank` and
-  SQLite's `bm25` use different scales, so a threshold such as "rank above 50" is
-  meaningful on one engine only. Sort by them, do not hard-code them.
-- **`nvarchar(450)` can truncate or reject data.** Review the DDL of any entity
-  you add to a full-text index.
+  SQLite's `bm25` use different scales: sort by them, do not hard-code a threshold.
+- **`nvarchar(450)` can truncate data.** Review the DDL of any entity you index.
 - **When the database is not enough.** Typo tolerance, facets and synonyms across
-  millions of documents are what dedicated engines such as Meilisearch or
-  Elasticsearch are for, at the cost of a second copy of the data to keep in sync
-  (`full-text-and-vector-search-indexes` in the system design track compares the
-  two approaches).
+  millions of documents are for dedicated engines such as Meilisearch or
+  Elasticsearch, at the cost of a second copy of the data to keep in sync
+  (`full-text-and-vector-search-indexes` in the system design track compares both).
 
 ## Documentation Links
 

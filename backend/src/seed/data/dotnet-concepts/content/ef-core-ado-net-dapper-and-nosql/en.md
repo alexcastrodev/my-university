@@ -1,6 +1,6 @@
 ---
-version: 1.1
-updatedAt: 2026-11-12
+version: 1.2
+updatedAt: 2026-11-20
 ---
 ## Objective
 
@@ -153,12 +153,17 @@ not run on earlier .NET versions or on .NET Framework. Entity Framework 6 is
 stable but no longer actively developed; the guidance is to keep it when the
 data code is stable and port to EF Core when the code is evolving.
 
-That lag was visible when EF Core 11.0.0 shipped on November 10, 2026. On NuGet two
-days later, the Microsoft providers (SqlServer, Sqlite, Cosmos) had 11.0.0, Npgsql's
-EF Core 11 provider was still at 11.0.0-rc.3, Oracle's `MySql.EntityFrameworkCore` had
-10.0.x stable and an 11.0.0 preview, MongoDB's provider was at 10.0.5, and the
-community Pomelo MySQL provider had stopped at 9.0.0, with no build for EF Core 10 or
-11. Check the provider's own feed before planning an EF upgrade.
+That lag was visible after EF Core 11.0.0 shipped on November 10, 2026. On NuGet on
+November 20, 2026 (ten days later): the Microsoft providers (SqlServer, Sqlite, Cosmos)
+had a stable 11.0.0 from release day, and Npgsql's provider stayed at 11.0.0-rc.3 until
+its stable 11.0.0 was published that same day, requiring EF Core `[11.0.0, 12.0.0)`.
+Oracle's `MySql.EntityFrameworkCore` had 10.0.12 as its latest stable and only an 11.0.0
+preview (both from October 21). MongoDB's provider was at 10.0.5 with no 11.x; its
+dependency range has no upper bound, so a restore would not stop you, but I did not run
+it on EF Core 11. The community Pomelo MySQL provider stopped at 9.0.0 (August 17,
+2025), built for EF Core 9 only, with no build for EF Core 10 or 11. The official
+provider page still listed the Microsoft providers only up to EF Core 10 that day. Check
+the provider's own feed before planning an EF upgrade.
 
 ### Native AOT changes the choice
 

@@ -1,10 +1,10 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-11-20
 ---
 ## Objective
 
-EF Core gives every relational provider the same LINQ and the same model API, so it is easy to believe that a `DbContext` behaves the same on PostgreSQL, SQL Server and SQLite. It does not. The provider decides the column types, the SQL each operator becomes, which values it refuses to write, how keys are generated, what a migration can do and whether a concurrency token is real. This lesson keeps one model and one set of LINQ queries and runs them on PostgreSQL 18.6 (a throwaway local cluster) and on SQLite, then shows what changed: string matching and collations, `DateTime` and `DateTimeOffset`, `decimal`, keys and GUIDs, migrations, arrays, JSON and enums, concurrency tokens, and why a test suite on SQLite proves little about production on PostgreSQL. SQL Server was not available, so for it I only generated DDL and SQL with `UseSqlServer` configured and never opened, and everything about its runtime behavior is attributed to the docs. Versions used: SDK 10.0.100, `Microsoft.EntityFrameworkCore.Sqlite` 10.0.14, `Microsoft.EntityFrameworkCore.SqlServer` 10.0.14, `Npgsql.EntityFrameworkCore.PostgreSQL` 10.0.3 (with `Npgsql` 10.0.3), PostgreSQL 18.6.
+EF Core gives every relational provider the same LINQ and the same model API, so it is easy to believe that a `DbContext` behaves the same on PostgreSQL, SQL Server and SQLite. It does not. The provider decides the column types, the SQL each operator becomes, which values it refuses to write, how keys are generated, what a migration can do and whether a concurrency token is real. This lesson keeps one model and one set of LINQ queries and runs them on PostgreSQL 18.7 (a throwaway container) and on SQLite, then shows what changed: string matching and collations, `DateTime` and `DateTimeOffset`, `decimal`, keys and GUIDs, migrations, arrays, JSON and enums, concurrency tokens, and why a test suite on SQLite proves little about production on PostgreSQL. SQL Server was not available, so for it I only generated DDL and SQL with `UseSqlServer` configured and never opened, and everything about its runtime behavior is attributed to the docs. Versions used: SDK 11.0.100, `net11.0`, `Microsoft.EntityFrameworkCore.Sqlite` 11.0.0, `Microsoft.EntityFrameworkCore.SqlServer` 11.0.0, `Npgsql.EntityFrameworkCore.PostgreSQL` 11.0.0 (with `Npgsql` 11.0.0), PostgreSQL 18.7 (17.12 where noted). I first measured all of this on EF Core 10.0.14 and Npgsql 10.0.3 against PostgreSQL 18.6, then reran it on the GA packages on November 20, 2026: the results below are unchanged on EF Core 11 and Npgsql 11 except where a line says otherwise.
 
 ## Use Cases
 
@@ -28,7 +28,7 @@ _ = prov switch
 };
 ```
 
-On version matching: NuGet lists `Npgsql.EntityFrameworkCore.PostgreSQL` 10.0.3 as the latest stable (11.0.0 is at rc.3), and its nuspec depends on `Microsoft.EntityFrameworkCore` `[10.0.0, 11.0.0)`. The Npgsql major version follows the EF Core major, so EF Core 10 needs Npgsql 10.x. `GenerateCreateScript()` needs no connection, so it produced the DDL for all three providers. I quote parts of it below.
+On version matching: NuGet lists `Npgsql.EntityFrameworkCore.PostgreSQL` 11.0.0 as the latest stable, published on November 20, 2026, and its nuspec depends on `Microsoft.EntityFrameworkCore` and `.Relational` `[11.0.0, 12.0.0)` plus `Npgsql` 11.0.0. The 10.x line continues for EF Core 10 (10.0.4 appeared the same day, depending on EF Core `[10.0.15, 11.0.0)`; the 10.0.3 nuspec says `[10.0.4, 11.0.0)`). The Npgsql major version follows the EF Core major, so EF Core 11 needs Npgsql 11.x and EF Core 10 needs Npgsql 10.x. `GenerateCreateScript()` needs no connection, so it produced the DDL for all three providers. I quote parts of it below.
 
 ### Strings: the same LINQ, different rows
 
@@ -67,7 +67,7 @@ Contains("LIC")          [alice, Alice]           []
 Like(NameCi, "ÉL%")      [élan, Élan]             [Élan]
 ```
 
-`NOCASE` folds ASCII only, and `instr` ignores the column collation, so `Contains` still found nothing on SQLite. A frequently quoted limitation says `LIKE` does not work with nondeterministic collations. On PostgreSQL 18.6 it worked, and the Npgsql docs agree: PostgreSQL 18 supports case-insensitive collations well, while earlier versions could not pattern-match with `LIKE` on such a column. Per those docs, the same query would fail on PostgreSQL 17 or older; I only ran 18.6.
+`NOCASE` folds ASCII only, and `instr` ignores the column collation, so `Contains` still found nothing on SQLite. A frequently quoted limitation says `LIKE` does not work with nondeterministic collations. On PostgreSQL 18.7 it worked, and the Npgsql docs agree: PostgreSQL 18 supports case-insensitive collations well, while earlier versions could not pattern-match with `LIKE` on such a column. I confirmed that on PostgreSQL 17.12: the `==` queries worked, but `Contains` and `Like` on `NameCi` failed with `PostgresException 0A000: nondeterministic collations are not supported for LIKE`.
 
 The database default collation is a different story. `modelBuilder.UseCollation("ci")` made `EnsureCreated` send `CREATE DATABASE prov LC_COLLATE ci`, which failed with `42809: invalid LC_COLLATE locale name: "ci"`: the database default must be a locale, and the ICU collation only exists inside the database after it is created. The Npgsql docs say database collations do not support nondeterministic collations and suggest `configurationBuilder.Properties<string>().UseCollation("ci")` in `ConfigureConventions` instead, which puts the collation on every string column. The older alternative is the `citext` type (`HasPostgresExtension("citext")` plus `HasColumnType("citext")`): on a third column it matched `ALICE`, `ÉLAN`, `Contains("LIC")` and `Like("AL%")` case-insensitively, `É` included, on a cluster whose default locale was `C.UTF-8`.
 
@@ -77,12 +77,12 @@ Npgsql maps `DateTime` to `timestamp with time zone` and only accepts UTC values
 
 ```text
 Kind=Utc          => saved
-Kind=Local        => ArgumentException: Cannot write DateTime with Kind=Local to PostgreSQL type 'timestamp with time zone', only UTC is supported. Note that it's not possible to mix DateTimes with different Kinds in an array, range, or multirange. (Parameter 'value')
-Kind=Unspecified  => ArgumentException: Cannot write DateTime with Kind=Unspecified to PostgreSQL type 'timestamp with time zone', ...
-DateTimeOffset +01:00 => ArgumentException: Cannot write DateTimeOffset with Offset=01:00:00 to PostgreSQL type 'timestamp with time zone', only offset 0 (UTC) is supported.
+Kind=Local        => ArgumentException: Cannot write DateTime with Kind=Local, only UTC is supported. Note that it's not possible to mix DateTimes with different Kinds in an array, range, or multirange. (Parameter 'value')
+Kind=Unspecified  => ArgumentException: Cannot write DateTime with Kind=Unspecified, only UTC is supported. ...
+DateTimeOffset +01:00 => ArgumentException: Cannot write DateTimeOffset with Offset=01:00:00, only offset 0 (UTC) is supported. (Parameter 'value')
 ```
 
-The exceptions arrive wrapped in a `DbUpdateException` from `SaveChanges`. The Npgsql date and time page documents this as the 6.0 behavior and the `Npgsql.EnableLegacyTimestampBehavior` switch that restores the old one. SQLite accepted all three kinds and stored the same text, `2026-10-28 12:00:00`, so the `Kind` is gone: every value read back as `Unspecified`, including the one saved as UTC. SQL Server's generated DDL uses `datetime2` for `DateTime` and `datetimeoffset` for `DateTimeOffset`, which keeps the offset.
+The exceptions arrive wrapped in a `DbUpdateException` from `SaveChanges`. The behavior is the same as with Npgsql 10.0.3; only the message changed, because 10.0.3 also said "to PostgreSQL type 'timestamp with time zone'". The Npgsql date and time page documents this as the 6.0 behavior and the `Npgsql.EnableLegacyTimestampBehavior` switch that restores the old one. SQLite accepted all three kinds and stored the same text, `2026-10-28 12:00:00`, so the `Kind` is gone: every value read back as `Unspecified`, including the one saved as UTC. SQL Server's generated DDL uses `datetime2` for `DateTime` and `datetimeoffset` for `DateTimeOffset`, which keeps the offset.
 
 `DateTimeOffset` on SQLite is stored as text with its offset. I saved `12:00+01:00` (11:00 UTC) and `11:30+00:00` and queried them:
 
@@ -94,7 +94,7 @@ Max(At)          => NotSupportedException: SQLite cannot apply aggregate operato
 At == ...        => WHERE "e"."At" = '2026-10-28 11:30:00+00:00'
 ```
 
-EF Core 10 refuses rather than sorting text that would put 11:30 UTC before 11:00 UTC. Equality translates, but it compares text, so the same instant written with another offset is a different string. The SQLite limitations page lists `DateTimeOffset`, `TimeSpan` and `ulong` as types where only equality is translated and recommends UTC `DateTime` instead. `DateOnly` and `TimeOnly` were fine everywhere: `date`/`time without time zone` on PostgreSQL, ISO `TEXT` on SQLite (where `Day > 2026-01-01` worked because ISO text sorts correctly), `date`/`time` on SQL Server.
+EF Core 10 and 11 refuse rather than sorting text that would put 11:30 UTC before 11:00 UTC. Equality translates, but it compares text, so the same instant written with another offset is a different string. The SQLite limitations page lists `DateTimeOffset`, `TimeSpan` and `ulong` as types where only equality is translated and recommends UTC `DateTime` instead. `DateOnly` and `TimeOnly` were fine everywhere: `date`/`time without time zone` on PostgreSQL, ISO `TEXT` on SQLite (where `Day > 2026-01-01` worked because ISO text sorts correctly), `date`/`time` on SQL Server.
 
 ### Decimals
 
@@ -108,7 +108,7 @@ Sum(Precise)     12345678901234567890.423456789     12345678901234567890.4234567
 Average(Exact)   6.8366666666666667                 6.835
 ```
 
-I expected precision loss on SQLite and found none: the values were stored as `text` (checked with `typeof`) and came back exactly, including `decimal.MaxValue`. Comparison, ordering and aggregates also worked, through functions EF registers on the connection: `WHERE ef_compare("i"."Price", '9.9') > 0`, `ORDER BY "i"."Price" COLLATE EF_DECIMAL`, `SELECT COALESCE(ef_sum("i"."Price"), '0.0')`. The current SQLite limitations page says the same, so if you remember decimal ordering and aggregates as unsupported on SQLite, that is no longer true on EF Core 10. The real difference is `HasPrecision`: PostgreSQL rounded 1.005 to 1.01, SQLite kept 1.005, so the average differs. Without `HasPrecision`, Npgsql creates an unconstrained `numeric`. SQL Server creates `decimal(18,2)` and model validation logged, with no connection needed:
+I expected precision loss on SQLite and found none: the values were stored as `text` (checked with `typeof`) and came back exactly, including `decimal.MaxValue`. Comparison, ordering and aggregates also worked, through functions EF registers on the connection: `WHERE ef_compare("i"."Price", '9.9') > 0`, `ORDER BY "i"."Price" COLLATE EF_DECIMAL`, `SELECT COALESCE(ef_sum("i"."Price"), '0.0')`. The current SQLite limitations page says the same, so if you remember decimal ordering and aggregates as unsupported on SQLite, that is no longer true on EF Core 10 or 11. The real difference is `HasPrecision`: PostgreSQL rounded 1.005 to 1.01, SQLite kept 1.005, so the average differs. Without `HasPrecision`, Npgsql creates an unconstrained `numeric`. SQL Server creates `decimal(18,2)` and model validation logged, with no connection needed:
 
 ```text
 warn: SqlServerEventId.DecimalTypeDefaultWarning[30000] No store type was specified for the decimal property 'Price' on entity type 'Item'. This will cause values to be silently truncated if they do not fit in the default precision and scale. ...
@@ -164,11 +164,11 @@ Address.City       WHERE (i."Address" ->> 'City') = 'Lisbon'   WHERE "i"."Addres
 Mood (MapEnum)     CREATE TYPE mood AS ENUM ('happy','sad'); = 'sad'::mood   INTEGER, = 1
 ```
 
-I expected an "arrays unsupported" error on SQLite. EF Core 10 raised none: it maps a primitive collection such as `string[]` to a JSON text column on SQLite (and on SQL Server, where the generated SQL used `OPENJSON`), and `Contains` and `Count()` translated. PostgreSQL gets a real array type, and `jsonb` reordered the keys. Enums need `MapEnum<Mood>("mood")` on the Npgsql options to become a PostgreSQL enum type (the labels became lowercase); elsewhere they are integers. SQL Server's DDL used `nvarchar(max)` for the JSON columns by default and the native `json` type after `UseCompatibilityLevel(170)`.
+I expected an "arrays unsupported" error on SQLite. EF Core raised none (10 and 11): it maps a primitive collection such as `string[]` to a JSON text column on SQLite (and on SQL Server, where the generated SQL used `OPENJSON`), and `Contains` and `Count()` translated. PostgreSQL gets a real array type, and `jsonb` reordered the keys. Enums need `MapEnum<Mood>("mood")` on the Npgsql options to become a PostgreSQL enum type (the labels became lowercase); elsewhere they are integers. SQL Server's DDL used `nvarchar(max)` for the JSON columns by default and the native `json` type after `UseCompatibilityLevel(170)` (on EF Core 11 the array column also becomes `json` there, and `Contains` on it generates `JSON_CONTAINS` instead of `OPENJSON`; generated only, never run).
 
 ### Concurrency tokens: real on PostgreSQL, silent on SQLite
 
-On PostgreSQL a `uint` property with `IsRowVersion()` (or `[Timestamp]`) maps to the hidden system column `xmin`, so no DDL appears. The older `UseXminAsConcurrencyToken()` is gone: it gave `CS1061: 'EntityTypeBuilder<Doc>' does not contain a definition for 'UseXminAsConcurrencyToken'` with Npgsql 10.0.3. I loaded the same row in two contexts and saved both:
+On PostgreSQL a `uint` property with `IsRowVersion()` (or `[Timestamp]`) maps to the hidden system column `xmin`, so no DDL appears. The older `UseXminAsConcurrencyToken()` is gone: it gave `CS1061: 'EntityTypeBuilder<Doc>' does not contain a definition for 'UseXminAsConcurrencyToken'` with Npgsql 10.0.3, and Npgsql 11.0.0 gives the same error. I loaded the same row in two contexts and saved both:
 
 ```text
 Version after insert: 771
