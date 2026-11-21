@@ -1,0 +1,955 @@
+[
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A logistics company runs steady EC2 workloads in two Regions. Over the next three years it plans to change instance families and move part of the fleet to AWS Fargate. Which pricing option gives a commitment discount that follows these changes?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "EC2 Instance Savings Plans"
+      },
+      {
+        "key": "B",
+        "text": "Standard Reserved Instances"
+      },
+      {
+        "key": "C",
+        "text": "Compute Savings Plans"
+      },
+      {
+        "key": "D",
+        "text": "Spot Instances"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Compute Savings Plans apply to EC2 in any instance family and Region and also to Fargate and Lambda. EC2 Instance Savings Plans and Standard RIs stay tied to a family or configuration in one Region, and Spot is not a commitment discount."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A research team moves its nightly simulations to Spot Instances and asks how the hourly price it pays is decided. Which statement is correct?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The highest bid placed by any customer for that instance type sets the price"
+      },
+      {
+        "key": "B",
+        "text": "Amazon EC2 sets the Spot price per instance type and Availability Zone, adjusting it gradually from long-term supply and demand"
+      },
+      {
+        "key": "C",
+        "text": "The price is fixed for one year when the team signs a Spot commitment"
+      },
+      {
+        "key": "D",
+        "text": "The Pricing Calculator estimate at launch time locks the price for the life of the instance"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Amazon EC2 sets the Spot price and changes it gradually based on long-term supply and demand; customers no longer bid. There is no Spot commitment, and a Pricing Calculator estimate never locks a price."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "An online retailer must be certain that capacity for 12 instances exists in one specific Availability Zone during its busy season, and it also wants a Reserved Instance discount. What should it buy?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Regional Standard Reserved Instances"
+      },
+      {
+        "key": "B",
+        "text": "A Compute Savings Plan"
+      },
+      {
+        "key": "C",
+        "text": "Spot Instances in that Availability Zone"
+      },
+      {
+        "key": "D",
+        "text": "Zonal Reserved Instances for that Availability Zone"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Only a zonal Reserved Instance, bought for a specific Availability Zone, reserves capacity as well as giving the discount. Regional RIs and Savings Plans give a discount without reserving capacity, and Spot can be interrupted."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A payroll company runs a four-hour batch every weekday night. An engineer proposes buying Scheduled Reserved Instances for that window. What should the cloud team tell the engineer?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Scheduled Instances can no longer be purchased, so compare Savings Plans, On-Demand and Spot for the batch instead"
+      },
+      {
+        "key": "B",
+        "text": "Scheduled Reserved Instances are the cheapest option and should be bought for three years"
+      },
+      {
+        "key": "C",
+        "text": "Scheduled Reserved Instances can only be bought through AWS Marketplace"
+      },
+      {
+        "key": "D",
+        "text": "Scheduled Reserved Instances are available only with a Dedicated Host"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "The EC2 documentation states that Scheduled Instances can no longer be purchased, so the team must choose among the current options. The other answers describe a purchase that is not possible today."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A bank moves a database whose license is priced per physical core. The vendor requires visibility of the sockets and cores, and the instance must keep running on the same physical server after a restart. Which EC2 option meets this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Dedicated Instances"
+      },
+      {
+        "key": "B",
+        "text": "Dedicated Hosts"
+      },
+      {
+        "key": "C",
+        "text": "On-Demand Capacity Reservations"
+      },
+      {
+        "key": "D",
+        "text": "Convertible Reserved Instances"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Dedicated Hosts give a whole physical server with socket and core visibility and host affinity, which per-core licenses need. Dedicated Instances run on single-tenant hardware but give no core visibility or affinity, and the other two options are about capacity or price, not placement."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A video startup uploads 20 TB of raw footage from its studio to Amazon S3 in one Region, processes it with EC2 instances in the same Region, and then streams the finished videos to viewers on the internet. Which step is charged as data transfer?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The upload from the studio into Amazon S3"
+      },
+      {
+        "key": "B",
+        "text": "The copy from Amazon S3 to EC2 in the same Region"
+      },
+      {
+        "key": "C",
+        "text": "The streaming from AWS out to viewers on the internet"
+      },
+      {
+        "key": "D",
+        "text": "All three steps, at the same per-GB rate"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Data out of AWS to the internet is charged, while data in from the internet and S3 to EC2 traffic in the same Region are free. The steps are not billed equally."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "In an AWS Organization with consolidated billing, the Production account owns Reserved Instances that are partly unused, and the Test account runs matching instances On-Demand in the same Region. What happens on the bill?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The unused Reserved Instance hours can discount the Test account's matching usage, unless the management account turned off discount sharing"
+      },
+      {
+        "key": "B",
+        "text": "The Reserved Instance discount only ever applies to the Production account"
+      },
+      {
+        "key": "C",
+        "text": "The Test account must buy part of the reservation in the Reserved Instance Marketplace"
+      },
+      {
+        "key": "D",
+        "text": "The reservations are converted into a Savings Plan that covers every account"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Consolidated billing treats the accounts as one, so unused RI benefit flows to matching usage in other accounts after the owning account. The management account can turn sharing off per account; nothing needs to be bought or converted."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A company will run a reporting platform around the clock for three years and wants Reserved Instance pricing, but it expects to switch to a newer instance family and a different operating system halfway through. Which option fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Standard Reserved Instances"
+      },
+      {
+        "key": "B",
+        "text": "Spot Instances"
+      },
+      {
+        "key": "C",
+        "text": "On-Demand Capacity Reservations"
+      },
+      {
+        "key": "D",
+        "text": "Convertible Reserved Instances"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Convertible RIs can be exchanged to change instance family, OS and tenancy during the term. Standard RIs cannot change family, Spot is interruptible, and a Capacity Reservation gives no discount by itself."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "multi",
+    "text": "A media company wants to cut EC2 cost by moving suitable workloads to Spot Instances. Which workloads are good candidates? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Overnight frame rendering that saves checkpoints and can resume on another instance"
+      },
+      {
+        "key": "B",
+        "text": "The primary database of the payment system"
+      },
+      {
+        "key": "C",
+        "text": "Continuous integration build jobs that are retried automatically if a node disappears"
+      },
+      {
+        "key": "D",
+        "text": "A one-day live auction site that must not be interrupted"
+      },
+      {
+        "key": "E",
+        "text": "A directory server that must stay up 24 hours a day"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C"
+    ],
+    "explanation": "Spot fits flexible work that tolerates interruption, such as checkpointed rendering and retried builds. A payment database, a live auction and an always-on directory server cannot survive a two-minute interruption notice."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A student creates a new AWS account in 2026 to learn the platform. Which description matches the Free Tier for this account?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "At sign-up the student chooses a Free account plan or a Paid account plan, receives credits, and can still use Always Free offers"
+      },
+      {
+        "key": "B",
+        "text": "Every service is free for 12 months, and then normal rates begin"
+      },
+      {
+        "key": "C",
+        "text": "Only t2.micro instances are free, for 12 months, with no other offers"
+      },
+      {
+        "key": "D",
+        "text": "The Free Tier is available only after subscribing to AWS Business Support+"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Accounts created on or after July 15, 2025 choose a Free or Paid plan and get credits, and Always Free offers remain. The 12-month model and t2.micro belong to the legacy Free Tier for older accounts, and no Support plan is needed."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A Linux On-Demand instance runs for 3 hours, 20 minutes and 15 seconds and is then terminated. How is the compute time billed?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Rounded up to 4 full hours"
+      },
+      {
+        "key": "B",
+        "text": "Per second for the exact running time, with a 60-second minimum"
+      },
+      {
+        "key": "C",
+        "text": "Per started 15-minute block"
+      },
+      {
+        "key": "D",
+        "text": "As one full day, because On-Demand has a daily minimum"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "EC2 Linux usage is billed in one-second increments with a 60-second minimum, so the bill covers the exact time. Full-hour rounding applies only to a few operating systems such as SUSE Linux Enterprise Server."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "The finance lead of a marketing agency wants an email and an Amazon SNS notification as soon as the forecasted monthly cost of the analytics account is expected to go above the planned amount. Which service should be configured?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Cost Explorer"
+      },
+      {
+        "key": "B",
+        "text": "AWS Budgets"
+      },
+      {
+        "key": "C",
+        "text": "AWS Cost and Usage Report"
+      },
+      {
+        "key": "D",
+        "text": "AWS Pricing Calculator"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "AWS Budgets alerts on actual or forecasted cost by email or SNS. Cost Explorer analyzes and forecasts but is not the alerting tool, the CUR is raw data, and the Pricing Calculator only estimates before deployment."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A data team needs hourly, line-item cost and usage data broken down by resource and by tag, delivered to its own S3 bucket so it can run SQL queries with Amazon Athena. Which AWS feature provides this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Cost Explorer"
+      },
+      {
+        "key": "B",
+        "text": "The Billing and Cost Management home page"
+      },
+      {
+        "key": "C",
+        "text": "AWS Cost and Usage Report"
+      },
+      {
+        "key": "D",
+        "text": "AWS Budgets"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "The Cost and Usage Report is the most comprehensive cost data AWS provides and is delivered to an S3 bucket, ready for Athena, Redshift or Amazon Quick. Cost Explorer and the home page are console views, and Budgets tracks thresholds."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A solutions engineer builds an AWS Pricing Calculator estimate for a three-tier web application and shares the link with the customer. Which statement about this estimate is accurate?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS must honor the estimated amount as a binding quote"
+      },
+      {
+        "key": "B",
+        "text": "It locks the listed prices for three years, like a Reserved Instance"
+      },
+      {
+        "key": "C",
+        "text": "It can only be created from an account that already runs the workload"
+      },
+      {
+        "key": "D",
+        "text": "It is an estimate that excludes taxes, and the actual bill depends on real usage and published prices"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "The Pricing Calculator is a free planning tool that produces estimates, excludes taxes, and defers to the service pricing pages when they differ. It is not a quote, locks no price, and is meant for workloads not yet built."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "Three departments share one AWS account. Finance must see EC2 and S3 costs per department in Cost Explorer without moving any resources. What should the team do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Create a separate VPC for each department"
+      },
+      {
+        "key": "B",
+        "text": "Enable consolidated billing for the account"
+      },
+      {
+        "key": "C",
+        "text": "Tag resources with a department key and activate it as a user-defined cost allocation tag"
+      },
+      {
+        "key": "D",
+        "text": "Create one IAM group for each department"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Activated cost allocation tags let Cost Explorer and the CUR group costs by department inside one account. VPCs and IAM groups do not split costs, and consolidated billing shows cost per account, not per department."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A member account in an organization tagged all its instances with a Project key yesterday, but Project does not appear as a filter in Cost Explorer. What is the most likely reason?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The tag has not been activated as a cost allocation tag by the management account, or activation is still within the 24-hour delay"
+      },
+      {
+        "key": "B",
+        "text": "Cost Explorer shows only AWS-generated tags"
+      },
+      {
+        "key": "C",
+        "text": "Tags appear only in the Pricing Calculator"
+      },
+      {
+        "key": "D",
+        "text": "User-defined tags must start with the aws: prefix"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Cost allocation tags must be activated, only the management account (or a standalone account) can activate them, and they can take up to 24 hours to appear. User-defined tags do show in Cost Explorer, and the aws: prefix is reserved for AWS-generated tags."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A company creates an organization in AWS Organizations and invites its existing accounts. Which account pays the charges incurred by all member accounts?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Each member account, because Organizations only groups accounts for governance"
+      },
+      {
+        "key": "B",
+        "text": "The member account with the highest monthly spend"
+      },
+      {
+        "key": "C",
+        "text": "A separate payer account that AWS creates when consolidated billing is turned on"
+      },
+      {
+        "key": "D",
+        "text": "The management account"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "The management account has the role of the payer account and pays for all member accounts. AWS does not create a separate payer account, and members do not pay separately once they join."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "An operations manager wants to see, in charts, which services drove the cost increase over the last six months and what spending is projected for the coming months. Which tool fits best?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Budgets"
+      },
+      {
+        "key": "B",
+        "text": "AWS Cost Explorer"
+      },
+      {
+        "key": "C",
+        "text": "AWS Trusted Advisor"
+      },
+      {
+        "key": "D",
+        "text": "AWS Pricing Calculator"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Cost Explorer visualizes your past spend by service, account or tag and forecasts future spend. Budgets alerts on thresholds, Trusted Advisor recommends optimizations, and the Pricing Calculator estimates workloads not yet built."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "multi",
+    "text": "A holding company joins its five AWS accounts into one organization with consolidated billing. Which benefits does consolidated billing provide? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A single bill for all accounts in the organization"
+      },
+      {
+        "key": "B",
+        "text": "Combined usage across accounts for volume pricing tiers and shared Reserved Instance and Savings Plans discounts"
+      },
+      {
+        "key": "C",
+        "text": "The management account's paid Support plan automatically covers every member account"
+      },
+      {
+        "key": "D",
+        "text": "Higher service quotas in every member account"
+      },
+      {
+        "key": "E",
+        "text": "Automatic cost breakdown by project inside each account"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B"
+    ],
+    "explanation": "Consolidated billing gives one bill and pools usage so volume tiers and RI or Savings Plans discounts are shared. Support fees are per account, quotas do not change, and per-project cost needs cost allocation tags."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "multi",
+    "text": "A cloud team is comparing Savings Plans with other purchase options. Which statements about Savings Plans are correct? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "They are a commitment to a consistent amount of usage in USD per hour for a 1-year or 3-year term"
+      },
+      {
+        "key": "B",
+        "text": "They reserve EC2 capacity in a chosen Availability Zone"
+      },
+      {
+        "key": "C",
+        "text": "Compute Savings Plans also apply to AWS Lambda and AWS Fargate usage"
+      },
+      {
+        "key": "D",
+        "text": "They also discount Spot Instance usage"
+      },
+      {
+        "key": "E",
+        "text": "An S3 Savings Plan discounts storage in every storage class"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C"
+    ],
+    "explanation": "Savings Plans are a USD per hour commitment for 1 or 3 years, and the Compute type also covers Lambda and Fargate. They do not reserve capacity, they do not cover Spot, and there is no S3 Savings Plan."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A five-person startup runs a production app on AWS. It needs to open technical cases 24x7 by phone and chat and wants the full set of Trusted Advisor checks, at the lowest cost. Which Support plan should it choose?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Business Support+"
+      },
+      {
+        "key": "B",
+        "text": "Basic Support"
+      },
+      {
+        "key": "C",
+        "text": "AWS Enterprise Support"
+      },
+      {
+        "key": "D",
+        "text": "AWS Unified Operations"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Business Support+ is the lowest plan with 24x7 technical cases and the full Trusted Advisor checks. Basic has no technical cases and only core checks, while Enterprise Support and Unified Operations also meet the need but cost more."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A manufacturer wants a designated AWS contact who knows its environment and coordinates proactive guidance, and it wants the lowest-cost plan that includes one. Which plan should it choose?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Business Support+"
+      },
+      {
+        "key": "B",
+        "text": "Basic Support"
+      },
+      {
+        "key": "C",
+        "text": "AWS Enterprise Support"
+      },
+      {
+        "key": "D",
+        "text": "AWS Unified Operations"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "A designated Technical Account Manager comes with Enterprise Support and Unified Operations, and Enterprise Support is the lower-cost of the two. Basic and Business Support+ do not include a designated TAM."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A stock exchange runs mission-critical workloads on AWS. It wants 24/7 monitoring of those workloads by AWS and the fastest response AWS offers when a business-critical system goes down. Which Support plan fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Basic Support"
+      },
+      {
+        "key": "B",
+        "text": "AWS Business Support+"
+      },
+      {
+        "key": "C",
+        "text": "AWS Enterprise Support"
+      },
+      {
+        "key": "D",
+        "text": "AWS Unified Operations"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Unified Operations is the plan AWS recommends for mission-critical workloads, with 24/7 workload monitoring and the fastest business-critical response of all plans. Enterprise Support and Business Support+ respond more slowly, and Basic has no technical cases."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A small nonprofit uses only Basic Support. Which kind of help can it request from AWS Support?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Technical cases to troubleshoot a failing EC2 instance"
+      },
+      {
+        "key": "B",
+        "text": "Account and billing questions and service quota increase requests"
+      },
+      {
+        "key": "C",
+        "text": "Architecture reviews with a designated Technical Account Manager"
+      },
+      {
+        "key": "D",
+        "text": "Help with third-party software running on its instances"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Basic includes 24x7 account and billing help and service quota increase requests, but no technical cases. Technical cases and third-party software support start at Business Support+, and a designated TAM needs Enterprise Support or Unified Operations."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "An administrator wants to be warned when the number of resources in an account gets close to the maximum AWS allows for that service. Which Trusted Advisor category covers this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Performance"
+      },
+      {
+        "key": "B",
+        "text": "Fault tolerance"
+      },
+      {
+        "key": "C",
+        "text": "Service limits"
+      },
+      {
+        "key": "D",
+        "text": "Operational excellence"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "The Service limits category flags usage close to a service quota, and its checks are available on every plan. Performance, Fault tolerance and Operational excellence look at throughput, redundancy and operational practices."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "An operations lead wants to know whether AWS has scheduled maintenance that will affect the company's own EC2 instances next week. Where should the lead look?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The Your account health view of the AWS Health Dashboard"
+      },
+      {
+        "key": "B",
+        "text": "The Service health view of the AWS Health Dashboard"
+      },
+      {
+        "key": "C",
+        "text": "AWS CloudTrail event history"
+      },
+      {
+        "key": "D",
+        "text": "The Cost optimization checks in AWS Trusted Advisor"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Your account health shows events that affect your own resources, including scheduled maintenance. Service health shows the public status of AWS services, CloudTrail records API calls, and Trusted Advisor gives recommendations."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A hosting company sees repeated unauthorized login attempts against its servers, all coming from IP addresses that belong to AWS. The company is not an AWS customer. Who should it report this to?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A Technical Account Manager"
+      },
+      {
+        "key": "B",
+        "text": "AWS Professional Services"
+      },
+      {
+        "key": "C",
+        "text": "The AWS Trust and Safety team, through the AWS abuse reporting form"
+      },
+      {
+        "key": "D",
+        "text": "A post on AWS re:Post"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Abuse that comes from AWS resources is reported to the AWS Trust and Safety team through the abuse reporting process. A TAM belongs to a paying customer's plan, Professional Services builds workloads, and re:Post is a public community."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A retailer wants an outside consulting firm with proven AWS expertise to plan and run its data center migration and then manage the workloads. Where should it look for such a firm?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Knowledge Center"
+      },
+      {
+        "key": "B",
+        "text": "AWS Partner Network"
+      },
+      {
+        "key": "C",
+        "text": "AWS Professional Services"
+      },
+      {
+        "key": "D",
+        "text": "AWS Health Dashboard"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "The AWS Partner Network includes Services partners, third-party firms that deliver consulting, professional and managed services. AWS Professional Services is AWS's own team, not an outside firm, and the other two are self-service resources."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A development team wants proven guides and step-by-step patterns, with architectures and code, for modernizing an on-premises database on AWS. Which AWS resource is designed for this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Knowledge Center"
+      },
+      {
+        "key": "B",
+        "text": "AWS Support Center"
+      },
+      {
+        "key": "C",
+        "text": "AWS Health Dashboard"
+      },
+      {
+        "key": "D",
+        "text": "AWS Prescriptive Guidance"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "AWS Prescriptive Guidance offers guides and patterns from AWS experts for migration, optimization and modernization. The Knowledge Center answers common questions, Support Center is where you open cases, and the Health Dashboard reports events."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "single",
+    "text": "A software vendor wants AWS customers to subscribe to its security appliance, delivered as an AMI, and pay for it on their regular AWS bill. Which channel should the vendor use?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Marketplace"
+      },
+      {
+        "key": "B",
+        "text": "The Reserved Instance Marketplace"
+      },
+      {
+        "key": "C",
+        "text": "AWS Professional Services"
+      },
+      {
+        "key": "D",
+        "text": "AWS License Manager"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "AWS Marketplace is the curated catalog where third-party software such as AMIs is sold and charged on the customer's AWS bill. The Reserved Instance Marketplace only resells Standard RIs, and License Manager tracks licenses rather than selling them."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "multi",
+    "text": "A company on Basic Support is deciding whether to upgrade. Which features require AWS Business Support+ or a higher plan? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Programmatic access to the AWS Health API"
+      },
+      {
+        "key": "B",
+        "text": "Viewing the AWS Health Dashboard in the console"
+      },
+      {
+        "key": "C",
+        "text": "The full set of AWS Trusted Advisor checks"
+      },
+      {
+        "key": "D",
+        "text": "Requesting a service quota increase"
+      },
+      {
+        "key": "E",
+        "text": "The Trusted Advisor Service limits checks"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C"
+    ],
+    "explanation": "The AWS Health API and the full Trusted Advisor checks start at Business Support+. The Health Dashboard, service quota requests and the Service limits checks are available to every customer, including Basic."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "billing-support",
+    "type": "multi",
+    "text": "A company compares Standard and Convertible Reserved Instances for a 3-year commitment. Which statements are correct? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace"
+      },
+      {
+        "key": "B",
+        "text": "Only Convertible Reserved Instances offer All Upfront payment"
+      },
+      {
+        "key": "C",
+        "text": "Convertible Reserved Instances can be exchanged to change instance family and operating system"
+      },
+      {
+        "key": "D",
+        "text": "Standard Reserved Instances can change to a different instance family at any time"
+      },
+      {
+        "key": "E",
+        "text": "Both types are available only for a 1-year term"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C"
+    ],
+    "explanation": "Standard RIs are the only ones that can be listed in the Reserved Instance Marketplace, and Convertible RIs trade a smaller discount for the ability to change family, OS and tenancy. Both types offer All, Partial and No Upfront payment and 1-year or 3-year terms, and Standard RIs cannot change family."
+  }
+]

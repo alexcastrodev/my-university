@@ -1,0 +1,39 @@
+{
+  "id": 5,
+  "title": "Billing, Pricing and Support",
+  "lessons": [
+    {
+      "id": "clf-5-1",
+      "title": "AWS Pricing Models: On-Demand, Savings Plans, Reserved Instances, Spot and Dedicated Options",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/5-1-pricing-models.md"
+    },
+    {
+      "id": "clf-5-2",
+      "title": "Billing, Budgets and Cost Management: Budgets, Cost Explorer, CUR, Tags, Pricing Calculator and Organizations",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/5-2-billing-budgets-cost-management.md"
+    },
+    {
+      "id": "clf-5-3",
+      "title": "AWS Support Plans and Technical Resources: Trusted Advisor, Health Dashboard, Partners and Where to Get Help",
+      "duration": "17m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/5-3-support-plans-and-technical-resources.md"
+    },
+    {
+      "id": "clf-5-check",
+      "title": "Skill Check: Billing, Pricing and Support",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null,
+      "topic": "billing-support"
+    }
+  ]
+}
