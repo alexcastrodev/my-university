@@ -8,7 +8,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { NgTemplateOutlet, isPlatformBrowser } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
@@ -25,9 +25,11 @@ import { areaLabel } from '../../shared/area-labels';
 const STORAGE_KEY = 'sidebar-collapsed';
 /** How many of the reader's bookmarks the rail lists; the rest are on the Bookmarks page. */
 const MAX_BOOKMARKS = 3;
+/** The one tooltip the rail shares between all its icons; the icon it points at names it in aria-describedby. */
+const TIP_ID = 'sidebar-tooltip';
 
 /**
- * Left navigation rail that replaces the old top header: brand, search, the main links and the
+ * Left navigation card that replaces the old top header: brand, search, the main links and the
  * account block. It is an icon rail unless the reader expanded it, and that choice is remembered.
  * Its width is driven by `--mu-sidebar-w` (styles.css), which follows the `data-sidebar`
  * attribute on <html>, so the first paint is right before this component runs. Phones hide it;
@@ -36,7 +38,7 @@ const MAX_BOOKMARKS = 3;
 @Component({
   selector: 'app-sidebar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [NgTemplateOutlet, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
@@ -59,8 +61,6 @@ export class Sidebar {
       : 'Ctrl K';
 
   protected readonly LANGUAGE_LABELS = LANGUAGE_LABELS;
-  protected readonly lightModeLabel = $localize`:@@sidebar.lightMode:Light mode`;
-  protected readonly darkModeLabel = $localize`:@@sidebar.darkMode:Dark mode`;
   protected readonly collapseLabel = $localize`:@@sidebar.collapse:Collapse sidebar`;
   protected readonly expandLabel = $localize`:@@sidebar.expand:Expand sidebar`;
 
@@ -72,6 +72,11 @@ export class Sidebar {
 
   userMenuOpen = signal(false);
   languageMenuOpen = signal(false);
+
+  protected readonly tipId = TIP_ID;
+  /** What the rail tooltip says and where it sits (viewport pixels); null while it is hidden. */
+  protected tip = signal<{ text: string; x: number; y: number } | null>(null);
+  private tipTarget: HTMLElement | null = null;
 
   /** Fixed for the session: switching language navigates to the other locale's build. */
   protected readonly language = this.languageService.language;
@@ -97,11 +102,6 @@ export class Sidebar {
     return Math.max(0, Math.min(100, ((summary.total - minXp) / (nextLevelXp - minXp)) * 100));
   });
 
-  /** What the theme button will switch to, as the row's text. */
-  protected themeLabel = computed(() =>
-    this.themeService.theme() === 'dark' ? this.lightModeLabel : this.darkModeLabel,
-  );
-
   /** Stroke dash for the level ring: the filled part of the circle, then the rest. */
   protected ringDash = computed(() => {
     const circumference = 2 * Math.PI * 15;
@@ -113,7 +113,44 @@ export class Sidebar {
     return areaLabel(bookmark.module, bookmark.discipline);
   }
 
+  /** Hover: the icon under the pointer gets the tooltip, anything else in the card takes it away. */
+  protected onHover(event: Event): void {
+    this.showTip(this.triggerOf(event));
+  }
+
+  /** Keyboard focus only: a click also focuses the icon, and the tooltip should not stick after it. */
+  protected onFocus(event: Event): void {
+    const trigger = this.triggerOf(event);
+    if (trigger?.matches(':focus-visible')) this.showTip(trigger);
+  }
+
+  protected hideTip(): void {
+    this.tipTarget?.removeAttribute('aria-describedby');
+    this.tipTarget = null;
+    this.tip.set(null);
+  }
+
+  /** Labels are in plain view when expanded, so only the rail needs the tooltip. */
+  private showTip(trigger: HTMLElement | null): void {
+    if (trigger === this.tipTarget) return;
+    this.hideTip();
+    if (!trigger || !this.collapsed()) return;
+    const text = trigger.dataset['tip'] || trigger.querySelector('.name, .label')?.textContent?.trim();
+    if (!text) return;
+    const box = trigger.getBoundingClientRect();
+    // Every tooltip starts in the same column, just past the card's edge, level with its icon.
+    const card = trigger.closest('.sidebar')?.getBoundingClientRect() ?? box;
+    this.tipTarget = trigger;
+    trigger.setAttribute('aria-describedby', TIP_ID);
+    this.tip.set({ text, x: card.right + 8, y: box.top + box.height / 2 });
+  }
+
+  private triggerOf(event: Event): HTMLElement | null {
+    return (event.target as HTMLElement).closest<HTMLElement>('[data-tip]');
+  }
+
   toggleCollapsed(): void {
+    this.hideTip();
     const next = !this.collapsed();
     this.preference.set(next);
     document.documentElement.dataset['sidebar'] = next ? 'collapsed' : 'expanded';
@@ -129,6 +166,7 @@ export class Sidebar {
   }
 
   toggleUser(): void {
+    this.hideTip();
     if (this.auth.currentUser()) {
       this.languageMenuOpen.set(false);
       this.userMenuOpen.update((open) => !open);
@@ -138,6 +176,7 @@ export class Sidebar {
   }
 
   toggleLanguageMenu(): void {
+    this.hideTip();
     this.userMenuOpen.set(false);
     this.languageMenuOpen.update((open) => !open);
   }
@@ -155,6 +194,7 @@ export class Sidebar {
 
   @HostListener('document:keydown.escape')
   onEscape(): void {
+    this.hideTip();
     this.userMenuOpen.set(false);
     this.languageMenuOpen.set(false);
   }
