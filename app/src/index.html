@@ -28,15 +28,13 @@
     })();
   </script>
   <script>
-    // Same idea for the sidebar: apply a saved collapse choice before first paint so the
-    // layout doesn't jump. Mirrors the 'sidebar-collapsed' key used by the Sidebar component.
+    // Same idea for the sidebar: apply the saved choice before first paint so the layout doesn't
+    // jump. The icon rail is the default; only a reader who expanded it ('0') starts expanded.
+    // Mirrors the 'sidebar-collapsed' key used by the Sidebar component.
     (function () {
-      try {
-        var saved = localStorage.getItem('sidebar-collapsed');
-        if (saved === '1' || saved === '0') {
-          document.documentElement.setAttribute('data-sidebar', saved === '1' ? 'collapsed' : 'expanded');
-        }
-      } catch (e) {}
+      var expanded = false;
+      try { expanded = localStorage.getItem('sidebar-collapsed') === '0'; } catch (e) {}
+      document.documentElement.setAttribute('data-sidebar', expanded ? 'expanded' : 'collapsed');
     })();
   </script>
 

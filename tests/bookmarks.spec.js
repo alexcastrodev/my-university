@@ -91,6 +91,8 @@ test.describe('bookmarks', () => {
 
   test('the rail lists the bookmark and links to the page', async ({ page, isMobile }) => {
     test.skip(isMobile, 'Phones have no sidebar; the home shortcut carries the way in.');
+    // The recent bookmarks only show when the sidebar is expanded; the icon rail is the default.
+    await page.addInitScript(() => localStorage.setItem('sidebar-collapsed', '0'));
     await signIn(page, 'rail');
     const concept = new ConceptLabPage(page);
     const bookmarks = new BookmarksPage(page);
