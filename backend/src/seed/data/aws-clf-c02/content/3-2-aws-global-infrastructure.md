@@ -1,5 +1,5 @@
 ---
-version: 1.0
+version: 1.1
 updatedAt: 2026-11-21
 ---
 # AWS Global Infrastructure: Regions, Availability Zones, Edge Locations and Outposts
@@ -56,7 +56,7 @@ You must know how **Regions, Availability Zones (AZs) and edge locations** relat
 - **Each Region has at least three AZs.**
 - AZs are separated by many kilometers from each other, yet all AZs in a Region are within 100 km (60 miles) of each other, linked by redundant dedicated metro fiber.
 - AZs do not share power, networking or connectivity, so a failure in one AZ (a flood, a power loss) does not take down the others.
-- AZ IDs (for example `euw1-az1`) name the same physical AZ in every account; AZ names such as `us-east-1a` can map to different physical AZs in different older accounts.
+- AZ IDs (for example `euw1-az1`) name the same physical AZ in every account; AZ names such as `us-east-1a` can map to different physical AZs in different accounts (accounts created before November 2025, in the oldest Regions).
 
 > Older study material says "at least two AZs per Region". The current official documentation says each Region has at least three.
 

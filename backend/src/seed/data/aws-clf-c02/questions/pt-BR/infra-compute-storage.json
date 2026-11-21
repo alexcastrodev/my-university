@@ -1,0 +1,1488 @@
+[
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma equipe de engenharia de dados está escrevendo um serviço Java que envia relatórios noturnos para o Amazon S3 e lê itens do Amazon DynamoDB. Os desenvolvedores não querem montar e assinar requisições HTTP à mão. Qual método de acesso eles devem usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Um template do AWS CloudFormation"
+      },
+      {
+        "key": "B",
+        "text": "O AWS Management Console"
+      },
+      {
+        "key": "C",
+        "text": "O AWS SDK for Java"
+      },
+      {
+        "key": "D",
+        "text": "AWS Elastic Beanstalk"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O código de aplicação que chama serviços da AWS usa um AWS SDK, que cuida das requisições aos endpoints de serviço para a linguagem. O CloudFormation provisiona recursos, o console é uma ferramenta gráfica para pessoas, e o Elastic Beanstalk implanta aplicações, em vez de ser uma forma de chamar o S3 a partir de código."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma varejista abre um novo país a cada trimestre. Cada lançamento precisa da mesma VPC, do mesmo balanceador de carga, do mesmo grupo do Auto Scaling e do mesmo banco de dados em uma Região diferente da AWS, e toda mudança precisa ser revisada em um pull request antes de ser aplicada. Qual abordagem atende a esses requisitos?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Templates do AWS CloudFormation armazenados em um sistema de controle de versão"
+      },
+      {
+        "key": "B",
+        "text": "Um roteiro escrito com passos do AWS Management Console"
+      },
+      {
+        "key": "C",
+        "text": "Comandos da AWS CLI digitados por um administrador a cada lançamento"
+      },
+      {
+        "key": "D",
+        "text": "Conexões do AWS Systems Manager Session Manager a cada servidor"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Os templates do CloudFormation são arquivos de texto que provisionam os mesmos recursos repetidamente e em várias Regiões, e podem ser revisados como código-fonte. Roteiros de console e comandos digitados são operações manuais pontuais, e o Session Manager dá acesso de shell aos nós, em vez de provisionar infraestrutura."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma revisão de segurança constata que alguém alterou, no console do EC2, uma regra de entrada em um grupo de segurança criado por uma stack do AWS CloudFormation. A equipe quer que o CloudFormation informe quais recursos da stack não correspondem mais ao template. Qual recurso ela deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "O registro do CloudFormation"
+      },
+      {
+        "key": "B",
+        "text": "AWS CodePipeline"
+      },
+      {
+        "key": "C",
+        "text": "O monitoramento de integridade do Elastic Beanstalk"
+      },
+      {
+        "key": "D",
+        "text": "A detecção de drift do CloudFormation"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "A detecção de drift encontra mudanças feitas nos recursos da stack fora do CloudFormation. O registro ativa extensões, como tipos de recurso de terceiros, o CodePipeline automatiza os estágios de uma release, e o monitoramento de integridade do Beanstalk acompanha ambientes de aplicação."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma startup de duas pessoas quer implantar uma aplicação web em Python enviando o código. A AWS deve provisionar as instâncias, configurar o balanceamento de carga, monitorar a integridade e escalar o ambiente, e a startup quer pagar apenas pelos recursos subjacentes. Qual serviço atende melhor?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Batch"
+      },
+      {
+        "key": "B",
+        "text": "AWS Elastic Beanstalk"
+      },
+      {
+        "key": "C",
+        "text": "Registro do AWS CloudFormation"
+      },
+      {
+        "key": "D",
+        "text": "Amazon ECR"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O Elastic Beanstalk recebe um pacote com o código-fonte da aplicação e cuida do provisionamento, do balanceamento de carga, do monitoramento de integridade e do escalonamento, sem cobrança adicional além dos recursos que cria. O Batch executa jobs em lote, o registro gerencia extensões do CloudFormation, e o ECR apenas armazena imagens de contêiner."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma equipe quer que todo commit seja compilado e testado com testes de unidade automaticamente, sem operar nenhum servidor de build. Essa etapa será um estágio de um processo de release que termina com uma aprovação manual antes da produção. Qual serviço compila o código e executa os testes?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS CodeBuild"
+      },
+      {
+        "key": "B",
+        "text": "AWS CodePipeline"
+      },
+      {
+        "key": "C",
+        "text": "Amazon ECR"
+      },
+      {
+        "key": "D",
+        "text": "AWS Systems Manager"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O CodeBuild é o serviço de build totalmente gerenciado que compila o código-fonte, executa testes de unidade e produz artefatos. O CodePipeline orquestra os estágios, incluindo a aprovação, mas não compila código por si mesmo; o ECR armazena imagens e o Systems Manager opera nós."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma fabricante mantém seu banco de dados de produção no próprio data center, perto das máquinas do chão de fábrica, e o conecta a um novo portal de clientes que roda na AWS. Qual modelo de implantação em nuvem a empresa está usando?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Nuvem"
+      },
+      {
+        "key": "B",
+        "text": "No local (on-premises)"
+      },
+      {
+        "key": "C",
+        "text": "Híbrido"
+      },
+      {
+        "key": "D",
+        "text": "Várias Regiões"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Conectar recursos na nuvem a recursos existentes fora da nuvem, normalmente no local, é o modelo híbrido. Nuvem significa que a aplicação inteira roda na nuvem, no local significa que tudo permanece local, e várias Regiões é uma escolha de arquitetura, não um modelo de implantação."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "multi",
+    "text": "Um líder de operações está comparando formas de trabalhar com a AWS. Quais DUAS afirmações estão corretas? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A AWS CLI faz login com a senha do console do usuário-raiz"
+      },
+      {
+        "key": "B",
+        "text": "A AWS CLI oferece funcionalidade equivalente à do AWS Management Console baseado em navegador"
+      },
+      {
+        "key": "C",
+        "text": "Os templates de infraestrutura como código do AWS CloudFormation precisam ser escritos em XML"
+      },
+      {
+        "key": "D",
+        "text": "A AWS CLI e os AWS SDKs enviam requisições a endpoints de serviço e usam automaticamente o endpoint regional padrão"
+      },
+      {
+        "key": "E",
+        "text": "Os recursos em uma nova Região só podem ser criados pelo AWS Management Console"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "D"
+    ],
+    "explanation": "A CLI oferece a mesma funcionalidade do console a partir de um shell, e tanto a CLI quanto os SDKs chamam endpoints de serviço, usando por padrão o regional. A CLI usa credenciais programáticas, em vez de uma senha do console, os templates do CloudFormation são JSON ou YAML, e todas as Regiões podem ser usadas pela CLI, pelos SDKs e por templates."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Um novo engenheiro de nuvem lê que uma aplicação deve ser implantada em várias Zonas de Disponibilidade. Qual descrição de uma Zona de Disponibilidade está correta?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Um ponto de presença que o Amazon CloudFront usa para armazenar conteúdo em cache perto dos espectadores"
+      },
+      {
+        "key": "B",
+        "text": "Uma área geográfica separada, isolada de todas as outras áreas, que contém vários grupos de data centers"
+      },
+      {
+        "key": "C",
+        "text": "Um rack gerenciado pela AWS instalado no data center de um cliente"
+      },
+      {
+        "key": "D",
+        "text": "Um ou mais data centers distintos, com energia, rede e conectividade independentes e redundantes, dentro de uma Região"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Uma AZ é um ou mais data centers distintos, com energia, rede e conectividade redundantes, dentro de uma Região. A primeira opção descreve um ponto de presença, a segunda uma Região e a terceira um rack do AWS Outposts."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma aplicação de reservas online roda em instâncias em uma única Zona de Disponibilidade. A empresa quer que ela continue funcionando se um data center perder energia e quer o menor custo adicional. O que a empresa deve fazer?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Implantar uma segunda cópia completa da aplicação em outra Região da AWS"
+      },
+      {
+        "key": "B",
+        "text": "Executar instâncias em várias Zonas de Disponibilidade da mesma Região, atrás de um balanceador de carga"
+      },
+      {
+        "key": "C",
+        "text": "Colocar o Amazon CloudFront na frente da aplicação"
+      },
+      {
+        "key": "D",
+        "text": "Migrar a aplicação para um tipo de instância maior"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "As Zonas de Disponibilidade não compartilham pontos únicos de falha, então distribuir instâncias entre AZs em uma Região dá alta disponibilidade e tolerância a falhas sem uma segunda Região. Uma segunda Região acrescenta custo voltado a desastres que afetam a Região inteira, o CloudFront apenas armazena conteúdo em cache, e uma instância maior continua sendo um único ponto de falha."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Um provedor de saúde no Canadá é obrigado por lei a manter os prontuários dos pacientes armazenados dentro do Canadá. Qual decisão atende a esse requisito de forma mais direta?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Armazenar os prontuários em um serviço global, como o IAM"
+      },
+      {
+        "key": "B",
+        "text": "Servir os prontuários por meio de pontos de presença do CloudFront no Canadá"
+      },
+      {
+        "key": "C",
+        "text": "Distribuir o workload em três Zonas de Disponibilidade"
+      },
+      {
+        "key": "D",
+        "text": "Escolher uma Região da AWS localizada no Canadá e não replicar os dados para fora dela"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Os dados permanecem na Região que você escolhe, a menos que você os replique, então escolher uma Região no Canadá é como se atende a uma regra de residência de dados. Os pontos de presença armazenam conteúdo em cache para reduzir a latência, várias AZs melhoram a disponibilidade em qualquer Região escolhida, e o IAM não é um armazenamento de dados."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Um administrador consegue iniciar recursos na maioria das Regiões, mas uma Região lançada recentemente pela AWS não aparece como utilizável para a conta. Não há nada de errado com as permissões da conta. Qual é o motivo mais provável?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A Região exige um tipo de conta separado, como o AWS GovCloud (US)"
+      },
+      {
+        "key": "B",
+        "text": "A conta precisa do plano de suporte Enterprise para usar novas Regiões"
+      },
+      {
+        "key": "C",
+        "text": "As Regiões lançadas depois de março de 2019 são opt-in e precisam ser habilitadas primeiro para a conta"
+      },
+      {
+        "key": "D",
+        "text": "As novas Regiões só podem ser acessadas por pontos de presença até terem três AZs"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "As Regiões lançadas depois de 20 de março de 2019 vêm desabilitadas por padrão e precisam ser habilitadas antes do uso. Somente o GovCloud (US) e a China exigem tipos de conta separados, nenhum plano de suporte é necessário, e toda Região já tem pelo menos três AZs."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma empresa de mídia serve as mesmas imagens e vídeos a espectadores em vários continentes. Ela quer menor latência para esses espectadores sem tirar os servidores de origem da Região atual. O que ela deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Pontos de presença do Amazon CloudFront que armazenam o conteúdo em cache perto dos espectadores"
+      },
+      {
+        "key": "B",
+        "text": "Zonas de Disponibilidade adicionais na Região de origem"
+      },
+      {
+        "key": "C",
+        "text": "Servidores AWS Outposts em cada país"
+      },
+      {
+        "key": "D",
+        "text": "Volumes Amazon EBS Multi-Attach"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Os pontos de presença do CloudFront armazenam em cache o conteúdo popular perto dos espectadores e direcionam cada requisição ao local que pode atendê-la melhor. Mais AZs melhoram a disponibilidade, não a distância até os espectadores; o Outposts leva a AWS para o local; e o EBS Multi-Attach compartilha um volume dentro de uma AZ."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma montadora precisa executar instâncias Amazon EC2 e volumes Amazon EBS no próprio chão de fábrica para processamento local, usando as mesmas APIs e ferramentas da AWS que em uma Região. A AWS deve ser dona do hardware e gerenciá-lo. Qual serviço atende a essa necessidade?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Lightsail"
+      },
+      {
+        "key": "B",
+        "text": "AWS Storage Gateway"
+      },
+      {
+        "key": "C",
+        "text": "AWS Elastic Disaster Recovery"
+      },
+      {
+        "key": "D",
+        "text": "AWS Outposts"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O Outposts estende a infraestrutura, os serviços e as APIs da AWS às instalações do cliente, em hardware que a AWS possui e gerencia, e aceita EC2 e EBS. O Lightsail roda em Regiões da AWS, o Storage Gateway conecta o armazenamento no local à AWS, e o Elastic Disaster Recovery replica servidores para recuperação."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma equipe reconstrói seu ambiente em uma segunda Região da AWS. Qual recurso ela pode usar na segunda Região sem copiá-lo nem recriá-lo?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A configuração de Região de um bucket do Amazon S3"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Machine Images (AMIs)"
+      },
+      {
+        "key": "C",
+        "text": "Volumes do Amazon EBS"
+      },
+      {
+        "key": "D",
+        "text": "Usuários e perfis (roles) do IAM"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O IAM é um serviço global, então seus usuários e perfis (roles) valem em todas as Regiões. As AMIs são regionais e precisam ser copiadas, os volumes do EBS vivem em uma AZ, e um bucket do S3 é criado em uma Região que não pode ser alterada depois."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Ao projetar um novo workload, um arquiteto descobre que um serviço gerenciado do qual o design depende não é oferecido na Região mais próxima dos usuários. Qual é a conclusão correta?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Todos os serviços da AWS estão disponíveis em todas as Regiões, então o console deve estar mostrando a conta errada"
+      },
+      {
+        "key": "B",
+        "text": "A disponibilidade dos serviços varia por Região, então o arquiteto deve escolher uma Região que ofereça o serviço ou mudar o design"
+      },
+      {
+        "key": "C",
+        "text": "O serviço pode ser executado a partir de um ponto de presença perto dos usuários"
+      },
+      {
+        "key": "D",
+        "text": "Abrir um caso de suporte habilitará o serviço em uma Zona de Disponibilidade dessa Região"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "A AWS cita os serviços e recursos que uma Região oferece como critério para escolhê-la, porque a disponibilidade difere entre as Regiões. Os pontos de presença não hospedam serviços da Região, e um caso de suporte não adiciona um serviço a uma Região."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "multi",
+    "text": "Uma empresa analisa quando uma arquitetura de várias Regiões se justifica. Quais DOIS requisitos são bons motivos para implantar em várias Regiões da AWS? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Alcançar qualquer nível de tolerância a falhas, o que é impossível dentro de uma Região"
+      },
+      {
+        "key": "B",
+        "text": "Sobreviver à falha de um único data center"
+      },
+      {
+        "key": "C",
+        "text": "Manter o negócio funcionando se uma Região inteira ficar indisponível"
+      },
+      {
+        "key": "D",
+        "text": "Usar o CloudFront, que exige origens em pelo menos duas Regiões"
+      },
+      {
+        "key": "E",
+        "text": "Baixa latência para um grande grupo de usuários em outro continente"
+      }
+    ],
+    "correctKeys": [
+      "C",
+      "E"
+    ],
+    "explanation": "O guia do exame lista recuperação de desastres, continuidade de negócios, baixa latência para usuários distantes e soberania de dados como motivos para várias Regiões. A falha de um único data center é tratada com várias AZs, a tolerância a falhas é alcançável com várias AZs em uma Região, e o CloudFront funciona com uma única origem."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Um grupo de pesquisa executa simulações de física limitadas pela velocidade da CPU e que precisam de relativamente pouca memória. Qual família de instâncias EC2 atende melhor?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Otimizada para computação"
+      },
+      {
+        "key": "B",
+        "text": "Otimizada para memória"
+      },
+      {
+        "key": "C",
+        "text": "Otimizada para armazenamento"
+      },
+      {
+        "key": "D",
+        "text": "Uso geral com burst (T)"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "As instâncias otimizadas para computação oferecem alto desempenho de CPU em relação à memória, o que serve para simulações limitadas por CPU. As otimizadas para memória são voltadas a grandes dados em memória, as otimizadas para armazenamento a throughput de disco local, e os tipos T com burst executam com uma CPU de base e sofrem burst apenas por períodos curtos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma aplicação de análise de logs lê e grava continuamente conjuntos de dados muito grandes em discos conectados à instância e precisa de throughput de armazenamento local muito alto. Qual família de instâncias EC2 a equipe deve avaliar primeiro?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Computação acelerada"
+      },
+      {
+        "key": "B",
+        "text": "Otimizada para armazenamento"
+      },
+      {
+        "key": "C",
+        "text": "Otimizada para computação"
+      },
+      {
+        "key": "D",
+        "text": "Otimizada para memória"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "As famílias otimizadas para armazenamento, como os tipos D e I, são projetadas para alto throughput em grandes conjuntos de dados no armazenamento local. A computação acelerada acrescenta GPUs, a otimizada para computação acrescenta CPU e a otimizada para memória acrescenta RAM, e nenhuma delas trata do throughput de disco local."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma equipe de segurança exige que todo novo servidor web inicialize com o mesmo sistema operacional reforçado, os mesmos agentes de monitoramento e a mesma configuração. Qual é a forma mais simples de garantir isso em toda inicialização?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Anexar um volume EBS a todos os servidores com Multi-Attach"
+      },
+      {
+        "key": "B",
+        "text": "Usar escalonamento agendado no grupo do Auto Scaling"
+      },
+      {
+        "key": "C",
+        "text": "Iniciar cada servidor a partir de uma Amazon Machine Image (AMI) personalizada"
+      },
+      {
+        "key": "D",
+        "text": "Executar os servidores em um Dedicated Host"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Uma AMI contém o software necessário para inicializar uma instância, e uma AMI inicia muitas instâncias configuradas de forma idêntica. O Multi-Attach compartilha um volume de dados em uma AZ, o escalonamento agendado apenas controla quando as instâncias são iniciadas, e um Dedicated Host controla a locação, não o software."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma plataforma de venda de ingressos sabe que o tráfego dispara toda sexta-feira às 18:00, quando as vendas abrem, e as instâncias extras já devem estar em execução quando o pico começar. Qual opção do EC2 Auto Scaling atende melhor?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Escalonamento dinâmico que acompanha a utilização média de CPU"
+      },
+      {
+        "key": "B",
+        "text": "Escalonamento agendado"
+      },
+      {
+        "key": "C",
+        "text": "Mudar o tipo de instância para um tamanho maior toda sexta-feira"
+      },
+      {
+        "key": "D",
+        "text": "Adicionar um segundo balanceador de carga"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O escalonamento agendado muda a capacidade em um horário definido por você, então as instâncias ficam prontas antes de um pico conhecido. O escalonamento dinâmico reage depois que uma métrica sobe, mudar o tamanho da instância não é o que o Auto Scaling faz, e um balanceador de carga distribui tráfego, mas não acrescenta capacidade."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Um grupo do Auto Scaling executa instâncias web em três Zonas de Disponibilidade. As requisições de entrada precisam ser distribuídas entre as instâncias, e nunca devem ser enviadas a uma instância que esteja falhando nas verificações de integridade. Qual componente distribui as requisições?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon EC2 Auto Scaling"
+      },
+      {
+        "key": "B",
+        "text": "Caches de borda regionais do Amazon CloudFront"
+      },
+      {
+        "key": "C",
+        "text": "AWS Outposts"
+      },
+      {
+        "key": "D",
+        "text": "Elastic Load Balancing"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O Elastic Load Balancing distribui o tráfego de entrada entre destinos em uma ou mais AZs e encaminha apenas para destinos íntegros. O Auto Scaling ajusta quantas instâncias existem e substitui as não íntegras, mas não encaminha requisições, os caches de borda regionais guardam conteúdo em cache, e o Outposts executa a AWS no local."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma equipe está criando um novo grupo do Auto Scaling que precisa combinar instâncias Spot e sob demanda e manter um histórico das mudanças de configuração como versões numeradas. O que deve definir as instâncias que ele inicia?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Uma configuração de execução (launch configuration)"
+      },
+      {
+        "key": "B",
+        "text": "Um modelo de execução (launch template)"
+      },
+      {
+        "key": "C",
+        "text": "Uma AMI isolada"
+      },
+      {
+        "key": "D",
+        "text": "Um relatório de detecção de drift do CloudFormation"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Os modelos de execução são versionados, recomendados pela AWS e necessários para combinar Spot e sob demanda. As configurações de execução não podem ser modificadas após a criação e são a opção legada, uma AMI isolada não descreve as configurações de execução, e a detecção de drift apenas informa mudanças."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma equipe executa seus contêineres no Amazon ECS usando instâncias EC2 que ela gerencia. Ela não quer mais aplicar patches, dimensionar nem escalar esses hosts, mas quer continuar usando o ECS. O que ela deve fazer?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Executar as tarefas do ECS no AWS Fargate"
+      },
+      {
+        "key": "B",
+        "text": "Migrar os contêineres para o Amazon EKS com nós EC2 autogerenciados"
+      },
+      {
+        "key": "C",
+        "text": "Armazenar as imagens de contêiner no Amazon ECR"
+      },
+      {
+        "key": "D",
+        "text": "Migrar a aplicação para o Amazon Lightsail"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O Fargate é o mecanismo de computação serverless para ECS e EKS, então as tarefas executam sem gerenciar hosts EC2. O EKS com nós autogerenciados ainda tem hosts para gerenciar, o ECR apenas armazena imagens, e o Lightsail é uma oferta simples de VPS."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma empresa tem anos de manifestos e ferramentas do Kubernetes. Ela quer que a AWS gerencie o plano de controle do Kubernetes enquanto continua usando suas habilidades atuais com Kubernetes. Qual serviço ela deve escolher?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon ECS"
+      },
+      {
+        "key": "B",
+        "text": "AWS Lambda"
+      },
+      {
+        "key": "C",
+        "text": "Amazon EKS"
+      },
+      {
+        "key": "D",
+        "text": "AWS Elastic Beanstalk"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O Amazon EKS é o serviço Kubernetes totalmente gerenciado da AWS, e a AWS gerencia o plano de controle. O ECS é o orquestrador próprio da AWS e não usa manifestos do Kubernetes, o Lambda executa funções, e o Beanstalk implanta aplicações web."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Um site de compartilhamento de fotos recebe uploads de forma imprevisível, de alguns por hora a milhares em poucos minutos. Cada imagem precisa ser redimensionada assim que chega a um bucket do S3, e nada deve executar nem gerar custo de computação enquanto não chegarem uploads. Qual solução atende melhor?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Um grupo do EC2 Auto Scaling com tamanho mínimo de um"
+      },
+      {
+        "key": "B",
+        "text": "Uma função do AWS Lambda acionada pelo evento de upload no S3"
+      },
+      {
+        "key": "C",
+        "text": "Uma instância do Amazon Lightsail com um pacote mensal fixo"
+      },
+      {
+        "key": "D",
+        "text": "Um ambiente de computação do AWS Batch em Dedicated Hosts"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O Lambda executa código em resposta a eventos, como uploads no S3, escala com os eventos e cobra por requisições e duração, então o tempo ocioso não custa nada. Um grupo do Auto Scaling mantém pelo menos uma instância em execução, o Lightsail cobra um pacote fixo, e os Dedicated Hosts são cobrados por host."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma dona de padaria sem experiência em nuvem quer um site WordPress com preço mensal previsível, que inclua o servidor, o armazenamento SSD e uma franquia de transferência de dados. Qual serviço da AWS foi projetado para isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon EC2 Dedicated Hosts"
+      },
+      {
+        "key": "B",
+        "text": "AWS Elastic Beanstalk"
+      },
+      {
+        "key": "C",
+        "text": "AWS Batch"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Lightsail"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O Lightsail é a forma mais fácil da AWS de começar com sites, oferece imagens de WordPress e vende pacotes mensais fixos. Os Dedicated Hosts são servidores físicos para necessidades de licenciamento, o Beanstalk cobra pelos recursos que cria, e o Batch executa jobs em lote."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Um laboratório de genômica precisa executar dezenas de milhares de jobs de análise em contêineres por semana. Ele quer que a AWS provisione a capacidade de computação adequada e enfileire os jobs, sem cobrança extra pela orquestração em si. Qual serviço atende melhor?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Lambda"
+      },
+      {
+        "key": "B",
+        "text": "AWS Batch"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Lightsail"
+      },
+      {
+        "key": "D",
+        "text": "AWS CodeBuild"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O AWS Batch é um serviço de computação em lote totalmente gerenciado que provisiona computação e executa jobs em escala, e você paga apenas pelos recursos subjacentes. O Lambda serve para funções curtas orientadas a eventos, o Lightsail é hospedagem simples, e o CodeBuild compila e testa código."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma equipe de plataforma precisa de um lugar privado para armazenar as imagens de contêiner que seus serviços Amazon ECS e clusters Amazon EKS obtêm, com acesso controlado pelo IAM. Qual serviço ela deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon ECR"
+      },
+      {
+        "key": "B",
+        "text": "Amazon ECS"
+      },
+      {
+        "key": "C",
+        "text": "Amazon S3 Glacier Deep Archive"
+      },
+      {
+        "key": "D",
+        "text": "AWS CodePipeline"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O Amazon ECR é o registro gerenciado de imagens de contêiner da AWS, com repositórios privados e permissões baseadas em recursos do IAM. O ECS executa contêineres, em vez de armazenar imagens, o Deep Archive é para arquivos que exigem restauração, e o CodePipeline orquestra releases."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "multi",
+    "text": "Uma empresa quer executar novos workloads sem provisionar nem gerenciar nenhum servidor. Quais DOIS serviços são opções de computação serverless da AWS? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon EC2 Dedicated Hosts"
+      },
+      {
+        "key": "B",
+        "text": "Amazon ECS em instâncias EC2 gerenciadas pela equipe"
+      },
+      {
+        "key": "C",
+        "text": "AWS Fargate"
+      },
+      {
+        "key": "D",
+        "text": "AWS Lambda"
+      },
+      {
+        "key": "E",
+        "text": "AWS Outposts"
+      }
+    ],
+    "correctKeys": [
+      "C",
+      "D"
+    ],
+    "explanation": "O guia do exame cita Fargate e Lambda como computação serverless: a AWS gerencia os servidores. Os Dedicated Hosts e os hosts do ECS gerenciados pela equipe são servidores que você opera, e o Outposts é hardware da AWS instalado no local."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "multi",
+    "text": "Um arquiteto está explicando o Amazon EC2 Auto Scaling a uma equipe de produto. Quais DUAS afirmações estão corretas? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "As configurações de execução (launch configurations) são a forma recomendada de definir novos grupos"
+      },
+      {
+        "key": "B",
+        "text": "Ele substitui instâncias que são encerradas ou que falham nas verificações de integridade"
+      },
+      {
+        "key": "C",
+        "text": "Ele aumenta o tamanho de uma instância em execução quando a CPU está alta"
+      },
+      {
+        "key": "D",
+        "text": "Um grupo pode abranger várias Zonas de Disponibilidade e é balanceado de forma uniforme entre elas"
+      },
+      {
+        "key": "E",
+        "text": "Ele distribui as requisições HTTP de entrada entre as instâncias"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "D"
+    ],
+    "explanation": "O Auto Scaling substitui instâncias comprometidas e balanceia um grupo entre suas AZs, dentro do tamanho mínimo e máximo. Ele muda o número de instâncias, não o tamanho delas, a distribuição de requisições é tarefa do balanceador de carga, e os modelos de execução, não as configurações de execução, são os recomendados."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Um escritório de advocacia armazena contratos digitalizados que são abertos apenas algumas vezes por ano. Quando um advogado abre um, ele precisa aparecer em milissegundos, e os dados devem permanecer resilientes à perda de uma Zona de Disponibilidade. Qual classe de armazenamento do S3 oferece o menor custo de armazenamento para esse padrão?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "S3 Glacier Deep Archive"
+      },
+      {
+        "key": "B",
+        "text": "S3 Glacier Flexible Retrieval"
+      },
+      {
+        "key": "C",
+        "text": "S3 Glacier Instant Retrieval"
+      },
+      {
+        "key": "D",
+        "text": "S3 Standard"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O Glacier Instant Retrieval é uma classe de arquivamento para dados raramente acessados que ainda retorna objetos em milissegundos, sem restauração. O Deep Archive e o Flexible Retrieval exigem uma restauração que leva de minutos a horas, e o S3 Standard tem preço voltado a dados acessados com frequência."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma emissora de TV precisa manter imagens brutas por dez anos, para eventuais disputas de direitos. As imagens quase nunca são recuperadas, e esperar até 12 horas por uma recuperação é aceitável. Qual classe de armazenamento do S3 minimiza o custo de armazenamento?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "S3 Standard-IA"
+      },
+      {
+        "key": "B",
+        "text": "S3 Glacier Instant Retrieval"
+      },
+      {
+        "key": "C",
+        "text": "S3 Intelligent-Tiering"
+      },
+      {
+        "key": "D",
+        "text": "S3 Glacier Deep Archive"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O Deep Archive é a classe de menor custo para retenção de longo prazo, e sua recuperação Standard é concluída em até 12 horas. O Standard-IA e o Glacier Instant Retrieval cobram por um acesso em milissegundos de que a emissora não precisa, e o Intelligent-Tiering é voltado a padrões de acesso desconhecidos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma startup de análise de dados está lançando um novo produto de dados e não consegue prever quais conjuntos de dados serão populares. Espera-se que os padrões de acesso mudem de mês a mês, e a equipe quer que o S3 otimize o custo automaticamente, sem taxas de recuperação. Qual classe de armazenamento atende melhor?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "S3 Intelligent-Tiering"
+      },
+      {
+        "key": "B",
+        "text": "S3 One Zone-IA"
+      },
+      {
+        "key": "C",
+        "text": "S3 Standard-IA"
+      },
+      {
+        "key": "D",
+        "text": "S3 Glacier Flexible Retrieval"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O Intelligent-Tiering move objetos entre camadas de acesso com base no uso real, sem taxa de recuperação e sem duração mínima de armazenamento, o que serve para padrões desconhecidos ou variáveis. O Standard-IA e o One Zone-IA cobram pelas recuperações e têm mínimo de 30 dias, e o Glacier Flexible Retrieval exige uma restauração."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma equipe está considerando o S3 One Zone-IA para arquivos acessados com pouca frequência. Qual afirmação sobre essa classe de armazenamento está correta?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Ela armazena os dados em uma única Zona de Disponibilidade, então os dados podem ser perdidos se essa AZ for destruída, o que a torna adequada para dados que podem ser recriados"
+      },
+      {
+        "key": "B",
+        "text": "Ela é projetada para durabilidade menor que as outras classes, abaixo de 11 noves"
+      },
+      {
+        "key": "C",
+        "text": "Os objetos precisam ser restaurados antes de poderem ser lidos"
+      },
+      {
+        "key": "D",
+        "text": "Ela não tem duração mínima de armazenamento"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O One Zone-IA mantém os dados em uma AZ, então sua fraqueza é a resiliência à perda dessa AZ, não a durabilidade, que continua projetada para 11 noves. Os objetos são lidos em milissegundos sem restauração, e a classe tem duração mínima de armazenamento de 30 dias."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Para economizar, uma empresa moveu relatórios mensais de vendas para o S3 Glacier Flexible Retrieval. Agora os usuários reclamam que os relatórios não abrem quando clicam neles. O que explica o problema?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "O versionamento está desabilitado no bucket"
+      },
+      {
+        "key": "B",
+        "text": "Os objetos no Glacier Flexible Retrieval precisam ser restaurados antes de poderem ser lidos; o acesso em milissegundos exige uma classe como Standard-IA ou Glacier Instant Retrieval"
+      },
+      {
+        "key": "C",
+        "text": "O bucket foi criado na Região errada"
+      },
+      {
+        "key": "D",
+        "text": "O S3 Transfer Acceleration precisa estar habilitado para ler objetos arquivados"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Os objetos do Glacier Flexible Retrieval ficam arquivados e precisam de uma restauração que leva de minutos a horas antes do acesso. O versionamento, a Região do bucket e o Transfer Acceleration não controlam se objetos arquivados podem ser lidos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Os logs de uma aplicação são muito lidos por 30 dias, raramente depois disso, e precisam ser excluídos após cinco anos. A equipe quer que o S3 mova e exclua os objetos automaticamente, por idade. O que ela deve configurar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "S3 Cross-Region Replication"
+      },
+      {
+        "key": "B",
+        "text": "S3 Versioning"
+      },
+      {
+        "key": "C",
+        "text": "Uma configuração de ciclo de vida do S3 com ações de transição e de expiração"
+      },
+      {
+        "key": "D",
+        "text": "S3 Intelligent-Tiering sem nenhuma outra configuração"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "As regras de ciclo de vida fazem a transição dos objetos para classes mais baratas conforme envelhecem e os expiram quando não são mais necessários. A replicação copia objetos, o versionamento mantém versões, e o Intelligent-Tiering move objetos por acesso, mas não os exclui após cinco anos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma empresa precisa que todo novo objeto de um bucket seja copiado automaticamente para um bucket em outra Região, para recuperação de desastres. Qual configuração precisa estar habilitada nos buckets de origem e de destino?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "S3 Transfer Acceleration"
+      },
+      {
+        "key": "B",
+        "text": "Hospedagem de site estático"
+      },
+      {
+        "key": "C",
+        "text": "Uma regra de ciclo de vida para o S3 Glacier Deep Archive"
+      },
+      {
+        "key": "D",
+        "text": "S3 Versioning"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "A replicação do S3, incluindo a Cross-Region Replication, exige versionamento nos dois buckets. O Transfer Acceleration acelera transferências de longa distância, a hospedagem de site serve conteúdo estático, e uma regra de ciclo de vida muda classes de armazenamento, em vez de copiar dados."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Um desenvolvedor tenta criar um bucket de uso geral do S3 chamado reports e recebe um erro dizendo que o nome já está em uso, embora a conta do desenvolvedor não tenha nenhum bucket. Qual é o motivo?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Os nomes de bucket são únicos apenas dentro de uma Região, e a Região escolhida está ocupada"
+      },
+      {
+        "key": "B",
+        "text": "Os nomes de bucket de uso geral são compartilhados entre todas as contas da AWS na partição, e outra conta já é dona desse nome"
+      },
+      {
+        "key": "C",
+        "text": "Os nomes de bucket precisam começar com um número"
+      },
+      {
+        "key": "D",
+        "text": "A conta precisa solicitar um aumento de cota antes de criar seu primeiro bucket"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Os nomes de bucket de uso geral precisam ser únicos entre todas as contas e Regiões dentro de uma partição, então um nome pertencente a qualquer outra conta fica indisponível. Os nomes não são restritos a uma Região, podem começar com uma letra ou um número, e uma conta nova pode criar buckets sem solicitar cota."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "multi",
+    "text": "Um administrador de armazenamento lista classes de armazenamento do S3 para uma política de arquivamento. Quais DUAS classes exigem restaurar um objeto antes de ele poder ser lido? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "S3 Glacier Instant Retrieval"
+      },
+      {
+        "key": "B",
+        "text": "S3 One Zone-IA"
+      },
+      {
+        "key": "C",
+        "text": "S3 Glacier Deep Archive"
+      },
+      {
+        "key": "D",
+        "text": "S3 Glacier Flexible Retrieval"
+      },
+      {
+        "key": "E",
+        "text": "S3 Standard-IA"
+      }
+    ],
+    "correctKeys": [
+      "C",
+      "D"
+    ],
+    "explanation": "O Glacier Flexible Retrieval e o Glacier Deep Archive mantêm os objetos arquivados até que uma restauração seja concluída. O Glacier Instant Retrieval, o Standard-IA e o One Zone-IA retornam objetos em milissegundos com um GET normal."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma equipe colocou a única cópia dos dados de um banco de dados em volumes de instance store, por velocidade. Depois que a instância foi parada para mudar seu tipo, os dados sumiram. Qual afirmação explica isso e dá a correção?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Os dados do instance store são perdidos quando a instância é parada; os dados persistentes pertencem a um volume do Amazon EBS"
+      },
+      {
+        "key": "B",
+        "text": "Os dados do instance store são perdidos na reinicialização; a equipe nunca deve reiniciar a instância"
+      },
+      {
+        "key": "C",
+        "text": "Os dados foram movidos automaticamente para o S3 Glacier; a equipe deve restaurá-los"
+      },
+      {
+        "key": "D",
+        "text": "Os volumes de instance store são zonais, então os dados foram movidos para outra Zona de Disponibilidade"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Os dados do instance store sobrevivem a uma reinicialização, mas são perdidos quando a instância é parada, hibernada ou encerrada, então dados persistentes precisam do EBS. O instance store não é movido para o Glacier nem para outra AZ."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Um volume EBS na Zona de Disponibilidade us-east-1a contém dados de que uma instância em us-east-1b agora precisa. Qual é a forma correta de fornecê-los?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Desanexar o volume e anexá-lo diretamente à instância em us-east-1b"
+      },
+      {
+        "key": "B",
+        "text": "Habilitar o Multi-Attach para que instâncias nas duas Zonas de Disponibilidade compartilhem o volume"
+      },
+      {
+        "key": "C",
+        "text": "Criar um snapshot do volume e criar um novo volume a partir dele em us-east-1b"
+      },
+      {
+        "key": "D",
+        "text": "Converter o volume em um sistema de arquivos Amazon EFS"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Um volume EBS vive em uma AZ, e os snapshots podem ser restaurados em um novo volume em outra AZ. Um volume não pode ser anexado a uma instância em outra AZ, o Multi-Attach funciona apenas dentro de uma AZ, e volumes não se convertem em EFS."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Para reduzir custos, um engenheiro escolheu um volume HDD otimizado para throughput st1 como volume raiz de uma nova instância, e a configuração foi rejeitada. Por quê?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Os volumes raiz devem sempre usar instance store"
+      },
+      {
+        "key": "B",
+        "text": "Os volumes st1 só podem ser anexados a instâncias Windows"
+      },
+      {
+        "key": "C",
+        "text": "Os volumes st1 precisam ser criados em uma Zona de Disponibilidade diferente da instância"
+      },
+      {
+        "key": "D",
+        "text": "Os tipos de volume HDD st1 e sc1 não podem ser usados como volumes de boot; um volume de boot precisa de um tipo SSD, como o gp3"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Somente os tipos de volume SSD (gp3, gp2, io2, io1) podem inicializar uma instância; st1 e sc1 são para workloads sequenciais grandes. O sistema operacional e o posicionamento em AZ não são o problema, e os volumes raiz podem ser EBS."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Vinte servidores web Linux distribuídos em três Zonas de Disponibilidade precisam ler e gravar o mesmo conjunto de arquivos enviados. O armazenamento deve crescer e diminuir automaticamente. Qual serviço atende melhor?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Volumes Amazon EBS gp3 com Multi-Attach"
+      },
+      {
+        "key": "B",
+        "text": "Volumes de instance store"
+      },
+      {
+        "key": "C",
+        "text": "Amazon EFS"
+      },
+      {
+        "key": "D",
+        "text": "Amazon FSx for Windows File Server"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O EFS é um armazenamento de arquivos NFS elástico que muitas instâncias em várias AZs podem montar ao mesmo tempo. O Multi-Attach é limitado a io1 e io2 em uma única AZ, o instance store é local a um único host, e o FSx for Windows File Server é voltado a workloads Windows com SMB."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma empresa executa uma aplicação .NET baseada em Windows que precisa de pastas compartilhadas por SMB, com permissões gerenciadas pelo Microsoft Active Directory. Qual serviço de armazenamento ela deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon EFS"
+      },
+      {
+        "key": "B",
+        "text": "Amazon FSx for Windows File Server"
+      },
+      {
+        "key": "C",
+        "text": "Amazon S3 Standard"
+      },
+      {
+        "key": "D",
+        "text": "Amazon EBS io2 Block Express"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O FSx for Windows File Server oferece servidores de arquivos Windows totalmente gerenciados, com SMB e integração com o Active Directory. O EFS usa NFS e não aceita instâncias Windows, o S3 é armazenamento de objetos, e um volume EBS é armazenamento em bloco para uma única instância em uma AZ."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Um escritório de arquitetura quer que seus usuários no local (on-premises) continuem usando compartilhamentos de arquivos NFS e SMB locais, enquanto os arquivos ficam armazenados no Amazon S3 e os arquivos usados recentemente permanecem em um cache local. Qual serviço atende a essa necessidade?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon EFS One Zone"
+      },
+      {
+        "key": "B",
+        "text": "AWS Elastic Disaster Recovery"
+      },
+      {
+        "key": "C",
+        "text": "S3 Transfer Acceleration"
+      },
+      {
+        "key": "D",
+        "text": "AWS Storage Gateway com S3 File Gateway"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O S3 File Gateway apresenta compartilhamentos NFS e SMB no local e armazena os arquivos como objetos no S3, mantendo os dados recentes em cache local. O EFS é acessado a partir de computação da AWS, o Elastic Disaster Recovery replica servidores, e o Transfer Acceleration apenas acelera transferências."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "O software de backup de um banco grava em bibliotecas de fitas físicas. O banco quer manter o mesmo software de backup, mas parar de manusear fitas físicas, com as fitas antigas arquivadas nas classes de armazenamento S3 Glacier. Qual solução atende melhor?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Storage Gateway Tape Gateway"
+      },
+      {
+        "key": "B",
+        "text": "AWS Storage Gateway Volume Gateway com volumes stored"
+      },
+      {
+        "key": "C",
+        "text": "AWS Storage Gateway S3 File Gateway"
+      },
+      {
+        "key": "D",
+        "text": "Amazon EFS com gerenciamento de ciclo de vida"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O Tape Gateway apresenta uma biblioteca de fitas virtuais ao software de backup existente e arquiva as fitas no S3 Glacier Flexible Retrieval ou no Deep Archive. O Volume Gateway apresenta volumes iSCSI, o File Gateway apresenta compartilhamentos de arquivos, e o EFS não emula fitas."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma empresa quer um único lugar para definir uma política de backup diário, com regras de retenção, para seus volumes Amazon EBS, bancos de dados Amazon RDS e sistemas de arquivos Amazon EFS, e para monitorar se os backups acontecem. Qual serviço ela deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Elastic Disaster Recovery"
+      },
+      {
+        "key": "B",
+        "text": "AWS Storage Gateway"
+      },
+      {
+        "key": "C",
+        "text": "AWS Backup"
+      },
+      {
+        "key": "D",
+        "text": "AWS CloudFormation"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O AWS Backup centraliza e automatiza a proteção de dados baseada em políticas entre serviços da AWS, com monitoramento em um só lugar. O Elastic Disaster Recovery recupera servidores inteiros, o Storage Gateway conecta o armazenamento no local, e o CloudFormation provisiona recursos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "single",
+    "text": "Uma empresa precisa recuperar seus servidores de aplicação no local (on-premises) na AWS após um desastre no site. Os servidores devem ser replicados continuamente para uma área de preparação de baixo custo, a equipe quer simulações de recuperação que não interrompam a produção e quer fazer o failback depois. Qual serviço atende melhor?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Backup"
+      },
+      {
+        "key": "B",
+        "text": "S3 Cross-Region Replication"
+      },
+      {
+        "key": "C",
+        "text": "AWS Outposts"
+      },
+      {
+        "key": "D",
+        "text": "AWS Elastic Disaster Recovery"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O Elastic Disaster Recovery replica servidores para uma sub-rede de área de preparação em uma Região escolhida, inicia instâncias de recuperação e aceita simulações sem interrupção e failback. O AWS Backup centraliza backups de dados, em vez de executar servidores, a replicação copia apenas objetos do S3, e o Outposts executa a AWS no local."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "multi",
+    "text": "Um novo engenheiro está aprendendo o Amazon EBS. Quais DUAS afirmações estão corretas? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Os dados do EBS são perdidos sempre que a instância é parada"
+      },
+      {
+        "key": "B",
+        "text": "Os dados de um volume são replicados entre vários servidores dentro de uma Zona de Disponibilidade"
+      },
+      {
+        "key": "C",
+        "text": "Um volume EBS pode ser montado como um sistema de arquivos compartilhado por instâncias Windows e Linux em várias Zonas de Disponibilidade"
+      },
+      {
+        "key": "D",
+        "text": "Os snapshots podem ser usados para criar novos volumes em outras Zonas de Disponibilidade ou Regiões"
+      },
+      {
+        "key": "E",
+        "text": "Os volumes HDD otimizados para throughput (st1) são recomendados como volumes de boot"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "D"
+    ],
+    "explanation": "O EBS replica um volume dentro de sua AZ, e os snapshots são restaurados em volumes de outras AZs, Regiões ou contas. Os tipos HDD não podem ser de boot, perder dados ao parar descreve o instance store, e o armazenamento de arquivos compartilhado entre AZs é o EFS ou o FSx."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "infra-compute-storage",
+    "type": "multi",
+    "text": "Uma equipe de nuvem está associando workloads a tipos de armazenamento. Quais TRÊS associações estão corretas? (Escolha três.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon S3: armazenamento de objetos acessado por uma API"
+      },
+      {
+        "key": "B",
+        "text": "Instance store: um sistema de arquivos compartilhado entre Zonas de Disponibilidade"
+      },
+      {
+        "key": "C",
+        "text": "Amazon EBS: armazenamento em bloco para instâncias EC2"
+      },
+      {
+        "key": "D",
+        "text": "AWS Storage Gateway: armazenamento em bloco que existe apenas dentro de uma Região da AWS, sem componente no local"
+      },
+      {
+        "key": "E",
+        "text": "Amazon EFS: armazenamento de arquivos compartilhado por muitas instâncias"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C",
+      "E"
+    ],
+    "explanation": "O S3 é armazenamento de objetos, o EBS é armazenamento em bloco para o EC2 e o EFS é armazenamento de arquivos compartilhado. O instance store é um dispositivo de bloco local em um único host, e o Storage Gateway existe para conectar aplicações no local ao armazenamento da AWS."
+  }
+]

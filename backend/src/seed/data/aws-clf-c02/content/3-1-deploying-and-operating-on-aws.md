@@ -1,5 +1,5 @@
 ---
-version: 1.0
+version: 1.1
 updatedAt: 2026-11-21
 ---
 # Deploying and Operating on AWS: Console, CLI, SDKs, Infrastructure as Code and Deployment Models
@@ -14,7 +14,7 @@ Task 3.1 asks three things: how you **access** AWS services, how you **provision
 
 ---
 
-## Four ways in, one decision
+## Five ways in, one decision
 
 | Method | What it is | Pick it when |
 |--------|------------|--------------|
