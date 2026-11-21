@@ -7,7 +7,7 @@ export class ExamListPage {
     this.examCards    = page.locator('.exam-card');
   }
 
-  /** The section of one provider, by its heading ("Oracle Java", "Microsoft Azure"). */
+  /** The section of one provider, by its heading ("Oracle Java", "Microsoft Azure", "Amazon Web Services"). */
   provider(name) {
     return this.page.locator('section.provider').filter({ has: this.page.getByRole('heading', { name }) });
   }

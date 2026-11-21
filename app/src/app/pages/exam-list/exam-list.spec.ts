@@ -21,6 +21,7 @@ const exam = (id: string, title: string, version: string): Exam => ({
 const EXAMS = [
   exam('java-21', 'OCP Java SE 21 Developer (1Z0-829)', '21'),
   exam('azure-ai-200', 'Azure AI Cloud Developer Associate (AI-200)', 'AI-200'),
+  exam('aws-clf-c02', 'AWS Certified Cloud Practitioner (CLF-C02)', 'CLF-C02'),
   exam('java-25', 'OCP Java SE 25 Developer (1Z0-831)', '25'),
 ];
 
@@ -47,8 +48,8 @@ describe('ExamListPage', () => {
   const cardTitles = (section: HTMLElement) =>
     Array.from(section.querySelectorAll('.card-title')).map((t) => t.textContent!.trim());
 
-  it('groups the exams by provider, Oracle first and Microsoft second', () => {
-    expect(names(render())).toEqual(['Oracle Java', 'Microsoft Azure']);
+  it('groups the exams by provider, Oracle first, then Microsoft and AWS', () => {
+    expect(names(render())).toEqual(['Oracle Java', 'Microsoft Azure', 'Amazon Web Services']);
   });
 
   it('lists the newest Java release first', () => {
@@ -65,6 +66,12 @@ describe('ExamListPage', () => {
     expect(azure.querySelector('.card-version')!.textContent!.trim()).toBe('AI-200');
   });
 
+  it('puts the AWS exam in its own section, badged with the exam code', () => {
+    const [, , aws] = sections(render());
+    expect(cardTitles(aws)).toEqual(['AWS Certified Cloud Practitioner (CLF-C02)']);
+    expect(aws.querySelector('.card-version')!.textContent!.trim()).toBe('CLF-C02');
+  });
+
   it('badges Oracle exams with their Java release', () => {
     const [oracle] = sections(render());
     expect(Array.from(oracle.querySelectorAll('.card-version')).map((b) => b.textContent!.trim())).toEqual([
@@ -77,6 +84,6 @@ describe('ExamListPage', () => {
     const hrefs = Array.from(render().querySelectorAll<HTMLAnchorElement>('a.exam-card')).map((a) =>
       a.getAttribute('href'),
     );
-    expect(hrefs).toEqual(['/exam/java-25', '/exam/java-21', '/exam/azure-ai-200']);
+    expect(hrefs).toEqual(['/exam/java-25', '/exam/java-21', '/exam/azure-ai-200', '/exam/aws-clf-c02']);
   });
 });

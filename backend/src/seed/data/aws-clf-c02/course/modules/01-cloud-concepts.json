@@ -1,0 +1,47 @@
+{
+  "id": 1,
+  "title": "Cloud Concepts",
+  "lessons": [
+    {
+      "id": "clf-1-1",
+      "title": "Benefits of the AWS Cloud: Six Advantages, Global Infrastructure and Availability",
+      "duration": "13m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/1-1-benefits-of-the-aws-cloud.md"
+    },
+    {
+      "id": "clf-1-2",
+      "title": "Design Principles: Well-Architected Pillars, Elasticity and Service Models",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/1-2-design-principles-and-well-architected.md"
+    },
+    {
+      "id": "clf-1-3",
+      "title": "Migrating to AWS: Strategies, the Cloud Adoption Framework and Migration Services",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/1-3-migration-strategies-caf-and-services.md"
+    },
+    {
+      "id": "clf-1-4",
+      "title": "Cloud Economics: Fixed vs Variable Cost, Licensing and Rightsizing",
+      "duration": "13m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/1-4-cloud-economics.md"
+    },
+    {
+      "id": "clf-1-check",
+      "title": "Skill Check: Cloud Concepts",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null,
+      "topic": "cloud-concepts"
+    }
+  ]
+}

@@ -10,7 +10,7 @@ import { join } from 'path';
 // placeholder) without anything catching it.
 
 const SEED_DATA_DIR = join(__dirname, '../src/seed/data');
-const COURSES = ['java-21', 'java-25', 'azure-ai-200'];
+const COURSES = ['java-21', 'java-25', 'azure-ai-200', 'aws-clf-c02'];
 
 interface SeedLesson {
   id: string;

@@ -15,5 +15,11 @@ function loadCourse(namespace: string) {
 export const COURSE_DATA_JAVA21 = loadCourse('java-21');
 export const COURSE_DATA_JAVA25 = loadCourse('java-25');
 export const COURSE_DATA_AZURE_AI200 = loadCourse('azure-ai-200');
+export const COURSE_DATA_AWS_CLF_C02 = loadCourse('aws-clf-c02');
 
-export const ALL_COURSES = [COURSE_DATA_JAVA21, COURSE_DATA_JAVA25, COURSE_DATA_AZURE_AI200];
+export const ALL_COURSES = [
+  COURSE_DATA_JAVA21,
+  COURSE_DATA_JAVA25,
+  COURSE_DATA_AZURE_AI200,
+  COURSE_DATA_AWS_CLF_C02,
+];

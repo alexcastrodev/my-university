@@ -61,6 +61,13 @@ test.describe('Exam List Page', () => {
       await expect(card.getByText('Start Practice →')).toBeVisible();
     });
 
+    test('should render the AWS Cloud Practitioner exam card', async ({ page }) => {
+      const examList = new ExamListPage(page);
+      const card = examList.examCard('AWS Certified Cloud Practitioner');
+      await expect(card).toBeVisible();
+      await expect(card.getByText('Start Practice →')).toBeVisible();
+    });
+
     test('should navigate to course page when clicking exam card', async ({ page }) => {
       const examList = new ExamListPage(page);
       await examList.examCard('OCP Java SE 21 Developer').click();
@@ -69,10 +76,11 @@ test.describe('Exam List Page', () => {
   });
 
   test.describe('Providers', () => {
-    test('should group the Java exams under Oracle and the Azure exam under Microsoft', async ({ page }) => {
+    test('should group the Java exams under Oracle, the Azure exam under Microsoft and the AWS exam under Amazon', async ({ page }) => {
       const examList = new ExamListPage(page);
       await expect(examList.provider('Oracle Java').locator('.exam-card')).toHaveCount(2);
       await expect(examList.provider('Microsoft Azure').locator('.exam-card')).toHaveCount(1);
+      await expect(examList.provider('Amazon Web Services').locator('.exam-card')).toHaveCount(1);
     });
 
     test('should list the newest Java release first', async ({ page }) => {
