@@ -21,9 +21,9 @@ export function titleFromFilename(name: string): string {
 }
 
 /**
- * Panel of the add page (/library/add) for a paper that is not in the catalog (#203): drop a PDF (or pick one, which is also what a phone does),
- * say what it is, and it joins the library as a private paper. A DOI that is already in the catalog adds that
- * paper instead of a copy. Nothing is sent until the reader confirms the title.
+ * Panel of the add page (/library/add) for a paper that is not in the catalog (#203): drop a PDF (or pick one,
+ * which is also what a phone does), say what it is, and it joins the library as a private paper. A DOI that is
+ * already in the catalog adds that paper instead of a copy. Nothing is sent until the reader confirms the title.
  */
 @Component({
   selector: 'app-paper-private-drop',

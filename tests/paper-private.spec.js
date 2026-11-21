@@ -93,6 +93,7 @@ test.describe('Papers that are not in the catalog', () => {
       await expect(library.card(`Notes on ${token} gossip`)).toHaveCount(1);
       await expect(library.privateBadges).toHaveCount(1);
       await expect(library.resultsCount).toContainText('1');
+      await expectNoHorizontalScroll(page);
     });
 
     test('takes a PDF dropped on the zone', async ({ page, isMobile }) => {
@@ -181,6 +182,7 @@ test.describe('Papers that are not in the catalog', () => {
       const id = await addPrivate(page, title);
 
       const library = new PaperLibraryPage(page);
+      await library.goto();
       await library.open(title);
 
       const entry = new PaperLibraryEntryPage(page);
@@ -248,6 +250,7 @@ test.describe('Papers that are not in the catalog', () => {
       const title = `Short lived ${token}`;
       const id = await addPrivate(page, title);
       const library = new PaperLibraryPage(page);
+      await library.goto();
       await library.open(title);
 
       const entry = new PaperLibraryEntryPage(page);

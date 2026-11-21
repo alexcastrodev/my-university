@@ -11,7 +11,7 @@ export class PaperLibraryPage {
     this.cards = page.locator('.paper-card');
     this.cardTitles = this.cards.locator('.paper-title');
     this.resultsCount = page.locator('.results-count');
-    this.empty = page.getByText('Your library is empty. Add a paper by its DOI, or open one from the list.');
+    this.empty = page.getByText('Your library is empty. Add a paper by its DOI or its PDF, or open one from the list.');
     this.noMatches = page.getByText('No papers in your library match.');
     this.signedOut = page.getByText('Sign in to see your library.');
     this.errorMessage = page.getByText('Your library could not be loaded.');
