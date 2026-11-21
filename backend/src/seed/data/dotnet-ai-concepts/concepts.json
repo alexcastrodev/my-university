@@ -242,7 +242,7 @@
     "id": 6,
     "title": "MCP Servers and Clients with the C# SDK",
     "topic": "Agents & Tools",
-    "summary": "A stdio MCP server on the generic host with tools, a prompt and a resource, a McpClient that calls them, the real JSON-RPC traffic (server/discover in spec 2026-07-28 versus the older initialize handshake), what a stray stdout write does, tool errors, the HTTP transport session modes and Mcp-Session-Id, MCP tools as AIFunctions with qwen3:4b-instruct, and prompt injection through tool output.",
+    "summary": "A stdio MCP server on the generic host with tools, a prompt and a resource, a McpClient that calls them, the real JSON-RPC traffic (server/discover in spec 2026-07-28 versus the older initialize handshake), what a stray stdout write does in SDK 2.3.0 and 2.4.0, tool errors, the HTTP session modes, what stateless HTTP does with sampling and elicitation (MRTR), the deprecation of Roots, Sampling and Logging, MCP tools as AIFunctions with qwen3:4b-instruct, and prompt injection through tool output.",
     "publishedAt": "2026-10-29",
     "requires": [
       "tool-calling-with-aifunction"
@@ -282,6 +282,31 @@
         "label": "Authentication and Authorization Fundamentals",
         "slug": "authentication-and-authorization-fundamentals",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MCP Multi Round-Trip Requests and Elicitation",
+        "slug": "mcp-multi-round-trip-requests-and-elicitation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Authorization Flow: 401, Discovery and Token Validation",
+        "slug": "mcp-authorization-flow-401-discovery-and-token-validation",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Packaging and Publishing an MCP Server",
+        "slug": "packaging-and-publishing-an-mcp-server",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "Consuming Many MCP Servers in Agents and Hosts",
+        "slug": "consuming-many-mcp-servers-in-agents-and-hosts",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "OAuth 2.0 from First Principles: Roles, Grants and Tokens",
+        "slug": "oauth-2-roles-grants-and-tokens-from-first-principles",
+        "feature": "identity-concepts"
       }
     ],
     "references": [
@@ -313,6 +338,16 @@
       {
         "label": "MCP C# SDK, GitHub",
         "url": "https://github.com/modelcontextprotocol/csharp-sdk",
+        "type": "doc"
+      },
+      {
+        "label": "Deprecated features, MCP specification 2026-07-28",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/deprecated",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK 2.4.0 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.4.0",
         "type": "doc"
       }
     ]
