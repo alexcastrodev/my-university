@@ -1,5 +1,5 @@
 ---
-version: 1.0
+version: 1.1
 updatedAt: 2026-11-21
 ---
 # AWS Pricing Models: On-Demand, Savings Plans, Reserved Instances, Spot and Dedicated Options
@@ -34,7 +34,7 @@ Rule of thumb: commitment buys a discount, interruption buys a bigger discount, 
 ## On-Demand and billing granularity
 
 - **On-Demand**: no upfront payment and no term. The hourly rate is fixed, and you can start and stop at any time.
-- EC2 usage is billed **per second with a 60-second minimum** for Linux, Windows, RHEL and Ubuntu Pro, across purchase options (as of 2026-11-21). A few operating systems, such as SUSE Linux Enterprise Server, are still billed by the full hour.
+- On-Demand EC2 usage is billed **per second with a 60-second minimum** for Linux, Windows, RHEL and Ubuntu Pro (as of 2026-11-21). A few operating systems, such as SUSE Linux Enterprise Server, are still billed by the full hour.
 - An instance that runs 2 hours 10 minutes 30 seconds on Linux pays for exactly that time, it is not rounded up to 3 hours.
 
 ---

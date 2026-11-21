@@ -1,0 +1,55 @@
+{
+  "id": 3,
+  "title": "Infrastructure, Compute and Storage",
+  "lessons": [
+    {
+      "id": "clf-3-1",
+      "title": "Deploying and Operating on AWS: Console, CLI, SDKs, Infrastructure as Code and Deployment Models",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/3-1-deploying-and-operating-on-aws.md"
+    },
+    {
+      "id": "clf-3-2",
+      "title": "AWS Global Infrastructure: Regions, Availability Zones, Edge Locations and Outposts",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/3-2-aws-global-infrastructure.md"
+    },
+    {
+      "id": "clf-3-3",
+      "title": "Compute on AWS: EC2, Auto Scaling, Containers, Serverless, Lightsail and Batch",
+      "duration": "17m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/3-3-compute-ec2-containers-and-serverless.md"
+    },
+    {
+      "id": "clf-3-4",
+      "title": "Object Storage: Amazon S3, Storage Classes, Lifecycle and S3 Glacier",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/3-4-amazon-s3-and-glacier.md"
+    },
+    {
+      "id": "clf-3-5",
+      "title": "Block, File and Hybrid Storage: EBS, Instance Store, EFS, FSx, Storage Gateway and AWS Backup",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/3-5-block-file-hybrid-storage-and-backup.md"
+    },
+    {
+      "id": "clf-3-check",
+      "title": "Skill Check: Infrastructure, Compute and Storage",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null,
+      "topic": "infra-compute-storage"
+    }
+  ]
+}
