@@ -7,7 +7,7 @@ import { Lesson } from '../lesson/lesson.entity';
 import { Exam } from '../exam/exam.entity';
 import { Question } from '../exam/question.entity';
 import { ALL_COURSES } from './course.data';
-import { EXAMS, EXAM_QUESTIONS } from './exam.data';
+import { EXAMS, questionsToSeed } from './exam.data';
 
 @Injectable()
 export class SeedService implements OnApplicationBootstrap {
@@ -98,11 +98,17 @@ export class SeedService implements OnApplicationBootstrap {
   }
 
   private async seedQuestions() {
-    const count = await this.questionRepo.count();
-    if (count > 0) return;
+    const seeded = await this.questionRepo
+      .createQueryBuilder('q')
+      .select('q.examId', 'examId')
+      .addSelect('q.topic', 'topic')
+      .distinct(true)
+      .getRawMany<{ examId: string; topic: string }>();
+    const fresh = questionsToSeed(seeded);
+    if (fresh.length === 0) return;
 
-    this.log.log(`Seeding ${EXAM_QUESTIONS.length} exam questions…`);
-    await this.questionRepo.save(EXAM_QUESTIONS.map((q) => this.questionRepo.create(q)));
+    this.log.log(`Seeding ${fresh.length} exam questions…`);
+    await this.questionRepo.save(fresh.map((q) => this.questionRepo.create(q)));
     this.log.log('Questions seeded.');
   }
 }
