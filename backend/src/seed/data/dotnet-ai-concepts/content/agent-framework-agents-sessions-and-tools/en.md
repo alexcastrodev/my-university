@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-30
+version: 1.1
+updatedAt: 2026-11-21
 ---
 ## Objective
 
@@ -100,6 +100,8 @@ history after: 6: first | reply 1 | B | reply 3 | A | reply 2    (7 of 20 runs)
 
 Nothing threw, neither run saw the other's message, and in 13 of 20 runs a
 reply vanished. Serialize requests per conversation (a per-session lock).
+
+Whether a reply vanishes depends on timing. In the lab, with a scripted fake and shorter delays (`Task.Yield`, 50 ms), all six messages stayed in the history, but their order was mixed (`first | reply 1 | B | reply 3 | A | reply 2`). Either way the history is wrong, and the lock is the fix; the lab's lock test checks the exact order against the unlocked version.
 
 ### Tools and approval: the agent runs the loop
 
