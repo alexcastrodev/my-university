@@ -65,6 +65,7 @@
   --mu-shadow-pop: 0 12px 32px rgba(16, 24, 40, 0.18);
   --mu-header-h: 0px;         /* top bar height: there is no top header since the sidebar replaced it */
   --mu-nav-h: 60px;           /* bottom tab bar height (tappable part, excludes the safe area) */
+  --mu-sidebar-inset: 8px;    /* air around the floating sidebar card: it is part of --mu-sidebar-w, on both sides */
 
   /* Device safe areas (notch, status bar, home indicator). Only non-zero because
      index.html's viewport meta opts into `viewport-fit=cover`; every fixed/sticky
@@ -75,14 +76,16 @@
   --mu-safe-left: env(safe-area-inset-left, 0px);
 }
 
-/* Left sidebar width. The 56px icon rail is the default at every width and only grows to 208px
-   when the reader expanded it (data-sidebar on <html>, set by the inline script in index.html and
-   by the Sidebar itself). Phones have no sidebar. Order matters: later rules win.
+/* Left sidebar space: the card plus --mu-sidebar-inset of air on each side of it, so the content starts
+   right where the gap after the card ends. The 56px icon rail (a 72px column) is the default at every
+   width and only grows to a 216px card (232px column) when the reader expanded it (data-sidebar on
+   <html>, set by the inline script in index.html and by the Sidebar itself). Phones have no sidebar.
+   Order matters: later rules win.
    The defaults are bare :root on purpose: the critical CSS inlined in the SSR page (Beasties)
    drops every :root[...] and :root:not(...) rule, so anything written that way only applies once
    the full stylesheet loads, and the margin animates into place (CLS 0.45 on phones). */
-:root { --mu-sidebar-w: 56px; }
-:root[data-sidebar='expanded'] { --mu-sidebar-w: 208px; }
+:root { --mu-sidebar-w: 72px; }
+:root[data-sidebar='expanded'] { --mu-sidebar-w: 232px; }
 @media (max-width: 768px) {
   /* !important: a bare :root has to beat the attribute rules above. */
   :root { --mu-sidebar-w: 0px !important; }

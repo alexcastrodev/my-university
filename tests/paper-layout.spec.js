@@ -12,7 +12,7 @@ import { textPdf } from './pdf-fixtures.js';
 const token = `pg${Math.random().toString(36).slice(2, 8)}`;
 const PUBLIC = 'foundationdb-unbundled-transactional-kv-store';
 
-// The room that counts is the page's, not the screen's: the sidebar takes 56px (208px when the reader expanded it) of it, and the
+// The room that counts is the page's, not the screen's: the sidebar takes 72px (232px when the reader expanded it) of it, and the
 // cards go beside the body from 1000px of room. These are the viewport widths that land on each side of that.
 const BESIDE = [1440, 1100];
 const STACKED = [1024, 900, 768, 600, 390];
