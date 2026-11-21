@@ -1,0 +1,30 @@
+{
+  "id": 4,
+  "title": "Dados, rede, IA e outros serviços",
+  "lessons": [
+    {
+      "id": "clf-4-1",
+      "title": "Serviços de banco de dados: RDS, Aurora, DynamoDB, ElastiCache e a escolha pelo padrão de acesso"
+    },
+    {
+      "id": "clf-4-2",
+      "title": "Serviços de rede: VPC, gateways, Route 53, entrega de borda e conectividade híbrida"
+    },
+    {
+      "id": "clf-4-3",
+      "title": "Serviços de IA e ML: SageMaker AI, os serviços de IA prontos e o Amazon Q"
+    },
+    {
+      "id": "clf-4-4",
+      "title": "Serviços de análise de dados: Athena, Glue, EMR, Kinesis, Redshift, OpenSearch e Amazon Quick"
+    },
+    {
+      "id": "clf-4-5",
+      "title": "Outras categorias de serviços: integração, aplicações de negócios, ferramentas de desenvolvimento, monitoramento, computação para o usuário final, IoT e migração"
+    },
+    {
+      "id": "clf-4-check",
+      "title": "Verificação de habilidades: Dados, rede, IA e outros serviços"
+    }
+  ]
+}

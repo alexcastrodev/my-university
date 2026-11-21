@@ -1,0 +1,26 @@
+{
+  "id": 1,
+  "title": "Conceitos de nuvem",
+  "lessons": [
+    {
+      "id": "clf-1-1",
+      "title": "Benefícios da Nuvem AWS: seis vantagens, infraestrutura global e disponibilidade"
+    },
+    {
+      "id": "clf-1-2",
+      "title": "Princípios de design: pilares do Well-Architected, elasticidade e modelos de serviço"
+    },
+    {
+      "id": "clf-1-3",
+      "title": "Migrando para a AWS: estratégias, Cloud Adoption Framework e serviços de migração"
+    },
+    {
+      "id": "clf-1-4",
+      "title": "Economia da nuvem: custo fixo vs variável, licenciamento e rightsizing"
+    },
+    {
+      "id": "clf-1-check",
+      "title": "Verificação de habilidades: Conceitos de nuvem"
+    }
+  ]
+}

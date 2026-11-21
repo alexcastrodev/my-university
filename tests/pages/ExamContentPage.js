@@ -6,9 +6,16 @@ export class ExamContentPage {
     this.page = page;
     this.localePrefix = localePrefix;
 
+    this.courseTitle   = page.locator('.course-title').first();
+    this.moduleTitles  = page.locator('.module-title');
     this.lessonHeading = page.locator('.lesson-body h1').first();
     this.questionText  = page.locator('.question-text');
     this.optionText    = page.locator('.option-text');
+  }
+
+  async openCourse(examId) {
+    await this.page.goto(`${BASE_URL}${this.localePrefix}/exam/${examId}`);
+    await this.moduleTitles.first().waitFor();
   }
 
   async openLesson(examId, lessonId) {

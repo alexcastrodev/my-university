@@ -72,7 +72,7 @@ describe('CoursePage — practice lesson content', () => {
 
     const httpMock = TestBed.inject(HttpTestingController);
     httpMock.expectOne('/api/exam/java-21').flush({ questionCount: 60, durationMinutes: 120, passingScore: 68 });
-    httpMock.expectOne('/api/courses/java-21').flush(makeCourse(lessonOverrides));
+    httpMock.expectOne((r) => r.url === '/api/courses/java-21').flush(makeCourse(lessonOverrides));
     await fixture.whenStable();
     fixture.detectChanges();
 
@@ -135,7 +135,7 @@ describe('CoursePage — quiz banner anonymous-attempt warning', () => {
 
     const httpMock = TestBed.inject(HttpTestingController);
     httpMock.expectOne('/api/exam/java-21').flush({ questionCount: 60, durationMinutes: 120, passingScore: 68 });
-    httpMock.expectOne('/api/courses/java-21').flush(makeCourse({}));
+    httpMock.expectOne((r) => r.url === '/api/courses/java-21').flush(makeCourse({}));
     await fixture.whenStable();
     fixture.detectChanges();
 
@@ -159,6 +159,7 @@ describe('CoursePage and translated lessons', () => {
   const LESSON = 'aws-clf-c02/content/1-1-benefits-of-the-aws-cloud.md';
   let http: HttpTestingController;
   let fixture: ReturnType<typeof TestBed.createComponent<CoursePage>>;
+  let courseLang: string | null;
 
   async function openLesson(language: string): Promise<void> {
     const params = convertToParamMap({ examId: 'aws-clf-c02', lessonId: PRACTICE_LESSON_ID });
@@ -178,7 +179,9 @@ describe('CoursePage and translated lessons', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     http.expectOne('/api/exam/aws-clf-c02').flush({ questionCount: 65, durationMinutes: 90, passingScore: 70 });
-    http.expectOne('/api/courses/aws-clf-c02').flush(makeCourse({ type: 'video', contentPath: LESSON }));
+    const courseRequest = http.expectOne((r) => r.url === '/api/courses/aws-clf-c02');
+    courseLang = courseRequest.request.params.get('lang');
+    courseRequest.flush(makeCourse({ type: 'video', contentPath: LESSON }));
     await fixture.whenStable();
   }
 
@@ -196,6 +199,12 @@ describe('CoursePage and translated lessons', () => {
       .flush('', { status: 404, statusText: 'Not Found' });
     http.expectOne('/api/content/' + LESSON).flush('# Benefits');
     expect(fixture.componentInstance.markdownContent()?.content).toBe('# Benefits');
+  });
+
+  it('asks for the course titles in the interface language', async () => {
+    await openLesson('pt-BR');
+    expect(courseLang).toBe('pt-BR');
+    http.expectOne('/api/content/aws-clf-c02/content/1-1-benefits-of-the-aws-cloud.pt-BR.md').flush('# x');
   });
 
   it('does not look for a translation in English', async () => {
@@ -230,25 +239,25 @@ describe('CoursePage and unknown ids', () => {
 
   it('answers 404 for a course that does not exist, so crawlers drop it', () => {
     render('no-such-course', null);
-    http.expectOne('/api/courses/no-such-course').flush({}, { status: 404, statusText: 'Not Found' });
+    http.expectOne((r) => r.url === '/api/courses/no-such-course').flush({}, { status: 404, statusText: 'Not Found' });
     expect(seo.setNotFound).toHaveBeenCalled();
   });
 
   it('does not answer 404 when the course request merely fails', () => {
     render('java-21', null);
-    http.expectOne('/api/courses/java-21').flush({}, { status: 500, statusText: 'Server Error' });
+    http.expectOne((r) => r.url === '/api/courses/java-21').flush({}, { status: 500, statusText: 'Server Error' });
     expect(seo.setNotFound).not.toHaveBeenCalled();
   });
 
   it('answers 404 for a lesson id the course does not have', () => {
     render('java-21', 'no-such-lesson');
-    http.expectOne('/api/courses/java-21').flush(makeCourse({}));
+    http.expectOne((r) => r.url === '/api/courses/java-21').flush(makeCourse({}));
     expect(seo.setNotFound).toHaveBeenCalled();
   });
 
   it('keeps a real lesson indexable', () => {
     render('java-21', PRACTICE_LESSON_ID);
-    http.expectOne('/api/courses/java-21').flush(makeCourse({}));
+    http.expectOne((r) => r.url === '/api/courses/java-21').flush(makeCourse({}));
     expect(seo.setNotFound).not.toHaveBeenCalled();
     expect(seo.set).toHaveBeenCalled();
     expect(seo.set).not.toHaveBeenCalledWith(jasmine.objectContaining({ noindex: true }));
@@ -256,7 +265,7 @@ describe('CoursePage and unknown ids', () => {
 
   it('keeps a skill check out of the index: its questions are drawn in the browser, so it has no text to rank', () => {
     render('java-21', PRACTICE_LESSON_ID);
-    http.expectOne('/api/courses/java-21').flush(makeCourse({ type: 'skill-check' }));
+    http.expectOne((r) => r.url === '/api/courses/java-21').flush(makeCourse({ type: 'skill-check' }));
     expect(seo.set).toHaveBeenCalledWith(jasmine.objectContaining({ noindex: true }));
   });
 });

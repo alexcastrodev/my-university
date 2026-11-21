@@ -1,0 +1,22 @@
+{
+  "id": 5,
+  "title": "Faturamento, preços e suporte",
+  "lessons": [
+    {
+      "id": "clf-5-1",
+      "title": "Modelos de preços da AWS: sob demanda, Savings Plans, instâncias reservadas, Spot e opções dedicadas"
+    },
+    {
+      "id": "clf-5-2",
+      "title": "Faturamento, orçamentos e gerenciamento de custos: Budgets, Cost Explorer, CUR, tags, Pricing Calculator e Organizations"
+    },
+    {
+      "id": "clf-5-3",
+      "title": "Planos do AWS Support e recursos técnicos: Trusted Advisor, Health Dashboard, parceiros e onde buscar ajuda"
+    },
+    {
+      "id": "clf-5-check",
+      "title": "Verificação de habilidades: Faturamento, preços e suporte"
+    }
+  ]
+}
