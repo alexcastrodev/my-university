@@ -262,7 +262,7 @@ export class CoursePage implements OnInit {
 
   private loadCourse(id: string): void {
     this.loading.set(true);
-    this.http.get<Course>(`/api/courses/${id}`).subscribe({
+    this.http.get<Course>(`/api/courses/${id}`, { params: { lang: this.language.language } }).subscribe({
       next: (c) => {
         const lessonId = this.route.snapshot.paramMap.get('lessonId');
         this.course.set(this.withExpandedModule(c, lessonId));

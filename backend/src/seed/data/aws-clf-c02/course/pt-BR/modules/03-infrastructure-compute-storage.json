@@ -1,0 +1,30 @@
+{
+  "id": 3,
+  "title": "Infraestrutura, computação e armazenamento",
+  "lessons": [
+    {
+      "id": "clf-3-1",
+      "title": "Implantação e operação na AWS: console, CLI, SDKs, infraestrutura como código e modelos de implantação"
+    },
+    {
+      "id": "clf-3-2",
+      "title": "Infraestrutura global da AWS: Regiões, Zonas de Disponibilidade, pontos de presença e Outposts"
+    },
+    {
+      "id": "clf-3-3",
+      "title": "Computação na AWS: EC2, Auto Scaling, contêineres, serverless, Lightsail e Batch"
+    },
+    {
+      "id": "clf-3-4",
+      "title": "Armazenamento de objetos: Amazon S3, classes de armazenamento, ciclo de vida e S3 Glacier"
+    },
+    {
+      "id": "clf-3-5",
+      "title": "Armazenamento em bloco, de arquivos e híbrido: EBS, instance store, EFS, FSx, Storage Gateway, AWS Backup e Elastic Disaster Recovery"
+    },
+    {
+      "id": "clf-3-check",
+      "title": "Verificação de habilidades: Infraestrutura, computação e armazenamento"
+    }
+  ]
+}

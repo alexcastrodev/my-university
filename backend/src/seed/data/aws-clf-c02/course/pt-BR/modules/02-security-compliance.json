@@ -1,0 +1,26 @@
+{
+  "id": 2,
+  "title": "Segurança e conformidade",
+  "lessons": [
+    {
+      "id": "clf-2-1",
+      "title": "O modelo de responsabilidade compartilhada da AWS: quem protege o quê, serviço por serviço"
+    },
+    {
+      "id": "clf-2-2",
+      "title": "Segurança, governança e conformidade: criptografia, KMS, Artifact, Organizations e logs de auditoria"
+    },
+    {
+      "id": "clf-2-3",
+      "title": "Gerenciamento de acesso: IAM, usuário-raiz, MFA, perfis (roles), Identity Center e Cognito"
+    },
+    {
+      "id": "clf-2-4",
+      "title": "Componentes de segurança: filtros de rede, WAF, Shield, serviços de detecção e onde aprender mais"
+    },
+    {
+      "id": "clf-2-check",
+      "title": "Verificação de habilidades: Segurança e conformidade"
+    }
+  ]
+}

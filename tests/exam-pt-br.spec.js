@@ -6,6 +6,20 @@ const ENGLISH_WORDS = /\b(which|company|should|the)\b/i;
 const PORTUGUESE_WORDS = /\b(qual|quais|uma|um|que|para|empresa|equipe)\b/i;
 
 test.describe('Certification course content in pt-BR', () => {
+  test('shows the course and module titles in Portuguese', async ({ page }) => {
+    const content = new ExamContentPage(page, '/pt-BR');
+    await content.openCourse('aws-clf-c02');
+    await expect(content.courseTitle).toContainText('Completo');
+    await expect(content.moduleTitles.first()).toHaveText('Conceitos de nuvem');
+  });
+
+  test('keeps the course and module titles in English in the English bundle', async ({ page }) => {
+    const content = new ExamContentPage(page);
+    await content.openCourse('aws-clf-c02');
+    await expect(content.courseTitle).toContainText('Complete');
+    await expect(content.moduleTitles.first()).toHaveText('Cloud Concepts');
+  });
+
   test('shows a translated lesson in Portuguese', async ({ page }) => {
     const content = new ExamContentPage(page, '/pt-BR');
     await content.openLesson('aws-clf-c02', 'clf-1-1');
