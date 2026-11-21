@@ -125,6 +125,15 @@ export const COMPLEMENTARY_AREAS: ComplementaryArea[] = [
     relationship: 'Where .NET services meet managed cloud building blocks',
   },
   {
+    slug: 'dotnet-client-apps-concepts',
+    apiBase: '/api/dotnet-client-apps-concepts',
+    title: 'Client Apps for .NET',
+    routerLink: '/dotnet-client-apps-concepts',
+    touchesModule: 'software-distributed',
+    touchesTitle: 'Software + Distributed',
+    relationship: 'Architecture patterns and UI frameworks on the client side',
+  },
+  {
     slug: 'rust-concepts',
     apiBase: '/api/rust-concepts',
     title: 'Rust',

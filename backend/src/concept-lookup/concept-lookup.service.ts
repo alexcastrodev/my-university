@@ -20,6 +20,7 @@ import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-
 import { DotNetAiConceptsService } from '../dotnet-ai-concepts/dotnet-ai-concepts.service';
 import { IdentityConceptsService } from '../identity-concepts/identity-concepts.service';
 import { AzureDotnetConceptsService } from '../azure-dotnet-concepts/azure-dotnet-concepts.service';
+import { DotnetClientAppsConceptsService } from '../dotnet-client-apps-concepts/dotnet-client-apps-concepts.service';
 import { RustConceptsService } from '../rust-concepts/rust-concepts.service';
 import { GoConceptsService } from '../go-concepts/go-concepts.service';
 import { curriculumSourceId, fromSourceId, parseCurriculumSourceId, ResolvedCurriculum, ResolvedSource, ConceptSourceType, toSourceId } from './concept-lookup.constants';
@@ -97,6 +98,7 @@ export class ConceptLookupService {
     private dotNetAiConcepts: DotNetAiConceptsService,
     private identityConcepts: IdentityConceptsService,
     private azureDotnetConcepts: AzureDotnetConceptsService,
+    private dotnetClientAppsConcepts: DotnetClientAppsConceptsService,
     private rustConcepts: RustConceptsService,
     private goConcepts: GoConceptsService,
     private quarkusConcepts: QuarkusConceptsService,
@@ -125,6 +127,7 @@ export class ConceptLookupService {
       'dotnet-ai-concepts': new Map(this.dotNetAiConcepts.findAll().map((c) => [c.slug, c.title])),
       'identity-concepts': new Map(this.identityConcepts.findAll().map((c) => [c.slug, c.title])),
       'azure-dotnet-concepts': new Map(this.azureDotnetConcepts.findAll().map((c) => [c.slug, c.title])),
+      'dotnet-client-apps-concepts': new Map(this.dotnetClientAppsConcepts.findAll().map((c) => [c.slug, c.title])),
       'rust-concepts': new Map(this.rustConcepts.findAll().map((c) => [c.slug, c.title])),
       'go-concepts': new Map(this.goConcepts.findAll().map((c) => [c.slug, c.title])),
       'quarkus-concepts': new Map(this.quarkusConcepts.findAll().map((c) => [c.slug, c.title])),
@@ -210,6 +213,10 @@ export class ConceptLookupService {
       }
       case 'azure-dotnet-concepts': {
         const d = this.azureDotnetConcepts.findBySlug(slug, lang);
+        return d ? detailCore(d.title, d) : undefined;
+      }
+      case 'dotnet-client-apps-concepts': {
+        const d = this.dotnetClientAppsConcepts.findBySlug(slug, lang);
         return d ? detailCore(d.title, d) : undefined;
       }
       case 'rust-concepts': {

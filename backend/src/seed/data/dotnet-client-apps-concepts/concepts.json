@@ -1,0 +1,323 @@
+[
+  {
+    "id": 1,
+    "slug": "mvvm-and-communitytoolkit-mvvm",
+    "title": "MVVM and CommunityToolkit.Mvvm",
+    "topic": "MVVM & Data Binding",
+    "summary": "MVVM measured with CommunityToolkit.Mvvm 8.4.2 in a console project (net10.0 and net11.0, macOS): the code the generators write for [ObservableProperty] on partial properties, the exact order of events, async commands and the exception that crashes the app, WeakReferenceMessenger against StrongReferenceMessenger with the GC, Ioc.Default as a service locator and a ViewModel tested with MSTest 4 with no UI. XAML and bindings are docs only, plus where MVVM Light, Prism and ReactiveUI stand today.",
+    "publishedAt": "2026-11-21",
+    "requires": [],
+    "related": [
+      {
+        "label": "Events, the Observer Pattern and Memory Leaks",
+        "slug": "events-observer-pattern-and-memory-leaks",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Delegates and Multicast Invocation",
+        "slug": "delegates-and-multicast-invocation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Writing a Roslyn Analyzer and an Incremental Source Generator",
+        "slug": "writing-a-roslyn-analyzer-and-an-incremental-source-generator",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Garbage Collector: Generations and the LOH",
+        "slug": "garbage-collector-generations-and-the-loh",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Source Generators and AOT-Friendly Code",
+        "slug": "source-generators-and-aot-friendly-code",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Component Lifecycle and Parameters",
+        "slug": "blazor-component-lifecycle-and-parameters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Forms: EditForm and Validation",
+        "slug": "blazor-forms-editform-and-validation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MSTest 4 Fundamentals: Lifecycle, TestContext and Parallelism",
+        "slug": "mstest-fundamentals-lifecycle-and-testcontext",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Test Doubles in .NET: Fakes, Stubs and NSubstitute",
+        "slug": "test-doubles-fakes-stubs-and-nsubstitute",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Choosing a .NET Client UI Framework",
+        "slug": "choosing-a-dotnet-client-ui-framework",
+        "feature": "dotnet-client-apps-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "MVVM Toolkit introduction, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/",
+        "type": "doc"
+      },
+      {
+        "label": "ObservableProperty attribute, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/observableproperty",
+        "type": "doc"
+      },
+      {
+        "label": "RelayCommand attribute, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/relaycommand",
+        "type": "doc"
+      },
+      {
+        "label": "AsyncRelayCommand, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/asyncrelaycommand",
+        "type": "doc"
+      },
+      {
+        "label": "Messenger, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/messenger",
+        "type": "doc"
+      },
+      {
+        "label": "Inversion of control (Ioc.Default), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/ioc",
+        "type": "doc"
+      },
+      {
+        "label": "ObservableValidator, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/observablevalidator",
+        "type": "doc"
+      },
+      {
+        "label": "CommunityToolkit/dotnet repository, GitHub",
+        "url": "https://github.com/CommunityToolkit/dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "CommunityToolkit 8.4.0 release notes, GitHub",
+        "url": "https://github.com/CommunityToolkit/dotnet/releases/tag/v8.4.0",
+        "type": "doc"
+      },
+      {
+        "label": "Data binding and MVVM in .NET MAUI, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/maui/xaml/fundamentals/mvvm",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET MAUI for .NET 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/maui/whats-new/dotnet-10",
+        "type": "doc"
+      },
+      {
+        "label": "Publish and subscribe to messages (MessagingCenter), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/maui/fundamentals/messagingcenter",
+        "type": "doc"
+      },
+      {
+        "label": "Compiled bindings in .NET MAUI, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/maui/fundamentals/data-binding/compiled-bindings",
+        "type": "doc"
+      },
+      {
+        "label": "INotifyPropertyChanged interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged",
+        "type": "doc"
+      },
+      {
+        "label": "INotifyDataErrorInfo interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifydataerrorinfo",
+        "type": "doc"
+      },
+      {
+        "label": "ICommand interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.windows.input.icommand",
+        "type": "doc"
+      },
+      {
+        "label": "MVVM Light (not maintained), GitHub",
+        "url": "https://github.com/lbugnion/mvvmlight",
+        "type": "doc"
+      },
+      {
+        "label": "Prism library, GitHub",
+        "url": "https://github.com/PrismLibrary/Prism",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "slug": "choosing-a-dotnet-client-ui-framework",
+    "title": "Choosing a .NET Client UI Framework",
+    "topic": "UI Frameworks",
+    "summary": "A decision guide for where to write a .NET client app today, with support dates and state read from the primary sources (the Windows developer FAQ, the MAUI support policy, the WPF and WinForms what's new pages): WinUI 3, .NET MAUI, WPF, WinForms, Blazor Hybrid and Blazor in the browser, plus Avalonia and Uno in a short table. Measured on macOS arm64 with SDK 10.0.100 and 11.0.100: which client templates exist, what the MAUI workload requires, WPF and WinForms projects that compile but cannot run off Windows, a WPF app hosting Blazor and a Blazor WebAssembly publish, with the rest marked docs only.",
+    "publishedAt": "2026-11-21",
+    "requires": [],
+    "related": [
+      {
+        "label": "MVVM and CommunityToolkit.Mvvm",
+        "slug": "mvvm-and-communitytoolkit-mvvm",
+        "feature": "dotnet-client-apps-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor WebAssembly Client and API Integration",
+        "slug": "blazor-webassembly-client-and-api-integration",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Choosing an ASP.NET Core Application Model",
+        "slug": "choosing-an-aspnet-core-application-model",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Porting from .NET Framework to Modern .NET",
+        "slug": "porting-from-net-framework-to-modern-net",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Self-Contained, Single-File and Trimmed Publishing",
+        "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 11: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-11",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "P/Invoke, LibraryImport and Native Interop",
+        "slug": "pinvoke-libraryimport-and-native-interop",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Windows App Development Frequently Asked Questions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows/apps/get-started/windows-developer-faq",
+        "type": "doc"
+      },
+      {
+        "label": ".NET MAUI support policy, .NET",
+        "url": "https://dotnet.microsoft.com/en-us/platform/support/policy/maui",
+        "type": "doc"
+      },
+      {
+        "label": "Xamarin support policy, .NET",
+        "url": "https://dotnet.microsoft.com/en-us/platform/support/policy/xamarin",
+        "type": "doc"
+      },
+      {
+        "label": ".NET and .NET Core support policy, .NET",
+        "url": "https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core",
+        "type": "doc"
+      },
+      {
+        "label": "Windows App SDK and supported Windows releases, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/support",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET MAUI for .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/maui/whats-new/dotnet-11",
+        "type": "doc"
+      },
+      {
+        "label": "What is .NET MAUI?, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/maui/what-is-maui",
+        "type": "doc"
+      },
+      {
+        "label": "Build your first .NET MAUI app, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/maui/get-started/first-app?view=net-maui-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in Windows Forms for .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/desktop/winforms/whats-new/net110",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in Windows Forms for .NET 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/desktop/winforms/whats-new/net100",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in WPF for .NET 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/desktop/wpf/whats-new/net110",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor Hybrid, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/hybrid/?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Build a WPF Blazor app, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/hybrid/tutorials/wpf?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "NETSDK1100: building Windows-targeted projects on other operating systems, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/sdk-errors/netsdk1100",
+        "type": "doc"
+      },
+      {
+        "label": "Upgrade from Xamarin to .NET MAUI, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/maui/migration/",
+        "type": "doc"
+      },
+      {
+        "label": "Supported platforms, Avalonia documentation",
+        "url": "https://docs.avaloniaui.net/docs/overview/supported-platforms",
+        "type": "doc"
+      },
+      {
+        "label": "Uno Platform documentation",
+        "url": "https://platform.uno/docs/articles/intro.html",
+        "type": "doc"
+      },
+      {
+        "label": "WPF roadmap, GitHub",
+        "url": "https://github.com/dotnet/wpf/blob/main/roadmap.md",
+        "type": "doc"
+      },
+      {
+        "label": "Windows Forms roadmap, GitHub",
+        "url": "https://github.com/dotnet/winforms/blob/main/docs/roadmap.md",
+        "type": "doc"
+      },
+      {
+        "label": "Technology, Stack Overflow Developer Survey 2026",
+        "url": "https://survey.stackoverflow.co/2026/technology",
+        "type": "doc"
+      }
+    ]
+  }
+]

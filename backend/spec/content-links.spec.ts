@@ -29,6 +29,7 @@ const FEATURE_ROUTES: Record<string, string> = {
   'dotnet-ai-concepts': '/dotnet-ai-concepts',
   'identity-concepts': '/identity-concepts',
   'azure-dotnet-concepts': '/azure-dotnet-concepts',
+  'dotnet-client-apps-concepts': '/dotnet-client-apps-concepts',
   'rust-concepts': '/rust-concepts',
   'go-concepts': '/go-concepts',
 };

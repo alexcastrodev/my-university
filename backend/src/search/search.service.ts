@@ -21,6 +21,7 @@ import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-
 import { DotNetAiConceptsService } from '../dotnet-ai-concepts/dotnet-ai-concepts.service';
 import { IdentityConceptsService } from '../identity-concepts/identity-concepts.service';
 import { AzureDotnetConceptsService } from '../azure-dotnet-concepts/azure-dotnet-concepts.service';
+import { DotnetClientAppsConceptsService } from '../dotnet-client-apps-concepts/dotnet-client-apps-concepts.service';
 import { RustConceptsService } from '../rust-concepts/rust-concepts.service';
 import { GoConceptsService } from '../go-concepts/go-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
@@ -62,6 +63,7 @@ export const SEARCH_RESULT_TYPES = [
   'dotnet-ai-concept',
   'identity-concept',
   'azure-dotnet-concept',
+  'dotnet-client-apps-concept',
   'rust-concept',
   'go-concept',
   'paper',
@@ -176,6 +178,7 @@ export class SearchService implements OnApplicationBootstrap {
     private kubernetesConceptsService: KubernetesConceptsService,
     private identityConceptsService: IdentityConceptsService,
     private azureDotnetConceptsService: AzureDotnetConceptsService,
+    private dotnetClientAppsConceptsService: DotnetClientAppsConceptsService,
     private papersCatalog: PapersCatalogService,
     private meili: MeilisearchClient,
   ) {}
@@ -318,6 +321,9 @@ export class SearchService implements OnApplicationBootstrap {
       ),
       concepts('azure-dotnet-concept', 'Azure for .NET Concepts', '/azure-dotnet-concepts', (l) =>
         this.azureDotnetConceptsService.findAllDetailed(l),
+      ),
+      concepts('dotnet-client-apps-concept', 'Client Apps for .NET Concepts', '/dotnet-client-apps-concepts', (l) =>
+        this.dotnetClientAppsConceptsService.findAllDetailed(l),
       ),
       concepts('rust-concept', 'Rust Concepts', '/rust-concepts', (l) =>
         this.rustConceptsService.findAllDetailed(l),

@@ -19,6 +19,7 @@ import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-
 import { DotNetAiConceptsService } from '../dotnet-ai-concepts/dotnet-ai-concepts.service';
 import { IdentityConceptsService } from '../identity-concepts/identity-concepts.service';
 import { AzureDotnetConceptsService } from '../azure-dotnet-concepts/azure-dotnet-concepts.service';
+import { DotnetClientAppsConceptsService } from '../dotnet-client-apps-concepts/dotnet-client-apps-concepts.service';
 import { RustConceptsService } from '../rust-concepts/rust-concepts.service';
 import { GoConceptsService } from '../go-concepts/go-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
@@ -70,6 +71,7 @@ export class SitemapService {
     private readonly kubernetesConcepts: KubernetesConceptsService,
     private readonly identityConcepts: IdentityConceptsService,
     private readonly azureDotnetConcepts: AzureDotnetConceptsService,
+    private readonly dotnetClientAppsConcepts: DotnetClientAppsConceptsService,
     private readonly papers: PapersCatalogService,
     private readonly curriculum: CurriculumService,
   ) {}
@@ -118,6 +120,7 @@ export class SitemapService {
       ['/kubernetes-concepts', this.kubernetesConcepts.findAll()],
       ['/identity-concepts', this.identityConcepts.findAll()],
       ['/azure-dotnet-concepts', this.azureDotnetConcepts.findAll()],
+      ['/dotnet-client-apps-concepts', this.dotnetClientAppsConcepts.findAll()],
     ];
     for (const {
       module: mod,

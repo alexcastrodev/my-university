@@ -269,6 +269,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/azure-dotnet-concepts/azure-dotnet-concepts-detail').then((m) => m.AzureDotnetConceptsDetailPage),
   },
   {
+    path: 'dotnet-client-apps-concepts',
+    loadComponent: () => import('./pages/dotnet-client-apps-concepts/dotnet-client-apps-concepts-list').then((m) => m.DotnetClientAppsConceptsListPage),
+  },
+  {
+    path: 'dotnet-client-apps-concepts/:slug',
+    loadComponent: () => import('./pages/dotnet-client-apps-concepts/dotnet-client-apps-concepts-detail').then((m) => m.DotnetClientAppsConceptsDetailPage),
+  },
+  {
     path: 'rust-concepts',
     loadComponent: () => import('./pages/rust-concepts/rust-concepts-list').then((m) => m.RustConceptsListPage),
   },

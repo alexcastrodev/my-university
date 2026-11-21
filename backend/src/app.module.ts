@@ -59,6 +59,7 @@ import { DotNetTestingConceptsModule } from './dotnet-testing-concepts/dotnet-te
 import { DotNetAiConceptsModule } from './dotnet-ai-concepts/dotnet-ai-concepts.module';
 import { IdentityConceptsModule } from './identity-concepts/identity-concepts.module';
 import { AzureDotnetConceptsModule } from './azure-dotnet-concepts/azure-dotnet-concepts.module';
+import { DotnetClientAppsConceptsModule } from './dotnet-client-apps-concepts/dotnet-client-apps-concepts.module';
 import { RustConceptsModule } from './rust-concepts/rust-concepts.module';
 import { GoConceptsModule } from './go-concepts/go-concepts.module';
 import { SearchModule } from './search/search.module';
@@ -130,6 +131,7 @@ import { XpModule } from './xp/xp.module';
     DotNetAiConceptsModule,
     IdentityConceptsModule,
     AzureDotnetConceptsModule,
+    DotnetClientAppsConceptsModule,
     RustConceptsModule,
     GoConceptsModule,
     QuarkusConceptsModule,

@@ -1,4 +1,4 @@
-export type ConceptFeature = 'java-concepts' | 'jvm-concepts' | 'spring-concepts' | 'database-concepts' | 'system-design' | 'ruby-concepts' | 'rubyonrails-concepts' | 'quarkus-concepts' | 'kubernetes-concepts' | 'algorithms-concepts' | 'testing-concepts' | 'dotnet-concepts' | 'csharp-concepts' | 'dotnet-testing-concepts' | 'dotnet-ai-concepts' | 'identity-concepts' | 'azure-dotnet-concepts' | 'rust-concepts' | 'go-concepts';
+export type ConceptFeature = 'java-concepts' | 'jvm-concepts' | 'spring-concepts' | 'database-concepts' | 'system-design' | 'ruby-concepts' | 'rubyonrails-concepts' | 'quarkus-concepts' | 'kubernetes-concepts' | 'algorithms-concepts' | 'testing-concepts' | 'dotnet-concepts' | 'csharp-concepts' | 'dotnet-testing-concepts' | 'dotnet-ai-concepts' | 'identity-concepts' | 'azure-dotnet-concepts' | 'dotnet-client-apps-concepts' | 'rust-concepts' | 'go-concepts';
 
 /** A plain string is a free-text mention with no page yet; the object form links to a real concept page. */
 export type ConceptLinkRef = string | { label: string; slug: string; feature?: ConceptFeature };
@@ -21,6 +21,7 @@ export const FEATURE_ROUTES: Record<ConceptFeature, string> = {
   'dotnet-ai-concepts': '/dotnet-ai-concepts',
   'identity-concepts': '/identity-concepts',
   'azure-dotnet-concepts': '/azure-dotnet-concepts',
+  'dotnet-client-apps-concepts': '/dotnet-client-apps-concepts',
   'rust-concepts': '/rust-concepts',
   'go-concepts': '/go-concepts',
 };
