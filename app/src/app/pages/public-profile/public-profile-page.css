@@ -4,7 +4,7 @@
   /* A column that fills the screen, so the Library can fill what is left under the banner. */
   display: flex;
   flex-direction: column;
-  /* The Library lays out by the room the page has, not by the screen: the sidebar takes 56 or 216px of it. */
+  /* The Library lays out by the room the page has, not by the screen: the sidebar takes 56 or 208px of it. */
   container-type: inline-size;
 }
 

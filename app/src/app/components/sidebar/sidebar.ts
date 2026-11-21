@@ -25,14 +25,13 @@ import { areaLabel } from '../../shared/area-labels';
 const STORAGE_KEY = 'sidebar-collapsed';
 /** How many of the reader's bookmarks the rail lists; the rest are on the Bookmarks page. */
 const MAX_BOOKMARKS = 3;
-/** Below this width the sidebar starts collapsed to icons unless the reader expanded it. */
-const NARROW_QUERY = '(max-width: 1199px)';
 
 /**
  * Left navigation rail that replaces the old top header: brand, search, the main links and the
- * account block. Its width is driven by `--mu-sidebar-w` (styles.css), which follows the
- * `data-sidebar` attribute on <html> or the viewport, so the first paint is right before this
- * component runs. Phones hide it; the bottom tab bar takes over there.
+ * account block. It is an icon rail unless the reader expanded it, and that choice is remembered.
+ * Its width is driven by `--mu-sidebar-w` (styles.css), which follows the `data-sidebar`
+ * attribute on <html>, so the first paint is right before this component runs. Phones hide it;
+ * the bottom tab bar takes over there.
  */
 @Component({
   selector: 'app-sidebar',
@@ -66,8 +65,8 @@ export class Sidebar {
   protected readonly expandLabel = $localize`:@@sidebar.expand:Expand sidebar`;
 
   private preference = signal<boolean | null>(this.readPreference());
-  private narrow = signal(this.isBrowser && matchMedia(NARROW_QUERY).matches);
-  collapsed = computed(() => this.preference() ?? this.narrow());
+  /** The rail is the default; only an explicit choice to expand opens the labels. */
+  collapsed = computed(() => this.preference() ?? true);
   /** Where the reader was last in each module, most recent first. */
   bookmarks = computed(() => this.bookmarkService.bookmarks().slice(0, MAX_BOOKMARKS));
 
@@ -108,12 +107,6 @@ export class Sidebar {
     const circumference = 2 * Math.PI * 15;
     return `${(this.levelProgress() / 100) * circumference} ${circumference}`;
   });
-
-  constructor() {
-    if (!this.isBrowser) return;
-
-    matchMedia(NARROW_QUERY).addEventListener('change', (event) => this.narrow.set(event.matches));
-  }
 
   /** "Java Concepts", "Spring", or the Computer Science discipline the bookmark is in. */
   protected areaOf(bookmark: Bookmark): string {

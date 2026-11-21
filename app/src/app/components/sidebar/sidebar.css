@@ -19,16 +19,16 @@
   transition: width 0.15s ease;
 }
 
-/* Labels disappear when the rail is collapsed. This is keyed on the <html> attribute and the
-   viewport instead of component state so the very first paint is already right. */
+/* Labels disappear when the rail is collapsed. This is keyed on the <html> attribute instead of
+   component state so the very first paint is already right. The rail is the default: the
+   `:not([data-sidebar='expanded'])` rules cover the page before the inline script in index.html
+   sets the attribute, and crawlers that never run it. */
 :host-context(html[data-sidebar='collapsed']) .label {
   display: none;
 }
 
-@media (max-width: 1199px) {
-  :host-context(html:not([data-sidebar='expanded'])) .label {
-    display: none;
-  }
+:host-context(html:not([data-sidebar='expanded'])) .label {
+  display: none;
 }
 
 @media (max-width: 768px) {
@@ -52,11 +52,9 @@
   align-items: center;
 }
 
-@media (max-width: 1199px) {
-  :host-context(html:not([data-sidebar='expanded'])) .sidebar-top {
-    flex-direction: column;
-    align-items: center;
-  }
+:host-context(html:not([data-sidebar='expanded'])) .sidebar-top {
+  flex-direction: column;
+  align-items: center;
 }
 
 .brand {
@@ -74,10 +72,8 @@
   padding-left: 0;
 }
 
-@media (max-width: 1199px) {
-  :host-context(html:not([data-sidebar='expanded'])) .brand {
-    padding-left: 0;
-  }
+:host-context(html:not([data-sidebar='expanded'])) .brand {
+  padding-left: 0;
 }
 
 .brand-icon { display: flex; color: var(--mu-accent); }
@@ -272,18 +268,16 @@
   background: none;
 }
 
-@media (max-width: 1199px) {
-  :host-context(html:not([data-sidebar='expanded'])) .only-collapsed {
-    display: flex;
-  }
+:host-context(html:not([data-sidebar='expanded'])) .only-collapsed {
+  display: flex;
+}
 
-  :host-context(html:not([data-sidebar='expanded'])) .xp-card {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    border: none;
-    background: none;
-  }
+:host-context(html:not([data-sidebar='expanded'])) .xp-card {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
 }
 
 .xp-ring {
@@ -437,11 +431,9 @@ span.icon {
   bottom: 0;
 }
 
-@media (max-width: 1199px) {
-  :host-context(html:not([data-sidebar='expanded'])) .menu {
-    left: calc(100% + 0.6rem);
-    bottom: 0;
-  }
+:host-context(html:not([data-sidebar='expanded'])) .menu {
+  left: calc(100% + 0.6rem);
+  bottom: 0;
 }
 
 .menu-item {
@@ -492,20 +484,18 @@ span.icon {
   box-shadow: 0 0 0 2px #16213e;
 }
 
-@media (max-width: 1199px) {
-  :host-context(html:not([data-sidebar='expanded'])) .badge {
-    position: absolute;
-    top: 6px;
-    right: 8px;
-    min-width: 0;
-    width: 9px;
-    height: 9px;
-    padding: 0;
-    margin: 0;
-    font-size: 0;
-    line-height: 0;
-    box-shadow: 0 0 0 2px #16213e;
-  }
+:host-context(html:not([data-sidebar='expanded'])) .badge {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  min-width: 0;
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+  line-height: 0;
+  box-shadow: 0 0 0 2px #16213e;
 }
 
 .bookmarks {
@@ -584,30 +574,28 @@ span.icon {
   width: 100%;
 }
 
-@media (max-width: 1199px) {
-  :host-context(html:not([data-sidebar='expanded'])) .nav-item,
-  :host-context(html:not([data-sidebar='expanded'])) .search-btn,
-  :host-context(html:not([data-sidebar='expanded'])) .user-btn {
-    justify-content: center;
-    padding-left: 0;
-    padding-right: 0;
-  }
+:host-context(html:not([data-sidebar='expanded'])) .nav-item,
+:host-context(html:not([data-sidebar='expanded'])) .search-btn,
+:host-context(html:not([data-sidebar='expanded'])) .user-btn {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
 
-  :host-context(html:not([data-sidebar='expanded'])) .user-btn {
-    width: 100%;
-  }
+:host-context(html:not([data-sidebar='expanded'])) .user-btn {
+  width: 100%;
+}
 
-  :host-context(html:not([data-sidebar='expanded'])) .nav-group + .nav-group {
-    padding-top: 0.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
+:host-context(html:not([data-sidebar='expanded'])) .nav-group + .nav-group {
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-  :host-context(html:not([data-sidebar='expanded'])) .tools {
-    flex-direction: column;
-    gap: 1px;
-  }
+:host-context(html:not([data-sidebar='expanded'])) .tools {
+  flex-direction: column;
+  gap: 1px;
+}
 
-  :host-context(html:not([data-sidebar='expanded'])) .tool-btn {
-    width: 100%;
-  }
+:host-context(html:not([data-sidebar='expanded'])) .tool-btn {
+  width: 100%;
 }

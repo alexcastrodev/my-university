@@ -75,18 +75,14 @@
   --mu-safe-left: env(safe-area-inset-left, 0px);
 }
 
-/* Left sidebar width. Expanded by default, icons only below 1200px or when the reader collapsed
-   it (data-sidebar on <html>, set by the inline script in index.html and by the Sidebar itself).
-   Phones have no sidebar. Order matters: later rules win.
+/* Left sidebar width. The 56px icon rail is the default at every width and only grows to 208px
+   when the reader expanded it (data-sidebar on <html>, set by the inline script in index.html and
+   by the Sidebar itself). Phones have no sidebar. Order matters: later rules win.
    The defaults are bare :root on purpose: the critical CSS inlined in the SSR page (Beasties)
    drops every :root[...] and :root:not(...) rule, so anything written that way only applies once
    the full stylesheet loads, and the margin animates into place (CLS 0.45 on phones). */
-:root { --mu-sidebar-w: 208px; }
-:root[data-sidebar='collapsed'] { --mu-sidebar-w: 56px; }
-@media (max-width: 1199px) {
-  :root { --mu-sidebar-w: 56px; }
-  :root[data-sidebar='expanded'] { --mu-sidebar-w: 208px; }
-}
+:root { --mu-sidebar-w: 56px; }
+:root[data-sidebar='expanded'] { --mu-sidebar-w: 208px; }
 @media (max-width: 768px) {
   /* !important: a bare :root has to beat the attribute rules above. */
   :root { --mu-sidebar-w: 0px !important; }
