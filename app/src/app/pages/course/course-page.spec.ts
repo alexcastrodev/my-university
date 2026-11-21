@@ -6,6 +6,7 @@ import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/route
 import { BehaviorSubject } from 'rxjs';
 import { Course, Lesson } from '../../models/course.model';
 import { AuthService } from '../../services/auth.service';
+import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { CoursePage } from './course-page';
 
@@ -124,6 +125,7 @@ describe('CoursePage — quiz banner anonymous-attempt warning', () => {
           provide: AuthService,
           useValue: { currentUser: signal(loggedIn ? { id: 1, displayName: 'Ana' } : null) },
         },
+        { provide: LanguageService, useValue: { language: 'en' } },
       ],
     }).compileComponents();
 
@@ -150,6 +152,57 @@ describe('CoursePage — quiz banner anonymous-attempt warning', () => {
     const fixture = await renderOverview(true);
     expect(fixture.nativeElement.querySelector('.quiz-anon-warning')).toBeFalsy();
     expect(fixture.nativeElement.querySelector('.attempts-link')).toBeTruthy();
+  });
+});
+
+describe('CoursePage and translated lessons', () => {
+  const LESSON = 'aws-clf-c02/content/1-1-benefits-of-the-aws-cloud.md';
+  let http: HttpTestingController;
+  let fixture: ReturnType<typeof TestBed.createComponent<CoursePage>>;
+
+  async function openLesson(language: string): Promise<void> {
+    const params = convertToParamMap({ examId: 'aws-clf-c02', lessonId: PRACTICE_LESSON_ID });
+    TestBed.configureTestingModule({
+      imports: [CoursePage],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+        { provide: LanguageService, useValue: { language } },
+        { provide: ActivatedRoute, useValue: { paramMap: new BehaviorSubject(params), snapshot: { paramMap: params } } },
+      ],
+    });
+    http = TestBed.inject(HttpTestingController);
+    fixture = TestBed.createComponent(CoursePage);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    http.expectOne('/api/exam/aws-clf-c02').flush({ questionCount: 65, durationMinutes: 90, passingScore: 70 });
+    http.expectOne('/api/courses/aws-clf-c02').flush(makeCourse({ type: 'video', contentPath: LESSON }));
+    await fixture.whenStable();
+  }
+
+  it('asks for the pt-BR file first and shows it when it exists', async () => {
+    await openLesson('pt-BR');
+    http.expectOne('/api/content/aws-clf-c02/content/1-1-benefits-of-the-aws-cloud.pt-BR.md').flush('# Benefícios');
+    http.expectNone('/api/content/' + LESSON);
+    expect(fixture.componentInstance.markdownContent()?.content).toBe('# Benefícios');
+  });
+
+  it('falls back to the English file when there is no translation', async () => {
+    await openLesson('pt-BR');
+    http
+      .expectOne('/api/content/aws-clf-c02/content/1-1-benefits-of-the-aws-cloud.pt-BR.md')
+      .flush('', { status: 404, statusText: 'Not Found' });
+    http.expectOne('/api/content/' + LESSON).flush('# Benefits');
+    expect(fixture.componentInstance.markdownContent()?.content).toBe('# Benefits');
+  });
+
+  it('does not look for a translation in English', async () => {
+    await openLesson('en');
+    http.expectOne('/api/content/' + LESSON).flush('# Benefits');
+    http.expectNone('/api/content/aws-clf-c02/content/1-1-benefits-of-the-aws-cloud.pt-BR.md');
+    expect(fixture.componentInstance.markdownContent()?.content).toBe('# Benefits');
   });
 });
 

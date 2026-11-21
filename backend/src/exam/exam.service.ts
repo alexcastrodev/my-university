@@ -1,10 +1,12 @@
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { DEFAULT_LANGUAGE, Language } from '../shared/language';
 import { XpService } from '../xp/xp.service';
 import { Exam } from './exam.entity';
 import { ExamAttempt, QuestionReview } from './exam-attempt.entity';
 import { Question } from './question.entity';
+import { translateQuestion } from './question-translations';
 
 /** A question as exposed to the client while taking the exam — never includes the answer key. */
 export type PublicQuestion = Pick<
@@ -55,8 +57,8 @@ export class ExamService {
     return this.examRepo.findOne({ where: { id } });
   }
 
-  async getQuestions(examId: string, topic?: string, limit?: number): Promise<PublicQuestion[]> {
-    return (await this.sampleQuestions(examId, topic, limit)).map((q) => this.toPublic(q));
+  async getQuestions(examId: string, topic?: string, limit?: number, lang: Language = DEFAULT_LANGUAGE): Promise<PublicQuestion[]> {
+    return (await this.sampleQuestions(examId, topic, limit)).map((q) => this.toPublic(q, lang));
   }
 
   private async sampleQuestions(examId: string, topic?: string, limit?: number): Promise<Question[]> {
@@ -69,22 +71,26 @@ export class ExamService {
     return qb.orderBy('RANDOM()').limit(questionLimit).getMany();
   }
 
-  async getQuestion(id: number): Promise<PublicQuestion | null> {
+  async getQuestion(id: number, lang: Language = DEFAULT_LANGUAGE): Promise<PublicQuestion | null> {
     const question = await this.questionRepo.findOne({ where: { id } });
-    return question ? this.toPublic(question) : null;
+    return question ? this.toPublic(question, lang) : null;
   }
 
   /** Strips the answer key (correctKeys/explanation/source) before sending a question to the client. */
-  private toPublic(q: Question): PublicQuestion {
-    return {
-      id: q.id,
-      examId: q.examId,
-      topic: q.topic,
-      text: q.text,
-      code: q.code,
-      options: q.options,
-      type: q.type,
-    };
+  private toPublic(q: Question, lang: Language): PublicQuestion {
+    return translateQuestion(
+      q.examId,
+      {
+        id: q.id,
+        examId: q.examId,
+        topic: q.topic,
+        text: q.text,
+        code: q.code,
+        options: q.options,
+        type: q.type,
+      },
+      lang,
+    );
   }
 
   /**
@@ -96,6 +102,7 @@ export class ExamService {
     examId: string,
     userId?: number,
     serve?: { topic?: string; limit?: number },
+    lang: Language = DEFAULT_LANGUAGE,
   ): Promise<ExamAttempt & { questions?: PublicQuestion[] }> {
     const questions = serve ? await this.sampleQuestions(examId, serve.topic, serve.limit) : undefined;
     if (serve && !(await this.getExam(examId))) throw new NotFoundException();
@@ -106,7 +113,7 @@ export class ExamService {
       ...(userId ? { userId } : {}),
     });
     const saved = await this.attemptRepo.save(attempt);
-    return questions ? { ...saved, questions: questions.map((q) => this.toPublic(q)) } : saved;
+    return questions ? { ...saved, questions: questions.map((q) => this.toPublic(q, lang)) } : saved;
   }
 
   async submitAttempt(
@@ -114,6 +121,7 @@ export class ExamService {
     answers: Record<number, string[]>,
     questionIds?: number[],
     requesterId?: number | null,
+    lang: Language = DEFAULT_LANGUAGE,
   ): Promise<SubmitResult> {
     const attempt = await this.attemptRepo.findOneOrFail({ where: { id } });
 
@@ -150,19 +158,24 @@ export class ExamService {
       const given = Array.isArray(answers[q.id]) ? answers[q.id] : [];
       const correct = [...given].sort().join(',') === [...q.correctKeys].sort().join(',');
       if (correct) score++;
-      return {
-        id: q.id,
-        topic: q.topic,
-        type: q.type,
-        text: q.text,
-        code: q.code,
-        options: q.options,
-        given,
-        correctKeys: q.correctKeys,
-        correct,
-        explanation: q.explanation,
-        source: q.source,
-      };
+      // The review is stored as served, so it keeps the language the attempt was taken in.
+      return translateQuestion(
+        q.examId,
+        {
+          id: q.id,
+          topic: q.topic,
+          type: q.type,
+          text: q.text,
+          code: q.code,
+          options: q.options,
+          given,
+          correctKeys: q.correctKeys,
+          correct,
+          explanation: q.explanation,
+          source: q.source,
+        },
+        lang,
+      );
     });
 
     attempt.answers = answers;
