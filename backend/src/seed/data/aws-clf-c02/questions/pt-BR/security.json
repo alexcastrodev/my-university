@@ -1,0 +1,1638 @@
+[
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma varejista executa seu serviço de pedidos em instâncias do Amazon EC2 com uma AMI Linux. Uma vulnerabilidade crítica no kernel é anunciada para essa distribuição Linux. De acordo com o modelo de responsabilidade compartilhada, quem instala a correção nas instâncias?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A AWS, porque o EC2 é um serviço gerenciado"
+      },
+      {
+        "key": "B",
+        "text": "A AWS e a varejista em conjunto, cada uma aplicando metade do patch"
+      },
+      {
+        "key": "C",
+        "text": "A varejista, porque o sistema operacional convidado é de responsabilidade dela"
+      },
+      {
+        "key": "D",
+        "text": "O AWS Support, depois que a varejista abrir um caso"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "No EC2, o cliente é dono do sistema operacional convidado e de todo o software nele, incluindo os patches de segurança. A AWS é responsável pelo sistema operacional do host e pela camada de virtualização abaixo dele, não pelo sistema operacional convidado no qual o cliente faz login."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa migra um banco de dados MySQL autogerenciado do Amazon EC2 para o Amazon RDS. Qual tarefa passa a ser realizada pela AWS em vez de pela empresa?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Criar os backups automatizados durante a janela de backup que a empresa escolhe"
+      },
+      {
+        "key": "B",
+        "text": "Criar e gerenciar os logins do mecanismo de banco de dados"
+      },
+      {
+        "key": "C",
+        "text": "Configurar os grupos de segurança que permitem o tráfego da aplicação"
+      },
+      {
+        "key": "D",
+        "text": "Decidir se o banco de dados é criptografado em repouso"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O RDS cria e armazena os backups automatizados durante a janela e pelo período de retenção que o cliente configura. Os logins do mecanismo, os grupos de segurança e a decisão sobre criptografia continuam com o cliente."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma startup move um job de relatórios para o AWS Lambda usando um runtime gerenciado do Lambda. Qual item continua sendo responsabilidade da startup?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Aplicar patches no sistema operacional dos servidores que executam a função"
+      },
+      {
+        "key": "B",
+        "text": "Aplicar versões atualizadas do runtime enquanto a função usa o modo padrão de atualização automática do runtime"
+      },
+      {
+        "key": "C",
+        "text": "A segurança física dos data centers que hospedam a função"
+      },
+      {
+        "key": "D",
+        "text": "O código da função e as permissões do IAM que a função usa"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "No Lambda, a AWS gerencia a infraestrutura, o sistema operacional e a plataforma de aplicação e, no modo padrão, também aplica os patches do runtime. O cliente mantém seu código e as permissões do IAM para a função e dentro dela."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma equipe implanta uma função Lambda como imagem de contêiner. Uma correção de segurança é lançada para a imagem base sobre a qual a equipe construiu. O que deve acontecer para que a função receba a correção?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Nada, porque o Lambda aplica patches de runtime automaticamente a todas as funções"
+      },
+      {
+        "key": "B",
+        "text": "A equipe reconstrói a imagem a partir da imagem base mais recente e faz o redeploy da função"
+      },
+      {
+        "key": "C",
+        "text": "A AWS aplica o patch na imagem dentro do Amazon ECR durante a próxima janela de manutenção"
+      },
+      {
+        "key": "D",
+        "text": "A equipe habilita o Amazon Inspector, que instala a correção"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Com imagens de contêiner, o runtime vai dentro da imagem do cliente, então o cliente a reconstrói e faz o redeploy. As atualizações automáticas de runtime cobrem apenas os runtimes gerenciados do Lambda, e o Inspector relata vulnerabilidades, não aplica patches nelas."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Um auditor pergunta qual controle de TI a empresa herda totalmente da AWS ao executar workloads na Nuvem AWS. Qual é o controle?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Gerenciamento de patches"
+      },
+      {
+        "key": "B",
+        "text": "Gerenciamento de configuração"
+      },
+      {
+        "key": "C",
+        "text": "Controles físicos e ambientais"
+      },
+      {
+        "key": "D",
+        "text": "Conscientização e treinamento"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Os controles físicos e ambientais são o exemplo de controle herdado no modelo de responsabilidade compartilhada. O gerenciamento de patches, o gerenciamento de configuração e a conscientização e treinamento são controles compartilhados que cada lado aplica na sua própria camada."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa criou uma instância do Amazon RDS sem criptografia. Uma nova política exige que o banco de dados seja criptografado em repouso. O que a empresa deve fazer?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Criar um snapshot, fazer uma cópia criptografada dele e restaurar uma nova instância de banco de dados a partir da cópia criptografada"
+      },
+      {
+        "key": "B",
+        "text": "Modificar a instância de banco de dados existente e ativar a criptografia no mesmo lugar"
+      },
+      {
+        "key": "C",
+        "text": "Pedir à AWS que criptografe a instância, porque a criptografia em repouso é responsabilidade da AWS"
+      },
+      {
+        "key": "D",
+        "text": "Restaurar o snapshot sem criptografia diretamente para uma nova instância de banco de dados criptografada"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "A criptografia do RDS só pode ser habilitada na criação, e um snapshot sem criptografia não pode ser restaurado diretamente para uma instância criptografada. O caminho suportado é uma cópia criptografada do snapshot e depois uma restauração. Escolher a criptografia é uma decisão do cliente."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "multi",
+    "text": "Um escritório de advocacia armazena documentos de clientes no Amazon S3. De acordo com o modelo de responsabilidade compartilhada, quais tarefas pertencem ao escritório? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Gerenciar o sistema operacional dos servidores de armazenamento"
+      },
+      {
+        "key": "B",
+        "text": "Decidir quem pode acessar o bucket com políticas do IAM e políticas de bucket"
+      },
+      {
+        "key": "C",
+        "text": "Classificar os documentos e escolher as opções de criptografia para eles"
+      },
+      {
+        "key": "D",
+        "text": "Substituir hardware de armazenamento com falha"
+      },
+      {
+        "key": "E",
+        "text": "Controlar o acesso físico aos data centers"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "C"
+    ],
+    "explanation": "Em serviços abstraídos como o S3, a AWS executa a infraestrutura, o sistema operacional e a plataforma, e protege o hardware e as instalações. O cliente continua gerenciando seus dados, a classificação deles, as opções de criptografia e as permissões."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma equipe de segurança substitui sua revisão manual mensal por código que detecta qualquer grupo de segurança que abra o RDP para a internet e fecha a regra em minutos. A qual princípio de design do pilar Segurança isso se aplica mais diretamente?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Implementar uma base sólida de identidade"
+      },
+      {
+        "key": "B",
+        "text": "Automatizar as melhores práticas de segurança"
+      },
+      {
+        "key": "C",
+        "text": "Manter as pessoas longe dos dados"
+      },
+      {
+        "key": "D",
+        "text": "Manter a rastreabilidade"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Detectar e corrigir uma configuração incorreta automaticamente em vez de manualmente é automatizar as melhores práticas de segurança. A base de identidade trata de identidades e permissões, e a rastreabilidade trata de registrar e monitorar ações."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma loja virtual precisa garantir que os dados trocados entre os navegadores dos clientes e o seu Application Load Balancer sejam criptografados. Qual controle atende a esse requisito?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Criptografia no lado do servidor com chaves do AWS KMS no bucket do S3 que armazena as imagens"
+      },
+      {
+        "key": "B",
+        "text": "Criptografia do EBS por padrão nas instâncias atrás do balanceador de carga"
+      },
+      {
+        "key": "C",
+        "text": "Um cluster do AWS CloudHSM na mesma Região"
+      },
+      {
+        "key": "D",
+        "text": "Um listener HTTPS no balanceador de carga com um certificado SSL/TLS"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Os dados que trafegam entre o navegador e o balanceador de carga são dados em trânsito, que o TLS (HTTPS) protege. O SSE-KMS e a criptografia do EBS protegem dados em repouso, e o CloudHSM apenas armazena chaves."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Um banco conecta seu data center à AWS com o AWS Direct Connect. A conformidade exige que o tráfego nesse link seja criptografado. O que o banco deve fazer?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Executar uma VPN AWS Site-to-Site (IPsec) sobre a conexão do Direct Connect, ou usar MACsec onde houver suporte"
+      },
+      {
+        "key": "B",
+        "text": "Nada, porque o Direct Connect criptografa todo o tráfego por padrão"
+      },
+      {
+        "key": "C",
+        "text": "Assinar o AWS Shield Advanced para a conexão"
+      },
+      {
+        "key": "D",
+        "text": "Habilitar o SSE-S3 nos buckets que recebem o tráfego"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O Direct Connect é privado, mas não é criptografado por padrão, então a criptografia em trânsito exige uma VPN IPsec sobre ele ou MACsec. O Shield é proteção contra DDoS e o SSE-S3 protege dados em repouso, não os que trafegam pela rede."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "A política de uma empresa de saúde determina que a AWS nunca possa ler o texto simples dos arquivos de pacientes armazenados no Amazon S3. Qual abordagem atende à política?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "SSE-S3, que é aplicado a todo novo objeto por padrão"
+      },
+      {
+        "key": "B",
+        "text": "SSE-KMS com uma chave gerenciada pela AWS"
+      },
+      {
+        "key": "C",
+        "text": "Criptografia no lado do cliente com chaves que a empresa guarda, antes de enviar os arquivos"
+      },
+      {
+        "key": "D",
+        "text": "Habilitar o S3 Block Public Access no bucket"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Com a criptografia no lado do cliente, os dados são criptografados antes de chegar à AWS, então a AWS nunca vê o texto simples. O SSE-S3 e o SSE-KMS são no lado do servidor, em que o S3 criptografa os dados que recebe, e o Block Public Access controla o acesso, não a criptografia."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Um desenvolvedor cria hoje um novo bucket do S3 e envia objetos sem especificar nenhuma configuração de criptografia. Qual é o estado de criptografia desses objetos?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Ficam armazenados sem criptografia até que a criptografia padrão seja ativada no bucket"
+      },
+      {
+        "key": "B",
+        "text": "São criptografados em repouso automaticamente com SSE-S3, sem custo adicional"
+      },
+      {
+        "key": "C",
+        "text": "São criptografados com uma chave do KMS gerenciada pelo cliente que o S3 cria na conta"
+      },
+      {
+        "key": "D",
+        "text": "Os uploads são rejeitados até que um cabeçalho de criptografia seja adicionado"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Desde janeiro de 2023, o S3 criptografa todo novo upload de objeto com SSE-S3 por padrão, e isso não pode ser desativado. O material antigo que diz que os uploads ficam sem criptografia está desatualizado, e o SSE-KMS só é usado quando você o escolhe."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa de pagamentos precisa armazenar chaves de criptografia em módulos de segurança de hardware (HSMs) de locatário único e gerenciar ela mesma os usuários do HSM, fora do IAM. Qual serviço atende?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS KMS com chaves pertencentes à AWS"
+      },
+      {
+        "key": "B",
+        "text": "AWS KMS com chaves gerenciadas pelo cliente"
+      },
+      {
+        "key": "C",
+        "text": "AWS Secrets Manager"
+      },
+      {
+        "key": "D",
+        "text": "AWS CloudHSM"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O CloudHSM fornece HSMs de locatário único em que o cliente controla as chaves e seus próprios usuários do HSM. O KMS é um serviço de chaves gerenciado e multilocatário, ainda que seus HSMs sejam validados no FIPS, e o Secrets Manager armazena segredos, não chaves de HSM."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Um líder de segurança precisa de uma chave de criptografia cuja política de chave a própria equipe escreva, com uma rotação que a equipe possa ativar e com cada uso da chave registrado no AWS CloudTrail. Qual opção atende às três necessidades?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Uma chave do AWS KMS gerenciada pelo cliente"
+      },
+      {
+        "key": "B",
+        "text": "Uma chave pertencente à AWS"
+      },
+      {
+        "key": "C",
+        "text": "Uma chave gerenciada pela AWS com o alias aws/s3"
+      },
+      {
+        "key": "D",
+        "text": "Uma chave que a equipe gera e guarda em um laptop para criptografia no lado do cliente"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "As chaves do KMS gerenciadas pelo cliente permitem escrever a política da chave e escolher a rotação, e o uso delas é registrado no CloudTrail. As chaves pertencentes à AWS são invisíveis para você, as chaves gerenciadas pela AWS podem ser visualizadas, mas não gerenciadas, e uma chave em um laptop nunca é registrada pela AWS."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Um auditor pede a uma empresa o relatório SOC 2 mais recente da AWS que cubra a infraestrutura da AWS que a empresa usa. Onde a empresa o obtém?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Config"
+      },
+      {
+        "key": "B",
+        "text": "AWS Security Hub"
+      },
+      {
+        "key": "C",
+        "text": "AWS Artifact"
+      },
+      {
+        "key": "D",
+        "text": "AWS Trusted Advisor"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O AWS Artifact oferece downloads sob demanda e de autoatendimento dos relatórios de conformidade da AWS, como SOC, ISO e PCI. O Config e o Security Hub avaliam os recursos do próprio cliente, e o Trusted Advisor oferece verificações de melhores práticas."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Um grupo hospitalar executa 25 contas no AWS Organizations com todos os recursos habilitados. Ele precisa aceitar o HIPAA Business Associate Addendum para todas as contas da organização de uma só vez. O que deve fazer?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Abrir um caso no AWS Support e solicitar um PDF assinado do adendo"
+      },
+      {
+        "key": "B",
+        "text": "Aceitar o BAA como um acordo da organização no AWS Artifact a partir da conta de gerenciamento"
+      },
+      {
+        "key": "C",
+        "text": "Implantar um pacote de conformidade do AWS Config para HIPAA em cada conta"
+      },
+      {
+        "key": "D",
+        "text": "Fazer login em cada conta-membro por meio do IAM Identity Center e aceitar o BAA no IAM"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O AWS Artifact gerencia acordos como o BAA, e um acordo da organização é aceito a partir da conta de gerenciamento quando todos os recursos estão habilitados. As regras do Config verificam recursos, mas não assinam acordos, e o IAM não tem um recurso de acordos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Desenvolvedores de uma unidade organizacional (OU) de sandbox têm permissões de administrador nas suas contas. A empresa precisa garantir que ninguém nessas contas possa iniciar recursos fora de uma Região aprovada. O que ela deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Uma regra do AWS Config que relate recursos criados em outras Regiões"
+      },
+      {
+        "key": "B",
+        "text": "Uma regra de grupo de segurança em cada VPC das contas de sandbox"
+      },
+      {
+        "key": "C",
+        "text": "A verificação de limites de serviço do AWS Trusted Advisor"
+      },
+      {
+        "key": "D",
+        "text": "Uma política de controle de serviço (SCP) anexada à OU de sandbox"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Uma SCP define as permissões máximas de todas as identidades das contas-membro, incluindo administradores e o usuário-raiz da conta-membro, e pode restringir Regiões. Uma regra do Config apenas detecta depois do fato, e os grupos de segurança filtram tráfego de rede."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma SCP que nega um serviço está anexada à raiz de uma organização. Os usuários de uma conta-membro não conseguem usar o serviço, mas os usuários da conta de gerenciamento ainda conseguem. Por quê?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "As SCPs não afetam a conta de gerenciamento"
+      },
+      {
+        "key": "B",
+        "text": "As SCPs levam 24 horas para chegar à conta de gerenciamento"
+      },
+      {
+        "key": "C",
+        "text": "Os usuários da conta de gerenciamento têm um limite de permissões que prevalece sobre as SCPs"
+      },
+      {
+        "key": "D",
+        "text": "As SCPs se aplicam somente ao usuário-raiz de cada conta-membro"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "As SCPs nunca afetam a conta de gerenciamento, e é por isso que a AWS recomenda manter workloads fora dela. Nas contas-membro, elas se aplicam a todos os usuários e perfis (roles), incluindo o usuário-raiz, e não apenas ao usuário-raiz."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma instância EC2 foi parada há 20 dias e ninguém sabe quem fez isso. A conta não tem nenhuma trilha do CloudTrail configurada. Qual é a forma mais barata de descobrir?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Métricas do Amazon CloudWatch da instância"
+      },
+      {
+        "key": "B",
+        "text": "Achados do Amazon Inspector para a instância"
+      },
+      {
+        "key": "C",
+        "text": "O Histórico de eventos do AWS CloudTrail"
+      },
+      {
+        "key": "D",
+        "text": "VPC Flow Logs da sub-rede da instância"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O Histórico de eventos do CloudTrail mantém automaticamente 90 dias de eventos de gerenciamento, como StopInstances, com a identidade de quem fez a chamada e sem cobrança do CloudTrail. Métricas, achados de vulnerabilidade e registros de fluxo de rede não mostram quem chamou uma API."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Após uma interrupção, uma equipe quer ver como estavam as regras de um grupo de segurança na sexta-feira passada e quer ser avisada sempre que qualquer grupo de segurança permitir SSH sem restrição. Qual serviço oferece as duas coisas?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS CloudTrail"
+      },
+      {
+        "key": "B",
+        "text": "AWS Config"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Inspector"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Macie"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O AWS Config registra o histórico de configuração e avalia os recursos em relação às regras do Config, sinalizando os que estão fora de conformidade. O CloudTrail registra quem fez chamadas de API, o Inspector procura vulnerabilidades de software e o Macie procura dados sensíveis no S3."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa quer uma base pronta para várias contas: uma landing zone construída no AWS Organizations, controles preventivos e detectivos e uma forma padrão de criar novas contas. Qual serviço ela deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Organizations apenas com o conjunto de recursos de faturamento consolidado"
+      },
+      {
+        "key": "B",
+        "text": "AWS Resource Access Manager"
+      },
+      {
+        "key": "C",
+        "text": "AWS Trusted Advisor"
+      },
+      {
+        "key": "D",
+        "text": "AWS Control Tower"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O Control Tower configura e governa uma landing zone orquestrando o Organizations, o Service Catalog e o IAM Identity Center, com controles e o Account Factory. O faturamento consolidado sozinho não tem políticas, o RAM compartilha recursos e o Trusted Advisor apenas dá recomendações."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "multi",
+    "text": "Uma empresa planeja testes de segurança nos seus próprios workloads na AWS. Quais atividades são permitidas sem aprovação prévia da AWS? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Uma inundação simulada de DDoS contra a sua distribuição do CloudFront"
+      },
+      {
+        "key": "B",
+        "text": "Uma varredura de vulnerabilidades nas suas próprias instâncias do Amazon EC2"
+      },
+      {
+        "key": "C",
+        "text": "DNS zone walking contra as suas zonas hospedadas do Amazon Route 53"
+      },
+      {
+        "key": "D",
+        "text": "Um exercício de red team de comando e controle (C2)"
+      },
+      {
+        "key": "E",
+        "text": "Uma avaliação de segurança das suas próprias instâncias do Amazon RDS"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "E"
+    ],
+    "explanation": "O EC2 e o RDS estão na lista de serviços que os clientes podem avaliar sem aprovação prévia. A simulação de DoS e o DNS zone walking pelo Route 53 são proibidos pela política de testes de penetração, e atividades de C2 ou de red team exigem envio prévio."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "multi",
+    "text": "Um engenheiro de segurança está revisando como o AWS CloudTrail funciona. Quais afirmações estão corretas? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "O Histórico de eventos mostra os últimos 90 dias de eventos de gerenciamento sem criar uma trilha"
+      },
+      {
+        "key": "B",
+        "text": "As trilhas registram eventos de dados no nível de objeto do S3 por padrão"
+      },
+      {
+        "key": "C",
+        "text": "O CloudTrail registra apenas ações realizadas no AWS Management Console"
+      },
+      {
+        "key": "D",
+        "text": "A validação de integridade dos arquivos de log detecta se um arquivo de log entregue foi modificado ou excluído"
+      },
+      {
+        "key": "E",
+        "text": "A validação de integridade dos arquivos de log impede que qualquer pessoa exclua arquivos de log entregues"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "D"
+    ],
+    "explanation": "O Histórico de eventos fica disponível automaticamente por 90 dias de eventos de gerenciamento, e a validação de integridade detecta adulteração após a entrega. Os eventos de dados vêm desativados por padrão, o CloudTrail também registra chamadas de CLI, SDK e API, e a validação detecta alterações em vez de bloqueá-las."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "multi",
+    "text": "Uma equipe está escolhendo entre os tipos de chave do AWS KMS para seus workloads. Quais afirmações estão corretas? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Com uma chave gerenciada pelo cliente, a equipe escreve a política da chave e decide se habilita a rotação"
+      },
+      {
+        "key": "B",
+        "text": "As chaves pertencentes à AWS aparecem na conta da equipe e o uso delas é registrado no CloudTrail"
+      },
+      {
+        "key": "C",
+        "text": "As chaves do KMS podem ser exportadas do KMS em texto simples para uso no local"
+      },
+      {
+        "key": "D",
+        "text": "Uma chave do KMS criada em uma Região pode ser usada automaticamente em todas as Regiões"
+      },
+      {
+        "key": "E",
+        "text": "Uma chave gerenciada pela AWS pode ser visualizada e auditada, mas não gerenciada, e a AWS a rotaciona todo ano"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "E"
+    ],
+    "explanation": "As chaves gerenciadas pelo cliente dão controle total da política e da rotação, e as chaves gerenciadas pela AWS são visíveis e auditáveis, mas gerenciadas e rotacionadas anualmente pela AWS. As chaves pertencentes à AWS ficam em contas de serviço da AWS e não são visíveis, as chaves nunca saem do KMS sem criptografia, e as chaves do KMS são regionais, a menos que você crie chaves multi-Região."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa nova na AWS pergunta qual prática segue a orientação da AWS para o usuário-raiz. Qual ela deve adotar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Criar chaves de acesso do usuário-raiz para os scripts de implantação"
+      },
+      {
+        "key": "B",
+        "text": "Compartilhar a senha do usuário-raiz com a equipe de operações para que qualquer pessoa possa resolver interrupções"
+      },
+      {
+        "key": "C",
+        "text": "Habilitar o MFA no usuário-raiz e usar identidades do IAM ou do IAM Identity Center para o trabalho diário"
+      },
+      {
+        "key": "D",
+        "text": "Usar o usuário-raiz para a administração diária e trocar a senha dele todo mês"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "A AWS recomenda uma senha forte e MFA no usuário-raiz, nenhuma chave de acesso do usuário-raiz e outras identidades para as tarefas do dia a dia. Chaves de acesso do usuário-raiz, uma senha de usuário-raiz compartilhada e o uso diário do usuário-raiz vão contra essa orientação, e trocar a senha não torna seguro o uso diário."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma aplicação no Amazon EC2 precisa ler objetos de um bucket do S3. A equipe de segurança proíbe armazenar credenciais de longo prazo na instância. O que o desenvolvedor deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Chaves de acesso armazenadas em variáveis de ambiente na instância"
+      },
+      {
+        "key": "B",
+        "text": "Chaves de acesso embutidas no código e criptografadas com o AWS KMS"
+      },
+      {
+        "key": "C",
+        "text": "Um grupo do IAM que contém a instância"
+      },
+      {
+        "key": "D",
+        "text": "Um perfil (role) do IAM anexado à instância"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Um perfil (role) anexado à instância entrega credenciais temporárias a ela automaticamente, então nenhuma chave de longo prazo é armazenada. As chaves de acesso são credenciais de longo prazo independentemente de como são armazenadas, e um grupo só pode conter usuários do IAM."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Um parceiro de auditoria, com sua própria conta da AWS, precisa ler um bucket do S3 na conta da empresa por uma semana. Qual é a forma recomendada de conceder esse acesso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Criar um usuário do IAM na conta da empresa e enviar as chaves de acesso dele por e-mail ao parceiro"
+      },
+      {
+        "key": "B",
+        "text": "Criar um perfil (role) do IAM que confie na conta do parceiro e permita acesso de leitura somente a esse bucket"
+      },
+      {
+        "key": "C",
+        "text": "Compartilhar as credenciais do usuário-raiz durante a semana e trocar a senha depois"
+      },
+      {
+        "key": "D",
+        "text": "Adicionar a conta do parceiro a um grupo do IAM na conta da empresa"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Os perfis (roles) são a principal forma de conceder acesso entre contas, e assumir um deles fornece credenciais temporárias. Chaves enviadas por e-mail são de longo prazo e difíceis de controlar, o usuário-raiz nunca deve ser compartilhado, e um grupo apenas reúne usuários do IAM e não pode ser um principal."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Trinta analistas precisam das mesmas permissões somente de leitura, e as permissões mudam todo mês. Como um administrador deve gerenciar isso com o menor esforço?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Colocar os analistas em um grupo do IAM e anexar a política ao grupo"
+      },
+      {
+        "key": "B",
+        "text": "Anexar uma política em linha (inline) a cada analista e editar as trinta todo mês"
+      },
+      {
+        "key": "C",
+        "text": "Criar um único usuário do IAM que todos os analistas compartilhem"
+      },
+      {
+        "key": "D",
+        "text": "Dar a cada analista a política AdministratorAccess para evitar alterações mensais"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "As políticas anexadas a um grupo se aplicam a todos os membros, então uma única edição atualiza os trinta usuários. Políticas em linha por usuário multiplicam o trabalho, um usuário compartilhado elimina a responsabilização, e o AdministratorAccess quebra o privilégio mínimo."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma política baseada em identidade permite que um usuário chame s3:DeleteObject em um bucket. A política do bucket nega explicitamente s3:DeleteObject para esse usuário. O que acontece quando o usuário tenta excluir um objeto?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A exclusão é bem-sucedida porque as políticas baseadas em identidade são avaliadas primeiro"
+      },
+      {
+        "key": "B",
+        "text": "A exclusão é bem-sucedida porque as permissões na mesma conta são combinadas"
+      },
+      {
+        "key": "C",
+        "text": "A exclusão é negada porque uma negação explícita prevalece sobre qualquer permissão"
+      },
+      {
+        "key": "D",
+        "text": "O resultado depende de qual política foi alterada mais recentemente"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Na avaliação do IAM, uma negação explícita em qualquer política aplicável prevalece sobre todas as permissões. As permissões de identidade e de recurso de fato se somam, mas somente quando não existe negação explícita, e a ordem ou a idade das políticas não importa."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa tem 15 contas da AWS no AWS Organizations. Os funcionários devem fazer login uma única vez com o provedor de identidade corporativo existente e depois acessar as contas às quais foram atribuídos. Qual serviço a empresa deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Usuários do IAM separados em cada uma das 15 contas"
+      },
+      {
+        "key": "B",
+        "text": "Pools de usuários do Amazon Cognito"
+      },
+      {
+        "key": "C",
+        "text": "AWS Directory Service Simple AD"
+      },
+      {
+        "key": "D",
+        "text": "AWS IAM Identity Center"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O IAM Identity Center oferece aos usuários da força de trabalho um único login, por meio de seu próprio diretório ou de um IdP externo, para várias contas da AWS. O Cognito é para os clientes dos seus aplicativos, o Simple AD é um diretório independente, e usuários do IAM por conta significam 15 conjuntos de credenciais."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Um jogo móvel quer que os jogadores façam login com suas contas do Google e depois enviem capturas de tela diretamente para um bucket do S3 com credenciais temporárias da AWS. Qual serviço os desenvolvedores devem usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS IAM Identity Center"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Cognito"
+      },
+      {
+        "key": "C",
+        "text": "Um usuário do IAM para cada jogador"
+      },
+      {
+        "key": "D",
+        "text": "AWS Directory Service AD Connector"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Os pools de usuários do Cognito fazem o login dos usuários do aplicativo, inclusive com provedores sociais como o Google, e os pools de identidades trocam os tokens deles por credenciais temporárias da AWS. O Identity Center é para acesso da força de trabalho, e usuários do IAM por jogador não escalam e são credenciais de longo prazo."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma aplicação precisa ler a senha do seu banco de dados em tempo de execução, e a senha deve ser rotacionada automaticamente a cada 30 dias. Qual serviço deve armazená-la?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Secrets Manager"
+      },
+      {
+        "key": "B",
+        "text": "Um parâmetro SecureString do AWS Systems Manager Parameter Store"
+      },
+      {
+        "key": "C",
+        "text": "AWS Key Management Service"
+      },
+      {
+        "key": "D",
+        "text": "AWS Certificate Manager"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O Secrets Manager armazena segredos como credenciais de banco de dados e os rotaciona em um cronograma. O SecureString do Parameter Store pode guardar um valor criptografado, mas não oferece rotação de credenciais, o KMS gerencia chaves de criptografia e o ACM gerencia certificados TLS."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma equipe de segurança quer encontrar todos os buckets do S3, perfis (roles) do IAM e chaves do KMS da conta que estejam compartilhados com uma entidade fora da conta. Qual recurso ela deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "O relatório de credenciais do IAM"
+      },
+      {
+        "key": "B",
+        "text": "AWS Trusted Advisor"
+      },
+      {
+        "key": "C",
+        "text": "IAM Access Analyzer"
+      },
+      {
+        "key": "D",
+        "text": "O Histórico de eventos do AWS CloudTrail"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O IAM Access Analyzer identifica recursos como buckets, perfis e chaves do KMS que estão compartilhados com entidades externas. O relatório de credenciais lista usuários e o status das credenciais, e o CloudTrail registra chamadas de API em vez de analisar quem pode acessar um recurso."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa não definiu uma política de senhas personalizada do IAM. Qual afirmação descreve as senhas que seus usuários do IAM podem definir?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "As senhas expiram a cada 90 dias"
+      },
+      {
+        "key": "B",
+        "text": "As senhas precisam ter pelo menos 6 caracteres e nenhum tipo de caractere é exigido"
+      },
+      {
+        "key": "C",
+        "text": "Os usuários são bloqueados após cinco tentativas de login malsucedidas"
+      },
+      {
+        "key": "D",
+        "text": "As senhas precisam ter pelo menos 8 caracteres e três dos quatro tipos de caracteres, e nunca expiram"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "A política padrão exige de 8 a 128 caracteres com pelo menos três entre maiúsculas, minúsculas, números e símbolos, e as senhas nunca expiram. A expiração é uma configuração personalizada opcional, e o IAM não tem política de bloqueio de conta."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Um estagiário precisa ler relatórios em um bucket do S3 e nada além disso. Qual atribuição de permissões segue o princípio do privilégio mínimo?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A política gerenciada pela AWS AmazonS3FullAccess"
+      },
+      {
+        "key": "B",
+        "text": "Uma política gerenciada pelo cliente que permita somente ações de leitura nesse único bucket"
+      },
+      {
+        "key": "C",
+        "text": "A política AdministratorAccess, removida quando o estágio terminar"
+      },
+      {
+        "key": "D",
+        "text": "Uma política que permita todas as ações do S3 em todos os buckets da conta"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Privilégio mínimo significa apenas as ações necessárias, nos recursos específicos necessários. O acesso total ao S3 e o acesso de administrador concedem muito mais ações e recursos do que a tarefa exige."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "multi",
+    "text": "Quais tarefas só podem ser realizadas fazendo login como o usuário-raiz de uma conta independente da AWS? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Alterar o plano do AWS Support da conta"
+      },
+      {
+        "key": "B",
+        "text": "Encerrar a conta"
+      },
+      {
+        "key": "C",
+        "text": "Alterar o nome da conta"
+      },
+      {
+        "key": "D",
+        "text": "Habilitar o MFA Delete em um bucket do S3"
+      },
+      {
+        "key": "E",
+        "text": "Atualizar os contatos alternativos da conta"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "D"
+    ],
+    "explanation": "Encerrar uma conta independente e habilitar o S3 MFA Delete estão na lista oficial de tarefas exclusivas do usuário-raiz. O plano de Suporte, o nome da conta e os contatos alternativos podem ser alterados por identidades do IAM com as permissões adequadas."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "multi",
+    "text": "Uma equipe de segurança está revisando as opções de MFA para usuários do IAM. Quais afirmações refletem o comportamento atual do IAM? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Novos dispositivos MFA por mensagem de texto SMS podem ser habilitados para usuários do IAM"
+      },
+      {
+        "key": "B",
+        "text": "As chaves de acesso de longo prazo impõem MFA automaticamente em toda chamada da CLI"
+      },
+      {
+        "key": "C",
+        "text": "Passkeys e chaves de segurança são um tipo de MFA compatível e resistente a phishing"
+      },
+      {
+        "key": "D",
+        "text": "A política de senhas da conta também se aplica ao usuário-raiz"
+      },
+      {
+        "key": "E",
+        "text": "Um usuário do IAM pode registrar mais de um dispositivo MFA"
+      }
+    ],
+    "correctKeys": [
+      "C",
+      "E"
+    ],
+    "explanation": "O IAM oferece suporte a passkeys e chaves de segurança e permite até oito dispositivos MFA por usuário. O MFA por SMS não pode mais ser habilitado, chaves de acesso simples não carregam MFA (o MFA em chamadas de API exige credenciais temporárias do STS), e a política de senhas não cobre o usuário-raiz."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Um único endereço IP está enviando tráfego malicioso para todas as instâncias de uma sub-rede. A equipe quer bloqueá-lo no nível da sub-rede. O que ela deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Uma regra de negação da ACL de rede para esse endereço IP"
+      },
+      {
+        "key": "B",
+        "text": "Uma regra de negação de grupo de segurança para esse endereço IP"
+      },
+      {
+        "key": "C",
+        "text": "Uma política do IAM que negue o endereço IP"
+      },
+      {
+        "key": "D",
+        "text": "Uma avaliação do Amazon Inspector da sub-rede"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "As ACLs de rede atuam no nível da sub-rede e oferecem suporte a regras de negação. Os grupos de segurança têm apenas regras de permissão, as políticas do IAM controlam o acesso à API e não o tráfego de rede, e o Inspector encontra vulnerabilidades."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "O grupo de segurança de um servidor web e a ACL de rede da sua sub-rede permitem ambos HTTPS de entrada. As requisições chegam, mas as respostas nunca chegam aos clientes. Qual é a causa mais provável?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "O grupo de segurança precisa de uma regra de saída para o tráfego de resposta"
+      },
+      {
+        "key": "B",
+        "text": "O AWS Shield Standard está descartando as respostas"
+      },
+      {
+        "key": "C",
+        "text": "A ACL de rede não tem uma regra de saída que permita o tráfego de resposta"
+      },
+      {
+        "key": "D",
+        "text": "A instância precisa de um perfil (role) do IAM para enviar respostas"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "As ACLs de rede são stateless, então o tráfego de retorno deve ser permitido explicitamente nas regras de saída. Os grupos de segurança são stateful e permitem automaticamente as respostas às requisições permitidas."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Bots estão enviando fragmentos de SQL nas query strings de uma página de login que fica atrás de um Application Load Balancer. Qual serviço deve bloquear essas requisições?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Shield Standard"
+      },
+      {
+        "key": "B",
+        "text": "AWS WAF"
+      },
+      {
+        "key": "C",
+        "text": "Um grupo de segurança no balanceador de carga"
+      },
+      {
+        "key": "D",
+        "text": "Amazon GuardDuty"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O AWS WAF inspeciona requisições HTTP(S) na camada 7 e tem regras de correspondência para injeção de SQL. O Shield trata de DDoS, os grupos de segurança filtram por IP e porta sem olhar dentro das requisições, e o GuardDuty detecta ameaças, mas não bloqueia requisições."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma varejista online quer ajuda 24 horas por dia, 7 dias por semana, de especialistas em DDoS da AWS durante um ataque e quer que a AWS credite as cobranças de escalabilidade causadas por um ataque DDoS. Qual serviço oferece isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Shield Standard"
+      },
+      {
+        "key": "B",
+        "text": "AWS WAF isoladamente"
+      },
+      {
+        "key": "C",
+        "text": "Amazon GuardDuty"
+      },
+      {
+        "key": "D",
+        "text": "AWS Shield Advanced"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O Shield Advanced acrescenta o acesso à Shield Response Team (com um plano pago do AWS Support) e a proteção de custos na forma de créditos de serviço para cobranças de escalabilidade causadas por DDoS. O Shield Standard é uma proteção básica gratuita sem esses recursos, e o WAF e o GuardDuty não oferecem proteção de custos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa não assinou nenhum serviço de proteção contra DDoS. Qual proteção ela já tem?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Proteção do AWS Shield Standard contra ataques DDoS comuns das camadas de rede e de transporte, sem cobrança adicional"
+      },
+      {
+        "key": "B",
+        "text": "Mitigação automática de DDoS na camada de aplicação (camada 7), sem cobrança adicional"
+      },
+      {
+        "key": "C",
+        "text": "Acesso à Shield Response Team"
+      },
+      {
+        "key": "D",
+        "text": "Créditos de serviço para cobranças de escalabilidade causadas por ataques DDoS"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O Shield Standard é automático para todos os clientes da AWS e cobre ataques comuns das camadas 3 e 4. A mitigação de DDoS na camada 7, o acesso à SRT e a proteção de custos são recursos do Shield Advanced."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma equipe de segurança precisa aplicar as mesmas regras do AWS WAF e a mesma linha de base de grupos de segurança a 40 contas da sua organização, e as novas contas devem recebê-las automaticamente. Qual serviço ela deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Shield Advanced"
+      },
+      {
+        "key": "B",
+        "text": "AWS Control Tower Account Factory"
+      },
+      {
+        "key": "C",
+        "text": "AWS Firewall Manager"
+      },
+      {
+        "key": "D",
+        "text": "AWS Resource Access Manager"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O Firewall Manager aplica de forma centralizada políticas de WAF, Shield Advanced, grupos de segurança e ACLs de rede em contas do AWS Organizations, incluindo novas contas e recursos. O Account Factory cria contas, e o RAM compartilha recursos em vez de impor regras."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma instância EC2 começa de repente a se comunicar com um domínio conhecido por mineração de criptomoedas. Qual serviço gera um achado sobre esse comportamento?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Inspector"
+      },
+      {
+        "key": "B",
+        "text": "Amazon GuardDuty"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Macie"
+      },
+      {
+        "key": "D",
+        "text": "AWS Config"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O GuardDuty analisa continuamente logs de DNS, logs de fluxo da VPC e eventos do CloudTrail com inteligência de ameaças, e a mineração de criptomoedas é um cenário que ele detecta. O Inspector procura vulnerabilidades, o Macie procura dados sensíveis e o Config trata da conformidade de configuração."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma equipe quer que toda nova imagem de contêiner enviada ao Amazon ECR seja examinada automaticamente em busca de vulnerabilidades de software conhecidas (CVEs). Qual serviço ela deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon GuardDuty"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Detective"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Macie"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Inspector"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O Inspector examina continuamente instâncias EC2, imagens de contêiner do ECR e funções Lambda em busca de vulnerabilidades de software. O GuardDuty detecta ameaças ativas, o Detective investiga achados e o Macie procura dados sensíveis."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "A equipe jurídica pergunta quais dos buckets do S3 da empresa contêm números de passaporte. Qual serviço pode descobrir isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Macie"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Inspector"
+      },
+      {
+        "key": "C",
+        "text": "Amazon GuardDuty"
+      },
+      {
+        "key": "D",
+        "text": "AWS Security Hub"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O Macie usa aprendizado de máquina e correspondência de padrões para descobrir dados sensíveis, como PII, no S3. O Inspector e o GuardDuty não procuram PII, e o Security Hub agrega achados de serviços como o Macie em vez de examinar os dados em si."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Após um achado do GuardDuty, os analistas precisam investigar a causa raiz visualizando a atividade de um perfil (role) do IAM e o tráfego de rede relacionado ao longo dos últimos meses. Qual serviço foi projetado para isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Security Hub"
+      },
+      {
+        "key": "B",
+        "text": "AWS Trusted Advisor"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Detective"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Inspector"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O Detective constrói um grafo de comportamento a partir do CloudTrail, dos logs de fluxo da VPC e dos achados do GuardDuty para investigar causas raiz, com até um ano de histórico. O Security Hub agrega achados, o Trusted Advisor dá recomendações e o Inspector encontra vulnerabilidades."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Um CISO quer um único lugar que reúna os achados do GuardDuty, do Inspector e do Macie e também execute verificações automatizadas em relação aos benchmarks do CIS e ao AWS Foundational Security Best Practices. Qual serviço atende a essa necessidade?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon GuardDuty"
+      },
+      {
+        "key": "B",
+        "text": "AWS Security Hub"
+      },
+      {
+        "key": "C",
+        "text": "AWS Config"
+      },
+      {
+        "key": "D",
+        "text": "AWS Artifact"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O Security Hub agrega achados de serviços da AWS e de parceiros e executa verificações automatizadas em relação a padrões de segurança. O GuardDuty é uma das fontes de achados, o Config registra configurações e o Artifact fornece os relatórios de conformidade da AWS."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa ainda não habilitou nenhum serviço de segurança. Ela quer que uma ferramenta já existente da AWS relate grupos de segurança que deixam portas específicas sem restrição e se o usuário-raiz tem MFA habilitado. Qual ferramenta ela deve consultar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Inspector"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Macie"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Detective"
+      },
+      {
+        "key": "D",
+        "text": "AWS Trusted Advisor"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "As verificações de segurança do Trusted Advisor incluem grupos de segurança com portas específicas sem restrição e MFA na conta-raiz, e elas fazem parte do conjunto básico de verificações. O Inspector, o Macie e o Detective servem a outros propósitos: vulnerabilidades, dados sensíveis e investigações."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa serve seu site pelo Amazon CloudFront e quer um certificado TLS público que se renove automaticamente. O que ela deve fazer?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Solicitar um certificado público no AWS Certificate Manager na Região Leste dos EUA (N. da Virgínia)"
+      },
+      {
+        "key": "B",
+        "text": "Armazenar o certificado no AWS Secrets Manager e habilitar a rotação"
+      },
+      {
+        "key": "C",
+        "text": "Fazer upload do certificado como um certificado de servidor do IAM em todas as Regiões"
+      },
+      {
+        "key": "D",
+        "text": "Gerar o certificado no AWS CloudHSM"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O ACM emite e renova certificados públicos para serviços integrados, e os certificados para o CloudFront devem estar em Leste dos EUA (N. da Virgínia). Os certificados de servidor do IAM são apenas para Regiões que o ACM não suporta, e o Secrets Manager e o CloudHSM não emitem certificados."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa quer encontrar, testar e implantar um produto de proteção de endpoints de terceiros que seja executado no seu ambiente da AWS. Onde ela deve procurar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Artifact"
+      },
+      {
+        "key": "B",
+        "text": "AWS Marketplace"
+      },
+      {
+        "key": "C",
+        "text": "AWS Security Hub"
+      },
+      {
+        "key": "D",
+        "text": "AWS Trusted Advisor"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O AWS Marketplace lista software de segurança de terceiros para encontrar, testar, comprar e implantar. O Artifact fornece documentos de conformidade, o Security Hub agrega achados e o Trusted Advisor dá verificações de melhores práticas."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma empresa quer que workloads com reconhecimento de diretório na AWS enviem solicitações de autenticação ao seu Microsoft Active Directory existente no local, em vez de executar um diretório separado na AWS. Qual opção atende?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Simple AD"
+      },
+      {
+        "key": "B",
+        "text": "Um pool de usuários do Amazon Cognito"
+      },
+      {
+        "key": "C",
+        "text": "AD Connector no AWS Directory Service"
+      },
+      {
+        "key": "D",
+        "text": "AWS Managed Microsoft AD"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O AD Connector é um proxy que redireciona as solicitações para um Active Directory no local. O AWS Managed Microsoft AD e o Simple AD são diretórios executados na AWS, e o Cognito é para usuários de aplicativos web e móveis."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "single",
+    "text": "Uma equipe de redes quer que outras contas da sua organização iniciem recursos em sub-redes de VPC pertencentes à conta de redes, sem custo extra. Qual serviço permite isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Firewall Manager"
+      },
+      {
+        "key": "B",
+        "text": "AWS Control Tower"
+      },
+      {
+        "key": "C",
+        "text": "AWS IAM Identity Center"
+      },
+      {
+        "key": "D",
+        "text": "AWS Resource Access Manager"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O AWS RAM compartilha recursos como sub-redes de VPC com outras contas, OUs ou toda a organização sem cobrança adicional. O Firewall Manager aplica regras, o Control Tower configura uma landing zone e o Identity Center gerencia o login da força de trabalho."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "multi",
+    "text": "Um arquiteto está comparando grupos de segurança com ACLs de rede. Quais afirmações sobre grupos de segurança estão corretas? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Avaliam as regras em ordem crescente de número da regra e param na primeira correspondência"
+      },
+      {
+        "key": "B",
+        "text": "Oferecem suporte apenas a regras de permissão"
+      },
+      {
+        "key": "C",
+        "text": "Estão associados a uma sub-rede e se aplicam a todas as instâncias nela"
+      },
+      {
+        "key": "D",
+        "text": "Permitem automaticamente o tráfego de retorno para requisições de entrada permitidas"
+      },
+      {
+        "key": "E",
+        "text": "Podem ser associados apenas a instâncias do Amazon EC2"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "D"
+    ],
+    "explanation": "Os grupos de segurança são stateful e têm apenas regras de permissão. A avaliação numerada com primeira correspondência e a associação a sub-redes descrevem as ACLs de rede, e os grupos de segurança também se associam a recursos como instâncias RDS e balanceadores de carga."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "security",
+    "type": "multi",
+    "text": "Um novo engenheiro de segurança está associando serviços da AWS ao que eles fazem. Quais associações estão corretas? (Escolha três.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Macie: examinar funções Lambda em busca de vulnerabilidades de software"
+      },
+      {
+        "key": "B",
+        "text": "Amazon GuardDuty: detecção contínua de ameaças a partir de eventos do CloudTrail, logs de fluxo da VPC e logs de DNS"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Inspector: examinar instâncias EC2, imagens do ECR e funções Lambda em busca de vulnerabilidades"
+      },
+      {
+        "key": "D",
+        "text": "AWS Security Hub: baixar os relatórios SOC da AWS"
+      },
+      {
+        "key": "E",
+        "text": "Amazon Detective: investigar a causa raiz de achados com um grafo de comportamento"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "C",
+      "E"
+    ],
+    "explanation": "O GuardDuty detecta ameaças, o Inspector encontra vulnerabilidades e o Detective investiga causas raiz. O Macie descobre dados sensíveis no S3, e os relatórios SOC da AWS vêm do AWS Artifact, não do Security Hub."
+  }
+]
