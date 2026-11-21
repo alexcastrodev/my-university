@@ -1,0 +1,47 @@
+{
+  "id": 2,
+  "title": "Security and Compliance",
+  "lessons": [
+    {
+      "id": "clf-2-1",
+      "title": "The AWS Shared Responsibility Model: Who Secures What, Service by Service",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/2-1-shared-responsibility-model.md"
+    },
+    {
+      "id": "clf-2-2",
+      "title": "Security, Governance and Compliance: Encryption, KMS, Artifact, Organizations and Audit Logs",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/2-2-security-governance-and-compliance.md"
+    },
+    {
+      "id": "clf-2-3",
+      "title": "Access Management: IAM, the Root User, MFA, Roles, Identity Center and Cognito",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/2-3-access-management-iam.md"
+    },
+    {
+      "id": "clf-2-4",
+      "title": "Security Components: Network Filters, WAF, Shield, Detection Services and Where to Learn More",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/2-4-security-services-and-resources.md"
+    },
+    {
+      "id": "clf-2-check",
+      "title": "Skill Check: Security and Compliance",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null,
+      "topic": "security"
+    }
+  ]
+}
