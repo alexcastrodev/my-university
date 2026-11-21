@@ -270,7 +270,8 @@
         "url": "https://www.w3.org/TR/webauthn-3/",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/identity-concepts/mfa-factors-hotp-totp-sms-push-and-recovery"
   },
   {
     "slug": "webauthn-fido2-and-passkeys-concepts",
@@ -561,7 +562,8 @@
         "url": "https://www.keycloak.org/securing-apps/saml-galleon-layers",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/identity-concepts/saml-2-assertions-bindings-and-sso-flows"
   },
   {
     "slug": "session-management-cookies-fixation-and-revocation",
@@ -842,7 +844,8 @@
         "url": "https://cheatsheetseries.owasp.org/cheatsheets/LDAP_Injection_Prevention_Cheat_Sheet.html",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/identity-concepts/ldap-directories-dn-schema-and-binds"
   },
   {
     "slug": "active-directory-and-entra-id-domains-forests-and-hybrid",
@@ -1162,7 +1165,8 @@
         "url": "https://www.keycloak.org/docs/latest/server_admin/index.html",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/identity-concepts/oauth-2-roles-grants-and-tokens-from-first-principles"
   },
   {
     "slug": "oidc-id-token-userinfo-discovery-and-logout",
@@ -1708,7 +1712,8 @@
         "url": "https://www.rfc-editor.org/rfc/rfc9396",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/identity-concepts/authorization-models-rbac-abac-rebac-and-policy-engines"
   },
   {
     "slug": "scim-provisioning-and-the-identity-lifecycle",

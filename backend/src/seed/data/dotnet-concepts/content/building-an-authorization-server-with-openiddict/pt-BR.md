@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-19
+version: 1.1
+updatedAt: 2026-11-21
 title: "Construindo um Servidor de Autorização com OpenIddict"
 summary: Um servidor OAuth 2.0 e OpenID Connect em ASP.NET Core com OpenIddict, medido com curl contra um servidor de laboratório com SQLite e uma API separada, com as quatro tabelas, PKCE e erros de redirect_uri, destinos de claims, access token criptografado contra JWT, revogação e introspecção, rotação de refresh token e de chaves, tokens de referência, PAR, mTLS e DPoP; e a decisão contra Duende IdentityServer e produtos prontos.
 ---
@@ -167,6 +167,8 @@ ROLLING=off        (DisableRollingRefreshTokens) RT0 reusado 3 vezes -> ok; 4 li
 ```
 
 O `RefreshTokenReuseLeeway` padrão de 30 segundos tolera um client que tenta de novo depois de uma resposta perdida, ao custo de uma janela curta de gasto duplo. Passada essa janela, o reuso é tratado como roubo e a cadeia inteira morre, o mesmo sinal do replay de code. Desligar a rotação remove a detecção: um refresh token roubado funciona até expirar. Os access tokens já emitidos da cadeia continuam funcionando numa API com JwtBearer pelo resto da vida deles (veja acima). Ao renovar, reconfira o usuário no seu handler (conta desativada, senha trocada); essa parte é código seu (só documentação).
+
+A revogação em cadeia também exige um store com suporte a bulk update. No lab (OpenIddict 7.9.0), com o provider `UseInMemoryDatabase` do EF Core, reusar um code ou refresh token já resgatado só gravou um warning (`An error occurred while trying to revoke the tokens associated with the authorization`) e o access token continuou válido; o lab usa SQLite `:memory:` com uma conexão aberta por host para a revogação acontecer de verdade. Teste a detecção de replay no store que você vai usar em produção.
 
 ### Chaves de assinatura e rotação
 

@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-30
+version: 1.1
+updatedAt: 2026-11-21
 ---
 ## Objective
 
@@ -58,10 +58,16 @@ an empty description, so name lambdas: `Create(delegate, "GetTime", "...")`.
 
 `AIFunctionFactoryOptions` sets `Name`, `Description` and `SerializerOptions`.
 The default, `AIJsonUtilities.DefaultOptions`, is camelCase with
-`JsonStringEnumConverter`. With a plain `JsonSerializerOptions` the record's
-properties became `City`/`Country`, `unit` became `{"type":"integer"}`, and the
-camelCase argument `{"city":"Lisbon"}` bound silently to `Location { City = ,
-Country = }`, no error. Schema and binding must share the same options.
+`JsonStringEnumConverter`. A bare `new JsonSerializerOptions()` does not even
+get that far: `Create` threw `InvalidOperationException: JsonSerializerOptions
+instance must specify a TypeInfoResolver setting before being marked as
+read-only` (re-measured with 10.11.0 in the lab). Options that do have a
+resolver, such as `JsonSerializerOptions.Default` or
+`new() { TypeInfoResolver = new DefaultJsonTypeInfoResolver() }`, create the
+function, but the record's properties became `City`/`Country`, `unit` became
+`{"type":"integer"}`, and the camelCase argument `{"city":"Lisbon"}` bound
+silently to `Location { City = , Country = }`, no error. Schema and binding
+must share the same options.
 
 ### What reaches Ollama, and ToolMode
 

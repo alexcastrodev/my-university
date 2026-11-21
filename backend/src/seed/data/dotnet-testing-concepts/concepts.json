@@ -1962,7 +1962,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.pipelines.pipe",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-mcp-servers-in-process-and-with-the-inspector"
   },
   {
     "slug": "testing-domain-events-with-mstest",

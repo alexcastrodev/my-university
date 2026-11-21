@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-19
+version: 1.1
+updatedAt: 2026-11-21
 title: "SAML 2.0: Assertions, Bindings e Fluxos de SSO"
 summary: SAML 2.0 medido no fio contra um Keycloak 26.8.2 local como IdP. O fluxo SP-initiated com Redirect e POST binding contra o IdP-initiated (sem InResponseTo), o AuthnRequest e o Response decodificados de base64 e deflate, a Assertion anotada elemento a elemento (Issuer, NameID, Conditions, AudienceRestriction, SubjectConfirmationData, AuthnStatement, AttributeStatement), a metadata XML, a assinatura XMLDSig (C14N, Reference por ID), a lista de validações obrigatórias do SP cada uma falhada de propósito, o ataque XML Signature Wrapping contra um verificador de brinquedo, mapeamento de atributos para papéis, Single Logout e SAML contra OIDC.
 ---
@@ -195,6 +195,8 @@ lê o nó assinado, não a primeira ocorrência. Forjar um embrulho que derrote 
 biblioteca endurecida e mantida fica docs only aqui: é a família XSW documentada
 (OWASP XML Security Cheat Sheet, e Somorovsky et al., "On Breaking SAML"),
 derrotada validando posição, não só a criptografia.
+
+O lab em .NET desta lição mostrou uma segunda armadilha: `SignedXml.CheckSignature` continuou devolvendo true quando uma cópia sem assinatura com o mesmo `ID` ficava antes da assertion assinada, porque a referência é resolvida por ID em qualquer lugar do documento. O SP precisa recusar o documento em que esse ID aparece duas vezes e ler só o elemento que a assinatura cobre.
 
 ### Atributos para papéis, e Single Logout (medido)
 

@@ -80,7 +80,8 @@
         "url": "https://www.nuget.org/packages/Microsoft.Extensions.AI.Ollama",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-ai-concepts/meai-ichatclient-and-middleware-pipeline"
   },
   {
     "slug": "structured-output-with-typed-responses",
@@ -160,7 +161,8 @@
         "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/structured-outputs",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-ai-concepts/structured-output-with-typed-responses"
   },
   {
     "slug": "tool-calling-with-aifunction",
@@ -235,7 +237,8 @@
         "url": "https://github.com/dotnet/extensions/blob/main/src/Libraries/Microsoft.Extensions.AI/README.md",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-ai-concepts/tool-calling-with-aifunction"
   },
   {
     "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
@@ -350,7 +353,8 @@
         "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.4.0",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-ai-concepts/mcp-servers-and-clients-with-the-csharp-sdk"
   },
   {
     "slug": "agent-framework-agents-sessions-and-tools",
@@ -981,7 +985,8 @@
         "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.0.0",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-ai-concepts/mcp-authorization-flow-401-discovery-and-token-validation"
   },
   {
     "slug": "mcp-client-registration-cimd-dcr-and-pre-registration",
