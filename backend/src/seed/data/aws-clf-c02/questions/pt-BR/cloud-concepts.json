@@ -1,0 +1,1366 @@
+[
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma equipe de produto de uma empresa de varejo costumava esperar três semanas por hardware antes de cada teste de campanha. Na AWS, ela provisiona uma pilha de teste completa em minutos e a descarta quando o teste termina. Qual vantagem da computação em nuvem isso melhor ilustra?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Aproveitar economias de escala em grande volume"
+      },
+      {
+        "key": "B",
+        "text": "Trocar despesa fixa por despesa variável"
+      },
+      {
+        "key": "C",
+        "text": "Aumentar a velocidade e a agilidade"
+      },
+      {
+        "key": "D",
+        "text": "Alcançar o mundo todo em minutos"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Reduzir a espera por recursos de semanas para minutos, e tornar os experimentos baratos, é a vantagem de velocidade e agilidade. Economias de escala tratam de custos menores do provedor, despesa variável trata de como você paga, e alcançar o mundo todo trata de Regiões."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma startup de jogos comprou servidores para o pico do dia de lançamento e viu a maioria deles ficar ociosa por meses, mas o primeiro fim de semana viral ainda sobrecarregou o que ela possuía. Qual vantagem da nuvem elimina esse problema?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Parar de gastar dinheiro operando e mantendo data centers"
+      },
+      {
+        "key": "B",
+        "text": "Parar de adivinhar a capacidade"
+      },
+      {
+        "key": "C",
+        "text": "Alcançar o mundo todo em minutos"
+      },
+      {
+        "key": "D",
+        "text": "Aproveitar economias de escala em grande volume"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Com recursos na nuvem, você usa tanta capacidade quanto precisar, ou tão pouca, e escala em pouco tempo, então deixa de prevê-la. As outras vantagens tratam da operação de data centers, do alcance geográfico e do preço do provedor."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "O departamento de TI de um hospital quer que seus engenheiros deixem de montar, cabear e alimentar servidores para poderem criar aplicações voltadas aos pacientes. Qual vantagem a AWS cita para isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Parar de gastar dinheiro operando e mantendo data centers"
+      },
+      {
+        "key": "B",
+        "text": "Aumentar a velocidade e a agilidade"
+      },
+      {
+        "key": "C",
+        "text": "Parar de adivinhar a capacidade"
+      },
+      {
+        "key": "D",
+        "text": "Trocar despesa fixa por despesa variável"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "A AWS descreve essa vantagem como concentrar-se no que diferencia o negócio em vez do trabalho pesado de montar, empilhar e alimentar servidores. Agilidade trata da velocidade de provisionamento, e as outras duas tratam de capacidade e de modelo de pagamento."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Um diretor financeiro pergunta por que a AWS consegue continuar reduzindo seus preços de pagamento conforme o uso à medida que o negócio cresce. Qual explicação corresponde às vantagens que a AWS publica?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Clientes com compromissos reservados subsidiam o preço sob demanda de todos os outros"
+      },
+      {
+        "key": "B",
+        "text": "O preço de pagamento conforme o uso reduz automaticamente a tarifa de cada cliente após cada mês de faturamento"
+      },
+      {
+        "key": "C",
+        "text": "Ter Regiões em muitos países torna cada serviço mais barato de operar"
+      },
+      {
+        "key": "D",
+        "text": "A AWS agrega o uso de um número muito grande de clientes e alcança economias de escala maiores"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O uso agregado de muitos clientes dá à AWS economias de escala, que ela repassa na forma de preços menores. O pagamento conforme o uso é um modelo de preço, os compromissos reservados são um desconto à parte, e o alcance global é outra vantagem."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Um arquiteto está documentando a infraestrutura global da AWS para uma equipe nova. Qual afirmação reflete o mínimo oficialmente publicado de Zonas de Disponibilidade em uma Região?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Toda Região tem exatamente duas Zonas de Disponibilidade"
+      },
+      {
+        "key": "B",
+        "text": "Algumas Regiões têm uma única Zona de Disponibilidade"
+      },
+      {
+        "key": "C",
+        "text": "Toda Região tem pelo menos seis Zonas de Disponibilidade"
+      },
+      {
+        "key": "D",
+        "text": "Toda Região tem no mínimo três Zonas de Disponibilidade"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "A AWS declara um mínimo de três AZs isoladas e fisicamente separadas por Região. Material mais antigo que diz duas está desatualizado, e nada oficial estabelece um piso maior, como seis."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "Um arquiteto de soluções revisa afirmações sobre Zonas de Disponibilidade. Quais DUAS estão corretas? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "As Zonas de Disponibilidade replicam automaticamente os dados dos clientes para todas as outras Regiões"
+      },
+      {
+        "key": "B",
+        "text": "Todas as Zonas de Disponibilidade de uma Região compartilham os mesmos prédios para manter a latência baixa"
+      },
+      {
+        "key": "C",
+        "text": "Usar várias Zonas de Disponibilidade isola uma aplicação de problemas em uma única Zona de Disponibilidade"
+      },
+      {
+        "key": "D",
+        "text": "Uma Zona de Disponibilidade é um local de cache usado pelo Amazon CloudFront"
+      },
+      {
+        "key": "E",
+        "text": "Uma Zona de Disponibilidade consiste em um ou mais data centers distintos com energia, rede e conectividade redundantes"
+      }
+    ],
+    "correctKeys": [
+      "C",
+      "E"
+    ],
+    "explanation": "As AZs são data centers distintos com energia e rede redundantes, e distribuir a aplicação entre elas isola problemas de uma única AZ. As AZs não replicam dados entre Regiões por conta própria, são fisicamente separadas, e os pontos de presença (não as AZs) hospedam os caches do CloudFront."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma empresa executa seu portal de clientes em uma única instância EC2 em uma única Zona de Disponibilidade. O negócio agora exige que o portal continue funcionando se o prédio do data center por trás dessa AZ for perdido, e quer a mudança menos complexa. O que o arquiteto deve fazer?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Substituir a instância por um tipo de instância maior na mesma Zona de Disponibilidade"
+      },
+      {
+        "key": "B",
+        "text": "Construir uma cópia ativa/ativa completa do portal em uma segunda Região"
+      },
+      {
+        "key": "C",
+        "text": "Colocar uma distribuição do Amazon CloudFront na frente da instância existente"
+      },
+      {
+        "key": "D",
+        "text": "Executar instâncias em pelo menos duas Zonas de Disponibilidade da mesma Região atrás de um balanceador de carga"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Distribuir instâncias entre AZs isola o portal de uma falha em uma AZ, e um balanceador de carga encaminha os usuários para instâncias íntegras. Uma instância maior continua na AZ que falhou, o CloudFront faz cache de conteúdo mas não substitui a origem, e uma segunda Região funciona mas é muito mais complexa do que o necessário."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Pede-se a um engenheiro que explique tolerância a falhas a um gerente de negócios. Qual descrição é precisa?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "O workload adiciona instâncias quando o tráfego cresce e as remove quando ele cai"
+      },
+      {
+        "key": "B",
+        "text": "A capacidade redundante de reserva pode assumir todo o trabalho de um componente que falhou, então o workload continua funcionando"
+      },
+      {
+        "key": "C",
+        "text": "O workload pode ser implantado em várias Regiões com poucos cliques"
+      },
+      {
+        "key": "D",
+        "text": "O preço por unidade cai à medida que o uso total do provedor cresce"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Tolerância a falhas é suportar a falha de um subsistema porque a capacidade redundante de reserva pode assumir o trabalho. As outras descrições são elasticidade, alcance global e economias de escala."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma empresa de streaming mantém seu catálogo de vídeos em uma Região. Espectadores em outro continente relatam lentidão no carregamento das miniaturas, e a empresa não quer mover os dados da origem. Qual parte da infraestrutura global da AWS resolve isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Pontos de presença que armazenam conteúdo em cache perto dos espectadores, por exemplo por meio do Amazon CloudFront"
+      },
+      {
+        "key": "B",
+        "text": "Uma Zona de Disponibilidade adicional na Região de origem"
+      },
+      {
+        "key": "C",
+        "text": "Tipos de instância maiores para os servidores de origem"
+      },
+      {
+        "key": "D",
+        "text": "Uma cópia do catálogo em cada Zona de Disponibilidade da Região de origem"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Os pontos de presença armazenam conteúdo em cache perto dos usuários e reduzem a latência sem mudar onde os dados ficam. Mais AZs ou instâncias maiores na Região de origem não encurtam a distância até espectadores distantes."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Qual dos itens a seguir NÃO é uma das seis vantagens da computação em nuvem que a AWS lista?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Transferir toda a responsabilidade de segurança e de conformidade para a AWS"
+      },
+      {
+        "key": "B",
+        "text": "Alcançar o mundo todo em minutos"
+      },
+      {
+        "key": "C",
+        "text": "Parar de adivinhar a capacidade"
+      },
+      {
+        "key": "D",
+        "text": "Trocar despesa fixa por despesa variável"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "As seis da AWS são despesa fixa para variável, economias de escala, parar de adivinhar a capacidade, velocidade e agilidade, parar de gastar com data centers e alcançar o mundo todo em minutos. A responsabilidade é compartilhada, então nenhuma das seis elimina os deveres de segurança do cliente."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Um runbook define uma meta de disponibilidade de 99,99 por cento para uma aplicação. Aproximadamente quanta interrupção por ano essa meta permite?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Cerca de 9 horas"
+      },
+      {
+        "key": "B",
+        "text": "Cerca de 52 minutos"
+      },
+      {
+        "key": "C",
+        "text": "Cerca de 5 minutos"
+      },
+      {
+        "key": "D",
+        "text": "Cerca de 3,5 dias"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Com 99,99 por cento de disponibilidade, a interrupção permitida é de aproximadamente 52 minutos por ano. Cerca de 9 horas corresponde a 99,9 por cento, cerca de 5 minutos corresponde a 99,999 por cento, e cerca de 3,5 dias corresponde a 99 por cento."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "Quais DUAS afirmações sobre o AWS Well-Architected Framework estão corretas? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Segurança e excelência operacional geralmente não são sacrificadas em favor dos outros pilares"
+      },
+      {
+        "key": "B",
+        "text": "O pilar Confiabilidade foi renomeado para Resiliência na última reestruturação"
+      },
+      {
+        "key": "C",
+        "text": "Ele se baseia em seis pilares, incluindo a Sustentabilidade"
+      },
+      {
+        "key": "D",
+        "text": "Uma revisão é uma auditoria formal que certifica um workload como em conformidade com os padrões da AWS"
+      },
+      {
+        "key": "E",
+        "text": "Ele tem cinco pilares, e a Sustentabilidade faz parte da Otimização de custos"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C"
+    ],
+    "explanation": "O Framework tem seis pilares, e os trade-offs entre eles dependem do contexto do negócio, exceto que segurança e excelência operacional geralmente são mantidas. Uma revisão é uma conversa construtiva, não uma auditoria, e os nomes dos pilares não mudaram."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma equipe de plataforma define sua infraestrutura e suas etapas de implantação como código, entrega mudanças pequenas e frequentes e revisa cada incidente para melhorar seus runbooks. Qual pilar do Well-Architected a equipe está fortalecendo principalmente?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Excelência operacional"
+      },
+      {
+        "key": "B",
+        "text": "Confiabilidade"
+      },
+      {
+        "key": "C",
+        "text": "Eficiência de performance"
+      },
+      {
+        "key": "D",
+        "text": "Otimização de custos"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Executar workloads com eficácia, obter visibilidade das operações e melhorar continuamente os procedimentos é a intenção da Excelência operacional. A Confiabilidade trata de se recuperar e de ter desempenho consistente, e os outros dois tratam de eficiência e de gastos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Um banco de dados faz failover automático para um standby em outra Zona de Disponibilidade, e a aplicação retoma a operação em minutos sem nenhuma ação da equipe. Qual pilar do Well-Architected esse design atende principalmente?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Confiabilidade"
+      },
+      {
+        "key": "B",
+        "text": "Eficiência de performance"
+      },
+      {
+        "key": "C",
+        "text": "Otimização de custos"
+      },
+      {
+        "key": "D",
+        "text": "Segurança"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "A recuperação automática de uma interrupção é o núcleo do pilar Confiabilidade, cujo foco principal é a resiliência. Um standby adiciona custo em vez de reduzi-lo, e não visa velocidade nem controle de acesso."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Quando a AWS lança uma nova família de instâncias, uma equipe de engenharia reavalia suas escolhas de computação e adota a nova família se ela atender aos requisitos com mais eficiência. A intenção de qual pilar é essa?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Eficiência de performance"
+      },
+      {
+        "key": "B",
+        "text": "Otimização de custos"
+      },
+      {
+        "key": "C",
+        "text": "Confiabilidade"
+      },
+      {
+        "key": "D",
+        "text": "Excelência operacional"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "A Eficiência de performance trata de usar recursos com eficiência para atender aos requisitos e manter essa eficiência conforme a demanda e a tecnologia evoluem. Um custo menor pode vir como consequência, mas a intenção descrita é continuar eficiente à medida que as ofertas mudam."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma empresa quer medir o impacto ambiental de seus workloads e reduzir os recursos que provisiona para diminuir esse impacto. Qual pilar do Well-Architected se encaixa nesse objetivo?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Otimização de custos"
+      },
+      {
+        "key": "B",
+        "text": "Sustentabilidade"
+      },
+      {
+        "key": "C",
+        "text": "Excelência operacional"
+      },
+      {
+        "key": "D",
+        "text": "Eficiência de performance"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Medir o impacto ambiental e provisionar apenas o necessário são capacidades do pilar Sustentabilidade, adicionado em dezembro de 2021. A Otimização de custos foca no preço, não no impacto ambiental."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Um consultor lista os pilares do AWS Well-Architected Framework para um cliente. Qual item da lista NÃO é um pilar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Resiliência"
+      },
+      {
+        "key": "B",
+        "text": "Sustentabilidade"
+      },
+      {
+        "key": "C",
+        "text": "Eficiência de performance"
+      },
+      {
+        "key": "D",
+        "text": "Excelência operacional"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "A resiliência é o foco principal do pilar Confiabilidade, mas não é um pilar por si só. Os outros três estão entre os seis pilares."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "Quais DUAS das opções a seguir são perspectivas do AWS Cloud Adoption Framework (AWS CAF)? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Rede"
+      },
+      {
+        "key": "B",
+        "text": "Conformidade"
+      },
+      {
+        "key": "C",
+        "text": "Finanças"
+      },
+      {
+        "key": "D",
+        "text": "Governança"
+      },
+      {
+        "key": "E",
+        "text": "Plataforma"
+      }
+    ],
+    "correctKeys": [
+      "D",
+      "E"
+    ],
+    "explanation": "As seis perspectivas do CAF são Negócios, Pessoas, Governança, Plataforma, Segurança e Operações. Conformidade, rede e finanças não são perspectivas."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma empresa cria um ambiente de desenvolvimento de curta duração e quer reduzir custo e impacto ambiental. De acordo com a orientação do Framework sobre trade-offs, qual escolha geralmente é aceitável?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Dispensar controles de identidade e de acesso porque nenhum cliente o usa"
+      },
+      {
+        "key": "B",
+        "text": "Abandonar práticas de excelência operacional, como operações como código"
+      },
+      {
+        "key": "C",
+        "text": "Aceitar uma meta de confiabilidade menor para esse ambiente"
+      },
+      {
+        "key": "D",
+        "text": "Ignorar o modelo de responsabilidade compartilhada para esse ambiente"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O Framework dá exatamente esse tipo de exemplo: sacrificar confiabilidade em favor de custo e sustentabilidade em desenvolvimento. Segurança e excelência operacional geralmente não são sacrificadas em favor dos outros pilares."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Um site de venda de ingressos inicia instâncias extras durante os eventos de venda e as encerra depois, sem nenhuma ação da equipe. Qual propriedade da nuvem descreve esse comportamento?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Tolerância a falhas"
+      },
+      {
+        "key": "B",
+        "text": "Escalonamento vertical"
+      },
+      {
+        "key": "C",
+        "text": "Elasticidade"
+      },
+      {
+        "key": "D",
+        "text": "Economias de escala"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Elasticidade significa adquirir recursos conforme necessário e liberá-los quando não forem mais necessários, automaticamente na nuvem. Tolerância a falhas trata de sobreviver a falhas, e o escalonamento vertical muda o tamanho de um único servidor."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Um servidor de banco de dados é redimensionado de 4 vCPUs para 16 vCPUs ao mudar seu tipo de instância. Que tipo de escalonamento é esse?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Escalonamento horizontal"
+      },
+      {
+        "key": "B",
+        "text": "Escalonamento vertical"
+      },
+      {
+        "key": "C",
+        "text": "Escalonamento serverless"
+      },
+      {
+        "key": "D",
+        "text": "Escalonamento entre Regiões"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Adicionar recursos a um único computador é escalonamento vertical. O escalonamento horizontal adiciona mais computadores ao sistema."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma camada web precisa substituir automaticamente instâncias com problemas e enviar as solicitações dos usuários somente para as íntegras. Qual combinação atende às duas necessidades?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Somente um grupo do EC2 Auto Scaling"
+      },
+      {
+        "key": "B",
+        "text": "Somente um balanceador de carga do Elastic Load Balancing"
+      },
+      {
+        "key": "C",
+        "text": "O Amazon CloudFront na frente de uma única instância maior"
+      },
+      {
+        "key": "D",
+        "text": "Um grupo do EC2 Auto Scaling junto com um balanceador de carga do Elastic Load Balancing"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O Auto Scaling inicia e substitui instâncias para manter a capacidade desejada, enquanto o balanceador de carga verifica a integridade dos destinos e encaminha o tráfego somente para destinos íntegros. Cada um sozinho cobre apenas metade do requisito."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma equipe pequena quer enviar o código de sua aplicação web e deixar que a AWS cuide do provisionamento de instâncias, do balanceamento de carga, do monitoramento de integridade e do escalonamento, sem cobrança adicional além dos recursos subjacentes. Qual serviço se encaixa?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Instâncias do Amazon EC2 iniciadas manualmente"
+      },
+      {
+        "key": "B",
+        "text": "AWS Elastic Beanstalk"
+      },
+      {
+        "key": "C",
+        "text": "AWS CloudFormation"
+      },
+      {
+        "key": "D",
+        "text": "AWS Systems Manager"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O Elastic Beanstalk recebe a aplicação e provisiona e gerencia o ambiente ao redor dela. Instâncias EC2 iniciadas manualmente deixam tudo isso para a equipe, e o CloudFormation ou o Systems Manager não implantam nem executam a aplicação para você."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "Uma empresa que migra um banco de dados Oracle no local (on-premises) para o Amazon Aurora PostgreSQL precisa converter o esquema e depois manter os dados replicando até o cutover. Quais DOIS serviços da AWS são necessários? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Migration Evaluator"
+      },
+      {
+        "key": "B",
+        "text": "AWS Schema Conversion Tool"
+      },
+      {
+        "key": "C",
+        "text": "AWS Application Migration Service"
+      },
+      {
+        "key": "D",
+        "text": "AWS Database Migration Service"
+      },
+      {
+        "key": "E",
+        "text": "AWS Pricing Calculator"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "D"
+    ],
+    "explanation": "O SCT converte o esquema entre mecanismos diferentes, e o DMS move e replica continuamente os dados. O Application Migration Service faz rehost de servidores, o Migration Evaluator monta um business case, e o Pricing Calculator estima custos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma empresa precisa de código que seja executado somente quando um arquivo for enviado, não exija gerenciamento de servidores, escale automaticamente e não custe nada enquanto estiver ocioso. Qual opção de computação se encaixa?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Instâncias sob demanda do Amazon EC2 mantidas em execução"
+      },
+      {
+        "key": "B",
+        "text": "Amazon EC2 Dedicated Hosts"
+      },
+      {
+        "key": "C",
+        "text": "Um grupo do EC2 Auto Scaling com tamanho mínimo de dois"
+      },
+      {
+        "key": "D",
+        "text": "AWS Lambda"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "A computação sem servidor (serverless), como o Lambda, não tem servidores para gerenciar, cobra pelo uso e escala a partir de zero. As opções do EC2 mantêm instâncias em execução e gerando cobrança mesmo quando ociosas."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma equipe quer responder a perguntas estruturadas sobre um workload no console e receber um plano de melhoria medido em relação às melhores práticas da AWS. Qual serviço oferece isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Trusted Advisor"
+      },
+      {
+        "key": "B",
+        "text": "AWS Config"
+      },
+      {
+        "key": "C",
+        "text": "AWS CloudTrail"
+      },
+      {
+        "key": "D",
+        "text": "AWS Well-Architected Tool"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "O Well-Architected Tool é o serviço de revisão para medir workloads em relação às melhores práticas, com recomendações e acompanhamento do progresso. O Trusted Advisor, o Config e o CloudTrail verificam ou registram recursos e atividades da conta, não uma revisão baseada em questionário."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Um serviço de pedidos coloca mensagens em uma fila para que o serviço de faturamento possa ficar lento ou falhar temporariamente sem interromper o checkout. Qual ideia de design isso ilustra?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Escalonamento vertical"
+      },
+      {
+        "key": "B",
+        "text": "Acoplamento forte"
+      },
+      {
+        "key": "C",
+        "text": "Acoplamento fraco"
+      },
+      {
+        "key": "D",
+        "text": "Infraestrutura como código"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Componentes que dependem menos uns dos outros podem falhar e escalar de forma independente, o que é acoplamento fraco. O acoplamento forte é o oposto, e as outras opções descrevem redimensionamento e provisionamento, não dependências entre componentes."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma empresa precisa deixar um data center alugado em três meses. Ela moverá 150 máquinas virtuais para o Amazon EC2 exatamente como estão, sem alterar as aplicações. Qual é essa estratégia de migração?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Refactor"
+      },
+      {
+        "key": "B",
+        "text": "Repurchase"
+      },
+      {
+        "key": "C",
+        "text": "Retire"
+      },
+      {
+        "key": "D",
+        "text": "Rehost"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Mover servidores como estão, sem mudanças nas aplicações, é rehost, frequentemente chamado de lift and shift. Refactor redesenha a aplicação, repurchase a substitui por outro produto, e retire a desativa."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Em vez de migrar seu envelhecido sistema interno de gestão de relacionamento com o cliente, uma empresa o cancela e assina um produto de CRM SaaS. Qual é essa estratégia de migração?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Rehost"
+      },
+      {
+        "key": "B",
+        "text": "Replatform"
+      },
+      {
+        "key": "C",
+        "text": "Repurchase"
+      },
+      {
+        "key": "D",
+        "text": "Retain"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Substituir uma aplicação por um produto diferente, geralmente SaaS, é repurchase (drop and shop). Rehost e replatform mantêm a mesma aplicação, e retain a deixa onde está."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "Um analista de custos está avaliando o AWS Pricing Calculator. Quais DUAS afirmações sobre ele estão corretas? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "É uma ferramenta web gratuita para modelar e estimar o custo de uma solução antes de construí-la"
+      },
+      {
+        "key": "B",
+        "text": "Ele substituiu o Migration Evaluator para montar business cases de migração"
+      },
+      {
+        "key": "C",
+        "text": "Ele precisa ser executado sobre recursos que já estão implantados na conta"
+      },
+      {
+        "key": "D",
+        "text": "Ele não considera os preços do Nível gratuito (Free Tier)"
+      },
+      {
+        "key": "E",
+        "text": "Ele informa as cobranças reais já incorridas neste mês"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "D"
+    ],
+    "explanation": "O Pricing Calculator é uma ferramenta gratuita de planejamento que estima o custo antes da implantação e ignora o Nível gratuito (Free Tier). Ele não lê recursos implantados, as cobranças reais vêm de ferramentas de faturamento como o Cost Explorer, e o Migration Evaluator continua sendo a ferramenta de business case de migração."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma equipe move um banco de dados SQL Server autogerenciado de uma máquina virtual para o Amazon RDS for SQL Server. O esquema e o design da aplicação permanecem os mesmos, mas a AWS agora cuida da aplicação de patches e dos backups. Qual é essa estratégia de migração?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Rehost"
+      },
+      {
+        "key": "B",
+        "text": "Refactor"
+      },
+      {
+        "key": "C",
+        "text": "Replatform"
+      },
+      {
+        "key": "D",
+        "text": "Relocate"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Uma migração com uma pequena otimização, como adotar um banco de dados gerenciado, é replatform (lift, tinker and shift). O rehost manteria o banco de dados em uma VM, e o refactor mudaria a arquitetura."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma avaliação encontra várias aplicações com uso médio de CPU e de memória abaixo de 5 por cento e sem conexões de entrada por 90 dias. O que a equipe de migração deve planejar para elas?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Mantê-las (retain) no ambiente de origem"
+      },
+      {
+        "key": "B",
+        "text": "Fazer rehost delas para o Amazon EC2"
+      },
+      {
+        "key": "C",
+        "text": "Desativá-las (retire)"
+      },
+      {
+        "key": "D",
+        "text": "Fazer refactor delas para funções serverless"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Aplicações sem uso relevante são candidatas a retire, ou seja, a serem desativadas ou arquivadas. Retain é para aplicações que ainda são necessárias mas ainda não estão prontas para migrar."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma empresa quer mover uma instância do Amazon RDS para uma conta e uma Região diferentes da AWS sem reescrever nada. Qual estratégia de migração corresponde a isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Refactor"
+      },
+      {
+        "key": "B",
+        "text": "Repurchase"
+      },
+      {
+        "key": "C",
+        "text": "Replatform"
+      },
+      {
+        "key": "D",
+        "text": "Relocate"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Relocate move servidores ou objetos para a versão em nuvem da plataforma, ou para outra VPC, Região ou conta, sem reescrita. Refactor muda a arquitetura, e replatform acrescenta uma otimização."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma varejista precisa que seu banco de dados no local (on-premises) continue replicando alterações para a AWS para que o cutover final cause o mínimo de tempo de inatividade. Qual serviço oferece replicação contínua?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Schema Conversion Tool"
+      },
+      {
+        "key": "B",
+        "text": "AWS Database Migration Service"
+      },
+      {
+        "key": "C",
+        "text": "Migration Evaluator"
+      },
+      {
+        "key": "D",
+        "text": "AWS Application Discovery Service"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O AWS DMS oferece suporte a migração única e a replicação contínua das alterações em andamento. O SCT converte esquemas, o Migration Evaluator monta um business case, e o Application Discovery Service coleta dados de servidores."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma empresa quer fazer lift and shift de servidores físicos e virtuais para o Amazon EC2 usando replicação contínua em nível de bloco e um cutover que mantenha o tempo de inatividade pequeno. Qual serviço faz isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Database Migration Service"
+      },
+      {
+        "key": "B",
+        "text": "AWS Application Migration Service"
+      },
+      {
+        "key": "C",
+        "text": "Migration Evaluator"
+      },
+      {
+        "key": "D",
+        "text": "AWS Application Discovery Service"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Esse serviço faz rehost de servidores como instâncias EC2 nativas com replicação contínua e cutover orquestrado (a página atual do produto na AWS usa a marca AWS Transform MGN para o serviço, e o guia do exame ainda imprime o nome usado aqui). O DMS move bancos de dados, e os outros dois planejam e descobrem em vez de migrar."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "Uma empresa quer definir seus ambientes em modelos do AWS CloudFormation. Quais DOIS benefícios a infraestrutura como código oferece? (Escolha duas.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Controle de versão com a capacidade de acompanhar e reverter mudanças"
+      },
+      {
+        "key": "B",
+        "text": "Conversão automática de esquemas de banco de dados entre mecanismos"
+      },
+      {
+        "key": "C",
+        "text": "Criação repetível de ambientes idênticos"
+      },
+      {
+        "key": "D",
+        "text": "Uma garantia de 100 por cento de disponibilidade"
+      },
+      {
+        "key": "E",
+        "text": "Eliminação da necessidade de pagar pelos recursos criados"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C"
+    ],
+    "explanation": "A infraestrutura como código oferece repetibilidade, consistência e controle de versão. Ela não converte esquemas (isso é o SCT), não garante disponibilidade e não torna os recursos gratuitos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Antes de aprovar a saída de seus data centers, executivos querem um business case com custos projetados na AWS, right-sizing de servidores superprovisionados e uma análise das licenças existentes. Qual serviço o monta?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Pricing Calculator"
+      },
+      {
+        "key": "B",
+        "text": "Migration Evaluator"
+      },
+      {
+        "key": "C",
+        "text": "AWS Application Migration Service"
+      },
+      {
+        "key": "D",
+        "text": "AWS Database Migration Service"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "O Migration Evaluator monta um business case de migração orientado por dados, incluindo right-sizing e análise de BYOL versus License Included. O Pricing Calculator estima uma arquitetura planejada, e os outros dois executam migrações."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A liderança de uma varejista espera que a migração permita lançar novos produtos e entrar em novos segmentos de mercado. Qual resultado de negócios do AWS Cloud Adoption Framework isso descreve?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Reduzir o risco do negócio"
+      },
+      {
+        "key": "B",
+        "text": "Melhorar o desempenho ESG"
+      },
+      {
+        "key": "C",
+        "text": "Aumentar a eficiência operacional"
+      },
+      {
+        "key": "D",
+        "text": "Aumentar a receita"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Novos produtos, clientes e segmentos de mercado correspondem ao resultado de aumentar a receita. Reduzir o risco trata de confiabilidade, performance e segurança, ESG é ambiental, social e governança, e eficiência trata de custo operacional e produtividade."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Um líder de programa precisa tratar de cultura, estrutura organizacional, liderança e prontidão da força de trabalho em uma transformação para a nuvem. Qual perspectiva do AWS CAF abrange isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Plataforma"
+      },
+      {
+        "key": "B",
+        "text": "Governança"
+      },
+      {
+        "key": "C",
+        "text": "Pessoas"
+      },
+      {
+        "key": "D",
+        "text": "Operações"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "A perspectiva Pessoas é a ponte entre tecnologia e negócios, abrangendo cultura, estrutura organizacional, liderança e força de trabalho. Plataforma trata da plataforma técnica de nuvem, governança orquestra iniciativas e riscos, e operações entrega serviços no nível necessário."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma empresa está considerando deixar de possuir servidores e passar a executar na AWS. Qual afirmação descreve corretamente a mudança na forma como ela paga?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "O grande gasto de capital inicial é substituído por custos variáveis baseados em uso"
+      },
+      {
+        "key": "B",
+        "text": "Os custos operacionais variáveis são substituídos por grandes compras de capital iniciais"
+      },
+      {
+        "key": "C",
+        "text": "Os custos passam a ser uma taxa mensal fixa que não depende do uso"
+      },
+      {
+        "key": "D",
+        "text": "Todos os custos de infraestrutura desaparecem porque a AWS opera o hardware"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "A AWS descreve a troca de despesa fixa por despesa variável: você paga quando consome e pelo quanto consome. A direção oposta está errada, o uso continua determinando a fatura, e o custo não desaparece."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Um arquiteto de soluções quer estimar o custo mensal de uma nova arquitetura de três camadas antes de qualquer recurso ser criado. Qual ferramenta o arquiteto deve usar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Pricing Calculator"
+      },
+      {
+        "key": "B",
+        "text": "AWS Cost Explorer"
+      },
+      {
+        "key": "C",
+        "text": "Migration Evaluator"
+      },
+      {
+        "key": "D",
+        "text": "AWS Well-Architected Tool"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O Pricing Calculator modela soluções e estima o custo antes de você construir. O Cost Explorer analisa gastos que você já incorreu, o Migration Evaluator monta um business case para servidores existentes, e o Well-Architected Tool analisa a qualidade do design."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Um relatório mostra uma frota de instâncias EC2 grandes com média de 8 por cento de CPU há meses. Qual ação reduz o custo de forma mais direta?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Aumentar o tamanho das instâncias para melhorar a agilidade"
+      },
+      {
+        "key": "B",
+        "text": "Adicionar um balanceador de carga do Elastic Load Balancing"
+      },
+      {
+        "key": "C",
+        "text": "Implantar a mesma frota em uma segunda Região"
+      },
+      {
+        "key": "D",
+        "text": "Fazer rightsizing da frota para tipos de instância menores"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Ajustar o tamanho dos recursos ao uso real é rightsizing, e isso elimina a capacidade paga mas ociosa. Instâncias maiores aumentam o custo, e um balanceador de carga ou uma segunda Região adicionam componentes em vez de remover desperdício."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma equipe de operações quer recomendações que sinalizem instâncias EC2 superprovisionadas e sugiram configurações melhores. Qual serviço as oferece?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Compute Optimizer"
+      },
+      {
+        "key": "B",
+        "text": "AWS Pricing Calculator"
+      },
+      {
+        "key": "C",
+        "text": "AWS License Manager"
+      },
+      {
+        "key": "D",
+        "text": "AWS CloudFormation"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "O Compute Optimizer gera recomendações de rightsizing e de recursos ociosos a partir de dados de utilização. O Pricing Calculator estima custos planejados, o License Manager acompanha licenças, e o CloudFormation provisiona recursos a partir de modelos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma empresa possui licenças de software precificadas por soquete físico e quer reutilizá-las na AWS. Qual opção melhor oferece suporte a isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon EC2 Dedicated Instances"
+      },
+      {
+        "key": "B",
+        "text": "Amazon EC2 Dedicated Hosts"
+      },
+      {
+        "key": "C",
+        "text": "Instâncias sob demanda do Amazon EC2 com tenancy padrão"
+      },
+      {
+        "key": "D",
+        "text": "Instâncias Spot do Amazon EC2"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Os Dedicated Hosts dão visibilidade do servidor físico e suporte abrangente a BYOL para licenças por soquete, por núcleo ou por VM. As Dedicated Instances oferecem apenas suporte parcial a BYOL, e a tenancy padrão e o Spot não expõem o host."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma empresa quer acompanhar como suas licenças de software são usadas na AWS em relação às regras de seus contratos de licenciamento. Qual serviço foi projetado para isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Artifact"
+      },
+      {
+        "key": "B",
+        "text": "AWS Config"
+      },
+      {
+        "key": "C",
+        "text": "AWS License Manager"
+      },
+      {
+        "key": "D",
+        "text": "AWS Pricing Calculator"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "O License Manager acompanha o uso de licenças em relação às suas regras e pode ajudar a converter entre BYOL e License Included. O Artifact fornece relatórios de conformidade, o Config registra a configuração de recursos, e o Pricing Calculator estima custos."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Uma equipe compara executar seu próprio banco de dados no EC2 com usar o Amazon RDS. O preço por hora do RDS é maior, mas o financeiro espera um custo total menor. Qual fator melhor explica isso?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "O RDS elimina a necessidade de pagar pelo armazenamento do banco de dados"
+      },
+      {
+        "key": "B",
+        "text": "Bancos de dados autogerenciados no EC2 são cobrados a uma tarifa horária de EC2 maior do que a do RDS"
+      },
+      {
+        "key": "C",
+        "text": "O RDS automatiza tarefas indiferenciadas como provisionamento, backups e aplicação de patches, o que reduz o custo de mão de obra"
+      },
+      {
+        "key": "D",
+        "text": "Clientes do RDS não pagam pela transferência de dados"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Os serviços gerenciados transferem para a AWS a administração rotineira do banco de dados, então o custo total pode cair mesmo quando o preço por hora é maior. As outras opções não são benefícios que a AWS documenta para o RDS."
+  }
+]
