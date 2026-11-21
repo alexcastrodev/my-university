@@ -17,6 +17,7 @@ interface Provider {
 const PROVIDERS: Provider[] = [
   { key: 'oracle', name: 'Oracle Java', owns: (id) => id.startsWith('java-'), badge: (e) => `Java SE ${e.version}` },
   { key: 'microsoft', name: 'Microsoft Azure', owns: (id) => id.startsWith('azure-'), badge: (e) => e.version },
+  { key: 'aws', name: 'Amazon Web Services', owns: (id) => id.startsWith('aws-'), badge: (e) => e.version },
   // Catch-all, so an exam seeded with an unexpected id still shows up instead of vanishing.
   { key: 'other', name: 'More exams', owns: () => true, badge: (e) => e.version },
 ];
@@ -55,7 +56,7 @@ export class ExamListPage implements OnInit {
     this.seo.set({
       title: 'Certification Exams',
       description:
-        'Practice certification exams for Oracle Java (OCP SE 25 and 21) and Microsoft Azure (AI-200) with randomised questions, lessons, and instant scoring.',
+        'Practice certification exams for Oracle Java (OCP SE 25 and 21), Microsoft Azure (AI-200) and AWS Cloud Practitioner (CLF-C02) with randomised questions, lessons, and instant scoring.',
       path: '/exams',
     });
 

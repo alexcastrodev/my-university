@@ -1,0 +1,19 @@
+{
+  "id": "aws-clf-c02",
+  "title": "AWS Certified Cloud Practitioner (CLF-C02) Complete",
+  "tag": "Course",
+  "audience": "All Users",
+  "moduleCount": 1,
+  "duration": "56m",
+  "description": "Prepares you for the AWS Certified Cloud Practitioner (CLF-C02) exam. Follows the four domains of the official exam guide (Cloud Concepts, Security and Compliance, Cloud Technology and Services, Billing, Pricing, and Support), teaches you to choose between services and spot the common traps, and links every lesson to the official AWS documentation.",
+  "benefits": [
+    "Explain the AWS value proposition: the six advantages of cloud computing, Regions, Availability Zones and edge locations",
+    "Apply the six pillars of the AWS Well-Architected Framework and the AWS Cloud Adoption Framework",
+    "Choose a migration strategy and the right AWS migration service",
+    "Draw the line of the shared responsibility model for EC2, RDS, S3 and Lambda",
+    "Pick the right identity, encryption, network and threat-detection service for a security scenario",
+    "Choose between compute, container, serverless, storage, database, network and AI/ML services",
+    "Compare pricing models and plan costs with Budgets, Cost Explorer and the Pricing Calculator",
+    "Pick the right AWS Support plan and technical resource"
+  ]
+}

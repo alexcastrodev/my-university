@@ -1,0 +1,10 @@
+{
+  "id": "aws-clf-c02",
+  "title": "AWS Certified Cloud Practitioner (CLF-C02)",
+  "version": "CLF-C02",
+  "delivery": "Proctored Online or Test Center",
+  "format": "Multiple Choice and Multiple Response",
+  "durationMinutes": 90,
+  "questionCount": 65,
+  "passingScore": 70
+}

@@ -716,7 +716,7 @@
     "studies.title": "Study",
     "studies.subtitle": "Choose where to go next.",
     "studies.tracks.desc": "Java, Spring, .NET, Ruby and more, concept by concept.",
-    "studies.certifications.desc": "Practice exams for Oracle Java and Microsoft Azure.",
+    "studies.certifications.desc": "Practice exams for Oracle Java, Microsoft Azure and AWS.",
     "studies.papers.desc": "Research papers to read and discuss.",
     "studies.computerScience.desc": "The full curriculum, from foundations to specialization."
   }

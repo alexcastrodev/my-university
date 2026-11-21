@@ -1,0 +1,1366 @@
+[
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A product team at a retail company used to wait three weeks for hardware before every campaign test. On AWS it provisions a full test stack in minutes and discards it when the test ends. Which advantage of cloud computing does this best illustrate?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Benefit from massive economies of scale"
+      },
+      {
+        "key": "B",
+        "text": "Trade fixed expense for variable expense"
+      },
+      {
+        "key": "C",
+        "text": "Increase speed and agility"
+      },
+      {
+        "key": "D",
+        "text": "Go global in minutes"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Cutting the wait for resources from weeks to minutes, and making experiments cheap, is the speed and agility advantage. Economies of scale is about lower provider costs, variable expense is about how you pay, and going global is about Regions."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A gaming startup bought servers for its launch-day peak and watched most of them sit idle for months, yet the first viral weekend still overloaded what it owned. Which advantage of the cloud removes this problem?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Stop spending money running and maintaining data centers"
+      },
+      {
+        "key": "B",
+        "text": "Stop guessing capacity"
+      },
+      {
+        "key": "C",
+        "text": "Go global in minutes"
+      },
+      {
+        "key": "D",
+        "text": "Benefit from massive economies of scale"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "With cloud resources you use as much or as little capacity as you need and scale on short notice, so you no longer forecast it. The other advantages address operating data centers, geographic reach and provider pricing."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A hospital IT department wants its engineers to stop racking, cabling and powering servers so they can build patient-facing applications. Which advantage does AWS cite for this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Stop spending money running and maintaining data centers"
+      },
+      {
+        "key": "B",
+        "text": "Increase speed and agility"
+      },
+      {
+        "key": "C",
+        "text": "Stop guessing capacity"
+      },
+      {
+        "key": "D",
+        "text": "Trade fixed expense for variable expense"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "AWS describes this advantage as focusing on what differentiates the business instead of the heavy lifting of racking, stacking and powering servers. Agility is about provisioning speed, and the other two are about capacity and payment model."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A finance director asks why AWS can keep lowering its pay-as-you-go prices as the business grows. Which explanation matches the advantages AWS publishes?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Customers with reserved commitments subsidize the on-demand price of everyone else"
+      },
+      {
+        "key": "B",
+        "text": "Pay-as-you-go pricing automatically lowers each customer's rate after every billing month"
+      },
+      {
+        "key": "C",
+        "text": "Having Regions in many countries makes every service cheaper to run"
+      },
+      {
+        "key": "D",
+        "text": "AWS aggregates the usage of a very large number of customers and achieves higher economies of scale"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Aggregated usage from many customers gives AWS economies of scale, which it passes on as lower prices. Pay-as-you-go is a pricing model, reserved commitments are a separate discount, and global reach is a different advantage."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "An architect is documenting the AWS global infrastructure for a new team. Which statement reflects the officially published minimum for Availability Zones in a Region?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Every Region has exactly two Availability Zones"
+      },
+      {
+        "key": "B",
+        "text": "Some Regions have a single Availability Zone"
+      },
+      {
+        "key": "C",
+        "text": "Every Region has at least six Availability Zones"
+      },
+      {
+        "key": "D",
+        "text": "Every Region has a minimum of three Availability Zones"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "AWS states a minimum of three isolated, physically separate AZs per Region. Older material that says two is outdated, and nothing official sets a higher floor such as six."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "A solutions architect reviews statements about Availability Zones. Which TWO are correct? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Availability Zones automatically replicate customer data to every other Region"
+      },
+      {
+        "key": "B",
+        "text": "All Availability Zones in a Region share the same buildings to keep latency low"
+      },
+      {
+        "key": "C",
+        "text": "Using multiple Availability Zones isolates an application from problems in a single Availability Zone"
+      },
+      {
+        "key": "D",
+        "text": "An Availability Zone is a cache location used by Amazon CloudFront"
+      },
+      {
+        "key": "E",
+        "text": "An Availability Zone consists of one or more discrete data centers with redundant power, networking and connectivity"
+      }
+    ],
+    "correctKeys": [
+      "C",
+      "E"
+    ],
+    "explanation": "AZs are discrete data centers with redundant power and networking, and spreading across them isolates single-AZ problems. AZs do not replicate data across Regions on their own, they are physically separate, and edge locations (not AZs) host CloudFront caches."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A company runs its customer portal on one EC2 instance in a single Availability Zone. The business now requires the portal to keep running if the data center building behind that AZ is lost, and wants the least complex change. What should the architect do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Replace the instance with a larger instance type in the same Availability Zone"
+      },
+      {
+        "key": "B",
+        "text": "Build a complete active/active copy of the portal in a second Region"
+      },
+      {
+        "key": "C",
+        "text": "Put an Amazon CloudFront distribution in front of the existing instance"
+      },
+      {
+        "key": "D",
+        "text": "Run instances in at least two Availability Zones of the same Region behind a load balancer"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Spreading instances across AZs isolates the portal from a failure in one AZ, and a load balancer routes users to healthy instances. A bigger instance stays in the failed AZ, CloudFront caches content but does not replace the origin, and a second Region works but is far more complex than needed."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "An engineer is asked to explain fault tolerance to a business manager. Which description is accurate?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "The workload adds instances when traffic grows and removes them when it falls"
+      },
+      {
+        "key": "B",
+        "text": "Spare redundant capacity can take over the full work of a failed component, so the workload keeps running"
+      },
+      {
+        "key": "C",
+        "text": "The workload can be deployed in many Regions with a few clicks"
+      },
+      {
+        "key": "D",
+        "text": "The per-unit price falls as the provider's total usage grows"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Fault tolerance is withstanding a subsystem failure because redundant spare capacity can take over. The other descriptions are elasticity, global reach and economies of scale."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A streaming company keeps its video catalog in one Region. Viewers on another continent report slow loading of thumbnails, and the company does not want to move its origin data. Which part of the AWS global infrastructure addresses this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Edge locations that cache content close to viewers, for example through Amazon CloudFront"
+      },
+      {
+        "key": "B",
+        "text": "An additional Availability Zone in the origin Region"
+      },
+      {
+        "key": "C",
+        "text": "Larger instance types for the origin servers"
+      },
+      {
+        "key": "D",
+        "text": "A copy of the catalog in every Availability Zone of the origin Region"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Edge locations cache content near users and lower latency without changing where the data lives. More AZs or bigger instances in the origin Region do not shorten the distance to distant viewers."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Which of the following is NOT one of the six advantages of cloud computing that AWS lists?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Transfer all security and compliance responsibility to AWS"
+      },
+      {
+        "key": "B",
+        "text": "Go global in minutes"
+      },
+      {
+        "key": "C",
+        "text": "Stop guessing capacity"
+      },
+      {
+        "key": "D",
+        "text": "Trade fixed expense for variable expense"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "The AWS six are fixed to variable expense, economies of scale, stop guessing capacity, speed and agility, stop spending on data centers and go global in minutes. Responsibility is shared, so none of the six removes the customer's security duties."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A runbook sets an availability target of 99.99 percent for an application. Approximately how much interruption per year does that target allow?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "About 9 hours"
+      },
+      {
+        "key": "B",
+        "text": "About 52 minutes"
+      },
+      {
+        "key": "C",
+        "text": "About 5 minutes"
+      },
+      {
+        "key": "D",
+        "text": "About 3.5 days"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "At 99.99 percent availability the allowed interruption is roughly 52 minutes a year. About 9 hours matches 99.9 percent, about 5 minutes matches 99.999 percent, and about 3.5 days matches 99 percent."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "Which TWO statements about the AWS Well-Architected Framework are correct? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Security and operational excellence are generally not traded off against the other pillars"
+      },
+      {
+        "key": "B",
+        "text": "The Reliability pillar was renamed Resiliency in the latest restructure"
+      },
+      {
+        "key": "C",
+        "text": "It is based on six pillars, including Sustainability"
+      },
+      {
+        "key": "D",
+        "text": "A review is a formal audit that certifies a workload as compliant with AWS standards"
+      },
+      {
+        "key": "E",
+        "text": "It has five pillars, and Sustainability is part of Cost Optimization"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C"
+    ],
+    "explanation": "The Framework has six pillars and trade-offs among them depend on business context, except that security and operational excellence are generally kept. A review is a constructive conversation, not an audit, and the pillar names did not change."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A platform team defines its infrastructure and deployment steps as code, ships small frequent changes and reviews every incident to improve its runbooks. Which Well-Architected pillar is the team primarily strengthening?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Operational Excellence"
+      },
+      {
+        "key": "B",
+        "text": "Reliability"
+      },
+      {
+        "key": "C",
+        "text": "Performance Efficiency"
+      },
+      {
+        "key": "D",
+        "text": "Cost Optimization"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Running workloads effectively, gaining insight into operations and continuously improving procedures is the intent of Operational Excellence. Reliability is about recovering and performing consistently, and the other two address efficiency and spend."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A database fails over automatically to a standby in another Availability Zone, and the application resumes within minutes without any staff action. Which Well-Architected pillar does this design primarily address?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Reliability"
+      },
+      {
+        "key": "B",
+        "text": "Performance Efficiency"
+      },
+      {
+        "key": "C",
+        "text": "Cost Optimization"
+      },
+      {
+        "key": "D",
+        "text": "Security"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Automatic recovery from disruption is the core of the Reliability pillar, whose main focus is resilience. A standby adds cost rather than reducing it, and it does not target speed or access control."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "When AWS releases a newer instance family, an engineering team re-evaluates its compute choices and adopts the new family if it meets the requirements more efficiently. Which pillar's intent is this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Performance Efficiency"
+      },
+      {
+        "key": "B",
+        "text": "Cost Optimization"
+      },
+      {
+        "key": "C",
+        "text": "Reliability"
+      },
+      {
+        "key": "D",
+        "text": "Operational Excellence"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Performance Efficiency is about using resources efficiently to meet requirements and keeping that efficiency as demand and technology evolve. Lower cost may follow, but the intent described is staying efficient as offerings change."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A company wants to measure the environmental impact of its workloads and cut the resources it provisions to reduce that impact. Which Well-Architected pillar fits this goal?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Cost Optimization"
+      },
+      {
+        "key": "B",
+        "text": "Sustainability"
+      },
+      {
+        "key": "C",
+        "text": "Operational Excellence"
+      },
+      {
+        "key": "D",
+        "text": "Performance Efficiency"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Measuring environmental impact and provisioning only what is needed are capabilities of the Sustainability pillar, added in December 2021. Cost Optimization focuses on price, not on environmental impact."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A consultant lists the pillars of the AWS Well-Architected Framework for a client. Which item on the list is NOT a pillar?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Resiliency"
+      },
+      {
+        "key": "B",
+        "text": "Sustainability"
+      },
+      {
+        "key": "C",
+        "text": "Performance Efficiency"
+      },
+      {
+        "key": "D",
+        "text": "Operational Excellence"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Resilience is the primary focus of the Reliability pillar, but it is not a pillar by itself. The other three are among the six pillars."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "Which TWO of the following are perspectives of the AWS Cloud Adoption Framework (AWS CAF)? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Networking"
+      },
+      {
+        "key": "B",
+        "text": "Compliance"
+      },
+      {
+        "key": "C",
+        "text": "Finance"
+      },
+      {
+        "key": "D",
+        "text": "Governance"
+      },
+      {
+        "key": "E",
+        "text": "Platform"
+      }
+    ],
+    "correctKeys": [
+      "D",
+      "E"
+    ],
+    "explanation": "The six CAF perspectives are Business, People, Governance, Platform, Security and Operations. Compliance, networking and finance are not perspectives."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A company builds a short-lived development environment and wants to lower cost and environmental impact. According to the Framework's guidance on trade-offs, which choice is generally acceptable?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Skip identity and access controls because no customers use it"
+      },
+      {
+        "key": "B",
+        "text": "Drop operational excellence practices such as operations as code"
+      },
+      {
+        "key": "C",
+        "text": "Accept a lower reliability target for that environment"
+      },
+      {
+        "key": "D",
+        "text": "Ignore the shared responsibility model for that environment"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "The Framework gives this exact kind of example: trade reliability for cost and sustainability in development. Security and operational excellence are generally not traded off against the other pillars."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A ticketing site launches extra instances during on-sale events and terminates them afterward, with no staff action. Which cloud property describes this behavior?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Fault tolerance"
+      },
+      {
+        "key": "B",
+        "text": "Vertical scaling"
+      },
+      {
+        "key": "C",
+        "text": "Elasticity"
+      },
+      {
+        "key": "D",
+        "text": "Economies of scale"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Elasticity means acquiring resources as needed and releasing them when no longer needed, automatically in the cloud. Fault tolerance is about surviving failures, and vertical scaling changes the size of one server."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A database server is resized from 4 vCPUs to 16 vCPUs by changing its instance type. Which kind of scaling is this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Horizontal scaling"
+      },
+      {
+        "key": "B",
+        "text": "Vertical scaling"
+      },
+      {
+        "key": "C",
+        "text": "Serverless scaling"
+      },
+      {
+        "key": "D",
+        "text": "Cross-Region scaling"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Adding resources to a single computer is vertical scaling. Horizontal scaling adds more computers to the system."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A web tier must automatically replace impaired instances and send user requests only to healthy ones. Which combination meets both needs?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "An EC2 Auto Scaling group alone"
+      },
+      {
+        "key": "B",
+        "text": "An Elastic Load Balancing load balancer alone"
+      },
+      {
+        "key": "C",
+        "text": "Amazon CloudFront in front of one larger instance"
+      },
+      {
+        "key": "D",
+        "text": "An EC2 Auto Scaling group together with an Elastic Load Balancing load balancer"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Auto Scaling launches and replaces instances to hold the desired capacity, while the load balancer checks target health and routes traffic only to healthy targets. Each one alone covers only half of the requirement."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A small team wants to upload its web application code and let AWS handle instance provisioning, load balancing, health monitoring and scaling, with no extra charge beyond the underlying resources. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon EC2 instances launched manually"
+      },
+      {
+        "key": "B",
+        "text": "AWS Elastic Beanstalk"
+      },
+      {
+        "key": "C",
+        "text": "AWS CloudFormation"
+      },
+      {
+        "key": "D",
+        "text": "AWS Systems Manager"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Elastic Beanstalk takes the application and provisions and manages the environment around it. Manually launched EC2 leaves all of that to the team, and CloudFormation or Systems Manager do not deploy and run the application for you."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "A company migrating an on-premises Oracle database to Amazon Aurora PostgreSQL must convert the schema and then keep the data replicating until cutover. Which TWO AWS services are needed? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Migration Evaluator"
+      },
+      {
+        "key": "B",
+        "text": "AWS Schema Conversion Tool"
+      },
+      {
+        "key": "C",
+        "text": "AWS Application Migration Service"
+      },
+      {
+        "key": "D",
+        "text": "AWS Database Migration Service"
+      },
+      {
+        "key": "E",
+        "text": "AWS Pricing Calculator"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "D"
+    ],
+    "explanation": "SCT converts the schema between different engines, and DMS moves and continuously replicates the data. Application Migration Service rehosts servers, Migration Evaluator builds a business case, and the Pricing Calculator estimates cost."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A company needs code that runs only when a file is uploaded, requires no server management, scales automatically and costs nothing while idle. Which compute option fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon EC2 On-Demand instances kept running"
+      },
+      {
+        "key": "B",
+        "text": "Amazon EC2 Dedicated Hosts"
+      },
+      {
+        "key": "C",
+        "text": "An EC2 Auto Scaling group with a minimum size of two"
+      },
+      {
+        "key": "D",
+        "text": "AWS Lambda"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Serverless compute such as Lambda has no servers to manage, bills for use and scales from zero. The EC2 options keep instances running and billing even when idle."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A team wants to answer structured questions about a workload in the console and receive an improvement plan measured against AWS best practices. Which service provides this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Trusted Advisor"
+      },
+      {
+        "key": "B",
+        "text": "AWS Config"
+      },
+      {
+        "key": "C",
+        "text": "AWS CloudTrail"
+      },
+      {
+        "key": "D",
+        "text": "AWS Well-Architected Tool"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "The Well-Architected Tool is the review service for measuring workloads against best practices, with recommendations and progress tracking. Trusted Advisor, Config and CloudTrail check or record account resources and activity, not a questionnaire-based review."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "An order service puts messages on a queue so that the billing service can run slowly or fail temporarily without stopping checkout. Which design idea does this illustrate?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Vertical scaling"
+      },
+      {
+        "key": "B",
+        "text": "Tight coupling"
+      },
+      {
+        "key": "C",
+        "text": "Loose coupling"
+      },
+      {
+        "key": "D",
+        "text": "Infrastructure as code"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Components that depend on each other less can fail and scale independently, which is loose coupling. Tight coupling is the opposite, and the other options describe resizing and provisioning, not dependencies between components."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A company must leave a leased data center within three months. It will move 150 virtual machines to Amazon EC2 exactly as they are, without changing the applications. Which migration strategy is this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Refactor"
+      },
+      {
+        "key": "B",
+        "text": "Repurchase"
+      },
+      {
+        "key": "C",
+        "text": "Retire"
+      },
+      {
+        "key": "D",
+        "text": "Rehost"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Moving servers as is, with no application changes, is rehost, often called lift and shift. Refactor redesigns the application, repurchase replaces it with another product, and retire decommissions it."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Instead of migrating its aging in-house customer-relationship system, a company cancels it and subscribes to a SaaS CRM product. Which migration strategy is this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Rehost"
+      },
+      {
+        "key": "B",
+        "text": "Replatform"
+      },
+      {
+        "key": "C",
+        "text": "Repurchase"
+      },
+      {
+        "key": "D",
+        "text": "Retain"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Replacing an application with a different product, often SaaS, is repurchase (drop and shop). Rehost and replatform keep the same application, and retain leaves it where it is."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "A cost analyst is evaluating the AWS Pricing Calculator. Which TWO statements about it are correct? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "It is a free web-based tool for modeling and estimating the cost of a solution before you build it"
+      },
+      {
+        "key": "B",
+        "text": "It replaced Migration Evaluator for building migration business cases"
+      },
+      {
+        "key": "C",
+        "text": "It must be run against resources that are already deployed in the account"
+      },
+      {
+        "key": "D",
+        "text": "It does not account for Free Tier pricing"
+      },
+      {
+        "key": "E",
+        "text": "It reports the actual charges already incurred this month"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "D"
+    ],
+    "explanation": "The Pricing Calculator is a free planning tool that estimates cost before deployment and ignores the Free Tier. It does not read deployed resources, actual charges come from billing tools such as Cost Explorer, and Migration Evaluator remains the migration business case tool."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A team moves a self-managed SQL Server database from a virtual machine to Amazon RDS for SQL Server. The schema and application design stay the same, but AWS now handles patching and backups. Which migration strategy is this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Rehost"
+      },
+      {
+        "key": "B",
+        "text": "Refactor"
+      },
+      {
+        "key": "C",
+        "text": "Replatform"
+      },
+      {
+        "key": "D",
+        "text": "Relocate"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "A move with a small optimization, such as adopting a managed database, is replatform (lift, tinker and shift). Rehost would keep the database on a VM, and refactor would change the architecture."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "An assessment finds several applications with average CPU and memory below 5 percent and no inbound connections for 90 days. What should the migration team plan for them?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Retain them in the source environment"
+      },
+      {
+        "key": "B",
+        "text": "Rehost them to Amazon EC2"
+      },
+      {
+        "key": "C",
+        "text": "Retire them"
+      },
+      {
+        "key": "D",
+        "text": "Refactor them into serverless functions"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Applications with no meaningful use are candidates to be retired, meaning decommissioned or archived. Retain is for applications that are still needed but not ready to move."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A company wants to move an Amazon RDS instance into a different AWS account and Region without rewriting anything. Which migration strategy matches this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Refactor"
+      },
+      {
+        "key": "B",
+        "text": "Repurchase"
+      },
+      {
+        "key": "C",
+        "text": "Replatform"
+      },
+      {
+        "key": "D",
+        "text": "Relocate"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Relocate moves servers or objects to the cloud version of the platform, or to another VPC, Region or account, without a rewrite. Refactor changes the architecture, and replatform adds an optimization."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A retailer needs its on-premises database to keep replicating changes to AWS so that the final cutover causes minimal downtime. Which service provides continuous replication?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Schema Conversion Tool"
+      },
+      {
+        "key": "B",
+        "text": "AWS Database Migration Service"
+      },
+      {
+        "key": "C",
+        "text": "Migration Evaluator"
+      },
+      {
+        "key": "D",
+        "text": "AWS Application Discovery Service"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "AWS DMS supports one-time migration and continuous replication of ongoing changes. SCT converts schemas, Migration Evaluator builds a business case, and Application Discovery Service collects server data."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A company wants to lift and shift physical and virtual servers onto Amazon EC2 using continuous block-level replication and a cutover that keeps downtime small. Which service does this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Database Migration Service"
+      },
+      {
+        "key": "B",
+        "text": "AWS Application Migration Service"
+      },
+      {
+        "key": "C",
+        "text": "Migration Evaluator"
+      },
+      {
+        "key": "D",
+        "text": "AWS Application Discovery Service"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "This service rehosts servers as native EC2 instances with continuous replication and orchestrated cutover (AWS's current product page brands the service AWS Transform MGN, and the exam guide still prints the name used here). DMS moves databases, and the other two plan and discover rather than migrate."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "multi",
+    "text": "A company wants to define its environments in AWS CloudFormation templates. Which TWO benefits does infrastructure as code provide? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Version control with the ability to track and roll back changes"
+      },
+      {
+        "key": "B",
+        "text": "Automatic conversion of database schemas between engines"
+      },
+      {
+        "key": "C",
+        "text": "Repeatable creation of identical environments"
+      },
+      {
+        "key": "D",
+        "text": "A guarantee of 100 percent availability"
+      },
+      {
+        "key": "E",
+        "text": "Elimination of the need to pay for the resources created"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C"
+    ],
+    "explanation": "Infrastructure as code gives repeatability, consistency and version control. It does not convert schemas (that is SCT), guarantee availability, or make resources free."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "Before approving an exit from its data centers, executives want a business case with projected AWS costs, right-sizing of over-provisioned servers and an analysis of existing licenses. Which service builds it?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Pricing Calculator"
+      },
+      {
+        "key": "B",
+        "text": "Migration Evaluator"
+      },
+      {
+        "key": "C",
+        "text": "AWS Application Migration Service"
+      },
+      {
+        "key": "D",
+        "text": "AWS Database Migration Service"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Migration Evaluator builds a data-driven business case for migration, including right-sizing and BYOL versus License Included analysis. The Pricing Calculator estimates a planned architecture, and the other two perform migrations."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A retailer's leadership expects migration to let it launch new products and enter new market segments. Which AWS Cloud Adoption Framework business outcome does this describe?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Reduce business risk"
+      },
+      {
+        "key": "B",
+        "text": "Improve ESG performance"
+      },
+      {
+        "key": "C",
+        "text": "Increase operational efficiency"
+      },
+      {
+        "key": "D",
+        "text": "Grow revenue"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "New products, customers and market segments map to the grow revenue outcome. Reduced risk is about reliability, performance and security, ESG is environmental, social and governance, and efficiency is about operating cost and productivity."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A program lead must address culture, organization structure, leadership and workforce readiness for a cloud transformation. Which AWS CAF perspective covers this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Platform"
+      },
+      {
+        "key": "B",
+        "text": "Governance"
+      },
+      {
+        "key": "C",
+        "text": "People"
+      },
+      {
+        "key": "D",
+        "text": "Operations"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "The People perspective is the bridge between technology and business, covering culture, organization structure, leadership and workforce. Platform is about the technical cloud platform, governance orchestrates initiatives and risk, and operations delivers services at the needed level."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A company is considering moving from owning servers to running on AWS. Which statement correctly describes the change in how it pays?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Large upfront capital spending is replaced by usage-based variable costs"
+      },
+      {
+        "key": "B",
+        "text": "Variable operating costs are replaced by large upfront capital purchases"
+      },
+      {
+        "key": "C",
+        "text": "Costs become a fixed monthly fee that does not depend on usage"
+      },
+      {
+        "key": "D",
+        "text": "All infrastructure costs disappear because AWS operates the hardware"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "AWS describes trading fixed expense for variable expense: you pay when you consume and for how much you consume. The reverse direction is wrong, usage still drives the bill, and the cost does not vanish."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A solutions architect wants to estimate the monthly cost of a new three-tier architecture before any resources are created. Which tool should the architect use?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Pricing Calculator"
+      },
+      {
+        "key": "B",
+        "text": "AWS Cost Explorer"
+      },
+      {
+        "key": "C",
+        "text": "Migration Evaluator"
+      },
+      {
+        "key": "D",
+        "text": "AWS Well-Architected Tool"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "The Pricing Calculator models solutions and estimates cost before you build. Cost Explorer reviews spend you have already incurred, Migration Evaluator builds a business case for existing servers, and the Well-Architected Tool reviews design quality."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A report shows a fleet of large EC2 instances that has averaged 8 percent CPU for months. Which action reduces cost most directly?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Increase the instance size to improve agility"
+      },
+      {
+        "key": "B",
+        "text": "Add an Elastic Load Balancing load balancer"
+      },
+      {
+        "key": "C",
+        "text": "Deploy the same fleet in a second Region"
+      },
+      {
+        "key": "D",
+        "text": "Rightsize the fleet to smaller instance types"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Matching resource size to real usage is rightsizing, and it removes paid but idle capacity. Larger instances raise cost, and a load balancer or a second Region adds components instead of removing waste."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "An operations team wants recommendations that flag over-provisioned EC2 instances and suggest better configurations. Which service provides them?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Compute Optimizer"
+      },
+      {
+        "key": "B",
+        "text": "AWS Pricing Calculator"
+      },
+      {
+        "key": "C",
+        "text": "AWS License Manager"
+      },
+      {
+        "key": "D",
+        "text": "AWS CloudFormation"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Compute Optimizer produces rightsizing and idle-resource recommendations from utilization data. The Pricing Calculator estimates planned cost, License Manager tracks licenses, and CloudFormation provisions resources from templates."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A company owns software licenses that are priced per physical socket and wants to reuse them on AWS. Which option best supports this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon EC2 Dedicated Instances"
+      },
+      {
+        "key": "B",
+        "text": "Amazon EC2 Dedicated Hosts"
+      },
+      {
+        "key": "C",
+        "text": "Amazon EC2 On-Demand Instances on default tenancy"
+      },
+      {
+        "key": "D",
+        "text": "Amazon EC2 Spot Instances"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Dedicated Hosts give visibility of the physical server and comprehensive BYOL support for per-socket, per-core or per-VM licenses. Dedicated Instances offer only partial BYOL support, and default tenancy and Spot do not expose the host."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A company wants to track how its software licenses are used on AWS against the rules in its license agreements. Which service is designed for this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Artifact"
+      },
+      {
+        "key": "B",
+        "text": "AWS Config"
+      },
+      {
+        "key": "C",
+        "text": "AWS License Manager"
+      },
+      {
+        "key": "D",
+        "text": "AWS Pricing Calculator"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "License Manager tracks license usage against your rules and can help convert between BYOL and License Included. Artifact provides compliance reports, Config records resource configuration, and the Pricing Calculator estimates cost."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "cloud-concepts",
+    "type": "single",
+    "text": "A team compares running its own database on EC2 with using Amazon RDS. The RDS hourly price is higher, yet finance expects a lower total cost. Which factor best explains this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "RDS removes the need to pay for database storage"
+      },
+      {
+        "key": "B",
+        "text": "Self-managed databases on EC2 are billed at a higher hourly EC2 rate than RDS"
+      },
+      {
+        "key": "C",
+        "text": "RDS automates undifferentiated tasks such as provisioning, backups and patching, which reduces labor cost"
+      },
+      {
+        "key": "D",
+        "text": "RDS customers are not charged for data transfer"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Managed services move routine database administration to AWS, so total cost can fall even when the hourly price is higher. The other options are not benefits AWS documents for RDS."
+  }
+]
