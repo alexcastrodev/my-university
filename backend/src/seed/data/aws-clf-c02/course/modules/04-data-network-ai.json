@@ -1,0 +1,55 @@
+{
+  "id": 4,
+  "title": "Data, Network, AI and Other Services",
+  "lessons": [
+    {
+      "id": "clf-4-1",
+      "title": "Database Services: RDS, Aurora, DynamoDB, ElastiCache and Picking by Access Pattern",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/4-1-database-services.md"
+    },
+    {
+      "id": "clf-4-2",
+      "title": "Network Services: VPC, Gateways, Route 53, Edge Delivery and Hybrid Connectivity",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/4-2-network-services.md"
+    },
+    {
+      "id": "clf-4-3",
+      "title": "AI and ML Services: SageMaker AI, the Prebuilt AI Services and Amazon Q",
+      "duration": "13m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/4-3-ai-ml-services.md"
+    },
+    {
+      "id": "clf-4-4",
+      "title": "Analytics Services: Athena, Glue, EMR, Kinesis, Redshift, OpenSearch and Amazon Quick",
+      "duration": "13m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/4-4-analytics-services.md"
+    },
+    {
+      "id": "clf-4-5",
+      "title": "Other Service Categories: Integration, Business Apps, Developer Tools, Monitoring, End-User Computing, IoT and Migration",
+      "duration": "15m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "aws-clf-c02/content/4-5-other-service-categories.md"
+    },
+    {
+      "id": "clf-4-check",
+      "title": "Skill Check: Data, Network, AI and Other Services",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null,
+      "topic": "data-network-ai"
+    }
+  ]
+}
