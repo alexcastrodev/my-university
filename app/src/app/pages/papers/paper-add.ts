@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { PaperLibraryService } from '../../services/paper-library.service';
 import { SeoService } from '../../services/seo.service';
 import { formatPaperDate, paperTypeLabel } from '../../shared/paper-format';
+import { PaperPrivateDrop } from './paper-private-drop';
 
 type LookupFailure =
   | { kind: 'invalid' | 'not_found' | 'unavailable' | 'signed_out' | 'limit' | 'failed' }
@@ -61,7 +62,7 @@ function failureOf(err: HttpErrorResponse): LookupFailure {
 @Component({
   selector: 'app-paper-add',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, PaperPrivateDrop],
   templateUrl: './paper-add.html',
   styleUrl: './paper-add.css',
 })
@@ -116,7 +117,7 @@ export class PaperAddPage {
   constructor() {
     inject(SeoService).set({
       title: $localize`:@@papers.add.title:Add a paper`,
-      description: $localize`:@@papers.add.subtitle:Look a paper up by its DOI, check what was found, then add it to your library. Or enter the details yourself.`,
+      description: $localize`:@@papers.add.subtitle:Look a paper up by its DOI, upload its PDF, or enter the details yourself. Either way it joins your library.`,
       path: '/library/add',
       noindex: true,
     });

@@ -18,8 +18,6 @@
         <a class="search-button signin" routerLink="/login" i18n="@@papers.library.page.signIn">Sign in</a>
       </div>
     } @else {
-      <app-paper-private-drop (added)="retry()" />
-
       <nav class="tabs" i18n-aria-label="@@papers.library.page.statusNav" aria-label="Reading status">
         <a class="tab" [routerLink]="[]" [queryParams]="libraryQueryParams({ ...query(), status: undefined, page: undefined })" [class.tab-active]="!query().status" [attr.aria-current]="!query().status ? 'page' : null">
           <ng-container i18n="@@papers.filter.all">All</ng-container>

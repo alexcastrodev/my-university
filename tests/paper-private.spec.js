@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { BASE_URL } from './BaseTest.js';
 import { PaperDetailPage } from './pages/PaperDetailPage.js';
+import { PaperAddPage } from './pages/PaperAddPage.js';
 import { PaperLibraryEntryPage } from './pages/PaperLibraryEntryPage.js';
 import { PaperLibraryPage } from './pages/PaperLibraryPage.js';
 
@@ -46,103 +47,129 @@ function pdf(label = 'a') {
 
 /** Adds a private paper through the page and returns its public id, read from the address it opens at. */
 async function addPrivate(page, title) {
-  const library = new PaperLibraryPage(page);
-  await library.goto();
-  await library.choose({ name: 'upload.pdf', buffer: pdf(title) });
-  await library.titleInput.fill(title);
-  const res = await library.submit();
+  const add = new PaperAddPage(page);
+  await add.goto();
+  await add.choose({ name: 'upload.pdf', buffer: pdf(title) });
+  await add.pdfTitleInput.fill(title);
+  const res = await add.submitPdf();
   expect(res.status(), await res.text()).toBe(201);
   return (await res.json()).paperId;
 }
 
 test.describe('Papers that are not in the catalog', () => {
   test.describe('adding one', () => {
+    test('is not on the library screen: the library only links to the add page', async ({ page }) => {
+      await signIn(page, 'Browser');
+      const library = new PaperLibraryPage(page);
+      const add = new PaperAddPage(page);
+      await library.goto();
+      await expect(add.drop).toHaveCount(0);
+      await expect(add.fileInput).toHaveCount(0);
+
+      await library.addPaperLink.click();
+
+      await expect(page).toHaveURL(/\/library\/add$/);
+      await expect(add.dropZone).toBeVisible();
+    });
+
     test('picks a PDF, fills the title from the file name and adds a private paper', async ({ page }) => {
       await signIn(page, 'Picker');
-      const library = new PaperLibraryPage(page);
-      await library.goto();
-      await expect(library.dropZone).toBeVisible();
+      const add = new PaperAddPage(page);
+      await add.goto();
+      await expect(add.dropZone).toBeVisible();
 
-      await library.choose({ name: `Notes_on_${token}_gossip.pdf`, buffer: pdf('picked') });
-      await expect(library.titleInput).toHaveValue(`Notes on ${token} gossip`);
-      await expect(library.doiInput).toHaveValue('');
-      const res = await library.submit();
+      await add.choose({ name: `Notes_on_${token}_gossip.pdf`, buffer: pdf('picked') });
+      await expect(add.pdfTitleInput).toHaveValue(`Notes on ${token} gossip`);
+      await expect(add.pdfDoiInput).toHaveValue('');
+      const res = await add.submitPdf();
       expect(res.status()).toBe(201);
       expect(await res.json()).toMatchObject({ private: true, matched: false, library: { private: true, status: 'to-read' } });
 
-      await expect(library.dropDone).toContainText('Added as a private paper that only you can see.');
+      await expect(add.dropDone).toContainText('Added as a private paper that only you can see.');
+      await expectNoHorizontalScroll(page);
+
+      const library = new PaperLibraryPage(page);
+      await library.goto();
       await expect(library.card(`Notes on ${token} gossip`)).toHaveCount(1);
       await expect(library.privateBadges).toHaveCount(1);
       await expect(library.resultsCount).toContainText('1');
-      await expectNoHorizontalScroll(page);
     });
 
     test('takes a PDF dropped on the zone', async ({ page, isMobile }) => {
       test.skip(isMobile, 'a phone has no drag and drop: it picks a file, which the other tests cover');
       await signIn(page, 'Dropper');
+      const add = new PaperAddPage(page);
+      await add.goto();
+
+      await add.dropFile({ name: `dropped-${token}.pdf`, buffer: pdf('dropped') });
+
+      await expect(add.pdfTitleInput).toHaveValue(`dropped-${token}`);
+      await add.pdfTitleInput.fill(`Dropped paper ${token}`);
+      const res = await add.submitPdf();
+      expect(res.status()).toBe(201);
+
       const library = new PaperLibraryPage(page);
       await library.goto();
-
-      await library.dropFile({ name: `dropped-${token}.pdf`, buffer: pdf('dropped') });
-
-      await expect(library.titleInput).toHaveValue(`dropped-${token}`);
-      await library.titleInput.fill(`Dropped paper ${token}`);
-      const res = await library.submit();
-      expect(res.status()).toBe(201);
       await expect(library.card(`Dropped paper ${token}`)).toHaveCount(1);
     });
 
     test('lets the reader change their mind before anything is sent', async ({ page }) => {
       await signIn(page, 'Undecided');
+      const add = new PaperAddPage(page);
+      await add.goto();
+      await add.choose({ name: 'never-sent.pdf', buffer: pdf('never') });
+
+      await add.pdfCancelButton.click();
+
+      await expect(add.dropZone).toBeVisible();
+      await expect(add.pdfTitleInput).toHaveCount(0);
       const library = new PaperLibraryPage(page);
       await library.goto();
-      await library.choose({ name: 'never-sent.pdf', buffer: pdf('never') });
-
-      await library.cancelButton.click();
-
-      await expect(library.dropZone).toBeVisible();
-      await expect(library.titleInput).toHaveCount(0);
       await expect(library.cards).toHaveCount(0);
     });
 
     test('will not add without a title', async ({ page }) => {
       await signIn(page, 'Untitled');
-      const library = new PaperLibraryPage(page);
-      await library.goto();
-      await library.choose({ name: 'x.pdf', buffer: pdf('untitled') });
+      const add = new PaperAddPage(page);
+      await add.goto();
+      await add.choose({ name: 'x.pdf', buffer: pdf('untitled') });
 
-      await library.titleInput.fill('   ');
+      await add.pdfTitleInput.fill('   ');
 
-      await expect(library.addButton).toBeDisabled();
+      await expect(add.pdfAddButton).toBeDisabled();
     });
 
     test('says why a file that is not a PDF was refused and adds nothing', async ({ page }) => {
       await signIn(page, 'Wrong file');
-      const library = new PaperLibraryPage(page);
-      await library.goto();
-      await library.choose({ name: 'notes.pdf', buffer: Buffer.from('this is plain text, not a PDF') });
-      await library.titleInput.fill(`Not a PDF ${token}`);
+      const add = new PaperAddPage(page);
+      await add.goto();
+      await add.choose({ name: 'notes.pdf', buffer: Buffer.from('this is plain text, not a PDF') });
+      await add.pdfTitleInput.fill(`Not a PDF ${token}`);
 
-      const res = await library.submit();
+      const res = await add.submitPdf();
 
       expect(res.status()).toBe(422);
-      await expect(library.dropError).toContainText('This file is not a PDF.');
-      await library.cancelButton.click();
+      await expect(add.dropError).toContainText('This file is not a PDF.');
+      await add.pdfCancelButton.click();
+      const library = new PaperLibraryPage(page);
+      await library.goto();
       await expect(library.cards).toHaveCount(0);
     });
 
     test('says why a DOI that is not one was refused', async ({ page }) => {
       await signIn(page, 'Bad doi');
-      const library = new PaperLibraryPage(page);
-      await library.goto();
-      await library.choose({ name: 'x.pdf', buffer: pdf('baddoi') });
-      await library.titleInput.fill(`Bad DOI ${token}`);
-      await library.doiInput.fill('not a doi');
+      const add = new PaperAddPage(page);
+      await add.goto();
+      await add.choose({ name: 'x.pdf', buffer: pdf('baddoi') });
+      await add.pdfTitleInput.fill(`Bad DOI ${token}`);
+      await add.pdfDoiInput.fill('not a doi');
 
-      const res = await library.submit();
+      const res = await add.submitPdf();
 
       expect(res.status()).toBe(400);
-      await expect(library.dropError).toContainText('That is not a valid DOI.');
+      await expect(add.dropError).toContainText('That is not a valid DOI.');
+      const library = new PaperLibraryPage(page);
+      await library.goto();
       await expect(library.cards).toHaveCount(0);
     });
   });
@@ -244,27 +271,30 @@ test.describe('Papers that are not in the catalog', () => {
       const { doi, title: catalogTitle, slug: catalogId } = CATALOG;
       await signIn(page, 'Matcher');
       try {
-        const library = new PaperLibraryPage(page);
-        await library.goto();
-        await library.choose({ name: 'whatever.pdf', buffer: pdf('match') });
-        await library.titleInput.fill('A title typed from the PDF');
-        await library.doiInput.fill(`https://doi.org/${doi.toUpperCase()}`);
+        const add = new PaperAddPage(page);
+        await add.goto();
+        await add.choose({ name: 'whatever.pdf', buffer: pdf('match') });
+        await add.pdfTitleInput.fill('A title typed from the PDF');
+        await add.pdfDoiInput.fill(`https://doi.org/${doi.toUpperCase()}`);
 
-        const res = await library.submit();
+        const res = await add.submitPdf();
 
         expect(res.status()).toBe(201);
         expect(await res.json()).toMatchObject({ paperId: catalogId, matched: true, private: false });
-        await expect(library.dropDone).toContainText('already in the catalog');
-        await expect(library.card(catalogTitle)).toHaveCount(1);
-        await expect(library.card('A title typed from the PDF')).toHaveCount(0);
-        await expect(library.privateBadges).toHaveCount(0);
+        await expect(add.dropDone).toContainText('already in the catalog');
 
-        await library.openLink.click();
+        await add.dropOpenLink.click();
         const entry = new PaperLibraryEntryPage(page);
         await expect(entry.title).toHaveText(catalogTitle);
         await expect(entry.publicLink).toBeVisible();
         await expect(entry.privateBadge).toHaveCount(0);
         await expect(page.locator('.attachment .file-name')).toHaveText('whatever.pdf');
+
+        const library = new PaperLibraryPage(page);
+        await library.goto();
+        await expect(library.card(catalogTitle)).toHaveCount(1);
+        await expect(library.card('A title typed from the PDF')).toHaveCount(0);
+        await expect(library.privateBadges).toHaveCount(0);
 
         // No second record: the catalog still has the one paper for that DOI, and nothing under the typed title.
         const byDoi = await page.request.get(`${BASE_URL}/api/papers?doi=${encodeURIComponent(doi)}`);

@@ -1,6 +1,6 @@
 .drop {
-  margin-bottom: 1.25rem;
-  padding: 1rem 1.15rem;
+  margin-bottom: 1.5rem;
+  padding: 1.15rem 1.25rem;
   background: var(--mu-surface);
   border: 1px solid var(--mu-line);
   border-radius: 10px;

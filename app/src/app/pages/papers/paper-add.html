@@ -1,7 +1,7 @@
 <div class="page">
   <div class="page-hero">
     <h1 class="page-title" i18n="@@papers.add.title">Add a paper</h1>
-    <p class="page-sub" i18n="@@papers.add.subtitle">Look a paper up by its DOI, check what was found, then add it to your library. Or enter the details yourself.</p>
+    <p class="page-sub" i18n="@@papers.add.subtitle">Look a paper up by its DOI, upload its PDF, or enter the details yourself. Either way it joins your library.</p>
   </div>
 
   <div class="page-body">
@@ -93,6 +93,8 @@
           </article>
         }
       </section>
+
+      <app-paper-private-drop />
 
       <section class="panel" aria-labelledby="manual-heading">
         <h2 id="manual-heading" class="panel-title" i18n="@@papers.add.manual.heading">Enter the details by hand</h2>
