@@ -1255,6 +1255,132 @@
     ]
   },
   {
+    "slug": "jwt-jws-jwe-jwk-and-common-vulnerabilities",
+    "id": 11,
+    "title": "JWT, JWS, JWE and JWK: Structure and Common Vulnerabilities",
+    "topic": "OAuth & OIDC",
+    "summary": "JSON Web Tokens from the verifier side, measured against a 26-line naive verifier and a 20-line fixed one on localhost with throwaway keys: a compact JWS decoded on screen, HS256, RS256, ES256 and EdDSA (signature size, token size, speed), a hand-built JWE, JWK, JWKS and the RFC 7638 thumbprint, then each classic pitfall as naive accepts, fixed refuses: alg none, RS256 to HS256 confusion, kid as file path or SQL, jku, jwk and SSRF, iss, aud, exp, nbf and clock skew, typ confusion (RFC 9068), JWKS cache cooldown and rotation, and the entropy arithmetic behind weak HS256 secrets. Also what JsonWebTokenHandler 8.23.0 and Spring NimbusJwtDecoder 7.1.1 do by default, revocation, JWT as a browser session, and JWT against PASETO.",
+    "publishedAt": "2026-11-21",
+    "requires": [
+      "oauth-2-roles-grants-and-tokens-from-first-principles",
+      "oidc-id-token-userinfo-discovery-and-logout"
+    ],
+    "related": [
+      {
+        "label": "Session Management: Cookies, Fixation and Revocation",
+        "slug": "session-management-cookies-fixation-and-revocation",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth Security: BCP, DPoP, mTLS, PAR, RAR and Resource Indicators",
+        "slug": "oauth-security-bcp-dpop-mtls-par-rar-and-resource-indicators",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "OAuth Token Exchange: Delegation and On-Behalf-Of",
+        "slug": "oauth-token-exchange-delegation-and-on-behalf-of",
+        "feature": "identity-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Signing: Symmetric vs. Asymmetric Keys",
+        "slug": "spring-security-jwt-signing-symmetric-and-asymmetric",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "OAuth 2 Resource Server: Remote Check, Blackboarding, and Local Validation",
+        "slug": "spring-security-oauth2-resource-server-approaches",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Cryptography: Hashing, HMAC, AES-GCM and Password Hashing",
+        "slug": "cryptography-hashing-hmac-aes-gcm-and-password-hashing",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "RFC 7515, JSON Web Signature (JWS), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7515",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7516, JSON Web Encryption (JWE), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7516",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7517, JSON Web Key (JWK), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7517",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7518, JSON Web Algorithms (JWA), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7518",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7519, JSON Web Token (JWT), IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7519",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7638, JSON Web Key (JWK) Thumbprint, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7638",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8725, JSON Web Token Best Current Practices, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8725",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9068, JWT Profile for OAuth 2.0 Access Tokens, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9068",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9864, Fully-Specified Algorithms for JOSE and COSE, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9864",
+        "type": "doc"
+      },
+      {
+        "label": "JSON Object Signing and Encryption (JOSE) registry, IANA",
+        "url": "https://www.iana.org/assignments/jose/jose.xhtml",
+        "type": "doc"
+      },
+      {
+        "label": "JSON Web Token Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "HTML5 Security Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html",
+        "type": "doc"
+      },
+      {
+        "label": "TokenValidationParameters.ValidAlgorithms, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.identitymodel.tokens.tokenvalidationparameters.validalgorithms",
+        "type": "doc"
+      },
+      {
+        "label": "OAuth 2.0 Resource Server JWT, Spring Security Reference",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html",
+        "type": "doc"
+      },
+      {
+        "label": "PASETO specification, paseto-standard on GitHub",
+        "url": "https://github.com/paseto-standard/paseto-spec",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "oauth-token-exchange-delegation-and-on-behalf-of",
     "id": 13,
     "title": "OAuth Token Exchange: Delegation and On-Behalf-Of",
