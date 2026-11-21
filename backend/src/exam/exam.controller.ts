@@ -1,5 +1,6 @@
 import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { OptionalUserId } from '../auth/session';
+import { normalizeLanguage } from '../shared/language';
 import { ExamService } from './exam.service';
 
 @Controller('exam')
@@ -31,13 +32,14 @@ export class ExamController {
     @Param('examId') examId: string,
     @Query('topic') topic?: string,
     @Query('limit') limit?: string,
+    @Query('lang') lang?: string,
   ) {
-    return this.service.getQuestions(examId, topic, limit ? parseInt(limit) : undefined);
+    return this.service.getQuestions(examId, topic, limit ? parseInt(limit) : undefined, normalizeLanguage(lang));
   }
 
   @Get('questions/:id')
-  getQuestion(@Param('id', ParseIntPipe) id: number) {
-    return this.service.getQuestion(id);
+  getQuestion(@Param('id', ParseIntPipe) id: number, @Query('lang') lang?: string) {
+    return this.service.getQuestion(id, normalizeLanguage(lang));
   }
 
   @Post(':examId/attempts')
@@ -47,6 +49,7 @@ export class ExamController {
     @Body('serve') serve?: unknown,
     @Body('topic') topic?: unknown,
     @Body('limit') limit?: unknown,
+    @Query('lang') lang?: string,
   ) {
     return this.service.startAttempt(
       examId,
@@ -57,6 +60,7 @@ export class ExamController {
             limit: typeof limit === 'number' ? limit : undefined,
           }
         : undefined,
+      normalizeLanguage(lang),
     );
   }
 
@@ -66,8 +70,9 @@ export class ExamController {
     @OptionalUserId() userId: number | null,
     @Body('answers') answers: Record<number, string[]>,
     @Body('questionIds') questionIds?: number[],
+    @Query('lang') lang?: string,
   ) {
-    return this.service.submitAttempt(id, answers ?? {}, questionIds, userId);
+    return this.service.submitAttempt(id, answers ?? {}, questionIds, userId, normalizeLanguage(lang));
   }
 
   @Get(':examId/attempts')

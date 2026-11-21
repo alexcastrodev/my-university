@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal, untracked } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs';
 import { BreadcrumbItem, Breadcrumbs } from '../../components/breadcrumbs/breadcrumbs';
 import { CourseView } from '../../components/course-view/course-view';
 import { LessonContent } from '../../components/lesson-content/lesson-content';
@@ -9,6 +10,7 @@ import { SkillCheckView } from '../../components/skill-check-view/skill-check-vi
 import { Course, Lesson } from '../../models/course.model';
 import { Exam } from '../../models/exam.model';
 import { AuthService } from '../../services/auth.service';
+import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 
@@ -25,6 +27,7 @@ export class CoursePage implements OnInit {
   private http = inject(HttpClient);
   protected auth = inject(AuthService);
   private xpService = inject(XpService);
+  private language = inject(LanguageService);
   private seo = inject(SeoService);
   private courseLoader = effect(() => {
     const id = this.examId();
@@ -148,7 +151,15 @@ export class CoursePage implements OnInit {
       return;
     }
     this.markdownLoading.set(true);
-    this.http.get(`/api/content/${lesson.contentPath}`, { responseType: 'text' }).subscribe({
+    const english$ = this.http.get(`/api/content/${lesson.contentPath}`, { responseType: 'text' });
+    // A translated lesson is a sibling file (`<name>.pt-BR.md`); a course without one answers 404 and the English text is shown.
+    const raw$ =
+      this.language.language === 'pt-BR'
+        ? this.http
+            .get(`/api/content/${lesson.contentPath.replace(/\.md$/, '.pt-BR.md')}`, { responseType: 'text' })
+            .pipe(catchError(() => english$))
+        : english$;
+    raw$.subscribe({
       next: (raw) => { this.markdownContent.set(this.parseFrontmatter(raw)); this.markdownLoading.set(false); },
       error: () => { this.markdownContent.set(null); this.markdownLoading.set(false); },
     });

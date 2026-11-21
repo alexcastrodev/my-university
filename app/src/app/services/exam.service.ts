@@ -9,10 +9,12 @@ import {
   PublicAttemptSummary,
   SubmitResult,
 } from '../models/exam.model';
+import { LanguageService } from './language.service';
 
 @Injectable({ providedIn: 'root' })
 export class ExamService {
   private http = inject(HttpClient);
+  private language = inject(LanguageService);
   private base = '/api/exam';
 
   listExams(): Observable<Exam[]> {
@@ -24,19 +26,19 @@ export class ExamService {
   }
 
   getQuestions(examId: string, limit?: number, topic?: string): Observable<ExamQuestion[]> {
-    const parts: string[] = [];
+    const parts: string[] = [`lang=${this.language.language}`];
     if (limit) parts.push(`limit=${limit}`);
     if (topic) parts.push(`topic=${encodeURIComponent(topic)}`);
-    const qs = parts.length ? `?${parts.join('&')}` : '';
-    return this.http.get<ExamQuestion[]>(`${this.base}/${examId}/questions${qs}`);
+    return this.http.get<ExamQuestion[]>(`${this.base}/${examId}/questions?${parts.join('&')}`);
   }
 
   /** Starts an attempt and has the server draw its questions: only those can be graded and earn XP. */
   startAttempt(examId: string, options: { limit?: number; topic?: string } = {}): Observable<ExamAttempt & { questions: ExamQuestion[] }> {
-    return this.http.post<ExamAttempt & { questions: ExamQuestion[] }>(`${this.base}/${examId}/attempts`, {
-      serve: true,
-      ...options,
-    });
+    return this.http.post<ExamAttempt & { questions: ExamQuestion[] }>(
+      `${this.base}/${examId}/attempts`,
+      { serve: true, ...options },
+      { params: { lang: this.language.language } },
+    );
   }
 
   submitAttempt(
@@ -44,10 +46,11 @@ export class ExamService {
     answers: Record<number, string[]>,
     questionIds?: number[],
   ): Observable<SubmitResult> {
-    return this.http.post<SubmitResult>(`${this.base}/attempts/${attemptId}/submit`, {
-      answers,
-      questionIds,
-    });
+    return this.http.post<SubmitResult>(
+      `${this.base}/attempts/${attemptId}/submit`,
+      { answers, questionIds },
+      { params: { lang: this.language.language } },
+    );
   }
 
   getAttempts(examId: string): Observable<ExamAttemptSummary[]> {
