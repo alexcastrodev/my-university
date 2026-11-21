@@ -33,6 +33,7 @@ export const CONCEPT_MODULES: readonly ConceptModuleConfig[] = [
   { module: 'dotnet-ai-concepts', sourceType: 'concept-read', prefix: 'dotnet-ai:', route: (slug) => ['/dotnet-ai-concepts', slug] },
   { module: 'identity-concepts', sourceType: 'concept-read', prefix: 'identity:', route: (slug) => ['/identity-concepts', slug] },
   { module: 'azure-dotnet-concepts', sourceType: 'concept-read', prefix: 'azure-dotnet:', route: (slug) => ['/azure-dotnet-concepts', slug] },
+  { module: 'dotnet-client-apps-concepts', sourceType: 'concept-read', prefix: 'dotnet-client-apps:', route: (slug) => ['/dotnet-client-apps-concepts', slug] },
   { module: 'rust-concepts', sourceType: 'concept-read', prefix: 'rust:', route: (slug) => ['/rust-concepts', slug] },
   { module: 'go-concepts', sourceType: 'concept-read', prefix: 'go:', route: (slug) => ['/go-concepts', slug] },
   { module: 'csharp-minute', sourceType: 'episode-watched', prefix: 'csharp:', route: (slug) => ['/csharp-minute', slug] },

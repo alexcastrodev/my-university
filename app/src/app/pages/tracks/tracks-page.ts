@@ -31,6 +31,7 @@ const META: Record<string, TrackMeta> = {
   'dotnet-testing-concepts': { group: 'dotnet', kind: 'framework' },
   'dotnet-ai-concepts': { group: 'dotnet', kind: 'framework' },
   'azure-dotnet-concepts': { group: 'dotnet', kind: 'framework' },
+  'dotnet-client-apps-concepts': { group: 'dotnet', kind: 'framework' },
   'csharp-concepts': { group: 'dotnet', kind: 'language' },
   'csharp-minute': { group: 'dotnet', kind: 'quick' },
   'rust-concepts': { group: 'rust', kind: 'language' },

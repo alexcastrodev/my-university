@@ -48,6 +48,7 @@ const TYPE_LABELS: Record<SearchResultType, string> = {
   'dotnet-ai-concept': $localize`:@@search.type.dotnetAiConcept:AI in .NET`,
   'identity-concept': $localize`:@@search.type.identityConcept:Identity & Access`,
   'azure-dotnet-concept': $localize`:@@search.type.azureDotnetConcept:Azure for .NET`,
+  'dotnet-client-apps-concept': $localize`:@@search.type.dotnetClientAppsConcept:Client Apps for .NET`,
   'rust-concept': $localize`:@@search.type.rustConcept:Rust`,
   'go-concept': $localize`:@@search.type.goConcept:Go`,
   paper: $localize`:@@search.type.paper:Papers`,

@@ -21,6 +21,7 @@ export type SearchResultType =
   | 'dotnet-ai-concept'
   | 'identity-concept'
   | 'azure-dotnet-concept'
+  | 'dotnet-client-apps-concept'
   | 'rust-concept'
   | 'go-concept'
   | 'paper';

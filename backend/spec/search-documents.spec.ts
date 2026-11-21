@@ -16,6 +16,7 @@ import { DotNetTestingConceptsService } from '../src/dotnet-testing-concepts/dot
 import { DotNetAiConceptsService } from '../src/dotnet-ai-concepts/dotnet-ai-concepts.service';
 import { IdentityConceptsService } from '../src/identity-concepts/identity-concepts.service';
 import { AzureDotnetConceptsService } from '../src/azure-dotnet-concepts/azure-dotnet-concepts.service';
+import { DotnetClientAppsConceptsService } from '../src/dotnet-client-apps-concepts/dotnet-client-apps-concepts.service';
 import { RustConceptsService } from '../src/rust-concepts/rust-concepts.service';
 import { GoConceptsService } from '../src/go-concepts/go-concepts.service';
 import { PapersCatalogService } from '../src/papers/papers-catalog.service';
@@ -53,6 +54,7 @@ function buildDocuments() {
     new KubernetesConceptsService(),
     new IdentityConceptsService(),
     new AzureDotnetConceptsService(),
+    new DotnetClientAppsConceptsService(),
     papersCatalog,
     null as never,
   ).buildContentDocuments();
