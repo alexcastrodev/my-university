@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-19
+version: 1.1
+updatedAt: 2026-11-21
 ---
 ## Objective
 
@@ -193,6 +193,8 @@ reads the signed node, not the first match. Crafting a wrapping that defeats a
 hardened, maintained library is docs only here: it is the documented XSW family
 (OWASP XML Security Cheat Sheet, and Somorovsky et al., "On Breaking SAML"),
 defeated by validating position, not just the cryptography.
+
+The .NET lab for this lesson showed a second trap: `SignedXml.CheckSignature` still returned true when an unsigned copy carrying the same `ID` sat before the signed assertion, because the reference is resolved by ID anywhere in the document. The SP must refuse a document where that ID appears twice and read only the element the signature covers.
 
 ### Attributes to roles, and Single Logout (measured)
 

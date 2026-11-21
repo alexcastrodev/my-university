@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-19
+version: 1.1
+updatedAt: 2026-11-21
 title: "Fluxo de Autorização do MCP: 401, Descoberta e Validação de Token"
 summary: O fluxo OAuth inteiro de um servidor MCP HTTP protegido, medido no fio com o SDK C# 2.4.0 e um authorization server local: o 401 com resource_metadata, o Protected Resource Metadata (RFC 9728), a descoberta por RFC 8414 e OIDC, authorization code com PKCE S256 e resource (RFC 8707), audience errada dando 401, escopo faltando dando 403 insufficient_scope, a checagem de iss (RFC 9207) no cliente e por que stdio fica de fora.
 ---
@@ -199,6 +199,8 @@ primeira autorização a pedir só `openid`, o 403 caiu na nova tentativa logo
 depois da troca do token, e ali o SDK não fez step-up (`HttpRequestException:
 ... 403 (Forbidden)`); a request seguinte no mesmo transport levou o 403, refez
 o fluxo com `scope=mcp%3atools` e passou. Contra o 403 pelado, nada de step-up.
+
+Rotacionar a chave de assinatura do servidor de autorização com o servidor protegido em execução: ele continuou aceitando um token assinado com a chave antiga e recusou o assinado com a chave nova (`IDX10503`), porque mantém o conjunto de chaves em cache. O lab reproduz isso; renovar o metadata ou reiniciar o servidor faz ele enxergar a chave nova.
 
 ### Passo 6: `iss` na resposta de autorização (RFC 9207)
 

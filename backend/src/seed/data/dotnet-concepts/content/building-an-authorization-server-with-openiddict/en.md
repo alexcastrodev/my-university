@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-19
+version: 1.1
+updatedAt: 2026-11-21
 ---
 ## Objective
 
@@ -165,6 +165,8 @@ ROLLING=off        (DisableRollingRefreshTokens) RT0 reused 3 times -> ok; 4 ref
 ```
 
 The default `RefreshTokenReuseLeeway` of 30 seconds tolerates a client that retries after a lost response, at the cost of a short double-spend window. After it, reuse is treated as theft and the whole chain dies, the same signal as the code replay. Disabling rolling removes detection: a stolen refresh token works until it expires. Access tokens already issued from the chain keep working at a JwtBearer API for the rest of their lifetime (see above). When refreshing, re-check the user in your handler (disabled account, changed password); that part is code you write (docs only).
+
+Chain revocation also needs a store that supports bulk updates. In the lab (OpenIddict 7.9.0), with EF Core's `UseInMemoryDatabase` provider, reusing a redeemed code or refresh token only logged a warning (`An error occurred while trying to revoke the tokens associated with the authorization`) and the access token stayed valid; the lab uses SQLite `:memory:` with one open connection per host so the revocation really happens. Test replay detection against the store you ship.
 
 ### Signing keys and rotation
 

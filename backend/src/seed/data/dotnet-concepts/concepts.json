@@ -4078,7 +4078,8 @@
         "url": "https://datatracker.ietf.org/doc/html/rfc7662",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/building-an-authorization-server-with-openiddict"
   },
   {
     "slug": "secrets-and-managed-identities-key-vault-and-workload-identity",

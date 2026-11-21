@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-30
+version: 1.1
+updatedAt: 2026-11-21
 title: "Chamada de Ferramentas com AIFunction"
 summary: AIFunctionFactory.Create e o JSON schema gerado, ChatOptions.Tools e ToolMode ignorado pelo OllamaSharp, o loop manual com FunctionCallContent e FunctionResultContent, UseFunctionInvocation com contagem de chamadas, limites de iteração e de erros, IncludeDetailedErrors, AllowConcurrentInvocation, FunctionInvoker, ferramentas desconhecidas, argumentos inválidos, aprovação com ApprovalRequiredAIFunction, validação dentro da ferramenta e o custo em tokens das definições.
 ---
@@ -59,11 +59,15 @@ vazia, então dê nome às lambdas: `Create(delegate, "GetTime", "...")`.
 
 `AIFunctionFactoryOptions` define `Name`, `Description` e `SerializerOptions`.
 O padrão, `AIJsonUtilities.DefaultOptions`, usa camelCase e
-`JsonStringEnumConverter`. Com um `JsonSerializerOptions` simples, as
-propriedades do record viraram `City`/`Country`, `unit` virou
-`{"type":"integer"}`, e o argumento camelCase `{"city":"Lisbon"}` virou em
-silêncio `Location { City = , Country = }`, sem erro. Schema e binding precisam
-das mesmas opções.
+`JsonStringEnumConverter`. Um `new JsonSerializerOptions()` vazio nem chega
+lá: `Create` lançou `InvalidOperationException: JsonSerializerOptions instance
+must specify a TypeInfoResolver setting before being marked as read-only`
+(medido de novo com a 10.11.0 no lab). Opções que já têm resolver, como
+`JsonSerializerOptions.Default` ou `new() { TypeInfoResolver = new
+DefaultJsonTypeInfoResolver() }`, criam a função, mas as propriedades do record
+viraram `City`/`Country`, `unit` virou `{"type":"integer"}`, e o argumento
+camelCase `{"city":"Lisbon"}` virou em silêncio `Location { City = , Country =
+}`, sem erro. Schema e binding precisam das mesmas opções.
 
 ### O que chega ao Ollama, e ToolMode
 

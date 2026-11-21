@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-11-19
+version: 1.1
+updatedAt: 2026-11-21
 ---
 ## Objective
 
@@ -199,6 +199,8 @@ first authorization down to `openid`, the 403 hit the retry right after the
 token exchange and the SDK did not step up there (`HttpRequestException: ...
 403 (Forbidden)`); the next request on the same transport got the 403, reran
 the flow with `scope=mcp%3atools` and succeeded. Against the bare 403, no step-up.
+
+Rotating the authorization server's signing key under a running protected server: it kept accepting a token signed with the old key and rejected one signed with the new key (`IDX10503`), because it caches the key set. The lab reproduces it; refreshing the metadata or restarting the server picks the new key up.
 
 ### Step 6: `iss` in the authorization response (RFC 9207)
 
