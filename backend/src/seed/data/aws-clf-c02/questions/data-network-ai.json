@@ -1,0 +1,1488 @@
+[
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "An online retailer runs its orders database on Amazon RDS for PostgreSQL with Multi-AZ enabled. Every morning a finance team runs heavy reporting queries that slow down checkout. What should the company do?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Create a read replica and point the reporting tool at it"
+      },
+      {
+        "key": "B",
+        "text": "Enable a second Multi-AZ standby so the reports can use it"
+      },
+      {
+        "key": "C",
+        "text": "Increase the automated backup retention period"
+      },
+      {
+        "key": "D",
+        "text": "Migrate the orders table to Amazon Redshift Spectrum"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "A read replica is an asynchronous, read-only copy built to offload read traffic such as business reporting. The Multi-AZ standby serves no reads, backup retention does not change load, and Spectrum queries files in S3 rather than relieving an OLTP database."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "After enabling Multi-AZ on its Amazon RDS for MySQL DB instance, a team expects its read capacity to double. Which statement explains what actually happens?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Reads are load balanced across the primary and the standby automatically"
+      },
+      {
+        "key": "B",
+        "text": "The standby is an asynchronous copy in another Region that serves reads"
+      },
+      {
+        "key": "C",
+        "text": "The standby serves reads only during the weekly maintenance window"
+      },
+      {
+        "key": "D",
+        "text": "The standby is kept in sync in another Availability Zone but does not serve read traffic, so read capacity is unchanged"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "A Multi-AZ DB instance keeps a synchronous standby in a different AZ for failover, and that standby is not a read-scaling solution. Read scaling comes from read replicas, which are asynchronous."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A payments company wants to find fraud rings by following links between accounts, devices and card numbers, often several hops deep, across billions of relationships. Which AWS database fits this access pattern?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon DocumentDB"
+      },
+      {
+        "key": "B",
+        "text": "Amazon ElastiCache"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Neptune"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Redshift"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Neptune is a managed graph database for highly connected data and fast relationship queries. DocumentDB stores JSON documents, ElastiCache is an in-memory cache and Redshift is a data warehouse for analytics."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A software vendor requires that its monitoring agent be installed directly on the operating system of the database server, and the company wants full control over OS patching schedules. Which deployment fits best?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Use Amazon RDS with storage autoscaling"
+      },
+      {
+        "key": "B",
+        "text": "Install and manage the database engine on Amazon EC2 instances"
+      },
+      {
+        "key": "C",
+        "text": "Use Amazon DynamoDB with on-demand capacity"
+      },
+      {
+        "key": "D",
+        "text": "Use Amazon Aurora with Aurora Replicas"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "On EC2 the customer owns the operating system and the database software, which allows OS-level agents and custom patching. Standard RDS and Aurora hide the host OS, and DynamoDB is a serverless NoSQL service with no host at all."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A gaming company stores player sessions in an Amazon DynamoDB table. Read latency must drop from milliseconds to microseconds, and the developers want to keep using the DynamoDB API with minimal code changes. What should they add?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "DynamoDB global tables"
+      },
+      {
+        "key": "B",
+        "text": "DynamoDB Accelerator (DAX)"
+      },
+      {
+        "key": "C",
+        "text": "An Amazon RDS read replica"
+      },
+      {
+        "key": "D",
+        "text": "An Amazon Redshift cluster"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "DAX is an in-memory cache that is API-compatible with DynamoDB and takes eventually consistent reads to microseconds. Global tables add multi-Region replication, not lower read latency, and RDS or Redshift would mean moving the data."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A mobile game needs an in-memory store for a real-time leaderboard that ranks millions of scores with sorted sets and keeps a replica in another Availability Zone. Which choice fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon ElastiCache with the Valkey or Redis OSS engine"
+      },
+      {
+        "key": "B",
+        "text": "Amazon ElastiCache with the Memcached engine"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Neptune"
+      },
+      {
+        "key": "D",
+        "text": "Amazon RDS for MariaDB with Provisioned IOPS"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Valkey and Redis OSS add sorted sets, replication and Multi-AZ, which suit leaderboards. Memcached is the simplest object cache without those features, Neptune is a graph database and RDS is disk-based relational storage."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A company is moving an on-premises MySQL database to Amazon RDS for MySQL. The engine stays the same, and the source must stay online and keep replicating changes until a short cutover. What is the simplest way to do this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Convert the schema with AWS Schema Conversion Tool, then copy the data with AWS Backup"
+      },
+      {
+        "key": "B",
+        "text": "Use AWS Application Migration Service to rehost the database server"
+      },
+      {
+        "key": "C",
+        "text": "Take nightly snapshots and restore them into Amazon RDS until cutover"
+      },
+      {
+        "key": "D",
+        "text": "Use AWS Database Migration Service with ongoing replication"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "DMS migrates data and keeps source and target in sync until cutover, and for the same engine no schema conversion is needed. SCT is for moving between different engines, Application Migration Service rehosts whole servers on EC2 rather than into RDS, and nightly restores cannot keep the target current."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A startup is launching a mobile app whose traffic is impossible to forecast. It needs a key-value store with single-digit millisecond reads at any scale, no servers to manage and payment per request. Which option fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon RDS for MySQL with read replicas"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Redshift Serverless"
+      },
+      {
+        "key": "C",
+        "text": "Amazon DynamoDB in on-demand capacity mode"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Neptune"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "DynamoDB is serverless NoSQL with single-digit millisecond performance, and on-demand mode bills per request and scales instantly. RDS needs instance sizing, Redshift is an analytics warehouse and Neptune is a graph database."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "An administrator accidentally dropped a table in an Amazon RDS for PostgreSQL database two days ago. The instance runs Multi-AZ and has one read replica, and automated backups keep seven days. How can the team recover the table?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Fail over to the Multi-AZ standby, which still has the table"
+      },
+      {
+        "key": "B",
+        "text": "Promote the read replica, which kept the table"
+      },
+      {
+        "key": "C",
+        "text": "Restore the database to a point in time just before the deletion, which creates a new DB instance"
+      },
+      {
+        "key": "D",
+        "text": "Open a case so that AWS reverses the change on the original instance"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Point-in-time recovery restores to any second inside the retention period and always creates a new DB instance. The standby and the read replica both received the drop through replication, so neither still holds the table."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A company wants a MySQL-compatible relational database in which every write is stored as six copies across three Availability Zones, and read-only replicas read from that same shared storage volume. Which service provides this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon RDS for MySQL"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Aurora"
+      },
+      {
+        "key": "C",
+        "text": "Amazon DynamoDB"
+      },
+      {
+        "key": "D",
+        "text": "Amazon DocumentDB"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Aurora replicates its cluster volume to six storage nodes across three AZs and lets Aurora Replicas read from that shared volume. RDS for MySQL uses standard instance storage, DynamoDB is NoSQL and DocumentDB is MongoDB-compatible."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "multi",
+    "text": "A solutions architect is explaining Amazon RDS read replicas to a team. Which statements are correct? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "They use asynchronous replication from the source DB instance"
+      },
+      {
+        "key": "B",
+        "text": "They fail over automatically when the primary instance fails"
+      },
+      {
+        "key": "C",
+        "text": "They can be created in a different AWS Region and promoted to a standalone database for disaster recovery"
+      },
+      {
+        "key": "D",
+        "text": "They receive writes synchronously before the primary confirms a transaction"
+      },
+      {
+        "key": "E",
+        "text": "They accept write traffic so the application can scale writes"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C"
+    ],
+    "explanation": "Read replicas are asynchronous, read-only copies that can live in another AZ or Region and be promoted manually. Automatic failover and synchronous replication describe Multi-AZ, and replicas never accept writes."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A new engineer asks what makes a subnet in a VPC a public subnet. What is the correct answer?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Its route table has a route to an internet gateway"
+      },
+      {
+        "key": "B",
+        "text": "It contains a NAT gateway"
+      },
+      {
+        "key": "C",
+        "text": "Its security groups allow inbound traffic from 0.0.0.0/0"
+      },
+      {
+        "key": "D",
+        "text": "Its network ACL allows all inbound traffic"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Subnet type follows routing: a public subnet has a direct route to an internet gateway. A NAT gateway serves private subnets, and security group or network ACL rules filter traffic without creating a path to the internet."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "Application servers in a private subnet must download operating system patches from the internet, but nothing on the internet may start a connection to them. What should the company add?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A route from the private subnet straight to the internet gateway"
+      },
+      {
+        "key": "B",
+        "text": "An Elastic IP address on each application server"
+      },
+      {
+        "key": "C",
+        "text": "A VPC peering connection to the default VPC"
+      },
+      {
+        "key": "D",
+        "text": "A NAT gateway in a public subnet, with a route to it from the private subnet"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "A NAT gateway lets private instances reach outside services while external hosts cannot initiate connections. Routing the subnet to the internet gateway or giving servers Elastic IPs would make them reachable from the internet, and peering does not provide internet access."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "Two hundred employees work from home and need to reach applications in a VPC and in the company's data center from their laptops over an encrypted connection. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Site-to-Site VPN"
+      },
+      {
+        "key": "B",
+        "text": "AWS Direct Connect"
+      },
+      {
+        "key": "C",
+        "text": "AWS Transit Gateway"
+      },
+      {
+        "key": "D",
+        "text": "AWS Client VPN"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Client VPN is a managed client-based VPN for individual users connecting from any location. Site-to-Site VPN joins whole networks, Direct Connect is a dedicated link from a facility, and Transit Gateway is a routing hub, not a user access service."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A company is releasing a new version of its web application and wants Amazon Route 53 to send 10 percent of users to the new stack and 90 percent to the current one. Which routing policy should it use?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Latency routing"
+      },
+      {
+        "key": "B",
+        "text": "Failover routing"
+      },
+      {
+        "key": "C",
+        "text": "Weighted routing"
+      },
+      {
+        "key": "D",
+        "text": "Geolocation routing"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Weighted routing splits traffic across records in the proportions you set. Latency picks the fastest Region per user, failover is active-passive based on health checks and geolocation answers by the user's location."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A multiplayer game uses UDP, and players' firewalls allow only two fixed IP addresses. Traffic must reach game servers in two Regions and shift quickly if one Region fails. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon CloudFront"
+      },
+      {
+        "key": "B",
+        "text": "AWS Global Accelerator"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Route 53 latency routing"
+      },
+      {
+        "key": "D",
+        "text": "Application Load Balancer"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Global Accelerator gives static anycast IP addresses, proxies TCP or UDP over the AWS global network and fails over quickly between Regional endpoints. CloudFront is for cacheable HTTP content, Route 53 answers DNS without fixed IPs and an ALB is a layer 7 HTTP load balancer in one Region."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A publisher stores product images and videos in a single Amazon S3 bucket in one Region. Customers on other continents complain about slow downloads of the same popular files. What is the most effective fix?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Serve the files through an Amazon CloudFront distribution with the bucket as its origin"
+      },
+      {
+        "key": "B",
+        "text": "Put AWS Global Accelerator in front of the bucket"
+      },
+      {
+        "key": "C",
+        "text": "Connect the bucket to customers through AWS Direct Connect"
+      },
+      {
+        "key": "D",
+        "text": "Add a network ACL that prioritizes traffic from distant countries"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "CloudFront caches content at edge locations close to users and fetches from the S3 origin only on a miss. Global Accelerator does not cache, Direct Connect links your own network to AWS, and network ACLs only allow or deny traffic."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "multi",
+    "text": "A bank needs a private connection from its data center to its VPC that bypasses the public internet, and auditors also require IPsec encryption on that connection. Which combination meets both requirements? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Client VPN"
+      },
+      {
+        "key": "B",
+        "text": "AWS Direct Connect"
+      },
+      {
+        "key": "C",
+        "text": "AWS Global Accelerator"
+      },
+      {
+        "key": "D",
+        "text": "AWS Site-to-Site VPN"
+      },
+      {
+        "key": "E",
+        "text": "Amazon CloudFront"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "D"
+    ],
+    "explanation": "Direct Connect provides the private link that bypasses internet providers but is not encrypted by itself, so a Site-to-Site VPN runs over it to add IPsec. Client VPN is for individual users, and Global Accelerator and CloudFront serve internet users rather than a data center link."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A retailer wants to connect a branch office network to its VPC with an encrypted tunnel over the branch's existing internet connection, without ordering any new circuit. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Site-to-Site VPN"
+      },
+      {
+        "key": "B",
+        "text": "AWS Direct Connect"
+      },
+      {
+        "key": "C",
+        "text": "AWS Client VPN"
+      },
+      {
+        "key": "D",
+        "text": "VPC peering"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Site-to-Site VPN connects a whole on-premises network to a VPC with IPsec over the internet, using a customer gateway on the branch side. Direct Connect needs a dedicated link, Client VPN is for individual devices and VPC peering only joins VPCs."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A company has 40 VPCs across several accounts and two data centers. Managing a mesh of peering connections has become unworkable, and the team wants one central hub for routing between all of them. Which service should it use?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "More VPC peering connections in a full mesh"
+      },
+      {
+        "key": "B",
+        "text": "AWS PrivateLink"
+      },
+      {
+        "key": "C",
+        "text": "A NAT gateway in each VPC"
+      },
+      {
+        "key": "D",
+        "text": "AWS Transit Gateway"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Transit Gateway is a network transit hub that interconnects VPCs and on-premises networks through VPN or Direct Connect attachments. Peering is point to point, PrivateLink exposes individual services and NAT gateways only provide outbound internet access."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A SaaS provider wants customers to reach its API from their own VPCs privately, as if the service were inside each customer's VPC, without VPC peering and without traffic crossing the internet. Which service enables this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Transit Gateway"
+      },
+      {
+        "key": "B",
+        "text": "An internet gateway with an Elastic IP"
+      },
+      {
+        "key": "C",
+        "text": "AWS PrivateLink"
+      },
+      {
+        "key": "D",
+        "text": "AWS Client VPN"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "PrivateLink publishes a service through interface endpoints so other VPCs and accounts connect to it privately. Transit Gateway routes whole networks together, an internet gateway sends traffic over the internet and Client VPN is for individual users."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "multi",
+    "text": "A startup moves its DNS to Amazon Route 53. Which functions does Route 53 provide? (Choose three.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Domain name registration"
+      },
+      {
+        "key": "B",
+        "text": "DNS routing of queries to resources"
+      },
+      {
+        "key": "C",
+        "text": "Caching of web content at edge locations"
+      },
+      {
+        "key": "D",
+        "text": "Distributing connections across targets in several Availability Zones"
+      },
+      {
+        "key": "E",
+        "text": "Health checks of resources"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "E"
+    ],
+    "explanation": "Route 53 combines domain registration, DNS routing and health checking. Edge caching is CloudFront, and spreading connections across healthy targets is Elastic Load Balancing."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A news website wants to offer a listen button that reads each article aloud in a natural-sounding voice. Which AWS service should it use?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Transcribe"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Polly"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Lex"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Translate"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Polly converts text into lifelike speech. Transcribe does the opposite (speech to text), Lex builds conversational bots and Translate changes the language of text."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "An insurance company receives thousands of scanned claim forms each day and needs the handwritten fields and tables returned as structured data. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Rekognition"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Textract"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Comprehend"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Translate"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Textract extracts printed text, handwriting, forms and tables from scanned documents. Rekognition analyzes photos and video, Comprehend finds meaning in text that already exists and Translate converts languages."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A factory already streams sensor readings into AWS through AWS IoT Core. Its data scientists now want to train a model on five years of readings to predict which machines will fail next month. Which service should they use for the model?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon SageMaker AI"
+      },
+      {
+        "key": "B",
+        "text": "AWS IoT Core rules alone"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Rekognition"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Lex"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Building, training and deploying a custom model is the job of SageMaker AI. IoT Core connects devices and routes their messages but does not train models, Rekognition analyzes images and Lex builds chatbots."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "multi",
+    "text": "A support center records every customer call. It wants the recordings converted to text and then wants to know whether each caller was satisfied or upset. Which services should it combine? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Transcribe"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Polly"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Lex"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Comprehend"
+      },
+      {
+        "key": "E",
+        "text": "Amazon Rekognition"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "D"
+    ],
+    "explanation": "Transcribe turns speech into text, and Comprehend detects sentiment in that text. Polly generates speech, Lex runs conversations and Rekognition analyzes images and video."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "Developers want a generative AI assistant that can explain their AWS resources in plain language and suggest code while they build and operate AWS applications. Which AWS service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Lex"
+      },
+      {
+        "key": "B",
+        "text": "Amazon SageMaker AI"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Comprehend"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Q"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Amazon Q is a generative AI conversational assistant for understanding, building and operating AWS applications. Lex is a toolkit to build your own bots, SageMaker AI trains custom models and Comprehend analyzes text."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "An airline wants a virtual agent on its website and phone line that understands requests such as 'change my flight to Friday' and asks follow-up questions. A team member proposes Amazon Polly. Which service should the airline use instead?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Transcribe"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Translate"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Lex"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Textract"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Lex builds conversational interfaces with speech recognition and natural language understanding, so it grasps intent and drives the dialog. Polly only turns text into speech, Transcribe only converts audio to text, and Translate and Textract do not hold conversations."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A photo-sharing app must flag uploaded images that contain unsafe content, and the team has no machine learning experience. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Textract"
+      },
+      {
+        "key": "B",
+        "text": "Amazon SageMaker AI"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Rekognition"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Comprehend"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Rekognition analyzes images and video for objects, text and unsafe content with no ML expertise required. Textract reads documents, SageMaker AI would mean training a model yourself and Comprehend works on text."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "Analysts run a few SQL queries each week against application logs stored in Amazon S3. They want no infrastructure to manage and to pay only for the queries they run. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "An Amazon Redshift provisioned cluster"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Athena"
+      },
+      {
+        "key": "C",
+        "text": "Amazon EMR"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Quick"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Athena runs standard SQL directly on data in S3, is serverless and charges per query. A provisioned Redshift cluster and an EMR cluster run continuously, and Amazon Quick builds dashboards rather than querying S3 directly."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A website produces a stream of clickstream events that must land in Amazon S3 every few minutes. The team does not want to write or run any consumer application. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Data Firehose"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Kinesis Data Streams with a custom consumer"
+      },
+      {
+        "key": "C",
+        "text": "AWS Glue"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Kinesis Video Streams"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Amazon Data Firehose (formerly Kinesis Data Firehose) delivers streaming data to destinations such as S3 and Redshift with no consumer code. Data Streams expects your own consumers, Glue is batch ETL and Video Streams handles video."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A company runs Apache Spark and Hadoop jobs on an on-premises cluster and wants to move them to AWS without managing the framework software on every node. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Glue"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Athena"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Redshift"
+      },
+      {
+        "key": "D",
+        "text": "Amazon EMR"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "EMR is the managed cluster platform for Hadoop, Spark and related open-source frameworks. Glue is serverless data integration, Athena runs SQL on S3 and Redshift is a data warehouse, none of them a drop-in home for existing Hadoop jobs."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "Sales executives want interactive dashboards built on data in Amazon Redshift that they can share and explore without writing SQL. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Athena"
+      },
+      {
+        "key": "B",
+        "text": "Amazon OpenSearch Service"
+      },
+      {
+        "key": "C",
+        "text": "AWS Glue"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Quick"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Amazon Quick, through its Quick Sight feature, provides interactive BI dashboards and visualizations. Athena returns query results, OpenSearch Service is for search and log analytics and Glue prepares data."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A bank must score each card transaction for fraud within a second of the event, using its own processing application. A colleague suggests an AWS Glue ETL job. Which service is the right fit?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Glue"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Athena"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Kinesis Data Streams"
+      },
+      {
+        "key": "D",
+        "text": "Amazon Redshift"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Kinesis Data Streams ingests records in real time and lets custom consumers read them within a second. Glue is data integration and ETL, not real-time processing, and Athena and Redshift query data after it is stored."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A company combines five years of structured sales, inventory and finance data from several operational databases. Hundreds of analysts run complex reports on it throughout the day. Which service should hold this data?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon DynamoDB"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Redshift"
+      },
+      {
+        "key": "C",
+        "text": "Amazon ElastiCache"
+      },
+      {
+        "key": "D",
+        "text": "Amazon RDS for MySQL with a read replica"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Redshift is a managed, petabyte-scale data warehouse built for analytics across large history. DynamoDB and ElastiCache serve fast key-based application access, and a transactional RDS database is not designed for warehouse-scale reporting."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "An operations team wants to search application logs by keyword and watch error patterns on dashboards in near real time. Which service is designed for this?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon OpenSearch Service"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Athena"
+      },
+      {
+        "key": "C",
+        "text": "AWS Glue"
+      },
+      {
+        "key": "D",
+        "text": "Amazon EMR"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "OpenSearch Service runs managed OpenSearch, a search and analytics engine for log analytics and real-time application monitoring, with OpenSearch Dashboards. Athena runs ad hoc SQL, Glue prepares and catalogs data and EMR runs big data frameworks."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "multi",
+    "text": "A data team receives CSV files in Amazon S3 from many partners. It needs to discover the files' schemas, record them in a central catalog and then run ad hoc SQL on the files without provisioning servers. Which services should it use? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Kinesis Data Streams"
+      },
+      {
+        "key": "B",
+        "text": "AWS Glue"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Quick"
+      },
+      {
+        "key": "D",
+        "text": "Amazon ElastiCache"
+      },
+      {
+        "key": "E",
+        "text": "Amazon Athena"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "E"
+    ],
+    "explanation": "Glue discovers and catalogs data in its Data Catalog, and Athena queries the files in S3 with serverless SQL. Kinesis Data Streams is for real-time streams, Amazon Quick builds dashboards and ElastiCache is an in-memory cache."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "When an order is placed, three independent systems (billing, shipping and analytics) must each receive their own copy of the event and process it at their own pace. Which design fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Publish to an Amazon SNS topic that has three Amazon SQS queues subscribed"
+      },
+      {
+        "key": "B",
+        "text": "Send the event to one Amazon SQS queue that all three systems poll"
+      },
+      {
+        "key": "C",
+        "text": "Send the event with Amazon SES to each team"
+      },
+      {
+        "key": "D",
+        "text": "Start an AWS Step Functions workflow that waits for all three to finish"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "SNS pushes each message to every subscriber, and an SQS queue per system buffers it so each consumes at its own pace. A single shared queue hands each message to only one consumer, SES is email and Step Functions orchestrates ordered steps rather than fanning out."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A payments system must process each instruction exactly once and in the exact order it was sent. Which option fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "An Amazon SQS Standard queue"
+      },
+      {
+        "key": "B",
+        "text": "An Amazon SNS standard topic"
+      },
+      {
+        "key": "C",
+        "text": "An Amazon EventBridge rule"
+      },
+      {
+        "key": "D",
+        "text": "An Amazon SQS FIFO queue"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "FIFO queues provide exactly-once processing and strict ordering. Standard queues deliver at least once with best-effort order, and SNS standard topics and EventBridge rules do not guarantee strict order."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A team wants its development EC2 instances stopped automatically at 7 p.m. every weekday. Which service is designed to trigger this on a schedule?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "An Amazon CloudWatch alarm"
+      },
+      {
+        "key": "B",
+        "text": "An Amazon SQS delay queue"
+      },
+      {
+        "key": "C",
+        "text": "Amazon EventBridge Scheduler"
+      },
+      {
+        "key": "D",
+        "text": "AWS X-Ray"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "EventBridge Scheduler creates cron, rate or one-time schedules that invoke targets. A CloudWatch alarm reacts to a metric crossing a threshold, an SQS delay queue only postpones message delivery and X-Ray traces requests."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "An order process must charge a card, reserve inventory and then book shipping, in that order, with automatic retries and a different path if the payment fails. Which service coordinates these steps?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon SQS"
+      },
+      {
+        "key": "B",
+        "text": "AWS Step Functions"
+      },
+      {
+        "key": "C",
+        "text": "Amazon SNS"
+      },
+      {
+        "key": "D",
+        "text": "Amazon SES"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Step Functions builds visual workflows of steps with branching and retries that call AWS services. SQS buffers messages and SNS fans them out, but neither tracks a multi-step process, and SES sends email."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "Checkout in a microservices application has become slow. The team needs to see each downstream call the request makes and which service adds the most latency. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS CloudTrail"
+      },
+      {
+        "key": "B",
+        "text": "AWS X-Ray"
+      },
+      {
+        "key": "C",
+        "text": "AWS Systems Manager"
+      },
+      {
+        "key": "D",
+        "text": "AWS Config"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "X-Ray collects data about requests and builds a trace map across services to show bottlenecks and latency. CloudTrail records API activity, Systems Manager operates servers and Config tracks resource configuration."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "multi",
+    "text": "A company wants an alert when an EC2 instance's CPU stays above 80 percent for 10 minutes, and it also wants a record of which IAM user terminated an instance yesterday. Which services provide these? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS X-Ray"
+      },
+      {
+        "key": "B",
+        "text": "AWS Systems Manager"
+      },
+      {
+        "key": "C",
+        "text": "AWS Amplify"
+      },
+      {
+        "key": "D",
+        "text": "Amazon CloudWatch"
+      },
+      {
+        "key": "E",
+        "text": "AWS CloudTrail"
+      }
+    ],
+    "correctKeys": [
+      "D",
+      "E"
+    ],
+    "explanation": "A CloudWatch alarm watches a metric against a threshold, and CloudTrail records API actions with the identity that made them. X-Ray traces requests, Systems Manager operates fleets and Amplify hosts web apps."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "An engineering firm wants to stream one licensed desktop CAD application to students' browsers, without installing it on their computers and without giving each student a full desktop. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon AppStream 2.0"
+      },
+      {
+        "key": "B",
+        "text": "Amazon WorkSpaces"
+      },
+      {
+        "key": "C",
+        "text": "Amazon WorkSpaces Secure Browser"
+      },
+      {
+        "key": "D",
+        "text": "AWS Amplify"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "AppStream 2.0 (now called Amazon WorkSpaces Applications) streams individual applications to users. WorkSpaces provides a full virtual desktop, Secure Browser streams a web browser session and Amplify hosts web apps."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "Contractors on unmanaged personal laptops must use the company's internal websites and SaaS tools only. The company wants no VPN, no client software on the laptops and no full desktop. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon WorkSpaces"
+      },
+      {
+        "key": "B",
+        "text": "AWS Client VPN"
+      },
+      {
+        "key": "C",
+        "text": "Amazon AppStream 2.0"
+      },
+      {
+        "key": "D",
+        "text": "Amazon WorkSpaces Secure Browser"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "WorkSpaces Secure Browser runs the browser session in AWS and streams only encrypted pixels, giving access to private websites and SaaS apps without VPN or client software. WorkSpaces is a full desktop, Client VPN needs a client and network access, and AppStream 2.0 streams installed desktop applications."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A utility company wants a cloud contact center where customer calls are routed to the right agent, without buying telephony hardware. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon SES"
+      },
+      {
+        "key": "B",
+        "text": "Amazon Lex"
+      },
+      {
+        "key": "C",
+        "text": "Amazon Connect"
+      },
+      {
+        "key": "D",
+        "text": "Amazon WorkSpaces"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Amazon Connect is AWS's cloud contact center, connecting customers to agents with intelligent routing. SES is email, Lex builds bots that can sit inside a contact flow but is not the contact center, and WorkSpaces provides desktops."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A front-end team wants to host a full-stack web application with a Git-based workflow, so every push to the main branch builds and deploys the site to a content delivery network without assembling a pipeline. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS CodeBuild"
+      },
+      {
+        "key": "B",
+        "text": "Amazon API Gateway"
+      },
+      {
+        "key": "C",
+        "text": "AWS Amplify"
+      },
+      {
+        "key": "D",
+        "text": "AWS CodePipeline"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Amplify Hosting provides Git-based continuous deployment for full-stack web apps onto the AWS CDN. CodeBuild only builds and tests, CodePipeline orchestrates a pipeline you must assemble, and API Gateway publishes APIs."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A logistics company has 50,000 trackers on its trucks. It needs them to connect securely to AWS and to route their messages to other AWS services. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Amazon Kinesis Video Streams"
+      },
+      {
+        "key": "B",
+        "text": "AWS IoT Core"
+      },
+      {
+        "key": "C",
+        "text": "Amazon SageMaker AI"
+      },
+      {
+        "key": "D",
+        "text": "AWS Systems Manager"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "IoT Core connects IoT devices to AWS services and to each other and routes their messages. Kinesis Video Streams ingests video, SageMaker AI builds ML models and Systems Manager operates servers."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "multi",
+    "text": "A company is leaving its data center. It will move 60 application servers to Amazon EC2 without changing them, and move its Oracle database to Amazon RDS for Oracle with ongoing replication until cutover. Which services should it use? (Choose two.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS Application Migration Service"
+      },
+      {
+        "key": "B",
+        "text": "AWS Schema Conversion Tool (SCT)"
+      },
+      {
+        "key": "C",
+        "text": "Migration Evaluator"
+      },
+      {
+        "key": "D",
+        "text": "AWS Backup"
+      },
+      {
+        "key": "E",
+        "text": "AWS Database Migration Service (DMS)"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "E"
+    ],
+    "explanation": "Application Migration Service rehosts whole servers on EC2, and DMS moves database data with ongoing replication. SCT is needed only when the engine changes, Migration Evaluator builds a business case and AWS Backup protects data rather than migrating it."
+  },
+  {
+    "examId": "aws-clf-c02",
+    "topic": "data-network-ai",
+    "type": "single",
+    "text": "A development team wants a managed service that compiles its source code, runs the unit tests and produces deployable packages, without maintaining any build servers. Which service fits?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "AWS CodeBuild"
+      },
+      {
+        "key": "B",
+        "text": "AWS CodePipeline"
+      },
+      {
+        "key": "C",
+        "text": "AWS X-Ray"
+      },
+      {
+        "key": "D",
+        "text": "AWS Systems Manager"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "CodeBuild is a fully managed build service that compiles code, runs tests and produces artifacts. CodePipeline orchestrates release stages, X-Ray traces requests and Systems Manager manages servers."
+  }
+]
