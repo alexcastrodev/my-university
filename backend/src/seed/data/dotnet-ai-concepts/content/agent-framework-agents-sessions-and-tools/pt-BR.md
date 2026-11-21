@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-30
+version: 1.1
+updatedAt: 2026-11-21
 title: "Microsoft Agent Framework: Agentes, Sessões e Ferramentas"
 summary: AsAIAgent e ChatClientAgent, RunAsync e RunStreamingAsync com AgentResponse, o histórico que a sessão reenvia a cada turno, ConversationId de serviços com estado, serializar a sessão e continuar em outro processo, a perda de mensagens com execuções concorrentes, ferramentas e aprovação no agente, um agente como ferramenta de outro, middleware de execução e de função, context providers que acumulam mensagens no histórico, saída estruturada e OpenTelemetry.
 ---
@@ -102,6 +102,8 @@ history after: 6: first | reply 1 | B | reply 3 | A | reply 2    (7 of 20 runs)
 
 Nada lançou exceção, nenhuma execução viu a mensagem da outra, e em 13 de 20
 uma resposta sumiu. Serialize as requisições por conversa (um lock por sessão).
+
+Se uma resposta some depende do tempo. No lab, com um fake roteirizado e atrasos menores (`Task.Yield`, 50 ms), as seis mensagens ficaram no histórico, mas a ordem se misturou (`first | reply 1 | B | reply 3 | A | reply 2`). Nos dois casos o histórico fica errado e o lock é a correção; o teste de lock do lab confere a ordem exata contra a versão sem lock.
 
 ### Ferramentas e aprovação: o agente roda o loop
 

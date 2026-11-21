@@ -429,7 +429,8 @@
         "url": "https://learn.microsoft.com/en-us/agent-framework/migration-guide/from-semantic-kernel/",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-ai-concepts/agent-framework-agents-sessions-and-tools"
   },
   {
     "slug": "agent-framework-workflows-and-orchestration",
@@ -2257,7 +2258,8 @@
         "url": "https://ai.google.dev/gemma/docs/embeddinggemma/model_card",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-ai-concepts/embeddings-and-vector-search-with-vectordata"
   },
   {
     "slug": "rag-ingestion-chunking-and-grounding",
@@ -2317,7 +2319,8 @@
         "url": "https://docs.ollama.com/context-length",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-ai-concepts/rag-ingestion-chunking-and-grounding"
   },
   {
     "slug": "tokens-cost-and-telemetry-for-llm-calls",
