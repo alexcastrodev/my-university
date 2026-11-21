@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { PrivatePaperResult } from '../../models/paper.model';
@@ -21,9 +21,9 @@ export function titleFromFilename(name: string): string {
 }
 
 /**
- * Adds a paper that is not in the catalog (#203): drop a PDF (or pick one, which is also what a phone does),
- * say what it is, and it joins the library as a private paper. A DOI that is already in the catalog adds that
- * paper instead of a copy. Nothing is sent until the reader confirms the title.
+ * Panel of the add page (/library/add) for a paper that is not in the catalog (#203): drop a PDF (or pick one,
+ * which is also what a phone does), say what it is, and it joins the library as a private paper. A DOI that is
+ * already in the catalog adds that paper instead of a copy. Nothing is sent until the reader confirms the title.
  */
 @Component({
   selector: 'app-paper-private-drop',
@@ -35,9 +35,6 @@ export function titleFromFilename(name: string): string {
 export class PaperPrivateDrop {
   private library = inject(PaperLibraryService);
   private locale = inject(LOCALE_ID);
-
-  /** Fires after a paper was added, so the list behind this can reload. */
-  readonly added = output<PrivatePaperResult>();
 
   protected readonly maxTitle = MAX_TITLE;
   protected file = signal<File | null>(null);
@@ -95,7 +92,6 @@ export class PaperPrivateDrop {
           this.file.set(null);
           this.title.set('');
           this.doi.set('');
-          this.added.emit(result);
         },
         // nginx answers an oversized body with a plain 413, without the API's code.
         error: (err: HttpErrorResponse) => this.errorCode.set(err.error?.code ?? (err.status === 413 ? 'too_large' : 'generic')),
