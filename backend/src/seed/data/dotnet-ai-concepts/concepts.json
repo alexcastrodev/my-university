@@ -2085,6 +2085,101 @@
     ]
   },
   {
+    "slug": "mcp-apps-and-skills-extensions",
+    "id": 30,
+    "title": "MCP Apps and Skills Extensions",
+    "topic": "Model Context Protocol",
+    "summary": "The official MCP Apps (iframe UI through ui:// resources and _meta.ui) and Skills (Agent Skills served by skills/list and skills/get) extensions, measured without a host on the C# SDK 2.4.0 and checked against the source. The real state (Apps protocol Stable, its package API [Experimental] MCPEXP003; Skills Beta with MCPEXP005, a single 2.4.0 release), negotiation on the wire and what a client without the extension sees, where the CSP travels and two traps in the typed helpers, the now case-sensitive property names (2.3.0 against 2.4.0), Skills digest verification and tampering, and who implements them today. Host rendering is docs only.",
+    "publishedAt": "2026-11-21",
+    "requires": [
+      "mcp-servers-and-clients-with-the-csharp-sdk"
+    ],
+    "related": [
+      {
+        "label": "MCP Servers and Clients with the C# SDK",
+        "slug": "mcp-servers-and-clients-with-the-csharp-sdk",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Authorization Extensions: Client Credentials and Enterprise-Managed Authorization",
+        "slug": "mcp-authorization-extensions",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Tasks Extension for Long-Running Tools",
+        "slug": "mcp-tasks-extension-for-long-running-tools",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Resources, Prompts, Completions and Pagination",
+        "slug": "mcp-resources-prompts-completions-and-pagination",
+        "feature": "dotnet-ai-concepts"
+      },
+      {
+        "label": "MCP Security: Tool Poisoning, Confused Deputy and Least Privilege",
+        "slug": "mcp-security-tool-poisoning-confused-deputy-and-least-privilege",
+        "feature": "dotnet-ai-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "MCP Apps overview, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/extensions/apps/overview",
+        "type": "doc"
+      },
+      {
+        "label": "MCP Apps specification 2026-01-26 (SEP-1865), GitHub",
+        "url": "https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx",
+        "type": "doc"
+      },
+      {
+        "label": "Skills over MCP overview, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/extensions/skills/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Skills extension specification (beta), GitHub",
+        "url": "https://github.com/modelcontextprotocol/ext-skills/blob/main/specification/beta/skills.mdx",
+        "type": "doc"
+      },
+      {
+        "label": "Extensions overview and stages, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/extensions/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Extension support matrix, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/extensions/client-matrix",
+        "type": "doc"
+      },
+      {
+        "label": "SEP-3392: Extension Lifecycle, modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io/seps/3392-extension-lifecycle",
+        "type": "doc"
+      },
+      {
+        "label": "List of diagnostics (MCPEXP003, MCPEXP005), MCP C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/main/docs/list-of-diagnostics.md",
+        "type": "doc"
+      },
+      {
+        "label": "MCP Apps in the C# SDK, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/blob/main/docs/concepts/apps/apps.md",
+        "type": "doc"
+      },
+      {
+        "label": "MCP C# SDK 2.4.0 release notes, GitHub",
+        "url": "https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v2.4.0",
+        "type": "doc"
+      },
+      {
+        "label": "Use MCP servers in VS Code, Visual Studio Code",
+        "url": "https://code.visualstudio.com/docs/copilot/customization/mcp-servers",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "embeddings-and-vector-search-with-vectordata",
     "id": 4,
     "title": "Embeddings and Vector Search with Microsoft.Extensions.VectorData",
