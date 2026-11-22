@@ -5,10 +5,10 @@ import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
 // The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
 // pages: nothing is created, and a change to a paper there is a change to what these tests expect.
-const SEED = 214;
+const SEED = 223;
 // The list shows 20 papers a page, so a list that holds the whole seed shows this many cards.
 const PAGE = 20;
-const JOURNAL_ARTICLES = 44;
+const JOURNAL_ARTICLES = 46;
 const FDB = {
   slug: 'foundationdb-unbundled-transactional-kv-store',
   title: 'FoundationDB: A Distributed Unbundled Transactional Key Value Store',
@@ -38,10 +38,10 @@ const GLOBAL_METRONOME = {
   slug: 'global-metronome-absolute-tempo-sync-networked-performance',
   title: 'The Global Metronome: Absolute Tempo Sync For Networked Musical Performance',
 };
-// The first of the newest month (SOSP 2026) when the list is newest first, ties broken by slug.
+// The newest month is October 2026 (IC2E 2026) and it holds a single paper, so that paper leads the list newest first.
 const NEWEST = {
-  slug: 'agilelog-forkable-shared-log-for-agents-on-data-streams',
-  title: 'AgileLog: A Forkable Shared Log for Agents on Data Streams',
+  slug: 'event-driven-ml-pipeline-orchestration-for-manufacturing',
+  title: 'Event-Driven ML Pipeline Orchestration for Manufacturing: An AWS Industry Experience',
 };
 // The list holds the 20 newest papers, so a reader reaches an older one by searching for its title, and so do these tests.
 const search = (paper) => `?q=${encodeURIComponent(paper.title)}`;
@@ -84,7 +84,7 @@ test.describe('Papers catalog', () => {
       await papers.goto();
       await expect(papers.cards).toHaveCount(PAGE);
 
-      // Seven SOSP 2026 papers share the newest month; a tie goes to the slug, so AgileLog leads.
+      // The newest month (October 2026) holds a single paper, so it leads with no tie to break.
       expect((await papers.titles())[0]).toBe(NEWEST.title);
       await expect(papers.cardRef(NEWEST.title)).toHaveText('[1]');
 

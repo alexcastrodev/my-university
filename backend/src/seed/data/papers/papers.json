@@ -5950,5 +5950,264 @@
     "publicationDate": "2014-03-24",
     "url": "https://www.microsoft.com/en-us/research/publication/orleans-distributed-virtual-actors-for-programmability-and-scalability/",
     "paperUrl": "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/Orleans-MSR-TR-2014-41.pdf"
+  },
+  {
+    "slug": "debugging-in-the-very-large-windows-error-reporting",
+    "title": "Debugging in the (Very) Large: Ten Years of Implementation and Experience",
+    "authors": [
+      {
+        "name": "Kirk Glerum"
+      },
+      {
+        "name": "Kinshuman Kinshumann"
+      },
+      {
+        "name": "Steve Greenberg"
+      },
+      {
+        "name": "Gabriel Aul"
+      },
+      {
+        "name": "Vince Orgovan"
+      },
+      {
+        "name": "Greg Nichols"
+      },
+      {
+        "name": "David Grant"
+      },
+      {
+        "name": "Gretchen Loihle"
+      },
+      {
+        "name": "Galen Hunt"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the ACM SIGOPS 22nd symposium on Operating systems principles",
+    "publicationDate": "2009-10-11",
+    "doi": "10.1145/1629575.1629586",
+    "url": "https://dl.acm.org/doi/10.1145/1629575.1629586",
+    "paperUrl": "https://cs.uwaterloo.ca/~m2nagapp/courses/CS846/1171/papers/glerum_sosp09.pdf"
+  },
+  {
+    "slug": "basic-concepts-and-taxonomy-of-dependable-and-secure-computing",
+    "title": "Basic Concepts and Taxonomy of Dependable and Secure Computing",
+    "authors": [
+      {
+        "name": "Algirdas Avizienis"
+      },
+      {
+        "name": "Jean-Claude Laprie"
+      },
+      {
+        "name": "Brian Randell"
+      },
+      {
+        "name": "Carl Landwehr"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "IEEE Transactions on Dependable and Secure Computing",
+    "publicationDate": "2004-01",
+    "doi": "10.1109/tdsc.2004.2",
+    "url": "https://doi.org/10.1109/tdsc.2004.2",
+    "paperUrl": "https://drum.lib.umd.edu/bitstreams/ed07fa96-1e50-4309-afdd-43d3d779ac99/download"
+  },
+  {
+    "slug": "drain-online-log-parsing-fixed-depth-tree",
+    "title": "Drain: An Online Log Parsing Approach with Fixed Depth Tree",
+    "authors": [
+      {
+        "name": "Pinjia He"
+      },
+      {
+        "name": "Jieming Zhu"
+      },
+      {
+        "name": "Zibin Zheng"
+      },
+      {
+        "name": "Michael R. Lyu"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2017 IEEE International Conference on Web Services (ICWS)",
+    "publicationDate": "2017-06",
+    "doi": "10.1109/icws.2017.13",
+    "url": "https://doi.org/10.1109/icws.2017.13",
+    "paperUrl": "https://pinjiahe.github.io/files/pdf/research/ICWS17.pdf"
+  },
+  {
+    "slug": "autotsg-learning-and-synthesis-for-incident-troubleshooting",
+    "title": "AutoTSG: Learning and Synthesis for Incident Troubleshooting",
+    "authors": [
+      {
+        "name": "Manish Shetty"
+      },
+      {
+        "name": "Chetan Bansal"
+      },
+      {
+        "name": "Sai Pramod Upadhyayula"
+      },
+      {
+        "name": "Arjun Radhakrishna"
+      },
+      {
+        "name": "Anurag Gupta"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "Proceedings of the 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering",
+    "publicationDate": "2022-11-07",
+    "doi": "10.1145/3540250.3558958",
+    "url": "https://dl.acm.org/doi/10.1145/3540250.3558958",
+    "paperUrl": "https://arxiv.org/pdf/2205.13457"
+  },
+  {
+    "slug": "stepfly-agentic-troubleshooting-guide-automation",
+    "title": "StepFly: Agentic Troubleshooting Guide Automation for Incident Diagnosis",
+    "authors": [
+      {
+        "name": "Jiayi Mao"
+      },
+      {
+        "name": "Liqun Li"
+      },
+      {
+        "name": "Yanjie Gao"
+      },
+      {
+        "name": "Zegang Peng"
+      },
+      {
+        "name": "Shilin He"
+      },
+      {
+        "name": "Chaoyun Zhang"
+      },
+      {
+        "name": "Si Qin"
+      },
+      {
+        "name": "Samia Khalid"
+      },
+      {
+        "name": "Qingwei Lin"
+      },
+      {
+        "name": "Saravan Rajmohan"
+      },
+      {
+        "name": "Sitaram Lanka"
+      },
+      {
+        "name": "Dongmei Zhang"
+      }
+    ],
+    "type": "journal-article",
+    "venue": "Proceedings of the ACM on Software Engineering",
+    "publicationDate": "2026-06-30",
+    "doi": "10.1145/3808143",
+    "url": "https://dl.acm.org/doi/10.1145/3808143",
+    "paperUrl": "https://arxiv.org/pdf/2510.10074"
+  },
+  {
+    "slug": "resilient-microservices-systematic-review-recovery-patterns",
+    "title": "Resilient Microservices: A Systematic Review of Recovery Patterns, Strategies, and Evaluation Frameworks",
+    "authors": [
+      {
+        "name": "Muzeeb Mohammad"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2025 5th International Conference on Intelligent Cybernetics Technology & Applications (ICICyTA)",
+    "publicationDate": "2025-12-17",
+    "doi": "10.1109/icicyta68677.2025.11362635",
+    "url": "https://doi.org/10.1109/icicyta68677.2025.11362635",
+    "paperUrl": "https://arxiv.org/pdf/2512.16959"
+  },
+  {
+    "slug": "event-driven-ml-pipeline-orchestration-for-manufacturing",
+    "title": "Event-Driven ML Pipeline Orchestration for Manufacturing: An AWS Industry Experience",
+    "authors": [
+      {
+        "name": "Zhengyang Gu"
+      },
+      {
+        "name": "Thomas Cook"
+      },
+      {
+        "name": "Fredaljohn Rohrbaugh"
+      },
+      {
+        "name": "Joseph E. Hernandez"
+      },
+      {
+        "name": "Chris Couch"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "14th IEEE International Conference on Cloud Engineering (IC2E 2026)",
+    "publicationDate": "2026-10",
+    "url": "https://arxiv.org/abs/2610.06890",
+    "paperUrl": "https://arxiv.org/pdf/2610.06890"
+  },
+  {
+    "slug": "msf-model-queuing-based-prediction-of-metastable-failures",
+    "title": "MSF-Model: Queuing-Based Analysis and Prediction of Metastable Failures in Replicated Storage Systems",
+    "authors": [
+      {
+        "name": "Farzad Habibi"
+      },
+      {
+        "name": "Tania Lorido-Botran"
+      },
+      {
+        "name": "Ahmad Showail"
+      },
+      {
+        "name": "Daniel C. Sturman"
+      },
+      {
+        "name": "Faisal Nawab"
+      }
+    ],
+    "type": "conference-paper",
+    "venue": "2024 43rd International Symposium on Reliable Distributed Systems (SRDS)",
+    "publicationDate": "2024-09-30",
+    "doi": "10.1109/srds64841.2024.00013",
+    "url": "https://doi.org/10.1109/srds64841.2024.00013",
+    "paperUrl": "https://arxiv.org/pdf/2309.16181"
+  },
+  {
+    "slug": "formal-analysis-of-metastable-failures-in-software-systems",
+    "title": "Formal Analysis of Metastable Failures in Software Systems",
+    "authors": [
+      {
+        "name": "Peter Alvaro"
+      },
+      {
+        "name": "Rebecca Isaacs"
+      },
+      {
+        "name": "Rupak Majumdar"
+      },
+      {
+        "name": "Kiran-Kumar Muniswamy-Reddy"
+      },
+      {
+        "name": "Mahmoud Salamati"
+      },
+      {
+        "name": "Sadegh Soudjani"
+      }
+    ],
+    "type": "report",
+    "venue": "arXiv preprint arXiv:2510.03551",
+    "publicationDate": "2025-10-03",
+    "url": "https://arxiv.org/abs/2510.03551",
+    "paperUrl": "https://arxiv.org/pdf/2510.03551"
   }
 ]
