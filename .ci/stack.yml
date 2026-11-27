@@ -40,7 +40,7 @@ services:
       # made Swarm roll back an update. The limit below leaves room for the larger heap plus native memory.
       - NODE_OPTIONS=--max-old-space-size=448
       - SESSION_SECRET
-      - DATABASE_URL=postgres://postgres@university-db_postgres:5432/ocp_java
+      - DATABASE_URL=postgres://university_app:${UNIVERSITY_DB_PASSWORD:?set UNIVERSITY_DB_PASSWORD in the host .env}@university-db_postgres:5432/ocp_java
       - MEILI_HOST=http://university-db_meilisearch:7700
       - MEILI_MASTER_KEY
       - GITHUB_CLIENT_ID
