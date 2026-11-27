@@ -126,6 +126,18 @@ jobs:
             echo "ENABLE_DEV_AUTH must never be set for production images or deploys"; exit 1
           fi
 
+      - name: The database does not trust the network and the app is not its superuser
+        run: |
+          set -euo pipefail
+          if grep -n "POSTGRES_HOST_AUTH_METHOD" .ci/stack-db.yml; then
+            echo "stack-db.yml must not set POSTGRES_HOST_AUTH_METHOD (trust lets any container on proxy_net in)"; exit 1
+          fi
+          grep -q 'POSTGRES_PASSWORD=${UNIVERSITY_DB_ADMIN_PASSWORD:?' .ci/stack-db.yml || { echo "stack-db.yml must require a superuser password for a new data directory"; exit 1; }
+          grep -qE 'DATABASE_URL=postgres://university_app:[$][{]UNIVERSITY_DB_PASSWORD:\?' .ci/stack.yml || { echo "the api must log in as university_app with a required password"; exit 1; }
+          if grep -nE 'DATABASE_URL=postgres://postgres[:@]' .ci/stack.yml; then
+            echo "the api must not log in as the superuser"; exit 1
+          fi
+
       # The PDF reader runs untrusted files in the visitor's browser, so its engine is a deliberate choice (#189).
       - name: PDF engine is pinned and runs with its dangerous features off
         run: |
